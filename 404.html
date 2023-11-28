@@ -7,11 +7,11 @@
         
         
         
-        <link rel="shortcut icon" href="/img/favicon.ico">
+        <link rel="shortcut icon" href="/notes/img/favicon.ico">
         <title>一只Tom的笔记本</title>
-        <link href="/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/css/font-awesome.min.css" rel="stylesheet">
-        <link href="/css/base.css" rel="stylesheet">
+        <link href="/notes/css/bootstrap.min.css" rel="stylesheet">
+        <link href="/notes/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/notes/css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script>hljs.highlightAll();</script> 
@@ -20,10 +20,29 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="/.">一只Tom的笔记本</a>
+                <a class="navbar-brand" href="/notes/.">一只Tom的笔记本</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
                 <!-- Expanded navigation -->
                 <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="/notes/." class="nav-link">Home</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="/notes/linux/linux/" class="nav-link">Linux</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="/notes/arm/arm/" class="nav-link">Arm</a>
+                            </li>
+                            <li class="navitem">
+                                <a href="/notes/tools/tools/" class="nav-link">Tools</a>
+                            </li>
+                        </ul>
 
                     <ul class="nav navbar-nav ml-auto">
                         <li class="nav-item">
@@ -31,6 +50,9 @@
                                 <i class="fa fa-search"></i> Search
                             </a>
                         </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/TomSjtu/notes" class="nav-link"><i class="fa fa-github"></i> GitHub</a>
+                            </li>
                     </ul>
                 </div>
             </div>
@@ -54,14 +76,14 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="/js/jquery-3.6.0.min.js"></script>
-        <script src="/js/bootstrap.min.js"></script>
+        <script src="/notes/js/jquery-3.6.0.min.js"></script>
+        <script src="/notes/js/bootstrap.min.js"></script>
         <script>
-            var base_url = "/",
+            var base_url = "/notes/",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="/js/base.js"></script>
-        <script src="/search/main.js"></script>
+        <script src="/notes/js/base.js"></script>
+        <script src="/notes/search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
