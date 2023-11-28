@@ -1,4 +1,13 @@
 site_name: 一只Tom的笔记本
+site_url: https://tomsjtu.github.io/notes/
+repo_url: https://github.com/TomSjtu/notes
+site_description: 一只Tom的笔记本
 
 nav:
-  - 首页: index.md
+  - Home: index.md
+  
+  - Linux: linux/linux.md
+
+  - Arm: arm/arm.md
+
+  - Tools: tools/tools.md
