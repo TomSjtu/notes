@@ -6,12 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
         <meta name="author" content="Tom">
-        
-        <link rel="shortcut icon" href="/notes/img/favicon.ico">
-        <title>一只Tom的笔记本</title>
-        <link href="/notes/css/bootstrap.min.css" rel="stylesheet">
-        <link href="/notes/css/font-awesome.min.css" rel="stylesheet">
-        <link href="/notes/css/base.css" rel="stylesheet">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/arm/">
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Index - 一只Tom的笔记本</title>
+        <link href="../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/darcula.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/c.min.js"></script>
@@ -22,7 +22,7 @@
     <body>
         <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
             <div class="container">
-                <a class="navbar-brand" href="/notes/.">一只Tom的笔记本</a>
+                <a class="navbar-brand" href="..">一只Tom的笔记本</a>
                 <!-- Expander button -->
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
                     <span class="navbar-toggler-icon"></span>
@@ -33,23 +33,23 @@
                         <!-- Main navigation -->
                         <ul class="nav navbar-nav">
                             <li class="navitem">
-                                <a href="/notes/." class="nav-link">Home</a>
+                                <a href=".." class="nav-link">Home</a>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="/notes/linux/" class="dropdown-item">快速入门</a>
+    <a href="../linux/" class="dropdown-item">快速入门</a>
 </li>
                                 </ul>
                             </li>
-                            <li class="dropdown">
+                            <li class="dropdown active">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Arm <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="/notes/arm/" class="dropdown-item">Index</a>
+    <a href="./" class="dropdown-item active">Index</a>
 </li>
                                 </ul>
                             </li>
@@ -58,7 +58,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="/notes/pl/" class="dropdown-item">Index</a>
+    <a href="../pl/" class="dropdown-item">Index</a>
 </li>
                                 </ul>
                             </li>
@@ -67,7 +67,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="/notes/cloud/" class="dropdown-item">Index</a>
+    <a href="../cloud/" class="dropdown-item">Index</a>
 </li>
                                 </ul>
                             </li>
@@ -76,7 +76,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="/notes/tools/" class="dropdown-item">Index</a>
+    <a href="../tools/" class="dropdown-item">Index</a>
 </li>
                                 </ul>
                             </li>
@@ -89,7 +89,17 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a href="https://github.com/TomSjtu/notes" class="nav-link"><i class="fa fa-github"></i> GitHub</a>
+                                <a rel="prev" href="../linux/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../pl/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/TomSjtu/notes/edit/master/docs/arm/index.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
                             </li>
                     </ul>
                 </div>
@@ -98,15 +108,22 @@
 
         <div class="container">
             <div class="row">
-
-    <div class="row-fluid">
-      <div id="main-content" class="span12">
-        <h1 id="404-page-not-found" style="text-align: center">404</h1>
-        <p style="text-align: center"><strong>Page not found</strong></p>
-      </div>
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
     </div>
 
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
 
+</div>
             </div>
         </div>
 
@@ -114,14 +131,14 @@
             <hr>
             <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
         </footer>
-        <script src="/notes/js/jquery-3.6.0.min.js"></script>
-        <script src="/notes/js/bootstrap.min.js"></script>
+        <script src="../js/jquery-3.6.0.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
         <script>
-            var base_url = "/notes/",
+            var base_url = "..",
                 shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
         </script>
-        <script src="/notes/js/base.js"></script>
-        <script src="/notes/search/main.js"></script>
+        <script src="../js/base.js"></script>
+        <script src="../search/main.js"></script>
 
         <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
