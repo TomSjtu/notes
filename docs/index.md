@@ -2,14 +2,21 @@
 
 自我介绍：
 
-### 快速导航
+-------
 
-- [linux](linux/linux.md)
 
-- [arm](arm/arm.md)
+## 快速导航
 
-- [编程语言](pl/pl.md)
+- [Linux](linux/index.md)
 
-- [云原生](cloud/cloud.md)
+- [Arm](arm/index.md)
 
-- [工具](tools/tools.md)
+- [编程语言](pl/index.md)
+
+- [云原生](cloud/index.md)
+
+- [Tools](tools/index.md)
+
+---
+
+## 学习方法

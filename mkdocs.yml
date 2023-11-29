@@ -2,19 +2,36 @@ site_name: 一只Tom的笔记本
 site_url: https://tomsjtu.github.io/notes/
 repo_url: https://github.com/TomSjtu/notes
 site_description: 一只Tom的笔记本
+site_author: Tom
 theme:
-  name: readthedocs
+  name: slate
   highlightjs: true
   hljs_languages:
     - c
     - c++
+  feature:
+    - content.code.annotate
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.indexes
+    - navigation.top
+
+  font: false
+
 nav:
   - Home: index.md
 
-  - Linux: linux/linux.md
+  - Linux: 
+    - linux/index.md
 
-  - Arm: arm/arm.md
+  - Arm: 
+    - arm/index.md
 
-  - 编程语言: pl/pl.md
+  - 编程语言: 
+    - pl/index.md
 
-  - Tools: tools/tools.md
+  - 云原生:
+    - cloud/index.md
+
+  - Tools: 
+    - tools/index.md
