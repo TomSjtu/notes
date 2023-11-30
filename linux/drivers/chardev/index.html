@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <meta name="author" content="Tom">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/drivers/chardev/">
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>字符设备驱动程序 - 一只Tom的笔记本</title>
+        <link href="../../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome.min.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/purebasic.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/c.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/languages/c++.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../../..">一只Tom的笔记本</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbar-collapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="navitem">
+                                <a href="../../.." class="nav-link">Home</a>
+                            </li>
+                            <li class="dropdown active">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Linux <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../" class="dropdown-item">快速入门</a>
+</li>
+                                    
+  <li class="dropdown-submenu">
+    <a href="#" class="dropdown-item">设备驱动程序</a>
+    <ul class="dropdown-menu">
+            
+<li>
+    <a href="./" class="dropdown-item active">字符设备驱动程序</a>
+</li>
+    </ul>
+  </li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Arm <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../arm/" class="dropdown-item">Index</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">编程语言 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../pl/" class="dropdown-item">Index</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">云原生 <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../cloud/" class="dropdown-item">Index</a>
+</li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Tools <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../../../tools/" class="dropdown-item">Index</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../../" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../../../arm/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="https://github.com/TomSjtu/notes/edit/master/docs/linux/drivers/chardev.md" class="nav-link"><i class="fa fa-github"></i> Edit on GitHub</a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-level="1"><a href="#_1" class="nav-link">字符设备驱动程序</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-level="2"><a href="#_2" class="nav-link">快速参考</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_3" class="nav-link">设备号初始化</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_6" class="nav-link">字符设备的注册</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-level="2"><a href="#_7" class="nav-link">内存映射</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="_1">字符设备驱动程序</h1>
+<h2 id="_2">快速参考</h2>
+<pre><code class="language-C">#include &lt;linux/types.h&gt;
+
+dev_t devID
+
+int MAJOR(dev_t dev)
+
+int MINOR(dev_t dev)
+
+dev_t MKDEV(unsigned int major, unsigned int minor)
+
+</code></pre>
+<pre><code class="language-C">#include &lt;linux/fs.h&gt;
+
+int register_chrdev_region(dev_t first, unsigned int count, char *name)
+
+int alloc_chrdev_region(dev_t *dev, unsigned int firstminor, unsigned int count, char *name)
+
+void unregister_chrdev_region(dev_t first, unsigned int count)
+
+int register_chrdev(unsigned int major, const char *name, struct file_operations *fops)
+
+int unregister_chrdev(unsigned int major, const char *name)
+
+struct file_operations
+
+struct file
+
+struct inode
+
+</code></pre>
+<pre><code class="language-C">#include &lt;linux/cdev.h&gt;
+
+struct cdev *cdev_alloc(void)
+
+void cdev_init(struct cdev *dev, dev_t num, unsigned int count)
+
+void cdev_del(struct cdev *dev)
+
+</code></pre>
+<pre><code class="language-C">
+#include &lt;linux/kernel.h&gt;
+
+container_of(pointer, type, field)
+
+#include &lt;asm/uaccess.h&gt;
+
+unsigned long copy_from_user(void *to, const void *from, unsigned long count)
+
+unsigned long copy_to_user(void *to, const void *from, unsigned long count)
+
+</code></pre>
+<h2 id="_3">设备号初始化</h2>
+<h3 id="_4">设备号的注册与卸载(不推荐的做法)</h3>
+<ul>
+<li>注册</li>
+</ul>
+<pre><code class="language-C">int register_chrdev(unsigned int major, const char *name, struct file_operations *fops)
+</code></pre>
+<p>这个方法在注册时需要手动指定主设备号，因此你必须事先知道哪个主设备号没有被占用，这在实际开发中难以推广，并且该函数还一次性占用了主设备号下的全部次设备号。</p>
+<ul>
+<li>卸载</li>
+</ul>
+<pre><code class="language-C">int unregister_chrdev(unsigned int major, const char *name)
+</code></pre>
+<h3 id="_5">设备号的注册与卸载(推荐的做法)</h3>
+<ul>
+<li>注册</li>
+</ul>
+<pre><code class="language-C">int register_chrdev_region(dev_t first, unsigned count, const char *name)
+</code></pre>
+<p>first是要分配的设备编号的起始值，count是所请求的连续设备编号的个数，name是和该编号范围关联的设备名称，它将出现在/proc/devices和sysfs中。</p>
+<p>如果我们提前知道所需要的设备编号，那么使用<em>register_chrdev_region</em>就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数。</p>
+<pre><code class="language-C">int alloc_chrdev_region(dev_t *dev, unsigned firstminor, unsigned count, const char *name)
+</code></pre>
+<p>dev用来保存你要申请的那个设备号变量， baseminor是次设备号的起始值，通常是0。</p>
+<p><q>
+驱动程序应该始终使用<em>alloc_chrdev_region</em>而不是<em>register_chrdev_region</em> ————《Linux设备驱动程序<em>P50</em>》
+</q></p>
+<ul>
+<li>卸载</li>
+</ul>
+<p>上面两种方法注册的设备统一用以下函数卸载。</p>
+<pre><code class="language-C">void unregister_chrdev_region(dev_t first, unsigned count)
+</code></pre>
+<p>该函数通常在清除函数中调用。</p>
+<p>这里我们给出一个完整的示例，假设我们需要注册一个名字为"test"的设备。</p>
+<pre><code class="language-C">int major;
+int minor;
+dev_t devid;
+
+if(major){
+    devid = MKDEV(major, 0);
+    register_chrdev_region(devid, 1, &quot;test&quot;);
+}else {
+    alloc_chrdev_region(&amp;devid, 0, 1, &quot;test&quot;);
+    major = MAJOR(devid);
+    minor = MINOR(devid);
+}
+</code></pre>
+<p>对设备号操作时，使用到了三个宏定义，<strong>MKDEV</strong>, <strong>MAJOR</strong>, <strong>MINOR</strong>。当给定主设备号时，使用MKDEV来构建完整的devID，次设备号则一般选择0。</p>
+<p>实际开发中，major可以用一个宏定义取代，默认取0，即走else分支选择“动态分配”。用户可以选择使用默认值即动态分配的方式，或者自定义特定的设备号——只要在编译前修改宏定义为设备号，或者在insmod时指定即可。</p>
+<h2 id="_6">字符设备的注册</h2>
+<p>内核使用<em>struct cdev</em>结构来表示字符设备，</p>
+<h2 id="_7">内存映射</h2>
+<h3 id="_8">驱动层的操作</h3>
+<p>由于Linux有MMU模块，因此无法访问真实的物理地址，只能通过虚拟地址访问硬件外设。所以需要有一个函数可以在物理地址和虚拟地址之间进行转换。</p>
+<pre><code>ioremap(phy_addr, size)
+</code></pre>
+<p>其中addr就是你要访问的直接物理地址，size是需要转化的大小，返回值就是虚拟地址，这个虚拟地址我们需要专门的数据类型去接收。</p>
+<pre><code>static void __iomem *v_addr
+</code></pre>
+<p><strong>__iomem</strong>是一个宏，主要就是在硬件寄存器的物理地址和程序中使用的虚拟地址之间进行转换。</p>
+<p>有映射就一定有取消映射，用到的是这么一个函数。</p>
+<pre><code>iounmap(v_addr)
+</code></pre>
+<p>这里的参数一定是你自己定义的用来接收虚拟地址的那个指针，注意不要和物理地址搞混了。</p>
+<h3 id="io">I/O内存访问函数</h3>
+<p>使用ioremap函数将寄存器物理地址映射到虚拟地址后，Linux推荐使用内核自带的读写操作函数对映射后的内存进行读写。</p>
+<ul>
+<li>读操作函数</li>
+</ul>
+<pre><code class="language-c">u8 readb(v_addr)
+u16 readw(v_addr)
+u32 readl(v_addr)
+</code></pre>
+<p>上面三个函数分别对应8位，16位，32位的读操作，addr是要读取的内存地址，返回值是读取到的数据</p>
+<ul>
+<li>写操作函数</li>
+</ul>
+<pre><code class="language-c">void writeb(u8 value, v_addr)
+void writew(u16 value, v_addr)
+void writel(u32 value, v_addr)
+</code></pre>
+<p>同理，上面三个函数分别对应各自位的读操作函数。</p>
+<p>拿到虚拟地址后，我们需要根据手册说明将其中的某几位进行配置，在配置之前先清除以前的配置是一个好习惯。</p>
+<pre><code class="language-C">val = readl(v_addr);  //从地址中读取值写入val
+val &amp;= ~(3 &lt;&lt; 26);    //对bit26, 27位清零
+val |= 3 &lt;&lt; 26;       //对bit26, 27位置1
+write(val, v_addr);   //写入虚拟地址
+</code></pre>
+<h3 id="_9">应用层的操作</h3>
+<p>由于Linux内核禁止用户态和内核态直接进行数据交互，我们只能通过内核提供的API函数进行。</p>
+<pre><code class="language-C">unsigned long copy_from_user(void *to, const void *from, unsigned long count)
+
+unsigned long copy_to_user(void *to, const void *from, unsigned long count)
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../../js/jquery-3.6.0.min.js"></script>
+        <script src="../../../js/bootstrap.min.js"></script>
+        <script>
+            var base_url = "../../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../../js/base.js"></script>
+        <script src="../../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
