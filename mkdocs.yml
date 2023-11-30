@@ -4,25 +4,22 @@ repo_url: https://github.com/TomSjtu/notes
 site_description: 一只Tom的笔记本
 site_author: Tom
 theme:
-  name: slate
+  name: cosmo
   highlightjs: true
   hljs_languages:
     - c
     - c++
-  feature:
-    - content.code.annotate
-    - navigation.tracking
-    - navigation.tabs
-    - navigation.indexes
-    - navigation.top
-
+  
   font: false
+
 
 nav:
   - Home: index.md
 
   - Linux: 
     - linux/index.md
+    - 设备驱动程序:
+      - linux/drivers/chardev.md
 
   - Arm: 
     - arm/index.md
