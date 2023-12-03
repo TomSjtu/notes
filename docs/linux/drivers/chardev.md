@@ -12,7 +12,6 @@ int MAJOR(dev_t dev)
 int MINOR(dev_t dev)
 
 dev_t MKDEV(unsigned int major, unsigned int minor)
-
 ```
 
 ```C
@@ -33,7 +32,6 @@ struct file_operations
 struct file
 
 struct inode
-
 ```
 
 ```C
@@ -44,11 +42,9 @@ struct cdev *cdev_alloc(void)
 void cdev_init(struct cdev *dev, dev_t num, unsigned int count)
 
 void cdev_del(struct cdev *dev)
-
 ```
 
 ```C
-
 #include <linux/kernel.h>
 
 container_of(pointer, type, field)
@@ -58,7 +54,6 @@ container_of(pointer, type, field)
 unsigned long copy_from_user(void *to, const void *from, unsigned long count)
 
 unsigned long copy_to_user(void *to, const void *from, unsigned long count)
-
 ```
 
 ## 设备号初始化
@@ -111,6 +106,7 @@ void unregister_chrdev_region(dev_t first, unsigned count)
 这里我们给出一个完整的示例，假设我们需要注册一个名字为"test"的设备。
 
 ```C
+
 int major;
 int minor;
 dev_t devid;
@@ -123,6 +119,7 @@ if(major){
     major = MAJOR(devid);
     minor = MINOR(devid);
 }
+
 ```
 
 对设备号操作时，使用到了三个宏定义，**MKDEV**, **MAJOR**, **MINOR**。当给定主设备号时，使用MKDEV来构建完整的devID，次设备号则一般选择0。
@@ -196,4 +193,4 @@ unsigned long copy_from_user(void *to, const void *from, unsigned long count)
 unsigned long copy_to_user(void *to, const void *from, unsigned long count)
 ```
 
-
+## 自动创建设备号

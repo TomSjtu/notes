@@ -18,6 +18,9 @@ nav:
 
   - Linux: 
     - linux/index.md
+    - 内核剖析:
+      - linux/kernel/others.md
+    
     - 设备驱动程序:
       - linux/drivers/chardev.md
 
