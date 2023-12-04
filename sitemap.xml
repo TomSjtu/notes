@@ -2,42 +2,42 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://tomsjtu.github.io/notes/</loc>
-         <lastmod>2023-12-03</lastmod>
+         <lastmod>2023-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/</loc>
-         <lastmod>2023-12-03</lastmod>
+         <lastmod>2023-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/cloud/</loc>
-         <lastmod>2023-12-03</lastmod>
+         <lastmod>2023-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/</loc>
-         <lastmod>2023-12-03</lastmod>
+         <lastmod>2023-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/chardev/</loc>
-         <lastmod>2023-12-03</lastmod>
+         <lastmod>2023-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/others/</loc>
-         <lastmod>2023-12-03</lastmod>
+         <lastmod>2023-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/</loc>
-         <lastmod>2023-12-03</lastmod>
+         <lastmod>2023-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/tools/</loc>
-         <lastmod>2023-12-03</lastmod>
+         <lastmod>2023-12-04</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
