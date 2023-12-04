@@ -4,11 +4,23 @@ repo_url: https://github.com/TomSjtu/notes
 site_description: 一只Tom的笔记本
 site_author: Tom
 theme:
-  name: cosmo
+  name: material
   highlightjs: true
   hljs_languages:
     - c
     - c++
+  features:
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.path
+    - toc.integrate
+    - navigation.top
+  
+  palette:
+    primary: light blue
+    
   
   font: false
 
