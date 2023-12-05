@@ -1025,6 +1025,22 @@ model：板子名称
     void *data;
 };
 </code></pre>
+<p>与查找节点相关的<strong>of</strong>函数有5个：</p>
+<p>1.通过节点名字查找指定节点</p>
+<pre><code class="language-C">struct device_node *of_find_node_by_name(struct device_node *from, const char *name);
+</code></pre>
+<p>2.通过device_type属性查找指定节点</p>
+<pre><code class="language-C">struct device_node *of_find_node_by_type(struct device_node *from, const char *type)
+</code></pre>
+<p>3.通过device_type和compatible两个属性来查找指定节点</p>
+<pre><code class="language-C">struct device_node *of_find_compatible_node(struct device_node *from,const char *type, const char *compatible)
+</code></pre>
+<p>4.通过of_devicde_id匹配表来查找指定节点</p>
+<pre><code class="language-C">struct device_node *of_find_matching_node_and_match(struct device_node *from,const struct of_device_id *matches,const struct of_device_id **match)
+</code></pre>
+<p>5.通过路径来查找指定节点</p>
+<pre><code class="language-C">inline struct device_node *of_find_node_by_path(const char *path)
+</code></pre>
 <p>节点的属性信息里保存了驱动所需要的内容，内核中使用结构体property表示属性。</p>
 <pre><code class="language-C">struct property{
     char *name;
@@ -1036,8 +1052,13 @@ model：板子名称
     struct bin_attribute attr;
 };
 </code></pre>
-<p>同时内核也提供了提取属性值的Of函数。</p>
-<p>驱动通过查找节点，然后对设备树进行操作</p>
+<p>同时内核也提供了提取属性值的<strong>Of</strong>函数。</p>
+<p>1.查找指定的属性</p>
+<pre><code class="language-C">property *of_find_property(const struct device_node *np, const char *name, int *lenp)
+</code></pre>
+<p>2.获取属性中元素的数量</p>
+<pre><code class="language-C">int of_property_count_elems_of_size(const struct device_node *np,const char *propname,int elem_size)
+</code></pre>
 
 
 
