@@ -128,8 +128,40 @@ struct device_node{
     void *data;
 };
 ```
+与查找节点相关的**of**函数有5个：
+
+1.通过节点名字查找指定节点
+
+```C
+struct device_node *of_find_node_by_name(struct device_node *from, const char *name);
+```
+
+2.通过device_type属性查找指定节点
+
+```C
+struct device_node *of_find_node_by_type(struct device_node *from, const char *type)
+```
+
+3.通过device_type和compatible两个属性来查找指定节点
+
+```C
+struct device_node *of_find_compatible_node(struct device_node *from,const char *type, const char *compatible)
+```
+
+4.通过of_devicde_id匹配表来查找指定节点
+
+```C
+struct device_node *of_find_matching_node_and_match(struct device_node *from,const struct of_device_id *matches,const struct of_device_id **match)
+```
+
+5.通过路径来查找指定节点
+
+```C
+inline struct device_node *of_find_node_by_path(const char *path)
+```
 
 节点的属性信息里保存了驱动所需要的内容，内核中使用结构体property表示属性。
+
 ```C
 struct property{
     char *name;
@@ -141,12 +173,21 @@ struct property{
     struct bin_attribute attr;
 };
 ```
-同时内核也提供了提取属性值的Of函数。
 
+同时内核也提供了提取属性值的**Of**函数。
 
+1.查找指定的属性
 
+```C
+property *of_find_property(const struct device_node *np, const char *name, int *lenp)
+```
 
-驱动通过查找节点，然后对设备树进行操作
+2.获取属性中元素的数量
+
+```C
+int of_property_count_elems_of_size(const struct device_node *np,const char *propname,int elem_size)
+```
+
 
 
 
