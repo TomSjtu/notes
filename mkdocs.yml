@@ -39,6 +39,7 @@ nav:
   - Linux: 
     - linux/index.md
     - 内核剖析:
+      - linux/kernel/synch.md
       - linux/kernel/others.md
     
     - 设备驱动程序:

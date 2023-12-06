@@ -196,3 +196,23 @@ unsigned long copy_to_user(void *to, const void *from, unsigned long count)
 ```
 
 ## 自动创建设备号
+
+struct cdev是内核和设备间的借口，内核提供了以下三个函数用于操作cdev结构体。
+
+```C
+void cdev_init(struct cdev *cdev, struct file_operations *fops)
+int cdev_add(struct cdev *cdev, dev_t num, unsigned int count)
+void cdev_del(struct cdev *cdev)
+```
+
+scull中的注册
+
+```C
+cdev_init(&dev->cdev, &scull_fops);
+dev->cdev.owner = THIS_MODULE;
+dev->cdev.ops = &scull_fops;
+ret = cdev_add(&dev->cdev, devno, 1);
+```
+
+原理与前面相同，初始化+注册。
+
