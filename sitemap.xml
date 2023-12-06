@@ -36,6 +36,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://tomsjtu.github.io/notes/linux/kernel/synch/</loc>
+         <lastmod>2023-12-06</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://tomsjtu.github.io/notes/pl/</loc>
          <lastmod>2023-12-06</lastmod>
          <changefreq>daily</changefreq>
