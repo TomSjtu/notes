@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/drivers/chardev/">
       
       
-        <link rel="prev" href="../../kernel/others/">
+        <link rel="prev" href="../dts/">
       
       
         <link rel="next" href="../../../arm/">
@@ -513,6 +513,8 @@
       
         
       
+        
+      
     
     
     
@@ -542,6 +544,27 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设备树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -971,78 +994,78 @@
   
 
 
-<h1 id="_1">字符设备驱动程序</h1>
-<h2 id="_2">快速参考</h2>
-<pre><code class="language-C">#include &lt;linux/types.h&gt;
-
-dev_t devID
-
-int MAJOR(dev_t dev)
-
-int MINOR(dev_t dev)
-
-dev_t MKDEV(unsigned int major, unsigned int minor)
-</code></pre>
-<pre><code class="language-C">#include &lt;linux/fs.h&gt;
-
-int register_chrdev_region(dev_t first, unsigned int count, char *name)
-
-int alloc_chrdev_region(dev_t *dev, unsigned int firstminor, unsigned int count, char *name)
-
-void unregister_chrdev_region(dev_t first, unsigned int count)
-
-int register_chrdev(unsigned int major, const char *name, struct file_operations *fops)
-
-int unregister_chrdev(unsigned int major, const char *name)
-
-struct file_operations
-
-struct file
-
-struct inode
-</code></pre>
-<pre><code class="language-C">#include &lt;linux/cdev.h&gt;
-
-struct cdev *cdev_alloc(void)
-
-void cdev_init(struct cdev *dev, dev_t num, unsigned int count)
-
-void cdev_del(struct cdev *dev)
-</code></pre>
-<pre><code class="language-C">#include &lt;linux/kernel.h&gt;
-
-container_of(pointer, type, field)
-
-#include &lt;asm/uaccess.h&gt;
-
-unsigned long copy_from_user(void *to, const void *from, unsigned long count)
-
-unsigned long copy_to_user(void *to, const void *from, unsigned long count)
-</code></pre>
-<h2 id="_3">设备号初始化</h2>
-<h3 id="_4">设备号的注册与卸载(不推荐的做法)</h3>
+<h1 id="_1">字符设备驱动程序<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">快速参考<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/types.h&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kt">dev_t</span><span class="w"> </span><span class="n">devID</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kt">int</span><span class="w"> </span><span class="n">MAJOR</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">dev</span><span class="p">)</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="kt">int</span><span class="w"> </span><span class="n">MINOR</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">dev</span><span class="p">)</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="kt">dev_t</span><span class="w"> </span><span class="n">MKDEV</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">minor</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/fs.h&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kt">int</span><span class="w"> </span><span class="n">register_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="kt">int</span><span class="w"> </span><span class="n">alloc_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">firstminor</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="kt">void</span><span class="w"> </span><span class="n">unregister_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kt">int</span><span class="w"> </span><span class="n">register_chrdev</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file_operations</span><span class="w"> </span><span class="o">*</span><span class="n">fops</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="kt">int</span><span class="w"> </span><span class="n">unregister_chrdev</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="k">struct</span><span class="w"> </span><span class="nc">file_operations</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="k">struct</span><span class="w"> </span><span class="nc">file</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/cdev.h&gt;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">cdev_alloc</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kt">void</span><span class="w"> </span><span class="n">cdev_init</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">dev_t</span><span class="w"> </span><span class="n">num</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="kt">void</span><span class="w"> </span><span class="n">cdev_del</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/kernel.h&gt;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">container_of</span><span class="p">(</span><span class="n">pointer</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">field</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;asm/uaccess.h&gt;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">copy_from_user</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">copy_to_user</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_3">设备号初始化<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">设备号的注册与卸载(不推荐的做法)<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ul>
-<li>注册</li>
+<li>注册
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">register_chrdev</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file_operations</span><span class="w"> </span><span class="o">*</span><span class="n">fops</span><span class="p">)</span>
+</code></pre></div></li>
 </ul>
-<pre><code class="language-C">int register_chrdev(unsigned int major, const char *name, struct file_operations *fops)
-</code></pre>
 <p>这个方法在注册时需要手动指定主设备号，因此你必须事先知道哪个主设备号没有被占用，这在实际开发中难以推广，并且该函数还一次性占用了主设备号下的全部次设备号。</p>
 <ul>
-<li>卸载</li>
+<li>卸载
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">unregister_chrdev</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div></li>
 </ul>
-<pre><code class="language-C">int unregister_chrdev(unsigned int major, const char *name)
-</code></pre>
-<h3 id="_5">设备号的注册与卸载(推荐的做法)</h3>
+<h3 id="_5">设备号的注册与卸载(推荐的做法)<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li>注册</li>
 </ul>
-<pre><code class="language-C">int register_chrdev_region(dev_t first, unsigned count, const char *name)
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">register_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
 <p>first是要分配的设备编号的起始值，count是所请求的连续设备编号的个数，name是和该编号范围关联的设备名称，它将出现在/proc/devices和sysfs中。</p>
 <p>如果我们提前知道所需要的设备编号，那么使用<em>register_chrdev_region</em>就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数。</p>
-<pre><code class="language-C">int alloc_chrdev_region(dev_t *dev, unsigned firstminor, unsigned count, const char *name)
-</code></pre>
-<p>dev用来保存你要申请的那个设备号变量， baseminor是次设备号的起始值，通常是0。</p>
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">alloc_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">baseminor</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+dev用来保存你要申请的那个设备号变量， baseminor是次设备号的起始值，通常是0。</p>
 <p><q>
 驱动程序应该始终使用<em>alloc_chrdev_region</em>而不是<em>register_chrdev_region</em> ————《Linux设备驱动程序<em>P50</em>》
 </q></p>
@@ -1050,74 +1073,72 @@ unsigned long copy_to_user(void *to, const void *from, unsigned long count)
 <li>卸载</li>
 </ul>
 <p>上面两种方法注册的设备统一用以下函数卸载。</p>
-<pre><code class="language-C">void unregister_chrdev_region(dev_t first, unsigned count)
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">unregister_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
+</code></pre></div>
 <p>该函数通常在清除函数中调用。</p>
 <p>这里我们给出一个完整的示例，假设我们需要注册一个名字为"test"的设备。</p>
-<pre><code class="language-C">
-int major;
-int minor;
-dev_t devid;
-
-if(major){
-    devid = MKDEV(major, 0);
-    register_chrdev_region(devid, 1, &quot;test&quot;);
-}else {
-    alloc_chrdev_region(&amp;devid, 0, 1, &quot;test&quot;);
-    major = MAJOR(devid);
-    minor = MINOR(devid);
-}
-
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">major</span><span class="p">;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">minor</span><span class="p">;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kt">dev_t</span><span class="w"> </span><span class="n">devid</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">if</span><span class="p">(</span><span class="n">major</span><span class="p">){</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">devid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MKDEV</span><span class="p">(</span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="n">register_chrdev_region</span><span class="p">(</span><span class="n">devid</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p">);</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="n">alloc_chrdev_region</span><span class="p">(</span><span class="o">&amp;</span><span class="n">devid</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p">);</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="n">major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAJOR</span><span class="p">(</span><span class="n">devid</span><span class="p">);</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="n">minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MINOR</span><span class="p">(</span><span class="n">devid</span><span class="p">);</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">}</span>
+</code></pre></div>
 <p>对设备号操作时，使用到了三个宏定义，<strong>MKDEV</strong>, <strong>MAJOR</strong>, <strong>MINOR</strong>。当给定主设备号时，使用MKDEV来构建完整的devID，次设备号则一般选择0。</p>
 <p>实际开发中，major可以用一个宏定义取代，默认取0，即走else分支选择“动态分配”。用户可以选择使用默认值即动态分配的方式，或者自定义特定的设备号——只要在编译前修改宏定义为设备号，或者在insmod时指定即可。</p>
-<h2 id="_6">字符设备的注册</h2>
+<h2 id="_6">字符设备的注册<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>内核使用<em>struct cdev</em>结构来表示字符设备，</p>
-<h2 id="_7">内存映射</h2>
-<h3 id="_8">驱动层的操作</h3>
+<h2 id="_7">内存映射<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="_8">驱动层的操作<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>由于Linux有MMU模块，因此无法访问真实的物理地址，只能通过虚拟地址访问硬件外设。所以需要有一个函数可以在物理地址和虚拟地址之间进行转换。</p>
 <p>关于如何获取硬件的物理地址，请参考<a href="../../kernel/others/">设备树</a>。</p>
-<pre><code>ioremap(phy_addr, size)
-</code></pre>
+<div class="highlight"><pre><span></span><code>ioremap(phy_addr, size)
+</code></pre></div>
 <p>其中addr就是你要访问的直接物理地址，size是需要转化的大小，返回值就是虚拟地址，这个虚拟地址我们需要专门的数据类型去接收。</p>
-<pre><code>static void __iomem *v_addr
-</code></pre>
+<div class="highlight"><pre><span></span><code>static void __iomem *v_addr
+</code></pre></div>
 <p><strong>__iomem</strong>是一个宏，主要就是在硬件寄存器的物理地址和程序中使用的虚拟地址之间进行转换。</p>
 <p>有映射就一定有取消映射，用到的是这么一个函数。</p>
-<pre><code>iounmap(v_addr)
-</code></pre>
+<div class="highlight"><pre><span></span><code>iounmap(v_addr)
+</code></pre></div>
 <p>这里的参数一定是你自己定义的用来接收虚拟地址的那个指针，注意不要和物理地址搞混了。</p>
-<h3 id="io">I/O内存访问函数</h3>
+<h3 id="io">I/O内存访问函数<a class="headerlink" href="#io" title="Permanent link">&para;</a></h3>
 <p>使用ioremap函数将寄存器物理地址映射到虚拟地址后，Linux推荐使用内核自带的读写操作函数对映射后的内存进行读写。</p>
 <ul>
 <li>读操作函数</li>
 </ul>
-<pre><code class="language-c">u8 readb(v_addr)
-u16 readw(v_addr)
-u32 readl(v_addr)
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">u8</span><span class="w"> </span><span class="n">readb</span><span class="p">(</span><span class="n">v_addr</span><span class="p">)</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">u16</span><span class="w"> </span><span class="n">readw</span><span class="p">(</span><span class="n">v_addr</span><span class="p">)</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">u32</span><span class="w"> </span><span class="n">readl</span><span class="p">(</span><span class="n">v_addr</span><span class="p">)</span>
+</code></pre></div>
 <p>上面三个函数分别对应8位，16位，32位的读操作，addr是要读取的内存地址，返回值是读取到的数据</p>
 <ul>
 <li>写操作函数</li>
 </ul>
-<pre><code class="language-c">void writeb(u8 value, v_addr)
-void writew(u16 value, v_addr)
-void writel(u32 value, v_addr)
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">writeb</span><span class="p">(</span><span class="n">u8</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">v_addr</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">writew</span><span class="p">(</span><span class="n">u16</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">v_addr</span><span class="p">)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kt">void</span><span class="w"> </span><span class="n">writel</span><span class="p">(</span><span class="n">u32</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="n">v_addr</span><span class="p">)</span>
+</code></pre></div>
 <p>同理，上面三个函数分别对应各自位的读操作函数。</p>
 <p>拿到虚拟地址后，我们需要根据手册说明将其中的某几位进行配置，在配置之前先清除以前的配置是一个好习惯。</p>
-<pre><code class="language-C">val = readl(v_addr);  //从地址中读取值写入val
-val &amp;= ~(3 &lt;&lt; 26);    //对bit26, 27位清零
-val |= 3 &lt;&lt; 26;       //对bit26, 27位置1
-write(val, v_addr);   //写入虚拟地址
-</code></pre>
-<h3 id="_9">应用层的操作</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">readl</span><span class="p">(</span><span class="n">v_addr</span><span class="p">);</span><span class="w">  </span><span class="c1">//从地址中读取值写入val</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">val</span><span class="w"> </span><span class="o">&amp;=</span><span class="w"> </span><span class="o">~</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">26</span><span class="p">);</span><span class="w">    </span><span class="c1">//对bit26, 27位清零</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="n">val</span><span class="w"> </span><span class="o">|=</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">26</span><span class="p">;</span><span class="w">       </span><span class="c1">//对bit26, 27位置1</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">write</span><span class="p">(</span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">v_addr</span><span class="p">);</span><span class="w">   </span><span class="c1">//写入虚拟地址</span>
+</code></pre></div>
+<h3 id="_9">应用层的操作<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p>由于Linux内核禁止用户态和内核态直接进行数据交互，我们只能通过内核提供的API函数进行。</p>
-<pre><code class="language-C">unsigned long copy_from_user(void *to, const void *from, unsigned long count)
-
-unsigned long copy_to_user(void *to, const void *from, unsigned long count)
-</code></pre>
-<h2 id="_10">自动创建设备号</h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">copy_from_user</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">copy_to_user</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="_10">自动创建设备号<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
 
 
 
