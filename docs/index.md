@@ -14,7 +14,6 @@
 
 - [Tools](tools/index.md)
 
-- Others
 
 ---
 

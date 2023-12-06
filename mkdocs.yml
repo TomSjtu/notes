@@ -3,6 +3,7 @@ site_url: https://tomsjtu.github.io/notes/
 repo_url: https://github.com/TomSjtu/notes
 site_description: 一只Tom的笔记本
 site_author: Tom
+
 theme:
   name: material
   highlightjs: true
@@ -17,13 +18,20 @@ theme:
     - navigation.path
     - toc.integrate
     - navigation.top
-  
+     
   palette:
     primary: light blue
-    
-  
+ 
+
   font: false
 
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+
+  - pymdownx.superfences
+  - toc:
+      permalink: true
 
 nav:
   - Home: index.md
@@ -34,7 +42,9 @@ nav:
       - linux/kernel/others.md
     
     - 设备驱动程序:
+      - linux/drivers/dts.md
       - linux/drivers/chardev.md
+      
 
   - Arm: 
     - arm/index.md
@@ -47,3 +57,4 @@ nav:
 
   - Tools: 
     - tools/index.md
+

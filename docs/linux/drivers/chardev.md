@@ -85,7 +85,7 @@ first是要分配的设备编号的起始值，count是所请求的连续设备�
 如果我们提前知道所需要的设备编号，那么使用*register_chrdev_region*就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数。
 
 ```C
-int alloc_chrdev_region(dev_t *dev, unsigned firstminor, unsigned count, const char *name)
+int alloc_chrdev_region(dev_t *dev, unsigned baseminor, unsigned count, const char *name)
 ```
 dev用来保存你要申请的那个设备号变量， baseminor是次设备号的起始值，通常是0。
 
