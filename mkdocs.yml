@@ -52,6 +52,8 @@ nav:
 
   - Arm: 
     - arm/index.md
+    - arm/barrier.md
+
 
   - 编程语言: 
     - pl/index.md
