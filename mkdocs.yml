@@ -18,6 +18,7 @@ theme:
     - navigation.path
     - toc.integrate
     - navigation.top
+    - content.code.copy
      
   palette:
     primary: light blue
@@ -40,6 +41,7 @@ nav:
     - linux/index.md
     - 内核剖析:
       - linux/kernel/sched.md
+      - linux/kernel/interrupt.md
       - linux/kernel/synch.md
       - linux/kernel/others.md
     
