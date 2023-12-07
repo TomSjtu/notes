@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/synch/">
       
       
-        <link rel="prev" href="../../">
+        <link rel="prev" href="../sched/">
       
       
         <link rel="next" href="../others/">
@@ -26,7 +26,7 @@
     
     
       
-        <title>同步与互斥 - 一只Tom的笔记本</title>
+        <title>内核同步 - 一只Tom的笔记本</title>
       
     
     
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              同步与互斥
+              内核同步
             
           </span>
         </div>
@@ -445,6 +445,8 @@
       
         
       
+        
+      
     
     
     
@@ -479,6 +481,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../sched/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程调度
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -491,15 +514,120 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    内核同步
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    同步与互斥
+    内核同步
   </span>
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      同步的概念
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="同步的概念">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      临界区
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      加锁
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      死锁
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      同步的方法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="同步的方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      原子操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      自旋锁
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -885,7 +1013,78 @@
   
 
 
-<h1 id="_1">同步与互斥<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h1 id="_1">内核同步<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>只要有共享资源的地方，程序员在编写代码时就需要特别注意保护共享资源，防止并发访问时造成数据不一致的问题。多个线程并发访问共享数据是造成系统不稳定的一类隐患，而这类隐患往往难以跟踪和调试。要做到对共享资源的保护相当困难。早年，Linux还不支持SMP（对称多处理器），避免并发访问数据还比较容易。在单一处理器时，只有在中断发生的时候，或者程序明确请求重新调度（scheduler）的时候，数据才有可能被并发访问。于是在早期的单CPU架构下，简单的禁止中断即可保护共享资源。但是多处理器时代这一方法不再有效了，因为禁止中断只能禁止本地的中断，但是无法阻止其他CPU并发地访问数据。随着2.6内核版本的出现，Linux内核已经发展成抢占式内核。这意味着调度程序可以在任何时刻抢占正在执行的代码，重新调度其他的进程执行，这对数据的同步提出了更高的要求。具体请看<a href="../sched/">进程调度</a></p>
+<p>内核中并发执行的原因有：</p>
+<ul>
+<li>中断——中断是异步的，几乎可以在任何时刻发生，也就有可能在任何时刻打断正在执行的代码。</li>
+<li>软中断和tasklet——内核可以在任何时刻唤醒或调度软中断和tasklet。</li>
+<li>抢占——内核是抢占性质的，正在执行的任务可能会被高优先级的任务抢占。</li>
+<li>睡眠——在内核执行的进程可能睡眠，这会唤醒调度程序，从而调度另一个新的进程。</li>
+<li>SMP——多个CPU可以同时执行代码。</li>
+</ul>
+<h2 id="_2">同步的概念<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="_3">临界区<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>所谓临界区就是访问和操作共享数据的代码段。多个线程同时访问临界区代码是不安全的，因此临界区代码必须以原子地方式执行。考虑一个非常简单的情况。假设我们有一个全局变量i，操作仅仅是对其加1。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">i</span><span class="o">++</span><span class="p">;</span>
+</code></pre></div>
+<p>如此简单的指令在CPU执行的时候需要三个步骤：</p>
+<ol>
+<li>从内存中读出变量i的值并放在一个寄存器内。</li>
+<li>将寄存器中的值+1。</li>
+<li>把i的值写回到内存。</li>
+</ol>
+<p>实际上，在多线程并发的情况下，其他线程有可能在上面的任意时刻进行“插队”。这种概率虽然很小，但是计算机每秒运行上百万条指令，“插队”可能每过几秒就发生一次。假设有两个线程同时操作这个全局变量，若i的初始值为1，那么我们想要的最终结果应该是3。但是假如第二个线程在第一个线程还没有将i的值回写至内存时，也即i的值仍然是1时就去内存读取了i的值，我们最后得到的i的值就是2而不是3，这与我们预期的值不符。</p>
+<p>这是最简单的临界区例子，对于这种简单的竞争条件，我们不需要用到复杂的锁机制，因为锁对于CPU的性能有很大的影响。多数处理器都提供了指令来原子地读、写变量。我们称之为<em>原子指令</em>。使用原子指令可以解决一些简单的并发问题。两条原子指令不可能交错执行，因为处理器会从硬件上禁止这种可能性。</p>
+<h3 id="_4">加锁<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>当共享资源是一个复杂的数据结构，而不是简单的i++时，原子指令就无能为力了。此时我们必须引入<em>锁</em>机制来保护共享资源的访问。同一时刻，我们只允许有一个线程持有锁，其他线程的访问必须等待第一个线程释放锁之后才能进行。锁有多种多样的形式，锁的粒度也各不相同。Linux内核提供了多种不同的锁机制，他们之间的主要区别在于：当锁被其他线程持有而不可用时的表现形式——有一些锁会在原地等待，而有一些锁会直接睡眠。锁没有优劣之分，在不同场景下用不同的锁是程序员必备的技能。</p>
+<p>当一个锁正在被占用时，有其他线程试图获得该锁，我们称之为<em>锁的争用</em>。由于锁是让程序以串行的方式对资源进行访问，被长时间持有的锁无疑会降低系统的性能。于是加锁粒度就显得尤为重要。如果是一段加锁的代码被频繁的调用，这往往会成为系统性能的瓶颈。在一些大型机器上可能表现不是那么明显，但是在一些小型机器上，过粗的锁的粒度会严重拖累系统的性能。</p>
+<h3 id="_5">死锁<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>死锁是编写同步代码时经常会遇到的问题，两个或多个线程因为争夺资源而无法继续执行，因为每个线程都在等待另一个线程释放锁或资源。如果没有外力干涉，这些线程将永远处于等待状态。</p>
+<p>一个最简单的死锁例子就是自死锁：如果一个线程试图去获得一个自己已经持有的锁，那么它将永远等待下去。
+另一个常见的例子叫ABBA死锁：线程1持有锁A，线程2持有锁B，线程1试图去获得锁B，而线程2试图去获得锁A，由于每个线程都在等待另一个线程释放锁，但是谁都不想释放自己的锁，于是就造成了死锁。预防死锁的发生非常重要，虽然你不知道自己的代码会不会发生死锁，但是遵循一些简单的规则对于避免死锁大有帮助：</p>
+<ul>
+<li>按顺序加锁。使用多个锁时必须保证以相同的顺序获取锁，否则就有可能造成ABBA死锁。</li>
+<li>防止<em>饥饿</em>。</li>
+<li>不要重复请求同一个锁。</li>
+<li>设计越简单越好。</li>
+</ul>
+<h2 id="_6">同步的方法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="_7">原子操作<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>原子操作可以保证指令以不可分割的形式执行————执行过程不可被打断。内核提供了两组原子操作接口————一组针对整数，一组针对单独的位。在Linux支持的所有体系结构上都实现了这两组接口。注意：在不同体系结构上实现的方式是不同的，但是接口都是统一的。</p>
+<p>有的时候我们会要求某些指令按照特定的顺序执行，这被称为顺序性，以屏障（barrier）指令来实现。</p>
+<p>1.原子整数操作</p>
+<p>针对整数的原子操作使用一个特殊的atomic_t类型的数据。它的定义在<linux/types.h>中：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="p">}</span><span class="n">atomic_t</span><span class="p">;</span>
+</code></pre></div>
+<p>使用原子整数操作的声明在<asm/atomic.h>中定义。有些体系结构会提供一些额外的原子操作，但是内核的接口在所有体系结构上都实现了。</p>
+<p>一些简单的操作比如：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">atomic_t</span><span class="w"> </span><span class="n">v</span><span class="p">;</span><span class="w">   </span><span class="c1">//定义v</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">atomic_t</span><span class="w"> </span><span class="n">u</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ATOMIC_INIT</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span><span class="w"> </span><span class="c1">//定义u并初始化为0</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">atomic_set</span><span class="p">(</span><span class="o">&amp;</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">atomic_add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kt">int</span><span class="w"> </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">atomic_read</span><span class="p">(</span><span class="o">&amp;</span><span class="n">v</span><span class="p">);</span>
+</code></pre></div>
+<p>原子操作的接口非常简单易读，没有必要单独去记，用到什么就学什么。</p>
+<p>原子操作通常是内联函数，且是用内嵌汇编指令来实现的。ARM体系请参考：<a href="http://www.ethernut.de/en/documents/arm-inline-asm.html">ARM GCC Inline Assembler</a>。</p>
+<p>atomic64_t类型是64位的原子变量，其功能和32位一致，函数接口以atomic64前缀命名。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="p">}</span><span class="n">atomic64_t</span><span class="p">;</span>
+</code></pre></div>
+<p>2.原子位操作</p>
+<p>与体系结构相关，定义在<asm/bitops.h>中。原子位的参数是一个位号+指针。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">word</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">set_bit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">word</span><span class="p">);</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">set_bit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">word</span><span class="p">);</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">clear_bit</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">word</span><span class="p">);</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">change_bit</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">word</span><span class="p">);</span>
+</code></pre></div>
+<p>这一部分不是很理解，待补充。</p>
+<h3 id="_8">自旋锁<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>原子操作只能针对一些简单的数据结构进行保护，现实情况里，一个临界区里甚至有多个函数。比如我们有这样一个情况：从某个函数中读取某个struct类型的数据，然后改变其中某个成员的值，最后再把更新同步到另一个数据结构中。整个执行过程必须是不可分割的，在数据更新完毕前，绝对不允许任何其他的代码读取这些数据。显然，我们不可能要求每个体系都支持如此复杂的操作，此时就需要用到更复杂的同步方法——锁来提供保护。</p>
 
 
 
