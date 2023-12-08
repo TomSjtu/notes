@@ -64,3 +64,6 @@ nav:
   - Tools: 
     - tools/index.md
 
+  - 其他:
+    - others/index.md
+    - others/ld.md
