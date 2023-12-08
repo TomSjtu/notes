@@ -26,7 +26,7 @@
     
     
       
-        <title>进程调度 - 一只Tom的笔记本</title>
+        <title>进程管理与调度 - 一只Tom的笔记本</title>
       
     
     
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              进程调度
+              进程管理与调度
             
           </span>
         </div>
@@ -519,7 +519,7 @@
         
   
   <span class="md-ellipsis">
-    进程调度
+    进程管理与调度
   </span>
   
 
@@ -1065,7 +1065,34 @@
   
 
 
-<h1 id="_1">进程调度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h1 id="_1">进程管理与调度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>进程就是处于执行期的程序，当我们将代码编译成可执行文件时，输入./a.out，我们就开启了一个新的进程。进程从磁盘加载到内存的过程请参考<a href="../../../others/ld/">程序的装载</a>。</p>
+<p>一个进程相当于一个大型的项目组，这个项目组包含着许多资源，比如打开的文件信息，占用的内存空间，处理器的状态等。而线程就是项目组中执行具体任务的人。就像一个项目组至少得有一个人，一个进程必须得有一个主线程。你可以把所有的任务都交给主线程，但是大部分情况下，我们都会让把一个大的任务拆分成一个个小任务，然后另外开辟线程去处理它们。那么我们是否可以再创建几个进程去处理呢？可以，但是没有必要。首先，进程占用的资源空间很大，而线程是轻量级的，创建的速度非常快。其次，进程之间共享资源非常麻烦，而线程由于是同一个进程下的，他们可以共同访问某些资源。这就好比一个公司下面不同项目组之间交接工作容易扯皮，但是如果大家都在同一个项目组下相对来说就好很多。</p>
+<p>在Linux系统下，线程与进程并不特别区分。他们同是一个task_struct结构体，内核在管理和调度的时候，不会管你是进程还是线程，一视同仁。</p>
+<p>Linux系统通过<em>fork()</em>系统调用创建一个进程，调用fork()的进程称为父进程，新产生的进程称为子进程。fork()函数返回两次，如果是0则是子进程；如果大于0则是父进程。这里给了一段示例代码，你先有个概念，具体内核是如何创建进程的我们后面再讲。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fork</span><span class="p">();</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pid</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;子进程，进程ID：%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">pid</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;父进程，进程ID：%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">getpid</span><span class="p">());</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">        </span><span class="n">wait</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">        </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;子进程结束。</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">        </span><span class="n">perror</span><span class="p">(</span><span class="s">&quot;fork失败&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">        </span><span class="n">exit</span><span class="p">(</span><span class="n">EXIT_FAILURE</span><span class="p">);</span>
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="p">}</span>
+</code></pre></div>
+<p>通常，新创建的进程都是为了执行不同的程序，调用<em>exec()</em>可以创建新的地址空间，并把新的程序替换掉当前程序。Linux内核中，fork()底层是由<em>clone()</em>系统调用实现的。子程序通过<em>exit()</em>系统调用退出，进程退出后被设置为僵死（zombie）状态，直到父进程使用<em>wait()</em>或者<em>waitpid()</em>回收子进程的资源。</p>
+<p>前面说了，在Linux系统下，不管你是进程还是线程，都统一视作task_struct结构体。这个结构非常复杂，包含了一个进程/线程的所有信息。内核统一将所有task_struct放在一个双向循环列表中管理。</p>
 
 
 
