@@ -48,12 +48,10 @@ nav:
     - 设备驱动程序:
       - linux/drivers/dts.md
       - linux/drivers/chardev.md
-      
-
+  
   - Arm: 
     - arm/index.md
     - arm/barrier.md
-
 
   - 编程语言: 
     - pl/index.md
