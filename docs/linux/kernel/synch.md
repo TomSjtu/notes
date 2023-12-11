@@ -124,18 +124,16 @@ typedef struct {
 
 2.原子位操作
 
-与体系结构相关，定义在<asm/bitops.h\>中。原子位的参数是一个位号+指针。
+atomic_t类型对整数算术来讲比较有用。但是当需要以原子形式来操作单个的位时，这种类型就无法派上用场了。Linux内核提供了一组对位的原子操作。
+
+原子位的操作非常快，只要硬件底层硬件支持，这种操作可以使用单个机器指令来执行。这些函数与体系结构相关，定义在<asm/bitops.h\>中。即使是在SMP计算机上，这些函数依旧可以确保是原子的。原子位的参数是一个位号+指针。可用的操作如下：
 
 ```C
-unsigned long word = 0;
-set_bit(0, &word);
-set_bit(1, &word);
-clear_bit(1, &word);
-change_bit(0, &word);
+void set_bit(nr, void *addr);     //设置addr指向的第nr位
+void clear_bit(nr, void *addr);   //清除addr指向的第nr位
+void change_bit(nr, void *addr);  //切换addr指向的第nr位
+test_bit(nr, void *addr);         //返回指定位的当前值
 ```
-
-这一部分不是很理解，待补充。
-
 
 ### 自旋锁
 
@@ -255,6 +253,10 @@ DECLARE_COMPLETION(comp);
 ```
 
 或者使用*init_completion()*动态创建。需要等待的任务调用*wait_for_completion()*来等待特定事件。当事件发生后，产生事件的任务调用*complete()*来发送信号唤醒正在等待的任务。
+
+### RCU机制
+
+读取-复制-更新（read-copy-update）是一种高级互斥机制，一般用不到但是我们对这个概念得有一个基本的了解。RCU机制主要针对读取经常发生、但是写入很少的情况。在需要修改数据时，写入线程首先复制一份，然后修改副本。其他线程在读取数据时，仍然指向原始的共享数据地址，这样就可以保证在写操作发生前，其他线程仍然可以读取到一致的数据。直到更新线程完成了数据的修改，并通过特定的API将更新后的数据指针赋值回原来的共享数据位置，这个过程称为“更新完成”。读取端的代码必须放置于*rcu_read_lock()*和*rcu_read_unlock()*之间。
 
 ### 禁止抢占
 
