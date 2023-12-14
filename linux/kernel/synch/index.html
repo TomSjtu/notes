@@ -341,9 +341,7 @@
   
 
 
-  
-
-<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="../../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
@@ -1222,6 +1220,170 @@
               </div>
             
             
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      同步的概念
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="同步的概念">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      临界区
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      加锁
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      死锁
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      同步的方法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="同步的方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      原子操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      自旋锁
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      读/写自旋锁
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      信号量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      互斥体
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      完成变量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rcu" class="md-nav__link">
+    <span class="md-ellipsis">
+      RCU机制
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      禁止抢占
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      顺序与屏障
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
           
           
             <div class="md-content" data-md-component="content">
@@ -1368,6 +1530,11 @@
 <p>如果加锁时间很长或者代码在持有锁时有可能睡眠，那么最好使用信号量来处理。</p>
 <h3 id="_10">信号量<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <p>Linux中的信号量是一种睡眠锁。当有一个任务试图获得一个已经被占用的信号量时，该任务会加入等待队列，然后睡眠。由于释放了资源处理器可以去执行其他的代码。当持有的信号量被释放时，处于等待队列中的那个任务会被唤醒，并获得该信号量。</p>
+<p>实际上，Linux提供两种信号量：</p>
+<ul>
+<li>内核信号量，由内核态使用</li>
+<li>System V IPC信号量，由用户态使用</li>
+</ul>
 <p>由于信号量会睡眠，因此有以下结论：</p>
 <ul>
 <li>信号量适用于锁会被长时间占有的场景。</li>
@@ -1380,7 +1547,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">sema_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
 </code></pre></div>
-<p>函数<em>down_interruptible()</em>试图获取指定的信号量，如果不可用，则将进程设置为TASK_INTERRUPTIBLE——进入睡眠。这种进程状态意味着任务可以被信号唤醒。使用<em>down_trylock()</em>函数，在信号量已经被占用时，立刻返回非0值；否则它返回0，并且让你成功持有信号量。</p>
+<p>函数<em>down_interruptible()</em>试图获取指定的信号量，如果不可用，则将进程设置为TASK_INTERRUPTIBLE。这种进程状态意味着任务可以被信号唤醒。使用<em>down_trylock()</em>函数，在信号量已经被占用时，立即返回而不是让进程睡眠。</p>
 <h3 id="_11">互斥体<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <p>在多数情况下，信号量只是作为一个计数为1的允许睡眠的自旋锁存在。为了找到一个更简单且可以睡眠的锁，开发者们引入了互斥体（mutex）。其行为和计数为1的信号量类似，但是操作的接口更简单，实现也更高效。基本适用方法如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">DEFINE_MUTEX</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span>
@@ -1433,10 +1600,43 @@
 </code></pre></div>
 <p>或者使用<em>init_completion()</em>动态创建。需要等待的任务调用<em>wait_for_completion()</em>来等待特定事件。当事件发生后，产生事件的任务调用<em>complete()</em>来发送信号唤醒正在等待的任务。</p>
 <h3 id="rcu">RCU机制<a class="headerlink" href="#rcu" title="Permanent link">&para;</a></h3>
-<p>读取-复制-更新（read-copy-update）是一种高级互斥机制，一般用不到但是我们对这个概念得有一个基本的了解。RCU机制主要针对读取经常发生、但是写入很少的情况。在需要修改数据时，写入线程首先复制一份，然后修改副本。其他线程在读取数据时，仍然指向原始的共享数据地址，这样就可以保证在写操作发生前，其他线程仍然可以读取到一致的数据。直到更新线程完成了数据的修改，并通过特定的API将更新后的数据指针赋值回原来的共享数据位置，这个过程称为“更新完成”。读取端的代码必须放置于<em>rcu_read_lock()</em>和<em>rcu_read_unlock()</em>之间。</p>
+<p>读取-复制-更新（read-copy-update）是一种高级互斥机制，一般用不到但是我们对这个概念得有一个基本的了解。RCU机制主要针对读取经常发生、但是写入很少的情况。在需要修改数据时，写入线程首先复制一份，然后修改副本。其他线程在读取数据时，仍然指向原始的共享数据地址，这样就可以保证在写操作发生前，其他线程仍然可以读取到一致的数据。直到更新线程完成了数据的修改，并通过特定的API将更新后的数据指针赋值回原来的共享数据位置，这个过程称为“更新完成”。内存屏障指令用于保证只有在数据结构被修改之后，已更新的指针才对其他CPU可见。读取端的代码必须放置于<em>rcu_read_lock()</em>和<em>rcu_read_unlock()</em>之间。</p>
+<p>使用RCU技术的难点在于：写入端修改指针时不能立刻释放数据结构的旧指针，因为还有其他的读取端在使用。只有当所有的读取端执行完宏<em>rcu_read_unlcok()</em>之后，才可以释放旧指针。写入端调用函数<em>call_rcu()</em>来释放旧指针。</p>
 <h3 id="_13">禁止抢占<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
-<p>在单核处理器系统中，优先级更高的任务可以抢占正在执行的优先级较低的任务。在多核处理器系统中，如果一个任务在持有自旋锁时被抢占，那么在其他核上运行的任务可能会因为等待这个锁而陷入死锁。</p>
-<p>要解决以上问题，可以通过<em>preempt_disable()</em>禁止内核抢占。这是一个可以嵌套调用的函数，但每次调用都必须要有一个<em>preempt_enable()</em>释放。当最后一次preempt()被调用时，内核抢占才重新启用。抢占计数存放着preempt_enable()的调用次数，如果大于0，那么内核就不会进行抢占。可以使用<em>preempt_count()</em>返回这个值。</p>
+<p>Linux是抢占式内核，其主要特点是：一个在内核态运行的进程，可能在执行内核态函数期间被另外一个进程抢占。在进程A执行异常处理程序时（次吃位于内核态），一个更有优先级的进程B变为可执行状态。如果内核是可抢占的，就会发生强制性任务切换，让B取代A。再比如，一个进程已经用完了它的时间片配额，抢占式内核会立刻让另一个进程取代它。</p>
+<p>内核使用<em>thread_info</em>中的<em>preempt_count</em>字段表示抢占计数。当这个值大于0时，就禁止内核抢占。它在以下任何一种情况发生时，取值都大于0：</p>
+<ol>
+<li>内核正在执行中断服务程序。</li>
+<li>可延迟函数被禁止（当内核正在执行软中断或tasklet）。</li>
+<li>显示设置抢占计数器为正数。</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>宏</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>preempt_count()</td>
+<td>返回抢占计数值</td>
+</tr>
+<tr>
+<td>preempt_disable()</td>
+<td>使抢占计数+1</td>
+</tr>
+<tr>
+<td>preempt_enable()</td>
+<td>使抢占计数-1，并检查TIF_NEED_RESCHED标志</td>
+</tr>
+<tr>
+<td>preempt_enable_no_resched()</td>
+<td>使抢占计数-1</td>
+</tr>
+</tbody>
+</table>
+<p>上面第三个宏需要说明一下。<em>preempt_enable()</em>宏首先递减抢占计数器，并且检查TIF_NEED_RESCHED标志是否被设置。当这个标志为1时表示需要执行调度程序。于是我们还会调用<em>preempt_schedule()</em>来调用<em>schedule()</em>选择另外一个进程运行。</p>
 <h3 id="_14">顺序与屏障<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
 <p>为什么需要顺序和屏障指令？</p>
 <ul>
@@ -1450,7 +1650,42 @@
 <p>解决CPU缓存一致性问题：CPU缓存是处理器速度的关键部分，但它的存在也带来了缓存一致性的问题。当一个CPU核心写入数据，而这个数据又被另一个核心的缓存所缓存时，没有屏障的话，另一个核心可能会读取到旧的数据版本。内存屏障能够确保所有核心看到内存操作的最终一致性。</p>
 </li>
 </ul>
-<p>此类指令与体系结构密切相关，请参考<a href="../../../arm/barrier/">内存屏障指令</a>。</p>
+<p>Linux中的内存屏障指令：</p>
+<table>
+<thead>
+<tr>
+<th>宏</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mb()</td>
+<td>适用于MP和UP的内存屏障</td>
+</tr>
+<tr>
+<td>rmb()</td>
+<td>适用于MP和UP的读内存屏障</td>
+</tr>
+<tr>
+<td>wmb()</td>
+<td>适用于MP和UP的写内存屏障</td>
+</tr>
+<tr>
+<td>smp_mb()</td>
+<td>仅适用于MP的内存屏障</td>
+</tr>
+<tr>
+<td>smp_rmb()</td>
+<td>仅适用于MP的读内存屏障</td>
+</tr>
+<tr>
+<td>smp_wmb()</td>
+<td>仅适用于MP的写内存屏障</td>
+</tr>
+</tbody>
+</table>
+<p>此类指令与体系结构密切相关，请参考<a href="../../../arm/barrier/">ARM内存屏障指令</a>。</p>
 
 
 
@@ -1495,7 +1730,7 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.integrate", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
       <script src="../../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
