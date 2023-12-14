@@ -40,7 +40,6 @@ state可以取的值有：
 #define TASK_NEW                        2048
 #define TASK_STATE_MAX                  4096
 ```
-![进程状态](../../images/kernel/running_state.webp)
 
 state字段的值用一个简单的赋值语句设置。
 
@@ -48,7 +47,7 @@ state字段的值用一个简单的赋值语句设置。
 p->state = TASK_RUNNING;
 ```
 
-也可以使用set_task_state和set_current_state宏。
+也可以使用set_task_state和set_current_state宏：它们分别设置指定进程的状态和当前执行进程的状态。
 
 TASK_RUNNING表示进程正在执行或者准备执行。
 
@@ -96,9 +95,9 @@ pid_t tgid;
 struct task_struct *group_leader; 
 ```
 
-你可能会疑惑，唯一标识一个进程，为什么需要用到这么多变量？这是因为在Linux系统下，进程与线程并不特别区分，都是一个task_struct结构体。这就给管理带来了一些麻烦。比如我们希望同属于一个进程组的线程拥有共同的pid。比如我们发送一个信号给指定pid时，我们希望这个信号能作用于该组中的所有线程。当杀死某个进程时，当然是连同该进程下的所有线程一起杀死，而不是只杀死了主进程，其他线程还在工作，这显然不合常理。事实上,POSIX标准也规定一个多线程应用程序的所有线程必须享有共同的pid。
+你可能会疑惑，唯一标识一个进程，为什么需要用到这么多变量？这是因为之前提到，在Linux系统下，进程与线程并不特别区分，都是一个task_struct结构体。这就给管理带来了一些麻烦。比如我们希望同属于一个进程组的线程拥有共同的pid。当我们发送一个信号给指定pid时，我们希望这个信号能作用于该组中的所有线程。当杀死某个进程时，当然是连同该进程下的所有线程一起杀死，而不是只杀死了主进程，其他线程还在工作，这显然不合常理。事实上,POSIX标准也规定一个多线程应用程序的所有线程必须享有共同的pid。
 
-遵照这个标准，Linux引入了线程组的概念。一个线程组中所有线程使用和该线程组领头线程（thread group leader）相同的pid，它被存入task_struct的tgid字段。当我们使用*getpid()*系统调用返回当前进程的pid时，返回的也是tgid的值。任何一个进程，如果只有主线程，那么pid = tgid， group_leader指向的就是自己。如果主线程创建了其他线程，那么每个线程都有自己的pid，但是tgid还是主线程的。
+遵照这个标准，Linux引入了线程组的概念。一个线程组中所有线程使用和该线程组领头线程（thread group leader）相同的pid，它被存入task_struct的tgid字段。当我们使用*getpid()*系统调用返回当前进程的pid时，返回的也是tgid的值。任何一个进程，如果只有主线程，那么pid = tgid， group_leader指向的就是自己。如果主线程创建了其他线程，那么每个线程都有自己的pid，但是tgid仍然是主线程。
 
 ### 进程间关系
 
@@ -111,9 +110,36 @@ struct list_head children;      /* list of my children */
 struct list_head sibling;       /* linkage in my parent's children list */
 ```
 
-这些字段根据名字就能猜到是什么意思。需要注意的是，通常情况下read_parent和parent是一样的，但是当我们启动GDP监视某个进程时，该进程的real_parent不变，但是parent变成了GDB。
+这些字段根据名字就能猜到是什么意思。需要注意的是，通常情况下real_parent和parent是一样的，但是当我们启动GDB监视某个进程时，该进程的real_parent不变，但是parent变成了GDB。
 
 进程之间还有其他关系，这里不详细展开。
+
+### 运行统计
+
+```C
+u64        utime;//用户态消耗的CPU时间
+u64        stime;//内核态消耗的CPU时间
+unsigned long      nvcsw;//自愿(voluntary)上下文切换计数
+unsigned long      nivcsw;//非自愿(involuntary)上下文切换计数
+u64        start_time;//进程启动时间，不包含睡眠时间
+u64        real_start_time;//进程启动时间，包含睡眠时间
+```
+
+### 内存管理
+
+```C
+struct mm_struct *mm;        
+struct mm_struct *active_mm;            
+```
+
+### 文件与文件系统
+
+```C
+/* Filesystem information: */
+struct fs_struct *fs;
+/* Open file information: */
+struct files_struct *files;
+```
 
 
 ## 进程组织形式
@@ -123,6 +149,7 @@ struct list_head sibling;       /* linkage in my parent's children list */
 ### 运行队列
 
 当内核需要寻找一个新进程运行时，必须只考虑已处于TASK_RUNNING状态的进程，于是就有了运行队列。为了提高调度程序的运行速度，内核为每个优先级都维护了一个链表。在多处理器中，每个CPU都有自己的运行队列。运行队列是Linux调度算法的基础。更详细的内容请参考**进程调度**。
+
 
 ### 等待队列
 
@@ -142,7 +169,7 @@ typedef struct __wait_queue_head wait_queue_head_t;
 因为等待队列主要是由中断处理程序和内核函数修改的，因此必须有锁加以保护。等待队列链表中的元素为：
 
 ```C
-struct __wait_queue{
+struct __wait_queue {
     unsigned int flags;
     struct task_struct *task;
     wait_queue_func_t func;
@@ -153,12 +180,55 @@ typedef struct __wait_queue wait_queue_t;
 
 等待队列链表中的每个元素都代表一个睡眠中的进程，它的描述符存入task字段中。task_list负责将每一个元素链接到链表中。func表示等待队列中睡眠进程应该用什么方式唤醒。flags表示该进程是互斥进程还是非互斥进程。互斥进程表示多个进程在等待相同的事件，因此产生了竞争关系，此时内核只需要唤醒其中一个进程即可。而非互斥进程在发生指定事件后总是被唤醒。
 
+等待队列的操作比较复杂，这里不详细展开，只讲一个比较重要的函数*sleep_on()*：这个函数将当前进程加入等待队列，并启动调度程序。
+
+```C
+void sleep_on(wait_queue_head_t *wq)
+{
+    wait_queue_t wait;  //声明一个等待队列元素
+    init_waiqueue_entry(&wait, current);  //将current当前进程加入到wait中
+    current->state = TAKS_UNINTERRUPTIBLE; //设置当前进程为深度睡眠态
+    add_wait_queue(wq, &wait);  //将wait加入到等待队列wq中
+    schedule();                //启动调度程序
+    remove_wait_queue(wq, &wait);   //把当前进程从等待队列中删除
+}
+```
+
+注意：在启动调度程序之前，调度器会记录当前进程上下文并保存至寄存器中，当该睡眠进程被唤醒时，调度程序从*sleep_on()*函数之前停止的位置继续执行——把该进程从等待队列删除。
+
+
 ## 进程生命周期
 
+这里给出一张示意图方便理解。
 
-
+![进程状态](../../images/kernel/running_state.webp)
 
 ## 进程切换
 
 为了控制进程的运行，内核必须有能力挂起正在运行的进程，或者恢复以前挂起的进程。这种行为被称为进程切换（process switch）或上下文切换（context switch）。理解了进程切换，才有可能理解内核是如何对进程进行调度的。
+
+### 硬件上下文
+
+尽管每个进程拥有独立的虚拟地址空间，但所有进程都共享CPU的寄存器，因此在恢复一个进程执行之前，内核必须保证寄存器装入了挂起进程时的值。进程恢复执行前必须装入寄存器的一组数据称为*硬件上下文*（hardware context）。硬件上下文是进程执行上下文的一个子集，因为执行上下文包含进程执行需要的所有信息。
+
+### thread字段
+
+每个进程描述符包含一个类型为thread_struct的thread字段，只要进程被切换出去，内核就把其硬件上下文保存在这个结构中。这个数据结构包含了大量CPU寄存器信息。
+
+### 执行进程切换
+
+进程切换只会发生在以下两种情况：
+
+1. 主动放弃CPU，调用*schedule()*函数。
+2. 正在运行时，被更高优先级的进程抢占。
+
+从本质上来说，进程切换有两个步骤：
+
+1. 切换页全局目录以安装一个新的地址空间。
+2. 切换内核态堆栈和硬件上下文。
+
+进程切换由*switch_to*宏执行。该宏定义与体系结构密切相关。
+
+> 这个宏太复杂了，搞不明白，跳过
+
 
