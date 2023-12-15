@@ -460,6 +460,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -479,16 +483,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     内核剖析
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_2">
@@ -496,6 +508,8 @@
             内核剖析
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -529,7 +543,7 @@
         
   
   <span class="md-ellipsis">
-    中断及下半部
+    中断和异常
   </span>
   
 
@@ -749,7 +763,7 @@
         
   
   <span class="md-ellipsis">
-    其他杂项
+    其他
   </span>
   
 
@@ -1503,7 +1517,7 @@
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">spin_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp_lock</span><span class="p">);</span>
 </code></pre></div>
 <p>在单处理器上，如果禁止内核抢占，那么自旋锁不会被编译进内核。</p>
-<p>自旋锁可以使用在中断处理程序中，获取锁之前，必须要禁止本地中断，否则中断处理程序会打断当前持有锁的代码，有可能去争用这个已经被持有的锁。这会导致死锁。注意，要关闭的只是当前处理器的中断，其他处理器的中断处理程序自旋并不会妨碍当前处理器释放锁。</p>
+<p>自旋锁可以使用在中断处理程序中，但获取锁之前，必须要禁止本地中断，否则中断处理程序会打断当前持有锁的代码。由于锁的持有和释放必须是原子的，如果被打断可能会影响锁的一致性，这会引起不可预测的后果。甚至，如果中断处理程序去争用这个已经被持有的锁，那么会导致死锁。注意，要关闭的只是当前处理器的中断，其他处理器的中断处理程序自旋并不会妨碍当前处理器释放锁。</p>
 <p>内核提供了禁止中断同时请求锁的接口，方法如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">DEFINE_SPINLOCK</span><span class="p">(</span><span class="n">sp_lock</span><span class="p">);</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
