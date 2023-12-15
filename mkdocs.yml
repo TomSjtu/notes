@@ -40,6 +40,7 @@ nav:
   - Linux: 
     - linux/index.md
     - 内核剖析:
+      - linux/kernel/index.md
       - linux/kernel/sched.md
       - linux/kernel/interrupt.md
       - linux/kernel/synch.md
