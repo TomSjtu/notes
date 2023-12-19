@@ -50,6 +50,11 @@ nav:
       - linux/drivers/dts.md
       - linux/drivers/chardev.md
   
+  - RTOS:
+    - rtos/index.md
+    - freertos:
+      - rtos/freertos/index.md
+
   - Arm: 
     - arm/index.md
     - arm/barrier.md
