@@ -18,7 +18,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../../arm/">
+        <link rel="next" href="CMSIS/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -736,6 +736,8 @@
       
         
       
+        
+      
     
     
     
@@ -832,6 +834,27 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="CMSIS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CMSIS
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1298,7 +1321,16 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      队列
+      事件组
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      任务通知
     </span>
   </a>
   
@@ -1665,8 +1697,86 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vApplicationIdleHook</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="_8">任务同步与通信<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<h3 id="_9">队列<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
-<p><img alt="队列" src="../../images/freertos/queue_animation.gif" /></p>
+<h3 id="_9">事件组<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>事件组用一个整数表示，其中高8位留给内核，用其他的位来表示事件。每一位事件的含义由编写者决定，比如用bit0表示灯泡亮灭，bit1表示按键是否按下。这些位，值为1表示事件发生，值为0表示事件未发生。多个任务可以读写位，单个任务也可以等待多个位。</p>
+<p>事件组的操作流程如下：</p>
+<ul>
+<li>创建一个事件组</li>
+<li>任务A、B控制事件中的某些位</li>
+<li>任务C、D等待事件中的位，并且决定发生事件后的操作</li>
+</ul>
+<p>这里对两个比较重要的函数说明一下：</p>
+<p>等待事件函数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">EventBits_t</span><span class="w"> </span><span class="nf">xEventGroupWaitBits</span><span class="p">(</span><span class="n">EventGroupsHandle_t</span><span class="w"> </span><span class="n">xEventGroup</span><span class="p">,</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">EvetnBits_t</span><span class="w"> </span><span class="n">uxBitsToWaitFor</span><span class="p">,</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">BaseType_t</span><span class="w"> </span><span class="n">xClearOnExit</span><span class="p">,</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">BaseType_t</span><span class="w"> </span><span class="n">xWaitForAllBits</span><span class="p">,</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">                                </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTickToWait</span><span class="p">);</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>xEventGroup</td>
+<td>等待的事件组</td>
+</tr>
+<tr>
+<td>uxBitsToWaitFor</td>
+<td>等待的位</td>
+</tr>
+<tr>
+<td>xClearOnExit</td>
+<td>pdTRUE:清除位</td>
+</tr>
+<tr>
+<td>xWaitForAllBits</td>
+<td>pdTRUE：等待的位全部为1；pdFALSE：某一位为1</td>
+</tr>
+<tr>
+<td>xTicksToWait</td>
+<td>阻塞时间</td>
+</tr>
+</tbody>
+</table>
+<p>举例说明：</p>
+<table>
+<thead>
+<tr>
+<th>事件组的值</th>
+<th>uxBitsToWaitFor</th>
+<th>xWaitForAllBits</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0100</td>
+<td>0101</td>
+<td>pdTrue</td>
+<td>期望bit0,bit2都为1，不满足进入阻塞</td>
+</tr>
+<tr>
+<td>0100</td>
+<td>0110</td>
+<td>pdFALSE</td>
+<td>期望bit0, bit2某位为1，满足退出</td>
+</tr>
+</tbody>
+</table>
+<p>同步事件函数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">EventBits_t</span><span class="w"> </span><span class="nf">xEventGroupSync</span><span class="p">(</span><span class="n">EventGroupHandle_t</span><span class="w"> </span><span class="n">xEventGroup</span><span class="p">,</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">                            </span><span class="k">const</span><span class="w"> </span><span class="n">EventBits_t</span><span class="w"> </span><span class="n">uxBitsToSet</span><span class="p">,</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">                            </span><span class="k">const</span><span class="w"> </span><span class="n">EventBits_t</span><span class="w"> </span><span class="n">uxBitsToWaitFor</span><span class="p">,</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">                            </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
+</code></pre></div>
+<p>该函数用来协同多个任务，当期望的事件一起发生后，才会成功返回。</p>
+<h3 id="_10">任务通知<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>当我们使用队列、信号量、事件组等同步方法时，并不知道对方是谁。使用任务通知，可以明确指定通知哪个任务。</p>
 
 
 

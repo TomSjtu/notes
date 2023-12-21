@@ -649,15 +649,6 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      快速导航
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
       系统调用
     </span>
   </a>
@@ -666,7 +657,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       处理流程
     </span>
@@ -676,6 +667,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      信号
+    </span>
+  </a>
   
 </li>
       
@@ -811,6 +811,8 @@
       
         
       
+        
+      
     
     
     
@@ -905,6 +907,27 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../rtos/freertos/CMSIS/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CMSIS
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1292,15 +1315,6 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      快速导航
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
       系统调用
     </span>
   </a>
@@ -1309,7 +1323,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       处理流程
     </span>
@@ -1319,6 +1333,15 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      信号
+    </span>
+  </a>
   
 </li>
       
@@ -1344,20 +1367,18 @@
 <blockquote>
 <p>这里主要放一些零碎的内容。</p>
 </blockquote>
-<h2 id="_2">快速导航<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="./#_3">系统调用</a></li>
-</ul>
-<h2 id="_3">系统调用<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h2 id="_2">系统调用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>在阅读本节内容之前，建议先了解一下<a href="../interrupt/">中断</a>。</p>
 </blockquote>
-<p>当你的程序调用open, read, write, close等函数时，就会触发系统调用。系统调用本质是用户态进程与硬件设备交互的接口，内核负责检查系统调用的正确性，然后发出指令给硬件。作为应用程序开发者，不用关心底层硬件的实现细节，而只需要调用普通函数就可以使用系统调用了。glibc库进一步封装了细节，因此我们只需要使用glibc库暴露的API即可。</p>
-<p><a href="https://man7.org/linux/man-pages/man2/syscalls.2.html">man page for syscall(2)</a>列出了所有的系统调用。</p>
-<h3 id="_4">处理流程<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>当你的程序调用open, read, write, close等函数时，就会触发系统调用。系统调用本质是用户态进程与硬件设备交互的接口，内核负责检查系统调用的正确性，然后发出指令给硬件。作为应用程序开发者，不用关心底层硬件的实现细节，而只需要调用普通函数就可以使用系统调用了。glibc库进一步封装了细节，因此我们只需要使用glibc库暴露的API即可。比如glibc中的open函数，它是这样定义的：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">open</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">pathname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="kt">mode_t</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
+</code></pre></div>
+<p>在glibc的源代码中，有个syscall.list，里面存放着所有glibc函数对应的系统调用。</p>
+<h3 id="_3">处理流程<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>x86体系进入和退出系统调用有两种方式：</p>
 <ul>
-<li>int 0x80 和 iret</li>
+<li>int $0x80 和 iret</li>
 <li>sysenter 和 sysexit</li>
 </ul>
 <p>第二种被称为快速系统调用。</p>
@@ -1370,9 +1391,34 @@
 <li>调用名为系统调用服务例程（system call service routine）的C函数来处理系统调用</li>
 <li>退出系统调用处理程序，将内核栈中的值加载至寄存器，并从内核态切换回用户态</li>
 </ul>
-<p>为了将系统调用号与对应的服务例程联系起来，内核定义了一个系统调用分派表（system call dispatch table），这个表存放在sys_call_table数组中。在汇编语言中，使用一条指令跳转至对应的服务例程：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>call *sys_call_table(0, %eax, 4)
+<p>为了将系统调用号与对应的服务例程联系起来，内核定义了一个系统调用分派表（system call dispatch table），这个表存放在sys_call_table数组中。内核拿到系统调用号之后，就去sys_call_table中找到对应的系统调用实现函数去执行。执行完毕后，使用返回指令从内核态返回至用户态。</p>
+<h2 id="_4">信号<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>在Linux系统中，为了响应各种事件定义了非常多的信号。比如当我们发送kill -9 ${pid}时，其实就是发送SIGKILL信号给指定进程，将它杀死。我们可以通过kill -l命令查看所有的信号。每个信号都有一个唯一的ID和对应的默认操作。</p>
+<p>进程对信号的处理方式有三种：</p>
+<ol>
+<li>执行默认操作。</li>
+<li>自定义信号处理函数。</li>
+<li>忽略信号。注意，SIGKILL和SIGSTOP无法忽略。</li>
+</ol>
+<p>Linux推荐使用sigaction函数来自定义信号处理函数。它的定义如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sigaction</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">signum</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">act</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">oldact</span><span class="p">);</span>
 </code></pre></div>
+<p>而sigaction结构体的定义如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="n">__sighandler_t</span><span class="w"> </span><span class="n">sa_handler</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">sa_flags</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="n">__sigrestore_t</span><span class="w"> </span><span class="n">sa_restorer</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">sa_mask</span><span class="p">;</span><span class="w">   </span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">};</span>
+</code></pre></div>
+<p>其中sa_handler就是你要定义的信号处理函数。</p>
+<p>发送信号由两种方式，一种是发送给整个线程组的，还有一种是发送给某个单独线程的。信号分为不可靠信号和可靠信号。在task_struct中有一个结构体sigpending，它的定义如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigpending</span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">signal</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">};</span>
+</code></pre></div>
+<p>对于不可靠信号，也就是编号小于32的信号，会放在sigset_t集合中，不论发送多少次，在被处理前都只会保留一份。对于可靠信号，则会挂在struct sigpending的链表中挨个处理。</p>
 
 
 
