@@ -229,6 +229,6 @@ void sleep_on(wait_queue_head_t *wq)
 
 进程切换由*switch_to*宏执行。该宏定义与体系结构密切相关。
 
-> 这个宏太复杂了，搞不明白，跳过
+
 
 

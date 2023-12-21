@@ -247,7 +247,58 @@ void vApplicationIdleHook(void);
 
 ## 任务同步与通信
 
+### 事件组
 
-### 队列
+事件组用一个整数表示，其中高8位留给内核，用其他的位来表示事件。每一位事件的含义由编写者决定，比如用bit0表示灯泡亮灭，bit1表示按键是否按下。这些位，值为1表示事件发生，值为0表示事件未发生。多个任务可以读写位，单个任务也可以等待多个位。
 
-![队列](../../images/freertos/queue_animation.gif)
+事件组的操作流程如下：
+
+- 创建一个事件组
+- 任务A、B控制事件中的某些位
+- 任务C、D等待事件中的位，并且决定发生事件后的操作
+
+这里对两个比较重要的函数说明一下：
+
+等待事件函数：
+
+```C
+EventBits_t xEventGroupWaitBits(EventGroupsHandle_t xEventGroup,
+                                const EvetnBits_t uxBitsToWaitFor,
+                                const BaseType_t xClearOnExit,
+                                const BaseType_t xWaitForAllBits,
+                                TickType_t xTickToWait);
+```
+
+| 参数 | 说明 |
+| --- | --- |
+| xEventGroup | 等待的事件组 |
+| uxBitsToWaitFor | 等待的位 |
+| xClearOnExit | pdTRUE:清除位 |
+| xWaitForAllBits | pdTRUE：等待的位全部为1；pdFALSE：某一位为1 |
+| xTicksToWait | 阻塞时间 |
+
+举例说明：
+
+| 事件组的值 | uxBitsToWaitFor | xWaitForAllBits | 说明 |
+| --- | --- | --- | --- |
+| 0100 | 0101 | pdTrue | 期望bit0,bit2都为1，不满足进入阻塞 |
+| 0100 | 0110| pdFALSE | 期望bit0, bit2某位为1，满足退出 |
+
+同步事件函数：
+
+```C
+EventBits_t xEventGroupSync(EventGroupHandle_t xEventGroup,
+                            const EventBits_t uxBitsToSet,
+                            const EventBits_t uxBitsToWaitFor,
+                            TickType_t xTicksToWait);
+```
+
+该函数用来协同多个任务，当期望的事件一起发生后，才会成功返回。
+
+### 任务通知
+
+当我们使用队列、信号量、事件组等同步方法时，并不知道对方是谁。使用任务通知，可以明确指定通知哪个任务。
+
+
+
+

@@ -41,6 +41,8 @@ struct cdev *cdev_alloc(void)
 
 void cdev_init(struct cdev *dev, dev_t num, unsigned int count)
 
+int cdev_add(struct cdev *cdev, dev_t num, unsigned int count)
+
 void cdev_del(struct cdev *dev)
 ```
 

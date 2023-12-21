@@ -54,7 +54,8 @@ nav:
     - rtos/index.md
     - freertos:
       - rtos/freertos/index.md
-
+    - CMSIS: rtos/freertos/CMSIS.md
+      
   - Arm: 
     - arm/index.md
     - arm/barrier.md
