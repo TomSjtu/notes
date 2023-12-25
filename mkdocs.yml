@@ -47,6 +47,7 @@ nav:
       - linux/kernel/others.md
     
     - 设备驱动程序:
+      - linux/drivers/index.md
       - linux/drivers/dts.md
       - linux/drivers/chardev.md
   
@@ -55,6 +56,8 @@ nav:
     - freertos:
       - rtos/freertos/index.md
     - CMSIS: rtos/freertos/CMSIS.md
+    - rt-thread:
+      - rtos/rt-thread/index.md
       
   - Arm: 
     - arm/index.md
