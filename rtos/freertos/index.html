@@ -629,6 +629,10 @@
     
       
         
+          
+        
+      
+        
       
         
       
@@ -644,16 +648,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
         
           
-          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../linux/drivers/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     设备驱动程序
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_3">
@@ -661,6 +673,8 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -732,6 +746,8 @@
       
         
           
+        
+      
         
       
         
@@ -855,6 +871,62 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../rt-thread/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    rt-thread
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            rt-thread
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -1321,7 +1393,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      事件组
+      消息队列
     </span>
   </a>
   
@@ -1329,6 +1401,33 @@
         
           <li class="md-nav__item">
   <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      信号量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      互斥量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      事件组
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
     <span class="md-ellipsis">
       任务通知
     </span>
@@ -1338,6 +1437,24 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      定时器
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断管理
+    </span>
+  </a>
   
 </li>
       
@@ -1549,7 +1666,7 @@
 <p>定义了内存块数组还需要对其进行初始化：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vPortDefineHeapRegions</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">HeapRegion_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pxHeapRegions</span><span class="p">);</span>
 </code></pre></div>
-<p>Heap的分配和释放用到以下函数：</p>
+<p>Heap的分配和释放：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">pvPortMalloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">xWantedSize</span><span class="p">);</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vPortFree</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pv</span><span class="p">);</span>
 </code></pre></div>
@@ -1567,6 +1684,7 @@
 <li>栈：用来保存任务的局部数据</li>
 <li>事件：表示任务做了什么事情</li>
 </ul>
+<p>对于单核处理器来说，任何时刻只能有一个任务得到运行，当调度器决定切换任务时，需要将上一个任务的上下文（寄存器，栈）保存。需要注意的是，如果一个任务出现了死循环操作，那么比这个任务优先级低的任务都将无法执行。所以在设计的时候，应该保证任务在不活跃状态时进入阻塞状态以让出CPU使用权，保证其他低优先级的任务可以执行。</p>
 <h3 id="_4">创建任务<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>在FreeRTOS中，任务函数的定义如下：</p>
 <p><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vATaskFunction</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pvParameters</span><span class="p">)</span>
@@ -1670,16 +1788,16 @@
 <p>任务可以有以下状态：</p>
 <ul>
 <li>
-<p>运行：单核只能同时运行一个任务</p>
+<p>运行：最高优先级的任务被执行</p>
 </li>
 <li>
-<p>就绪：能够执行但目前没有执行</p>
+<p>就绪：能够执行，等待调度器调度</p>
 </li>
 <li>
 <p>阻塞：正在等待时间或者外部事件</p>
 </li>
 <li>
-<p>挂起：只有明确调用<em>vTaskSuspend()</em>和<em>vTaskResume()</em>时才会进入或退出挂起状态。</p>
+<p>挂起：放弃CPU使用权，不参与调度。</p>
 </li>
 </ul>
 <p><img alt="tskstate" src="../../images/freertos/tskstate.gif" /></p>
@@ -1697,8 +1815,28 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vApplicationIdleHook</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="_8">任务同步与通信<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<h3 id="_9">事件组<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
-<p>事件组用一个整数表示，其中高8位留给内核，用其他的位来表示事件。每一位事件的含义由编写者决定，比如用bit0表示灯泡亮灭，bit1表示按键是否按下。这些位，值为1表示事件发生，值为0表示事件未发生。多个任务可以读写位，单个任务也可以等待多个位。</p>
+<p>这里面的内容以理解原理为主，没有必要去记函数接口，用到什么就查什么。</p>
+<h3 id="_9">消息队列<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>消息队列简称为队列，是一种先进先出的数据结构，支持任务或者中断的读写。当队列中的消息为空时，读取消息的任务将被阻塞；当队列已满，发送消息的任务将被阻塞。可以将一条或者多条消息放入队列中，多个任务也可以从同一个消息队列读写消息。如果是紧急消息，可以发送至队列头从而提前被接收。</p>
+<p>为了实现先进先出的机制，队列使用了阻塞的机制。当任务A对某个队列进行读操作时，如果队列此时为空，那么它可以选择：</p>
+<ol>
+<li>直接放弃读操作，去干别的事情。</li>
+<li>进入阻塞状态，等待一段时间。如果在等待期间消息来了，就变为就绪状态；如果等待时间过了消息都没来，那么就返回一个未收到消息的错误码，然后执行其他程序。</li>
+<li>死等直到消息到来为止。</li>
+</ol>
+<p>写操作的阻塞机制类似。</p>
+<p>注意：由于中断函数也可以对队列进行读写操作，但是中断函数不允许阻塞，因此在中断处理流程中必须使用特殊的读写函数接口。</p>
+<h3 id="_10">信号量<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>信号量分为二值信号量和计数信号量，其原理和Linux内核相似，这里不再赘述。</p>
+<h3 id="_11">互斥量<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>互斥量是特殊的二值信号量，有着递归访问和防止优先级反转的特性，主要用于临界资源的保护。互斥量具有特殊的优先级继承的机制，要理解这个机制，我们首先要解释下什么是优先级反转。</p>
+<p>在一个简化过的场景中，有三个任务H、M、L，它们的优先级依次为H&gt;M&gt;L。H与L共享某个资源，M不共享。在正常情况下，最高优先级的H应该能够优先执行，并且有权限打断M或者L的执行状态从而抢占CPU的控制权。然而存在一种情况,会导致H一直被阻塞，等待M和L的完成运行：</p>
+<p>在某一时刻，L已经获取了共享资源的使用权，正在执行自己的任务。如果此时H被唤醒，由于H的优先级大于L，它尝试获取CPU的控制权。但是由于共享资源被L占用，H不得不等待L释放资源而进入阻塞状态。有趣的是，如果M被唤醒，由于M与L并不共享资源且优先级大于L，它将立刻中断L的执行，获取CPU的控制权。只有当M执行完毕时，才会将CPU控制权归还给L，使其可以继续执行剩余的代码。一旦L执行完毕后释放了共享资源，H任务才能从阻塞状态中被唤醒。我们发现，最高优先级的任务H反而需要等待两个低优先级的任务先执行完毕，其阻塞时间等于M和L的执行时间之和。这种现象被称为“优先级反转”，在系统中可能导致严重后果，甚至崩溃。例如，如果一辆汽车的刹车系统是最高优先级的任务，但需要等待其他任务执行完毕，这将导致灾难性的后果。因此为了确保系统的稳定运行，必须解决优先级反转问题。</p>
+<p><img alt="Alt text" src="../../images/freertos/prio_reverse.png" /></p>
+<p>但是假如我们引进了优先级继承机制。同样是L获取共享资源，H进入阻塞状态。系统临时将L的优先级提升到H，那么M就无法打断L的执行。所以L执行完它的任务就会立刻释放资源，然后由H来抢占CPU的使用权。其阻塞时间仅仅是L的执行时间，这将大大降低优先级反转的危害。</p>
+<h3 id="_12">事件组<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>事件组主要用来实现多任务间的同步，只能用来事件的通信，不能用来发送数据。可以是一对多，也可以是多对一。</p>
+<p>事件组用一个EventBits_t类型的变量来表示，其中高8位留给内核，用其他的位来表示事件。每一位都代表一个事件，含义由编写者决定，比如用bit0表示灯泡亮灭，bit1表示按键是否按下。这些位，值为1表示事件发生，值为0表示事件未发生。任务通过“逻辑与”、“逻辑或”与一个或者多个事件建立关联。逻辑与表示任务感兴趣的多个事件同时发生才被唤醒，逻辑或表示任一事件发生即可被唤醒。</p>
 <p>事件组的操作流程如下：</p>
 <ul>
 <li>创建一个事件组</li>
@@ -1775,8 +1913,10 @@
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">                            </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
 </code></pre></div>
 <p>该函数用来协同多个任务，当期望的事件一起发生后，才会成功返回。</p>
-<h3 id="_10">任务通知<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<p>当我们使用队列、信号量、事件组等同步方法时，并不知道对方是谁。使用任务通知，可以明确指定通知哪个任务。</p>
+<h3 id="_13">任务通知<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p>FreeRTOS从V8.2.0版本开始提供任务通知这个功能，在任务控制块中有一个32位的成员变量ulNotifiedValue。在大多数情况下，任务通知可以替代信号量、事件组，也可以替代长度为1的队列。任务通知更加灵活，执行速度更快，并且更加节省RAM空间。</p>
+<h2 id="_14">定时器<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<h2 id="_15">中断管理<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
 
 
 
