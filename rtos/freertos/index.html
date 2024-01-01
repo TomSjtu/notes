@@ -1443,7 +1443,7 @@
         <li class="md-nav__item">
   <a href="#_14" class="md-nav__link">
     <span class="md-ellipsis">
-      定时器
+      软件定时器
     </span>
   </a>
   
@@ -1914,9 +1914,53 @@
 </code></pre></div>
 <p>该函数用来协同多个任务，当期望的事件一起发生后，才会成功返回。</p>
 <h3 id="_13">任务通知<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
-<p>FreeRTOS从V8.2.0版本开始提供任务通知这个功能，在任务控制块中有一个32位的成员变量ulNotifiedValue。在大多数情况下，任务通知可以替代信号量、事件组，也可以替代长度为1的队列。任务通知更加灵活，执行速度更快，并且更加节省RAM空间。</p>
-<h2 id="_14">定时器<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<p>FreeRTOS从V8.2.0版本开始提供任务通知这个功能。在大多数情况下，任务通知可以替代信号量、事件组，也可以替代长度为1的队列。任务通知更加灵活，执行速度更快，并且更加节省RAM空间，缺点是任务通知只能由一个任务来接收通知消息。</p>
+<p>FreeRTOS提供以下几种方式发送通知给任务：</p>
+<ul>
+<li>如果有通知未读，不覆盖通知值</li>
+<li>直接覆盖通知值</li>
+<li>设置通知值的一个或者多个位，类似事件组</li>
+<li>递增通知值，类似计数信号量</li>
+</ul>
+<p>任务通知是任务控制块中定义的一个成员变量，因此任务在被创建的时候，任务通知就已经被初始化了。任务通知可以由任务发送，也可以由中断发送。只有在任务中才可以等待通知，而不允许在中断中等待通知。如果任务在等待通知的时候暂时无效，则任务会根据用户指定的阻塞时间内进入阻塞状态。只要有任务或者中断发送任务通知，任务就会从阻塞状态解除。</p>
+<p>每个任务都有一个结构体:TCB（Task Control Block），里面有两个成员，一个用来表示通知状态，一个用来表示通知值。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">tskTaskControlBlock</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="cm">/* configTASK_NOTIFICATION_ARRAY_ENTRIES = 1 */</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ulNotifiedValue</span><span class="p">[</span><span class="w"> </span><span class="n">configTASK_NOTIFICATION_ARRAY_ENTRIES</span><span class="w"> </span><span class="p">];</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">ucNotifyState</span><span class="p">[</span><span class="w"> </span><span class="n">configTASK_NOTIFICATION_ARRAY_ENTRIES</span><span class="w"> </span><span class="p">];</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="p">}</span><span class="w"> </span><span class="n">tskTCB</span><span class="p">;</span>
+</code></pre></div>
+<p>通知状态有3种取值：</p>
+<ul>
+<li>taskNOT_WAITING_NOTIFICATION：任务没有在等待通知</li>
+<li>taskWAITING_NOTIFICATION：任务在等待通知</li>
+<li>taskNOTIFICATION_RECEIVED：任务接收到了通知</li>
+</ul>
+<h2 id="_14">软件定时器<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<p>软件定时器就是“闹钟”，你可以设置闹钟：早上7点叫醒你；或者，每工作一小时就休息一会。软件定时器的功能类似，可以是在未来某个时间点触发某个函数，也可以是周期性地运行函数。</p>
+<p>软件定时器是由操作系统提供的一类接口，它构建在硬件定时器基础之上，以系统节拍周期为单位。系统节拍就是系统时钟的频率，配置为configTICK_RATE_HZ，默认为1000。也就是说1s跳动1000次，那么系统街拍周期就是1ms。软件定时器的定时数值必须是这个节拍周期的整数倍。当然，系统节拍精度越高，软件定时器所能设定的时间间隔就越小，但是系统的开销也会变大。</p>
+<p>FreeRTOS通过一个prvTimerTask的守护任务来管理软件定时器，它是在启动调度器时自动创建的。守护任务会定期检查用户编写的定时器，并调用其回调函数。用户自己编写的任务函数要调用定时器函数时，是通过“定时器命令队列”和守护任务交互的。守护任务的主要工作就是从命令队列中取出命令、处理，执行定时器的回调函数。能否及时处理定时器命令，取决于守护任务的优先级。其优先级默认为confiTIMER_TASK_PRIORITY，为了更好地响应，该优先级应设置为所有任务中最高的优先级。</p>
+<p>定时器回调函数的原型如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ATimerCallback</span><span class="p">(</span><span class="n">TimerHandler_t</span><span class="w"> </span><span class="n">xTimer</span><span class="p">);</span>
+</code></pre></div>
+<p>定时器的回调函数是在守护任务中被调用的，因此该函数不能进入阻塞状态，也不能调用任何会引起阻塞的函数。</p>
+<p>定时器的复位：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">BaseType_t</span><span class="w"> </span><span class="nf">xTimerReset</span><span class="p">(</span><span class="n">TimerHandle_t</span><span class="w"> </span><span class="n">xTimer</span><span class="p">,</span><span class="w"> </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
+</code></pre></div>
+<p>使用该函数可以让定时器的状态从冬眠态变为运行态，如果定时器已经运行，则相当于重新确定超时时间。</p>
+<p>修改周期：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">BaseType_t</span><span class="w"> </span><span class="nf">xTimerChangePeriod</span><span class="p">(</span><span class="n">TimerHandle_t</span><span class="w"> </span><span class="n">xTimer</span><span class="p">,</span><span class="w"> </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xNewPeriod</span><span class="p">,</span><span class="w"> </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
+</code></pre></div>
 <h2 id="_15">中断管理<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<p>中断属于异步异常，来源于外部硬件。当没有中断发生时，CPU执行自己的任务。当中断产生时，CPU当前任务被打断，转而去执行中断处理程序。外部设备产生一个中断信号并发送至中断控制器，由中断控制器将信号再转发给CPU，CPU响应中断源的请求。当中断产生时，系统需要保存上下文状态。</p>
+<p>中断的环境有两种：</p>
+<ul>
+<li>任务上下文：无论中断的优先级是多大，都会打断当前任务的执行。</li>
+<li>中断上下文：仅更高优先级的中断可以打断当前中断的执行，这必须要系统支持中断嵌套。</li>
+</ul>
 
 
 
