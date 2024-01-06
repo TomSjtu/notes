@@ -1420,6 +1420,39 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="内存管理">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      内存堆管理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      内存池管理
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断管理
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -1531,6 +1564,23 @@
 <p><img alt="Alt text" src="../../images/rt-thread/signal_ops.png" /></p>
 <p>在信号的使用过程中，先定义线程需要的信号处理函数，然后使用<em>rt_signal_install()</em>函数将signo与对应的信号处理函数相关联。</p>
 <h2 id="_11">内存管理<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<p>实时系统要求内存块的分配过程在可预测的时间内完成，否则实时任务对外部事件的响应将变得不确定。rtt内核在内存分配管理算法上，提供了两大类：内存堆管理与内存池管理。而内存对管理又划分为三种情况：小内存管理算法，slab管理算法和memheap管理算法。</p>
+<h3 id="_12">内存堆管理<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>小内存管理是一个简单的内存分配算法。初始时，它是一块大内存，当需要分配内存块时，从这块大内存上分割出响应的内存块，空闲的内存块归还给堆管理系统。每个内存块都用双向链表的方式链接起来。通过<em>used</em>成员变量标记当前内存块是否已被使用。</p>
+<p>slab分配器会根据对象的大小分成多个区（zone），一个zone的大小在32K到128K字节之间，系统中的zone最多包括72种对象，一次性最大可以分配16K的空间。如果超出了16K则直接从页分配器中分配。每个zone上都是固定大小的内存块链接在一起。而72种对象的zone链表则放在一个数组中统一管理，如下图所示：</p>
+<p><img alt="Alt text" src="../../images/rt-thread/slab.png" /></p>
+<p>memheap管理算法适用于系统有多个不可连续地址的内存堆。用户只需要在系统初始化时将多个所需的memheap初始化，并开启memheap功能就可以将多个memheap粘合起来统一用作内存分配。</p>
+<p>在使用内存堆时，必须在系统初始化的时候进行堆的初始化：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rt_system_heap_init</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">begin_addr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">end_addr</span><span class="p">);</span>
+</code></pre></div>
+<p>内存堆管理的相关接口函数如下：</p>
+<p><img alt="Alt text" src="../../images/rt-thread/heap_ops.png" /></p>
+<h3 id="_13">内存池管理<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p>频繁地调用内存分配和释放函数会导致内存碎片，因此rtt引进了另外一种内存管理方法：内存池。</p>
+<p>内存池用于分配大量大小相同的小内存块，内存池在创建时先向系统申请一大块内存，然后分成同样大小的多个小内存块，小内存块直接通过链表连接起来（此链表也称为空闲链表）。每次分配的时候，从空闲链表中取出链头上第一个内存块，提供给申请者。内存池一旦初始化完成，内部的内存块大小将不能再做调整。</p>
+<p>内存池相关接口函数如下：</p>
+<p><img alt="Alt text" src="../../images/rt-thread/mempool_ops.png" /></p>
+<h2 id="_14">中断管理<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
 
 
 
