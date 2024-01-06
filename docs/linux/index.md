@@ -62,3 +62,7 @@ Linux知识体系太过庞大，从入门的角度来讲，掌握最基本的命
 
 - [Linux命令行与shell脚本编程大全（第4版)](https://book.douban.com/subject/35933905/)
 
+- [野火Linux开发实战指南](https://doc.embedfire.com/linux/imx6/base/zh/latest/index.html)
+
+
+

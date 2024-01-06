@@ -10,6 +10,7 @@
 
 对于嵌入式系统，在系统启动阶段，由bootloader通过bootm命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。
 
+![device tree](../../images/kernel/device_tree.png)
 
 ## DTS、DTB和DTC的关系
 
@@ -23,9 +24,22 @@ make dtbs会编译所有的dts文件，如果要编译指定的dtb，请使用ma
 
 ## DTS基本语法
 
+设备树的每个节点按照以下规则命名：
+
+```
+node-name@unit-address{
+    属性1 = …
+    属性2 = …
+    属性3 = …
+    子节点…
+}
+```
+
+node-name用于指定节点的名称，unit-address用于指定单元地址，其值要与节点reg属性的第一个地址一致。
+
 1. "/"是root节点，一个.dts文件中只有一个root节点。多个文件中的"/"会被合并成一个根节点。
 2. 子节点的描述信息用"{}"包含。
-3. 设备节点的名称格式：label: node-name@unit-address。可以使用&label来访问这个节点。
+3. 设备节点的名称格式：label: node-name@unit-address。label被称为标签，可以使用&label来访问这个节点。
 
 在根节点下有两个特殊的节点：aliases和chosen
 
@@ -36,7 +50,7 @@ make dtbs会编译所有的dts文件，如果要编译指定的dtb，请使用ma
 
 1.compatible属性
 
-compatible属性的值是一个字符串列表，用于将设备和对应的驱动绑定起来。字符串列表用于表示设备所要使用的驱动程序。compatible属性的格式如下：
+compatible属性的值是一个字符串列表，用于将设备和对应的驱动绑定起来。字符串列表用于表示设备所要使用的驱动程序。compatible属性是用来查找节点的方法之一。例如系统初始化platform总线上的设备时，根据设备节点”compatible”属性和驱动中of_match_table对应的值，匹配了就加载对应的驱动。compatible属性的格式如下：
 
 ```
 "manufacturer, model"
@@ -48,21 +62,15 @@ compatible也可以有多个属性值，按照优先级查找。
 
 2.model属性
 
-model属性的值也是一个字符串，用来描述开发板的名字或者设备模块信息。
+model属性的值也是一个字符串，用来描述设备的制造厂商和型号。
 
 3.status属性
 
-status属性的值与设备状态有关。
-
-| 值      | 描述 |
-| :--- | :--- |
-| "okay"      | 表示设备是可操作的       |
-| "disabled"   | 表示设备当前不可操作，但是未来可以变为可操作的        |
-| "fail"  | 表示当前设备不可操作，但是未来
+status属性的值与设备状态有关，通过设置status属性可以禁用或者启用设备。
 
 4.reg属性
 
-reg属性的值一般是(address, length)对。用于描述设备地址信息。
+reg属性的值一般是(address, length)对。用于描述设备资源在其父总线定义的地址空间内的地址。
 
 ```
 reg = <0x4000e000 0x400>  //起始地址+大小
@@ -239,6 +247,20 @@ int of_property_read_u8(const struct device_node *np, const char *propname, u8 *
 
 ```C
 int of_property_read_string(struct device_node *np, const char *propname, const char **out_string)
+```
+
+这个函数使用比较繁琐，建议使用以下函数：
+
+```C
+int of_property_read_string_index(const struct device_node *np,const char *propname, int index,const char **out_string)
+```
+
+相比前面的函数增加了参数index，它用于指定读取属性值中第几个字符串，index从零开始计数。 第一个函数只能得到属性值所在地址，也就是第一个字符串的地址，其他字符串需要我们手动修改移动地址，非常麻烦，推荐使用第二个函数。
+
+现在内核提供了内存映射相关的of函数，可以自动完成物理地址到虚拟地址的转换：
+
+```C
+void __iomem *of_iomap(struct device_node *np, int index)
 ```
 
 

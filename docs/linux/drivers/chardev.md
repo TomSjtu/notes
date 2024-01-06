@@ -1,5 +1,14 @@
 # 字符设备驱动程序
 
+字符设备驱动框架如图所示：
+
+![Alt text](../../images/kernel/chrdev.png)
+
+在创建一个字符设备的时候，首先应该向内核申请一个设备号。拿到设备号之后，需要手动实现file_operation结构体中的函数指针，并保存到cdev结构体中。然后使用*cdev_add()*函数注册cdev。
+
+注销设备时需要释放内核中的cdev，并且归还申请的设备号。
+
+
 ## 快速参考
 
 ```C
@@ -121,7 +130,6 @@ if(major){
     major = MAJOR(devid);
     minor = MINOR(devid);
 }
-
 ```
 
 对设备号操作时，使用到了三个宏定义，**MKDEV**, **MAJOR**, **MINOR**。当给定主设备号时，使用MKDEV来构建完整的devID，次设备号则一般选择0。
@@ -130,7 +138,18 @@ if(major){
 
 ## 字符设备的注册
 
-内核使用*struct cdev*结构来表示字符设备，
+内核使用*struct cdev*结构来表示字符设备，当我们自己实现file_operations结构体中的函数之后，我们需要使用*cdev_init()*函数来将文件操作指针与字符设备相关联。
+
+```C
+void cdev_init(struct cdev *cdev, const struct file_operations *fops)
+```
+
+*cdev_add()*函数用于向内核添加一个新的字符设备，*cdev_del()*函数用来删除。
+
+```C
+int cdev_add(struct cdev *p, dev_t dev, unsigned count)
+void cdev_del(struct cdev *p)
+```
 
 ## 内存映射
 
@@ -138,53 +157,47 @@ if(major){
 
 由于Linux有MMU模块，因此无法访问真实的物理地址，只能通过虚拟地址访问硬件外设。所以需要有一个函数可以在物理地址和虚拟地址之间进行转换。
 
-关于如何获取硬件的物理地址，请参考[设备树](../kernel/others.md)。
+关于如何获取硬件的物理地址，请参考[设备树](./dts.md)。
 
-    ioremap(phy_addr, size)
+地址映射函数如下：
+```C
+void __iomem *ioremap(phys_addr_t paddr, unsigned long size)
+```
 
 其中addr就是你要访问的直接物理地址，size是需要转化的大小，返回值就是虚拟地址，这个虚拟地址我们需要专门的数据类型去接收。
 
-    static void __iomem *v_addr
+取消地址映射函数：
 
-**__iomem**是一个宏，主要就是在硬件寄存器的物理地址和程序中使用的虚拟地址之间进行转换。
-
-有映射就一定有取消映射，用到的是这么一个函数。
-
-    iounmap(v_addr)
-
-这里的参数一定是你自己定义的用来接收虚拟地址的那个指针，注意不要和物理地址搞混了。
+```C
+void iounmap(void *addr)
+```
 
 ### I/O内存访问函数
 
 使用ioremap函数将寄存器物理地址映射到虚拟地址后，Linux推荐使用内核自带的读写操作函数对映射后的内存进行读写。
 
-- 读操作函数
+```C
+unsigned int ioread8(void __iomem *addr)
+unsigned int iorea16(void __iomem *addr)
+unsigned int ioread32(void __iomem *addr)
 
-```c
-u8 readb(v_addr)
-u16 readw(v_addr)
-u32 readl(v_addr)
+void iowrite8(u8 b, void __iomem *addr)
+void iowrite16(u16 b, void __iomem *addr)
+void iowrite32(u32 b, void __iomem *addr)
 ```
 
-上面三个函数分别对应8位，16位，32位的读操作，addr是要读取的内存地址，返回值是读取到的数据
+对于读I/O而言，输入参数为__iomem类型的指针，指向被映射后的地址，返回值为读取到的数据；对于写I/O而言，输入参数第一个为要写入的数据，第二个为要写入的地址，返回值为空。
 
-- 写操作函数
-
-```c
-void writeb(u8 value, v_addr)
-void writew(u16 value, v_addr)
-void writel(u32 value, v_addr)
-```
-
-同理，上面三个函数分别对应各自位的读操作函数。
-
-拿到虚拟地址后，我们需要根据手册说明将其中的某几位进行配置，在配置之前先清除以前的配置是一个好习惯。
+下面一段代码演示了地址映射的相关操作：
 
 ```C
-val = readl(v_addr);  //从地址中读取值写入val
-val &= ~(3 << 26);    //对bit26, 27位清零
-val |= 3 << 26;       //对bit26, 27位置1
-write(val, v_addr);   //写入虚拟地址
+unsigned long pa_dr = 0x20A8000 + 0x00;
+unsigned int __iomem *va_dr;
+unsigned int val;
+va_dr = ioremap(pa_dr, 4);
+val = ioread32(va_dr);
+val &= ~(0x01 << 19);
+iowrite32(val, va_dr);
 ```
 
 ### 应用层的操作
@@ -197,24 +210,4 @@ unsigned long copy_from_user(void *to, const void *from, unsigned long count)
 unsigned long copy_to_user(void *to, const void *from, unsigned long count)
 ```
 
-## 自动创建设备号
-
-struct cdev是内核和设备间的借口，内核提供了以下三个函数用于操作cdev结构体。
-
-```C
-void cdev_init(struct cdev *cdev, struct file_operations *fops)
-int cdev_add(struct cdev *cdev, dev_t num, unsigned int count)
-void cdev_del(struct cdev *cdev)
-```
-
-scull中的注册
-
-```C
-cdev_init(&dev->cdev, &scull_fops);
-dev->cdev.owner = THIS_MODULE;
-dev->cdev.ops = &scull_fops;
-ret = cdev_add(&dev->cdev, devno, 1);
-```
-
-原理与前面相同，初始化+注册。
 
