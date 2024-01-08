@@ -653,13 +653,49 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="系统调用">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      信号
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      定时器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="定时器">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#jiffies" class="md-nav__link">
     <span class="md-ellipsis">
-      处理流程
+      节拍率和jiffies变量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      动态定时器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      延迟执行
     </span>
   </a>
   
@@ -667,15 +703,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      信号
-    </span>
-  </a>
   
 </li>
       
@@ -1391,13 +1418,49 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="系统调用">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      信号
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      定时器
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="定时器">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#jiffies" class="md-nav__link">
     <span class="md-ellipsis">
-      处理流程
+      节拍率和jiffies变量
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      动态定时器
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      延迟执行
     </span>
   </a>
   
@@ -1405,15 +1468,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      信号
-    </span>
-  </a>
   
 </li>
       
@@ -1440,14 +1494,7 @@
 <p>这里主要放一些零碎的内容。</p>
 </blockquote>
 <h2 id="_2">系统调用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<blockquote>
-<p>在阅读本节内容之前，建议先了解一下<a href="../interrupt/">中断</a>。</p>
-</blockquote>
-<p>当你的程序调用open, read, write, close等函数时，就会触发系统调用。系统调用本质是用户态进程与硬件设备交互的接口，内核负责检查系统调用的正确性，然后发出指令给硬件。作为应用程序开发者，不用关心底层硬件的实现细节，而只需要调用普通函数就可以使用系统调用了。glibc库进一步封装了细节，因此我们只需要使用glibc库暴露的API即可。比如glibc中的open函数，它是这样定义的：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">open</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">pathname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="kt">mode_t</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
-</code></pre></div>
-<p>在glibc的源代码中，有个syscall.list，里面存放着所有glibc函数对应的系统调用。</p>
-<h3 id="_3">处理流程<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>当你的程序调用open, read, write, close等函数时，就会触发系统调用。系统调用本质是用户态进程与硬件设备交互的接口，内核负责检查系统调用的正确性，然后发出指令给硬件。作为应用程序开发者，不用关心底层硬件的实现细节，而只需要调用普通函数就可以使用系统调用了。glibc库进一步封装了细节，因此我们只需要使用glibc库暴露的API即可。</p>
 <p>x86体系进入和退出系统调用有两种方式：</p>
 <ul>
 <li>int $0x80 和 iret</li>
@@ -1464,7 +1511,8 @@
 <li>退出系统调用处理程序，将内核栈中的值加载至寄存器，并从内核态切换回用户态</li>
 </ul>
 <p>为了将系统调用号与对应的服务例程联系起来，内核定义了一个系统调用分派表（system call dispatch table），这个表存放在sys_call_table数组中。内核拿到系统调用号之后，就去sys_call_table中找到对应的系统调用实现函数去执行。执行完毕后，使用返回指令从内核态返回至用户态。</p>
-<h2 id="_4">信号<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>内核在执行系统调用的时候处于进程上下文。current指针指向当前任务，即引发系统调用的那个进程。在进程上下文中，内核可以休眠并且可以被抢占。因此必须保证系统调用时可重入的，因为新的进程可能会使用相同的系统调用。</p>
+<h2 id="_3">信号<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>在Linux系统中，为了响应各种事件定义了非常多的信号。比如当我们发送kill -9 ${pid}时，其实就是发送SIGKILL信号给指定进程，将它杀死。我们可以通过kill -l命令查看所有的信号。每个信号都有一个唯一的ID和对应的默认操作。</p>
 <p>进程对信号的处理方式有三种：</p>
 <ol>
@@ -1473,24 +1521,87 @@
 <li>忽略信号。注意，SIGKILL和SIGSTOP无法忽略。</li>
 </ol>
 <p>Linux推荐使用sigaction函数来自定义信号处理函数。它的定义如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sigaction</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">signum</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">act</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">oldact</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sigaction</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">signum</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">act</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">oldact</span><span class="p">);</span>
 </code></pre></div>
 <p>而sigaction结构体的定义如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="n">__sighandler_t</span><span class="w"> </span><span class="n">sa_handler</span><span class="p">;</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">sa_flags</span><span class="p">;</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">  </span><span class="n">__sigrestore_t</span><span class="w"> </span><span class="n">sa_restorer</span><span class="p">;</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">  </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">sa_mask</span><span class="p">;</span><span class="w">   </span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">};</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="n">__sighandler_t</span><span class="w"> </span><span class="n">sa_handler</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">sa_flags</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="n">__sigrestore_t</span><span class="w"> </span><span class="n">sa_restorer</span><span class="p">;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">sa_mask</span><span class="p">;</span><span class="w">   </span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
 </code></pre></div>
 <p>其中sa_handler就是你要定义的信号处理函数。</p>
 <p>发送信号由两种方式，一种是发送给整个线程组的，还有一种是发送给某个单独线程的。信号分为不可靠信号和可靠信号。在task_struct中有一个结构体sigpending，它的定义如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigpending</span><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">signal</span><span class="p">;</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">};</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigpending</span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">signal</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">};</span>
 </code></pre></div>
 <p>对于不可靠信号，也就是编号小于32的信号，会放在sigset_t集合中，不论发送多少次，在被处理前都只会保留一份。对于可靠信号，则会挂在struct sigpending的链表中挨个处理。</p>
+<h2 id="_4">定时器<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>内核中有大量的函数是基于时间驱动的。有些函数需要周期性执行，有些函数需要等待一个相对时间后才运行。周期性的事件由系统定时器驱动。系统定时器能以固定的频率产生中断，这种中断被称为定时器中断，它所对应的中断处理程序负责更新系统时间和执行周期性任务。</p>
+<p>系统定时器的频率被称为节拍率（tick rate），产生的两次时钟中断的间隔就被称为节拍（tick），它等于节拍率分之一秒。内核通过时钟中断间隔来计算系统运行时间。时钟中断需要执行的操作有：</p>
+<ul>
+<li>更新系统运行时间</li>
+<li>更新实际时间</li>
+<li>在smp系统上，均衡调度程序中各处理器上的运行队列</li>
+<li>检查当前进程是否用尽了自己的时间片</li>
+<li>运行超时的动态定时器</li>
+<li>更新资源消耗和处理器时间的统计值</li>
+</ul>
+<h3 id="jiffies">节拍率和jiffies变量<a class="headerlink" href="#jiffies" title="Permanent link">&para;</a></h3>
+<p>系统定时器频率是通过静态预处理定义的，在系统启动时按照HZ的值对硬件进行设置，该值与体系结构相关。内核在&lt;asm/param.h&gt;文件中定义。在x86体系结构中，系统定时器频率默认为100。也就是说x86的时钟中断频率为100HZ，即每秒中断100次（每10ms产生一次）。</p>
+<p>时钟中断频率应设置为一个理想的值，高HZ可以提高系统的性能，使得由时间驱动的事件更为精确。但同时也带来了额外的系统负担，因为处理器会被更频繁地打断去执行时钟中断处理程序。</p>
+<p>全局变量jiffies用来记录系统启动以来产生的节拍总数。内核在启动时将该变量初始化为0，此后每产生一次时钟中断该值就+1。因为一秒内时钟中断的次数等于HZ，所以jiffies一秒内增加的值也就为HZ。系统运行时间以秒为计，其值等于jiffies/HZ。</p>
+<p>jiffies变量被定义为unsigned long类型。在32位体系结构上是32位。如果时钟频率为100HZ，那么497天后会溢出。如果是64位体系结构，任何人都别指望会看到它溢出。</p>
+<p>当jiffies变量的值超过它的最大存放范围后就会发生溢出，此时再继续增加的话，它会回绕至0。为了解决jiffies变量的溢出问题，内核引入了jiffies_64变量，这是一个64位的无符号整数。</p>
+<h3 id="_5">动态定时器<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>定时器的使用很简单。你只需要执行一些初始化工作，设置一个超时时间，指定超时发生后需要执行的函数，然后激活定时器就可以了。内核提供了一组与定时器相关的接口用来简化定时器的操作。</p>
+<p>创建定时器：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="n">my_timer</span><span class="p">;</span>
+</code></pre></div>
+<p>初始化定时器：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">init_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_timer</span><span class="p">);</span>
+</code></pre></div>
+<p>填充定时器结构中的值：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">my_timer</span><span class="p">.</span><span class="n">expires</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jiffies</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">delay</span><span class="p">;</span><span class="w">    </span><span class="c1">//定时器超时节拍数</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">my_timer</span><span class="p">.</span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">                     </span><span class="c1">//定时器处理函数传入的值</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">my_timer</span><span class="p">.</span><span class="n">function</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_function</span><span class="p">;</span><span class="w">       </span><span class="c1">//定时器超时回调函数</span>
+</code></pre></div>
+<p>如果当前jiffies计数大于或等于my_timer.expires的值，那么my_timer.function指向的处理函数就会被执行。处理函数必须符合以下类型：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">my_function</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
+</code></pre></div>
+<p>其中data参数使你可以利用同一个处理函数注册多个定时器，只需要通过该参数就可以区别对待它们。如果你不需要这个参数，直接传0即可。</p>
+<p>最后，你必须手动激活定时器：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">add_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_timer</span><span class="p">);</span>
+</code></pre></div>
+<p>一般来说，定时器都会在超时后马上执行，但也有可能会推迟到下一个时钟节拍时才运行，所以不能用定时器来实现任何硬实时的任务。如果需要修改定时器超时时间，可以通过<em>mod_timer()</em>函数来实现：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">mod_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_timer</span><span class="p">,</span><span class="w"> </span><span class="n">jiffies</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">new_delay</span><span class="p">);</span>
+</code></pre></div>
+<p>如果在定时器超时前停止定时器，可以使用<em>del_timer()</em>函数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">del_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_timer</span><span class="p">);</span>
+</code></pre></div>
+<p>需要注意的是，在多处理器系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到<em>del_timer_syn()</em>函数来执行删除工作。</p>
+<h3 id="_6">延迟执行<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>内核代码往往需要推迟某些任务的执行，这种推迟通常发生在等待硬件完成某些工作，而且等待时间往往非常短。内核提供了多种延迟方法来处理延迟请求。</p>
+<p>最简单的延迟方法就是忙等待。该方法仅仅在想要延迟的时间是节拍的整数倍，或者精确率要求不高的情况下才可以使用。忙等待的实现非常简单——在一个循环中不断等待直到希望的时钟节拍数耗尽，比如：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jiffies</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">    </span><span class="c1">//等待10个节拍</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">while</span><span class="p">(</span><span class="n">time_before</span><span class="p">(</span><span class="n">jiffies</span><span class="p">,</span><span class="w"> </span><span class="n">timeout</span><span class="p">))</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">{}</span>
+</code></pre></div>
+<p>该循环将不断执行，直到jiffies 大于delay为止。这是一种低效的办法， 因为处理器除了等待不会做任何事情，更好的方案是在等待时，允许内核重新调度执行其他任务。</p>
+<p>基于jiffies的延迟方法受限于时钟节拍，无法提供更短、更精确的延迟要求。为此，内核提供了三个可以处理us、ns和ms级别的延迟函数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">udelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">usecs</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">ndelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">nsecs</span><span class="p">)</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kt">void</span><span class="w"> </span><span class="n">mdelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">msecs</span><span class="p">)</span>
+</code></pre></div>
+<p>更理想的延迟执行方法是使用<em>schedule_timeout()</em>函数，该方法让需要延迟执行的任务睡眠到指定延迟时间耗尽后再重新运行。其用法如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">set_current_state</span><span class="p">(</span><span class="n">TASK_INTERRUPTIBLE</span><span class="p">);</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">schedule_timeout</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">HZ</span><span class="p">);</span>
+</code></pre></div>
+<p>上述代码将当前任务推入可中断睡眠队列，睡眠s秒后唤醒。注意，由于schedule_timeout()函数需要调用调度程序，所以调用它的代码必须保证能够睡眠。也就是调用函数必须位于进程上下文中，且不能持有锁。</p>
+<p>当任务被重新调度时，将返回代码进入睡眠前的位置继续执行。如果任务提前被唤醒，那么定时器被撤销。</p>
 
 
 

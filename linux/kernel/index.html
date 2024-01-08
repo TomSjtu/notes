@@ -1305,6 +1305,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      内核源码
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1322,6 +1339,127 @@
 
 
 <h1 id="_1">内核基础知识<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">内核源码<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>要获取内核源码，请使用git。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
+</code></pre></div>
+<p>内核源码树由许多目录组成，各目录的描述如下：</p>
+<table>
+<thead>
+<tr>
+<th>目录名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>arch</td>
+<td>体系结构相关的代码</td>
+</tr>
+<tr>
+<td>block</td>
+<td>块设备I/O层</td>
+</tr>
+<tr>
+<td>crypto</td>
+<td>加密API</td>
+</tr>
+<tr>
+<td>Documentation</td>
+<td>内核文档</td>
+</tr>
+<tr>
+<td>drivers</td>
+<td>设备驱动程序</td>
+</tr>
+<tr>
+<td>firmware</td>
+<td>设备固件</td>
+</tr>
+<tr>
+<td>fs</td>
+<td>文件系统</td>
+</tr>
+<tr>
+<td>include</td>
+<td>内核头文件</td>
+</tr>
+<tr>
+<td>init</td>
+<td>初始化代码</td>
+</tr>
+<tr>
+<td>ipc</td>
+<td>进程间通信代码</td>
+</tr>
+<tr>
+<td>kernel</td>
+<td>内核核心代码</td>
+</tr>
+<tr>
+<td>lib</td>
+<td>内核库函数</td>
+</tr>
+<tr>
+<td>mm</td>
+<td>内存管理</td>
+</tr>
+<tr>
+<td>net</td>
+<td>网络系统</td>
+</tr>
+<tr>
+<td>samples</td>
+<td>示例代码</td>
+</tr>
+<tr>
+<td>scripts</td>
+<td>编译脚本</td>
+</tr>
+<tr>
+<td>security</td>
+<td>安全模块</td>
+</tr>
+<tr>
+<td>sound</td>
+<td>声音系统</td>
+</tr>
+<tr>
+<td>usr</td>
+<td>用户空间代码</td>
+</tr>
+<tr>
+<td>tools</td>
+<td>工具</td>
+</tr>
+<tr>
+<td>virt</td>
+<td>虚拟化系统</td>
+</tr>
+</tbody>
+</table>
+<p>要编译内核，请使用make menuconfig。内核的各种配置，以CONFIG_FEATURE的形式写入.config文件。配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。</p>
+<p>内核开发的特点如下：</p>
+<ul>
+<li>
+<p>不能使用标准C库头文件，只能使用内核提供的头文件。与体系结构无关的头文件位于内核源码根目录下的include目录。与体系结构相关的头文件位于&lt;arch/architecture/include/asm&gt;目录，内核代码以asm前缀的形式包含这些头文件。</p>
+</li>
+<li>
+<p>必须使用GNU C。gcc编译器支持以asm()指令开头嵌入汇编代码。</p>
+</li>
+<li>
+<p>没有内存保护机制。如果是内核访问了非法内存，后果不堪设想。</p>
+</li>
+<li>
+<p>无法执行浮点运算。内核对于浮点运算的支持度不够。</p>
+</li>
+<li>
+<p>必须考虑同步与并发。Linux内核是抢占式多任务处理系统，当前任务随时有可能被另一个任务抢占。</p>
+</li>
+<li>
+<p>必须考虑可移植性。比如保持字节序、64 位对齐、不假定字长和页面长度等一系列准则。</p>
+</li>
+</ul>
 
 
 
