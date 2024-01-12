@@ -489,6 +489,8 @@
       
         
       
+        
+      
     
     
     
@@ -557,11 +559,32 @@
   
   
     <li class="md-nav__item">
+      <a href="../../kernel/vma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程地址空间
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../kernel/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    中断和异常
+    中断和中断处理
   </span>
   
 
@@ -634,6 +657,8 @@
       
         
           
+        
+      
         
       
         
@@ -789,6 +814,27 @@
   
   <span class="md-ellipsis">
     字符设备驱动程序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../framework/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    驱动框架
   </span>
   
 
@@ -1443,10 +1489,15 @@
 
 <h1 id="_1">设备树<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <h2 id="_2">为什么需要设备树<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>具体可以参考Linus在2011年写的一个邮件：<a href="https://lkml.org/lkml/2011/3/17/492">this whole ARM thing is a f*cking pain in the ass</a>。</p>
-<p>简单来说就是，ARM社区充斥着大量垃圾的、重复的描述板级信息的代码（arch/arm/mach-xxx），导致Linux内核十分的臃肿。因为Linux只是一个操作系统内核，它并不关心你开发板上有什么设备。于是ARM社区引入了PowerPC等架构已经采用的设备树。将这些描述硬件信息的内容从Linux内核中剥离出来，用一个单独的文件进行描述，这就是设备树文件.dts的由来。一个SOC可以制作很多开发板，这些开发板必然有一些通用的信息。将这些通用的信息提取出来作为一个通用的文件，其他的.dts文件直接引用通用文件即可，类似于C语言中的头文件。这个通用文件就是.dtsi文件。</p>
+<p>起因是在&lt;arch/arm/mach-xxx&gt;目录下充斥着大量重复的board specific的代码，每次Linux内核merge window期间，ARM的代码变化占整个arch目录的一半以上，导致内核十分的臃肿。经过社区讨论后决定：</p>
+<ol>
+<li>ARM的核心代码仍然保存在&lt;arch/arm&gt;目录下</li>
+<li>ARM SOC周边外设模块的驱动代码保存在drivers目录下</li>
+<li>ARM SOC board specific的代码被移除，由Device Tree机制来负责传递硬件资源信息。</li>
+</ol>
+<p>本质上，Device Tree改变了原来用hardcode方式将硬件配置信息嵌入到内核代码的方法。对于嵌入式系统，在系统启动阶段，由bootloader通过bootm命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。</p>
+<p>设备树文件.dts用来描述硬件信息。一个SOC可以制作很多开发板，将这些开发板的通用信息提取出来，变为一个单独的.dtsi文件。其他的.dts可以直接引用通用文件，就像C语言中的头文件。</p>
 <p>一般情况下，.dtsi描述SOC信息，比如CPU架构，主频。.dts文件描述板级信息，比如开发板上有哪些IIC设备、SPI设备等。</p>
-<p>对于嵌入式系统，在系统启动阶段，由bootloader通过bootm命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。</p>
 <p><img alt="device tree" src="../../../images/kernel/device_tree.png" /></p>
 <h2 id="dtsdtbdtc">DTS、DTB和DTC的关系<a class="headerlink" href="#dtsdtbdtc" title="Permanent link">&para;</a></h2>
 <p>.dts是设备树源码文件，DTC负责将.dts编译成.dtb。而.dtb就是负责传递给内核的二进制文件。</p>
@@ -1455,24 +1506,27 @@
 <p>如果我们使用了I.MX6ULL新做了一个板子，只需要新建一个对应的.dts文件，并且将对应的.dtb文件添加到dtb-${CONFIG_SOC_IMX6ULL}下。</p>
 <h2 id="dts">DTS基本语法<a class="headerlink" href="#dts" title="Permanent link">&para;</a></h2>
 <p>设备树的每个节点按照以下规则命名：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>node-name@unit-address{
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    属性1 = …
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    属性2 = …
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    属性3 = …
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    子节点…
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>label:node-name@unit-address{
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    属性1 = ...
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    属性2 = ...
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    属性3 = ...
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    子节点...
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>}
 </code></pre></div>
-<p>node-name用于指定节点的名称，unit-address用于指定单元地址，其值要与节点reg属性的第一个地址一致。</p>
+<p>device tree的基本单元是node，这些node被组织成树状结构。除了root node，每个node都有一个parent node。一个device tree文件中只能有一个root node。每个node中都包含了property: value来描述该node的一些信息。</p>
+<p>label用来指定标签名，方便引用。node-name用于指定节点的名称，unit-address用于指定地址，其值要与节点reg属性的第一个地址一致。</p>
+<p>属性值标识了设备的特性，它的值可以是以下几种：</p>
 <ol>
-<li>"/"是root节点，一个.dts文件中只有一个root节点。多个文件中的"/"会被合并成一个根节点。</li>
-<li>子节点的描述信息用"{}"包含。</li>
-<li>设备节点的名称格式：label: node-name@unit-address。label被称为标签，可以使用&amp;label来访问这个节点。</li>
+<li>可能为空，也就是没有值的定义。</li>
+<li>可能是一个u32、u64的数值，也可以是数组。</li>
+<li>可能是一个字符串，或者是string list。</li>
 </ol>
 <p>在根节点下有两个特殊的节点：aliases和chosen</p>
 <ul>
-<li>aliases：用于给节点定义别名</li>
-<li>chosen：虚拟节点，可以在chosen中设置bootargs，用于给内核传递参数</li>
+<li>aliases：用于给节点定义别名，方便对节点的引用。</li>
+<li>chosen：虚拟节点，可以在chosen中设置bootargs，由bootloader读取，传递给内核作为启动参数。</li>
 </ul>
+<p>还有一个所有设备树文件必须要有的节点是memory device node，它定义了系统物理内存的layout。device_type属性定义了该node的设备类型，例如cpu、serial等。对于memory node，其device_type必须等于memory。reg属性定义了访问该device node的地址信息——起始地址和长度。</p>
 <p>节点由一堆属性组成，节点是具体的设备，但是不同的设备有不同的属性，不过有一些是标准属性。</p>
 <p>1.compatible属性</p>
 <p>compatible属性的值是一个字符串列表，用于将设备和对应的驱动绑定起来。字符串列表用于表示设备所要使用的驱动程序。compatible属性是用来查找节点的方法之一。例如系统初始化platform总线上的设备时，根据设备节点”compatible”属性和驱动中of_match_table对应的值，匹配了就加载对应的驱动。compatible属性的格式如下：</p>
@@ -1481,7 +1535,7 @@
 <p>manufacturer表示厂商，model表示对应驱动的名字。而根节点的compatible表示硬件设备名，SOC名。Linux内核会通过根节点的compatible属性查看是否支持此设备，如果支持设备就会启动内核。</p>
 <p>compatible也可以有多个属性值，按照优先级查找。</p>
 <p>2.model属性</p>
-<p>model属性的值也是一个字符串，用来描述设备的制造厂商和型号。</p>
+<p>model属性用来描述设备的生产厂商和型号。比如model="samsung, s3c24xx"——生产厂商是三星，SOC是s3c24xx。</p>
 <p>3.status属性</p>
 <p>status属性的值与设备状态有关，通过设置status属性可以禁用或者启用设备。</p>
 <p>4.reg属性</p>
@@ -1489,7 +1543,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>reg = &lt;0x4000e000 0x400&gt;  //起始地址+大小
 </code></pre></div>
 <p>5.#address-cells和#size-cells属性</p>
-<p>用于描述子节点的地址信息。</p>
+<p>如果一个device node的sub node有寻址需求（即需要定义reg属性），那么这两个属性就必须要定义，用于描述sub node的reg属性的信息。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>#address-cells: 决定了子节点reg属性的地址信息所占用的字长
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>#size-cells：决定了子节点reg属性中长度信息所占的字长
 </code></pre></div>

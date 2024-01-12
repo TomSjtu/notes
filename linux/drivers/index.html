@@ -26,7 +26,7 @@
     
     
       
-        <title>设备驱动基础知识 - 一只Tom的笔记本</title>
+        <title>设备模型 - 一只Tom的笔记本</title>
       
     
     
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              设备驱动基础知识
+              设备模型
             
           </span>
         </div>
@@ -489,6 +489,8 @@
       
         
       
+        
+      
     
     
     
@@ -557,11 +559,32 @@
   
   
     <li class="md-nav__item">
+      <a href="../kernel/vma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程地址空间
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../kernel/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    中断和异常
+    中断和中断处理
   </span>
   
 
@@ -634,6 +657,8 @@
       
         
           
+        
+      
         
       
         
@@ -713,6 +738,27 @@
   
   <span class="md-ellipsis">
     字符设备驱动程序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="framework/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    驱动框架
   </span>
   
 
@@ -1312,16 +1358,61 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#kobjectksetktype" class="md-nav__link">
     <span class="md-ellipsis">
-      设备模型
+      kobject、kset和ktype
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#sysfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      sysfs
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uevent" class="md-nav__link">
+    <span class="md-ellipsis">
+      uevent
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bus" class="md-nav__link">
+    <span class="md-ellipsis">
+      bus
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#class" class="md-nav__link">
+    <span class="md-ellipsis">
+      class
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#devicedevice_driver" class="md-nav__link">
+    <span class="md-ellipsis">
+      device和device_driver
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       平台设备驱动
     </span>
@@ -1331,7 +1422,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       平台设备
     </span>
@@ -1362,18 +1453,27 @@
   
 
 
-<h1 id="_1">设备驱动基础知识<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>在Linux系统中，设备驱动以模块的形式出现。所谓模块就是实现了某个功能的一段代码。Linux内核支持在运行过程中动态地加载模块代码。以模块的形式编写代码，只需要编译相关的驱动代码即可，而不需要对整个内核重新编译。</p>
-<p>模块的最终编译成的文件以.ko为后缀，通过insmod命令加载到内核，rmmod命令卸载。如果编写的模块有其他依赖，可以用modprobe命令一起加载。</p>
-<h2 id="_2">设备模型<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>Linux引入了设备和驱动模型分层的概念，将我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。</p>
+<h1 id="_1">设备模型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>由于Linux支持世界上几乎所有的、不同功能的硬件设备，导致Linux内核中有一半的代码都是设备驱动。随着硬件的快速迭代，设备驱动的代码也在快速增长。</p>
+<p>为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了设备模型（device model）的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。</p>
 <p>设备模型通过几个数据结构来反映当前系统中总线、设备以及驱动工作的情况：</p>
 <ul>
-<li>设备（device）：挂载在某个总线的物理设备</li>
-<li>驱动（driver）：与特定设备相关的软件，负责初始化设备以及提供一些操作该设备的方法</li>
-<li>总线（bus）：负责管理挂载对应总线的设备及驱动</li>
-<li>类（class）：对于有相同功能的设备，归结到一种类型进行统一管理</li>
+<li>
+<p>总线(bus)：总线是CPU和设备之间信息交互的通道，所有的设备都应连接到总线上，无论是CPU内部总线还是虚拟总线。</p>
+</li>
+<li>
+<p>类（class）：面向对象思想，将相同功能的设备，归结到一种class统一管理。</p>
+</li>
+<li>
+<p>设备（device）：挂载在总线的物理设备。</p>
+</li>
+<li>
+<p>驱动（driver）：硬件设备的驱动程序，负责初始化设备以及实现该设备的一些接口函数。</p>
+</li>
 </ul>
+<blockquote>
+<p>platform bus是内核中的一种虚拟总线类型，它不是物理上存在的总线，而是一种抽象的总线。它允许开发者以一种标准的方式来描述和管理那些不通过传统物理总线连接的设备。</p>
+</blockquote>
 <p>Linux内核使用sysfs文件系统将内核的设备驱动导出到用户空间，用户可以通过访问sys目录下的文件，来查看甚至控制内核的一些驱动设备。</p>
 <p>/sys文件目录记录了各个设备之间的关系。其中，/sys/bus目录下的每个子目录都是已经注册的总线类型。每个总线类型下还有两个文件夹——devices和drivers；devices是该总线类型下的所有设备，以符号链接的形式指向真正的设备（/sys/devices/）。而drivers是所有注册在这个总线类型上的驱动。</p>
 <p><img alt="Linux设备模型" src="../../images/kernel/linux_device_model01.png" /></p>
@@ -1381,22 +1481,194 @@
 <p>/sys/class目录下是包含所有注册在内核中的设备类型，按照设备的功能进行分类。比如鼠标的功能是作为人机交互的输入，于是被归类到/sys/class/input目录下。</p>
 <p>那么“总线-设备-驱动”是如何配合工作的呢？</p>
 <p><img alt="总线-设备-驱动" src="../../images/kernel/linux_device_model02.png" /></p>
-<p>在总线上挂载了两个链表，分别管理设备模型和驱动模型。当我们向系统注册一个设备时，便会在设备的链表中插入新的设备。在插入的同时总线会执行match方法对新插入的设备/驱动进行配对。若配对成功则调用probe方法获取设备资源。</p>
-<h2 id="_3">平台设备驱动<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>在总线上挂载了两个链表，分别管理设备模型和驱动模型。当我们向系统注册一个设备时，便会在设备的链表中插入新的设备。在插入的同时总线会执行match方法对新插入的设备/驱动进行配对。若配对成功则调用probe方法获取设备资源，在移除设备/驱动时，调用remove方法。</p>
+<h2 id="kobjectksetktype">kobject、kset和ktype<a class="headerlink" href="#kobjectksetktype" title="Permanent link">&para;</a></h2>
+<p>kobject是Linux设备模型的基础，是一种抽象的、统一的对大量硬件设备的描述。它主要提供以下功能：</p>
+<ol>
+<li>通过parent指针，将所有kobject以树状结构的形式组合起来。</li>
+<li>使用引用计数kref，来记录kobject被引用的次数，在计数为0时释放它。</li>
+<li>和sysfs虚拟文件系统配合，将每一个kobject的特性，以文件的形式开放给用户空间查询。</li>
+</ol>
+<p>设备驱动模型的基本元素有三个：</p>
+<ul>
+<li>kobject：sysfs中的一个目录，表示基本驱动对象。</li>
+<li>kset：一个特殊的kobject，用来管理类似的kobject。</li>
+<li>ktype：目录下kobject属性文件操作的接口。</li>
+</ul>
+<p>kobject的数据结构如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w">      </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w">    </span><span class="n">entry</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w">      </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">kset</span><span class="w">     </span><span class="o">*</span><span class="n">kset</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobj_type</span><span class="w">    </span><span class="o">*</span><span class="n">ktype</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">kernfs_node</span><span class="w">  </span><span class="o">*</span><span class="n">sd</span><span class="p">;</span><span class="w"> </span><span class="cm">/* sysfs directory entry */</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">kref</span><span class="w">     </span><span class="n">kref</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">state_initialized</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">state_in_sysfs</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">state_add_uevent_sent</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">state_remove_uevent_sent</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">uevent_suppress</span><span class="o">:</span><span class="mi">1</span><span class="p">;</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>name：kobject的名称，同时也是sysfs中的目录名称。当kobject添加到内核时，需要根据name注册到sysfs中。</p>
+<p>entry：用于将kobject加入到链表中。</p>
+<p>parent：指向父kobject的指针，在sysfs中根据层次结构显示为目录结构。</p>
+<p>kset：该kobject属于的kset。若该kobject未指定parent，则会把kset作为parent。</p>
+<p>ktype：该kobject属于的kobj_type，每个kobject必须有一个ktype。</p>
+<p>sd：该kobject在sysfs中的对应目录项。</p>
+<p>kref：原子引用计数。</p>
+<p>state_initialized：指示该kobject是否已经初始化。</p>
+<p>state_in_sysfs：指示该kobject是否已在sysfs中建立目录。</p>
+<p>state_add_uevent_sent/state_remove_uevent_sent：记录是否已向用户空间发送add uevent。</p>
+<p>uevent_suppress：如果该字段为1，则表示忽略所有上报的uevent事件。</p>
+</blockquote>
+<p>kobject核心机制：</p>
+<p>内嵌在别的数据结构（比如device_driver）中，当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的release回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。</p>
+<p>kset的数据结构如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kset</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">spinlock_t</span><span class="w"> </span><span class="n">list_lock</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="n">kobj</span><span class="p">;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kset_uevent_ops</span><span class="w"> </span><span class="o">*</span><span class="n">uevent_ops</span><span class="p">;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>list/list_lock：用于保存该kset下所有kobject的链表。</p>
+<p>kobj：该kset自己的kobject。</p>
+<p>uevent_ops：该kset的uevent操作函数集合。当任何kobject需要上报uevent时，都要调用所属的kset中uevent_ops中的函数。如果一个kobject不属于任何kset，它就无法发送uevent。uevent的概念稍后说明。</p>
+</blockquote>
+<p>kset是kobject对象的集合体。</p>
+<p>ktype的数据结构如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kobj_type</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">release</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sysfs_ops</span><span class="w"> </span><span class="o">*</span><span class="n">sysfs_ops</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">attribute</span><span class="w"> </span><span class="o">**</span><span class="n">default_attrs</span><span class="p">;</span><span class="w">   </span><span class="cm">/* use default_groups instead */</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">attribute_group</span><span class="w"> </span><span class="o">**</span><span class="n">default_groups</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobj_ns_type_operations</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">child_ns_type</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">namespace</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">get_ownership</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">,</span><span class="w"> </span><span class="n">kuid_t</span><span class="w"> </span><span class="o">*</span><span class="n">uid</span><span class="p">,</span><span class="w"> </span><span class="n">kgid_t</span><span class="w"> </span><span class="o">*</span><span class="n">gid</span><span class="p">);</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>release：当kobject引用计数归零时调用该析构函数，负责释放kobject的内存。</p>
+<p>sysfs_ops：sysfs文件系统的接口。</p>
+<p>default_attr：定义了该kobject相关的默认属性，在sysfs中可作为文件导出。</p>
+<p>child_ns_type：和文件系统的命名空间有关。</p>
+<p>namespace：返回命名空间相关的数据。</p>
+<p>get_ownership：获取内核对象的拥有者信息。</p>
+</blockquote>
+<p>ktype的存在是为了描述一族kobject所具有的普遍特性。这样就不需要每个kobject定义自己的特性，而是在ktype中统一定义。</p>
+<h2 id="sysfs">sysfs<a class="headerlink" href="#sysfs" title="Permanent link">&para;</a></h2>
+<p>sysfs是一个基于RAM的文件系统，它和kobject一起，可以将内核的数据结构导出到用户空间，以文件目录结构的形式，提供对这些数据结构的访问。</p>
+<p>sysfs具备文件系统的所有属性，比如open, read, write, close。这里只讨论其在设备模型中的特性。</p>
+<p>在上文对kobject的讨论中提到，每一个kobject都会对应sysfs中的一个目录。在将kobject添加到内核时，<em>create_dir()</em>函数就会创建和kobject对应的目录。</p>
+<p>在sysfs中，有一个重要的概念叫attritube，对应的是kobject的属性。如果我们希望用户空间可以修改某个driver的变量，可以通过sysfs attribute的形式开放出来。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">bin_attribute</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">attribute</span><span class="w">    </span><span class="n">attr</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kt">size_t</span><span class="w">          </span><span class="n">size</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kt">void</span><span class="w">            </span><span class="o">*</span><span class="n">private</span><span class="p">;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">address_space</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="n">f_mapping</span><span class="p">)(</span><span class="kt">void</span><span class="p">);</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kt">ssize_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">read</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">bin_attribute</span><span class="w"> </span><span class="o">*</span><span class="p">,</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">            </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">loff_t</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="kt">ssize_t</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">write</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">bin_attribute</span><span class="w"> </span><span class="o">*</span><span class="p">,</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">             </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">loff_t</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="p">);</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">mmap</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">bin_attribute</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">,</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">            </span><span class="k">struct</span><span class="w"> </span><span class="nc">vm_area_struct</span><span class="w"> </span><span class="o">*</span><span class="n">vma</span><span class="p">);</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="p">};</span>
+</code></pre></div>
+<p>struct bin_attribute是二进制属性，开放了read和write的接口，因此可以以任何方式读写。attribute的read、write操作，由VFS转到sysfs_file_operations的read、write接口上。</p>
+<h2 id="uevent">uevent<a class="headerlink" href="#uevent" title="Permanent link">&para;</a></h2>
+<p>uevent是kobject功能的一部分，用于在kobject状态发生改变时，比如添加、移除，通知用户空间。用户空间收到讯息后，做出相应的处理。</p>
+<p>该机制通常是用来支持热插拔（hotplug）设备的，例如当U盘插入后，USB相关的驱动会动态创建用于表示该U盘的device结构，并告知用户空间为该U盘动态创建/dev/目录下的设备节点。</p>
+<p>uevent机制比较简单，当设备模型中任何设备有事件需要上报时，都会触发uevent提供的接口。uevent模块可以通过两个途径把事件上报到用户空间：一种是通过kmod模块，另一种是通过netlink通信机制。</p>
+<p>uevent的代码主要位于kobject.h和kobject_uevent.c两个文件。</p>
+<p>kobject_action定义了uevent的类型：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">kobject_action</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">KOBJ_ADD</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">KOBJ_REMOVE</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="n">KOBJ_CHANGE</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">KOBJ_MOVE</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="n">KOBJ_ONLINE</span><span class="p">,</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="n">KOBJ_OFFLINE</span><span class="p">,</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="n">KOBJ_BIND</span><span class="p">,</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">    </span><span class="n">KOBJ_UNBIND</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>ADD/REMOVE：kobject的添加/移除事件。</p>
+<p>CHANGE：kobject状态或者内容发生改变。</p>
+<p>MOVE：kobject更改名称或者更改了parent。</p>
+<p>ONLINE/OFFLINE：kobject的上线/下线事件</p>
+<p>BIND/UNBIND：kobject的绑定/解绑事件</p>
+</blockquote>
+<p>kobj_uevent_env定义了事件上报时的环境变量：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kobj_uevent_env</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">envp</span><span class="p">[</span><span class="n">UEVENT_NUM_ENVP</span><span class="p">];</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">envp_idx</span><span class="p">;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">buf</span><span class="p">[</span><span class="n">UEVENT_BUFFER_SIZE</span><span class="p">];</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">buflen</span><span class="p">;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>argv：指针数组，可以保存命令行参数，最大为3个。</p>
+<p>envp：指针数组，用于保存每个环境变量的地址。</p>
+<p>envp_idx：访问envp数组的索引。</p>
+<p>buf：保存uevent消息的缓冲区</p>
+<p>buflen：存储缓冲区的大小</p>
+</blockquote>
+<p>kset_uevent_ops定义了kset的uevent接口操作：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kset_uevent_ops</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">filter</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kset</span><span class="w"> </span><span class="o">*</span><span class="n">kset</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="p">(</span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">name</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kset</span><span class="w"> </span><span class="o">*</span><span class="n">kset</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">uevent</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kset</span><span class="w"> </span><span class="o">*</span><span class="n">kset</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kobj_uevent_env</span><span class="w"> </span><span class="o">*</span><span class="n">env</span><span class="p">);</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>filter：当kobject需要上报uevent时，它所属的kset可以通过此接口过滤掉不希望上报的uevent。</p>
+<p>name：用于获取kset中kobject的uevent名称，这个名称通常与uevent中的ACTION字段相对应。</p>
+<p>uevent：当一个kobject需要上报uevent时，uevent函数会被调用，它可以为uevent添加环境变量。</p>
+</blockquote>
+<p>uevent的一些操作API：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">kobject_uevent</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">,</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">kobject_action</span><span class="w"> </span><span class="n">action</span><span class="p">);</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">kobject_uevent_env</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">,</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">kobject_action</span><span class="w"> </span><span class="n">action</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">envp</span><span class="p">[]);</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">kobject_synth_uevent</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">add_uevent_var</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kobj_uevent_env</span><span class="w"> </span><span class="o">*</span><span class="n">env</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">format</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+</code></pre></div>
+<blockquote>
+<p>kobject_uevent_env：以envp为环境变量，上报一个指定action的uevent。</p>
+<p>kobject_synth_uevent：允许发送一个合成的uevent。 </p>
+<p>add_uevent_var：以格式化字符串的形式，向uevent添加新的环境变量。</p>
+</blockquote>
+<h2 id="bus">bus<a class="headerlink" href="#bus" title="Permanent link">&para;</a></h2>
+<p>总线是连接处理器和设备之间的通道。为了方便设备模型的实现，系统中的每个设备都需要连接在一个总线上，这个总线可以是内部总线、虚拟总线或者是平台总线。</p>
+<p>总线驱动则负责实现总线的各种行为，其管理着两个链表，分别是添加到该总线的设备链表以及注册到该总线的驱动链表。当你向总线添加（移除）一个设备（驱动）时，便会在对应的列表上添加新的节点， 同时对挂载在该总线的驱动以及设备进行匹配，在匹配过程中会忽略掉那些已经有驱动匹配的设备。</p>
+<p><img alt="总线模型" src="../../images/kernel/bus_model.jpg" /></p>
+<p>内核提供了<em>bus_register()</em>函数来注册总线，<em>bus_unregister()</em>函数来注销总线。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">bus_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">bus_type</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">);</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">bus_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">bus_type</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">);</span>
+</code></pre></div>
+<p>当我们成功注册总线时，会在/sys/bus/目录下创建一个新目录，目录名为我们新注册的总线名。bus目录中包含了当前系统中已经注册了的所有总线，例如i2c，spi，platform等。</p>
+<h2 id="class">class<a class="headerlink" href="#class" title="Permanent link">&para;</a></h2>
+<h2 id="devicedevice_driver">device和device_driver<a class="headerlink" href="#devicedevice_driver" title="Permanent link">&para;</a></h2>
+<h2 id="_2">平台设备驱动<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>对于I2C、SPI、USB这些常见的设备来说，Linux内核都会创建与之相对应的驱动总线。但是有些结构简单的设备，比如led、rtc时钟、蜂鸣器等，内核就不会自己创建驱动总线。为了使这部分设备的驱动开发也能遵循设备驱动模型，Linux内核引入了虚拟的总线——平台总线（platform bus）。平台总线用于管理和挂载那些没有相应物理总线的设备，这些设备被称为平台设备，对应的设备驱动被称为平台驱动。平台设备驱动是Linux设备驱动模型的一种。平台设备使用platform_device结构体来表示，继承自设备驱动模型中的device结构体。而平台驱动用platform_driver结构体来表示，继承自device_driver结构体。</p>
 <p>内核使用<em>struct bus_type platform_bus_type</em>来描述平台总线，该总线在内核初始化的时候注册。</p>
+<h3 id="_3">平台设备<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>platform_device结构体的定义如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">     </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//设备名称，匹配时会比较驱动的名字</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">     </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w">              </span><span class="c1">//指定设备的编号</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">     </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="n">dev</span><span class="p">;</span><span class="w">   </span><span class="c1">//继承的device结构体</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">     </span><span class="n">u32</span><span class="w"> </span><span class="n">num_resources</span><span class="p">;</span><span class="w">   </span><span class="c1">//记录资源的数目</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">     </span><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="o">*</span><span class="n">resource</span><span class="p">;</span><span class="w">    </span><span class="c1">//平台设备提供给驱动的资源</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">     </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device_id</span><span class="w"> </span><span class="o">*</span><span class="n">id_entry</span><span class="p">;</span><span class="w">    </span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">     </span><span class="cm">/* 省略部分成员 */</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w"> </span><span class="p">};</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">     </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//设备名称，匹配时会比较驱动的名字</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">     </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w">              </span><span class="c1">//指定设备的编号</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">     </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="n">dev</span><span class="p">;</span><span class="w">   </span><span class="c1">//继承的device结构体</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">     </span><span class="n">u32</span><span class="w"> </span><span class="n">num_resources</span><span class="p">;</span><span class="w">   </span><span class="c1">//记录资源的数目</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">     </span><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="o">*</span><span class="n">resource</span><span class="p">;</span><span class="w">    </span><span class="c1">//平台设备提供给驱动的资源</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">     </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device_id</span><span class="w"> </span><span class="o">*</span><span class="n">id_entry</span><span class="p">;</span><span class="w">    </span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">     </span><span class="cm">/* 省略部分成员 */</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w"> </span><span class="p">};</span>
 </code></pre></div>
-<h3 id="_4">平台设备<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>平台设备的工作是为驱动程序提供设备信息,设备信息包括硬件信息和软件信息两部分。</p>
 <ol>
 <li>
@@ -1407,13 +1679,13 @@
 </li>
 </ol>
 <p>对于硬件信息，使用结构体struct resource来保存设备所提供的资源，比如设备使用的中断编号，寄存器物理地址等，结构体原型如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">resource_size_t</span><span class="w"> </span><span class="n">start</span><span class="p">;</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">resource_size_t</span><span class="w"> </span><span class="n">end</span><span class="p">;</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="cm">/* 省略部分成员 */</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">};</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="n">resource_size_t</span><span class="w"> </span><span class="n">start</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="n">resource_size_t</span><span class="w"> </span><span class="n">end</span><span class="p">;</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="cm">/* 省略部分成员 */</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">};</span>
 </code></pre></div>
 <ul>
 <li>

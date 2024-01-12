@@ -491,6 +491,8 @@
       
         
       
+        
+      
     
     
     
@@ -559,11 +561,32 @@
   
   
     <li class="md-nav__item">
+      <a href="../vma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程地址空间
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    中断和异常
+    中断和中断处理
   </span>
   
 
@@ -740,6 +763,8 @@
       
         
       
+        
+      
     
     
     
@@ -813,6 +838,27 @@
   
   <span class="md-ellipsis">
     字符设备驱动程序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/framework/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    驱动框架
   </span>
   
 
@@ -1494,7 +1540,7 @@
 <p>这里主要放一些零碎的内容。</p>
 </blockquote>
 <h2 id="_2">系统调用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>当你的程序调用open, read, write, close等函数时，就会触发系统调用。系统调用本质是用户态进程与硬件设备交互的接口，内核负责检查系统调用的正确性，然后发出指令给硬件。作为应用程序开发者，不用关心底层硬件的实现细节，而只需要调用普通函数就可以使用系统调用了。glibc库进一步封装了细节，因此我们只需要使用glibc库暴露的API即可。</p>
+<p>当你的程序调用open, read, write, close等函数时，就会触发系统调用（syscall）。系统调用本质是用户态进程与硬件设备交互的接口，内核负责检查系统调用的正确性，然后发出指令给硬件。作为应用程序开发者，不用关心底层硬件的实现细节，而只需要调用普通函数就可以使用系统调用了。glibc库进一步封装了细节，因此我们只需要使用glibc库暴露的API即可。</p>
 <p>x86体系进入和退出系统调用有两种方式：</p>
 <ul>
 <li>int $0x80 和 iret</li>

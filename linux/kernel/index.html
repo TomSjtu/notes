@@ -491,6 +491,8 @@
       
         
       
+        
+      
     
     
     
@@ -559,11 +561,32 @@
   
   
     <li class="md-nav__item">
+      <a href="vma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程地址空间
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    中断和异常
+    中断和中断处理
   </span>
   
 
@@ -634,6 +657,8 @@
       
         
           
+        
+      
         
       
         
@@ -713,6 +738,27 @@
   
   <span class="md-ellipsis">
     字符设备驱动程序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../drivers/framework/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    驱动框架
   </span>
   
 
@@ -1343,7 +1389,7 @@
 <p>要获取内核源码，请使用git。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
 </code></pre></div>
-<p>内核源码树由许多目录组成，各目录的描述如下：</p>
+<p>内核源码树由许多目录组成，一些比较重要的目录的描述如下：</p>
 <table>
 <thead>
 <tr>
@@ -1361,20 +1407,8 @@
 <td>块设备I/O层</td>
 </tr>
 <tr>
-<td>crypto</td>
-<td>加密API</td>
-</tr>
-<tr>
-<td>Documentation</td>
-<td>内核文档</td>
-</tr>
-<tr>
 <td>drivers</td>
 <td>设备驱动程序</td>
-</tr>
-<tr>
-<td>firmware</td>
-<td>设备固件</td>
 </tr>
 <tr>
 <td>fs</td>
@@ -1407,34 +1441,6 @@
 <tr>
 <td>net</td>
 <td>网络系统</td>
-</tr>
-<tr>
-<td>samples</td>
-<td>示例代码</td>
-</tr>
-<tr>
-<td>scripts</td>
-<td>编译脚本</td>
-</tr>
-<tr>
-<td>security</td>
-<td>安全模块</td>
-</tr>
-<tr>
-<td>sound</td>
-<td>声音系统</td>
-</tr>
-<tr>
-<td>usr</td>
-<td>用户空间代码</td>
-</tr>
-<tr>
-<td>tools</td>
-<td>工具</td>
-</tr>
-<tr>
-<td>virt</td>
-<td>虚拟化系统</td>
 </tr>
 </tbody>
 </table>
