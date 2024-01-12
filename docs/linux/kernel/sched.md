@@ -6,7 +6,19 @@
 
 ## 进程描述符
 
-为了管理进程，内核必须清晰地描述每一个进程。在Linux系统下，不管是进程还是线程，内核统一用task_struct结构体管理。task_struct结构体中有一个非常重要的成员：struct thread_info。每个任务的thread_info结构体存放于内核栈的底部，结构体中的task成员是指向当前task_struct的指针。内核通过current宏来访问当前进程描述符。
+为了管理进程，内核必须清晰地描述每一个进程。在Linux系统下，不管是进程还是线程，内核统一用task_struct结构体管理。
+
+### 内核栈
+
+```C
+void *stack;
+```
+
+每个进程都有一个专用的内核栈，用于保存进程在内核态执行时的临时数据和上下文信息。当创建新进程时，内核会为其分配一个合适大小的内核栈空间，并将其地址赋给task_struct中的stack成员。
+
+### 线程描述符
+
+线程描述符thread_info用于存储有关线程的信息。该结构体包含了很多与线程相关的字段，其中最重要的是task_struct *task，它指向当前线程所属的进程描述符。内核提供了current宏来获取当前CPU上运行进程的task_struct结构，该宏本质上等于current_thread_info()->task。
 
 ```C
 current_thread_info()->task
@@ -85,12 +97,19 @@ EXIT_ZOMBIE表示僵死状态。一个进程执行被终止，但是其父进程
 
 EXIT_DEAD是进程的最终状态。父进程回收子进程资源之后，进程由系统删除。
 
-还有一些其他的状态，称为**标志**，放在flag字段中。
+进程的一些其他状态信息由flags控制，使用位掩码来表示不同的标记。一些常见的标记包括：
+
+- 任务状态：例如是否正在运行、停止等
+- 调度器相关：例如调度策略、优先级等
+- 信号处理：例如挂起信号集
+- 进程特性：是否为守护进程、是否允许被追踪等
+
+flags成员的一些取值举例如下，这些宏以PF开头：
 
 ```C
-#define PF_EXITING    0x00000004
-#define PF_VCPU      0x00000010
-#define PF_FORKNOEXEC    0x00000040
+#define PF_EXITING 0x00000004    //getting shut down
+#define PF_WQ_WORKER 0x00000020  //I'm a workqueue worker
+#define PF_KTHREAD 0x00200000    //I'm a kernel thread
 ```
 
 ### 进程标识

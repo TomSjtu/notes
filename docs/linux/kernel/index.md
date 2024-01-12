@@ -8,16 +8,13 @@
 git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
 ```
 
-内核源码树由许多目录组成，各目录的描述如下：
+内核源码树由许多目录组成，一些比较重要的目录的描述如下：
 
 | 目录名 | 描述 |
 | --- | --- |
 | arch | 体系结构相关的代码 |
 | block | 块设备I/O层 |
-| crypto | 加密API |
-| Documentation | 内核文档 |
 | drivers | 设备驱动程序 |
-| firmware | 设备固件 |
 | fs | 文件系统 |
 | include | 内核头文件 |
 | init | 初始化代码 |
@@ -26,13 +23,6 @@ git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号]
 | lib | 内核库函数 |
 | mm | 内存管理 |
 | net | 网络系统 |
-| samples | 示例代码 |
-| scripts | 编译脚本 |
-| security | 安全模块 |
-| sound | 声音系统 |
-| usr | 用户空间代码 |
-| tools | 工具 |
-| virt | 虚拟化系统 |
 
 要编译内核，请使用make menuconfig。内核的各种配置，以CONFIG_FEATURE的形式写入.config文件。配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。
 

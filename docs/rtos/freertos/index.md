@@ -365,8 +365,6 @@ typedef struct tskTaskControlBlock
 - taskNOTIFICATION_RECEIVED：任务接收到了通知
 
 
-
-
 ## 软件定时器
 
 软件定时器就是“闹钟”，你可以设置闹钟：早上7点叫醒你；或者，每工作一小时就休息一会。软件定时器的功能类似，可以是在未来某个时间点触发某个函数，也可以是周期性地运行函数。

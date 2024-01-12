@@ -2,13 +2,17 @@
 
 ## 为什么需要设备树
 
-具体可以参考Linus在2011年写的一个邮件：[this whole ARM thing is a f*cking pain in the ass](https://lkml.org/lkml/2011/3/17/492)。
+起因是在<arch/arm/mach-xxx\>目录下充斥着大量重复的board specific的代码，每次Linux内核merge window期间，ARM的代码变化占整个arch目录的一半以上，导致内核十分的臃肿。经过社区讨论后决定：
 
-简单来说就是，ARM社区充斥着大量垃圾的、重复的描述板级信息的代码（arch/arm/mach-xxx），导致Linux内核十分的臃肿。因为Linux只是一个操作系统内核，它并不关心你开发板上有什么设备。于是ARM社区引入了PowerPC等架构已经采用的设备树。将这些描述硬件信息的内容从Linux内核中剥离出来，用一个单独的文件进行描述，这就是设备树文件.dts的由来。一个SOC可以制作很多开发板，这些开发板必然有一些通用的信息。将这些通用的信息提取出来作为一个通用的文件，其他的.dts文件直接引用通用文件即可，类似于C语言中的头文件。这个通用文件就是.dtsi文件。
+1. ARM的核心代码仍然保存在<arch/arm\>目录下
+2. ARM SOC周边外设模块的驱动代码保存在drivers目录下
+3. ARM SOC board specific的代码被移除，由Device Tree机制来负责传递硬件资源信息。
+
+本质上，Device Tree改变了原来用hardcode方式将硬件配置信息嵌入到内核代码的方法。对于嵌入式系统，在系统启动阶段，由bootloader通过bootm命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。
+
+设备树文件.dts用来描述硬件信息。一个SOC可以制作很多开发板，将这些开发板的通用信息提取出来，变为一个单独的.dtsi文件。其他的.dts可以直接引用通用文件，就像C语言中的头文件。
 
 一般情况下，.dtsi描述SOC信息，比如CPU架构，主频。.dts文件描述板级信息，比如开发板上有哪些IIC设备、SPI设备等。
-
-对于嵌入式系统，在系统启动阶段，由bootloader通过bootm命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。
 
 ![device tree](../../images/kernel/device_tree.png)
 
@@ -27,24 +31,30 @@ make dtbs会编译所有的dts文件，如果要编译指定的dtb，请使用ma
 设备树的每个节点按照以下规则命名：
 
 ```
-node-name@unit-address{
-    属性1 = …
-    属性2 = …
-    属性3 = …
-    子节点…
+label:node-name@unit-address{
+    属性1 = ...
+    属性2 = ...
+    属性3 = ...
+    子节点...
 }
 ```
 
-node-name用于指定节点的名称，unit-address用于指定单元地址，其值要与节点reg属性的第一个地址一致。
+device tree的基本单元是node，这些node被组织成树状结构。除了root node，每个node都有一个parent node。一个device tree文件中只能有一个root node。每个node中都包含了property: value来描述该node的一些信息。
 
-1. "/"是root节点，一个.dts文件中只有一个root节点。多个文件中的"/"会被合并成一个根节点。
-2. 子节点的描述信息用"{}"包含。
-3. 设备节点的名称格式：label: node-name@unit-address。label被称为标签，可以使用&label来访问这个节点。
+label用来指定标签名，方便引用。node-name用于指定节点的名称，unit-address用于指定地址，其值要与节点reg属性的第一个地址一致。
+
+属性值标识了设备的特性，它的值可以是以下几种：
+
+1. 可能为空，也就是没有值的定义。
+2. 可能是一个u32、u64的数值，也可以是数组。
+3. 可能是一个字符串，或者是string list。
 
 在根节点下有两个特殊的节点：aliases和chosen
 
-- aliases：用于给节点定义别名
-- chosen：虚拟节点，可以在chosen中设置bootargs，用于给内核传递参数
+- aliases：用于给节点定义别名，方便对节点的引用。
+- chosen：虚拟节点，可以在chosen中设置bootargs，由bootloader读取，传递给内核作为启动参数。
+
+还有一个所有设备树文件必须要有的节点是memory device node，它定义了系统物理内存的layout。device_type属性定义了该node的设备类型，例如cpu、serial等。对于memory node，其device_type必须等于memory。reg属性定义了访问该device node的地址信息——起始地址和长度。
 
 节点由一堆属性组成，节点是具体的设备，但是不同的设备有不同的属性，不过有一些是标准属性。
 
@@ -62,7 +72,7 @@ compatible也可以有多个属性值，按照优先级查找。
 
 2.model属性
 
-model属性的值也是一个字符串，用来描述设备的制造厂商和型号。
+model属性用来描述设备的生产厂商和型号。比如model="samsung, s3c24xx"——生产厂商是三星，SOC是s3c24xx。
 
 3.status属性
 
@@ -78,7 +88,7 @@ reg = <0x4000e000 0x400>  //起始地址+大小
 
 5.#address-cells和#size-cells属性
 
-用于描述子节点的地址信息。
+如果一个device node的sub node有寻址需求（即需要定义reg属性），那么这两个属性就必须要定义，用于描述sub node的reg属性的信息。
 
 ```
 #address-cells: 决定了子节点reg属性的地址信息所占用的字长

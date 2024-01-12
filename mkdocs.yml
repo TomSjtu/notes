@@ -42,6 +42,7 @@ nav:
     - 内核剖析:
       - linux/kernel/index.md
       - linux/kernel/sched.md
+      - linux/kernel/vma.md
       - linux/kernel/interrupt.md
       - linux/kernel/synch.md
       - linux/kernel/others.md
@@ -50,6 +51,7 @@ nav:
       - linux/drivers/index.md
       - linux/drivers/dts.md
       - linux/drivers/chardev.md
+      - linux/drivers/framework.md
   
   - RTOS:
     - rtos/index.md
