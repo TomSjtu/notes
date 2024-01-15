@@ -1554,10 +1554,10 @@
 </code></pre></div>
 <p>同一类对象由一个rt_object_information结构体来管理，这类对象的每个实例以链表的形式挂在object_list链表上。当某个内核对象被初始化后，该对象就被添加到对应容器中管理。</p>
 <h2 id="_1">线程管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>rtt中线程状态多了一个初始状态，当线程创建完毕还没开始运行时就处于初始状态，该状态下线程不参与调度，宏定义为RT_THREAD_INIT。初始状态的线程需要调用<em>rt_thread_startup()</em>进入就绪状态。</p>
+<p>rtt中线程状态多了一个初始状态，当线程创建完毕还没开始运行时就处于初始状态，该状态下线程不参与调度，宏定义为RT_THREAD_INIT。初始状态的线程需要调用<code>rt_thread_startup()</code>进入就绪状态。</p>
 <p>rtt最大支持256个优先级，对于ARM Cortex-M系列一般采用32个优先级。</p>
 <p>每个线程都有时间片参数，时间片仅对优先级相同的就绪状态线程有效（即同优先级参与调度）。时间片的单位是一个系统节拍，其意义是线程单次运行的时长。</p>
-<p>使用<em>rt_thread_create()</em>函数创建一个动态线程，使用<em>rt_thread_delete()</em>函数删除一个动态线程。静态线程的API分别是<em>rt_thread_init()</em>函数和<em>rt_thread_detach()</em>函数。使用<em>rt_thread_startup()</em>函数启动线程，<em>rt_thread_yield()</em>函数让出线程资源，<em>rt_thread_delay()</em>函数使线程睡眠，<em>rt_thread_resume()</em>函数恢复线程。</p>
+<p>使用<code>rt_thread_create()</code>函数创建一个动态线程，使用<code>rt_thread_delete()</code>函数删除一个动态线程。静态线程的API分别是<code>rt_thread_init()</code>函数和<code>rt_thread_detach()</code>函数。使用<code>rt_thread_startup()</code>函数启动线程，<code>rt_thread_yield()</code>函数让出线程资源，<code>rt_thread_delay()</code>函数使线程睡眠，<code>rt_thread_resume()</code>函数恢复线程。</p>
 <h2 id="_2">时钟管理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>全局变量rt_tick每次经过一个时钟节拍，值就会加1，它表示系统从启动开始总共经过的始终节拍数。此外，rt_tick每次加1都会检查当前线程的时间片是否使用完，以及是否有定时器超时。</p>
 <p>rtt的定时器可以分为HARD_TIMER模式——在中断环境中执行，和SOFT_TIMER模式——在线程环境中执行。</p>
@@ -1604,15 +1604,15 @@
 <p>消息队列相关接口函数如下：</p>
 <p><img alt="Alt text" src="../../images/rt-thread/msg_ops.png" /></p>
 <h3 id="_10">信号<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<p>信号其实是用户层面对硬件中断的一种模拟，一个线程收到信号之后会转去对应的信号处理函数。rtt中使用rt_sigset_t类型来定义信号集。</p>
+<p>信号其实是用户层面对硬件中断的一种模拟，一个线程收到信号之后会转去对应的信号处理函数。rtt中使用<strong>rt_sigset_t</strong>类型来定义信号集。</p>
 <p>当一个线程收到信号时，如果它处于挂起状态，那么它会改为就绪状态去处理对应的信号。</p>
 <p>信号相关接口函数如下：</p>
 <p><img alt="Alt text" src="../../images/rt-thread/signal_ops.png" /></p>
-<p>在信号的使用过程中，先定义线程需要的信号处理函数，然后使用<em>rt_signal_install()</em>函数将signo与对应的信号处理函数相关联。</p>
+<p>在信号的使用过程中，先定义线程需要的信号处理函数，然后使用<code>rt_signal_install()</code>函数将<strong>signo</strong>与对应的信号处理函数相关联。</p>
 <h2 id="_11">内存管理<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
 <p>实时系统要求内存块的分配过程在可预测的时间内完成，否则实时任务对外部事件的响应将变得不确定。rtt内核在内存分配管理算法上，提供了两大类：内存堆管理与内存池管理。而内存对管理又划分为三种情况：小内存管理算法，slab管理算法和memheap管理算法。</p>
 <h3 id="_12">内存堆管理<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
-<p>小内存管理是一个简单的内存分配算法。初始时，它是一块大内存，当需要分配内存块时，从这块大内存上分割出响应的内存块，空闲的内存块归还给堆管理系统。每个内存块都用双向链表的方式链接起来。通过<em>used</em>成员变量标记当前内存块是否已被使用。</p>
+<p>小内存管理是一个简单的内存分配算法。初始时，它是一块大内存，当需要分配内存块时，从这块大内存上分割出响应的内存块，空闲的内存块归还给堆管理系统。每个内存块都用双向链表的方式链接起来。通过<strong>*used</strong>成员变量标记当前内存块是否已被使用。</p>
 <p>slab分配器会根据对象的大小分成多个区（zone），一个zone的大小在32K到128K字节之间，系统中的zone最多包括72种对象，一次性最大可以分配16K的空间。如果超出了16K则直接从页分配器中分配。每个zone上都是固定大小的内存块链接在一起。而72种对象的zone链表则放在一个数组中统一管理，如下图所示：</p>
 <p><img alt="Alt text" src="../../images/rt-thread/slab.png" /></p>
 <p>memheap管理算法适用于系统有多个不可连续地址的内存堆。用户只需要在系统初始化时将多个所需的memheap初始化，并开启memheap功能就可以将多个memheap粘合起来统一用作内存分配。</p>

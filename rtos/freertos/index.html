@@ -1688,7 +1688,7 @@
 </table>
 <h2 id="_2">内存管理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>每次创建任务、队列、互斥锁、软件定时器、信号量或事件组时，内核都需要RAM，RAM可以由RTOS堆动态分配，也可以由编写者手动提供。</p>
-<p>尽管C库提供了<em>malloc()</em>和<em>free()</em>函数，但是：
+<p>尽管C库提供了<code>malloc()</code>和<code>free()</code>函数，但是：
 1. 它们并不总是适用于嵌入式系统
 2. 它们耗费时间比较长
 3. 它们不是线程安全的
@@ -1828,7 +1828,7 @@
 </table>
 <p>每个任务都需要RAM来保存任务状态，并由任务用作其堆栈。如果使用动态创建，则会在程序运行时从FreeRTOS堆中自动分配RAM。如果是静态创建，RAM由编写者手动提供，但在编译时就已确定。</p>
 <h3 id="tick">Tick<a class="headerlink" href="#tick" title="Permanent link">&para;</a></h3>
-<p>任务进入睡眠后需要指定唤醒的时间，FreeRTOS通过Tick变量测量时间。定时器中断以严格的时间精度增加Tick count。每次Tick增加时，内核必须检查现在是否需要解除阻塞或者唤醒任务，高优先级的任务先被唤醒。任务通过调用<em>vTaskDelay()</em>函数来主动等待一定的时间。宏<em>pdMS_TO_TICKS()</em>将毫秒转换为Tick count。</p>
+<p>任务进入睡眠后需要指定唤醒的时间，FreeRTOS通过Tick变量测量时间。定时器中断以严格的时间精度增加Tick count。每次Tick增加时，内核必须检查现在是否需要解除阻塞或者唤醒任务，高优先级的任务先被唤醒。任务通过调用<code>vTaskDelay()</code>函数来主动等待一定的时间。宏<code>pdMS_TO_TICKS()</code>将毫秒转换为Tick count。</p>
 <p>需要注意的是，由于内核本身的任务切换需要时间，当指定N个Tick的延迟后，实际延迟时间将在(N-1)~(N)个Tick之间。</p>
 <h3 id="_5">任务状态<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>任务可以有以下状态：</p>
@@ -1850,7 +1850,7 @@
 <h3 id="_6">调度算法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>两个核心概念：<strong>抢占</strong>和<strong>轮转</strong>。通过配置configUSE_PREEMPTION使能抢占，即高优先级的任务可以抢占低优先级的任务。通过配置configUSE_TIME_SLICING使能轮转，即相同优先级的任务轮流执行。</p>
 <h3 id="_7">空闲任务和钩子函数<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>在没有其他任务运行的时候，执行空闲任务。<em>vTaskStartScheduler()</em>函数内部会创建空闲任务，它的优先级为0，永远低于用户任务，且要么处于就绪态，要么处于运行态。</p>
+<p>在没有其他任务运行的时候，执行空闲任务。<code>vTaskStartScheduler()</code>函数内部会创建空闲任务，它的优先级为0，永远低于用户任务，且要么处于就绪态，要么处于运行态。</p>
 <p>我们可以在空闲任务内添加一个钩子函数，这样空闲任务每执行一次，都会调用一次钩子函数。钩子函数的作用是：</p>
 <ul>
 <li>执行一些后台任务</li>

@@ -1622,13 +1622,13 @@
 <p>最后，你必须手动激活定时器：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">add_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_timer</span><span class="p">);</span>
 </code></pre></div>
-<p>一般来说，定时器都会在超时后马上执行，但也有可能会推迟到下一个时钟节拍时才运行，所以不能用定时器来实现任何硬实时的任务。如果需要修改定时器超时时间，可以通过<em>mod_timer()</em>函数来实现：</p>
+<p>一般来说，定时器都会在超时后马上执行，但也有可能会推迟到下一个时钟节拍时才运行，所以不能用定时器来实现任何硬实时的任务。如果需要修改定时器超时时间，可以通过<code>mod_timer()</code>函数来实现：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">mod_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_timer</span><span class="p">,</span><span class="w"> </span><span class="n">jiffies</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">new_delay</span><span class="p">);</span>
 </code></pre></div>
-<p>如果在定时器超时前停止定时器，可以使用<em>del_timer()</em>函数：</p>
+<p>如果在定时器超时前停止定时器，可以使用<code>del_timer()</code>函数：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">del_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_timer</span><span class="p">);</span>
 </code></pre></div>
-<p>需要注意的是，在多处理器系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到<em>del_timer_syn()</em>函数来执行删除工作。</p>
+<p>需要注意的是，在多处理器系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到<code>del_timer_syn()</code>函数来执行删除工作。</p>
 <h3 id="_6">延迟执行<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>内核代码往往需要推迟某些任务的执行，这种推迟通常发生在等待硬件完成某些工作，而且等待时间往往非常短。内核提供了多种延迟方法来处理延迟请求。</p>
 <p>最简单的延迟方法就是忙等待。该方法仅仅在想要延迟的时间是节拍的整数倍，或者精确率要求不高的情况下才可以使用。忙等待的实现非常简单——在一个循环中不断等待直到希望的时钟节拍数耗尽，比如：</p>
@@ -1642,7 +1642,7 @@
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">ndelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">nsecs</span><span class="p">)</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kt">void</span><span class="w"> </span><span class="n">mdelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">msecs</span><span class="p">)</span>
 </code></pre></div>
-<p>更理想的延迟执行方法是使用<em>schedule_timeout()</em>函数，该方法让需要延迟执行的任务睡眠到指定延迟时间耗尽后再重新运行。其用法如下：</p>
+<p>更理想的延迟执行方法是使用<code>schedule_timeout()</code>函数，该方法让需要延迟执行的任务睡眠到指定延迟时间耗尽后再重新运行。其用法如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">set_current_state</span><span class="p">(</span><span class="n">TASK_INTERRUPTIBLE</span><span class="p">);</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">schedule_timeout</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">HZ</span><span class="p">);</span>
 </code></pre></div>

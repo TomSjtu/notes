@@ -1761,8 +1761,8 @@
 </ul>
 <p>第四个参数name是与中断相关的设备的ASCII文本表示。这些名字会被/proc/irq和/proc/interrupts文件使用。</p>
 <p>第五个参数dev用于确定共享中断线的中断处理程序。当多个中断处理程序共享某条中断线，其中某个需要释放时，dev将提供唯一的标志信息以便确定是哪个程序需要删除。</p>
-<p>request_irq()成功返回0，错误返回非0。最常见的错误是-EBUSY，表示给定的中断线已经被使用。</p>
-<p>request_irq()可能会睡眠，因此不能在不允许阻塞代码中调用该函数。</p>
+<p><code>request_irq()</code>成功返回0，错误返回非0。最常见的错误是-EBUSY，表示给定的中断线已经被使用。</p>
+<p><code>request_irq()</code>可能会睡眠，因此不能在不允许阻塞代码中调用该函数。</p>
 <p>卸载驱动程序时，需要注销响应的中断处理程序，并释放中断线：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">free_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
 </code></pre></div>
@@ -1772,17 +1772,17 @@
 </code></pre></div>
 <p>参数irq已经没有什么用了，参数dev用来向中断处理程序传递数据结构。</p>
 <p>Linux上的中断处理程序无需要求可重入。因为中断处理程序运行时相应中断线上的中断是屏蔽的，也就是不会发生相同中断的嵌套。但不同中断的嵌套有可能发生。</p>
-<p>对于共享的中断处理程序，除了要指定request_irq()函数中的参数flags为IRQF_SHARED标志，还需要保证参数dev的唯一性。当内核接收一个中断后，它将依次调用在该中断线上注册的每一个处理程序。因此一个处理程序必须知道它是否该为这个中断负责，如果不是就要立即退出。</p>
+<p>对于共享的中断处理程序，除了要指定<code>request_irq()</code>函数中的参数flags为IRQF_SHARED标志，还需要保证参数dev的唯一性。当内核接收一个中断后，它将依次调用在该中断线上注册的每一个处理程序。因此一个处理程序必须知道它是否该为这个中断负责，如果不是就要立即退出。</p>
 <h2 id="_3">中断处理机制<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p><img alt="中断流程" src="../../../images/kernel/interrupt.png" /></p>
 <p>中断处理系统在Linux中的实现依赖于体系结构。上图是中断从硬件到内核执行的过程。当一个设备产生中断后，通过总线把电信号发送给中断控制器。如果中断线是激活的，那么中断控制器就会把中断发送给处理器。在大多数体系结构中，这个工作就是通过电信号给处理器的特定管脚发送一个信号。除非处理器禁止了该中断，否则它会立刻停下当前执行的代码，关闭中断系统，然后跳到内存中预定义的位置开始执行那里的代码。这个预定义的位置由内核设置，是中断处理程序的入口点。</p>
-<p>对于每条中断线，处理器都会跳到对应的一个唯一的位置。这样，内核就可以知道所接收中断的IRQ号了。初始入口点在栈中保存IRQ号，并存放当前寄存器的值（这些值属于被中断的任务）。然后，由内核调用<em>do_IRQ()</em>函数：</p>
+<p>对于每条中断线，处理器都会跳到对应的一个唯一的位置。这样，内核就可以知道所接收中断的IRQ号了。初始入口点在栈中保存IRQ号，并存放当前寄存器的值（这些值属于被中断的任务）。然后，由内核调用<code>do_IRQ()</code>函数：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">do_IRQ</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pt_regs</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">)</span>
 </code></pre></div>
 <p>由于初始入口点已经将IRQ号和寄存器的值保存在栈中了，所以函数do_IRQ()可以直接提取栈中的参数。</p>
-<p>do_IRQ()执行完中断服务器程序后，会检查是否需要重新调度（need_resched标志位）：
-- 返回用户空间：调用schedule()函数
-- 返回内核空间：如果preempt_count标志为0，调用schedule()函数，否则不会触发调度。</p>
+<p><code>do_IRQ()</code>执行完中断服务器程序后，会检查是否需要重新调度（need_resched标志位）：
+- 返回用户空间：调用<code>schedule()</code>函数
+- 返回内核空间：如果preempt_count标志为0，调用<code>schedule()</code>函数，否则不会触发调度。</p>
 <p>procfs是一个虚拟文件系统，可以通过读/proc/interrupts文件读取系统中与中断相关的统计信息。</p>
 <h2 id="_4">中断控制<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>Linux内核提供了一组接口用于操作机器上的中断状态。这些接口为我们提供了能够禁止当前处理器的中断系统，或屏蔽掉整个机器的一条中断线的能力。这些操作都是与体系结构相关的。一般来说，控制中断系统的原因归根到底是需要同步。通过禁止中断，可以确保某个中断处理程序不会被抢占。此外，还可以禁止内核抢占。</p>
@@ -1791,7 +1791,7 @@
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">local_irq_enable</span><span class="p">();</span>
 </code></pre></div>
-<p>如果在调用local_irq_disable()函数前已经禁止了中断，那么该操作会带来潜在的危险。同样，local_irq_enable()函数也存在危险，因为它会无条件激活中断。当内核代码变得复杂时，我们并不知道当前处理器中断状态，所以我们需要一种机制，仅仅时把中断恢复到以前的状态而不是简单地禁止或者是激活。</p>
+<p>如果在调用<code>local_irq_disable()</code>函数前已经禁止了中断，那么该操作会带来潜在的危险。同样，<code>local_irq_enable()</code>函数也存在危险，因为它会无条件激活中断。当内核代码变得复杂时，我们并不知道当前处理器中断状态，所以我们需要一种机制，仅仅时把中断恢复到以前的状态而不是简单地禁止或者是激活。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">local_irq_save</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">local_irq_restore</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
@@ -1831,7 +1831,7 @@
 <p>当内核运行一个软中断处理程序时，就会执行这个action函数，其唯一的参数是指向相应softirq_action结构体的指针。例如，如果my_softirq指向softirq_vec数组的某项，那么内核就会用如下的方式调用软中断处理程序中的函数：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">my_softirq</span><span class="o">-&gt;</span><span class="n">action</span><span class="p">(</span><span class="n">my_softirq</span><span class="p">);</span>
 </code></pre></div>
-<p>一个注册的软中断必须在被标记后才会执行，这被称为触发软中断（raising the softirq）。通常，中断处理程序会在返回前标记它的软中断，使其在稍后被执行。<em>do_softirq()</em>函数会检查softirq_vec数组中所有待处理的软中断，调用它们的处理程序。</p>
+<p>一个注册的软中断必须在被标记后才会执行，这被称为触发软中断（raising the softirq）。通常，中断处理程序会在返回前标记它的软中断，使其在稍后被执行。<code>do_softirq()</code>函数会检查softirq_vec数组中所有待处理的软中断，调用它们的处理程序。</p>
 <h3 id="_8">使用软中断<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>软中断保留给系统中对时间要求最严格以及最重要的下半部使用。内核在&lt;linux/interrupt.h&gt;中已经定义了一个枚举类型来静态地声明软中断，索引号表示其优先级。要建立一个新的软中断必须在此枚举类型中加入新的项，而且你必须根据它的优先级来决定加入的位置。下表列出了已有的tasklet类型。</p>
 <table>
@@ -1894,8 +1894,8 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">open_softirq</span><span class="p">(</span><span class="n">NET_TX_SOFTIRQ</span><span class="p">,</span><span class="w"> </span><span class="n">net_tx_action</span><span class="p">)</span>
 </code></pre></div>
 <p>软中断处理程序执行的时候，允许响应中断，但它自己不能休眠。在一个处理程序运行时，当前处理器上的软中断被禁止。但其他处理器仍然可以执行别的软中断。这意味着共享数据需要锁的保护。因此大部分软中断处理，都通过采取单处理器数据来避免加锁，从而提供更出色的性能。</p>
-<p>在注册完之后，新的软中断处理程序就能够运行。<em>raise_softirq()</em>函数可以将一个软中断设置为挂起状态，让它在下次调用<em>do_softirq()</em>函数时投入运行。</p>
-<p>在中断处理程序中触发软中断是最常见的形式。内核在执行完中断处理程序之后，马上就会调用<em>do_softirq()</em>函数，于是软中断开始执行给定的任务。</p>
+<p>在注册完之后，新的软中断处理程序就能够运行。<code>raise_softirq()</code>函数可以将一个软中断设置为挂起状态，让它在下次调用<code>do_softirq()</code>函数时投入运行。</p>
+<p>在中断处理程序中触发软中断是最常见的形式。内核在执行完中断处理程序之后，马上就会调用<code>do_softirq()</code>函数，于是软中断开始执行给定的任务。</p>
 <h2 id="tasklet">tasklet<a class="headerlink" href="#tasklet" title="Permanent link">&para;</a></h2>
 <p>tasklet是利用软中断实现的一种下半部机制，但是它的接口更简单，锁保护要求较低。大多数情况都可以使用tasklet来完成你需要的工作。</p>
 <h3 id="tasklet_1">tasklet的实现<a class="headerlink" href="#tasklet_1" title="Permanent link">&para;</a></h3>
@@ -1912,7 +1912,7 @@
 <p>state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值TASKLET_STATE_SCHED表明 tasklet已被调度，正准备投人运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。</p>
 <p>count成员是tasklet的引用计数器。如果它不为0，则tasklet被禁止；只有当它为0时，tasklet才被激活。</p>
 <p>已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）数组中。这两个数据结构都是由tasklet_struct结构体构成的链表，链表中每个元素代表一个不同的tasklet。</p>
-<p>tasklet由<em>tasklet_schedule()</em>和<em>tasklet_hi_schedule()</em>函数进行调度，它们接受一个指向tasklet_struct结构的指针作为参数。</p>
+<p>tasklet由<code>tasklet_schedule()</code>和<code>tasklet_hi_schedule()</code>函数进行调度，它们接受一个指向tasklet_struct结构的指针作为参数。</p>
 <h3 id="tasklet_2">使用tasklet<a class="headerlink" href="#tasklet_2" title="Permanent link">&para;</a></h3>
 <p>如果是静态创建一个tasklet，可以使用以下两个宏中的一个：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">)</span>
@@ -1926,7 +1926,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">tasklet_handler</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">)</span>
 </code></pre></div>
 <p>tasklet不能睡眠，两个相同的tasklet不会同时执行，但如果与其他tasklet或者是软中断共享了数据，那么必须进行锁保护。</p>
-<p>通过调用<em>tasklet_schedule()</em>函数并传递给它相应的tasklet_struct指针，该tasklet就会被调度以便执行：</p>
+<p>通过调用<code>tasklet_schedule()</code>函数并传递给它相应的tasklet_struct指针，该tasklet就会被调度以便执行：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">tasklet_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_tasklet</span><span class="p">);</span>
 </code></pre></div>
 <p>一个tasklet总是在调度它的处理器上运行。要禁止/使能tasklet，使用以下的函数：</p>
@@ -1939,7 +1939,7 @@
 <p>每个处理器都有一组辅助处理软中断（和tasklet）的内核线程。当内核中出现大量软中断的时候，内核线程就会选择合适的时机来处理软中断。</p>
 <p>在大流量的网络通信中，软中断的触发频率可能很高，甚至还会自行重复触发，这会导致用户空间的进程无法获得足够的处理器时间。如果软中断和重复触发的软中断都被立即处理，那么当负载很高的时候，系统就会出现明显的卡顿现象。如果选择不处理重新触发的软中断，又会浪费闲置的系统资源，导致软中断出现饥饿现象。</p>
 <p>内核中的方案时不会立即处理重复触发的软中断。当大量软中断出现的时候，内核会唤醒一组内核线程来处理这些负载。这些线程在最低优先级（nice=19）运行，避免与其他任务抢占资源。</p>
-<p>每个处理器都有一个这样的线程，名字为ksoftirqd/n，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用<em>do_softirq()</em>函数来处理它们。</p>
+<p>每个处理器都有一个这样的线程，名字为ksoftirqd/n，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用<code>do_softirq()</code>函数来处理它们。</p>
 <h2 id="_9">工作队列<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
 <p>工作队列是一种延后执行的机制，可以将后续的工作交给一个内核线程执行——这个下半部分总是在进程上下文中执行。这样，通过工作队列实现的代码就能享受进程上下文的所有优势，比如可以重新调度甚至是睡眠。</p>
 <p>如果推后执行的任务需要睡眠，那么就选择工作队列。否则就选择软中断或tasklet。工作队列在你需要获得大量内存时，需要获取信号量时，需要执行阻塞式的I/O操作时，它都会非常有用。</p>
@@ -1990,7 +1990,7 @@
 <p>如果是进程上下文和下半部共享数据，在访问这些数据之前，你需要禁止下半部的处理并获得锁的使用权，以防止死锁的出现。</p>
 <p>如果是中断上下文和下半部共享数据，在访问这些数据之前，你需要禁止中断并获得锁的使用权，也是为了防止死锁的出现。</p>
 <p>任何在工作队列中被共享的数据也需要使用锁机制。</p>
-<p>一般单纯禁止下半部是不够的，更常见的做法是先获得一个锁再禁止下半部的处理。如果需要禁止所有下半部的处理，可以调用<em>local_bh_disable()</em>函数。允许下半部处理，调用<em>local_bh_enable()</em>函数。函数通过preempt_count（内核抢占也是这个计数器）为每个进程维护一个计数器。当计数器为0时，才可以处理下半部。</p>
+<p>一般单纯禁止下半部是不够的，更常见的做法是先获得一个锁再禁止下半部的处理。如果需要禁止所有下半部的处理，可以调用<code>local_bh_disable()</code>函数。允许下半部处理，调用<code>local_bh_enable()</code>函数。函数通过preempt_count（内核抢占也是这个计数器）为每个进程维护一个计数器。当计数器为0时，才可以处理下半部。</p>
 
 
 

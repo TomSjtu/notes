@@ -1604,7 +1604,7 @@
 <h1 id="_1">字符设备驱动程序<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>字符设备驱动框架如图所示：</p>
 <p><img alt="Alt text" src="../../../images/kernel/chrdev.png" /></p>
-<p>在创建一个字符设备的时候，首先应该向内核申请一个设备号。拿到设备号之后，需要手动实现file_operation结构体中的函数指针，并保存到cdev结构体中。然后使用<em>cdev_add()</em>函数注册cdev。</p>
+<p>在创建一个字符设备的时候，首先应该向内核申请一个设备号。拿到设备号之后，需要手动实现file_operation结构体中的函数指针，并保存到cdev结构体中。然后使用<code>cdev_add()</code>函数注册cdev。</p>
 <p>注销设备时需要释放内核中的cdev，并且归还申请的设备号。</p>
 <h2 id="_2">快速参考<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/types.h&gt;</span>
@@ -1675,12 +1675,12 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">register_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
 </code></pre></div>
 <p>first是要分配的设备编号的起始值，count是所请求的连续设备编号的个数，name是和该编号范围关联的设备名称，它将出现在/proc/devices和sysfs中。</p>
-<p>如果我们提前知道所需要的设备编号，那么使用<em>register_chrdev_region</em>就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数。</p>
+<p>如果我们提前知道所需要的设备编号，那么使用<code>register_chrdev_region()</code>就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数：</p>
 <p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">alloc_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">baseminor</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
 </code></pre></div>
 dev用来保存你要申请的那个设备号变量， baseminor是次设备号的起始值，通常是0。</p>
 <p><q>
-驱动程序应该始终使用<em>alloc_chrdev_region</em>而不是<em>register_chrdev_region</em> ————《Linux设备驱动程序<em>P50</em>》
+驱动程序应该始终使用<code>alloc_chrdev_region</code>而不是<code>register_chrdev_region</code> ————《Linux设备驱动程序<em>P50</em>》
 </q></p>
 <ul>
 <li>卸载</li>
@@ -1706,10 +1706,10 @@ dev用来保存你要申请的那个设备号变量， baseminor是次设备号�
 <p>对设备号操作时，使用到了三个宏定义，<strong>MKDEV</strong>, <strong>MAJOR</strong>, <strong>MINOR</strong>。当给定主设备号时，使用MKDEV来构建完整的devID，次设备号则一般选择0。</p>
 <p>实际开发中，major可以用一个宏定义取代，默认取0，即走else分支选择“动态分配”。用户可以选择使用默认值即动态分配的方式，或者自定义特定的设备号——只要在编译前修改宏定义为设备号，或者在insmod时指定即可。</p>
 <h2 id="_6">字符设备的注册<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>内核使用<em>struct cdev</em>结构来表示字符设备，当我们自己实现file_operations结构体中的函数之后，我们需要使用<em>cdev_init()</em>函数来将文件操作指针与字符设备相关联。</p>
+<p>内核使用<strong>struct cdev</strong>结构来表示字符设备，当我们自己实现file_operations结构体中的函数之后，我们需要使用<code>cdev_init()</code>函数来将文件操作指针与字符设备相关联。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">cdev_init</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">cdev</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file_operations</span><span class="w"> </span><span class="o">*</span><span class="n">fops</span><span class="p">)</span>
 </code></pre></div>
-<p><em>cdev_add()</em>函数用于向内核添加一个新的字符设备，<em>cdev_del()</em>函数用来删除。</p>
+<p><code>cdev_add()</code>函数用于向内核添加一个新的字符设备，<code>cdev_del()</code>函数用来删除。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">cdev_add</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">dev_t</span><span class="w"> </span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">cdev_del</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
 </code></pre></div>

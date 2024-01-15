@@ -1742,17 +1742,17 @@
 <a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="p">}</span>
 </code></pre></div>
 <p>以上是一段示例代码，在编译时请加上-lpthread，以链接正确的库。多次执行该程序后你会发现最终的结果是不确定的。</p>
-<p>这是最简单的临界区例子，对于这种简单的竞争条件，我们不需要用到复杂的锁机制，因为锁对于CPU的性能有很大的影响。多数处理器都提供了指令来原子地读、写变量。我们称之为<em>原子指令</em>。使用原子指令可以解决一些简单的并发问题。两条原子指令不可能交错执行，因为处理器会从硬件上禁止这种可能性。</p>
+<p>这是最简单的临界区例子，对于这种简单的竞争条件，我们不需要用到复杂的锁机制，因为锁对于CPU的性能有很大的影响。多数处理器都提供了指令来原子地读、写变量。我们称之为<strong>原子指令</strong>。使用原子指令可以解决一些简单的并发问题。两条原子指令不可能交错执行，因为处理器会从硬件上禁止这种可能性。</p>
 <h3 id="_4">加锁<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>当共享资源是一个复杂的数据结构，而不是简单的i++时，原子指令就无能为力了。此时我们必须引入<em>锁</em>机制来保护共享资源的访问。同一时刻，我们只允许有一个线程持有锁，其他线程的访问必须等待第一个线程释放锁之后才能进行。锁有多种多样的形式，锁的粒度也各不相同。Linux内核提供了多种不同的锁机制，他们之间的主要区别在于：当锁被其他线程持有而不可用时的表现形式——有一些锁会在原地等待，而有一些锁会直接睡眠。锁没有优劣之分，在不同场景下用不同的锁是程序员必备的技能。</p>
-<p>当一个锁正在被占用时，有其他线程试图获得该锁，我们称之为<em>锁的争用</em>。由于锁是让程序以串行的方式对资源进行访问，被长时间持有的锁无疑会降低系统的性能。于是加锁粒度就显得尤为重要。如果是一段加锁的代码被频繁的调用，这往往会成为系统性能的瓶颈。在一些大型机器上可能表现不是那么明显，但是在一些小型机器上，过粗的锁的粒度会严重拖累系统的性能。</p>
+<p>当共享资源是一个复杂的数据结构，而不是简单的i++时，原子指令就无能为力了。此时我们必须引入<strong>锁</strong>机制来保护共享资源的访问。同一时刻，我们只允许有一个线程持有锁，其他线程的访问必须等待第一个线程释放锁之后才能进行。锁有多种多样的形式，锁的粒度也各不相同。Linux内核提供了多种不同的锁机制，他们之间的主要区别在于：当锁被其他线程持有而不可用时的表现形式——有一些锁会在原地等待，而有一些锁会直接睡眠。锁没有优劣之分，在不同场景下用不同的锁是程序员必备的技能。</p>
+<p>当一个锁正在被占用时，有其他线程试图获得该锁，我们称之为<strong>锁的争用</strong>。由于锁是让程序以串行的方式对资源进行访问，被长时间持有的锁无疑会降低系统的性能。于是加锁粒度就显得尤为重要。如果是一段加锁的代码被频繁的调用，这往往会成为系统性能的瓶颈。在一些大型机器上可能表现不是那么明显，但是在一些小型机器上，过粗的锁的粒度会严重拖累系统的性能。</p>
 <h3 id="_5">死锁<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>死锁是编写同步代码时经常会遇到的问题，两个或多个线程因为争夺资源而无法继续执行，因为每个线程都在等待另一个线程释放锁或资源。如果没有外力干涉，这些线程将永远处于等待状态。</p>
 <p>一个最简单的死锁例子就是自死锁：如果一个线程试图去获得一个自己已经持有的锁，那么它将永远等待下去。
 另一个常见的例子叫ABBA死锁：线程1持有锁A，线程2持有锁B，线程1试图去获得锁B，而线程2试图去获得锁A，由于每个线程都在等待另一个线程释放锁，但是谁都不想释放自己的锁，于是就造成了死锁。预防死锁的发生非常重要，虽然你不知道自己的代码会不会发生死锁，但是遵循一些简单的规则对于避免死锁大有帮助：</p>
 <ul>
 <li>按顺序加锁。使用多个锁时必须保证以相同的顺序获取锁，否则就有可能造成ABBA死锁。</li>
-<li>防止<em>饥饿</em>。</li>
+<li>防止<strong>饥饿</strong>。</li>
 <li>不要重复请求同一个锁。</li>
 <li>设计越简单越好。</li>
 </ul>
@@ -1806,9 +1806,9 @@
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">spin_lock_irqsave</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp_lock</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">spin_unlock_irqrestore</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sp_lock</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
 </code></pre></div>
-<p>函数<em>spin_lock_irqsave()</em>保存中断状态，并禁止本地中断，然后再去获取锁。反过来<em>spin_unlock_irqrestore()</em>解锁，并让中断恢复到加锁前的状态。所以即便是加锁前中断已经被禁止了，代码也不会错误地激活中断，而是让中断保持禁止状态。</p>
-<p>如果你能确定中断在加锁前是激活的，那么可以配对使用<em>spin_lock_irq()</em>和<em>spin_unlock_irq()</em>，从而在解锁时直接激活中断。但是内核的庞大性往往让人很难搞清楚中断在当前执行代码前是否处于激活状态，所以该方法并不提倡。</p>
-<p>由于中断下半部可以抢占进程上下文的代码，因此加锁的同时还需要禁止下半部执行。函数<em>spin_lock_bh()</em>可以做到这一点。同样，中断处理程序可以抢占下半部，因此如果下半部有需要和中断处理程序共享的数据时，也必须禁止中断。</p>
+<p>函数<code>spin_lock_irqsave()</code>保存中断状态，并禁止本地中断，然后再去获取锁。反过来<code>spin_unlock_irqrestore()</code>解锁，并让中断恢复到加锁前的状态。所以即便是加锁前中断已经被禁止了，代码也不会错误地激活中断，而是让中断保持禁止状态。</p>
+<p>如果你能确定中断在加锁前是激活的，那么可以配对使用<code>spin_lock_irq()</code>和<code>spin_unlock_irq()</code>，从而在解锁时直接激活中断。但是内核的庞大性往往让人很难搞清楚中断在当前执行代码前是否处于激活状态，所以该方法并不提倡。</p>
+<p>由于中断下半部可以抢占进程上下文的代码，因此加锁的同时还需要禁止下半部执行。函数<code>spin_lock_bh()</code>可以做到这一点。同样，中断处理程序可以抢占下半部，因此如果下半部有需要和中断处理程序共享的数据时，也必须禁止中断。</p>
 <p>中断处理是另一个话题，请参考<a href="../interrupt/">中断及下半部</a>。</p>
 <h3 id="_9">读/写自旋锁<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p>有时，锁的用途可以明确地分为读和写两个场景，尤其是那些需要大量读操作，而写操作很少的情况时，引入读写锁可以很大地改善系统的性能。读写锁的基本逻辑是：读模式是共享的，写模式是独占的。也就是说当进行写操作的时候，只能由单个任务进行。而进行读操作的时候，可以并发的执行而不用担心安全问题。读/写锁的基本方法如下：</p>
@@ -1821,8 +1821,8 @@
 <a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">write_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rw_lock</span><span class="p">);</span>
 </code></pre></div>
 <p>通常，读写操作应处于完全分割开的代码分支中，如果读写操作不能清晰地辨别，不要使用读写锁，否则可能会导致死锁。例如在执行读操作代码时，也加入了写操作。</p>
-<p>在中断处理程序中，如果只有读操作，可以简单地使用<em>read_lock()</em>来保护读操作，而不需要禁止中断了。但是，写操作的中断必须禁止，否则就会造成死锁。因为写操作需要等待读操作释放锁，而读操作需要等待写操作的中断处理程序返回。</p>
-<p>在使用读写锁的时候需要注意，当读锁被持有时，写锁只能等待。然而读锁却可以继续成功地占用锁。这会造成写锁<em>饥饿</em>现象。</p>
+<p>在中断处理程序中，如果只有读操作，可以简单地使用<code>read_lock()</code>来保护读操作，而不需要禁止中断了。但是，写操作的中断必须禁止，否则就会造成死锁。因为写操作需要等待读操作释放锁，而读操作需要等待写操作的中断处理程序返回。</p>
+<p>在使用读写锁的时候需要注意，当读锁被持有时，写锁只能等待。然而读锁却可以继续成功地占用锁。这会造成写<strong>锁饥饿</strong>现象。</p>
 <p>如果加锁时间很长或者代码在持有锁时有可能睡眠，那么最好使用信号量来处理。</p>
 <h3 id="_10">信号量<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <p>Linux中的信号量是一种睡眠锁。当有一个任务试图获得一个已经被占用的信号量时，该任务会加入等待队列，然后睡眠。由于释放了资源处理器可以去执行其他的代码。当持有的信号量被释放时，处于等待队列中的那个任务会被唤醒，并获得该信号量。</p>
@@ -1843,7 +1843,7 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">sema_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
 </code></pre></div>
-<p>函数<em>down_interruptible()</em>试图获取指定的信号量，如果不可用，则将进程设置为TASK_INTERRUPTIBLE。这种进程状态意味着任务可以被信号唤醒。使用<em>down_trylock()</em>函数，在信号量已经被占用时，立即返回而不是让进程睡眠。</p>
+<p>函数<code>down_interruptible()</code>试图获取指定的信号量，如果不可用，则将进程设置为TASK_INTERRUPTIBLE。这种进程状态意味着任务可以被信号唤醒。使用<code>down_trylock()</code>函数，在信号量已经被占用时，立即返回而不是让进程睡眠。</p>
 <h3 id="_11">互斥体<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <p>在多数情况下，信号量只是作为一个计数为1的允许睡眠的自旋锁存在。为了找到一个更简单且可以睡眠的锁，开发者们引入了互斥体（mutex）。其行为和计数为1的信号量类似，但是操作的接口更简单，实现也更高效。基本适用方法如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">DEFINE_MUTEX</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span>
@@ -1894,13 +1894,13 @@
 <p>完成变量由结构体completion表示，定义在&lt;linux/completion.h&gt;中。其创建方法如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">DECLARE_COMPLETION</span><span class="p">(</span><span class="n">comp</span><span class="p">);</span>
 </code></pre></div>
-<p>或者使用<em>init_completion()</em>动态创建。需要等待的任务调用<em>wait_for_completion()</em>来等待特定事件。当事件发生后，产生事件的任务调用<em>complete()</em>来发送信号唤醒正在等待的任务。</p>
+<p>或者使用<code>init_completion()</code>动态创建。需要等待的任务调用<code>wait_for_completion()</code>来等待特定事件。当事件发生后，产生事件的任务调用<code>complete()</code>来发送信号唤醒正在等待的任务。</p>
 <h3 id="rcu">RCU机制<a class="headerlink" href="#rcu" title="Permanent link">&para;</a></h3>
-<p>读取-复制-更新（read-copy-update）是一种高级互斥机制，一般用不到但是我们对这个概念得有一个基本的了解。RCU机制主要针对读取经常发生、但是写入很少的情况。在需要修改数据时，写入线程首先复制一份，然后修改副本。其他线程在读取数据时，仍然指向原始的共享数据地址，这样就可以保证在写操作发生前，其他线程仍然可以读取到一致的数据。直到更新线程完成了数据的修改，并通过特定的API将更新后的数据指针赋值回原来的共享数据位置，这个过程称为“更新完成”。内存屏障指令用于保证只有在数据结构被修改之后，已更新的指针才对其他CPU可见。读取端的代码必须放置于<em>rcu_read_lock()</em>和<em>rcu_read_unlock()</em>之间。</p>
-<p>使用RCU技术的难点在于：写入端修改指针时不能立刻释放数据结构的旧指针，因为还有其他的读取端在使用。只有当所有的读取端执行完宏<em>rcu_read_unlcok()</em>之后，才可以释放旧指针。写入端调用函数<em>call_rcu()</em>来释放旧指针。</p>
+<p>读取-复制-更新（read-copy-update）是一种高级互斥机制，一般用不到但是我们对这个概念得有一个基本的了解。RCU机制主要针对读取经常发生、但是写入很少的情况。在需要修改数据时，写入线程首先复制一份，然后修改副本。其他线程在读取数据时，仍然指向原始的共享数据地址，这样就可以保证在写操作发生前，其他线程仍然可以读取到一致的数据。直到更新线程完成了数据的修改，并通过特定的API将更新后的数据指针赋值回原来的共享数据位置，这个过程称为“更新完成”。内存屏障指令用于保证只有在数据结构被修改之后，已更新的指针才对其他CPU可见。读取端的代码必须放置于<code>rcu_read_lock()</code>和<code>rcu_read_unlock()</code>之间。</p>
+<p>使用RCU技术的难点在于：写入端修改指针时不能立刻释放数据结构的旧指针，因为还有其他的读取端在使用。只有当所有的读取端执行完宏<code>rcu_read_unlcok()</code>之后，才可以释放旧指针。写入端调用函数<code>call_rcu()</code>来释放旧指针。</p>
 <h3 id="_13">禁止抢占<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <p>Linux是抢占式内核，其主要特点是：一个在内核态运行的进程，可能在执行内核态函数期间被另外一个进程抢占。在进程A执行异常处理程序时（次吃位于内核态），一个更有优先级的进程B变为可执行状态。如果内核是可抢占的，就会发生强制性任务切换，让B取代A。再比如，一个进程已经用完了它的时间片配额，抢占式内核会立刻让另一个进程取代它。</p>
-<p>内核使用<em>thread_info</em>中的<em>preempt_count</em>字段表示抢占计数。当这个值大于0时，就禁止内核抢占。它在以下任何一种情况发生时，取值都大于0：</p>
+<p>内核使用<strong>thread_info</strong>中的<strong>preempt_count</strong>字段表示抢占计数。当这个值大于0时，就禁止内核抢占。它在以下任何一种情况发生时，取值都大于0：</p>
 <ol>
 <li>内核正在执行中断服务程序。</li>
 <li>可延迟函数被禁止（当内核正在执行软中断或tasklet）。</li>
@@ -1932,7 +1932,7 @@
 </tr>
 </tbody>
 </table>
-<p>上面第三个宏需要说明一下。<em>preempt_enable()</em>宏首先递减抢占计数器，并且检查TIF_NEED_RESCHED标志是否被设置。当这个标志为1时表示需要执行调度程序。于是我们还会调用<em>preempt_schedule()</em>来调用<em>schedule()</em>选择另外一个进程运行。</p>
+<p>上面第三个宏需要说明一下。<code>preempt_enable()</code>宏首先递减抢占计数器，并且检查TIF_NEED_RESCHED标志是否被设置。当这个标志为1时表示需要执行调度程序。于是我们还会调用<code>preempt_schedule()</code>来调用<code>schedule()</code>选择另外一个进程运行。</p>
 <h3 id="_14">顺序与屏障<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
 <p>为什么需要顺序和屏障指令？</p>
 <ul>
