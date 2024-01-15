@@ -4,7 +4,7 @@
 
 ![Alt text](../../images/kernel/chrdev.png)
 
-在创建一个字符设备的时候，首先应该向内核申请一个设备号。拿到设备号之后，需要手动实现file_operation结构体中的函数指针，并保存到cdev结构体中。然后使用*cdev_add()*函数注册cdev。
+在创建一个字符设备的时候，首先应该向内核申请一个设备号。拿到设备号之后，需要手动实现file_operation结构体中的函数指针，并保存到cdev结构体中。然后使用`cdev_add()`函数注册cdev。
 
 注销设备时需要释放内核中的cdev，并且归还申请的设备号。
 
@@ -93,7 +93,7 @@ int register_chrdev_region(dev_t first, unsigned count, const char *name)
 
 first是要分配的设备编号的起始值，count是所请求的连续设备编号的个数，name是和该编号范围关联的设备名称，它将出现在/proc/devices和sysfs中。
 
-如果我们提前知道所需要的设备编号，那么使用*register_chrdev_region*就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数。
+如果我们提前知道所需要的设备编号，那么使用`register_chrdev_region()`就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数：
 
 ```C
 int alloc_chrdev_region(dev_t *dev, unsigned baseminor, unsigned count, const char *name)
@@ -101,7 +101,7 @@ int alloc_chrdev_region(dev_t *dev, unsigned baseminor, unsigned count, const ch
 dev用来保存你要申请的那个设备号变量， baseminor是次设备号的起始值，通常是0。
 
 <q>
-驱动程序应该始终使用*alloc_chrdev_region*而不是*register_chrdev_region* ————《Linux设备驱动程序*P50*》
+驱动程序应该始终使用`alloc_chrdev_region`而不是`register_chrdev_region` ————《Linux设备驱动程序*P50*》
 </q>
 
 - 卸载
@@ -138,13 +138,13 @@ if(major){
 
 ## 字符设备的注册
 
-内核使用*struct cdev*结构来表示字符设备，当我们自己实现file_operations结构体中的函数之后，我们需要使用*cdev_init()*函数来将文件操作指针与字符设备相关联。
+内核使用**struct cdev**结构来表示字符设备，当我们自己实现file_operations结构体中的函数之后，我们需要使用`cdev_init()`函数来将文件操作指针与字符设备相关联。
 
 ```C
 void cdev_init(struct cdev *cdev, const struct file_operations *fops)
 ```
 
-*cdev_add()*函数用于向内核添加一个新的字符设备，*cdev_del()*函数用来删除。
+`cdev_add()`函数用于向内核添加一个新的字符设备，`cdev_del()`函数用来删除。
 
 ```C
 int cdev_add(struct cdev *p, dev_t dev, unsigned count)

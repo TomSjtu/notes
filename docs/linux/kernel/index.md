@@ -24,6 +24,7 @@ git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号]
 | mm | 内存管理 |
 | net | 网络系统 |
 
+
 要编译内核，请使用make menuconfig。内核的各种配置，以CONFIG_FEATURE的形式写入.config文件。配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。
 
 内核开发的特点如下：

@@ -130,19 +130,19 @@ void my_function(unsigned long data);
 add_timer(&my_timer);
 ```
 
-一般来说，定时器都会在超时后马上执行，但也有可能会推迟到下一个时钟节拍时才运行，所以不能用定时器来实现任何硬实时的任务。如果需要修改定时器超时时间，可以通过*mod_timer()*函数来实现：
+一般来说，定时器都会在超时后马上执行，但也有可能会推迟到下一个时钟节拍时才运行，所以不能用定时器来实现任何硬实时的任务。如果需要修改定时器超时时间，可以通过`mod_timer()`函数来实现：
 
 ```C
 mod_timer(&my_timer, jiffies + new_delay);
 ```
 
-如果在定时器超时前停止定时器，可以使用*del_timer()*函数：
+如果在定时器超时前停止定时器，可以使用`del_timer()`函数：
 
 ```C
 del_timer(&my_timer);
 ```
 
-需要注意的是，在多处理器系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到*del_timer_syn()*函数来执行删除工作。
+需要注意的是，在多处理器系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到`del_timer_syn()`函数来执行删除工作。
 
 ### 延迟执行
 
@@ -166,7 +166,7 @@ void ndelay(unsigned long nsecs)
 void mdelay(unsigned long msecs)
 ```
 
-更理想的延迟执行方法是使用*schedule_timeout()*函数，该方法让需要延迟执行的任务睡眠到指定延迟时间耗尽后再重新运行。其用法如下：
+更理想的延迟执行方法是使用`schedule_timeout()`函数，该方法让需要延迟执行的任务睡眠到指定延迟时间耗尽后再重新运行。其用法如下：
 
 ```C
 set_current_state(TASK_INTERRUPTIBLE);

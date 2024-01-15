@@ -143,7 +143,7 @@ sysfs是一个基于RAM的文件系统，它和kobject一起，可以将内核�
 
 sysfs具备文件系统的所有属性，比如open, read, write, close。这里只讨论其在设备模型中的特性。
 
-在上文对kobject的讨论中提到，每一个kobject都会对应sysfs中的一个目录。在将kobject添加到内核时，*create_dir()*函数就会创建和kobject对应的目录。
+在上文对kobject的讨论中提到，每一个kobject都会对应sysfs中的一个目录。在将kobject添加到内核时，`create_dir()`函数就会创建和kobject对应的目录。
 
 在sysfs中，有一个重要的概念叫attritube，对应的是kobject的属性。如果我们希望用户空间可以修改某个driver的变量，可以通过sysfs attribute的形式开放出来。
 
@@ -252,6 +252,23 @@ int add_uevent_var(struct kobj_uevent_env *env, const char *format, ...);
 
 > add_uevent_var：以格式化字符串的形式，向uevent添加新的环境变量。
 
+## device和device_driver
+
+**device**和**device_driver**是Linux驱动开发的基本概念。驱动开发，其实就是开发指定的软件（driver）以及驱动指定的设备（device）。内核为此定义了两种数据结构，分别是**struct device**和**struct device_driver**。
+
+Linux设备模型框架体系下开发，主要包括两个步骤：
+
+1. 分配一个struct device类型的变量，填充信息，然后将其注册到内核。
+
+2. 分配一个struct device_driver类型的变量，填充信息，然后将其注册到内核。
+
+设备驱动的执行逻辑，由回调函数实现。开发人员只需要做填空题即可。
+
+一般情况下，Linux驱动开发很少直接操作上面两个结构体，因为内核又封装了一层，比如**platform_device**，封装后的接口更为简单易用。device和device_driver必须挂在在同一个bus之下，名称也必须一样，内核才能完成匹配操作。
+
+如果存在相同名称的device和device_driver，内核就会执行device_driver中的`probe()`回调函数，该函数时所有driver的入口函数，用来执行诸如硬件设备初始化、字符设备注册、文件操作ops注册等动作（对应`remove()`函数）。
+
+
 ## bus
 
 总线是连接处理器和设备之间的通道。为了方便设备模型的实现，系统中的每个设备都需要连接在一个总线上，这个总线可以是内部总线、虚拟总线或者是平台总线。
@@ -260,13 +277,46 @@ int add_uevent_var(struct kobj_uevent_env *env, const char *format, ...);
 
 ![总线模型](../../images/kernel/bus_model.jpg)
 
+内核用**struct bus_type**结构体抽象出总线：
+
+```C
+struct bus_type {
+	const char *name;
+	const char *dev_name;
+
+	int (*match)(struct device *dev, struct device_driver *drv);
+	int (*uevent)(struct device *dev, struct kobj_uevent_env *env);
+	int (*probe)(struct device *dev);
+	int (*remove)(struct device *dev);
+
+	struct subsys_private *p;
+};
+```
+
+我们发现bus_type结构体中的大部分成员都与device有关，说明它主要负责设备的注册和注销等操作。
+
+> name：该bus的名称，在sysfs中以目录形式存在，比如platform bus表现为/sys/bus/platform。
+
+> dev_name：注册到bus的设备名称。
+
+> match：当属于该bus的device或者device_driver添加到内核时，调用该函数。
+
+> uevent：当属于该bus的device，发生添加、移除或者其他动作时，调用该函数。
+
+> probe、remove：当属于该bus的device，发生初始化和移除时，调用该函数。
+
+> p：保存了bus模块的一些私有数据。
 
 
+bus模块的主要功能是：
 
+- bus的注册和注销
+- 本bus下有device或者device_driver注册到内核时的处理
+- 本bus下有device或者device_driver从内核注销时的处理
+- device_driver的probe
+- 管理bus下所有的device和device_driver
 
-
-
-内核提供了*bus_register()*函数来注册总线，*bus_unregister()*函数来注销总线。
+内核提供了`bus_register()`函数来注册总线，`bus_unregister()`函数来注销总线。
 
 ```C
 int bus_register(struct bus_type *bus);
@@ -276,34 +326,116 @@ void bus_unregister(struct bus_type *bus);
 
 当我们成功注册总线时，会在/sys/bus/目录下创建一个新目录，目录名为我们新注册的总线名。bus目录中包含了当前系统中已经注册了的所有总线，例如i2c，spi，platform等。
 
-
 ## class
 
-## device和device_driver
+在本文的开头我们提到，class是用来统一管理相同功能的设备，这样可以避免每个设备驱动实现重复的功能。
+
+```C
+struct class {
+	const char		*name;
+	struct module		*owner;
+
+	const struct attribute_group	**class_groups;
+	const struct attribute_group	**dev_groups;
+	struct kobject			*dev_kobj;
+
+	int (*dev_uevent)(struct device *dev, struct kobj_uevent_env *env);
+	char *(*devnode)(struct device *dev, umode_t *mode);
+
+	void (*class_release)(struct class *class);
+	void (*dev_release)(struct device *dev);
+
+	int (*shutdown_pre)(struct device *dev);
+
+	const struct kobj_ns_type_operations *ns_type;
+	const void *(*namespace)(struct device *dev);
+
+	void (*get_ownership)(struct device *dev, kuid_t *uid, kgid_t *gid);
+
+	const struct dev_pm_ops *pm;
+
+	struct subsys_private *p;
+};
+```
+
+> name：class的名称，体现在/sys/class目录下。
+
+> class_groups：class属性。
+
+> dev_groups：dev属性。
+
+> dev_uevent：设备的uevent回调函数。
+
+> class_release/dev_release：release回调函数。
+
+> pm：电源管理的回调函数。
+
+> p：私有数据。
+
+**struct class_interface**定义了当前class下有设备添加或者移除时，可以调用的回调函数：
+
+```C
+struct class_interface {
+	struct list_head	node;
+	struct class		*class;
+
+	int (*add_dev)		(struct device *, struct class_interface *);
+	void (*remove_dev)	(struct device *, struct class_interface *);
+};
+```
+
+class的概念比较抽象，后续，在各类子系统中，我们能看到许多class的用例。
 
 
+class的注册/注销函数如下：
 
-
+```C
+int __must_check __class_register(struct class *class, struct lock_class_key *key);
+void class_unregister(struct class *class);
+```
 
 ## 平台设备驱动
 
-对于I2C、SPI、USB这些常见的设备来说，Linux内核都会创建与之相对应的驱动总线。但是有些结构简单的设备，比如led、rtc时钟、蜂鸣器等，内核就不会自己创建驱动总线。为了使这部分设备的驱动开发也能遵循设备驱动模型，Linux内核引入了虚拟的总线——平台总线（platform bus）。平台总线用于管理和挂载那些没有相应物理总线的设备，这些设备被称为平台设备，对应的设备驱动被称为平台驱动。平台设备驱动是Linux设备驱动模型的一种。平台设备使用platform_device结构体来表示，继承自设备驱动模型中的device结构体。而平台驱动用platform_driver结构体来表示，继承自device_driver结构体。
+对于I2C、SPI、USB这些常见的设备来说，Linux内核都会创建与之相对应的驱动总线。但是有些结构简单的设备，比如led、rtc时钟、蜂鸣器等，内核就不会自己创建驱动总线。为了使这部分设备的驱动开发也能遵循设备驱动模型，Linux内核引入了虚拟的总线——平台总线（platform bus）。平台总线用于管理和挂载那些没有相应物理总线的设备，这些设备被称为平台设备，对应的设备驱动被称为平台驱动。平台设备对于Linux驱动工程师是非常重要的，因为大多数的驱动代码，实际就是为了驱动平台设备。
 
-内核使用*struct bus_type platform_bus_type*来描述平台总线，该总线在内核初始化的时候注册。
+Platform架构图如下所示：
+
+![platform架构](../../images/kernel/platform.gif)
+
+从图片中我们可以看到：
+
+- platform bus：继承自bus模块，用于挂载platform设备。
+- platform device：继承自device模块，用于描述platform设备。
+- platform drvier：继承自device_driver模块，用于驱动platform设备。
+
+### 平台总线
+
+在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用`platform_match()`函数对新增的设备或驱动进行配对。内核使用**struct bus_type platform_bus_type**来描述平台总线，该总线在内核初始化的时候注册：
+
+```C
+sturct bus_type platform_bus_type{
+	.name = "platform",
+	.dev_groups = platform_dev_groups,
+	.match = platform_match,
+	.uevent = platform_uevent,
+	.pm = &platform_dev_pm_ops,
+};
+```
+
+对于**platform_bus_type**的初始化来说，**match**函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。对于每个驱动总线，都必须实例化该函数指针。
 
 ### 平台设备
 
-platform_device结构体的定义如下：
+内核使用**platform_device**结构体来描述平台设备：
 
 ```C
  struct platform_device {
      const char *name;    //设备名称，匹配时会比较驱动的名字
-     int id;              //指定设备的编号
+     int id;              //内核允许存在多个
      struct device dev;   //继承的device结构体
      u32 num_resources;   //记录资源的数目
      struct resource *resource;    //平台设备提供给驱动的资源
      const struct platform_device_id *id_entry;    
-     /* 省略部分成员 */
  };
 ```
 
@@ -313,7 +445,7 @@ platform_device结构体的定义如下：
 
 2. 软件信息：以太网卡设备中的MAC地址、I2C设备中的设备地址、SPI设备的片选信号线等等
 
-对于硬件信息，使用结构体struct resource来保存设备所提供的资源，比如设备使用的中断编号，寄存器物理地址等，结构体原型如下：
+对于硬件信息，使用结构体**struct resource**来保存设备所提供的资源，比如设备使用的中断编号，寄存器物理地址等，结构体原型如下：
 
 ```C
 struct resource {
@@ -321,15 +453,14 @@ struct resource {
     resource_size_t end;
     const char *name;
     unsigned long flags;
-    /* 省略部分成员 */
 };
 ```
 
-- name： 指定资源的名字，可以设置为NULL；
+> name： 指定资源的名字，可以设置为NULL；
 
-- start、end： 指定资源的起始地址以及结束地址
+> start、end： 指定资源的起始地址以及结束地址
 
-- flags： 用于指定该资源的类型，在Linux中，资源包括I/O、Memory、Register、IRQ、DMA、Bus等多种类型，最常见的有以下几种：
+> flags： 用于指定该资源的类型，在Linux中，资源包括I/O、Memory、Register、IRQ、DMA、Bus等多种类型，最常见的有以下几种：
 
 | 资源宏定义 | 描述 |
 | ---  | --- |
@@ -342,8 +473,75 @@ struct resource {
 
 在资源的起始地址和结束地址中，对于IORESOURCE_IO或者是IORESOURCE_MEM，他们表示要使用的内存的起始位置以及结束位置；若是只用一个中断引脚或者是一个通道，则它们的start和end成员值必须是相等的。
 
+注册/注销平台设备用到的函数如下：
 
+```C
+int platform_device_register(struct platform_device *pdev);
+void platform_device_unregister(struct platform_device *pdev);
+```
 
+### 平台驱动
 
+内核使用**platform_driver**结构体来描述平台驱动：
 
+```C
+struct platform_driver {
+	int (*probe)(struct platform_device *);
+	int (*remove)(structg platform_device *);
+	int (*suspend)(struct platform_device *, pm_message_t state);
+	int (*resume)(struct platform_device *);
+	struct device_driver driver;
+	const struct platform_device_id *id_table;
+};
+```
 
+除了提供一些回调函数之外，还有一个**id_table**的指针。这个指针用来表示该驱动能够兼容的设备类型，当设备调用`probe()`函数时，就会到这个数组里检查是否匹配。
+
+我们看一下**struct platform_device_id**结构体的定义：
+
+```C
+struct platform_device_id {
+	char name[PLATFORM_NAME_SIZE];
+	kernel_ulong_t driver_data;
+};
+```
+
+**name**用于指定驱动的名称，总线进行匹配时，会根据该**name**成员与**platform_device**中的**name**进行匹配。**driver_data**用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
+
+注册/注销平台驱动的函数如下：
+
+```C
+int platform_driver_register(struct platform_device *drv);
+void platform_driver_unregister(struct platform_device *drv);
+```
+
+在平台设备中，**resource**结构体用来表示硬件信息，而软件信息则可以用设备结构体**device**中的成员**platform_data**来保存。
+
+`platform_get_resource()`函数通常会在驱动的`probe()`函数中执行，用于获取平台设备提供的资源结构体，最终返回一个**st ruct resource**的指针：
+
+```C
+struct resource *platform_get_resource(struct platform_device *dev, unsigned int type, unsigned int num);
+```
+
+> dev：指定要获取的平台设备。
+
+> type：指定获取资源的类型，比如IORESOURCE_IO。
+
+> num：指定要获取的资源编号。
+
+如果资源类型是IORESOURCE_IRQ，可以使用以下接口还获取中断引脚：
+
+```C
+int platform_get_irq(struct platform_device *pdev, unsigned int num);
+```
+
+对于存放在**device**结构体中**platform_data**的软件信息，可以使用`dev_get_platdata()`函数来获取：
+
+```C
+static inline void *dev_get_platdata(const struct device *dev)
+{
+    return dev->platform_data;
+}
+```
+
+总结一下平台驱动：需要实现`probe()`函数，当平台总线成功匹配驱动和设备时，则会调用驱动的`probe()`函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体**platform_driver**，调用`platform_driver_register()`进行注册。
