@@ -384,8 +384,6 @@ struct class_interface {
 };
 ```
 
-class的概念比较抽象，后续，在各类子系统中，我们能看到许多class的用例。
-
 
 class的注册/注销函数如下：
 
@@ -393,6 +391,8 @@ class的注册/注销函数如下：
 int __must_check __class_register(struct class *class, struct lock_class_key *key);
 void class_unregister(struct class *class);
 ```
+
+class的概念比较抽象，后续，在各类子系统中，我们能看到许多class的用例。
 
 ## 平台设备驱动
 
@@ -517,7 +517,7 @@ void platform_driver_unregister(struct platform_device *drv);
 
 在平台设备中，**resource**结构体用来表示硬件信息，而软件信息则可以用设备结构体**device**中的成员**platform_data**来保存。
 
-`platform_get_resource()`函数通常会在驱动的`probe()`函数中执行，用于获取平台设备提供的资源结构体，最终返回一个**st ruct resource**的指针：
+`platform_get_resource()`函数通常会在驱动的`probe()`函数中执行，用于获取平台设备提供的资源结构体，最终返回一个**struct resource**的指针：
 
 ```C
 struct resource *platform_get_resource(struct platform_device *dev, unsigned int type, unsigned int num);
