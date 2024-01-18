@@ -1260,6 +1260,8 @@
       
         
       
+        
+      
     
     
     
@@ -1301,6 +1303,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../others/github/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    github的使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1760,11 +1783,11 @@
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">remove_dev</span><span class="p">)</span><span class="w">  </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">class_interface</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
 <a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">};</span>
 </code></pre></div>
-<p>class的概念比较抽象，后续，在各类子系统中，我们能看到许多class的用例。</p>
 <p>class的注册/注销函数如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">__must_check</span><span class="w"> </span><span class="nf">__class_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">class</span><span class="w"> </span><span class="o">*</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">lock_class_key</span><span class="w"> </span><span class="o">*</span><span class="n">key</span><span class="p">);</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">class_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">class</span><span class="w"> </span><span class="o">*</span><span class="n">class</span><span class="p">);</span>
 </code></pre></div>
+<p>class的概念比较抽象，后续，在各类子系统中，我们能看到许多class的用例。</p>
 <h2 id="_2">平台设备驱动<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>对于I2C、SPI、USB这些常见的设备来说，Linux内核都会创建与之相对应的驱动总线。但是有些结构简单的设备，比如led、rtc时钟、蜂鸣器等，内核就不会自己创建驱动总线。为了使这部分设备的驱动开发也能遵循设备驱动模型，Linux内核引入了虚拟的总线——平台总线（platform bus）。平台总线用于管理和挂载那些没有相应物理总线的设备，这些设备被称为平台设备，对应的设备驱动被称为平台驱动。平台设备对于Linux驱动工程师是非常重要的，因为大多数的驱动代码，实际就是为了驱动平台设备。</p>
 <p>Platform架构图如下所示：</p>
@@ -1875,7 +1898,7 @@
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_driver_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
 </code></pre></div>
 <p>在平台设备中，<strong>resource</strong>结构体用来表示硬件信息，而软件信息则可以用设备结构体<strong>device</strong>中的成员<strong>platform_data</strong>来保存。</p>
-<p><code>platform_get_resource()</code>函数通常会在驱动的<code>probe()</code>函数中执行，用于获取平台设备提供的资源结构体，最终返回一个<strong>st ruct resource</strong>的指针：</p>
+<p><code>platform_get_resource()</code>函数通常会在驱动的<code>probe()</code>函数中执行，用于获取平台设备提供的资源结构体，最终返回一个<strong>struct resource</strong>的指针：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="o">*</span><span class="n">platform_get_resource</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
 </code></pre></div>
 <blockquote>

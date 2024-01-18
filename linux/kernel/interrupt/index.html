@@ -1453,6 +1453,8 @@
       
         
       
+        
+      
     
     
     
@@ -1494,6 +1496,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/github/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    github的使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1742,7 +1765,7 @@
 <p>中断处理程序处于特殊的中断上下文中。在解释中断上下文之前，我们先回忆一下进程上下文。进程上下文时一种内核所处的操作模式，此时进程代表进程执行。在进程上下文中，可以使用current宏关联当前进程，可以睡眠，也可以调用调度程序。与之相反，中断上下文与进程没有什么关联。因为中断的触发是随时到来的，并不知道当前处于哪个进程。因为没有后备进程，所以中断上下文不可睡眠，也不能调用任何可以引起睡眠的函数。中断上下文的代码必须快速且简洁。</p>
 <p>中断随时有可能发生，因此中断处理程序必须快速执行。但是，中断处理程序往往还要完成大量其他的工作。比如一个网络设备，除了对硬件应答之外，还需要把来自硬件的网络数据拷贝到内存。显然这种工作量不会小。</p>
 <p>又想中断处理程序运行得快，又要其完成的工作多。鉴于这两者之间的矛盾关系，我们一般把中断处理的过程切分为两个部分：上半部和下半部。中断处理程序是上半部——当接收到一个中断后，它立刻被执行，但只做有严格时限的工作。例如对接收到的中断进行应答。而稍后需要完成的工作则会被推迟到下半部去，在合适的时机执行。内核提供了多种下半部的机制，稍后会做说明。</p>
-<p>设备驱动程序可以通过<em>request_irq()</em>函数注册一个中断处理程序，并且激活给定的中断线：</p>
+<p>设备驱动程序可以通过<code>request_irq()</code>函数注册一个中断处理程序，并且激活给定的中断线：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">request_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">                </span><span class="n">irq_handler_t</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">                </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>

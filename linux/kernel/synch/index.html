@@ -1438,6 +1438,8 @@
       
         
       
+        
+      
     
     
     
@@ -1479,6 +1481,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/github/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    github的使用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1809,7 +1832,7 @@
 <p>函数<code>spin_lock_irqsave()</code>保存中断状态，并禁止本地中断，然后再去获取锁。反过来<code>spin_unlock_irqrestore()</code>解锁，并让中断恢复到加锁前的状态。所以即便是加锁前中断已经被禁止了，代码也不会错误地激活中断，而是让中断保持禁止状态。</p>
 <p>如果你能确定中断在加锁前是激活的，那么可以配对使用<code>spin_lock_irq()</code>和<code>spin_unlock_irq()</code>，从而在解锁时直接激活中断。但是内核的庞大性往往让人很难搞清楚中断在当前执行代码前是否处于激活状态，所以该方法并不提倡。</p>
 <p>由于中断下半部可以抢占进程上下文的代码，因此加锁的同时还需要禁止下半部执行。函数<code>spin_lock_bh()</code>可以做到这一点。同样，中断处理程序可以抢占下半部，因此如果下半部有需要和中断处理程序共享的数据时，也必须禁止中断。</p>
-<p>中断处理是另一个话题，请参考<a href="../interrupt/">中断及下半部</a>。</p>
+<p>中断处理是另一个话题，请参考<a href="../interrupt/">中断和中断处理</a>。</p>
 <h3 id="_9">读/写自旋锁<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p>有时，锁的用途可以明确地分为读和写两个场景，尤其是那些需要大量读操作，而写操作很少的情况时，引入读写锁可以很大地改善系统的性能。读写锁的基本逻辑是：读模式是共享的，写模式是独占的。也就是说当进行写操作的时候，只能由单个任务进行。而进行读操作的时候，可以并发的执行而不用担心安全问题。读/写锁的基本方法如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">DEFINE_RWLOCK</span><span class="p">(</span><span class="n">rw_lock</span><span class="p">);</span>
