@@ -19,3 +19,19 @@ Pinctrl驱动由芯片厂家BSP工程师提供，一般的驱动工程师只需�
 - 配置为什么状态
 
 IOMUX， IO复用器
+
+
+### Pinctrl主要数据结构
+
+
+
+pinctrl_desc:
+
+```C
+struct pinctrl_pin_desc {
+    unsigned number;
+    const char *name;
+    void *drv_data;
+};
+```
+

@@ -545,3 +545,5 @@ static inline void *dev_get_platdata(const struct device *dev)
 ```
 
 总结一下平台驱动：需要实现`probe()`函数，当平台总线成功匹配驱动和设备时，则会调用驱动的`probe()`函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体**platform_driver**，调用`platform_driver_register()`进行注册。
+
+

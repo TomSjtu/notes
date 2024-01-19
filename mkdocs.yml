@@ -73,6 +73,7 @@ nav:
 
   - Tools: 
     - tools/index.md
+    - tools/github.md
 
   - 其他:
     - others/index.md
