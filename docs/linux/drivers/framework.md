@@ -1,6 +1,6 @@
 # 驱动框架
 
-> 驱动框架下各类子系统的介绍。
+> 驱动框架下各类子系统的介绍，需要有[设备树](./dts.md)的知识。
 
 ## Pinctrl子系统
 
@@ -23,6 +23,12 @@ IOMUX， IO复用器
 
 ### Pinctrl主要数据结构
 
+**pinctrl**可以用一个结构体来表示它：**pinctrl_dev**。而**pinctrl_dev**可以用**pinctrl_desc**结构体描述，然后调用`pinctrl_register()`函数来注册它，其返回值就是一个**pinctrl_dev**的结构体：
+
+```C
+struct pinctrl_dev *pinctrl_register(struct pinctrl_desc *pctldesc, struct device *dev, void *driver_data);
+```
+
 
 
 pinctrl_desc:
@@ -35,3 +41,86 @@ struct pinctrl_pin_desc {
 };
 ```
 
+
+pinctrl_ops：
+
+```C
+struct pinctrl_ops {
+	int (*get_groups_count) (struct pinctrl_dev *pctldev);
+	const char *(*get_group_name) (struct pinctrl_dev *pctldev,
+				       unsigned selector);
+	int (*get_group_pins) (struct pinctrl_dev *pctldev,
+			       unsigned selector,
+			       const unsigned **pins,
+			       unsigned *num_pins);
+	void (*pin_dbg_show) (struct pinctrl_dev *pctldev, struct seq_file *s,
+			  unsigned offset);
+	int (*dt_node_to_map) (struct pinctrl_dev *pctldev,
+			       struct device_node *np_config,
+			       struct pinctrl_map **map, unsigned *num_maps);
+	void (*dt_free_map) (struct pinctrl_dev *pctldev,
+			     struct pinctrl_map *map, unsigned num_maps);
+};
+```
+
+pinmux_pos：
+
+```C
+struct pinmux_ops {
+	int (*request) (struct pinctrl_dev *pctldev, unsigned offset);
+	int (*free) (struct pinctrl_dev *pctldev, unsigned offset);
+	int (*get_functions_count) (struct pinctrl_dev *pctldev);
+	const char *(*get_function_name) (struct pinctrl_dev *pctldev,
+					  unsigned selector);
+	int (*get_function_groups) (struct pinctrl_dev *pctldev,
+				  unsigned selector,
+				  const char * const **groups,
+				  unsigned *num_groups);
+	int (*set_mux) (struct pinctrl_dev *pctldev, unsigned func_selector,
+			unsigned group_selector);
+	int (*gpio_request_enable) (struct pinctrl_dev *pctldev,
+				    struct pinctrl_gpio_range *range,
+				    unsigned offset);
+	void (*gpio_disable_free) (struct pinctrl_dev *pctldev,
+				   struct pinctrl_gpio_range *range,
+				   unsigned offset);
+	int (*gpio_set_direction) (struct pinctrl_dev *pctldev,
+				   struct pinctrl_gpio_range *range,
+				   unsigned offset,
+				   bool input);
+	bool strict;
+};
+```
+
+pinconf_ops：
+
+```C
+struct pinconf_ops {
+#ifdef CONFIG_GENERIC_PINCONF
+	bool is_generic;
+#endif
+	int (*pin_config_get) (struct pinctrl_dev *pctldev,
+			       unsigned pin,
+			       unsigned long *config);
+	int (*pin_config_set) (struct pinctrl_dev *pctldev,
+			       unsigned pin,
+			       unsigned long *configs,
+			       unsigned num_configs);
+	int (*pin_config_group_get) (struct pinctrl_dev *pctldev,
+				     unsigned selector,
+				     unsigned long *config);
+	int (*pin_config_group_set) (struct pinctrl_dev *pctldev,
+				     unsigned selector,
+				     unsigned long *configs,
+				     unsigned num_configs);
+	void (*pin_config_dbg_show) (struct pinctrl_dev *pctldev,
+				     struct seq_file *s,
+				     unsigned offset);
+	void (*pin_config_group_dbg_show) (struct pinctrl_dev *pctldev,
+					   struct seq_file *s,
+					   unsigned selector);
+	void (*pin_config_config_dbg_show) (struct pinctrl_dev *pctldev,
+					    struct seq_file *s,
+					    unsigned long config);
+};
+```

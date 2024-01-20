@@ -1,6 +1,6 @@
 # github的使用
 
-由于众所周知的原因，github在国内的访问不尽如人意，但是很多开源项目都是部署在github上的，很多时候不得不用。如果是自己的虚拟机连接网速比较慢，最好开个梯子然后输入以下命令：
+由于众所周知的原因，github在国内的访问不尽如人意，但是国外开源项目几乎都部署在github上，不得不用。如果是自己的虚拟机连接网速比较慢，建议开个梯子然后配置下流量代理：
 
 ```SHELL
 git config --global http.proxy http://127.0.0.1:[端口号]
@@ -8,7 +8,7 @@ git config --global http.proxy http://127.0.0.1:[端口号]
 git config --global https.proxy http://127.0.0.1:[端口号]
 ```
 
-这两行命令的意思是http和https协议的流量全部走你梯子的代理，端口号是需要你自己根据梯子的配置输入的。如果你要取消全局代理，输入以下命令：
+这两行命令的意思是让http和https协议的流量全部走你梯子的代理，端口号根据梯子的配置自行输入。配置完以后`git clone`应该不会卡了。如果你要取消全局代理，输入以下命令：
 
 ```SHELL
 git config --global --unset http.proxy
@@ -25,7 +25,7 @@ ssh -T -p 443 git@ssh.github.com
 
 > Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
 ```
-如果输出以上内容，则说明连接可行。你可以更改~/.ssh/config文件，以强制与github的连接都通过该服务器和端口：
+如果输出以上内容，则说明连接可行。你可以更改~/.ssh/config文件，强制与github的连接都通过该服务器和端口：
 
 ```SHELL
 Host github.com
@@ -41,6 +41,8 @@ ssh -T git@github.com
 
 > Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
 ```
+
+> 注意：SSH通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过SSH连接时，会询问你是否信任该服务器，输入yes即可。
 
 ## 添加SSH密钥
 
@@ -107,8 +109,8 @@ git remote set-url origin git@github.com:OWNER/REPOSITORY.git
 这时远程仓库的格式应该是：
 
 ```SHELL
-origin git@github.com:OWNER/REPOSITORY.git (fetch)
-origin git@github.com:OWNER/REPOSITORY.git (push)
+origin  git@github.com:OWNER/REPOSITORY.git (fetch)
+origin  git@github.com:OWNER/REPOSITORY.git (push)
 ```
 
 ## git常用命令
@@ -173,6 +175,6 @@ git check -b [新分支名]
 合并代码：
 
 ```SHELL
-git merege [另一个分支名]
+git merge [另一个分支名]
 ```
 
