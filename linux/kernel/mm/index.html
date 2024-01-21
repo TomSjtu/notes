@@ -12,28 +12,28 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/others/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/mm/">
       
       
-        <link rel="prev" href="../tools/github/">
+        <link rel="prev" href="../synch/">
       
       
-        <link rel="next" href="ld/">
+        <link rel="next" href="../others/">
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
     
     
       
-        <title>不太好分类的放这 - 一只Tom的笔记本</title>
+        <title>物理内存管理 - 一只Tom的笔记本</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.fad675c6.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -87,7 +87,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../../.." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              不太好分类的放这
+              物理内存管理
             
           </span>
         </div>
@@ -181,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
     
@@ -196,11 +196,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../linux/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
     
@@ -220,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../rtos/" class="md-tabs__link">
+        <a href="../../../rtos/" class="md-tabs__link">
           
   
     
@@ -240,7 +242,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../arm/" class="md-tabs__link">
+        <a href="../../../arm/" class="md-tabs__link">
           
   
     
@@ -260,7 +262,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../pl/" class="md-tabs__link">
+        <a href="../../../pl/" class="md-tabs__link">
           
   
     
@@ -280,7 +282,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../cloud/" class="md-tabs__link">
+        <a href="../../../cloud/" class="md-tabs__link">
           
   
     
@@ -300,7 +302,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../tools/" class="md-tabs__link">
+        <a href="../../../tools/" class="md-tabs__link">
           
   
     
@@ -316,13 +318,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../others/" class="md-tabs__link">
           
   
     
@@ -363,7 +363,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -393,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -410,6 +410,8 @@
       
   
   
+    
+  
   
   
     
@@ -430,17 +432,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../linux/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -457,7 +459,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Linux
@@ -470,6 +472,8 @@
                 
   
   
+    
+  
   
   
     
@@ -495,17 +499,17 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../linux/kernel/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -522,7 +526,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             内核剖析
@@ -538,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/sched/" class="md-nav__link">
+      <a href="../sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -559,7 +563,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/vma/" class="md-nav__link">
+      <a href="../vma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -580,7 +584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/interrupt/" class="md-nav__link">
+      <a href="../interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -601,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/synch/" class="md-nav__link">
+      <a href="../synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -619,10 +623,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../linux/kernel/mm/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    物理内存管理
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -631,6 +655,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      页和区
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      页操作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kmalloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      kmalloc()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vmalloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      vmalloc()
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -643,7 +723,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/others/" class="md-nav__link">
+      <a href="../others/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -698,7 +778,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../linux/drivers/" class="md-nav__link ">
+            <a href="../../drivers/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -731,7 +811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/drivers/dts/" class="md-nav__link">
+      <a href="../../drivers/dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -752,7 +832,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/drivers/chardev/" class="md-nav__link">
+      <a href="../../drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -773,7 +853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/drivers/framework/" class="md-nav__link">
+      <a href="../../drivers/framework/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -838,7 +918,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../rtos/" class="md-nav__link ">
+            <a href="../../../rtos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -891,7 +971,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../rtos/freertos/" class="md-nav__link ">
+            <a href="../../../rtos/freertos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -927,7 +1007,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rtos/freertos/CMSIS/" class="md-nav__link">
+      <a href="../../../rtos/freertos/CMSIS/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -968,7 +1048,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../rtos/rt-thread/" class="md-nav__link ">
+            <a href="../../../rtos/rt-thread/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1036,7 +1116,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../arm/" class="md-nav__link ">
+            <a href="../../../arm/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1069,7 +1149,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../arm/barrier/" class="md-nav__link">
+      <a href="../../../arm/barrier/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1120,7 +1200,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../pl/" class="md-nav__link ">
+            <a href="../../../pl/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1178,7 +1258,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../cloud/" class="md-nav__link ">
+            <a href="../../../cloud/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1238,7 +1318,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../tools/" class="md-nav__link ">
+            <a href="../../../tools/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1271,7 +1351,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/github/" class="md-nav__link">
+      <a href="../../../tools/github/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1296,8 +1376,6 @@
       
   
   
-    
-  
   
   
     
@@ -1316,17 +1394,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../../others/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1337,13 +1415,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_8" id="__nav_8_label" tabindex="">
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             其他
@@ -1359,7 +1437,7 @@
   
   
     <li class="md-nav__item">
-      <a href="ld/" class="md-nav__link">
+      <a href="../../../others/ld/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1409,7 +1487,34 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      参考资料
+      页和区
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      页操作
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kmalloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      kmalloc()
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vmalloc" class="md-nav__link">
+    <span class="md-ellipsis">
+      vmalloc()
     </span>
   </a>
   
@@ -1433,11 +1538,147 @@
   
 
 
-<h1 id="_1">不太好分类的放这<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<h2 id="_2">参考资料<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h1 id="_1">物理内存管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>这部分内容和<a href="../vma/">进程地址空间</a>结合起来看。</p>
+</blockquote>
+<h2 id="_2">页和区<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>我们知道，Linux内核是以页为单位来组织和管理内存的。在Linux系统中，内存被划分为许多固定大小的页，每一页通常是4KB。这种组织方式允许内核更加高效地进行内存分配和回收，同时也便于实现虚拟内存的管理。内核使用<strong>struct page</strong>结构体来表示每个页，该定义的简化版如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">_count</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">_mapcount</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">private</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">address_space</span><span class="w"> </span><span class="o">*</span><span class="n">mapping</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">pgoff_t</span><span class="w"> </span><span class="n">index</span><span class="p">;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">lru</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">virtual</span><span class="p">;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>flags：存放页的状态，是不是脏页，是不是锁定在内存中等。</p>
+<p>_count：存放页的引用计数，当页被分配给一个或多个进程时，这个计数器会增加。当页被释放时，计数器减少。直到计数器降至0，页才能被回收。</p>
+<p>_mapcount：用于记录页表项映射到该物理页的次数。这通常用于共享内存页，多个进程可能映射到同一个物理页。</p>
+<p>mapping：指向一个address_space结构的指针，这个结构体用于描述与文件相关的内存映射信息。如果页属于文件缓存，这个字段将指向相应的address_space结构。</p>
+<p>index：表示页在映射的文件中的偏移量，即页在文件中的索引号。</p>
+<p>lru：一个双向链表节点，用于将页链入到各种链表中，比如活跃链表、不活跃链表等。这是内核实现页置换算法（如LRU）的一部分。</p>
+<p>virtual：页在虚拟内存中的地址。</p>
+</blockquote>
+<p>为了更好地管理不同类型的内存和优化内存分配策略，内核将页划分为不同的<strong>区</strong>(zone)，通常划分为以下几个区：</p>
 <ul>
-<li><a href="https://book.douban.com/subject/3652388/">程序员的自我修养</a></li>
+<li>
+<p>ZONE_DMA：用于DMA操作的内存区，通常位于物理内存的低地址部分。</p>
+</li>
+<li>
+<p>ZONE_DMA32：与ZONE_DMA类似，但适用于32位地址的DMA操作。</p>
+</li>
+<li>
+<p>ZONE_NORMAL：普通的内存区，可以由内核和用户空间进程使用。</p>
+</li>
+<li>
+<p>ZONE_HIGHMEM：高端内存区，用于处理超过直接映射范围的内存。</p>
+</li>
 </ul>
+<p>区的使用和分布与体系结构密切相关，内核将页划分为区，就可以根据用途进行分配。区的划分没有物理意义，只是为了方便管理而采取的一种逻辑分组。</p>
+<h2 id="_3">页操作<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>内核提供了一些获得页和释放页的操作，这里不做详细说明。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>alloc_page(gfp_mask)</td>
+<td>只分配一页，返回指向页的指针</td>
+</tr>
+<tr>
+<td>alloc_pages(gfp_mask, order)</td>
+<td>分配2<sup>order</sup>个页，返回指向第一页的指针</td>
+</tr>
+<tr>
+<td>__get_free_page(gfp_mask)</td>
+<td>只分配一页，返回指向其逻辑地址的指针</td>
+</tr>
+<tr>
+<td>__get_free_pages(gfp_mask, order)</td>
+<td>分配2<sup>order</sup>个页，返回指向第一页逻辑地址的指针</td>
+</tr>
+<tr>
+<td>get_zero_page(gfp_mask)</td>
+<td>只分配一页，填充为0，返回指向其逻辑地址的指针</td>
+</tr>
+<tr>
+<td>__free_pages(page, order)</td>
+<td>传入页的指针，释放2<sup>order</sup>个页</td>
+</tr>
+<tr>
+<td>free_pages(addr, order)</td>
+<td>传入第一页的逻辑地址，释放2<sup>order</sup>个页</td>
+</tr>
+<tr>
+<td>free_page(addr)</td>
+<td>释放单张页</td>
+</tr>
+</tbody>
+</table>
+<p>释放页时要谨慎，一旦传递了错误的page或者address，系统就会崩溃。在获得页之后，需要对返回值进行检查以确认内核正确地分配了页。</p>
+<p>对于常用的以字节为单位的内存分配来说，内核提供的函数是<code>kmalloc()</code>。</p>
+<h2 id="kmalloc">kmalloc()<a class="headerlink" href="#kmalloc" title="Permanent link">&para;</a></h2>
+<p><code>kmalloc()</code>与用户空间的<code>malloc()</code>类似，都是分配以字节为单位的一块内存，区别在于<code>kmalloc()</code>多了一个flags参数：</p>
+<blockquote>
+<p>注意：使用<code>kmalloc()</code>函数分配的内存只能使用<code>kfree()</code>函数释放。</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">kmalloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">gfp_t</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span>
+</code></pre></div>
+<p>该函数返回一个指向内存块的指针，至少有size大小。所分配的内存区在物理上是连续的。除非没有足够的内存可用，否则内核总能分配成功。当然，在对<code>kmalloc()</code>调用之后，你还是需要检查返回值是否为NULL：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">dog</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">dog</span><span class="p">),</span><span class="w"> </span><span class="n">GFP_KERNEL</span><span class="p">)</span><span class="err">；</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="cm">/*处理错误*/</span>
+</code></pre></div>
+<p>不管是在页分配函数还是在<code>kmalloc()</code>中，都用到了分配器标志。标志分为三类：行为修饰符、区修饰符和类型标志。类型标志组合了前两者，简化了修饰符的使用，因此我们只需要知道类型标志即可。内核中最常用的就是GFP_KERNEL。这种分配方式可能会引起睡眠，所以只能用在可以重新安全调度的进程上下文中。另一个截然相反的标志是GFP_ATOMIC，这个标志表示不能睡眠的内存分配。与GFP_KERNEL相比，它分配成功的机会较小，但是在一些无法睡眠的代码中，也只能选择GFP_ATOMIC。GFP_DMA标志表示分配器必须满足从ZONE_DMA进行分配的请求，该标志用在需要DMA的内存的设备驱动程序中。在编写的绝大多数代码中，要么是GFP_KERNEL，要么是GFP_ATOMIC，其他标志用到的情况极少，就不做说明了。下面这张表格总结了标志的使用场景。</p>
+<table>
+<thead>
+<tr>
+<th>情形</th>
+<th>相应标志</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可以睡眠的进程上下文</td>
+<td>GFP_KERNEL</td>
+</tr>
+<tr>
+<td>不可以睡眠的进程上下文</td>
+<td>GFP_ATOMIC</td>
+</tr>
+<tr>
+<td>中断处理程序</td>
+<td>GFP_ATOMIC</td>
+</tr>
+<tr>
+<td>软中断</td>
+<td>GFP_ATOMIC</td>
+</tr>
+<tr>
+<td>tasklet</td>
+<td>GFP_ATOMIC</td>
+</tr>
+<tr>
+<td>可以睡眠的DMA内存</td>
+<td>（GFP_DMA | GFP_KERNEL）</td>
+</tr>
+<tr>
+<td>不可以睡眠的DMA内存</td>
+<td>（GFP_DMA）| GFP_ATOMIC</td>
+</tr>
+</tbody>
+</table>
+<h2 id="vmalloc">vmalloc()<a class="headerlink" href="#vmalloc" title="Permanent link">&para;</a></h2>
 
 
 
@@ -1482,10 +1723,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
     
   </body>
