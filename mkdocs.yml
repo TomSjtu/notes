@@ -45,6 +45,7 @@ nav:
       - linux/kernel/vma.md
       - linux/kernel/interrupt.md
       - linux/kernel/synch.md
+      - linux/kernel/mm.md
       - linux/kernel/others.md
     
     - 设备驱动程序:

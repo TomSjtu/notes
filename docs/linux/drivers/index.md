@@ -32,7 +32,7 @@ Linux内核使用sysfs文件系统将内核的设备驱动导出到用户空间�
 
 在总线上挂载了两个链表，分别管理设备模型和驱动模型。当我们向系统注册一个设备时，便会在设备的链表中插入新的设备。在插入的同时总线会执行match方法对新插入的设备/驱动进行配对。若配对成功则调用probe方法获取设备资源，在移除设备/驱动时，调用remove方法。
 
-## kobject、kset和ktype
+## kobject、ktype和kset
 
 kobject是Linux设备模型的基础，是一种抽象的、统一的对大量硬件设备的描述。它主要提供以下功能：
 
@@ -90,6 +90,25 @@ kobject核心机制：
 
 内嵌在别的数据结构（比如device_driver）中，当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的release回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。
 
+ktype的数据结构如下：
+
+```C
+struct kobj_type {
+	void (*release)(struct kobject *kobj);
+	const struct sysfs_ops *sysfs_ops;
+	const struct attribute_group **default_groups;
+	/*省略其他成员*/	
+};
+```
+
+> release：当kobject引用计数归零时调用该析构函数，负责释放kobject的内存。
+
+> sysfs_ops：sysfs文件系统读写时的特性。
+
+> default_groups：定义了kobject的属性，由struct attritube和struct bin_attribute构成。
+
+ktype的存在是为了描述一族kobject所具有的普遍特性。这样就不需要每个kobject定义自己的特性，而是在ktype中统一定义。
+
 kset的数据结构如下：
 
 ```C
@@ -101,57 +120,44 @@ struct kset {
 };
 ```
 
-> list/list_lock：用于保存该kset下所有kobject的链表。
+> list/list_lock：用于保存该kset下所有kobject对象。
 
 > kobj：该kset自己的kobject。
 
-> uevent_ops：该kset的uevent操作函数集合。当任何kobject需要上报uevent时，都要调用所属的kset中uevent_ops中的函数。如果一个kobject不属于任何kset，它就无法发送uevent。uevent的概念稍后说明。
+> uevent_ops：uevent是用户空间的缩写，提供了与用户空间热插拔进行通信的机制。当任何kobject需要上报uevent时，都要调用所属的kset中uevent_ops中的函数。uevent的概念稍后说明。
 
-kset是kobject对象的集合体。
-
-ktype的数据结构如下：
-
-```C
-struct kobj_type {
-	void (*release)(struct kobject *kobj);
-	const struct sysfs_ops *sysfs_ops;
-	struct attribute **default_attrs;	/* use default_groups instead */
-	const struct attribute_group **default_groups;
-	const struct kobj_ns_type_operations *(*child_ns_type)(struct kobject *kobj);
-	const void *(*namespace)(struct kobject *kobj);
-	void (*get_ownership)(struct kobject *kobj, kuid_t *uid, kgid_t *gid);
-};
-```
-
-> release：当kobject引用计数归零时调用该析构函数，负责释放kobject的内存。
-
-> sysfs_ops：sysfs文件系统的接口。
-
-> default_attr：定义了该kobject相关的默认属性，在sysfs中可作为文件导出。
-
-> child_ns_type：和文件系统的命名空间有关。
-
-> namespace：返回命名空间相关的数据。
-
-> get_ownership：获取内核对象的拥有者信息。
-
-ktype的存在是为了描述一族kobject所具有的普遍特性。这样就不需要每个kobject定义自己的特性，而是在ktype中统一定义。
+kset是kobject对象的集合体。它与ktype的区别在于：具有相同ktype的kobject可以被分组到不同的kset。
 
 ## sysfs
 
-sysfs是一个基于RAM的文件系统，它和kobject一起，可以将内核的数据结构导出到用户空间，以文件目录结构的形式，提供对这些数据结构的访问。
+sysfs文件系统是一个处于内存中的虚拟文件系统，它提供了kobject对象的层次结构视图。用户查询系统中各种设备的拓扑结构，就像查询文件目录一样简单。还可以通过导出文件的方式，将内核变量提供给用户读取或者写入。
 
-sysfs具备文件系统的所有属性，比如open, read, write, close。这里只讨论其在设备模型中的特性。
+sysfs的核心是把kobject对象与目录项（directory entries）关联起来，这点是通过kobject结构体中的dentry字段实现的。这种关联将kobject对象映射到该目录上。通过这种方式，我们可以轻松地查看挂载于/sys目录下的整个文件系统视图。向sysfs中添加kobject，可以使用`kobject_add()`和`kobject_create_and_add()`函数。
 
-在上文对kobject的讨论中提到，每一个kobject都会对应sysfs中的一个目录。在将kobject添加到内核时，`create_dir()`函数就会创建和kobject对应的目录。
+在/sys目录下挂载了至少11个目录：block, bus, class, dev, devices, firmware, fs, hypervisor, kernel, module, power。其中最重要的目录是devices，该目录将设备模型导出到用户空间。其目录机构就是系统中实际的设备拓扑结构。其他目录中的许多数据都是将devices目录下的数据加以转换加工所得。
 
-在sysfs中，有一个重要的概念叫attritube，对应的是kobject的属性。如果我们希望用户空间可以修改某个driver的变量，可以通过sysfs attribute的形式开放出来。
+我们已经知道kobject可以被映射为某个文件目录，仅有如此还不够。因为这样的sysfs仅仅只是一颗树，但没有提供实际数据的文件。为了能够读写这颗树，内核提供了attribute和bin_attribute两种属性。
+
+在ktype中用**struct attribute_group**描述这两个属性：
 
 ```C
+struct attribute_group {
+	const char *name;
+	struct attribute **attrs;
+	struct bin_attribute **bin_attrs;
+};
+
+/*attribute和bin_attribute的定义如下*/
+
+struct attribute {
+	const char *name;
+	umode_t mode;
+};
+
 struct bin_attribute {
-	struct attribute	attr;
-	size_t			size;
-	void			*private;
+	struct attribute attr;
+	size_t size;
+	void *private;
 	struct address_space *(*f_mapping)(void);
 	ssize_t (*read)(struct file *, struct kobject *, struct bin_attribute *,
 			char *, loff_t, size_t);
@@ -162,7 +168,7 @@ struct bin_attribute {
 };
 ```
 
-struct bin_attribute是二进制属性，开放了read和write的接口，因此可以以任何方式读写。attribute的read、write操作，由VFS转到sysfs_file_operations的read、write接口上。
+struct attribute为普通的attribute，使用该attribute生成的sysfs文件，只能用字符串的形式读写。而struct bin_attribute在struct attribute的基础上，增加了read、write等函数，因此它所生成的sysfs文件可以用任何方式读写。 
 
 ## uevent
 
@@ -267,7 +273,6 @@ Linux设备模型框架体系下开发，主要包括两个步骤：
 一般情况下，Linux驱动开发很少直接操作上面两个结构体，因为内核又封装了一层，比如**platform_device**，封装后的接口更为简单易用。device和device_driver必须挂在在同一个bus之下，名称也必须一样，内核才能完成匹配操作。
 
 如果存在相同名称的device和device_driver，内核就会执行device_driver中的`probe()`回调函数，该函数时所有driver的入口函数，用来执行诸如硬件设备初始化、字符设备注册、文件操作ops注册等动作（对应`remove()`函数）。
-
 
 ## bus
 
@@ -383,7 +388,6 @@ struct class_interface {
 	void (*remove_dev)	(struct device *, struct class_interface *);
 };
 ```
-
 
 class的注册/注销函数如下：
 
