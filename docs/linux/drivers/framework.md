@@ -118,3 +118,4 @@ struct pinconf_ops {
 					    unsigned long config);
 };
 ```
+

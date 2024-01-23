@@ -75,6 +75,8 @@ nav:
   - Tools: 
     - tools/index.md
     - tools/github.md
+    - tools/vim.md
+    - tools/markdown.md
 
   - 其他:
     - others/index.md
