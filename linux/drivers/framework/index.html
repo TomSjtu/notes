@@ -1532,9 +1532,8 @@
 <li>复用为什么功能</li>
 <li>配置为什么状态</li>
 </ul>
-<p>IOMUX， IO复用器</p>
 <h3 id="pinctrl_1">Pinctrl主要数据结构<a class="headerlink" href="#pinctrl_1" title="Permanent link">&para;</a></h3>
-<p><strong>pinctrl</strong>可以用一个结构体来表示它：<strong>pinctrl_dev</strong>。而<strong>pinctrl_dev</strong>可以用<strong>pinctrl_desc</strong>结构体描述，然后调用<code>pinctrl_register()</code>函数来注册它，其返回值就是一个<strong>pinctrl_dev</strong>的结构体：</p>
+<p>pinctrl可以用一个结构体来表示它：<code>pinctrl_dev</code>。而<code>pinctrl_dev</code>可以用<code>pinctrl_desc</code>结构体描述，然后调用<code>pinctrl_register()</code>函数来注册它，其返回值就是一个<code>pinctrl_dev</code>的结构体：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">pinctrl_dev</span><span class="w"> </span><span class="o">*</span><span class="n">pinctrl_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pinctrl_desc</span><span class="w"> </span><span class="o">*</span><span class="n">pctldesc</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">driver_data</span><span class="p">);</span>
 </code></pre></div>
 <p>pinctrl_desc:</p>

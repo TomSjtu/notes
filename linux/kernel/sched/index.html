@@ -1876,20 +1876,20 @@
 
 <h1 id="_1">进程管理与调度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>进程就是处于执行期的程序，当我们将代码编译成可执行文件时，输入./a.out，我们就开启了一个新的进程。进程从磁盘加载到内存的过程请参考<a href="../../../others/ld/">程序的装载</a>。</p>
-<p>一个进程相当于一个大型的项目组，这个项目组包含着许多资源，比如打开的文件信息，占用的内存空间，处理器的状态等。而线程就是项目组中执行具体任务的人。就像一个项目组至少得有一个人，一个进程必须得有一个主线程。你可以把所有的任务都交给主线程，但是大部分情况下，我们都会让把一个大的任务拆分成一个个小任务，然后另外开辟线程去处理它们。那么我们是否可以再创建几个进程去处理呢？可以，但是没有必要。首先，进程占用的资源空间很大，而线程是轻量级的，创建的速度非常快。其次，进程之间共享资源非常麻烦，而线程由于是同一个进程下的，他们可以共同访问某些资源。这就好比一个公司下面不同项目组之间交接工作容易扯皮，但是如果大家都在同一个项目组下相对来说就好很多。</p>
+<p>可以把一个进程想象成一个庞大的项目组，它包含了各种资源，例如打开的文件、占用的内存、处理器的状态等。而线程，就像是项目组中负责执行具体任务的个人。正如每个项目组至少需要一个人来执行任务，每个进程都必须有一个主线程。你可以选择将所有任务都交给主线程来完成，但在大多数情况下，我们会把一个大的任务分解成多个小任务，并创建额外的线程来并行处理这些小任务。那么，我们是否可以创建更多的进程来处理这些任务呢？从技术上来说，是可以的，但这通常并不是最佳选择。首先，进程占用的资源比线程多，而线程是轻量级的，创建的速度要快得多。其次，进程之间的资源共享相对复杂，而线程由于共享同一进程的资源，可以更容易地访问这些资源。这就像是在一个公司的不同项目组之间进行工作交接可能会很麻烦，但如果大家都属于同一个项目组，合作就会顺畅得多。</p>
 <h2 id="_2">进程描述符<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>为了管理进程，内核必须清晰地描述每一个进程。在Linux系统下，不管是进程还是线程，内核统一用task_struct结构体管理。</p>
+<p>为了管理进程，内核必须清晰地描述每一个进程。在Linux系统下，不管是进程还是线程，内核统一用<code>task_struct</code>结构体管理。</p>
 <h3 id="_3">内核栈<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">stack</span><span class="p">;</span>
 </code></pre></div>
-<p>每个进程都有一个专用的内核栈，用于保存进程在内核态执行时的临时数据和上下文信息。当创建新进程时，内核会为其分配一个合适大小的内核栈空间，并将其地址赋给task_struct中的stack成员。</p>
+<p>每个进程都有一个专用的内核栈，用于保存进程在内核态执行时的临时数据和上下文信息。当创建新进程时，内核会为其分配一个合适大小的内核栈空间，并将其地址赋给<code>task_struct</code>中的stack成员。</p>
 <h3 id="_4">线程描述符<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>线程描述符thread_info用于存储有关线程的信息。该结构体包含了很多与线程相关的字段，其中最重要的是task_struct *task，它指向当前线程所属的进程描述符。内核提供了current宏来获取当前CPU上运行进程的task_struct结构，该宏本质上等于current_thread_info()-&gt;task。</p>
+<p>线程描述符<code>thread_info</code>是一个用于存放线程相关信息的结构体，它包含了很多与线程相关的字段，其中最重要的是<code>task_struct *task</code>，它指向当前线程所属的进程描述符。为了方便访问当前CPU上正在运行的进程的<code>task_struct</code>结构，内核提供了<code>current</code>宏，该宏本质上等于：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">current_thread_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">task</span>
 </code></pre></div>
-<p>上述代码返回当前task_struct的地址。</p>
+<p>上述代码返回当前<code>task_struct</code>的地址。</p>
 <h3 id="_5">进程状态<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>在task_struct中，涉及到进程状态的是这几个成员：</p>
+<p>在<code>task_struct</code>中，涉及到进程状态的是这几个成员：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="w"> </span><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">   </span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exit_state</span><span class="p">;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
@@ -1917,7 +1917,7 @@
 <p>state字段的值用一个简单的赋值语句设置。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">p</span><span class="o">-&gt;</span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">TASK_RUNNING</span><span class="p">;</span>
 </code></pre></div>
-<p>也可以使用set_task_state和set_current_state宏：它们分别设置指定进程的状态和当前执行进程的状态。</p>
+<p>也可以使用<code>set_task_state</code>和<code>set_current_state</code>宏：它们分别设置指定进程的状态和当前执行进程的状态。</p>
 <p>TASK_RUNNING表示进程正在执行或者准备执行。</p>
 <p>当进程进入睡眠后，有两种状态：</p>
 <p>TASK_INTERRUPTIBLE表示进程可以响应信号。也就是当一个信号来临时，唤醒该进程，然后执行信号处理函数。</p>
@@ -1933,7 +1933,7 @@
 <p>exit_state的取值有两种：</p>
 <p>EXIT_ZOMBIE表示僵死状态。一个进程执行被终止，但是其父进程还没有调用<code>wait4()</code>或者<code>waitpid()</code>系统调用来回收资源时，进入该状态。</p>
 <p>EXIT_DEAD是进程的最终状态。父进程回收子进程资源之后，进程由系统删除。</p>
-<p>进程的一些其他状态信息由flags控制，使用位掩码来表示不同的标记。一些常见的标记包括：</p>
+<p>进程的一些其他状态信息由<code>flags</code>控制，使用位掩码来表示不同的标记。一些常见的标记包括：</p>
 <ul>
 <li>任务状态：例如是否正在运行、停止等</li>
 <li>调度器相关：例如调度策略、优先级等</li>
@@ -1946,16 +1946,16 @@
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="cp">#define PF_KTHREAD 0x00200000    </span><span class="c1">//I&#39;m a kernel thread</span>
 </code></pre></div>
 <h3 id="_6">进程标识<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>Linux系统使用PID来标识一个进程，PID被顺序编号，新创建的进程的PID通常是前一个进程+1。但是PID的值有一个上限，系统管理员可以通过修改/proc/sys/kernel/pid_max文件的值来改变这个上限。这么一看似乎一个PID来唯一标识一个进程就够了，但是在task_struct中，涉及到进程标识的有以下几个成员。</p>
+<p>Linux系统使用PID来标识一个进程，PID被顺序编号，新创建的进程的PID通常是前一个进程+1。但是PID的值有一个上限，系统管理员可以通过修改/proc/sys/kernel/pid_max文件的值来改变这个上限。这么一看似乎一个PID来唯一标识一个进程就够了，但是在<code>task_struct</code>中，涉及到进程标识的有以下几个成员。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">pid_t</span><span class="w"> </span><span class="n">tgid</span><span class="p">;</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">group_leader</span><span class="p">;</span><span class="w"> </span>
 </code></pre></div>
-<p>你可能会疑惑，唯一标识一个进程，为什么需要用到这么多变量？这是因为之前提到，在Linux系统下，进程与线程并不特别区分，都是一个task_struct结构体。这就给管理带来了一些麻烦。比如我们希望同属于一个进程组的线程拥有共同的pid。当我们发送一个信号给指定pid时，我们希望这个信号能作用于该组中的所有线程。当杀死某个进程时，当然是连同该进程下的所有线程一起杀死，而不是只杀死了主进程，其他线程还在工作，这显然不合常理。事实上,POSIX标准也规定一个多线程应用程序的所有线程必须享有共同的pid。</p>
-<p>遵照这个标准，Linux引入了线程组的概念。一个线程组中所有线程使用和该线程组领头线程（thread group leader）相同的pid，它被存入task_struct的tgid字段。当我们使用<code>getpid()</code>系统调用返回当前进程的pid时，返回的也是tgid的值。任何一个进程，如果只有主线程，那么pid = tgid， group_leader指向的就是自己。如果主线程创建了其他线程，那么每个线程都有自己的pid，但是tgid仍然是主线程。</p>
+<p>你可能会疑惑，唯一标识一个进程，为什么需要用到这么多变量？这是因为之前提到，在Linux系统下，进程与线程并不特别区分，都是一个<code>task_struct</code>结构体。这就给管理带来了一些麻烦。比如我们希望同属于一个进程组的线程拥有共同的pid。当我们发送一个信号给指定pid时，我们希望这个信号能作用于该组中的所有线程。当杀死某个进程时，当然是连同该进程下的所有线程一起杀死，而不是只杀死了主进程，其他线程还在工作，这显然不合常理。事实上，POSIX标准也规定一个多线程应用程序的所有线程必须享有共同的pid。</p>
+<p>遵照这个标准，Linux引入了线程组的概念。一个线程组中所有线程使用和该线程组领头线程（thread group leader）相同的pid，它被存入<code>task_struct</code>的tgid字段。当我们使用<code>getpid()</code>系统调用返回当前进程的pid时，返回的也是tgid的值。任何一个进程，如果只有主线程，那么pid = tgid， group_leader指向的就是自己。如果主线程创建了其他线程，那么每个线程都有自己的pid，但是tgid仍然是主线程。</p>
 <h3 id="_7">进程间关系<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>Linux系统中所有的进程都是PID为1的init进程的后代，内核在系统启动的最后阶段启动init进程。该进程读取系统的初始化脚本并执行其他的相关程序，最后完成整个系统的启动。</p>
-<p>每个进程必有一个父进程，如果一个进程创建了多个子进程，那么子进程之间还有兄弟关系。在task_struct中，使用以下字段来表示亲缘关系：</p>
+<p>Linux系统中所有的进程都是PID为1的<font color="skyblue">init进程</font>的后代，内核在系统启动的最后阶段启动init进程。该进程读取系统的初始化脚本并执行其他的相关程序，最后完成整个系统的启动。</p>
+<p>每个进程必有一个父进程，如果一个进程创建了多个子进程，那么子进程之间还有兄弟关系。在<code>task_struct</code>中，使用以下字段来表示亲缘关系：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">real_parent</span><span class="p">;</span><span class="w"> </span><span class="cm">/* real parent process */</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span><span class="w"> </span><span class="cm">/* recipient of SIGCHLD, wait4() reports */</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">children</span><span class="p">;</span><span class="w">      </span><span class="cm">/* list of my children */</span>
@@ -1987,7 +1987,7 @@
 <p>当内核需要寻找一个新进程运行时，必须只考虑已处于TASK_RUNNING状态的进程，于是就有了运行队列。为了提高调度程序的运行速度，内核为每个优先级都维护了一个链表。在多处理器中，每个CPU都有自己的运行队列。运行队列是Linux调度算法的基础。更详细的内容请参考<a href="./#_16">进程调度</a>。</p>
 <h3 id="_13">等待队列<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <p>等待队列在内核中有很多用途，尤其时用在中断处理、进程同步。运行中的进程往往需要等待某些事件的发生，希望等待特定事件的进程将自己放入合适的等待队列，然后进入睡眠状态。当事件发生后，由内核负责唤醒它们。</p>
-<p>等待队列由双向链表实现，每个等待队列都有一个等待队列头（wait queue head），一个类型为wait_queue_head_t的数据结构：</p>
+<p>等待队列由双向链表实现，每个等待队列都有一个等待队列头（wait queue head），一个类型为<code>wait_queue_head_t</code>的数据结构：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">__wait_queue_head</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="n">spinlock_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">task_list</span><span class="p">;</span>
@@ -2005,7 +2005,7 @@
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">__wait_queue</span><span class="w"> </span><span class="n">wait_queue_t</span><span class="p">;</span>
 </code></pre></div>
 <p>等待队列链表中的每个元素都代表一个睡眠中的进程，它的描述符存入task字段中。task_list负责将每一个元素链接到链表中。func表示等待队列中睡眠进程应该用什么方式唤醒。flags表示该进程是互斥进程还是非互斥进程。互斥进程表示多个进程在等待相同的事件，因此产生了竞争关系，此时内核只需要唤醒其中一个进程即可。而非互斥进程在发生指定事件后总是被唤醒。</p>
-<p>等待队列的操作比较复杂，这里不详细展开，只讲一个比较重要的函数<em>sleep_on()</em>：这个函数将当前进程加入等待队列，并启动调度程序。</p>
+<p>等待队列的操作比较复杂，这里不详细展开，只讲一个比较重要的函数<code>sleep_on()</code>：这个函数将当前进程加入等待队列，并启动调度程序。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">sleep_on</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">)</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="p">{</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="n">wait_queue_t</span><span class="w"> </span><span class="n">wait</span><span class="p">;</span><span class="w">  </span><span class="c1">//声明一个等待队列元素</span>
@@ -2051,7 +2051,7 @@
 <li>切换页全局目录以安装一个新的地址空间。</li>
 <li>切换内核态堆栈和硬件上下文。</li>
 </ol>
-<p>进程切换由<strong>switch_to</strong>宏执行。该宏定义与体系结构密切相关。</p>
+<p>进程切换由<code>switch_to</code>宏执行。该宏定义与体系结构密切相关。</p>
 <h2 id="_20">进程调度算法<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
 
 

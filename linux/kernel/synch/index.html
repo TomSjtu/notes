@@ -1793,10 +1793,10 @@
 <a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="p">}</span>
 </code></pre></div>
 <p>以上是一段示例代码，在编译时请加上-lpthread，以链接正确的库。多次执行该程序后你会发现最终的结果是不确定的。</p>
-<p>这是最简单的临界区例子，对于这种简单的竞争条件，我们不需要用到复杂的锁机制，因为锁对于CPU的性能有很大的影响。多数处理器都提供了指令来原子地读、写变量。我们称之为<strong>原子指令</strong>。使用原子指令可以解决一些简单的并发问题。两条原子指令不可能交错执行，因为处理器会从硬件上禁止这种可能性。</p>
+<p>这是最简单的临界区例子，对于这种简单的竞争条件，我们不需要用到复杂的锁机制，因为锁对于CPU的性能有很大的影响。多数处理器都提供了指令来原子地读、写变量。我们称之为<font color="skyblue">原子指令</font>。使用原子指令可以解决一些简单的并发问题。两条原子指令不可能交错执行，因为处理器会从硬件上禁止这种可能性。</p>
 <h3 id="_4">加锁<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>当共享资源是一个复杂的数据结构，而不是简单的i++时，原子指令就无能为力了。此时我们必须引入<strong>锁</strong>机制来保护共享资源的访问。同一时刻，我们只允许有一个线程持有锁，其他线程的访问必须等待第一个线程释放锁之后才能进行。锁有多种多样的形式，锁的粒度也各不相同。Linux内核提供了多种不同的锁机制，他们之间的主要区别在于：当锁被其他线程持有而不可用时的表现形式——有一些锁会在原地等待，而有一些锁会直接睡眠。锁没有优劣之分，在不同场景下用不同的锁是程序员必备的技能。</p>
-<p>当一个锁正在被占用时，有其他线程试图获得该锁，我们称之为<strong>锁的争用</strong>。由于锁是让程序以串行的方式对资源进行访问，被长时间持有的锁无疑会降低系统的性能。于是加锁粒度就显得尤为重要。如果是一段加锁的代码被频繁的调用，这往往会成为系统性能的瓶颈。在一些大型机器上可能表现不是那么明显，但是在一些小型机器上，过粗的锁的粒度会严重拖累系统的性能。</p>
+<p>当共享资源是一个复杂的数据结构，而不是简单的i++时，原子指令就无能为力了。此时我们必须引入<font color="skyblue">锁</font>机制来保护共享资源的访问。同一时刻，我们只允许有一个线程持有锁，其他线程的访问必须等待第一个线程释放锁之后才能进行。锁有多种多样的形式，锁的粒度也各不相同。Linux内核提供了多种不同的锁机制，他们之间的主要区别在于：当锁被其他线程持有而不可用时的表现形式——有一些锁会在原地等待，而有一些锁会直接睡眠。锁没有优劣之分，在不同场景下用不同的锁是程序员必备的技能。</p>
+<p>当一个锁正在被占用时，有其他线程试图获得该锁，我们称之为<font color="skyblue">锁的争用</font>。由于锁是让程序以串行的方式对资源进行访问，被长时间持有的锁无疑会降低系统的性能。于是加锁粒度就显得尤为重要。如果是一段加锁的代码被频繁的调用，这往往会成为系统性能的瓶颈。在一些大型机器上可能表现不是那么明显，但是在一些小型机器上，过粗的锁的粒度会严重拖累系统的性能。</p>
 <h3 id="_5">死锁<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>死锁是编写同步代码时经常会遇到的问题，两个或多个线程因为争夺资源而无法继续执行，因为每个线程都在等待另一个线程释放锁或资源。如果没有外力干涉，这些线程将永远处于等待状态。</p>
 <p>一个最简单的死锁例子就是自死锁：如果一个线程试图去获得一个自己已经持有的锁，那么它将永远等待下去。
@@ -1809,10 +1809,10 @@
 </ul>
 <h2 id="_6">同步的方法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <h3 id="_7">原子操作<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>原子操作可以保证指令以不可分割的形式执行————执行过程不可被打断。内核提供了两组原子操作接口————一组针对整数，一组针对单独的位。在Linux支持的所有体系结构上都实现了这两组接口。注意：在不同体系结构上实现的方式是不同的，但是接口都是统一的。</p>
+<p>原子操作可以保证指令以不可分割的形式执行————执行过程不可被打断。内核提供了两组原子操作接口————一组针对整数，一组针对单独的位。在Linux支持的所有体系结构上都实现了这两组接口。虽然在不同体系结构上实现的方式是不同的，但是接口都是统一的。</p>
 <p>有的时候我们会要求某些指令按照特定的顺序执行，这被称为顺序性，以屏障（barrier）指令来实现。</p>
 <p>1.原子整数操作</p>
-<p>针对整数的原子操作使用一个特殊的atomic_t类型的数据。它的定义在&lt;linux/types.h&gt;中：</p>
+<p>针对整数的原子操作使用一个特殊的<code>atomic_t</code>类型的数据。它的定义在&lt;linux/types.h&gt;中：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">}</span><span class="n">atomic_t</span><span class="p">;</span>
@@ -1827,13 +1827,13 @@
 </code></pre></div>
 <p>原子操作的接口非常简单易读，没有必要单独去记，用到什么就学什么。</p>
 <p>原子操作通常是内联函数，且是用内嵌汇编指令来实现的。ARM体系请参考：<a href="http://www.ethernut.de/en/documents/arm-inline-asm.html">ARM GCC Inline Assembler</a>。</p>
-<p>atomic64_t类型是64位的原子变量，其功能和32位一致，函数接口以atomic64前缀命名。</p>
+<p><code>atomic64_t</code>类型是64位的原子变量，其功能和32位一致，函数接口以atomic64前缀命名。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">}</span><span class="n">atomic64_t</span><span class="p">;</span>
 </code></pre></div>
 <p>2.原子位操作</p>
-<p>atomic_t类型对整数算术来讲比较有用。但是当需要以原子形式来操作单个的位时，这种类型就无法派上用场了。Linux内核提供了一组对位的原子操作。</p>
+<p><code>atomic_t</code>类型对整数算术来讲比较有用。但是当需要以原子形式来操作单个的位时，这种类型就无法派上用场了。Linux内核提供了一组对位的原子操作。</p>
 <p>原子位的操作非常快，只要硬件底层硬件支持，这种操作可以使用单个机器指令来执行。这些函数与体系结构相关，定义在&lt;asm/bitops.h&gt;中。即使是在SMP计算机上，这些函数依旧可以确保是原子的。原子位的参数是一个位号+指针。可用的操作如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">     </span><span class="c1">//设置addr指向的第nr位</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clear_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">   </span><span class="c1">//清除addr指向的第nr位</span>
@@ -1889,7 +1889,7 @@
 <li>多个进程试图获得信号量不会死锁。</li>
 <li>如果已经占用了信号量，不能再使用自旋锁，因为自旋锁禁止睡眠。</li>
 </ul>
-<p>信号量相比自旋锁有一个特殊的地方，就是它内部维护了一个count值，该count值等同于同一时间能够持有信号量的数量。如果这个值是1，那么信号量又被称为互斥信号量。信号量支持两个操作：down()操作通过对信号量计数减1来获得它，而up()操作加1来释放它。</p>
+<p>信号量相比自旋锁有一个特殊的地方，就是它内部维护了一个<code>count</code>值，该<code>count</code>值等同于同一时间能够持有信号量的数量。如果这个值是1，那么信号量又被称为互斥信号量。信号量支持两个操作：<code>down()</code>操作通过对信号量计数减1来获得它，而<code>up()</code>操作加1来释放它。</p>
 <p>信号量是与体系结构相关的，定义在&lt;asm/semaphore.h&gt;中。创建方法如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore</span><span class="w"> </span><span class="n">name</span><span class="p">;</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">sema_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
@@ -1951,11 +1951,17 @@
 <p>使用RCU技术的难点在于：写入端修改指针时不能立刻释放数据结构的旧指针，因为还有其他的读取端在使用。只有当所有的读取端执行完宏<code>rcu_read_unlcok()</code>之后，才可以释放旧指针。写入端调用函数<code>call_rcu()</code>来释放旧指针。</p>
 <h3 id="_13">禁止抢占<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <p>Linux是抢占式内核，其主要特点是：一个在内核态运行的进程，可能在执行内核态函数期间被另外一个进程抢占。在进程A执行异常处理程序时（次吃位于内核态），一个更有优先级的进程B变为可执行状态。如果内核是可抢占的，就会发生强制性任务切换，让B取代A。再比如，一个进程已经用完了它的时间片配额，抢占式内核会立刻让另一个进程取代它。</p>
-<p>内核使用<strong>thread_info</strong>中的<strong>preempt_count</strong>字段表示抢占计数。当这个值大于0时，就禁止内核抢占。它在以下任何一种情况发生时，取值都大于0：</p>
+<p>内核使用<code>thread_info</code>中的<code>preempt_count</code>字段表示抢占计数。当这个值大于0时，就禁止内核抢占。它在以下任何一种情况发生时，取值都大于0：</p>
 <ol>
-<li>内核正在执行中断服务程序。</li>
-<li>可延迟函数被禁止（当内核正在执行软中断或tasklet）。</li>
-<li>显示设置抢占计数器为正数。</li>
+<li>
+<p>内核正在执行中断服务程序。</p>
+</li>
+<li>
+<p>可延迟函数被禁止（当内核正在执行软中断或tasklet）。</p>
+</li>
+<li>
+<p>显示设置抢占计数器为正数。</p>
+</li>
 </ol>
 <table>
 <thead>

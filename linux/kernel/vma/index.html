@@ -662,7 +662,7 @@
         <li class="md-nav__item">
   <a href="#malloc" class="md-nav__link">
     <span class="md-ellipsis">
-      malloc原理
+      malloc()原理
     </span>
   </a>
   
@@ -1562,7 +1562,7 @@
         <li class="md-nav__item">
   <a href="#malloc" class="md-nav__link">
     <span class="md-ellipsis">
-      malloc原理
+      malloc()原理
     </span>
   </a>
   
@@ -1599,11 +1599,11 @@
 <p>0x0804 8000至0xC000 0000是用户态空间地址，再网上就是所谓的高端地址——供内核使用。内核态与用户态的分界线由成员变量<strong>task_size</strong>定义。</p>
 <p>保留区上方是代码段和数据段，它们是从可执行文件直接加载进来的。编译后的代码放在代码段，数据段用来存放已初始化的全局变量。</p>
 <p>BSS段用来存放未初始化的全局变量，以0填充。</p>
-<p>BSS段上方是堆空间，地址的增长方向是从低到高。内核使用<strong>start_brk</strong>标识堆的起始位置，<strong>brk</strong>标识堆当前的结束位置。当堆申请一块很小的内存（128K以内），只需要将<strong>brk</strong>指针增加对应的大小即可。堆内存的管理比较复杂，堆内存最大的困难就是频繁地分配和释放会造成内存碎片。为了应对这个问题，内核采用了基于伙伴系统的内存分配算法。</p>
-<p>堆空间上方是待分配区域，用来扩展堆空间的使用。接下来是内存映射区域。任何应用程序都可以通过<code>mmap()</code>系统调用映射至此区域。内存映射可以用来加载动态库，比如<strong>ld-linux.so</strong>就被加载于此，另外，如果你通过<code>malloc()</code>申请了超过128K内存，内核将直接为你分配一块映射区域作为内存，而不是使用堆内存。</p>
-<p>最后一块区域是栈空间，在这里保存函数运行过程需要的局部变量以及函数参数等信息。栈空间的地址是从高到低增长的。内核使用<strong>start_stack</strong>标识栈的起始位置。SP寄存器保存栈顶指针，BP寄存器保存栈基地址。</p>
+<p>BSS段上方是堆空间，地址的增长方向是从低到高。内核使用<code>start_brk</code>标识堆的起始位置，<code>brk</code>标识堆当前的结束位置。当堆申请一块很小的内存（128K以内），只需要将<code>brk</code>指针增加对应的大小即可。堆内存的管理比较复杂，堆内存最大的困难就是频繁地分配和释放会造成内存碎片。为了应对这个问题，内核采用了基于伙伴系统的内存分配算法。</p>
+<p>堆空间上方是待分配区域，用来扩展堆空间的使用。接下来是内存映射区域。任何应用程序都可以通过<code>mmap()</code>系统调用映射至此区域。内存映射可以用来加载动态库，比如<font color="skyblue"> ld-linux.so </font>就被加载于此，另外，如果你通过<code>malloc()</code>申请了超过128K内存，内核将直接为你分配一块映射区域作为内存，而不是使用堆内存。</p>
+<p>最后一块区域是栈空间，在这里保存函数运行过程需要的局部变量以及函数参数等信息。栈空间的地址是从高到低增长的。内核使用<code>start_stack</code>标识栈的起始位置。SP寄存器保存栈顶指针，BP寄存器保存栈基地址。</p>
 <h2 id="mm_struct">内存描述符mm_struct<a class="headerlink" href="#mm_struct" title="Permanent link">&para;</a></h2>
-<p><strong>mm_struct</strong>用来表示进程的地址空间的信息，定义在文件&lt;linux/mm_types.h&gt;中：</p>
+<p><code>mm_struct</code>用来表示进程的地址空间的信息，定义在文件&lt;linux/mm_types.h&gt;中：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">mm_users</span><span class="p">;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">mm_count</span><span class="p">;</span>
@@ -1627,14 +1627,14 @@
 <a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="p">};</span>
 </code></pre></div>
 <p><strong>mm_users</strong>记录正在使用该地址的进程数目，比如如果有两个线程共享该地址空间，那么<strong>mm_users</strong>的值便等于2。<strong>mm_count</strong>是<strong>mm_struct</strong>结构体的主引用计数，当值为0时，该结构体会被释放。</p>
-<p><strong>mmap</strong>使用单独链表连接所有的内存区域对象。每一个<strong>vm_area_struct</strong>结构体通过自身的<strong>vm_next</strong>指针被连入链表。<strong>mmap</strong>指向链表中第一个节点。</p>
-<p><strong>mm_rb</strong>则使用红黑树。<strong>mm_rb</strong>指向根节点，每一个<strong>vm_area_struc</strong>结构体通过自身的<strong>vm_rb</strong>连接到树中。</p>
-<p>在<a href="../sched/#_9">进程管理与调度</a>中我们介绍了mm变量，用来存放该进程使用的内存描述符，<strong>current-&gt;mm</strong>就指向当前进程的内存描述符。<code>fork()</code>函数利用<code>copy_mm()</code>函数复制父进程的内存描述符。如果父子进程共享地址空间，则在调用<code>clone()</code>时，设置<strong>CLONE_VM</strong>标志，这样的进程就是线程。在Linux环境下，是否共享地址空间几乎是进程和线程本质上的唯一区别。如果指定了<strong>CLONE_VM</strong>,线程就不需要另外分配地址空间了，而是直接将mm域直接指向父进程的内存描述符即可。</p>
+<p><strong>mmap</strong>使用单独链表连接所有的内存区域对象。每一个<code>vm_area_struct</code>结构体通过自身的<strong>vm_next</strong>指针被连入链表。<strong>mmap</strong>指向链表中第一个节点。</p>
+<p><strong>mm_rb</strong>则使用红黑树。<strong>mm_rb</strong>指向根节点，每一个<code>vm_area_struc</code>结构体通过自身的<strong>vm_rb</strong>连接到树中。</p>
+<p>在<a href="../sched/#_9">进程管理与调度</a>中我们介绍了mm变量，用来存放该进程使用的内存描述符，<code>current-&gt;mm</code>就指向当前进程的内存描述符。<code>fork()</code>函数利用<code>copy_mm()</code>函数复制父进程的内存描述符。如果父子进程共享地址空间，则在调用<code>clone()</code>时，设置<font color="skyblue">CLONE_VM</font>标志，这样的进程就是线程。在Linux环境下，是否共享地址空间几乎是进程和线程本质上的唯一区别。如果指定了<strong>CLONE_VM</strong>,线程就不需要另外分配地址空间了，而是直接将mm域直接指向父进程的内存描述符即可。</p>
 <p>内核线程没有进程地址空间，也没有相关的内存描述符，其mm域为NULL。当一个内核线程被调度时，它会直接使用前一个进程的内存描述符。</p>
 <h2 id="_3">虚拟内存区域<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>虚拟内存区域（Virtual Memory Area, VMA）在内核中用<strong>vm_area_struct</strong>结构体描述。每个<strong>vm_area_struct</strong>结构都对应于指定地址空间上某块连续的内存区域。<strong>vm_start</strong>指向了这块虚拟内存区域的起始地址，<strong>vm_end</strong>指向了这块虚拟内存区域的结束地址。<strong>vm_area_struct</strong>结构体描述的是[vm_start，vm_end)这样一段左闭右开的虚拟内存区域。</p>
+<p>虚拟内存区域（Virtual Memory Area, VMA）在内核中用<code>vm_area_struct</code>结构体描述。每个<code>vm_area_struct</code>结构都对应于指定地址空间上某块连续的内存区域。<strong>vm_start</strong>指向了这块虚拟内存区域的起始地址，<strong>vm_end</strong>指向了这块虚拟内存区域的结束地址。<code>vm_area_struct</code>结构体描述的是[vm_start，vm_end)这样一段左闭右开的虚拟内存区域。</p>
 <p><img alt="vm_area_struct" src="../../../images/kernel/vma2.webp" /></p>
-<p>内核将每个内存区域作为一个单独的内存对象管理，每个区域又一致的属性和操作，下面给出<strong>vm_area_struct</strong>结构体的定义：</p>
+<p>内核将每个内存区域作为一个单独的内存对象管理，每个区域又一致的属性和操作，下面给出<code>vm_area_struct</code>结构体的定义：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">vm_area_struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">vm_mm</span><span class="p">;</span><span class="w">                      </span><span class="c1">//相关的mm_struct结构体</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">vm_start</span><span class="p">;</span><span class="w">                       </span><span class="c1">//区间的首地址</span>
@@ -1650,14 +1650,14 @@
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">vm_private_data</span><span class="p">;</span><span class="w">                        </span><span class="c1">//私有数据</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="p">};</span>
 </code></pre></div>
-<p>每个内存描述符对应进程地址空间中的唯一空间，范围是[vm_start, vm_end)。<strong>vm_mm</strong>指向与VMA相关的<strong>mm_struct</strong>结构体，<strong>vm_next</strong>负责将VMA串联成链表。</p>
+<p>每个内存描述符对应进程地址空间中的唯一空间，范围是[vm_start, vm_end)。<strong>vm_mm</strong>指向与VMA相关的<code>mm_struct</code>结构体，<strong>vm_next</strong>负责将VMA串联成链表。</p>
 <p><img alt="Alt text" src="../../../images/kernel/vma3.webp" /></p>
 <h3 id="vma">VMA标志<a class="headerlink" href="#vma" title="Permanent link">&para;</a></h3>
 <p><strong>vm_flags</strong>定义了VMA的标志，它表示内存区域的行为和信息。一些比较重要的标志比如：VM_READ、VM_WRITE和VM_EXEC标志了内存区域中页面的可读、可写、可执行权限。当访问VMA时，需要查看其访问权限。</p>
 <p>VM_SHARED表示内存区域包含的映射是否可以在多进程之间共享，如果设置了该标志位，我们称其位共享映射，否则就是私有映射。</p>
 <p>VM_IO标志内存区域中对设备I/O空间的映射。该标志通常在设备驱动程序执行<code>mmap()</code>函数时才被设置。VM_RESERVED标志规定了内存区域不能被换出。</p>
 <h3 id="vma_1">VMA操作<a class="headerlink" href="#vma_1" title="Permanent link">&para;</a></h3>
-<p><strong>vm_ops</strong>域指向与内存区域相关的操作函数，由<strong>vm_operations_struct</strong>结构体表示：</p>
+<p><strong>vm_ops</strong>域指向与内存区域相关的操作函数，由<code>vm_operations_struct</code>结构体表示：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">vm_operations_struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">open</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">vm_area_struct</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">close</span><span class="p">)(</span><span class="n">sturct</span><span class="w"> </span><span class="n">vm_area_struct</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
@@ -1666,7 +1666,31 @@
 <a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">access</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">vm_area_struct</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="p">);</span>
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">};</span>
 </code></pre></div>
-<h2 id="malloc">malloc原理<a class="headerlink" href="#malloc" title="Permanent link">&para;</a></h2>
+<h2 id="malloc">malloc()原理<a class="headerlink" href="#malloc" title="Permanent link">&para;</a></h2>
+<p><code>malloc()</code>是C库里的一个动态分配内存的函数，申请内存时有两种方式：</p>
+<ul>
+<li>
+<p>方式一：通过<code>brk()</code>系统调用从堆分配内存。</p>
+</li>
+<li>
+<p>方式二：通过<code>mmap()</code>系统调用从文件映射区分配内存。</p>
+</li>
+</ul>
+<p>第一种方式很简单，通过简单地调整brk指针向高地址移动，即完成了内存分配，如下图所示：</p>
+<p><img alt="brk" src="../../../images/kernel/brk.webp" /></p>
+<p>第二种方式直接在文件映射区映射一块内存，如下图所示：</p>
+<p><img alt="mmap" src="../../../images/kernel/mmap.webp" /></p>
+<p><code>malloc()</code>源码规定了一个阈值：</p>
+<ul>
+<li>
+<p>如果分配的内存小于这个阈值，则通过<code>brk()</code>申请内存。</p>
+</li>
+<li>
+<p>如果分配的内存大于这个阈值，则通过<code>mmap()</code>申请内存。</p>
+</li>
+</ul>
+<p>设计内存分配策略时，核心目标是在性能和资源管理之间找到最佳平衡点。对于小内存块的频繁分配与释放操作，<code>malloc()</code> 采用 <code>brk()</code> 系统调用进行内存管理。释放的内存并不会立即返回给操作系统，而是被缓存至内存池中，以便于后续的分配请求能够快速重用这些已释放的内存块，从而减少系统调用的次数和相关的性能开销。</p>
+<p>对于大内存块的分配，<code>malloc</code> 则可能使用 <code>mmap()</code> 系统调用。这种方式在首次访问时可能会触发缺页中断，因为分配的内存初始处于未映射状态，需要操作系统介入以建立虚拟地址到物理内存的映射。这一机制相较于 <code>brk()</code> 系统调用，会带来更高的性能成本。</p>
 
 
 
