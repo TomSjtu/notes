@@ -125,4 +125,14 @@
          <lastmod>2024-01-23</lastmod>
          <changefreq>daily</changefreq>
     </url>
+    <url>
+         <loc>https://tomsjtu.github.io/notes/tools/markdown/</loc>
+         <lastmod>2024-01-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://tomsjtu.github.io/notes/tools/vim/</loc>
+         <lastmod>2024-01-23</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
 </urlset>

@@ -12,28 +12,28 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/arm/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/tools/vim/">
       
       
-        <link rel="prev" href="../rtos/rt-thread/">
+        <link rel="prev" href="../github/">
       
       
-        <link rel="next" href="barrier/">
+        <link rel="next" href="../markdown/">
       
       
-      <link rel="icon" href="../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
     
     
       
-        <title>Arm学习笔记 - 一只Tom的笔记本</title>
+        <title>vim - 一只Tom的笔记本</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.fad675c6.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#arm" class="md-skip">
+        <a href="#vim" class="md-skip">
           Skip to content
         </a>
       
@@ -87,7 +87,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href=".." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../.." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Arm学习笔记
+              vim
             
           </span>
         </div>
@@ -181,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href=".." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
     
@@ -200,7 +200,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../linux/" class="md-tabs__link">
+        <a href="../../linux/" class="md-tabs__link">
           
   
     
@@ -220,7 +220,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../rtos/" class="md-tabs__link">
+        <a href="../../rtos/" class="md-tabs__link">
           
   
     
@@ -236,13 +236,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../arm/" class="md-tabs__link">
           
   
     
@@ -262,7 +260,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../pl/" class="md-tabs__link">
+        <a href="../../pl/" class="md-tabs__link">
           
   
     
@@ -282,7 +280,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../cloud/" class="md-tabs__link">
+        <a href="../../cloud/" class="md-tabs__link">
           
   
     
@@ -298,11 +296,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../tools/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -322,7 +322,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../others/" class="md-tabs__link">
+        <a href="../../others/" class="md-tabs__link">
           
   
     
@@ -363,7 +363,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href=".." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -393,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href=".." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -440,7 +440,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../linux/" class="md-nav__link ">
+            <a href="../../linux/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -505,7 +505,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../linux/kernel/" class="md-nav__link ">
+            <a href="../../linux/kernel/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -538,7 +538,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/sched/" class="md-nav__link">
+      <a href="../../linux/kernel/sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -559,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/vma/" class="md-nav__link">
+      <a href="../../linux/kernel/vma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -580,7 +580,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/interrupt/" class="md-nav__link">
+      <a href="../../linux/kernel/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -601,7 +601,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/synch/" class="md-nav__link">
+      <a href="../../linux/kernel/synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -622,7 +622,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/mm/" class="md-nav__link">
+      <a href="../../linux/kernel/mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -643,7 +643,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/others/" class="md-nav__link">
+      <a href="../../linux/kernel/others/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -698,7 +698,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../linux/drivers/" class="md-nav__link ">
+            <a href="../../linux/drivers/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -731,7 +731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/drivers/dts/" class="md-nav__link">
+      <a href="../../linux/drivers/dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -752,7 +752,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/drivers/chardev/" class="md-nav__link">
+      <a href="../../linux/drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -773,7 +773,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/drivers/framework/" class="md-nav__link">
+      <a href="../../linux/drivers/framework/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -838,7 +838,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../rtos/" class="md-nav__link ">
+            <a href="../../rtos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -891,7 +891,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../rtos/freertos/" class="md-nav__link ">
+            <a href="../../rtos/freertos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -927,7 +927,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rtos/freertos/CMSIS/" class="md-nav__link">
+      <a href="../../rtos/freertos/CMSIS/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -968,7 +968,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../rtos/rt-thread/" class="md-nav__link ">
+            <a href="../../rtos/rt-thread/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1008,8 +1008,6 @@
       
   
   
-    
-  
   
   
     
@@ -1028,17 +1026,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../arm/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1049,13 +1047,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_4" id="__nav_4_label" tabindex="">
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             Arm
@@ -1071,7 +1069,7 @@
   
   
     <li class="md-nav__item">
-      <a href="barrier/" class="md-nav__link">
+      <a href="../../arm/barrier/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1122,7 +1120,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../pl/" class="md-nav__link ">
+            <a href="../../pl/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1180,7 +1178,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../cloud/" class="md-nav__link ">
+            <a href="../../cloud/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1212,6 +1210,8 @@
       
   
   
+    
+  
   
   
     
@@ -1234,17 +1234,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../tools/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1261,7 +1261,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             Tools
@@ -1277,7 +1277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/github/" class="md-nav__link">
+      <a href="../github/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1295,10 +1295,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../tools/vim/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    vim
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1307,6 +1327,80 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      移动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      插入
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      删除
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      复制与粘贴
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改与替换
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      查找
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1319,7 +1413,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tools/markdown/" class="md-nav__link">
+      <a href="../markdown/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1372,7 +1466,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../others/" class="md-nav__link ">
+            <a href="../../others/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1405,7 +1499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../others/ld/" class="md-nav__link">
+      <a href="../../others/ld/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1446,6 +1540,68 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      移动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      插入
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      删除
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      复制与粘贴
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      修改与替换
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      查找
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1462,7 +1618,51 @@
   
 
 
-<h1 id="arm">Arm学习笔记<a class="headerlink" href="#arm" title="Permanent link">&para;</a></h1>
+<h1 id="vim">vim<a class="headerlink" href="#vim" title="Permanent link">&para;</a></h1>
+<p>这不是新手教程，只记录一些常用操作。</p>
+<p>vim命令可以由操作符 + 次数 + 动作来组成，比如d3w表示删除3个单词。</p>
+<p>u：撤销修改</p>
+<p>CTRL + R：恢复修改</p>
+<h2 id="_1">移动<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>h, j, k, l：左下上右</p>
+<p>e：跳转至下一个单词末尾</p>
+<p>b:跳转至上一个单词开头</p>
+<p>w：跳转至下一个单词开头</p>
+<p>$：跳转至行末</p>
+<p>CTRL + O：返回上次位置</p>
+<p>CTRL + I：前往下次位置</p>
+<p>0：跳转至行首</p>
+<p>nG：跳转至第n行</p>
+<p>GG：跳转至文件末尾</p>
+<p>gg：跳转至文件开头</p>
+<h2 id="_2">插入<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>a：光标后插入</p>
+<p>A：行尾插入</p>
+<p>i：光标前插入</p>
+<p>I：行首插入</p>
+<p>o：下一行插入</p>
+<p>O：上一行插入</p>
+<h2 id="_3">删除<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>x：删除光标处字符</p>
+<p>dd：删除整行</p>
+<p>D：删除至行末</p>
+<p>dw：从当前光标位置，一直删除至下一个单词开头</p>
+<p>d$：从当前光标位置，一直删除至行末</p>
+<h2 id="_4">复制与粘贴<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>p：在光标下一行位置复制</p>
+<p>y：复制选中内容，需要配合visual mode</p>
+<p>yy：复制当前行</p>
+<p>yw：复制一个单词</p>
+<h2 id="_5">修改与替换<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>rx：将当前光标处字符修改为x</p>
+<p>ce：修改单词</p>
+<p>:s/old/new/g：将当前行的'old'全部改为'new'</p>
+<p>:%s/old/new/g：将当前文件的'old'全部改为'new'</p>
+<h2 id="_6">查找<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>按/进入查找模式，输入你要搜寻的字符串，然后：</p>
+<p>n：查找下一个</p>
+<p>N：查找上一个</p>
+<p>%：搜寻下一个匹配的), ], }</p>
 
 
 
@@ -1507,10 +1707,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      <script src="../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
     
   </body>
