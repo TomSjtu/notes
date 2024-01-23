@@ -2,7 +2,7 @@
 
 由于Linux支持世界上几乎所有的、不同功能的硬件设备，导致Linux内核中有一半的代码都是设备驱动。随着硬件的快速迭代，设备驱动的代码也在快速增长。
 
-为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了设备模型（device model）的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。
+为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了<font color="skyblue">设备模型</font>（device model）的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。
 
 设备模型通过几个数据结构来反映当前系统中总线、设备以及驱动工作的情况：
 
@@ -16,7 +16,7 @@
 
 > platform bus是内核中的一种虚拟总线类型，它不是物理上存在的总线，而是一种抽象的总线。它允许开发者以一种标准的方式来描述和管理那些不通过传统物理总线连接的设备。
 
-Linux内核使用sysfs文件系统将内核的设备驱动导出到用户空间，用户可以通过访问sys目录下的文件，来查看甚至控制内核的一些驱动设备。
+Linux内核使用<font color="skyblue">sysfs文件系统</font>将内核的设备驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。
 
 /sys文件目录记录了各个设备之间的关系。其中，/sys/bus目录下的每个子目录都是已经注册的总线类型。每个总线类型下还有两个文件夹——devices和drivers；devices是该总线类型下的所有设备，以符号链接的形式指向真正的设备（/sys/devices/）。而drivers是所有注册在这个总线类型上的驱动。
 
@@ -30,7 +30,7 @@ Linux内核使用sysfs文件系统将内核的设备驱动导出到用户空间�
 
 ![总线-设备-驱动](../../images/kernel/linux_device_model02.png)
 
-在总线上挂载了两个链表，分别管理设备模型和驱动模型。当我们向系统注册一个设备时，便会在设备的链表中插入新的设备。在插入的同时总线会执行match方法对新插入的设备/驱动进行配对。若配对成功则调用probe方法获取设备资源，在移除设备/驱动时，调用remove方法。
+在总线上挂载了两个链表，分别管理设备模型和驱动模型。当我们向系统注册一个设备时，便会在设备的链表中插入新的设备。在插入的同时总线会执行`match()`方法对新插入的设备/驱动进行配对。若配对成功则调用`probe()`方法获取设备资源，在移除设备/驱动时，调用`remove()`方法。
 
 ## kobject、ktype和kset
 
@@ -88,7 +88,7 @@ struct kobject {
 
 kobject核心机制：
 
-内嵌在别的数据结构（比如device_driver）中，当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的release回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。
+内嵌在别的数据结构（比如device_driver）中，当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的`release()`回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。
 
 ktype的数据结构如下：
 
@@ -136,9 +136,9 @@ sysfs的核心是把kobject对象与目录项（directory entries）关联起来
 
 在/sys目录下挂载了至少11个目录：block, bus, class, dev, devices, firmware, fs, hypervisor, kernel, module, power。其中最重要的目录是devices，该目录将设备模型导出到用户空间。其目录机构就是系统中实际的设备拓扑结构。其他目录中的许多数据都是将devices目录下的数据加以转换加工所得。
 
-我们已经知道kobject可以被映射为某个文件目录，仅有如此还不够。因为这样的sysfs仅仅只是一颗树，但没有提供实际数据的文件。为了能够读写这颗树，内核提供了attribute和bin_attribute两种属性。
+我们已经知道kobject可以被映射为某个文件目录，仅有如此还不够。因为这样的sysfs仅仅只是一颗树，但没有提供实际数据的文件。为了能够读写这颗树，内核提供了`attribute`和`bin_attribute`两种属性。
 
-在ktype中用**struct attribute_group**描述这两个属性：
+在ktype中用`struct attribute_group`描述这两个属性：
 
 ```C
 struct attribute_group {
@@ -168,7 +168,7 @@ struct bin_attribute {
 };
 ```
 
-struct attribute为普通的attribute，使用该attribute生成的sysfs文件，只能用字符串的形式读写。而struct bin_attribute在struct attribute的基础上，增加了read、write等函数，因此它所生成的sysfs文件可以用任何方式读写。 
+`struct attribute`为普通的attribute，使用该attribute生成的sysfs文件，只能用字符串的形式读写。而`struct bin_attribute`在`struct attribute`的基础上，增加了`read()`、`write()`等函数，因此它所生成的sysfs文件可以用任何方式读写。 
 
 ## uevent
 
@@ -180,7 +180,7 @@ uevent机制比较简单，当设备模型中任何设备有事件需要上报�
 
 uevent的代码主要位于kobject.h和kobject_uevent.c两个文件。
 
-kobject_action定义了uevent的类型：
+`kobject_action`定义了uevent的类型：
 
 ```C
 enum kobject_action {
@@ -205,7 +205,7 @@ enum kobject_action {
 
 > BIND/UNBIND：kobject的绑定/解绑事件
 
-kobj_uevent_env定义了事件上报时的环境变量：
+`kobj_uevent_env`定义了事件上报时的环境变量：
 
 ```C
 struct kobj_uevent_env {
@@ -227,7 +227,7 @@ struct kobj_uevent_env {
 
 > buflen：存储缓冲区的大小
 
-kset_uevent_ops定义了kset的uevent接口操作：
+`kset_uevent_ops`定义了kset的uevent接口操作：
 
 ```C
 struct kset_uevent_ops {
@@ -260,19 +260,19 @@ int add_uevent_var(struct kobj_uevent_env *env, const char *format, ...);
 
 ## device和device_driver
 
-**device**和**device_driver**是Linux驱动开发的基本概念。驱动开发，其实就是开发指定的软件（driver）以及驱动指定的设备（device）。内核为此定义了两种数据结构，分别是**struct device**和**struct device_driver**。
+`device`和`device_driver`是Linux驱动开发的基本概念。驱动开发，其实就是开发指定的软件（driver）以及驱动指定的设备（device）。内核为此定义了两种数据结构，分别是`struct device`和`struct device_driver`。
 
 Linux设备模型框架体系下开发，主要包括两个步骤：
 
-1. 分配一个struct device类型的变量，填充信息，然后将其注册到内核。
+1. 分配一个`struct device`类型的变量，填充信息，然后将其注册到内核。
 
-2. 分配一个struct device_driver类型的变量，填充信息，然后将其注册到内核。
+2. 分配一个`struct device_driver`类型的变量，填充信息，然后将其注册到内核。
 
 设备驱动的执行逻辑，由回调函数实现。开发人员只需要做填空题即可。
 
-一般情况下，Linux驱动开发很少直接操作上面两个结构体，因为内核又封装了一层，比如**platform_device**，封装后的接口更为简单易用。device和device_driver必须挂在在同一个bus之下，名称也必须一样，内核才能完成匹配操作。
+一般情况下，Linux驱动开发很少直接操作上面两个结构体，因为内核又封装了一层，比如`platform_device`，封装后的接口更为简单易用。`device`和`device_driver`必须挂在在同一个bus之下，名称也必须一样，内核才能完成匹配操作。
 
-如果存在相同名称的device和device_driver，内核就会执行device_driver中的`probe()`回调函数，该函数时所有driver的入口函数，用来执行诸如硬件设备初始化、字符设备注册、文件操作ops注册等动作（对应`remove()`函数）。
+如果存在相同名称的`device`和`device_driver`，内核就会执行`device_driver`中的`probe()`回调函数，该函数是所有`driver`的入口函数，用来执行诸如硬件设备初始化、字符设备注册、文件操作ops注册等动作（对应`remove()`函数）。
 
 ## bus
 
@@ -282,7 +282,7 @@ Linux设备模型框架体系下开发，主要包括两个步骤：
 
 ![总线模型](../../images/kernel/bus_model.jpg)
 
-内核用**struct bus_type**结构体抽象出总线：
+内核用`struct bus_type`结构体抽象出总线：
 
 ```C
 struct bus_type {
@@ -298,7 +298,7 @@ struct bus_type {
 };
 ```
 
-我们发现bus_type结构体中的大部分成员都与device有关，说明它主要负责设备的注册和注销等操作。
+我们发现`bus_type`结构体中的大部分成员都与`device`有关，说明它主要负责设备的注册和注销等操作。
 
 > name：该bus的名称，在sysfs中以目录形式存在，比如platform bus表现为/sys/bus/platform。
 
@@ -377,7 +377,7 @@ struct class {
 
 > p：私有数据。
 
-**struct class_interface**定义了当前class下有设备添加或者移除时，可以调用的回调函数：
+`struct class_interface`定义了当前class下有设备添加或者移除时，可以调用的回调函数：
 
 ```C
 struct class_interface {
@@ -414,7 +414,7 @@ Platform架构图如下所示：
 
 ### 平台总线
 
-在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用`platform_match()`函数对新增的设备或驱动进行配对。内核使用**struct bus_type platform_bus_type**来描述平台总线，该总线在内核初始化的时候注册：
+在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用`platform_match()`函数对新增的设备或驱动进行配对。内核使用`struct bus_type platform_bus_type`来描述平台总线，该总线在内核初始化的时候注册：
 
 ```C
 sturct bus_type platform_bus_type{
@@ -426,11 +426,11 @@ sturct bus_type platform_bus_type{
 };
 ```
 
-对于**platform_bus_type**的初始化来说，**match**函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。对于每个驱动总线，都必须实例化该函数指针。
+对`platform_bus_typ`e的初始化来说，`match`函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。对于每个驱动总线，都必须实例化该函数指针。
 
 ### 平台设备
 
-内核使用**platform_device**结构体来描述平台设备：
+内核使用`platform_device`结构体来描述平台设备：
 
 ```C
  struct platform_device {
@@ -449,7 +449,7 @@ sturct bus_type platform_bus_type{
 
 2. 软件信息：以太网卡设备中的MAC地址、I2C设备中的设备地址、SPI设备的片选信号线等等
 
-对于硬件信息，使用结构体**struct resource**来保存设备所提供的资源，比如设备使用的中断编号，寄存器物理地址等，结构体原型如下：
+对于硬件信息，使用结构体`struct resource`来保存设备所提供的资源，比如设备使用的中断编号，寄存器物理地址等，结构体原型如下：
 
 ```C
 struct resource {
@@ -486,7 +486,7 @@ void platform_device_unregister(struct platform_device *pdev);
 
 ### 平台驱动
 
-内核使用**platform_driver**结构体来描述平台驱动：
+内核使用`platform_driver`结构体来描述平台驱动：
 
 ```C
 struct platform_driver {
@@ -499,9 +499,9 @@ struct platform_driver {
 };
 ```
 
-除了提供一些回调函数之外，还有一个**id_table**的指针。这个指针用来表示该驱动能够兼容的设备类型，当设备调用`probe()`函数时，就会到这个数组里检查是否匹配。
+除了提供一些回调函数之外，还有一个`id_table`的指针。这个指针用来表示该驱动能够兼容的设备类型，当设备调用`probe()`函数时，就会到这个数组里检查是否匹配。
 
-我们看一下**struct platform_device_id**结构体的定义：
+我们看一下`struct platform_device_id`结构体的定义：
 
 ```C
 struct platform_device_id {
@@ -510,7 +510,7 @@ struct platform_device_id {
 };
 ```
 
-**name**用于指定驱动的名称，总线进行匹配时，会根据该**name**成员与**platform_device**中的**name**进行匹配。**driver_data**用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
+name用于指定驱动的名称，总线进行匹配时，会根据该name成员与`platform_device`中的name进行匹配。driver_data用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
 
 注册/注销平台驱动的函数如下：
 
@@ -519,9 +519,9 @@ int platform_driver_register(struct platform_device *drv);
 void platform_driver_unregister(struct platform_device *drv);
 ```
 
-在平台设备中，**resource**结构体用来表示硬件信息，而软件信息则可以用设备结构体**device**中的成员**platform_data**来保存。
+在平台设备中，`struct resource`结构体用来表示硬件信息，而软件信息则可以用设备结构体`device`中的成员platform_data来保存。
 
-`platform_get_resource()`函数通常会在驱动的`probe()`函数中执行，用于获取平台设备提供的资源结构体，最终返回一个**struct resource**的指针：
+`platform_get_resource()`函数通常会在驱动的`probe()`函数中执行，用于获取平台设备提供的资源结构体，最终返回一个`struct resource`的指针：
 
 ```C
 struct resource *platform_get_resource(struct platform_device *dev, unsigned int type, unsigned int num);
@@ -539,7 +539,7 @@ struct resource *platform_get_resource(struct platform_device *dev, unsigned int
 int platform_get_irq(struct platform_device *pdev, unsigned int num);
 ```
 
-对于存放在**device**结构体中**platform_data**的软件信息，可以使用`dev_get_platdata()`函数来获取：
+对于存放在`device`结构体中platform_data的软件信息，可以使用`dev_get_platdata()`函数来获取：
 
 ```C
 static inline void *dev_get_platdata(const struct device *dev)
@@ -548,6 +548,6 @@ static inline void *dev_get_platdata(const struct device *dev)
 }
 ```
 
-总结一下平台驱动：需要实现`probe()`函数，当平台总线成功匹配驱动和设备时，则会调用驱动的`probe()`函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体**platform_driver**，调用`platform_driver_register()`进行注册。
+总结一下平台驱动：需要实现`probe()`函数，当平台总线成功匹配驱动和设备时，则会调用驱动的`probe()`函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体`platform_driver`，调用`platform_driver_register()`进行注册。
 
 

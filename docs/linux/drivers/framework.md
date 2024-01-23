@@ -18,18 +18,13 @@ Pinctrl驱动由芯片厂家BSP工程师提供，一般的驱动工程师只需�
 - 复用为什么功能
 - 配置为什么状态
 
-IOMUX， IO复用器
-
-
 ### Pinctrl主要数据结构
 
-**pinctrl**可以用一个结构体来表示它：**pinctrl_dev**。而**pinctrl_dev**可以用**pinctrl_desc**结构体描述，然后调用`pinctrl_register()`函数来注册它，其返回值就是一个**pinctrl_dev**的结构体：
+pinctrl可以用一个结构体来表示它：`pinctrl_dev`。而`pinctrl_dev`可以用`pinctrl_desc`结构体描述，然后调用`pinctrl_register()`函数来注册它，其返回值就是一个`pinctrl_dev`的结构体：
 
 ```C
 struct pinctrl_dev *pinctrl_register(struct pinctrl_desc *pctldesc, struct device *dev, void *driver_data);
 ```
-
-
 
 pinctrl_desc:
 
@@ -40,7 +35,6 @@ struct pinctrl_pin_desc {
     void *drv_data;
 };
 ```
-
 
 pinctrl_ops：
 

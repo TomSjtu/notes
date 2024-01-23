@@ -2,7 +2,7 @@
 
 ## 内核源码
 
-要获取内核源码，请使用git。
+要获取内核源码，请使用`git`。
 
 ```
 git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git

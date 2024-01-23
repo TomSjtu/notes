@@ -18,7 +18,7 @@
 
 在响应一个特定的中断时，内核会执行一个函数，该函数叫中断处理程序（interrupt handler）或中断服务例程（interrupt service routine, ISR）。产生中断的每个设备都有一个响应的中断处理程序，一个设备的中断处理程序是它驱动程序的一部分。
 
-中断处理程序处于特殊的中断上下文中。在解释中断上下文之前，我们先回忆一下进程上下文。进程上下文时一种内核所处的操作模式，此时进程代表进程执行。在进程上下文中，可以使用current宏关联当前进程，可以睡眠，也可以调用调度程序。与之相反，中断上下文与进程没有什么关联。因为中断的触发是随时到来的，并不知道当前处于哪个进程。因为没有后备进程，所以中断上下文不可睡眠，也不能调用任何可以引起睡眠的函数。中断上下文的代码必须快速且简洁。
+中断处理程序处于特殊的中断上下文中。在解释中断上下文之前，我们先回忆一下进程上下文。进程上下文时一种内核所处的操作模式，此时进程代表进程执行。在进程上下文中，可以使用`current`宏关联当前进程，可以睡眠，也可以调用调度程序。与之相反，中断上下文与进程没有什么关联。因为中断的触发是随时到来的，并不知道当前处于哪个进程。因为没有后备进程，所以中断上下文不可睡眠，也不能调用任何可以引起睡眠的函数。中断上下文的代码必须快速且简洁。
 
 中断随时有可能发生，因此中断处理程序必须快速执行。但是，中断处理程序往往还要完成大量其他的工作。比如一个网络设备，除了对硬件应答之外，还需要把来自硬件的网络数据拷贝到内存。显然这种工作量不会小。
 
@@ -84,19 +84,19 @@ Linux上的中断处理程序无需要求可重入。因为中断处理程序运
 
 对于每条中断线，处理器都会跳到对应的一个唯一的位置。这样，内核就可以知道所接收中断的IRQ号了。初始入口点在栈中保存IRQ号，并存放当前寄存器的值（这些值属于被中断的任务）。然后，由内核调用`do_IRQ()`函数：
 
-
 ```C
 unsigned int do_IRQ(struct pt_regs *regs)
 ```
 
-由于初始入口点已经将IRQ号和寄存器的值保存在栈中了，所以函数do_IRQ()可以直接提取栈中的参数。
+由于初始入口点已经将IRQ号和寄存器的值保存在栈中了，所以函数`do_IRQ()`可以直接提取栈中的参数。
 
-`do_IRQ()`执行完中断服务器程序后，会检查是否需要重新调度（need_resched标志位）：
-- 返回用户空间：调用`schedule()`函数
+`do_IRQ()`执行完中断服务器程序后，会检查是否需要重新调度（need_resched标志位），然后判断返回哪个空间：
+
+- 返回用户空间：调用`schedule()`函数。
+
 - 返回内核空间：如果preempt_count标志为0，调用`schedule()`函数，否则不会触发调度。
 
-procfs是一个虚拟文件系统，可以通过读/proc/interrupts文件读取系统中与中断相关的统计信息。
-
+> procfs是一个虚拟文件系统，可以通过读/proc/interrupts文件读取系统中与中断相关的统计信息。
 
 ## 中断控制
 
@@ -149,7 +149,7 @@ void synchronize_irq(unsigned int irq);
 
 ### 软中断的实现
 
-软中断在编译期间静态分配，由softirq_action结构体表示：
+软中断在编译期间静态分配，由`softirq_action`结构体表示：
 
 ```C
 struct softirq_action{
@@ -171,7 +171,7 @@ static struct softirq_action softirq_vec[NR_SOFTIRQS];
 void softirq_handler(struct softirq_action *)
 ```
 
-当内核运行一个软中断处理程序时，就会执行这个action函数，其唯一的参数是指向相应softirq_action结构体的指针。例如，如果my_softirq指向softirq_vec数组的某项，那么内核就会用如下的方式调用软中断处理程序中的函数：
+当内核运行一个软中断处理程序时，就会执行这个action函数，其唯一的参数是指向相应`softirq_action`结构体的指针。例如，如果my_softirq指向softirq_vec数组的某项，那么内核就会用如下的方式调用软中断处理程序中的函数：
 
 ```C
 my_softirq->action(my_softirq);
@@ -195,7 +195,7 @@ my_softirq->action(my_softirq);
 | HRTIMER_SOFTIRQ | 7 | 高分辨率定时器 |
 | RCU_SOFTIRQ | 8 | RCU锁定 |
 
-接着，在运行时通过调用*open_softirq()*函数注册软中断处理程序，该函数有两个参数，软中断索引号和处理函数：
+接着，在运行时通过调用`open_softirq()`函数注册软中断处理程序，该函数有两个参数，软中断索引号和处理函数：
 
 ```C
 open_softirq(NET_TX_SOFTIRQ, net_tx_action)
@@ -231,9 +231,9 @@ state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值TASKL
 
 count成员是tasklet的引用计数器。如果它不为0，则tasklet被禁止；只有当它为0时，tasklet才被激活。
 
-已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）数组中。这两个数据结构都是由tasklet_struct结构体构成的链表，链表中每个元素代表一个不同的tasklet。
+已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）数组中。这两个数据结构都是由`tasklet_struct`结构体构成的链表，链表中每个元素代表一个不同的tasklet。
 
-tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，它们接受一个指向tasklet_struct结构的指针作为参数。
+tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，它们接受一个指向`tasklet_struct`结构的指针作为参数。
 
 ### 使用tasklet
 
@@ -244,7 +244,7 @@ DECLARE_TASKLET(name, func, data)
 DECLARE_TASKLET_DISABLED(name, func, data)
 ```
 
-这两个宏都能静态创建一个tasklet_struct结构，区别在于引用计数count的初始值不同。第一个设为0，处于激活状态；第二个设为1，处于禁止状态。
+这两个宏都能静态创建一个`tasklet_struct`结构，区别在于引用计数count的初始值不同。第一个设为0，处于激活状态；第二个设为1，处于禁止状态。
 
 如果是动态创建：
 
@@ -260,7 +260,7 @@ void tasklet_handler(unsigned long data)
 
 tasklet不能睡眠，两个相同的tasklet不会同时执行，但如果与其他tasklet或者是软中断共享了数据，那么必须进行锁保护。
 
-通过调用`tasklet_schedule()`函数并传递给它相应的tasklet_struct指针，该tasklet就会被调度以便执行：
+通过调用`tasklet_schedule()`函数并传递给它相应的`tasklet_struct`指针，该tasklet就会被调度以便执行：
 
 ```C
 tasklet_schedule(&my_tasklet);
@@ -283,7 +283,7 @@ tasklet_kill(&my_tasklet);      //移除已调度的tasklet
 
 内核中的方案时不会立即处理重复触发的软中断。当大量软中断出现的时候，内核会唤醒一组内核线程来处理这些负载。这些线程在最低优先级（nice=19）运行，避免与其他任务抢占资源。
 
-每个处理器都有一个这样的线程，名字为ksoftirqd/n，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用`do_softirq()`函数来处理它们。
+每个处理器都有一个这样的线程，名字为<font color="skyblue">ksoftirqd/n</font>，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用`do_softirq()`函数来处理它们。
 
 ## 工作队列
 
@@ -293,9 +293,9 @@ tasklet_kill(&my_tasklet);      //移除已调度的tasklet
 
 ### 工作队列的实现
 
-工作队列子系统提供了缺省的工作者线程（worker thread）来处理需要推后的工作。缺省的工作者线程叫做events/n，n为处理器的编号。你可以创建自己的工作者线程，不过一般使用缺省线程即可。然而，如果一个任务需要特别的处理，或者它对性能有非常严格的要求，那么创建一个专用的内核线程可能就是必要的。专用的工作者线程可以更好地控制和优化任务的执行，但也需要更多的资源和管理开销。
+工作队列子系统提供了缺省的工作者线程（worker thread）来处理需要推后的工作。缺省的工作者线程叫做<font color="skyblue">events/n</font>，n为处理器的编号。你可以创建自己的工作者线程，不过一般使用缺省线程即可。然而，如果一个任务需要特别的处理，或者它对性能有非常严格的要求，那么创建一个专用的内核线程可能就是必要的。专用的工作者线程可以更好地控制和优化任务的执行，但也需要更多的资源和管理开销。
 
-工作者线程用workqueue_struct结构体表示：
+工作者线程用`workqueue_struct`结构体表示：
 
 ```C
 struct workqueue_struct {
@@ -308,9 +308,9 @@ struct workqueue_struct {
 };
 ```
 
-该结构体内有一个cpu_workqueue_struct结构组成的数组，数组的每一项对应系统中的一个处理器。也就是说系统中每个处理器对应一个工作者线程。
+该结构体内有一个`cpu_workqueue_struct`结构组成的数组，数组的每一项对应系统中的一个处理器。也就是说系统中每个处理器对应一个工作者线程。
 
-工作由work_struct结构体表示：
+工作由`work_struct`结构体表示：
 
 ```C
 struct work_struct {
@@ -324,7 +324,7 @@ struct work_struct {
 
 ### 使用工作队列
 
-静态创建一个work_struct结构体：
+静态创建一个`work_struct`结构体：
 
 ```C
 DECLARE_WORK(name, void(*func)(void *), void *data);
@@ -356,7 +356,7 @@ schedule_work(&work);
 schedule_delayed_work(&work, delay);
 ```
 
-&work指向的work_struct则会等待delay个时钟节拍才会执行。
+&work指向的`work_struct`则会等待delay个时钟节拍才会执行。
 
 如果缺省的队列不能满足你的要求，你可以创建一个新的工作队列和与之相应的工作者线程。这么做会在每个处理器上都创建一个工作者线程。除非你确定必须要靠自己的线程才能提高性能，否则不要这么做：
 
@@ -374,4 +374,4 @@ struct workqueue_struct *create_workqueue(const char *name);
 
 任何在工作队列中被共享的数据也需要使用锁机制。
 
-一般单纯禁止下半部是不够的，更常见的做法是先获得一个锁再禁止下半部的处理。如果需要禁止所有下半部的处理，可以调用`local_bh_disable()`函数。允许下半部处理，调用`local_bh_enable()`函数。函数通过preempt_count（内核抢占也是这个计数器）为每个进程维护一个计数器。当计数器为0时，才可以处理下半部。
+一般单纯禁止下半部是不够的，更常见的做法是先获得一个锁再禁止下半部的处理。如果需要禁止所有下半部的处理，可以调用`local_bh_disable()`函数。允许下半部处理，调用`local_bh_enable()`函数。函数通过`preempt_count`（内核抢占也是这个计数器）为每个进程维护一个计数器。当计数器为0时，才可以处理下半部。

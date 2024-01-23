@@ -41,7 +41,7 @@ label:node-name@unit-address{
 
 device tree的基本单元是node，这些node被组织成树状结构。除了root node，每个node都有一个parent node。一个device tree文件中只能有一个root node。每个node中都包含了property: value来描述该node的一些信息。
 
-label用来指定标签名，方便引用。node-name用于指定节点的名称，unit-address用于指定地址，其值要与节点reg属性的第一个地址一致。
+`label`用来指定标签名，方便引用。`node-name`用于指定节点的名称，`unit-address`用于指定地址，其值要与节点`reg`属性的第一个地址一致。
 
 属性值标识了设备的特性，它的值可以是以下几种：
 
@@ -49,65 +49,66 @@ label用来指定标签名，方便引用。node-name用于指定节点的名称
 2. 可能是一个u32、u64的数值，也可以是数组。
 3. 可能是一个字符串，或者是string list。
 
-在根节点下有两个特殊的节点：aliases和chosen
+在根节点下有两个特殊的节点：`aliases`和`chosen`
 
 - aliases：用于给节点定义别名，方便对节点的引用。
 - chosen：虚拟节点，可以在chosen中设置bootargs，由bootloader读取，传递给内核作为启动参数。
 
-还有一个所有设备树文件必须要有的节点是memory device node，它定义了系统物理内存的layout。device_type属性定义了该node的设备类型，例如cpu、serial等。对于memory node，其device_type必须等于memory。reg属性定义了访问该device node的地址信息——起始地址和长度。
+还有一个所有设备树文件必须要有的节点是`memory device node`，它定义了系统物理内存的layout。`device_type`属性定义了该node的设备类型，例如cpu、serial等。对于memory node，其`device_type`必须等于memory。`reg`属性定义了访问该device node的地址信息——起始地址和长度。
 
 节点由一堆属性组成，节点是具体的设备，但是不同的设备有不同的属性，不过有一些是标准属性。
 
-1.compatible属性
+1.`compatible`属性
 
-compatible属性的值是一个字符串列表，用于将设备和对应的驱动绑定起来。字符串列表用于表示设备所要使用的驱动程序。compatible属性是用来查找节点的方法之一。例如系统初始化platform总线上的设备时，根据设备节点”compatible”属性和驱动中of_match_table对应的值，匹配了就加载对应的驱动。compatible属性的格式如下：
+`compatible`属性的值是一个字符串列表，用于将设备和对应的驱动绑定起来。字符串列表用于表示设备所要使用的驱动程序。`compatible`属性是用来查找节点的方法之一。例如系统初始化platform总线上的设备时，根据设备节点`compatible`属性和驱动中`of_match_table`对应的值，匹配了就加载对应的驱动。`compatible`属性的格式如下：
 
 ```
 "manufacturer, model"
 ```
 
-manufacturer表示厂商，model表示对应驱动的名字。而根节点的compatible表示硬件设备名，SOC名。Linux内核会通过根节点的compatible属性查看是否支持此设备，如果支持设备就会启动内核。
+manufacturer表示厂商，model表示对应驱动的名字。而根节点的`compatible`表示硬件设备名，SOC名。Linux内核会通过根节点的`compatible`属性查看是否支持此设备，如果支持设备就会启动内核。
 
-compatible也可以有多个属性值，按照优先级查找。
+`compatible`也可以有多个属性值，按照优先级查找。
 
-2.model属性
+2.`model`属性
 
-model属性用来描述设备的生产厂商和型号。比如model="samsung, s3c24xx"——生产厂商是三星，SOC是s3c24xx。
+`model`属性用来描述设备的生产厂商和型号。比如model="samsung, s3c24xx"——生产厂商是三星，SOC是s3c24xx。
 
-3.status属性
+3.`status`属性
 
-status属性的值与设备状态有关，通过设置status属性可以禁用或者启用设备。
+`status`属性的值与设备状态有关，通过设置`status`属性可以禁用或者启用设备。
 
-4.reg属性
+4.`reg`属性
 
-reg属性的值一般是(address, length)对。用于描述设备资源在其父总线定义的地址空间内的地址。
+`reg`属性的值一般是(address, length)对。用于描述设备资源在其父总线定义的地址空间内的地址。
 
 ```
 reg = <0x4000e000 0x400>  //起始地址+大小
 ```
 
-5.#address-cells和#size-cells属性
+5.`#address-cells`和`#size-cells`属性
 
-如果一个device node的sub node有寻址需求（即需要定义reg属性），那么这两个属性就必须要定义，用于描述sub node的reg属性的信息。
+如果一个`device node`的sub node有寻址需求（即需要定义`reg`属性），那么这两个属性就必须要定义，用于描述sub node的`reg`属性的信息。
 
 ```
 #address-cells: 决定了子节点reg属性的地址信息所占用的字长
 #size-cells：决定了子节点reg属性中长度信息所占的字长
 ```
 
-6.ranges属性
+6.`ranges`属性
 
-ranges属性的值按照(child-bus-address, parent-bus-address, lenght)格式编写。ranges属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过ranges属性获知哪些内存区域或者IO端口是被硬件设备所占用的。
+`ranges`属性的值按照(child-bus-address, parent-bus-address, lenght)格式编写。`ranges`属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过`ranges`属性获知哪些内存区域或者IO端口是被硬件设备所占用的。
 
 - child-bus-address：子总线地址空间的物理地址，由父节点的#address-cells确定此物理地址占用的字长
 - parent-bus-address：父总线地址空间的物理地址，同样由父节点的#address-cells确定此物理地址占用的字长
 - length：子地址空间的长度，由父节点的#size-cells确定此地址长度占用的字长
 
-如果ranges属性为空，则说明子地址空间和父地址空间相同，不需要进行转换。
+如果`ranges`属性为空，则说明子地址空间和父地址空间相同，不需要进行转换。
 
 **Arm体系此属性设置为空**。
 
-7.intc属性
+7.`intc`属性
+
 用于表示中断控制器的相关信息。
 
 - interrupt-controller：
@@ -126,11 +127,11 @@ model：板子名称
 
 ## 内核操作设备树
 
-内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以**of**开头。
+内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以`of`开头。
 
 节点操作函数
 
-内核使用device_node结构体来描述一个节点
+内核使用`device_node`结构体来描述一个节点
 ```C
 struct device_node{
     const char *name;      //设备名称
@@ -145,7 +146,7 @@ struct device_node{
     void *data;                  //指向任意数据的指针
 };
 ```
-与查找节点相关的**of**函数有5个：
+与查找节点相关的`of`函数有5个：
 
 1.通过节点名字查找指定节点
 
@@ -157,23 +158,23 @@ struct device_node *of_find_node_by_name(struct device_node *from, const char *n
 - name：要查找的节点名
 - 返回值：找到的节点，NULL表示失败
 
-2.通过device_type属性查找指定节点（X）
+2.通过`device_type`属性查找指定节点（X）
 
 ```C
 struct device_node *of_find_node_by_type(struct device_node *from, const char *type)
 ```
 
--type：要查找的节点的device_type属性值
+- type：要查找的节点的device_type属性值
 
-由于device_type已经被废弃，所以这个函数已经不用了。
+由于`device_type`已经被废弃，所以这个函数已经不用了。
 
-3.通过device_type和compatible两个属性来查找指定节点
+3.通过`device_type`和`compatible`两个属性来查找指定节点
 
 ```C
 struct device_node *of_find_compatible_node(struct device_node *from, const char *type, const char *compatible)
 ```
 
-4.通过of_device_id匹配表来查找指定节点
+4.通过`of_device_id`匹配表来查找指定节点
 
 ```C
 struct device_node *of_find_matching_node_and_match(struct device_node *from, const struct of_device_id *matches, const struct of_device_id **match)
@@ -189,7 +190,7 @@ inline struct device_node *of_find_node_by_path(const char *path)
 
 推荐使用这个方法来查找节点。
 
-节点的属性信息里保存了驱动所需要的内容，内核中使用结构体property表示属性。
+节点的属性信息里保存了驱动所需要的内容，内核中使用结构体`property`表示属性。
 
 ```C
 struct property{
@@ -203,7 +204,7 @@ struct property{
 };
 ```
 
-内核提供了查找父子节点的**of**函数。
+内核提供了查找父子节点的`of`函数。
 
 ```C
 struct device_node *of_get_parent(const struct device_node *node)
@@ -211,7 +212,7 @@ struct device_node *of_get_parent(const struct device_node *node)
 struct device_node *of_get_next_child(const struct device_node *node, struct device_node *prev)
 ```
 
-同时内核也提供了提取属性值的**of**函数。
+同时内核也提供了提取属性值的`of`函数。
 
 1.查找指定的属性
 
@@ -267,7 +268,7 @@ int of_property_read_string_index(const struct device_node *np,const char *propn
 
 相比前面的函数增加了参数index，它用于指定读取属性值中第几个字符串，index从零开始计数。 第一个函数只能得到属性值所在地址，也就是第一个字符串的地址，其他字符串需要我们手动修改移动地址，非常麻烦，推荐使用第二个函数。
 
-现在内核提供了内存映射相关的of函数，可以自动完成物理地址到虚拟地址的转换：
+现在内核提供了内存映射相关的`of`函数，可以自动完成物理地址到虚拟地址的转换：
 
 ```C
 void __iomem *of_iomap(struct device_node *np, int index)
