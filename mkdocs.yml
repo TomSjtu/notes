@@ -46,6 +46,7 @@ nav:
       - linux/kernel/interrupt.md
       - linux/kernel/synch.md
       - linux/kernel/mm.md
+      - linux/kernel/vfs.md
       - linux/kernel/others.md
     
     - 设备驱动程序:
@@ -69,8 +70,9 @@ nav:
   - 编程语言: 
     - pl/index.md
 
-  - 云原生:
+  - 云计算:
     - cloud/index.md
+    - cloud/docker.md
 
   - Tools: 
     - tools/index.md

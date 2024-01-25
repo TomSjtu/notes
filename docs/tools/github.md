@@ -151,7 +151,7 @@ git push origin main
 拉取代码到本地：
 
 ```SHELL
-git push origin main
+git pull origin main
 ```
 
 查看当前git状态：

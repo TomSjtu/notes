@@ -142,11 +142,48 @@ void vfree(const void *addr)
 
 ## slab分配器
 
-在内核编程中，分配和释放数据结构是一项极为常见的工作。为了高效地处理这些数据结构的频繁分配与回收，开发者们通常会利用空闲链表来优化这一过程。空闲链表本质上是一个预先分配的数据结构块的集合，这些块都处于可用状态。当系统需要新的数据结构实例时，可以直接从空闲链表中获取一个现成的块，这样就避免了实时内存分配的消耗。使用完毕后，该数据结构实例被归还到空闲链表中，而不是被直接释放。在这种机制下，空闲链表充当了一种特殊的**对象高速缓存**，它能够快速地存储和提供那些经常被使用的数据结构类型。这样的设计不仅提升了内存管理的效率，还减少了内存碎片，是一种非常实用的编程技巧。
+在内核编程中，分配和释放数据结构是一项极为常见的工作。为了高效地处理这些数据结构的频繁分配与回收，开发者们通常会利用空闲链表来优化这一过程。空闲链表本质上是一个预先分配的数据结构块的集合，这些块都处于可用状态。当系统需要新的数据结构实例时，可以直接从空闲链表中获取一个现成的块，这样就避免了实时内存分配的消耗。使用完毕后，该数据结构实例被归还到空闲链表中，而不是被直接释放。在这种机制下，空闲链表充当了一种特殊的<font color="green">对象高速缓存</font>，它能够快速地存储和提供那些经常被使用的数据结构类型。这样的设计不仅提升了内存管理的效率，还减少了内存碎片，是一种非常实用的编程技巧。
 
 Linux内核提供了slab分配器，它通过将不同类型的对象组织到各自的高速缓存组中，来优化这些对象的分配和回收。每个高速缓存组专门用于存储一种特定类型的对象。例如，一个高速缓存可能用于管理进程描述符（`task_struct`结构），而另一个则用于索引节点对象（`struct inode`）。
 
 slab可以处于三种状态之一：满、部分满或空。满的slab意味着所有对象都已分配出去，空的slab则表示所有对象都未被分配，而部分满的slab则包含了已分配和未分配的对象。当内核请求新对象时，优先从部分满的slab中分配。如果没有，则从空的slab中分配。如果连空的slab都没有，就会创建新的slab。
+
+每个高速缓存都使用`kmem_cache`结构体表示。这个结构包含三个链表：slabs_full、slabs_partial、slabs_empty，这些链表包含了高速缓存中的所有slab。`struct slab`用来描述每个slab。
+
+slab层的管理是在每个高速缓存的基础上，通过内核提供的统一接口来完成的。创建和撤销高速缓存，并在高速缓存内分配和释放对象。复杂的高速缓存机制和slab的管理完全由内部机制来处理，用户无须关心。
+
+```C
+struct kmem_cache *kmem_cache_create(const char *name, size_t size,
+                                     size_t align, unsigned int flags,
+                                     void (*ctor)(void *))              //创建一个新的高速缓存
+int kmem_cache_destroy(struct kmem_cache *cachep)                       //撤销一个高速缓存
+void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)          //从缓存中分配对象
+void kmem_cache_free(struct kmem_cache *cachep, void *objp)             //释放一个对象，将它返回给原先的slab
+```
+
+在文件<kernel/fork.c\>中，我们可以看到许多高速缓存的实现：
+
+```C
+/* SLAB cache for signal_struct structures (tsk->signal) */
+static struct kmem_cache *signal_cachep;
+
+/* SLAB cache for sighand_struct structures (tsk->sighand) */
+struct kmem_cache *sighand_cachep;
+
+/* SLAB cache for files_struct structures (tsk->files) */
+struct kmem_cache *files_cachep;
+
+/* SLAB cache for fs_struct structures (tsk->fs) */
+struct kmem_cache *fs_cachep;
+
+/* SLAB cache for vm_area_struct structures */
+static struct kmem_cache *vm_area_cachep;
+
+/* SLAB cache for mm_struct structures (tsk->mm) */
+static struct kmem_cache *mm_cachep;
+```
+
+由于`fork()`系统调用用来创建一个新的`task_struct`结构体，于是使用高速缓存可以大大提升系统的性能。
 
 
 

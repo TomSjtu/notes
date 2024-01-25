@@ -2,7 +2,7 @@
 
 由于Linux支持世界上几乎所有的、不同功能的硬件设备，导致Linux内核中有一半的代码都是设备驱动。随着硬件的快速迭代，设备驱动的代码也在快速增长。
 
-为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了<font color="skyblue">设备模型</font>（device model）的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。
+为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了<font color="green">设备模型</font>（device model）的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。
 
 设备模型通过几个数据结构来反映当前系统中总线、设备以及驱动工作的情况：
 
@@ -16,7 +16,7 @@
 
 > platform bus是内核中的一种虚拟总线类型，它不是物理上存在的总线，而是一种抽象的总线。它允许开发者以一种标准的方式来描述和管理那些不通过传统物理总线连接的设备。
 
-Linux内核使用<font color="skyblue">sysfs文件系统</font>将内核的设备驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。
+Linux内核使用<font color="green">sysfs文件系统</font>将内核的设备驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。
 
 /sys文件目录记录了各个设备之间的关系。其中，/sys/bus目录下的每个子目录都是已经注册的总线类型。每个总线类型下还有两个文件夹——devices和drivers；devices是该总线类型下的所有设备，以符号链接的形式指向真正的设备（/sys/devices/）。而drivers是所有注册在这个总线类型上的驱动。
 
@@ -260,7 +260,7 @@ int add_uevent_var(struct kobj_uevent_env *env, const char *format, ...);
 
 ## device和device_driver
 
-`device`和`device_driver`是Linux驱动开发的基本概念。驱动开发，其实就是开发指定的软件（driver）以及驱动指定的设备（device）。内核为此定义了两种数据结构，分别是`struct device`和`struct device_driver`。
+`device`和`device_driver`是Linux驱动开发的基本概念。驱动开发，其实就是开发指定的软件（driver）以及驱动指定的设备（device）。内核为此定义了两种数据结构，分别是`struct device`和`struct device_driver`。在<include/linux/device.h\>中可以找到这两个结构体的定义，由于比较复杂，就不在这里列举了。
 
 Linux设备模型框架体系下开发，主要包括两个步骤：
 
@@ -268,7 +268,7 @@ Linux设备模型框架体系下开发，主要包括两个步骤：
 
 2. 分配一个`struct device_driver`类型的变量，填充信息，然后将其注册到内核。
 
-设备驱动的执行逻辑，由回调函数实现。开发人员只需要做填空题即可。
+内核会在合适的时机，调用`struct device_driver`中的各类回调函数，从而触发后者终结设备驱动的执行。而所有的驱动程序逻辑，其实都是由这些回调函数来实现的。
 
 一般情况下，Linux驱动开发很少直接操作上面两个结构体，因为内核又封装了一层，比如`platform_device`，封装后的接口更为简单易用。`device`和`device_driver`必须挂在在同一个bus之下，名称也必须一样，内核才能完成匹配操作。
 
@@ -460,7 +460,7 @@ struct resource {
 };
 ```
 
-> name： 指定资源的名字，可以设置为NULL；
+> name： 指定资源的名字，可以设置为NULL
 
 > start、end： 指定资源的起始地址以及结束地址
 
@@ -473,7 +473,7 @@ struct resource {
 | IORESOURCE_IRQ | 用于指定该设备使用某个中断 |
 | IORESOURCE_DMA | 用于指定使用的DMA通道 |
 
-设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有IO端口映射和IO內存映射两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用IORESOURCE_MEM。
+设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有IO端口映射和IO內存映射两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用`IORESOURCE_MEM`。
 
 在资源的起始地址和结束地址中，对于IORESOURCE_IO或者是IORESOURCE_MEM，他们表示要使用的内存的起始位置以及结束位置；若是只用一个中断引脚或者是一个通道，则它们的start和end成员值必须是相等的。
 
@@ -483,6 +483,8 @@ struct resource {
 int platform_device_register(struct platform_device *pdev);
 void platform_device_unregister(struct platform_device *pdev);
 ```
+
+这两个函数应该在模块的进入与退出函数中被调用。
 
 ### 平台驱动
 
@@ -499,9 +501,9 @@ struct platform_driver {
 };
 ```
 
-除了提供一些回调函数之外，还有一个`id_table`的指针。这个指针用来表示该驱动能够兼容的设备类型，当设备调用`probe()`函数时，就会到这个数组里检查是否匹配。
+除了提供一些回调函数之外，还有一个`id_table`的指针。这个指针用来表示该驱动能够兼容的`platform_device`。
 
-我们看一下`struct platform_device_id`结构体的定义：
+我们来看一下`struct platform_device_id`结构体的定义：
 
 ```C
 struct platform_device_id {
@@ -510,7 +512,7 @@ struct platform_device_id {
 };
 ```
 
-name用于指定驱动的名称，总线进行匹配时，会根据该name成员与`platform_device`中的name进行匹配。driver_data用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
+name用于指定驱动的名称，总线进行匹配时，会根据该name成员与`platform_device`中的name成员进行匹配，一旦匹配就会调用`probe()`函数。driver_data用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
 
 注册/注销平台驱动的函数如下：
 
@@ -521,7 +523,7 @@ void platform_driver_unregister(struct platform_device *drv);
 
 在平台设备中，`struct resource`结构体用来表示硬件信息，而软件信息则可以用设备结构体`device`中的成员platform_data来保存。
 
-`platform_get_resource()`函数通常会在驱动的`probe()`函数中执行，用于获取平台设备提供的资源结构体，最终返回一个`struct resource`的指针：
+`platform_get_resource()`函数通常会在驱动的`probe()`函数中执行，用于获取`platform_device`中的`resource`结构体：
 
 ```C
 struct resource *platform_get_resource(struct platform_device *dev, unsigned int type, unsigned int num);
@@ -548,6 +550,6 @@ static inline void *dev_get_platdata(const struct device *dev)
 }
 ```
 
-总结一下平台驱动：需要实现`probe()`函数，当平台总线成功匹配驱动和设备时，则会调用驱动的`probe()`函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体`platform_driver`，调用`platform_driver_register()`进行注册。
+总结一下平台驱动：需要手动实现`probe()`函数，当平台总线成功匹配`platform_device`和`platform_driver`时，则会调用驱动的`probe()`函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体`platform_driver`，调用`platform_driver_register()`进行注册。
 
 

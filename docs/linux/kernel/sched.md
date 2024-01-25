@@ -128,7 +128,7 @@ struct task_struct *group_leader;
 
 ### 进程间关系
 
-Linux系统中所有的进程都是PID为1的<font color="skyblue">init进程</font>的后代，内核在系统启动的最后阶段启动init进程。该进程读取系统的初始化脚本并执行其他的相关程序，最后完成整个系统的启动。
+Linux系统中所有的进程都是PID为1的<font color="green">init进程</font>的后代，内核在系统启动的最后阶段启动init进程。该进程读取系统的初始化脚本并执行其他的相关程序，最后完成整个系统的启动。
 
 每个进程必有一个父进程，如果一个进程创建了多个子进程，那么子进程之间还有兄弟关系。在`task_struct`中，使用以下字段来表示亲缘关系：
 
@@ -169,6 +169,8 @@ struct fs_struct *fs;
 /* Open file information: */
 struct files_struct *files;
 ```
+
+详情请参考：[虚拟文件系统](./vfs.md)
 
 ## 进程组织形式
 
