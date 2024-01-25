@@ -287,7 +287,7 @@
   
     
   
-  云原生
+  云计算
 
         </a>
       </li>
@@ -481,6 +481,8 @@
       
         
           
+        
+      
         
       
         
@@ -731,6 +733,27 @@
   
   <span class="md-ellipsis">
     物理内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    虚拟文件系统
   </span>
   
 
@@ -1265,6 +1288,8 @@
           
         
       
+        
+      
     
     
     
@@ -1286,21 +1311,47 @@
               
   
   <span class="md-ellipsis">
-    云原生
+    云计算
   </span>
   
 
             </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
             
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            云原生
+            云计算
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    容器技术
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -1646,7 +1697,7 @@
 <p>保留区上方是代码段和数据段，它们是从可执行文件直接加载进来的。编译后的代码放在代码段，数据段用来存放已初始化的全局变量。</p>
 <p>BSS段用来存放未初始化的全局变量，以0填充。</p>
 <p>BSS段上方是堆空间，地址的增长方向是从低到高。内核使用<code>start_brk</code>标识堆的起始位置，<code>brk</code>标识堆当前的结束位置。当堆申请一块很小的内存（128K以内），只需要将<code>brk</code>指针增加对应的大小即可。堆内存的管理比较复杂，堆内存最大的困难就是频繁地分配和释放会造成内存碎片。为了应对这个问题，内核采用了基于伙伴系统的内存分配算法。</p>
-<p>堆空间上方是待分配区域，用来扩展堆空间的使用。接下来是内存映射区域。任何应用程序都可以通过<code>mmap()</code>系统调用映射至此区域。内存映射可以用来加载动态库，比如<font color="skyblue"> ld-linux.so </font>就被加载于此，另外，如果你通过<code>malloc()</code>申请了超过128K内存，内核将直接为你分配一块映射区域作为内存，而不是使用堆内存。</p>
+<p>堆空间上方是待分配区域，用来扩展堆空间的使用。接下来是内存映射区域。任何应用程序都可以通过<code>mmap()</code>系统调用映射至此区域。内存映射可以用来加载动态库，比如<font color="green"> ld-linux.so </font>就被加载于此，另外，如果你通过<code>malloc()</code>申请了超过128K内存，内核将直接为你分配一块映射区域作为内存，而不是使用堆内存。</p>
 <p>最后一块区域是栈空间，在这里保存函数运行过程需要的局部变量以及函数参数等信息。栈空间的地址是从高到低增长的。内核使用<code>start_stack</code>标识栈的起始位置。SP寄存器保存栈顶指针，BP寄存器保存栈基地址。</p>
 <h2 id="mm_struct">内存描述符mm_struct<a class="headerlink" href="#mm_struct" title="Permanent link">&para;</a></h2>
 <p><code>mm_struct</code>用来表示进程的地址空间的信息，定义在文件&lt;linux/mm_types.h&gt;中：</p>
@@ -1675,7 +1726,7 @@
 <p><strong>mm_users</strong>记录正在使用该地址的进程数目，比如如果有两个线程共享该地址空间，那么<strong>mm_users</strong>的值便等于2。<strong>mm_count</strong>是<strong>mm_struct</strong>结构体的主引用计数，当值为0时，该结构体会被释放。</p>
 <p><strong>mmap</strong>使用单独链表连接所有的内存区域对象。每一个<code>vm_area_struct</code>结构体通过自身的<strong>vm_next</strong>指针被连入链表。<strong>mmap</strong>指向链表中第一个节点。</p>
 <p><strong>mm_rb</strong>则使用红黑树。<strong>mm_rb</strong>指向根节点，每一个<code>vm_area_struc</code>结构体通过自身的<strong>vm_rb</strong>连接到树中。</p>
-<p>在<a href="../sched/#_9">进程管理与调度</a>中我们介绍了mm变量，用来存放该进程使用的内存描述符，<code>current-&gt;mm</code>就指向当前进程的内存描述符。<code>fork()</code>函数利用<code>copy_mm()</code>函数复制父进程的内存描述符。如果父子进程共享地址空间，则在调用<code>clone()</code>时，设置<font color="skyblue">CLONE_VM</font>标志，这样的进程就是线程。在Linux环境下，是否共享地址空间几乎是进程和线程本质上的唯一区别。如果指定了<strong>CLONE_VM</strong>,线程就不需要另外分配地址空间了，而是直接将mm域直接指向父进程的内存描述符即可。</p>
+<p>在<a href="../sched/#_9">进程管理与调度</a>中我们介绍了mm变量，用来存放该进程使用的内存描述符，<code>current-&gt;mm</code>就指向当前进程的内存描述符。<code>fork()</code>函数利用<code>copy_mm()</code>函数复制父进程的内存描述符。如果父子进程共享地址空间，则在调用<code>clone()</code>时，设置<font color="green">CLONE_VM</font>标志，这样的进程就是线程。在Linux环境下，是否共享地址空间几乎是进程和线程本质上的唯一区别。如果指定了<strong>CLONE_VM</strong>,线程就不需要另外分配地址空间了，而是直接将mm域直接指向父进程的内存描述符即可。</p>
 <p>内核线程没有进程地址空间，也没有相关的内存描述符，其mm域为NULL。当一个内核线程被调度时，它会直接使用前一个进程的内存描述符。</p>
 <h2 id="_3">虚拟内存区域<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>虚拟内存区域（Virtual Memory Area, VMA）在内核中用<code>vm_area_struct</code>结构体描述。每个<code>vm_area_struct</code>结构都对应于指定地址空间上某块连续的内存区域。<strong>vm_start</strong>指向了这块虚拟内存区域的起始地址，<strong>vm_end</strong>指向了这块虚拟内存区域的结束地址。<code>vm_area_struct</code>结构体描述的是[vm_start，vm_end)这样一段左闭右开的虚拟内存区域。</p>

@@ -287,7 +287,7 @@
   
     
   
-  云原生
+  云计算
 
         </a>
       </li>
@@ -493,6 +493,8 @@
       
         
       
+        
+      
     
     
     
@@ -629,6 +631,27 @@
   
   <span class="md-ellipsis">
     物理内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kernel/vfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    虚拟文件系统
   </span>
   
 
@@ -1165,6 +1188,8 @@
           
         
       
+        
+      
     
     
     
@@ -1186,21 +1211,47 @@
               
   
   <span class="md-ellipsis">
-    云原生
+    云计算
   </span>
   
 
             </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
             
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            云原生
+            云计算
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cloud/docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    容器技术
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -1570,7 +1621,7 @@
 
 <h1 id="_1">设备模型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>由于Linux支持世界上几乎所有的、不同功能的硬件设备，导致Linux内核中有一半的代码都是设备驱动。随着硬件的快速迭代，设备驱动的代码也在快速增长。</p>
-<p>为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了<font color="skyblue">设备模型</font>（device model）的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。</p>
+<p>为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了<font color="green">设备模型</font>（device model）的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。</p>
 <p>设备模型通过几个数据结构来反映当前系统中总线、设备以及驱动工作的情况：</p>
 <ul>
 <li>
@@ -1589,7 +1640,7 @@
 <blockquote>
 <p>platform bus是内核中的一种虚拟总线类型，它不是物理上存在的总线，而是一种抽象的总线。它允许开发者以一种标准的方式来描述和管理那些不通过传统物理总线连接的设备。</p>
 </blockquote>
-<p>Linux内核使用<font color="skyblue">sysfs文件系统</font>将内核的设备驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。</p>
+<p>Linux内核使用<font color="green">sysfs文件系统</font>将内核的设备驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。</p>
 <p>/sys文件目录记录了各个设备之间的关系。其中，/sys/bus目录下的每个子目录都是已经注册的总线类型。每个总线类型下还有两个文件夹——devices和drivers；devices是该总线类型下的所有设备，以符号链接的形式指向真正的设备（/sys/devices/）。而drivers是所有注册在这个总线类型上的驱动。</p>
 <p><img alt="Linux设备模型" src="../../images/kernel/linux_device_model01.png" /></p>
 <p>/sys/devices目录下是全局的设备结构体系，包含了所有注册在各类总线上的物理设备。所有的物理设备以总线拓扑的结构来显示。</p>
@@ -1766,7 +1817,7 @@
 <p>add_uevent_var：以格式化字符串的形式，向uevent添加新的环境变量。</p>
 </blockquote>
 <h2 id="devicedevice_driver">device和device_driver<a class="headerlink" href="#devicedevice_driver" title="Permanent link">&para;</a></h2>
-<p><code>device</code>和<code>device_driver</code>是Linux驱动开发的基本概念。驱动开发，其实就是开发指定的软件（driver）以及驱动指定的设备（device）。内核为此定义了两种数据结构，分别是<code>struct device</code>和<code>struct device_driver</code>。</p>
+<p><code>device</code>和<code>device_driver</code>是Linux驱动开发的基本概念。驱动开发，其实就是开发指定的软件（driver）以及驱动指定的设备（device）。内核为此定义了两种数据结构，分别是<code>struct device</code>和<code>struct device_driver</code>。在&lt;include/linux/device.h&gt;中可以找到这两个结构体的定义，由于比较复杂，就不在这里列举了。</p>
 <p>Linux设备模型框架体系下开发，主要包括两个步骤：</p>
 <ol>
 <li>
@@ -1776,7 +1827,7 @@
 <p>分配一个<code>struct device_driver</code>类型的变量，填充信息，然后将其注册到内核。</p>
 </li>
 </ol>
-<p>设备驱动的执行逻辑，由回调函数实现。开发人员只需要做填空题即可。</p>
+<p>内核会在合适的时机，调用<code>struct device_driver</code>中的各类回调函数，从而触发后者终结设备驱动的执行。而所有的驱动程序逻辑，其实都是由这些回调函数来实现的。</p>
 <p>一般情况下，Linux驱动开发很少直接操作上面两个结构体，因为内核又封装了一层，比如<code>platform_device</code>，封装后的接口更为简单易用。<code>device</code>和<code>device_driver</code>必须挂在在同一个bus之下，名称也必须一样，内核才能完成匹配操作。</p>
 <p>如果存在相同名称的<code>device</code>和<code>device_driver</code>，内核就会执行<code>device_driver</code>中的<code>probe()</code>回调函数，该函数是所有<code>driver</code>的入口函数，用来执行诸如硬件设备初始化、字符设备注册、文件操作ops注册等动作（对应<code>remove()</code>函数）。</p>
 <h2 id="bus">bus<a class="headerlink" href="#bus" title="Permanent link">&para;</a></h2>
@@ -1920,7 +1971,7 @@
 <a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="p">};</span>
 </code></pre></div>
 <blockquote>
-<p>name： 指定资源的名字，可以设置为NULL；</p>
+<p>name： 指定资源的名字，可以设置为NULL</p>
 <p>start、end： 指定资源的起始地址以及结束地址</p>
 <p>flags： 用于指定该资源的类型，在Linux中，资源包括I/O、Memory、Register、IRQ、DMA、Bus等多种类型，最常见的有以下几种：</p>
 </blockquote>
@@ -1950,12 +2001,13 @@
 </tr>
 </tbody>
 </table>
-<p>设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有IO端口映射和IO內存映射两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用IORESOURCE_MEM。</p>
+<p>设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有IO端口映射和IO內存映射两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用<code>IORESOURCE_MEM</code>。</p>
 <p>在资源的起始地址和结束地址中，对于IORESOURCE_IO或者是IORESOURCE_MEM，他们表示要使用的内存的起始位置以及结束位置；若是只用一个中断引脚或者是一个通道，则它们的start和end成员值必须是相等的。</p>
 <p>注册/注销平台设备用到的函数如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_device_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">);</span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_device_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">);</span>
 </code></pre></div>
+<p>这两个函数应该在模块的进入与退出函数中被调用。</p>
 <h3 id="_5">平台驱动<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>内核使用<code>platform_driver</code>结构体来描述平台驱动：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">platform_driver</span><span class="w"> </span><span class="p">{</span>
@@ -1967,20 +2019,20 @@
 <a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device_id</span><span class="w"> </span><span class="o">*</span><span class="n">id_table</span><span class="p">;</span>
 <a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a><span class="p">};</span>
 </code></pre></div>
-<p>除了提供一些回调函数之外，还有一个<code>id_table</code>的指针。这个指针用来表示该驱动能够兼容的设备类型，当设备调用<code>probe()</code>函数时，就会到这个数组里检查是否匹配。</p>
-<p>我们看一下<code>struct platform_device_id</code>结构体的定义：</p>
+<p>除了提供一些回调函数之外，还有一个<code>id_table</code>的指针。这个指针用来表示该驱动能够兼容的<code>platform_device</code>。</p>
+<p>我们来看一下<code>struct platform_device_id</code>结构体的定义：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device_id</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">PLATFORM_NAME_SIZE</span><span class="p">];</span>
 <a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="n">kernel_ulong_t</span><span class="w"> </span><span class="n">driver_data</span><span class="p">;</span>
 <a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="p">};</span>
 </code></pre></div>
-<p>name用于指定驱动的名称，总线进行匹配时，会根据该name成员与<code>platform_device</code>中的name进行匹配。driver_data用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。</p>
+<p>name用于指定驱动的名称，总线进行匹配时，会根据该name成员与<code>platform_device</code>中的name成员进行匹配，一旦匹配就会调用<code>probe()</code>函数。driver_data用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。</p>
 <p>注册/注销平台驱动的函数如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_driver_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_driver_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
 </code></pre></div>
 <p>在平台设备中，<code>struct resource</code>结构体用来表示硬件信息，而软件信息则可以用设备结构体<code>device</code>中的成员platform_data来保存。</p>
-<p><code>platform_get_resource()</code>函数通常会在驱动的<code>probe()</code>函数中执行，用于获取平台设备提供的资源结构体，最终返回一个<code>struct resource</code>的指针：</p>
+<p><code>platform_get_resource()</code>函数通常会在驱动的<code>probe()</code>函数中执行，用于获取<code>platform_device</code>中的<code>resource</code>结构体：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="o">*</span><span class="n">platform_get_resource</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
 </code></pre></div>
 <blockquote>
@@ -1997,7 +2049,7 @@
 <a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">platform_data</span><span class="p">;</span>
 <a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="p">}</span>
 </code></pre></div>
-<p>总结一下平台驱动：需要实现<code>probe()</code>函数，当平台总线成功匹配驱动和设备时，则会调用驱动的<code>probe()</code>函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体<code>platform_driver</code>，调用<code>platform_driver_register()</code>进行注册。</p>
+<p>总结一下平台驱动：需要手动实现<code>probe()</code>函数，当平台总线成功匹配<code>platform_device</code>和<code>platform_driver</code>时，则会调用驱动的<code>probe()</code>函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体<code>platform_driver</code>，调用<code>platform_driver_register()</code>进行注册。</p>
 
 
 

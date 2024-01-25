@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/cloud/docker/">
       
       
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="sched/">
+        <link rel="next" href="../../tools/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>内核基础知识 - 一只Tom的笔记本</title>
+        <title>容器技术 - 一只Tom的笔记本</title>
       
     
     
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              内核基础知识
+              容器技术
             
           </span>
         </div>
@@ -196,13 +196,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../linux/" class="md-tabs__link">
           
   
     
@@ -278,11 +276,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../cloud/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -410,8 +410,6 @@
       
   
   
-    
-  
   
   
     
@@ -432,17 +430,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../linux/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -459,7 +457,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Linux
@@ -472,8 +470,6 @@
                 
   
   
-    
-  
   
   
     
@@ -501,17 +497,17 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../linux/kernel/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -522,13 +518,13 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             内核剖析
@@ -544,7 +540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="sched/" class="md-nav__link">
+      <a href="../../linux/kernel/sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -565,7 +561,7 @@
   
   
     <li class="md-nav__item">
-      <a href="vma/" class="md-nav__link">
+      <a href="../../linux/kernel/vma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -586,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="interrupt/" class="md-nav__link">
+      <a href="../../linux/kernel/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -607,7 +603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="synch/" class="md-nav__link">
+      <a href="../../linux/kernel/synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -628,7 +624,7 @@
   
   
     <li class="md-nav__item">
-      <a href="mm/" class="md-nav__link">
+      <a href="../../linux/kernel/mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -649,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="vfs/" class="md-nav__link">
+      <a href="../../linux/kernel/vfs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -670,7 +666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="others/" class="md-nav__link">
+      <a href="../../linux/kernel/others/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -725,7 +721,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../drivers/" class="md-nav__link ">
+            <a href="../../linux/drivers/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -758,7 +754,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../drivers/dts/" class="md-nav__link">
+      <a href="../../linux/drivers/dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -779,7 +775,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../drivers/chardev/" class="md-nav__link">
+      <a href="../../linux/drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -800,7 +796,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../drivers/framework/" class="md-nav__link">
+      <a href="../../linux/drivers/framework/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1179,6 +1175,8 @@
       
   
   
+    
+  
   
   
     
@@ -1197,17 +1195,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../cloud/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1224,7 +1222,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             云计算
@@ -1237,10 +1235,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../cloud/docker/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1249,6 +1256,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -1499,23 +1507,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      内核源码
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -1532,88 +1523,7 @@
   
 
 
-<h1 id="_1">内核基础知识<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<h2 id="_2">内核源码<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>要获取内核源码，请使用<code>git</code>。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
-</code></pre></div>
-<p>内核源码树由许多目录组成，一些比较重要的目录的描述如下：</p>
-<table>
-<thead>
-<tr>
-<th>目录名</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>arch</td>
-<td>体系结构相关的代码</td>
-</tr>
-<tr>
-<td>block</td>
-<td>块设备I/O层</td>
-</tr>
-<tr>
-<td>drivers</td>
-<td>设备驱动程序</td>
-</tr>
-<tr>
-<td>fs</td>
-<td>文件系统</td>
-</tr>
-<tr>
-<td>include</td>
-<td>内核头文件</td>
-</tr>
-<tr>
-<td>init</td>
-<td>初始化代码</td>
-</tr>
-<tr>
-<td>ipc</td>
-<td>进程间通信代码</td>
-</tr>
-<tr>
-<td>kernel</td>
-<td>内核核心代码</td>
-</tr>
-<tr>
-<td>lib</td>
-<td>内核库函数</td>
-</tr>
-<tr>
-<td>mm</td>
-<td>内存管理</td>
-</tr>
-<tr>
-<td>net</td>
-<td>网络系统</td>
-</tr>
-</tbody>
-</table>
-<p>要编译内核，请使用make menuconfig。内核的各种配置，以CONFIG_FEATURE的形式写入.config文件。配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。</p>
-<p>内核开发的特点如下：</p>
-<ul>
-<li>
-<p>不能使用标准C库头文件，只能使用内核提供的头文件。与体系结构无关的头文件位于内核源码根目录下的include目录。与体系结构相关的头文件位于&lt;arch/architecture/include/asm&gt;目录，内核代码以asm前缀的形式包含这些头文件。</p>
-</li>
-<li>
-<p>必须使用GNU C。gcc编译器支持以asm()指令开头嵌入汇编代码。</p>
-</li>
-<li>
-<p>没有内存保护机制。如果是内核访问了非法内存，后果不堪设想。</p>
-</li>
-<li>
-<p>无法执行浮点运算。内核对于浮点运算的支持度不够。</p>
-</li>
-<li>
-<p>必须考虑同步与并发。Linux内核是抢占式多任务处理系统，当前任务随时有可能被另一个任务抢占。</p>
-</li>
-<li>
-<p>必须考虑可移植性。比如保持字节序、64 位对齐、不假定字长和页面长度等一系列准则。</p>
-</li>
-</ul>
+<h1 id="_1">容器技术<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 
 
 

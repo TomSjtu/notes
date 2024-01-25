@@ -287,7 +287,7 @@
   
     
   
-  云原生
+  云计算
 
         </a>
       </li>
@@ -481,6 +481,8 @@
       
         
           
+        
+      
         
       
         
@@ -875,6 +877,27 @@
   
   <span class="md-ellipsis">
     物理内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    虚拟文件系统
   </span>
   
 
@@ -1409,6 +1432,8 @@
           
         
       
+        
+      
     
     
     
@@ -1430,21 +1455,47 @@
               
   
   <span class="md-ellipsis">
-    云原生
+    云计算
   </span>
   
 
             </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
             
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            云原生
+            云计算
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    容器技术
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2000,7 +2051,7 @@
 <p>你可能会疑惑，唯一标识一个进程，为什么需要用到这么多变量？这是因为之前提到，在Linux系统下，进程与线程并不特别区分，都是一个<code>task_struct</code>结构体。这就给管理带来了一些麻烦。比如我们希望同属于一个进程组的线程拥有共同的pid。当我们发送一个信号给指定pid时，我们希望这个信号能作用于该组中的所有线程。当杀死某个进程时，当然是连同该进程下的所有线程一起杀死，而不是只杀死了主进程，其他线程还在工作，这显然不合常理。事实上，POSIX标准也规定一个多线程应用程序的所有线程必须享有共同的pid。</p>
 <p>遵照这个标准，Linux引入了线程组的概念。一个线程组中所有线程使用和该线程组领头线程（thread group leader）相同的pid，它被存入<code>task_struct</code>的tgid字段。当我们使用<code>getpid()</code>系统调用返回当前进程的pid时，返回的也是tgid的值。任何一个进程，如果只有主线程，那么pid = tgid， group_leader指向的就是自己。如果主线程创建了其他线程，那么每个线程都有自己的pid，但是tgid仍然是主线程。</p>
 <h3 id="_7">进程间关系<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>Linux系统中所有的进程都是PID为1的<font color="skyblue">init进程</font>的后代，内核在系统启动的最后阶段启动init进程。该进程读取系统的初始化脚本并执行其他的相关程序，最后完成整个系统的启动。</p>
+<p>Linux系统中所有的进程都是PID为1的<font color="green">init进程</font>的后代，内核在系统启动的最后阶段启动init进程。该进程读取系统的初始化脚本并执行其他的相关程序，最后完成整个系统的启动。</p>
 <p>每个进程必有一个父进程，如果一个进程创建了多个子进程，那么子进程之间还有兄弟关系。在<code>task_struct</code>中，使用以下字段来表示亲缘关系：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">real_parent</span><span class="p">;</span><span class="w"> </span><span class="cm">/* real parent process */</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span><span class="w"> </span><span class="cm">/* recipient of SIGCHLD, wait4() reports */</span>
@@ -2027,6 +2078,7 @@
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="cm">/* Open file information: */</span>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="o">*</span><span class="n">files</span><span class="p">;</span>
 </code></pre></div>
+<p>详情请参考：<a href="../vfs/">虚拟文件系统</a></p>
 <h2 id="_11">进程组织形式<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
 <p>要明白进程之间是如何组织的，首先要知道双向链表这个数据结构。双向链表就是同时有prev和next指针的链表，分别指向前一个和后一个元素。Linux使用双向链表将所有进程的描述符全部连接起来。</p>
 <h3 id="_12">运行队列<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>

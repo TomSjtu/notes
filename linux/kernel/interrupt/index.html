@@ -287,7 +287,7 @@
   
     
   
-  云原生
+  云计算
 
         </a>
       </li>
@@ -481,6 +481,8 @@
       
         
           
+        
+      
         
       
         
@@ -824,6 +826,27 @@
   
   <span class="md-ellipsis">
     物理内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    虚拟文件系统
   </span>
   
 
@@ -1358,6 +1381,8 @@
           
         
       
+        
+      
     
     
     
@@ -1379,21 +1404,47 @@
               
   
   <span class="md-ellipsis">
-    云原生
+    云计算
   </span>
   
 
             </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
             
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            云原生
+            云计算
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    容器技术
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2044,12 +2095,12 @@
 <p>每个处理器都有一组辅助处理软中断（和tasklet）的内核线程。当内核中出现大量软中断的时候，内核线程就会选择合适的时机来处理软中断。</p>
 <p>在大流量的网络通信中，软中断的触发频率可能很高，甚至还会自行重复触发，这会导致用户空间的进程无法获得足够的处理器时间。如果软中断和重复触发的软中断都被立即处理，那么当负载很高的时候，系统就会出现明显的卡顿现象。如果选择不处理重新触发的软中断，又会浪费闲置的系统资源，导致软中断出现饥饿现象。</p>
 <p>内核中的方案时不会立即处理重复触发的软中断。当大量软中断出现的时候，内核会唤醒一组内核线程来处理这些负载。这些线程在最低优先级（nice=19）运行，避免与其他任务抢占资源。</p>
-<p>每个处理器都有一个这样的线程，名字为<font color="skyblue">ksoftirqd/n</font>，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用<code>do_softirq()</code>函数来处理它们。</p>
+<p>每个处理器都有一个这样的线程，名字为<font color="green">ksoftirqd/n</font>，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用<code>do_softirq()</code>函数来处理它们。</p>
 <h2 id="_9">工作队列<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
 <p>工作队列是一种延后执行的机制，可以将后续的工作交给一个内核线程执行——这个下半部分总是在进程上下文中执行。这样，通过工作队列实现的代码就能享受进程上下文的所有优势，比如可以重新调度甚至是睡眠。</p>
 <p>如果推后执行的任务需要睡眠，那么就选择工作队列。否则就选择软中断或tasklet。工作队列在你需要获得大量内存时，需要获取信号量时，需要执行阻塞式的I/O操作时，它都会非常有用。</p>
 <h3 id="_10">工作队列的实现<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<p>工作队列子系统提供了缺省的工作者线程（worker thread）来处理需要推后的工作。缺省的工作者线程叫做<font color="skyblue">events/n</font>，n为处理器的编号。你可以创建自己的工作者线程，不过一般使用缺省线程即可。然而，如果一个任务需要特别的处理，或者它对性能有非常严格的要求，那么创建一个专用的内核线程可能就是必要的。专用的工作者线程可以更好地控制和优化任务的执行，但也需要更多的资源和管理开销。</p>
+<p>工作队列子系统提供了缺省的工作者线程（worker thread）来处理需要推后的工作。缺省的工作者线程叫做<font color="green">events/n</font>，n为处理器的编号。你可以创建自己的工作者线程，不过一般使用缺省线程即可。然而，如果一个任务需要特别的处理，或者它对性能有非常严格的要求，那么创建一个专用的内核线程可能就是必要的。专用的工作者线程可以更好地控制和优化任务的执行，但也需要更多的资源和管理开销。</p>
 <p>工作者线程用<code>workqueue_struct</code>结构体表示：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_workqueue_struct</span><span class="w"> </span><span class="n">cpu_wq</span><span class="p">[</span><span class="n">NR_CPUS</span><span class="p">]</span><span class="err">；</span>

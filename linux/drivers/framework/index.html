@@ -287,7 +287,7 @@
   
     
   
-  云原生
+  云计算
 
         </a>
       </li>
@@ -493,6 +493,8 @@
       
         
       
+        
+      
     
     
     
@@ -629,6 +631,27 @@
   
   <span class="md-ellipsis">
     物理内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/vfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    虚拟文件系统
   </span>
   
 
@@ -843,6 +866,42 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gpio" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPIO子系统
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C子系统
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spi" class="md-nav__link">
+    <span class="md-ellipsis">
+      SPI子系统
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input子系统
+    </span>
+  </a>
   
 </li>
       
@@ -1229,6 +1288,8 @@
           
         
       
+        
+      
     
     
     
@@ -1250,21 +1311,47 @@
               
   
   <span class="md-ellipsis">
-    云原生
+    云计算
   </span>
   
 
             </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
             
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
-            云原生
+            云计算
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    容器技术
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -1542,6 +1629,42 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#gpio" class="md-nav__link">
+    <span class="md-ellipsis">
+      GPIO子系统
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C子系统
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spi" class="md-nav__link">
+    <span class="md-ellipsis">
+      SPI子系统
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#input" class="md-nav__link">
+    <span class="md-ellipsis">
+      Input子系统
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1562,11 +1685,11 @@
 
 <h1 id="_1">驱动框架<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p>驱动框架下各类子系统的介绍，需要有<a href="../dts/">设备树</a>的知识。</p>
+<p>驱动框架下各类子系统的介绍，需要提前了解<a href="../dts/">设备树</a>的知识。</p>
 </blockquote>
 <h2 id="pinctrl">Pinctrl子系统<a class="headerlink" href="#pinctrl" title="Permanent link">&para;</a></h2>
-<p>通过寄存器映射来操作外设的编程方式，在驱动开发中是不建议的，因为每当芯片的寄存器发生变化，那么底层的驱动代码就得推翻重写。在驱动开发中，有没有办法可以不涉及到具体的寄存器操作呢？对于有些外设，是具备抽象条件的，Pintrl子系统就是其中之一。</p>
-<p>Pinctrl：Pin Controller，引脚控制：</p>
+<p>通过寄存器映射来操作外设的编程方式，在实际开发中是不建议的，因为每当芯片的寄存器发生变化，那么底层的驱动代码就得推翻重写。在驱动开发中，将软件与硬件分离是基本思想之一。这种软硬件的抽象为代码的编写带来了极大的便利。对于有些外设，是具备抽象条件的，Pintrl子系统就是其中之一。</p>
+<p>Pinctrl：Pin Controller，即引脚控制，它主要有以下三种功能：</p>
 <ul>
 <li>引脚枚举与命名</li>
 <li>引脚复用：一个引脚可以用作GPIO，也可以用作I2C或UART</li>
@@ -1663,6 +1786,10 @@
 <a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">                        </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">config</span><span class="p">);</span>
 <a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="p">};</span>
 </code></pre></div>
+<h2 id="gpio">GPIO子系统<a class="headerlink" href="#gpio" title="Permanent link">&para;</a></h2>
+<h2 id="i2c">I2C子系统<a class="headerlink" href="#i2c" title="Permanent link">&para;</a></h2>
+<h2 id="spi">SPI子系统<a class="headerlink" href="#spi" title="Permanent link">&para;</a></h2>
+<h2 id="input">Input子系统<a class="headerlink" href="#input" title="Permanent link">&para;</a></h2>
 
 
 

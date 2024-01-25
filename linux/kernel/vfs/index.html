@@ -12,28 +12,28 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/vfs/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../mm/">
       
       
-        <link rel="next" href="sched/">
+        <link rel="next" href="../others/">
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
     
     
       
-        <title>内核基础知识 - 一只Tom的笔记本</title>
+        <title>虚拟文件系统 - 一只Tom的笔记本</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.fad675c6.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
       
       
 
@@ -46,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -87,7 +87,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../../.." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              内核基础知识
+              虚拟文件系统
             
           </span>
         </div>
@@ -181,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
     
@@ -202,7 +202,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+        <a href="../../" class="md-tabs__link">
           
   
     
@@ -222,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../rtos/" class="md-tabs__link">
+        <a href="../../../rtos/" class="md-tabs__link">
           
   
     
@@ -242,7 +242,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../arm/" class="md-tabs__link">
+        <a href="../../../arm/" class="md-tabs__link">
           
   
     
@@ -262,7 +262,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../pl/" class="md-tabs__link">
+        <a href="../../../pl/" class="md-tabs__link">
           
   
     
@@ -282,7 +282,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../cloud/" class="md-tabs__link">
+        <a href="../../../cloud/" class="md-tabs__link">
           
   
     
@@ -302,7 +302,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tools/" class="md-tabs__link">
+        <a href="../../../tools/" class="md-tabs__link">
           
   
     
@@ -322,7 +322,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../others/" class="md-tabs__link">
+        <a href="../../../others/" class="md-tabs__link">
           
   
     
@@ -363,7 +363,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -393,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -442,7 +442,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -511,7 +511,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -522,7 +522,7 @@
             </a>
             
               
-              <label class="md-nav__link md-nav__link--active" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -544,7 +544,7 @@
   
   
     <li class="md-nav__item">
-      <a href="sched/" class="md-nav__link">
+      <a href="../sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -565,7 +565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="vma/" class="md-nav__link">
+      <a href="../vma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -586,7 +586,7 @@
   
   
     <li class="md-nav__item">
-      <a href="interrupt/" class="md-nav__link">
+      <a href="../interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -607,7 +607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="synch/" class="md-nav__link">
+      <a href="../synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -628,7 +628,7 @@
   
   
     <li class="md-nav__item">
-      <a href="mm/" class="md-nav__link">
+      <a href="../mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -646,10 +646,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="vfs/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    虚拟文件系统
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -658,6 +678,44 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#vfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      VFS对象
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      进程中的文件数据结构
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -670,7 +728,7 @@
   
   
     <li class="md-nav__item">
-      <a href="others/" class="md-nav__link">
+      <a href="../others/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -725,7 +783,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../drivers/" class="md-nav__link ">
+            <a href="../../drivers/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -758,7 +816,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../drivers/dts/" class="md-nav__link">
+      <a href="../../drivers/dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -779,7 +837,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../drivers/chardev/" class="md-nav__link">
+      <a href="../../drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -800,7 +858,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../drivers/framework/" class="md-nav__link">
+      <a href="../../drivers/framework/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -865,7 +923,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../rtos/" class="md-nav__link ">
+            <a href="../../../rtos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -918,7 +976,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../rtos/freertos/" class="md-nav__link ">
+            <a href="../../../rtos/freertos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -954,7 +1012,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../rtos/freertos/CMSIS/" class="md-nav__link">
+      <a href="../../../rtos/freertos/CMSIS/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -995,7 +1053,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../rtos/rt-thread/" class="md-nav__link ">
+            <a href="../../../rtos/rt-thread/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1063,7 +1121,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../arm/" class="md-nav__link ">
+            <a href="../../../arm/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1096,7 +1154,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/barrier/" class="md-nav__link">
+      <a href="../../../arm/barrier/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1147,7 +1205,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../pl/" class="md-nav__link ">
+            <a href="../../../pl/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1207,7 +1265,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../cloud/" class="md-nav__link ">
+            <a href="../../../cloud/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1240,7 +1298,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cloud/docker/" class="md-nav__link">
+      <a href="../../../cloud/docker/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1297,7 +1355,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tools/" class="md-nav__link ">
+            <a href="../../../tools/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1330,7 +1388,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/github/" class="md-nav__link">
+      <a href="../../../tools/github/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1351,7 +1409,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/vim/" class="md-nav__link">
+      <a href="../../../tools/vim/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1372,7 +1430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/markdown/" class="md-nav__link">
+      <a href="../../../tools/markdown/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1425,7 +1483,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../others/" class="md-nav__link ">
+            <a href="../../../others/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1458,7 +1516,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../others/ld/" class="md-nav__link">
+      <a href="../../../others/ld/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1506,9 +1564,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#vfs" class="md-nav__link">
+    <span class="md-ellipsis">
+      VFS对象
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      内核源码
+      进程中的文件数据结构
     </span>
   </a>
   
@@ -1532,88 +1599,62 @@
   
 
 
-<h1 id="_1">内核基础知识<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<h2 id="_2">内核源码<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>要获取内核源码，请使用<code>git</code>。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
-</code></pre></div>
-<p>内核源码树由许多目录组成，一些比较重要的目录的描述如下：</p>
-<table>
-<thead>
-<tr>
-<th>目录名</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>arch</td>
-<td>体系结构相关的代码</td>
-</tr>
-<tr>
-<td>block</td>
-<td>块设备I/O层</td>
-</tr>
-<tr>
-<td>drivers</td>
-<td>设备驱动程序</td>
-</tr>
-<tr>
-<td>fs</td>
-<td>文件系统</td>
-</tr>
-<tr>
-<td>include</td>
-<td>内核头文件</td>
-</tr>
-<tr>
-<td>init</td>
-<td>初始化代码</td>
-</tr>
-<tr>
-<td>ipc</td>
-<td>进程间通信代码</td>
-</tr>
-<tr>
-<td>kernel</td>
-<td>内核核心代码</td>
-</tr>
-<tr>
-<td>lib</td>
-<td>内核库函数</td>
-</tr>
-<tr>
-<td>mm</td>
-<td>内存管理</td>
-</tr>
-<tr>
-<td>net</td>
-<td>网络系统</td>
-</tr>
-</tbody>
-</table>
-<p>要编译内核，请使用make menuconfig。内核的各种配置，以CONFIG_FEATURE的形式写入.config文件。配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。</p>
-<p>内核开发的特点如下：</p>
+<h1 id="_1">虚拟文件系统<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>虚拟文件系统（VFS）是Linux内核的一个重要子系统，它为用户空间程序提供了一套统一的接口，以实现对不同文件系统的访问和操作。通过这些接口，用户空间程序可以采用标准的系统调用来执行文件操作，而无需关心这些操作实际是在哪种文件系统上执行的。VFS使得内核能够支持多种文件系统类型，如ext4、ReiserFS、XFS等。对于用户空间程序来说，这些文件系统看起来都是一样的，因为VFS隐藏了底层文件系统的差异。VFS的设计使得Linux内核能够灵活地支持多种文件系统，同时保持用户空间程序的稳定性和可移植性。这对于Linux系统的可扩展性和灵活性至关重要。</p>
+<p>为了支持多文件系统，VFS提供了一个通用文件系统模型的抽象层，该模型囊括了任何文件系统常用的功能和行为。用户空间程序只需要使用VFS暴露的接口，而无须关心底层文件系统的实现细节。比如调用一个简单的<code>write()</code>函数，首先由VFS转换为<code>sys_write()</code>，再根据fd文件描述符所在的文件系统，找到具体的实现方法，最后再执行该操作。</p>
+<p>Linux系统总共采用了四种核心概念来抽象文件系统：文件、目录项、索引点和挂载点（mount point）。这些概念共同构建了一个分层的数据存储结构，用于管理文件和目录及相关的控制信息。Linux文件系统的一个重要特点是统一的命名空间，所有的文件被挂载到一个全局的层次结构中，形成一个类似根文件系统的结构。这与Windows系统将文件系统划分不同的分区不同。</p>
+<p>Linux系统区分文件本身和文件相关的信息，比如访问控制权限、大小、所有者、创建时间等。这些相关信息，有时被称作文件的元数据，被存储在一个单独的数据结构中——索引节点（inode）。</p>
+<h2 id="vfs">VFS对象<a class="headerlink" href="#vfs" title="Permanent link">&para;</a></h2>
+<p>VFS使用一组数据结构来代表通用文件对象，它们分别是：</p>
 <ul>
-<li>
-<p>不能使用标准C库头文件，只能使用内核提供的头文件。与体系结构无关的头文件位于内核源码根目录下的include目录。与体系结构相关的头文件位于&lt;arch/architecture/include/asm&gt;目录，内核代码以asm前缀的形式包含这些头文件。</p>
-</li>
-<li>
-<p>必须使用GNU C。gcc编译器支持以asm()指令开头嵌入汇编代码。</p>
-</li>
-<li>
-<p>没有内存保护机制。如果是内核访问了非法内存，后果不堪设想。</p>
-</li>
-<li>
-<p>无法执行浮点运算。内核对于浮点运算的支持度不够。</p>
-</li>
-<li>
-<p>必须考虑同步与并发。Linux内核是抢占式多任务处理系统，当前任务随时有可能被另一个任务抢占。</p>
-</li>
-<li>
-<p>必须考虑可移植性。比如保持字节序、64 位对齐、不假定字长和页面长度等一系列准则。</p>
-</li>
+<li>超级块对象，代表一个具体的已安装的文件系统。</li>
+<li>索引节点对象，代表一个具体文件。</li>
+<li>目录项对象，代表一个目录项，是一个路径的组成部分。</li>
+<li>文件对象，代表由进程打开的文件。</li>
 </ul>
+<p>每个通用对象都包含一个操作对象，描述了内核对通用对象的方法——super_operations、inode_operations、dentry_operations、file_operations。</p>
+<p>超级块对象是用来描述一个已安装的文件系统的数据结构，包含了文件系统的关键元数据，这些元数据用于内核管理和维护文件系统。超级块对象是文件系统在内核中表示自己的方式，它提供了文件系统的总体视图。</p>
+<h2 id="_2">进程中的文件数据结构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>在<a href="../sched/">进程管理</a>章节中，我们提到了在进程描述符<code>tast_struct</code>中有两个与文件系统相关的成员变量：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">fs_struct</span><span class="w"> </span><span class="o">*</span><span class="n">fs</span><span class="p">;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="o">*</span><span class="n">files</span><span class="p">;</span>
+</code></pre></div>
+<p><code>fs_struct</code>包含文件系统和进程相关的信息，定义在文件&lt;linux/fs_struct.h&gt;中：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">fs_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">users</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">umask</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">in_exec</span><span class="p">;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">path</span><span class="w"> </span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">pwd</span><span class="p">;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>user：当前打开该文件的用户数量。</p>
+<p>umask：用户模式掩码，决定了系统在创建文件和目录时的默认权限掩码。</p>
+<p>in_exec：表示文件系统是否处于执行模式。</p>
+<p>root，pwd：根目录路径和当前工作目录路径。</p>
+</blockquote>
+<p><code>files_struct</code>标识进程打开的文件信息，定义在文件&lt;linux/fdtable.h&gt;中：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">fdtable</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">fdt</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">fdtable</span><span class="w"> </span><span class="n">fdtab</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">next_fd</span><span class="p">;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">close_on_exec_init</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">open_fds_init</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">full_fds_bits_init</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">fd_array</span><span class="p">[</span><span class="n">NR_OPEN_DEFAULT</span><span class="p">];</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>count：跟踪当前打开的文件描述符的数量。</p>
+<p>fd：缓存下一个可用的fd。</p>
+<p>fd_array：指向一个<code>struct file</code>结构体的数组，用于存储打开的文件描述符。在64位体系中，一个进程默认可以打开64个文件对象。</p>
+</blockquote>
+<p>还有一个非常重要的结构体是<code>namespace</code>，定义在文件&lt;linux/mount.h&gt;中。它可以使每一个进程在系统中都看到唯一的文件系统层次结构，是Linux三大隔离技术之一。具体的细节就不在这里探讨了，在<a href="../../../cloud/docker/">容器技术</a>一章我会再做详细介绍。</p>
+<p>上述这些数据结构都是通过进程描述符链表连接起来的。对于多数进程，它们的描述符都指向唯一的<code>files_struct</code>和<code>fs_struct</code>结构体。但是对于那些在调用<code>clone()</code>函数时指定了克隆标志CLONE_FILES或者CLONE_FS的进程，会共享这两个结构体。</p>
+<p><code>namespace</code>结构体的使用方法比较特殊。默认情况下，所有进程都是共享一个命名空间的，只有当<code>clone()</code>函数时指定了CLONE_NEWS标志，才会给进程一个唯一的命名空间结构体的拷贝。</p>
 
 
 
@@ -1658,10 +1699,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
       
     
   </body>
