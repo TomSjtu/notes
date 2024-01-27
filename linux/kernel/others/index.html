@@ -425,6 +425,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -808,6 +814,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      可移植性
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -945,6 +960,174 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../network/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    网络系统
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            网络系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../optimization/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    性能调优
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            性能调优
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ebpf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    ebpf
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            ebpf
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -1731,6 +1914,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      可移植性
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1805,17 +1997,17 @@
 <ul>
 <li>更新系统运行时间</li>
 <li>更新实际时间</li>
-<li>在smp系统上，均衡调度程序中各处理器上的运行队列</li>
+<li>在SMP系统上，均衡调度程序中各处理器上的运行队列</li>
 <li>检查当前进程是否用尽了自己的时间片</li>
 <li>运行超时的动态定时器</li>
 <li>更新资源消耗和处理器时间的统计值</li>
 </ul>
 <h3 id="jiffies">节拍率和jiffies变量<a class="headerlink" href="#jiffies" title="Permanent link">&para;</a></h3>
-<p>系统定时器频率是通过静态预处理定义的，在系统启动时按照HZ的值对硬件进行设置，该值与体系结构相关。内核在&lt;asm/param.h&gt;文件中定义。在x86体系结构中，系统定时器频率默认为100。也就是说x86的时钟中断频率为100HZ，即每秒中断100次（每10ms产生一次）。</p>
+<p>系统定时器频率是通过静态预处理定义的，在系统启动时按照HZ的值对硬件进行设置，该值与体系结构相关。内核在&lt;asm/param.h&gt;文件中定义。在x86体系结构中，系统定时器频率默认为1000。也就是说x86的时钟中断频率为1000HZ，即每秒中断1000次（每1ms产生一次）。</p>
 <p>时钟中断频率应设置为一个理想的值，高HZ可以提高系统的性能，使得由时间驱动的事件更为精确。但同时也带来了额外的系统负担，因为处理器会被更频繁地打断去执行时钟中断处理程序。</p>
 <p>全局变量<code>jiffies</code>用来记录系统启动以来产生的节拍总数。内核在启动时将该变量初始化为0，此后每产生一次时钟中断该值就+1。因为一秒内时钟中断的次数等于HZ，所以<code>jiffies</code>一秒内增加的值也就为HZ。系统运行时间以秒为计，其值等于jiffies/HZ。</p>
 <p><code>jiffies</code>变量被定义为unsigned long类型。在32位体系结构上是32位。如果时钟频率为100HZ，那么497天后会溢出。如果是64位体系结构，任何人都别指望会看到它溢出。</p>
-<p>当<code>jiffies</code>变量的值超过它的最大存放范围后就会发生溢出，此时再继续增加的话，它会回绕至0。为了解决<code>jiffies</code>变量的溢出问题，内核引入了<code>jiffies_64</code>变量，这是一个64位的无符号整数。</p>
+<p>当<code>jiffies</code>变量的值超过它的最大存放范围后就会发生溢出，此时再继续增加的话，它会回绕至0。为了解决<code>jiffies</code>变量的溢出问题，内核引入了<code>jiffies_64</code>变量，这是一个64位的无符号整数。但是用户空间访问的依然还是<code>jiffies</code>变量。</p>
 <h3 id="_5">动态定时器<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>定时器的使用很简单。你只需要执行一些初始化工作，设置一个超时时间，指定超时发生后需要执行的函数，然后激活定时器就可以了。内核提供了一组与定时器相关的接口用来简化定时器的操作。</p>
 <p>创建定时器：</p>
@@ -1832,7 +2024,7 @@
 <p>如果当前<code>jiffies</code>计数大于或等于my_timer.expires的值，那么my_timer.function指向的处理函数就会被执行。处理函数必须符合以下类型：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">my_function</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
 </code></pre></div>
-<p>其中data参数使你可以利用同一个处理函数注册多个定时器，只需要通过该参数就可以区别对待它们。如果你不需要这个参数，直接传0即可。</p>
+<p>如果需要通过data参数传递多个数据项，可以将这些数据项捆绑成一个结构体，然后将结构体的指针强制转换成unsigned long传入。</p>
 <p>最后，你必须手动激活定时器：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">add_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_timer</span><span class="p">);</span>
 </code></pre></div>
@@ -1842,7 +2034,7 @@
 <p>如果在定时器超时前停止定时器，可以使用<code>del_timer()</code>函数：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">del_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_timer</span><span class="p">);</span>
 </code></pre></div>
-<p>需要注意的是，在多处理器系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到<code>del_timer_syn()</code>函数来执行删除工作。</p>
+<p>需要注意的是，在SMP系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到<code>del_timer_syn()</code>函数来执行删除工作。在大多数情况下，都应该调用这个函数而不是<code>del_timer()</code>。在拥有锁的时候，需要做一些额外的检查，以防止死锁。</p>
 <h3 id="_6">延迟执行<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>内核代码往往需要推迟某些任务的执行，这种推迟通常发生在等待硬件完成某些工作，而且等待时间往往非常短。内核提供了多种延迟方法来处理延迟请求。</p>
 <p>最简单的延迟方法就是忙等待。该方法仅仅在想要延迟的时间是节拍的整数倍，或者精确率要求不高的情况下才可以使用。忙等待的实现非常简单——在一个循环中不断等待直到希望的时钟节拍数耗尽，比如：</p>
@@ -1851,14 +2043,18 @@
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">{}</span>
 </code></pre></div>
 <p>该循环将不断执行，直到<code>jiffies</code>大于delay为止。这是一种低效的办法， 因为处理器除了等待不会做任何事情，更好的方案是在等待时，允许内核重新调度执行其他任务。</p>
-<p>基于<code>jiffies</code>的延迟方法受限于时钟节拍，无法提供更短、更精确的延迟要求。为此，内核提供了三个可以处理us、ns和ms级别的延迟函数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">udelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">usecs</span><span class="p">)</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">ndelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">nsecs</span><span class="p">)</span>
+<p>基于<code>jiffies</code>的延迟方法受限于时钟节拍，无法提供更短、更精确的延迟要求。为此，内核提供了三个可以处理us、us和ms级别的短延迟函数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">ndelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">nsecs</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">udelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">usecs</span><span class="p">)</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="kt">void</span><span class="w"> </span><span class="n">mdelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">msecs</span><span class="p">)</span>
 </code></pre></div>
+<p>这些函数的实际实现在&lt;asm/delay.h&gt;中，很明显，这些是与体系架构相关的函数。这三个函数都是忙等待函数，在延迟过程中无法运行其他任务。不涉及忙等待的函数有以下两个，它们会将当前进程置入休眠状态：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">msleep</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">millisecs</span><span class="p">);</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ssleep</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">seconds</span><span class="p">);</span>
+</code></pre></div>
 <p>更理想的延迟执行方法是使用<code>schedule_timeout()</code>函数，该方法让需要延迟执行的任务睡眠到指定延迟时间耗尽后再重新运行。其用法如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">set_current_state</span><span class="p">(</span><span class="n">TASK_INTERRUPTIBLE</span><span class="p">);</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">schedule_timeout</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">HZ</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">set_current_state</span><span class="p">(</span><span class="n">TASK_INTERRUPTIBLE</span><span class="p">);</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">schedule_timeout</span><span class="p">(</span><span class="n">s</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">HZ</span><span class="p">);</span>
 </code></pre></div>
 <p>上述代码将当前任务推入可中断睡眠队列，睡眠s秒后唤醒。注意，由于<code>schedule_timeout()</code>函数需要调用调度程序，所以调用它的代码必须保证能够睡眠。也就是调用函数必须位于进程上下文中，且不能持有锁。</p>
 <p>当任务被重新调度时，将返回代码进入睡眠前的位置继续执行。如果任务提前被唤醒，那么定时器被撤销。</p>
@@ -1890,6 +2086,7 @@
 <p>由于大量的页缓存在内存中，必然导致可用内存的下降。为了保证内存的正常使用，必须有一种机制可以回收缓存。Linux的缓存回收是她通过选择干净页进行简单替换。如果缓存中没有足够的干净页，内核将强制性的进行回写操作，以腾出更多的干净页使用。</p>
 <p>一种回收策略被称为最近最少使用算法，简称LRU（Least Recently Used）。LRU算法一般是用链表作为数据结构来实现的，链表头部的数据是最近使用的，而链表末尾的数据是最久没被使用的。当空间不够时，就淘汰最久没被使用的节点，也就是链表末尾的数据，从而腾出内存空间。传统的LRU算法对于那些只会被访问一次的文件效果尤其差。</p>
 <p>Linux内核对LRU算法进行了改进，被称为双链策略——维护两个链表：活跃链表（active list）和不活跃链表（inactive list）。处于活跃链表上的页被认为是“热”的且不会换出，处于不活跃链表上的页被认为是“冷”的可以被换出。页面从尾部加入，从头部移除，就像队列一样。有了这两个LRU链表后，预读页就只需要加入到不活跃链表的头部，当页被真正访问的时候，才将页插入到活跃链表的头部。如果预读的页一直没有被访问，就会从不活跃链表中移除，这样就不会影响活跃链表中的热数据。</p>
+<h2 id="_10">可移植性<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
 
 
 

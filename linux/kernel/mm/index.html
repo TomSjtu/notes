@@ -425,6 +425,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -906,6 +912,174 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../network/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    网络系统
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            网络系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../optimization/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    性能调优
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            性能调优
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ebpf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    ebpf
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            ebpf
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -1714,7 +1888,7 @@
 </ul>
 <p>区的使用和分布与体系结构密切相关，内核将页划分为区，就可以根据用途进行分配。区的划分没有物理意义，只是为了方便管理而采取的一种逻辑分组。</p>
 <h2 id="_3">页操作<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>内核提供了一些获得页和释放页的操作，这里不做详细说明。</p>
+<p>内核提供了一些以页为单位的内存分配与释放的函数，这里不做详细说明。</p>
 <table>
 <thead>
 <tr>
@@ -1811,6 +1985,8 @@
 </tr>
 </tbody>
 </table>
+<p>值得注意的是，尽管<code>kmalloc()</code>函数在没有空闲内存时会失败，但是内核总会尽可能满足这个内存分配请求。因此，如果一下子分配了很多内存，系统的响应性能就会降低——当系统为了满足<code>kmalloc()</code>的分配请求，会试图与磁盘交换尽可能多的页空间导致系统卡死。</p>
+<p>基于页的分配策略能够更加有效地利用内存空间，而<code>kmalloc()</code>函数会因为分配粒度的问题浪费一定数量的内存。</p>
 <h2 id="vmalloc">vmalloc()<a class="headerlink" href="#vmalloc" title="Permanent link">&para;</a></h2>
 <p><code>vmalloc()</code>函数与<code>kmalloc()</code>函数在内存分配方面具有相似的功能，但它们在物理地址连续性方面有所不同。与<code>kmalloc()</code>保证分配的内存页在物理地址上连续不同，<code>vmalloc()</code>分配的内存页在物理地址上可以是不连续的。这种现象与用户空间内存分配函数<code>malloc()</code>类似，<code>malloc()</code>返回的页在进程的虚拟地址空间中是连续的，但并不保证这些页在物理地址上也是连续的。</p>
 <p>在大多数情况下，只有硬件设备需要访问物理地址连续的内存页。这是因为许多体系结构的硬件设备存在于内存管理单元（MMU）之外，它们无法处理虚拟地址。因此，硬件设备所使用的任何内存区域都必须是物理上连续的内存块。</p>
@@ -1853,6 +2029,7 @@
 <p>slab可以处于三种状态之一：满、部分满或空。满的slab意味着所有对象都已分配出去，空的slab则表示所有对象都未被分配，而部分满的slab则包含了已分配和未分配的对象。当内核请求新对象时，优先从部分满的slab中分配。如果没有，则从空的slab中分配。如果连空的slab都没有，就会创建新的slab。</p>
 <p>每个高速缓存都使用<code>kmem_cache</code>结构体表示。这个结构包含三个链表：slabs_full、slabs_partial、slabs_empty，这些链表包含了高速缓存中的所有slab。<code>struct slab</code>用来描述每个slab。</p>
 <p>slab层的管理是在每个高速缓存的基础上，通过内核提供的统一接口来完成的。创建和撤销高速缓存，并在高速缓存内分配和释放对象。复杂的高速缓存机制和slab的管理完全由内部机制来处理，用户无须关心。</p>
+<p>高速缓存的使用统计情况可以从/proc/slabinfo中获得。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">kmem_cache_create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">                                     </span><span class="kt">size_t</span><span class="w"> </span><span class="n">align</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">                                     </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">ctor</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">))</span><span class="w">              </span><span class="c1">//创建一个新的高速缓存</span>

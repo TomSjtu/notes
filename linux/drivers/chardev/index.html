@@ -425,6 +425,12 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
     
@@ -945,6 +951,174 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../network/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    网络系统
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            网络系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../optimization/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    性能调优
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            性能调优
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ebpf/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    ebpf
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            ebpf
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -1752,8 +1926,8 @@
 <h1 id="_1">字符设备驱动程序<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>字符设备驱动框架如图所示：</p>
 <p><img alt="Alt text" src="../../../images/kernel/chrdev.png" /></p>
-<p>在创建一个字符设备的时候，首先应该向内核申请一个设备号。拿到设备号之后，需要手动实现file_operation结构体中的函数指针，并保存到cdev结构体中。然后使用<code>cdev_add()</code>函数注册cdev。</p>
-<p>注销设备时需要释放内核中的cdev，并且归还申请的设备号。</p>
+<p>在创建一个字符设备的时候，首先应该向内核申请一个设备号。拿到设备号之后，需要手动实现<code>file_operation</code>结构体中的函数指针，并保存到<code>cdev</code>结构体中。然后使用<code>cdev_add()</code>函数注册<code>cdev</code>。</p>
+<p>注销设备时需要释放内核中的<code>cdev</code>，并且归还申请的设备号。</p>
 <h2 id="_2">快速参考<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/types.h&gt;</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
@@ -1804,13 +1978,15 @@
 <a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">copy_to_user</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="_3">设备号初始化<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>主设备号标识设备对应的驱动程序，现代Linux内核允许多个驱动共享主设备号，所以还需要次设备号用于正确确定设备文件所指向的设备。内核用<code>dev_t</code>类型来表村设备编号——包括主设备号和次设备号。要获取主、次设备号，可以通过宏<code>MAJOR</code>、<code>MINOR</code>来操作。</p>
 <h3 id="_4">设备号的注册与卸载(不推荐的做法)<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>注册
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">register_chrdev</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file_operations</span><span class="w"> </span><span class="o">*</span><span class="n">fops</span><span class="p">)</span>
 </code></pre></div></li>
 </ul>
-<p>这个方法在注册时需要手动指定主设备号，因此你必须事先知道哪个主设备号没有被占用，这在实际开发中难以推广，并且该函数还一次性占用了主设备号下的全部次设备号。</p>
+<p>这个方法在注册时需要手动指定主设备号，因此你必须事先知道哪个主设备号没有被占用，实际开发中并不推荐，并且该函数还一次性占用了主设备号下的全部次设备号。</p>
+<p>如果一定要使用，必须要检查保存在<code>inode</code>结构中的次设备号是否被使用</p>
 <ul>
 <li>卸载
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">unregister_chrdev</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
@@ -1822,42 +1998,50 @@
 </ul>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">register_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
 </code></pre></div>
-<p>first是要分配的设备编号的起始值，count是所请求的连续设备编号的个数，name是和该编号范围关联的设备名称，它将出现在/proc/devices和sysfs中。</p>
-<p>如果我们提前知道所需要的设备编号，那么使用<code>register_chrdev_region()</code>就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数：</p>
-<p><div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">alloc_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">baseminor</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
+<blockquote>
+<p>first：要分配的设备编号的起始值。</p>
+<p>count：请求的连续设备编号个数。</p>
+<p>name：与该编号相关的设备名称，它将出现在/proc/devices和sysfs中。</p>
+</blockquote>
+<p>如果我们提前就知道所需要的设备编号，那么使用<code>register_chrdev_region()</code>就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">alloc_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">baseminor</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
 </code></pre></div>
-dev用来保存你要申请的那个设备号变量， baseminor是次设备号的起始值，通常是0。</p>
+<blockquote>
+<p>dev：保存用来申请的设备号。</p>
+<p>baseminor：次设备号的起始值，一般为0。</p>
+</blockquote>
 <p><q>
-驱动程序应该始终使用<code>alloc_chrdev_region</code>而不是<code>register_chrdev_region</code> ————《Linux设备驱动程序<em>P50</em>》
+驱动程序应该始终使用<code>alloc_chrdev_region</code>而不是<code>register_chrdev_region</code> ————《Linux设备驱动程序P50》
 </q></p>
+<p>动态分配的缺点是无法预先创建设备节点（mknod），不过这是小问题，我们可以用<code>awk</code>工具从/proc/devices中读取信息，一个简单的脚本程序就可以动态加载驱动程序。</p>
 <ul>
 <li>卸载</li>
 </ul>
-<p>上面两种方法注册的设备统一用以下函数卸载。</p>
+<p>上面两种方法注册的设备统一用以下函数卸载，该函数通常在清理函数中调用：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">unregister_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">first</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
 </code></pre></div>
-<p>该函数通常在清除函数中调用。</p>
 <p>这里我们给出一个完整的示例，假设我们需要注册一个名字为"test"的设备。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">major</span><span class="p">;</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">minor</span><span class="p">;</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="kt">dev_t</span><span class="w"> </span><span class="n">devid</span><span class="p">;</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
 <a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="k">if</span><span class="p">(</span><span class="n">major</span><span class="p">){</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">devid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MKDEV</span><span class="p">(</span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="n">register_chrdev_region</span><span class="p">(</span><span class="n">devid</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p">);</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="n">alloc_chrdev_region</span><span class="p">(</span><span class="o">&amp;</span><span class="n">devid</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p">);</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="n">major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAJOR</span><span class="p">(</span><span class="n">devid</span><span class="p">);</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="n">minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MINOR</span><span class="p">(</span><span class="n">devid</span><span class="p">);</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">}</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="cm">/*如果指定了major*/</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="n">devid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MKDEV</span><span class="p">(</span><span class="n">major</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="n">register_chrdev_region</span><span class="p">(</span><span class="n">devid</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p">);</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">}</span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="cm">/*如果没有指定*/</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="n">alloc_chrdev_region</span><span class="p">(</span><span class="o">&amp;</span><span class="n">devid</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;test&quot;</span><span class="p">);</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="n">major</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MAJOR</span><span class="p">(</span><span class="n">devid</span><span class="p">);</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="n">minor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MINOR</span><span class="p">(</span><span class="n">devid</span><span class="p">);</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="p">}</span>
 </code></pre></div>
-<p>对设备号操作时，使用到了三个宏定义，<strong>MKDEV</strong>, <strong>MAJOR</strong>, <strong>MINOR</strong>。当给定主设备号时，使用MKDEV来构建完整的devID，次设备号则一般选择0。</p>
-<p>实际开发中，major可以用一个宏定义取代，默认取0，即走else分支选择“动态分配”。用户可以选择使用默认值即动态分配的方式，或者自定义特定的设备号——只要在编译前修改宏定义为设备号，或者在insmod时指定即可。</p>
+<p>对设备号操作时，使用到了三个宏定义，<code>MKDEV</code>, <code>MAJOR</code>, <code>MINOR</code>。当给定主设备号时，使用<code>MKDEV</code>来构建完整的<code>devID</code>，次设备号则一般选择0。</p>
 <h2 id="_6">字符设备的注册<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>内核使用<strong>struct cdev</strong>结构来表示字符设备，当我们自己实现file_operations结构体中的函数之后，我们需要使用<code>cdev_init()</code>函数来将文件操作指针与字符设备相关联。</p>
+<p>内核使用<code>struct cdev</code>结构来表示字符设备，在实现了<code>file_operations</code>结构体中的回调函数之后，我们需要使用<code>cdev_init()</code>函数来将文件操作指针与你注册的字符设备相关联。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">cdev_init</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">cdev</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file_operations</span><span class="w"> </span><span class="o">*</span><span class="n">fops</span><span class="p">)</span>
 </code></pre></div>
-<p><code>cdev_add()</code>函数用于向内核添加一个新的字符设备，<code>cdev_del()</code>函数用来删除。</p>
+<p>注册完毕之后，调用<code>cdev_add()</code>函数向内核添加一个新的字符设备，<code>cdev_del()</code>函数用来删除。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">cdev_add</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">dev_t</span><span class="w"> </span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">cdev_del</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">)</span>
 </code></pre></div>
@@ -1868,7 +2052,11 @@ dev用来保存你要申请的那个设备号变量， baseminor是次设备号�
 <p>地址映射函数如下：
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">ioremap</span><span class="p">(</span><span class="n">phys_addr_t</span><span class="w"> </span><span class="n">paddr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">size</span><span class="p">)</span>
 </code></pre></div></p>
-<p>其中addr就是你要访问的直接物理地址，size是需要转化的大小，返回值就是虚拟地址，这个虚拟地址我们需要专门的数据类型去接收。</p>
+<blockquote>
+<p>paddr：需要访问的物理地址。</p>
+<p>size：需要转化的大小。</p>
+<p>返回值：虚拟地址。</p>
+</blockquote>
 <p>取消地址映射函数：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">iounmap</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
 </code></pre></div>
