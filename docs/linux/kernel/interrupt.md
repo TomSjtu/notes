@@ -211,6 +211,18 @@ open_softirq(NET_TX_SOFTIRQ, net_tx_action)
 
 tasklet是利用软中断实现的一种下半部机制，但是它的接口更简单，锁保护要求较低。大多数情况都可以使用tasklet来完成你需要的工作。
 
+tasklet有一些比较有意思的特性：
+
+- 一个tasklet可在稍后被禁止或者重新启用；只有启用的次数和禁止的次数相同时，tasklet才会被执行。
+
+- tasklet可以注册自己本身。
+
+- tasklet可悲调度以在正常优先级或者更高优先级执行。
+
+- 当系统负载低时，tasklet会被立刻执行，但再晚不会晚于下一个定时器tick。
+
+- 一个tasklet可以与其他tasklet并发，但是同一个tasklet永远不会在多个CPU上同时运行，且只会在调度自己的同一CPU上运行。
+
 ### tasklet的实现
 
 tasklet由两类软中断代表：HI_SOFTIRQ和TASKLET_SOFTIRQ。前者优先级比后者高。
@@ -266,13 +278,25 @@ tasklet不能睡眠，两个相同的tasklet不会同时执行，但如果与其
 tasklet_schedule(&my_tasklet);
 ```
 
-一个tasklet总是在调度它的处理器上运行。要禁止/使能tasklet，使用以下的函数：
+一个tasklet总是在调度它的处理器上运行。要禁止/使能tasklet，可以使用这两个函数：
 
 ```C
-tasklet_disable(&my_tasklet);   //等待tasklet执行完毕
-tasklet_disable_nosync(&my_tasklet);    //不会等待tasklet
-tasklet_enable(&my_tasklet);    //激活tasklet
-tasklet_kill(&my_tasklet);      //移除已调度的tasklet
+tasklet_disable(&my_tasklet);   
+tasklet_disable_nosync(&my_tasklet);         
+```
+
+第一个函数禁止指定的tasklet，如果正在运行，则会等待期执行完毕。第二个函数不会等待任何正在运行的tasklet。
+
+使能tasklet：
+
+```C
+tasklet_enable(&my_tasklet);
+```
+
+移除tasklet，通常在设备关闭或者模块退出时调用该函数：
+
+```C
+tasklet_kill(&my_tasklet);
 ```
 
 ### ksoftirqd
@@ -339,10 +363,17 @@ INIT_WORK(struct work_struct *work, void (*func)(void *), void *data);
 工作队列处理函数的原型是：
 
 ```C
-void work_handler(void *data)
+void work_handler(void *data);
 ```
 
 这个函数由一个工作者线程执行，因此处于进程上下文中。默认情况下，允许相应中断，并且不持有任何锁。尽管处理函数位于进程上下文，但是它不可以访问用户空间，因为内核线程在用户空间没有相关的内存映射。
+
+将工作提交到工作队列：
+
+```C
+int queue_work(struct workqueue_struct *queue, struct work_struct *work);
+int queue_delayed_work(struct workqueue_struct *queue, struct work_struct *work, unsigned long delay);
+```
 
 对工作进行调度，把给定工作的处理函数提交给缺省的events工作线程：
 
@@ -362,6 +393,12 @@ schedule_delayed_work(&work, delay);
 
 ```C
 struct workqueue_struct *create_workqueue(const char *name);
+```
+
+在结束对工作队列的使用后，可以调用以下函数来释放资源：
+
+```C
+void destroy_workqueue(struct workqueue_struct *queue);
 ```
 
 ## 下半部的同步

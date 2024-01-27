@@ -54,6 +54,15 @@ nav:
       - linux/drivers/dts.md
       - linux/drivers/chardev.md
       - linux/drivers/framework.md
+
+    - 网络系统:
+      - linux/network/index.md
+
+    - 性能调优:
+      - linux/optimization/index.md
+
+    - ebpf:
+      - linux/ebpf/index.md
   
   - RTOS:
     - rtos/index.md

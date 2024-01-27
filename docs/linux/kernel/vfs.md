@@ -19,8 +19,90 @@ VFS使用一组数据结构来代表通用文件对象，它们分别是：
 
 每个通用对象都包含一个操作对象，描述了内核对通用对象的方法——super_operations、inode_operations、dentry_operations、file_operations。
 
-超级块对象是用来描述一个已安装的文件系统的数据结构，包含了文件系统的关键元数据，这些元数据用于内核管理和维护文件系统。超级块对象是文件系统在内核中表示自己的方式，它提供了文件系统的总体视图。
+### 超级块对象
 
+超级块对象是用来描述一个已安装的文件系统的数据结构，包含了文件系统的关键元数据，这些元数据用于内核管理和维护文件系统。超级块对象是文件系统在内核中表示自己的方式，它提供了文件系统的总体视图。超级块对象由`super_block`结构体表示，通过`alloc_super()`函数创建并初始化。在文件系统安装时，会调用该函数以便从磁盘中读取文件系统超级块。超级块操作由`super_operations`结构体表示，该结构体中的每一项都是一个指向超级块操作函数的指针。
+
+### 索引节点对象
+
+索引节点对象代表一个文件或目录在文件系统中的逻辑表示，包含了关于文件或目录的元数据，这些元数据描述了文件或目录的属性，如权限、所有者、文件大小、最后访问和修改时间等。索引节点对象由`struct inode`结构体来表示。每个文件系统都有一个索引节点表，该表包含了所有索引节点对象的引用。当用户空间程序通过标准的文件操作系统调用（如 `open()`、`read()`、`write()`等）与文件系统交互时，它们实际上是在与索引节点对象进行交互。
+
+一个索引节点代表文件系统中的一个文件，它可以是设备或管道这样的特殊文件。在`struct inode`结构体中有一些和特殊文件相关的项，比如`i_pipe`指向有名管道，`i_bdev`指向块设备，`i_cdev`指向字符设备。这三个指针被放在一个共用体中，因为一个索引节点每次只能表示其中一种。
+
+与超级块类似，索引节点操作由`inode_operations`结构体表示。
+
+
+### 目录项对象
+
+在VFS中，目录被当作文件来处理，这允许用户空间程序以相同的方式对文件和目录进行操作。因此，在路径/bin/vi中，bin和vi都被视为文件。这里的bin是一个特殊的目录文件，它包含了指向系统中可执行文件的链接，而vi是一个普通文件，包含了文本编辑器的源代码。
+
+在VFS中，路径中的每个组成部分（无论是普通文件还是目录）都是由一个索引节点对象表示的。这些索引节点对象包含了关于文件或目录的元数据，如权限、所有者、文件大小等。
+
+为了简化路径名查找等目录相关的操作，VFS引入了目录项的概念。目录项对象是路径中的一个特定部分，它包含了对索引节点对象的引用以及文件名和其他相关信息。这样，VFS在进行路径名查找时，就不必对整个路径进行逐字字符串比较，而是可以基于目录项对象快速定位到目标文件或目录。
+
+目录项对象还包括了挂载点，这是文件系统挂载时的根目录。例如，在路径/mnt/cdrom/foo 中，/、mnt、cdrom 和foo都是目录项对象。VFS在执行目录操作时会现场创建目录项对象。
+
+目录项对象由`struct dentry`结构体表示。
+
+由于文件的访问呈现空间和时间的局部性，为了提高程序访问文件的性能，VFS对于目录项和索引节点进行了缓存，以减少对于磁盘的访问操作。目录项缓存的工作原理如下：
+
+1. 缓存数据：当内核需要访问一个文件或目录时，它会首先检查目录项缓存中是否已经存在该目录项的数据。如果数据在缓存中，内核将直接使用缓存中的数据，而不是从磁盘读取。
+
+2. 缓存更新：当内核修改了目录项的数据（例如，创建、删除或重命名文件或目录）时，它会将修改后的数据写入目录项缓存。这样，下一次访问相同的数据时，内核可以直接从缓存中获取，而不是再次访问磁盘。
+
+3. 缓存清理：为了保持缓存的数据是最新的，内核会定期或根据需要清理缓存，移除不再引用的目录项数据。
+
+4. 缓存一致性：在多核系统中，为了保持缓存的一致性，内核会使用各种缓存一致性协议（如MESI协议）来同步缓存数据。
+
+`struct dentry_operations`结构体指明了VFS操作目录项的所有方法。
+
+### 文件对象
+
+文件对象是进程已打开的文件在内存中的表示，该对象由`open()`创建，`close()`撤销。与文件有关的调用实际上都是文件操作表`struct files_operations`中定义的函数指针，这里列出来作为参考：
+
+```C
+struct file_operations {
+	struct module *owner;
+	loff_t (*llseek) (struct file *, loff_t, int);
+	ssize_t (*read) (struct file *, char __user *, size_t, loff_t *);
+	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
+	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
+	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
+	int (*iopoll)(struct kiocb *kiocb, bool spin);
+	int (*iterate) (struct file *, struct dir_context *);
+	int (*iterate_shared) (struct file *, struct dir_context *);
+	__poll_t (*poll) (struct file *, struct poll_table_struct *);
+	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
+	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+	int (*mmap) (struct file *, struct vm_area_struct *);
+	unsigned long mmap_supported_flags;
+	int (*open) (struct inode *, struct file *);
+	int (*flush) (struct file *, fl_owner_t id);
+	int (*release) (struct inode *, struct file *);
+	int (*fsync) (struct file *, loff_t, loff_t, int datasync);
+	int (*fasync) (int, struct file *, int);
+	int (*lock) (struct file *, int, struct file_lock *);
+	ssize_t (*sendpage) (struct file *, struct page *, int, size_t, loff_t *, int);
+	unsigned long (*get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
+	int (*check_flags)(int);
+	int (*flock) (struct file *, int, struct file_lock *);
+	ssize_t (*splice_write)(struct pipe_inode_info *, struct file *, loff_t *, size_t, unsigned int);
+	ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *, size_t, unsigned int);
+	int (*setlease)(struct file *, long, struct file_lock **, void **);
+	long (*fallocate)(struct file *file, int mode, loff_t offset,
+			  loff_t len);
+	void (*show_fdinfo)(struct seq_file *m, struct file *f);
+#ifndef CONFIG_MMU
+	unsigned (*mmap_capabilities)(struct file *);
+#endif
+	ssize_t (*copy_file_range)(struct file *, loff_t, struct file *,
+			loff_t, size_t, unsigned int);
+	loff_t (*remap_file_range)(struct file *file_in, loff_t pos_in,
+				   struct file *file_out, loff_t pos_out,
+				   loff_t len, unsigned int remap_flags);
+	int (*fadvise)(struct file *, loff_t, loff_t, int);
+};
+```
 
 ## 进程中的文件数据结构
 

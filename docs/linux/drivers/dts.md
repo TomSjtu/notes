@@ -16,6 +16,22 @@
 
 ![device tree](../../images/kernel/device_tree.png)
 
+开发板的设备树文件一般位于/boot/dtb/[SOC_NAME]/[BOARD_NAME.dtb]。
+
+如果要查看开发板中的设备树结构可以使用：
+
+```SHELL
+ls /sys/firmware/devicetree/base
+```
+
+或者
+
+```SHELL
+ls /proc/device-tree
+```
+
+
+
 ## DTS、DTB和DTC的关系
 
 .dts是设备树源码文件，DTC负责将.dts编译成.dtb。而.dtb就是负责传递给内核的二进制文件。
