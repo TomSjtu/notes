@@ -79,7 +79,7 @@ int register_chrdev(unsigned int major, const char *name, struct file_operations
 
 这个方法在注册时需要手动指定主设备号，因此你必须事先知道哪个主设备号没有被占用，实际开发中并不推荐，并且该函数还一次性占用了主设备号下的全部次设备号。
 
-如果一定要使用，必须要检查保存在`inode`结构中的次设备号是否被使用
+如果一定要使用，必须要检查保存在`inode`结构中的次设备号是否被使用。
 
 - 卸载
 ```C

@@ -39,7 +39,26 @@ kobject是Linux设备模型的基础，是一种抽象的、统一的对大量�
 1. 通过parent指针，将所有kobject以树状结构的形式组合起来。
 2. 使用引用计数kref，来记录kobject被引用的次数，在计数为0时释放它。
 3. 和sysfs虚拟文件系统配合，将每一个kobject的特性，以文件的形式开放给用户空间查询。
+4. 通过uevent机制，将热插拔事件（比如一个设备通过USB连接到系统）通知用户空间。
 
+内核很少单独创建kobject对象，而是将其作为顶层基类（C语言没有面向对象的机制），嵌入到其他数据结构中。比如`struct cdev`结构体：
+
+```C
+struct cdev {
+	struct kobject kobj;
+	struct module *owner;
+	struct file_opeartions *ops;
+	struct list_head list;
+	dev_t dev;
+	unsigned int count;
+};
+```
+
+如此一来，要使用kobject的属性和方法，访问cdev.kobj就可以。当我们已知一个kobject指针，可以通过`container_of`宏的方式获取上层数据结构的指针：
+```C
+struct cdev *device = container_of(kp, struct cdev, kobj);
+```
+ 
 设备驱动模型的基本元素有三个：
 
 - kobject：sysfs中的一个目录，表示基本驱动对象。
@@ -68,7 +87,7 @@ struct kobject {
 
 > entry：用于将kobject加入到链表中。
 
-> parent：指向父kobject的指针，在sysfs中根据层次结构显示为目录结构。
+> parent：指向父kobject的指针，在sysfs中表示上一层的节点。
 
 > kset：该kobject属于的kset。若该kobject未指定parent，则会把kset作为parent。
 
@@ -128,6 +147,8 @@ struct kset {
 
 kset是kobject对象的集合体。它与ktype的区别在于：具有相同ktype的kobject可以被分组到不同的kset。
 
+当设置了kset并把它添加到系统中，将在sysfs中创建一个目录。kobject的添加与删除主要是`kobject_regsiter()`函数和`kobject_unregister()`函数。在大多数情况下，kobject会在其parent指针中保存kset的指针。
+
 ## sysfs
 
 sysfs文件系统是一个处于内存中的虚拟文件系统，它提供了kobject对象的层次结构视图。用户查询系统中各种设备的拓扑结构，就像查询文件目录一样简单。还可以通过导出文件的方式，将内核变量提供给用户读取或者写入。
@@ -150,8 +171,8 @@ struct attribute_group {
 /*attribute和bin_attribute的定义如下*/
 
 struct attribute {
-	const char *name;
-	umode_t mode;
+	const char *name;	//属性的名字
+	umode_t mode;		//属性的权限
 };
 
 struct bin_attribute {
@@ -167,6 +188,17 @@ struct bin_attribute {
 		    struct vm_area_struct *vma);
 };
 ```
+
+对于默认属性的实现，由ktype->sysfs_ops成员描述：
+
+```C
+struct sysfs_ops {
+	ssize_t	(*show)(struct kobject *, struct attribute *, char *);
+	ssize_t	(*store)(struct kobject *, struct attribute *, const char *, size_t);
+};
+```
+
+当用户空间读取一个属性时，内核会调用`show()`方法；当写一个属性时，调用`store()`方法。
 
 `struct attribute`为普通的attribute，使用该attribute生成的sysfs文件，只能用字符串的形式读写。而`struct bin_attribute`在`struct attribute`的基础上，增加了`read()`、`write()`等函数，因此它所生成的sysfs文件可以用任何方式读写。 
 
@@ -260,7 +292,88 @@ int add_uevent_var(struct kobj_uevent_env *env, const char *format, ...);
 
 ## device和device_driver
 
-`device`和`device_driver`是Linux驱动开发的基本概念。驱动开发，其实就是开发指定的软件（driver）以及驱动指定的设备（device）。内核为此定义了两种数据结构，分别是`struct device`和`struct device_driver`。在<include/linux/device.h\>中可以找到这两个结构体的定义，由于比较复杂，就不在这里列举了。
+`device`和`device_driver`是Linux驱动开发的基本概念。驱动开发，其实就是开发指定的软件（driver）以及驱动指定的设备（device）。内核为此定义了两种数据结构，分别是`struct device`和`struct device_driver`。在<include/linux/device.h\>中可以找到这两个结构体的定义。
+
+内核用`struct device`结构体来表示一个设备：
+
+```C
+struct device {
+	struct kobject kobj;
+	struct device *parent;
+
+	struct device_private *p;
+
+	const char *init_name; 
+	const struct device_type *type;
+
+	struct bus_type	*bus;		
+	struct device_driver *driver;	
+	void *platform_data;	
+	void *driver_data;	
+	
+	void (*release)(struct device *dev);
+};
+```
+
+> kobj：表示该设备并把它连接到结构体系中的kobject。
+
+> parent：设备的父设备，大多数情况下父设备是某种bus或者是host controller。
+
+> p：设备的私有数据。
+
+> init_name：设备的初始名称。
+
+> type：设备的类型。
+
+> bus：bus的类型。
+
+> driver：对应的驱动程序。
+
+> platform_data：设备私有的平台数据。
+
+> driver_data：驱动的私有数据。
+
+> release：设备卸载时，调用该回调函数。
+
+设备的注册和注销函数是：
+
+```C
+init device_register(struct device *dev);
+
+void device_unregister(struct device *dev);
+```
+
+内核用`struct device_driver`来表示驱动程序：
+
+```C
+struct device_driver {
+	const char *name;
+	struct bus_type *bus;
+	struct module *owner;	
+	
+	enum probe_type probe_type;
+
+	int (*probe) (struct device *dev);
+	int (*remove) (struct device *dev);
+	
+	const struct attribute_group **groups;
+	const struct attribute_group **dev_groups;
+
+	struct driver_private *p;
+};
+```
+
+> probe_type：指定以什么方式执行probe（异步或同步）。
+
+> probe/remove：在注册与注销时被调用。
+
+驱动程序的注册和注销函数是：
+
+```C
+int driver_register(struct device_driver *drv);
+
+void driver_unregister(struct device_drvier *drv);
+```
 
 Linux设备模型框架体系下开发，主要包括两个步骤：
 
@@ -268,11 +381,11 @@ Linux设备模型框架体系下开发，主要包括两个步骤：
 
 2. 分配一个`struct device_driver`类型的变量，填充信息，然后将其注册到内核。
 
-内核会在合适的时机，调用`struct device_driver`中的各类回调函数，从而触发后者终结设备驱动的执行。而所有的驱动程序逻辑，其实都是由这些回调函数来实现的。
+内核会在合适的时机，调用`struct device_driver`中的各类回调函数，从而触发后者设备驱动的执行。而所有的驱动程序逻辑，其实都是由这些回调函数来实现的。
 
-一般情况下，Linux驱动开发很少直接操作上面两个结构体，因为内核又封装了一层，比如`platform_device`，封装后的接口更为简单易用。`device`和`device_driver`必须挂在在同一个bus之下，名称也必须一样，内核才能完成匹配操作。
+当然，一般情况下，Linux驱动开发很少直接操作上面两个结构体，因为内核又封装了一层，比如`platform_device`，封装后的接口更为简单易用。`device`和`device_driver`必须挂在在同一个bus之下，名称也必须一样，内核才能完成匹配操作。
 
-如果存在相同名称的`device`和`device_driver`，内核就会执行`device_driver`中的`probe()`回调函数，该函数是所有`driver`的入口函数，用来执行诸如硬件设备初始化、字符设备注册、文件操作ops注册等动作（对应`remove()`函数）。
+如果匹配到了相同名称的`device`和`device_driver`，内核就会执行`device_driver`中的`probe()`回调函数，该函数是所有`driver`的入口函数，用来执行诸如硬件设备初始化、字符设备注册、文件操作ops注册等动作（对应`remove()`函数）。
 
 ## bus
 
@@ -288,7 +401,11 @@ Linux设备模型框架体系下开发，主要包括两个步骤：
 struct bus_type {
 	const char *name;
 	const char *dev_name;
-
+	struct device *dev_root;
+	const struct attribute_group **bus_groups;
+	const struct attribute_group **dev_groups;
+	const struct attribute_group **drv_groups;
+	
 	int (*match)(struct device *dev, struct device_driver *drv);
 	int (*uevent)(struct device *dev, struct kobj_uevent_env *env);
 	int (*probe)(struct device *dev);
@@ -304,6 +421,14 @@ struct bus_type {
 
 > dev_name：注册到bus的设备名称。
 
+> dev_root：根设备。
+
+> bus_groups：bus的默认属性。
+
+> dev_groups：bus上device的默认属性。
+
+> drv_groups：bus上device_driver的默认属性。
+
 > match：当属于该bus的device或者device_driver添加到内核时，调用该函数。
 
 > uevent：当属于该bus的device，发生添加、移除或者其他动作时，调用该函数。
@@ -312,6 +437,15 @@ struct bus_type {
 
 > p：保存了bus模块的一些私有数据。
 
+bus的属性以`struct bus_attribute`结构体表示：
+
+```C
+struct bus_attribute{
+	struct attribute attr;
+	ssize_t (*show)(struct bus_type *bus, char *buf);
+	ssize_t (*store)(struct bus_type *bus, const char *buf, size_t count);
+};
+```
 
 bus模块的主要功能是：
 
@@ -333,32 +467,27 @@ void bus_unregister(struct bus_type *bus);
 
 ## class
 
-在本文的开头我们提到，class是用来统一管理相同功能的设备，这样可以避免每个设备驱动实现重复的功能。
+最后一个设备模型概念是class。class是一个设备的高层试图，它抽象出了底层的实现细节。驱动程序可以看到固态硬盘或光盘，但是在class的层次上，它们都只是磁盘而已。class允许用户空间使用设备锁提供的功能，而不关心设备是如何连接的，以及如何工作的。
+
+几乎所有的class都显示在/sys/class目录中。比如所有的网络接口都几种在/sys/class/net下，输入设备在/sys/class/input下，串行设备在/sys/class/tty下。
+
+class的结构体定义如下：
 
 ```C
 struct class {
-	const char		*name;
-	struct module		*owner;
+	const char *name;
 
-	const struct attribute_group	**class_groups;
-	const struct attribute_group	**dev_groups;
-	struct kobject			*dev_kobj;
+	const struct attribute_group **class_groups;
+	const struct attribute_group **dev_groups;
+
+	struct kobject *dev_kobj;
 
 	int (*dev_uevent)(struct device *dev, struct kobj_uevent_env *env);
 	char *(*devnode)(struct device *dev, umode_t *mode);
 
 	void (*class_release)(struct class *class);
 	void (*dev_release)(struct device *dev);
-
-	int (*shutdown_pre)(struct device *dev);
-
-	const struct kobj_ns_type_operations *ns_type;
-	const void *(*namespace)(struct device *dev);
-
-	void (*get_ownership)(struct device *dev, kuid_t *uid, kgid_t *gid);
-
-	const struct dev_pm_ops *pm;
-
+		
 	struct subsys_private *p;
 };
 ```
@@ -373,21 +502,9 @@ struct class {
 
 > class_release/dev_release：release回调函数。
 
-> pm：电源管理的回调函数。
+> p：子系统的私有数据。
 
-> p：私有数据。
-
-`struct class_interface`定义了当前class下有设备添加或者移除时，可以调用的回调函数：
-
-```C
-struct class_interface {
-	struct list_head	node;
-	struct class		*class;
-
-	int (*add_dev)		(struct device *, struct class_interface *);
-	void (*remove_dev)	(struct device *, struct class_interface *);
-};
-```
+对于子系统这里解释一下。/sys/class和device_name之间的那部分目录称为subsystem。也就是每个dev属性文件所在的路径都可表示为/sys/class/subsystem/device_name/dev。例如，`cat /sys/class/tty/tty0/dev`会得到4:0，这里subsystem为tty,device_name为tty0。
 
 class的注册/注销函数如下：
 
