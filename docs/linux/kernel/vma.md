@@ -18,7 +18,7 @@ Linux采用了基于分页的虚拟内存管理机制，其中内存被划分为
 
 从上图中我们看到，0x0000 0000到0x0804 8000这段空间是不可访问的保留区，在大多数操作系统中，数值比较小的地址是非法地址，不允许访问的。比如NULL指针就会指向这片区域。
 
-0x0804 8000至0xC000 0000是用户态空间地址，再网上就是所谓的高端地址——供内核使用。内核态与用户态的分界线由成员变量**task_size**定义。
+0x0804 8000至0xC000 0000是用户态空间地址，再网上就是所谓的高端地址——供内核使用。内核态与用户态的分界线由成员变量`task_size`定义。
 
 保留区上方是代码段和数据段，它们是从可执行文件直接加载进来的。编译后的代码放在代码段，数据段用来存放已初始化的全局变量。
 
@@ -29,6 +29,8 @@ BSS段上方是堆空间，地址的增长方向是从低到高。内核使用`s
 堆空间上方是待分配区域，用来扩展堆空间的使用。接下来是内存映射区域。任何应用程序都可以通过`mmap()`系统调用映射至此区域。内存映射可以用来加载动态库，比如<font color="green"> ld-linux.so </font>就被加载于此，另外，如果你通过`malloc()`申请了超过128K内存，内核将直接为你分配一块映射区域作为内存，而不是使用堆内存。
 
 最后一块区域是栈空间，在这里保存函数运行过程需要的局部变量以及函数参数等信息。栈空间的地址是从高到低增长的。内核使用`start_stack`标识栈的起始位置。SP寄存器保存栈顶指针，BP寄存器保存栈基地址。
+
+在命令行模式下，可以使用`cat /proc/[pid]/maps`查看一个进程的内存布局。
 
 ## 内存描述符mm_struct
 
@@ -58,19 +60,19 @@ struct mm_struct {
 };
 ```
 
-**mm_users**记录正在使用该地址的进程数目，比如如果有两个线程共享该地址空间，那么**mm_users**的值便等于2。**mm_count**是**mm_struct**结构体的主引用计数，当值为0时，该结构体会被释放。
+mm_users记录正在使用该地址的进程数目，比如如果有两个线程共享该地址空间，那么mm_users的值便等于2。mm_count是mm_struct结构体的主引用计数，当值为0时，该结构体会被释放。
 
-**mmap**使用单独链表连接所有的内存区域对象。每一个`vm_area_struct`结构体通过自身的**vm_next**指针被连入链表。**mmap**指向链表中第一个节点。
+mmap使用单独链表连接所有的内存区域对象。每一个`vm_area_struct`结构体通过自身的vm_next指针被连入链表。mmap指向链表中第一个节点。
 
-**mm_rb**则使用红黑树。**mm_rb**指向根节点，每一个`vm_area_struc`结构体通过自身的**vm_rb**连接到树中。
+mm_rb则使用红黑树。mm_rb指向根节点，每一个`vm_area_struct`结构体通过自身的vm_rb连接到树中。
 
-在[进程管理与调度](./sched.md/#_9)中我们介绍了mm变量，用来存放该进程使用的内存描述符，`current->mm`就指向当前进程的内存描述符。`fork()`函数利用`copy_mm()`函数复制父进程的内存描述符。如果父子进程共享地址空间，则在调用`clone()`时，设置<font color="green">CLONE_VM</font>标志，这样的进程就是线程。在Linux环境下，是否共享地址空间几乎是进程和线程本质上的唯一区别。如果指定了**CLONE_VM**,线程就不需要另外分配地址空间了，而是直接将mm域直接指向父进程的内存描述符即可。
+在[进程管理与调度](./sched.md/#_9)中我们介绍了mm变量，用来存放该进程使用的内存描述符，`current->mm`就指向当前进程的内存描述符。`fork()`函数利用`copy_mm()`函数复制父进程的内存描述符。如果父子进程共享地址空间，则在调用`clone()`时，设置<font color="green">CLONE_VM</font>标志，这样的进程就是线程。在Linux环境下，是否共享地址空间几乎是进程和线程本质上的唯一区别。如果指定了CLONE_VM,线程就不需要另外分配地址空间了，而是直接将mm域直接指向父进程的内存描述符即可。
 
 内核线程没有进程地址空间，也没有相关的内存描述符，其mm域为NULL。当一个内核线程被调度时，它会直接使用前一个进程的内存描述符。
 
 ## 虚拟内存区域
 
-虚拟内存区域（Virtual Memory Area, VMA）在内核中用`vm_area_struct`结构体描述。每个`vm_area_struct`结构都对应于指定地址空间上某块连续的内存区域。**vm_start**指向了这块虚拟内存区域的起始地址，**vm_end**指向了这块虚拟内存区域的结束地址。`vm_area_struct`结构体描述的是[vm_start，vm_end)这样一段左闭右开的虚拟内存区域。
+虚拟内存区域（Virtual Memory Area, VMA）在内核中用`vm_area_struct`结构体描述。每个`vm_area_struct`结构都对应于指定地址空间上某块连续的内存区域。vm_start指向了这块虚拟内存区域的起始地址，vm_end指向了这块虚拟内存区域的结束地址。`vm_area_struct`结构体描述的是[vm_start，vm_end)这样一段左闭右开的虚拟内存区域。
 
 ![vm_area_struct](../../images/kernel/vma2.webp)
 
@@ -83,23 +85,23 @@ struct vm_area_struct {
     unsigned long vm_end;                         //区间的尾地址
     struct vm_area_struct *vm_next;               //VMA链表
     pgprot_t vm_page_prot;                        //访问控制权限
-    unsigned long vm_flags;                       //标志位
+    unsigned long vm_flags;                       //描述该区域的标志，重要的两个是VM_IO和VM_RESERVED
     struct rb_node vm_rb;                         //红黑树节点
     struct anon_vma *anon_vma;                    //匿名VMA对象
     const struct vm_operations_struct *vm_ops;    //VMA的操作函数
-    unsigned long vm_pgoff;                       //文件中的偏移量
-    struct file *vm_file;                         //被映射的文件
+    unsigned long vm_pgoff;                       //文件中该区域的偏移量
+    struct file *vm_file;                         //指向与该区域相关联的file结构指针
     void *vm_private_data;                        //私有数据
 };
 ```
 
-每个内存描述符对应进程地址空间中的唯一空间，范围是[vm_start, vm_end)。**vm_mm**指向与VMA相关的`mm_struct`结构体，**vm_next**负责将VMA串联成链表。
+每个内存描述符对应进程地址空间中的唯一空间，范围是[vm_start, vm_end)。vm_mm指向与VMA相关的`mm_struct`结构体，vm_next负责将VMA串联成链表。
 
 ![Alt text](../../images/kernel/vma3.webp)
 
 ### VMA标志
 
-**vm_flags**定义了VMA的标志，它表示内存区域的行为和信息。一些比较重要的标志比如：VM_READ、VM_WRITE和VM_EXEC标志了内存区域中页面的可读、可写、可执行权限。当访问VMA时，需要查看其访问权限。
+vm_flags定义了VMA的标志，它表示内存区域的行为和信息。一些比较重要的标志比如：VM_READ、VM_WRITE和VM_EXEC标志了内存区域中页面的可读、可写、可执行权限。当访问VMA时，需要查看其访问权限。
 
 VM_SHARED表示内存区域包含的映射是否可以在多进程之间共享，如果设置了该标志位，我们称其位共享映射，否则就是私有映射。
 
@@ -107,7 +109,7 @@ VM_IO标志内存区域中对设备I/O空间的映射。该标志通常在设备
 
 ### VMA操作
 
-**vm_ops**域指向与内存区域相关的操作函数，由`vm_operations_struct`结构体表示：
+`vm_ops`域指向与内存区域相关的操作函数，由`vm_operations_struct`结构体表示：
 
 ```C
 struct vm_operations_struct {

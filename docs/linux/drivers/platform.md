@@ -1,0 +1,154 @@
+# 平台设备驱动
+
+对于I2C、SPI、USB这些常见的设备来说，Linux内核都会创建与之相对应的驱动总线。但是有些结构简单的设备，比如led、rtc时钟、蜂鸣器等，内核就不会自己创建驱动总线。为了使这部分设备的驱动开发也能遵循设备驱动模型，Linux内核引入了虚拟的总线——平台总线（platform bus）。平台总线用于管理和挂载那些没有相应物理总线的设备，这些设备被称为平台设备，对应的设备驱动被称为平台驱动。平台设备对于Linux驱动工程师是非常重要的，因为大多数的驱动代码，实际就是为了驱动平台设备。
+
+Platform架构图如下所示：
+
+![platform架构](../../images/kernel/platform.gif)
+
+从图片中我们可以看到：
+
+- platform bus：继承自bus模块，用于挂载platform设备。
+- platform device：继承自device模块，用于描述platform设备。
+- platform drvier：继承自device_driver模块，用于驱动platform设备。
+
+## 平台总线
+
+在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用`platform_match()`函数对新增的设备或驱动进行配对。内核使用`struct bus_type platform_bus_type`来描述平台总线，该总线在内核初始化的时候注册：
+
+```C
+sturct bus_type platform_bus_type{
+	.name = "platform",
+	.dev_groups = platform_dev_groups,
+	.match = platform_match,
+	.uevent = platform_uevent,
+	.pm = &platform_dev_pm_ops,
+};
+```
+
+对`platform_bus_typ`e的初始化来说，`match`函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。对于每个驱动总线，都必须实例化该函数指针。
+
+## 平台设备
+
+内核使用`platform_device`结构体来描述平台设备：
+
+```C
+ struct platform_device {
+     const char *name;    //设备名称，匹配时会比较驱动的名字
+     int id;              //内核允许存在多个
+     struct device dev;   //继承的device结构体
+     u32 num_resources;   //记录资源的数目
+     struct resource *resource;    //平台设备提供给驱动的资源
+     const struct platform_device_id *id_entry;    
+ };
+```
+
+平台设备的工作是为驱动程序提供设备信息,设备信息包括硬件信息和软件信息两部分。
+
+1. 硬件信息：驱动程序需要使用到什么寄存器，占用哪些中断号、内存资源、IO口等等
+
+2. 软件信息：以太网卡设备中的MAC地址、I2C设备中的设备地址、SPI设备的片选信号线等等
+
+对于硬件信息，使用结构体`struct resource`来保存设备所提供的资源，比如设备使用的中断编号，寄存器物理地址等，结构体原型如下：
+
+```C
+struct resource {
+    resource_size_t start;
+    resource_size_t end;
+    const char *name;
+    unsigned long flags;
+};
+```
+
+> name： 指定资源的名字，可以设置为NULL
+
+> start、end： 指定资源的起始地址以及结束地址
+
+> flags： 用于指定该资源的类型，在Linux中，资源包括I/O、Memory、Register、IRQ、DMA、Bus等多种类型，最常见的有以下几种：
+
+| 资源宏定义 | 描述 |
+| ---  | --- |
+| IORESOURCE_IO | 用于IO地址空间，对应于IO端口映射方式 |
+| IORESOURCE_MEM | 用于外设的可直接寻址的地址空间 |
+| IORESOURCE_IRQ | 用于指定该设备使用某个中断 |
+| IORESOURCE_DMA | 用于指定使用的DMA通道 |
+
+设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有IO端口映射和IO內存映射两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用`IORESOURCE_MEM`。
+
+在资源的起始地址和结束地址中，对于IORESOURCE_IO或者是IORESOURCE_MEM，他们表示要使用的内存的起始位置以及结束位置；若是只用一个中断引脚或者是一个通道，则它们的start和end成员值必须是相等的。
+
+注册/注销平台设备用到的函数如下：
+
+```C
+int platform_device_register(struct platform_device *pdev);
+void platform_device_unregister(struct platform_device *pdev);
+```
+
+这两个函数应该在模块的进入与退出函数中被调用。
+
+## 平台驱动
+
+内核使用`platform_driver`结构体来描述平台驱动：
+
+```C
+struct platform_driver {
+	int (*probe)(struct platform_device *);
+	int (*remove)(structg platform_device *);
+	int (*suspend)(struct platform_device *, pm_message_t state);
+	int (*resume)(struct platform_device *);
+	struct device_driver driver;
+	const struct platform_device_id *id_table;
+};
+```
+
+除了提供一些回调函数之外，还有一个`id_table`的指针。这个指针用来表示该驱动能够兼容的`platform_device`。
+
+我们来看一下`struct platform_device_id`结构体的定义：
+
+```C
+struct platform_device_id {
+	char name[PLATFORM_NAME_SIZE];
+	kernel_ulong_t driver_data;
+};
+```
+
+name用于指定驱动的名称，总线进行匹配时，会根据该name成员与`platform_device`中的name成员进行匹配，一旦匹配就会调用`probe()`函数。driver_data用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
+
+注册/注销平台驱动的函数如下：
+
+```C
+int platform_driver_register(struct platform_device *drv);
+void platform_driver_unregister(struct platform_device *drv);
+```
+
+在平台设备中，`struct resource`结构体用来表示硬件信息，而软件信息则可以用设备结构体`device`中的成员platform_data来保存。
+
+`platform_get_resource()`函数通常会在驱动的`probe()`函数中执行，用于获取`platform_device`中的`resource`结构体：
+
+```C
+struct resource *platform_get_resource(struct platform_device *dev, unsigned int type, unsigned int num);
+```
+
+> dev：指定要获取的平台设备。
+
+> type：指定获取资源的类型，比如IORESOURCE_IO。
+
+> num：指定要获取的资源编号。
+
+如果资源类型是IORESOURCE_IRQ，可以使用以下接口还获取中断引脚：
+
+```C
+int platform_get_irq(struct platform_device *pdev, unsigned int num);
+```
+
+对于存放在`device`结构体中platform_data的软件信息，可以使用`dev_get_platdata()`函数来获取：
+
+```C
+static inline void *dev_get_platdata(const struct device *dev)
+{
+    return dev->platform_data;
+}
+```
+
+总结一下平台驱动：需要手动实现`probe()`函数，当平台总线成功匹配`platform_device`和`platform_driver`时，则会调用驱动的`probe()`函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体`platform_driver`，调用`platform_driver_register()`进行注册。
+

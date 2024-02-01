@@ -52,9 +52,19 @@ nav:
     - 设备驱动程序:
       - linux/drivers/index.md
       - linux/drivers/dts.md
+      - linux/drivers/device_model.md
+      - linux/drivers/dma.md
+      - linux/drivers/platform.md
       - linux/drivers/chardev.md
-      - linux/drivers/framework.md
-
+      - linux/drivers/blkdev.md
+      - linux/drivers/netdev.md
+      - linux/drivers/pinctrl.md
+      - linux/drivers/gpio.md
+      - linux/drivers/i2c.md
+      - linux/drivers/spi.md
+      - linux/drivers/uart.md
+      - linux/drivers/input.md
+            
     - 网络系统:
       - linux/network/index.md
 
