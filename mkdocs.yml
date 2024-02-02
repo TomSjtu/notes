@@ -53,8 +53,8 @@ nav:
       - linux/drivers/index.md
       - linux/drivers/dts.md
       - linux/drivers/device_model.md
-      - linux/drivers/dma.md
       - linux/drivers/platform.md
+      - linux/drivers/dma.md
       - linux/drivers/chardev.md
       - linux/drivers/blkdev.md
       - linux/drivers/netdev.md
