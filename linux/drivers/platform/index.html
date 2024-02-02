@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/drivers/platform/">
       
       
-        <link rel="prev" href="../dma/">
+        <link rel="prev" href="../device_model/">
       
       
-        <link rel="next" href="../chardev/">
+        <link rel="next" href="../dma/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -823,27 +823,6 @@
                 
   
   
-  
-  
-    <li class="md-nav__item">
-      <a href="../dma/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    直接内存访问
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -923,6 +902,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    直接内存访问
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -2041,7 +2041,7 @@
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">.</span><span class="n">pm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">platform_dev_pm_ops</span><span class="p">,</span>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">};</span>
 </code></pre></div>
-<p>对<code>platform_bus_typ</code>e的初始化来说，<code>match</code>函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。对于每个驱动总线，都必须实例化该函数指针。</p>
+<p>对<code>platform_bus_type</code>的初始化来说，<code>match</code>函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。对于每个驱动总线，都必须实例化该函数指针。</p>
 <h2 id="_3">平台设备<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>内核使用<code>platform_device</code>结构体来描述平台设备：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="p">{</span>
@@ -2127,6 +2127,7 @@
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">};</span>
 </code></pre></div>
 <p>name用于指定驱动的名称，总线进行匹配时，会根据该name成员与<code>platform_device</code>中的name成员进行匹配，一旦匹配就会调用<code>probe()</code>函数。driver_data用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。</p>
+<p>这里插个题外话，当手动实现<code>probe()</code>函数时涉及到内存分配的问题。很多驱动程序都使用<code>devm_kzalloc()</code>函数来分配内存。我们接触比较多的是<code>kmalloc()</code>或者<code>kzalloc()</code>来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而<code>devm_kzalloc()</code>函数则可以自动释放内存，这样就不用开发人员担心内存释放的问题了。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。</p>
 <p>注册/注销平台驱动的函数如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_driver_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_driver_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
