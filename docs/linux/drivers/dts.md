@@ -1,6 +1,6 @@
 # 设备树
 
-## 为什么需要设备树
+## 设备树的由来
 
 起因是在<arch/arm/mach-xxx\>目录下充斥着大量重复的board specific的代码，每次Linux内核merge window期间，ARM的代码变化占整个arch目录的一半以上，导致内核十分的臃肿。经过社区讨论后决定：
 
@@ -30,21 +30,27 @@ ls /sys/firmware/devicetree/base
 ls /proc/device-tree
 ```
 
-
-
 ## DTS、DTB和DTC的关系
 
-.dts是设备树源码文件，DTC负责将.dts编译成.dtb。而.dtb就是负责传递给内核的二进制文件。
+dts是设备树源码文件，包含的头文件为dtsi。dts文件是人类可以看懂的，但是uboot和linux无法识别，因此需要dtc将dts文件编译成dtb文件。dtb文件是uboot和linux可以识别的二进制文件。在Linux源码目录下/scripts/dtc目录包含了dtc工具的源码。
+
+dtc的使用方法是：
+
+```SHELL
+dtc -I dts -O dtb -o [output].dtb [input].dts
+```
+
+反过来可以生成dts文件：
+
+```SHELL
+dtc -I dtb -O dts -o [output].dts [input].dtb
+```
 
 make dtbs会编译所有的dts文件，如果要编译指定的dtb，请使用make board_name.dtb。
 
-在arch/arm/boot/dts/Makefile中，如果选中了某种SOC，则该SOC下的所有相关dtb文件都将被编译出来。
-
-如果我们使用了I.MX6ULL新做了一个板子，只需要新建一个对应的.dts文件，并且将对应的.dtb文件添加到dtb-${CONFIG_SOC_IMX6ULL}下。
-
 ## DTS基本语法
 
-设备树的每个节点按照以下规则命名：
+设备树的语法非常简单，就是由一系列的node和property组成。这些node被组织成树状结构，除了root node，每个node都有一个parent node。每个node都包含一系列的property，用来描述该node的一些信息。node还可以嵌套child node。
 
 ```
 label:node-name@unit-address{
@@ -55,9 +61,11 @@ label:node-name@unit-address{
 }
 ```
 
-device tree的基本单元是node，这些node被组织成树状结构。除了root node，每个node都有一个parent node。一个device tree文件中只能有一个root node。每个node中都包含了property: value来描述该node的一些信息。
+- label：用来指定一个唯一的标签，方便引用。
+- node-name：用来指定节点的名称。
+- unit-address：用来指定地址，和此节点的reg属性的开始地址必须一致。
 
-`label`用来指定标签名，方便引用。`node-name`用于指定节点的名称，`unit-address`用于指定地址，其值要与节点`reg`属性的第一个地址一致。
+> 注意：如果node中没有reg属性，则节点名字中不能有unit-address。unit-address的具体格式和设备挂在哪个bus相关。例如对于CPU，其unit-address就是从0开始编址。而具体的设备，例如以太网控制器，其unit-address就是寄存器地址。
 
 属性值标识了设备的特性，它的值可以是以下几种：
 
@@ -65,30 +73,39 @@ device tree的基本单元是node，这些node被组织成树状结构。除了r
 2. 可能是一个u32、u64的数值，也可以是数组。
 3. 可能是一个字符串，或者是string list。
 
-在根节点下有两个特殊的节点：`aliases`和`chosen`
+### 特殊节点
 
-- aliases：用于给节点定义别名，方便对节点的引用。
-- chosen：虚拟节点，可以在chosen中设置bootargs，由bootloader读取，传递给内核作为启动参数。
+别名节点`aliases`：用来给device-node定义别名，因为每次写一长串路径比较麻烦。
 
-还有一个所有设备树文件必须要有的节点是`memory device node`，它定义了系统物理内存的layout。`device_type`属性定义了该node的设备类型，例如cpu、serial等。对于memory node，其`device_type`必须等于memory。`reg`属性定义了访问该device node的地址信息——起始地址和长度。
+`memory`节点：用来描述系统物理内存的layout。`device_type`属性定义了该node的设备类型，例如cpu、serial等。对于memory node，其`device_type`必须等于memory。`reg`属性定义了访问该device node的地址信息——起始地址和长度。
+
+`chosen`节点：用来定义启动参数，其父节点必须是根节点。内核的一些启动参数可以通过`chosen`节点下的`bootargs`属性来设置，它可以被bootloader读取。
+
+### 属性
 
 节点由一堆属性组成，节点是具体的设备，但是不同的设备有不同的属性，不过有一些是标准属性。
 
 1.`compatible`属性
 
-`compatible`属性的值是一个字符串列表，用于将设备和对应的驱动绑定起来。字符串列表用于表示设备所要使用的驱动程序。`compatible`属性是用来查找节点的方法之一。例如系统初始化platform总线上的设备时，根据设备节点`compatible`属性和驱动中`of_match_table`对应的值，匹配了就加载对应的驱动。`compatible`属性的格式如下：
+`compatible`属性用来表示device和driver的适配：
 
 ```
-"manufacturer, model"
+compatible = "rockchip, rk3399";
 ```
 
-manufacturer表示厂商，model表示对应驱动的名字。而根节点的`compatible`表示硬件设备名，SOC名。Linux内核会通过根节点的`compatible`属性查看是否支持此设备，如果支持设备就会启动内核。
+表示厂商和SOC名。在驱动文件中有一个of匹配表，用来匹配设备节点和驱动节点。如果设备节点的compatible属性值和of匹配表中任何一个值相等，那么就表示该设备可以使用这个驱动。
 
-`compatible`也可以有多个属性值，按照优先级查找。
+```C
+static const struct of_device_id rockchip_rk3399_match[] = {
+    { .compatible = "rockchip,rk3399" },
+};
+```
+
+`compatible`也可以有多个属性值，按照优先级的顺序进行匹配。
 
 2.`model`属性
 
-`model`属性用来描述设备的生产厂商和型号。比如model="samsung, s3c24xx"——生产厂商是三星，SOC是s3c24xx。
+`model`属性用来表示设备的型号。
 
 3.`status`属性
 
@@ -96,7 +113,7 @@ manufacturer表示厂商，model表示对应驱动的名字。而根节点的`co
 
 4.`reg`属性
 
-`reg`属性的值一般是(address, length)对。用于描述设备资源在其父总线定义的地址空间内的地址。
+`reg`属性的值一般是以(address, length)对的形式出现。用于描述设备资源在其父总线定义的地址空间内的地址。
 
 ```
 reg = <0x4000e000 0x400>  //起始地址+大小
@@ -141,25 +158,32 @@ compatible：指定板子兼容的平台
 model：板子名称
 ```
 
-## 内核操作设备树
+## 内核的of函数
 
 内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以`of`开头。
 
-节点操作函数
-
 内核使用`device_node`结构体来描述一个节点
 ```C
-struct device_node{
-    const char *name;      //设备名称
-    const char *type;      //设备类型
-    cont char *full_name;  //设备的完整名称
-    ...
-    struct device_node *parent;  //父节点指针
-    struct device_node *child;   //子节点指针
-    struct device_node *sibling; //同级节点指针
-    struct kobject kobj;         //kobject结构体是内核对象的一部分，用于跟踪此节点
-    unsigned long _flags;        //表示节点的属性
-    void *data;                  //指向任意数据的指针
+struct device_node {
+	const char *name;
+	phandle phandle;
+	const char *full_name;
+	struct fwnode_handle fwnode;
+
+	struct	property *properties;
+	struct	property *deadprops;	/* removed properties */
+	struct	device_node *parent;
+	struct	device_node *child;
+	struct	device_node *sibling;
+#if defined(CONFIG_OF_KOBJ)
+	struct	kobject kobj;
+#endif
+	unsigned long _flags;
+	void	*data;
+#if defined(CONFIG_SPARC)
+	unsigned int unique_id;
+	struct of_irq_controller *irq_trans;
+#endif
 };
 ```
 与查找节点相关的`of`函数有5个：

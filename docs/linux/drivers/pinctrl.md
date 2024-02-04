@@ -8,9 +8,9 @@ Pinctrl：Pin Controller，即引脚控制，通俗地来说就是一组可以�
 
 pinctrl子系统涉及到两个对象：
 
-- pin controller device：提供引脚的配置信息，由原厂工程师提供。
+- <font color="green">pin controller device</font>：提供引脚的配置信息，由原厂工程师提供。
 
-- client device：使用pinctrl子系统的设备，需要描述使用的引脚，由驱动工程师编写。
+- <font color="green">client device</font>：使用pinctrl子系统的设备，需要描述使用的引脚，由驱动工程师编写。
 
 内核分别抽象出`struct pinctrl_dev`和`struct device`来表示上面两个对象信息。
 

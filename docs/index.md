@@ -14,7 +14,7 @@
 
 - [编程语言](pl/index.md)
 
-- [云原生](cloud/index.md)
+- [云计算](cloud/index.md)
 
 - [Tools](tools/index.md)
 

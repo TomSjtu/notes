@@ -153,9 +153,23 @@ kset是kobject对象的集合体。它与ktype的区别在于：具有相同ktyp
 
 sysfs文件系统是一个处于内存中的虚拟文件系统，它提供了kobject对象的层次结构视图。用户查询系统中各种设备的拓扑结构，就像查询文件目录一样简单。还可以通过导出文件的方式，将内核变量提供给用户读取或者写入。
 
-sysfs的核心是把kobject对象与目录项（directory entries）关联起来，这点是通过kobject结构体中的dentry字段实现的。这种关联将kobject对象映射到该目录上。通过这种方式，我们可以轻松地查看挂载于/sys目录下的整个文件系统视图。向sysfs中添加kobject，可以使用`kobject_add()`和`kobject_create_and_add()`函数。
+| 目录 | 功能 |
+| --- | --- |
+| block | 块设备 |
+| bus | 总线 |
+| class | 将设备按照功能分类 |
+| dev | block和char两个目录，对应部分块设备和字符设备符号链接 |
+| devices | 所有设备 |
+| firmwares | 固件信息 |
+| fs | 文件系统 |
+| hypervisor | 空目录 |
+| kernel | 内核配置参数 |
+| module | 模块信息 |
+| power | 电源管理 |
 
-在/sys目录下挂载了至少11个目录：block, bus, class, dev, devices, firmware, fs, hypervisor, kernel, module, power。其中最重要的目录是devices，该目录将设备模型导出到用户空间。其目录机构就是系统中实际的设备拓扑结构。其他目录中的许多数据都是将devices目录下的数据加以转换加工所得。
+其中最重要的目录是devices，Linux系统中所有设备都可以在这个目录下找到。其他目录中的设备其实都是devices目录中的符号链接。
+
+sysfs的核心是把kobject对象与目录项（directory entries）关联起来，通过这种方式，我们可以轻松地查看挂载于/sys目录下的整个文件系统视图。向sysfs中添加kobject，可以使用`kobject_add()`和`kobject_create_and_add()`函数。
 
 我们已经知道kobject可以被映射为某个文件目录，仅有如此还不够。因为这样的sysfs仅仅只是一颗树，但没有提供实际数据的文件。为了能够读写这颗树，内核提供了`attribute`和`bin_attribute`两种属性。
 
@@ -467,7 +481,7 @@ void bus_unregister(struct bus_type *bus);
 
 ## class
 
-最后一个设备模型概念是class。class是一个设备的高层试图，它抽象出了底层的实现细节。驱动程序可以看到固态硬盘或光盘，但是在class的层次上，它们都只是磁盘而已。class允许用户空间使用设备锁提供的功能，而不关心设备是如何连接的，以及如何工作的。
+最后一个设备模型概念是class。class是一个设备的高级视图，它抽象出了底层的实现细节。驱动程序可以看到固态硬盘或光盘，但是在class的层次上，它们都只是磁盘而已。class允许用户空间使用设备所提供的功能，而不关心设备是如何连接的，以及如何工作的。
 
 几乎所有的class都显示在/sys/class目录中。比如所有的网络接口都几种在/sys/class/net下，输入设备在/sys/class/input下，串行设备在/sys/class/tty下。
 

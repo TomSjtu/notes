@@ -70,6 +70,10 @@ nav:
 
     - 性能调优:
       - linux/optimization/index.md
+      - linux/optimization/cpu.md
+      - linux/optimization/memory.md
+      - linux/optimization/disk.md
+      - linux/optimization/network.md
 
     - ebpf:
       - linux/ebpf/index.md
