@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/drivers/spi/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/optimization/disk/">
       
       
-        <link rel="prev" href="../i2c/">
+        <link rel="prev" href="../memory/">
       
       
-        <link rel="next" href="../uart/">
+        <link rel="next" href="../network/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>SPI子系统 - 一只Tom的笔记本</title>
+        <title>磁盘I/O性能调优 - 一只Tom的笔记本</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#spi" class="md-skip">
+        <a href="#io" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              SPI子系统
+              磁盘I/O性能调优
             
           </span>
         </div>
@@ -700,8 +700,6 @@
                 
   
   
-    
-  
   
   
     
@@ -741,17 +739,17 @@
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../drivers/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -768,7 +766,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             设备驱动程序
@@ -784,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dts/" class="md-nav__link">
+      <a href="../../drivers/dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -805,7 +803,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../device_model/" class="md-nav__link">
+      <a href="../../drivers/device_model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -826,7 +824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../platform/" class="md-nav__link">
+      <a href="../../drivers/platform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -847,7 +845,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dma/" class="md-nav__link">
+      <a href="../../drivers/dma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -868,7 +866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../chardev/" class="md-nav__link">
+      <a href="../../drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -889,7 +887,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blkdev/" class="md-nav__link">
+      <a href="../../drivers/blkdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -910,7 +908,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../netdev/" class="md-nav__link">
+      <a href="../../drivers/netdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -931,7 +929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pinctrl/" class="md-nav__link">
+      <a href="../../drivers/pinctrl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -952,7 +950,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gpio/" class="md-nav__link">
+      <a href="../../drivers/gpio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -973,7 +971,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../i2c/" class="md-nav__link">
+      <a href="../../drivers/i2c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -991,19 +989,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../drivers/spi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1012,7 +1001,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -1025,7 +1013,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../uart/" class="md-nav__link">
+      <a href="../../drivers/uart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1046,7 +1034,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../input/" class="md-nav__link">
+      <a href="../../drivers/input/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1128,6 +1116,8 @@
                 
   
   
+    
+  
   
   
     
@@ -1149,17 +1139,17 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../optimization/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1176,7 +1166,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
             性能调优
@@ -1192,7 +1182,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimization/cpu/" class="md-nav__link">
+      <a href="../cpu/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1213,7 +1203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimization/memory/" class="md-nav__link">
+      <a href="../memory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1231,10 +1221,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../optimization/disk/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1243,6 +1242,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -1255,7 +1255,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimization/network/" class="md-nav__link">
+      <a href="../network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2026,7 +2026,7 @@
   
 
 
-<h1 id="spi">SPI子系统<a class="headerlink" href="#spi" title="Permanent link">&para;</a></h1>
+<h1 id="io">磁盘I/O性能调优<a class="headerlink" href="#io" title="Permanent link">&para;</a></h1>
 
 
 

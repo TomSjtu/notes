@@ -1371,6 +1371,14 @@
           
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -1395,6 +1403,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
@@ -1404,6 +1417,90 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/cpu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPU性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/disk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    磁盘I/O性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2422,7 +2519,7 @@
 <p>TASK_RUNNING表示进程正在执行或者准备执行。</p>
 <p>当进程进入睡眠后，有两种状态：</p>
 <p>TASK_INTERRUPTIBLE表示进程可以响应信号。也就是当一个信号来临时，唤醒该进程，然后执行信号处理函数。</p>
-<p>TASK_UNINTERRUPTIBLE表示进程不可以响应信号。当进程等待某个事件完成而进入深度睡眠状态时，如果该事件因为某种原因无法完成，那么这个进程也将永远睡眠下去。</p>
+<p>TASK_UNINTERRUPTIBLE表示进程不可以响应信号。当进程等待某个事件完成而进入深度睡眠状态时，如果该事件因为某种原因无法完成，那么这个进程也将永远睡眠下去。最典型的就是等待磁盘I/O。</p>
 <p>这是一个非常危险的事情，除非很有把握不然不会让进程进入深度睡眠态。</p>
 <p>为了解决这个问题，有了一种新的状态：TASK_KILLABLE，可以终止的深度睡眠态。它的定义如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#define TASK_KILLABLE (TASK_WAKEKILL | TASK_UNITERRUPTIBLE)</span>

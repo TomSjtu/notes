@@ -1227,6 +1227,14 @@
           
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -1251,6 +1259,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
@@ -1260,6 +1273,90 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/cpu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPU性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/disk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    磁盘I/O性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2097,10 +2194,10 @@
 <p>pinctrl子系统涉及到两个对象：</p>
 <ul>
 <li>
-<p>pin controller device：提供引脚的配置信息，由原厂工程师提供。</p>
+<p><font color="green">pin controller device</font>：提供引脚的配置信息，由原厂工程师提供。</p>
 </li>
 <li>
-<p>client device：使用pinctrl子系统的设备，需要描述使用的引脚，由驱动工程师编写。</p>
+<p><font color="green">client device</font>：使用pinctrl子系统的设备，需要描述使用的引脚，由驱动工程师编写。</p>
 </li>
 </ul>
 <p>内核分别抽象出<code>struct pinctrl_dev</code>和<code>struct device</code>来表示上面两个对象信息。</p>

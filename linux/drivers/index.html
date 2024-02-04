@@ -1127,6 +1127,14 @@
           
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -1151,6 +1159,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
@@ -1160,6 +1173,90 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optimization/cpu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPU性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optimization/memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optimization/disk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    磁盘I/O性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optimization/network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -1916,9 +2013,10 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Table of Contents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
       基础知识
@@ -1926,8 +2024,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       字符、块和网络
@@ -1935,8 +2033,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       各类子系统
@@ -1944,13 +2042,18 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       驱动程序实例
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1974,37 +2077,23 @@
 
 <h1 id="_1">设备驱动程序<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <blockquote>
-<p>设备驱动程序相关学习笔记。包括：</p>
-<ul>
-<li>
-<p>设备驱动程序基础知识</p>
-</li>
-<li>
-<p>字符设备、块设备、网络设备</p>
-</li>
-<li>
-<p>各类子系统</p>
-</li>
-<li>
-<p>驱动程序实例</p>
-</li>
-</ul>
+<p>设备驱动程序学习笔记</p>
 </blockquote>
 <h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
-<h2 id="_2">基础知识<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="_2">基础知识<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="dts/">设备树</a></li>
 <li><a href="device_model/">设备模型</a></li>
 <li><a href="platform/">平台设备驱动</a></li>
 <li><a href="dma/">直接内存访问</a></li>
 </ul>
-<h2 id="_3">字符、块和网络<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_3">字符、块和网络<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="chardev/">字符设备驱动程序</a></li>
 <li><a href="blkdev/">块设备驱动程序</a></li>
 <li><a href="netdev/">网络设备驱动程序</a></li>
 </ul>
-<h2 id="_4">各类子系统<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_4">各类子系统<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li><a href="pinctrl/">Pinctrl子系统</a></li>
 <li><a href="gpio/">GPIO子系统</a></li>
@@ -2013,7 +2102,7 @@
 <li><a href="uart/">UART子系统</a></li>
 <li><a href="input/">Input子系统</a></li>
 </ul>
-<h2 id="_5">驱动程序实例<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="_5">驱动程序实例<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 
 
 

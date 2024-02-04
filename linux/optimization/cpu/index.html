@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/rtos/freertos/CMSIS/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/optimization/cpu/">
       
       
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="../../rt-thread/">
+        <link rel="next" href="../memory/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>CMSIS - 一只Tom的笔记本</title>
+        <title>CPU性能调优 - 一只Tom的笔记本</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cmsis" class="md-skip">
+        <a href="#cpu" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CMSIS
+              CPU性能调优
             
           </span>
         </div>
@@ -196,11 +196,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../linux/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
     
@@ -216,13 +218,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../rtos/" class="md-tabs__link">
           
   
     
@@ -410,6 +410,8 @@
       
   
   
+    
+  
   
   
     
@@ -436,17 +438,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -463,7 +465,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Linux
@@ -513,7 +515,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/kernel/" class="md-nav__link ">
+            <a href="../../kernel/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -546,7 +548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/sched/" class="md-nav__link">
+      <a href="../../kernel/sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -567,7 +569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/vma/" class="md-nav__link">
+      <a href="../../kernel/vma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -588,7 +590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/interrupt/" class="md-nav__link">
+      <a href="../../kernel/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -609,7 +611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/synch/" class="md-nav__link">
+      <a href="../../kernel/synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -630,7 +632,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/mm/" class="md-nav__link">
+      <a href="../../kernel/mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -651,7 +653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/vfs/" class="md-nav__link">
+      <a href="../../kernel/vfs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -672,7 +674,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/others/" class="md-nav__link">
+      <a href="../../kernel/others/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -747,7 +749,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/drivers/" class="md-nav__link ">
+            <a href="../../drivers/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -780,7 +782,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/dts/" class="md-nav__link">
+      <a href="../../drivers/dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -801,7 +803,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/device_model/" class="md-nav__link">
+      <a href="../../drivers/device_model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -822,7 +824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/platform/" class="md-nav__link">
+      <a href="../../drivers/platform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -843,7 +845,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/dma/" class="md-nav__link">
+      <a href="../../drivers/dma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -864,7 +866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/chardev/" class="md-nav__link">
+      <a href="../../drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -885,7 +887,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/blkdev/" class="md-nav__link">
+      <a href="../../drivers/blkdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -906,7 +908,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/netdev/" class="md-nav__link">
+      <a href="../../drivers/netdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -927,7 +929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/pinctrl/" class="md-nav__link">
+      <a href="../../drivers/pinctrl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -948,7 +950,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/gpio/" class="md-nav__link">
+      <a href="../../drivers/gpio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -969,7 +971,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/i2c/" class="md-nav__link">
+      <a href="../../drivers/i2c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -990,7 +992,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/spi/" class="md-nav__link">
+      <a href="../../drivers/spi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1011,7 +1013,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/uart/" class="md-nav__link">
+      <a href="../../drivers/uart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1032,7 +1034,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/input/" class="md-nav__link">
+      <a href="../../drivers/input/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1081,7 +1083,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/network/" class="md-nav__link ">
+            <a href="../../network/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1114,6 +1116,8 @@
                 
   
   
+    
+  
   
   
     
@@ -1135,17 +1139,17 @@
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/optimization/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1162,7 +1166,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
             性能调优
@@ -1175,10 +1179,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../../linux/optimization/cpu/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    CPU性能调优
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1187,6 +1211,86 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#cpu_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU性能指标
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU性能指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpu_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU使用率
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      平均负载
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      上下文切换
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU缓存命中率
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cpu_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU性能分析工具
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1199,7 +1303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/memory/" class="md-nav__link">
+      <a href="../memory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1220,7 +1324,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/disk/" class="md-nav__link">
+      <a href="../disk/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1241,7 +1345,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/network/" class="md-nav__link">
+      <a href="../network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1290,7 +1394,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/ebpf/" class="md-nav__link ">
+            <a href="../../ebpf/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1330,8 +1434,6 @@
       
   
   
-    
-  
   
   
     
@@ -1354,17 +1456,17 @@
       
       
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
       
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../../rtos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1381,7 +1483,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             RTOS
@@ -1417,7 +1519,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../rtos/freertos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1450,30 +1552,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    CMSIS
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../rtos/freertos/CMSIS/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1482,98 +1564,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      任务管理
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      消息队列
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      信号量
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      互斥量
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      事件
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      任务通知
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      定时器
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      内存管理
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1606,7 +1596,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../rt-thread/" class="md-nav__link ">
+            <a href="../../../rtos/rt-thread/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2117,72 +2107,60 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#cpu_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU性能指标
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="CPU性能指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpu_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      CPU使用率
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      任务管理
+      平均负载
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      消息队列
+      上下文切换
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#cpu_3" class="md-nav__link">
     <span class="md-ellipsis">
-      信号量
+      CPU缓存命中率
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      互斥量
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#cpu_4" class="md-nav__link">
     <span class="md-ellipsis">
-      事件
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      任务通知
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      定时器
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      内存管理
+      CPU性能分析工具
     </span>
   </a>
   
@@ -2206,109 +2184,118 @@
   
 
 
-<h1 id="cmsis">CMSIS标准<a class="headerlink" href="#cmsis" title="Permanent link">&para;</a></h1>
-<p>Cortex系列的芯片内核是相同的，但是不同的厂商在生产的时候外设会有区别，这些差异导致软件在同内核，不同外设的芯片上移植困难。为了解决不同芯片厂商生产的兼容性问题，ARM与各芯片厂商建议了CMSIS标准。</p>
-<p>所谓的CMSIS标准，其实就是新建了一个软件抽象层，将不同的RTOS的接口统一起来，提供CMSIS的接口供使用者使用。</p>
-<p>本文只简单列举了部分CMSIS标准下的函数接口，其他函数及其实现细节请参考：<a href="https://arm-software.github.io/CMSIS_5/develop/RTOS2/html/rtos_api2.html">CMSIS-RTOS2</a></p>
-<h2 id="_1">任务管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">osThreadId_t</span><span class="w"> </span><span class="nf">osThreadNew</span><span class="p">(</span><span class="n">osThreadFunc_t</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">argument</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osThreadAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建任务</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">osThreadId_t</span><span class="w"> </span><span class="nf">osThreadGetId</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w">    </span><span class="c1">//返回当前任务ID</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osThreadSuspend</span><span class="p">(</span><span class="n">osThreadId_t</span><span class="w"> </span><span class="n">thread_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//挂起任务</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osThreadResume</span><span class="p">(</span><span class="n">osThreadId_t</span><span class="w"> </span><span class="n">thread_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//恢复任务</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osThreadYield</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w">    </span><span class="c1">//主动让出资源</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">osThreadExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w">    </span><span class="c1">//终止当前任务</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="n">osThreadTerminate</span><span class="p">(</span><span class="n">osThreadId_t</span><span class="w"> </span><span class="n">thread_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//终止其他任务</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osDelay</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ticks</span><span class="p">);</span><span class="w">    </span><span class="c1">//延时ticks时钟周期</span>
+<h1 id="cpu">CPU性能调优<a class="headerlink" href="#cpu" title="Permanent link">&para;</a></h1>
+<h2 id="cpu_1">CPU性能指标<a class="headerlink" href="#cpu_1" title="Permanent link">&para;</a></h2>
+<h3 id="cpu_2">CPU使用率<a class="headerlink" href="#cpu_2" title="Permanent link">&para;</a></h3>
+<p>CPU使用率，是指单位时间内CPU繁忙情况的统计。</p>
+<h3 id="_1">平均负载<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<p>每当系统变慢时，我们通常做的第一件事就是执行<code>top</code>或者<code>uptime</code>命令来了解下系统的负载情况，比如：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>uptime
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="m">02</span>:34:03<span class="w"> </span>up<span class="w"> </span><span class="m">2</span><span class="w"> </span>days,<span class="w"> </span><span class="m">20</span>:14,<span class="w">  </span><span class="m">1</span><span class="w"> </span>user,<span class="w">  </span>load<span class="w"> </span>average:<span class="w"> </span><span class="m">0</span>.63,<span class="w"> </span><span class="m">0</span>.83,<span class="w"> </span><span class="m">0</span>.88
 </code></pre></div>
-<h2 id="_2">消息队列<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//名字</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w">  </span><span class="c1">//FreeRTOS未使用</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//控制块（静态创建）地址</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">mq_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//数据存储地址</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mq_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//数据存储大小</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span><span class="n">osMessageQueueAttr_t</span><span class="p">;</span>
+<p>对应的含义是：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>02:34:03              //当前时间
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>up 2 days, 20:14      //系统运行时间
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>1 user                //正在登录用户数
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>load average: 0.63, 0.83, 0.88  //1分钟、5分钟、15分钟的平均负载
 </code></pre></div>
-<p>常用函数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="nf">osMessageQueueNew</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">msg_count</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">msg_size</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osMessageQueueAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMessageQueueDelete</span><span class="p">(</span><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="n">mq_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMessageQueuePut</span><span class="p">(</span><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="n">mq_id</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">msg_ptr</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">msg_prio</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//发送消息</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMessageQueueGet</span><span class="p">(</span><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="n">mq_id</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">msg_ptr</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">msg_prio</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//获取消息</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMessageQueueReset</span><span class="p">(</span><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="n">mq_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//重置消息队列</span>
+<p>什么是平均负载？平均负载是指单位时间内，系统处于可运行状态和不可中断状态的平均进程数，也就是平均活跃进程数，它和CPU使用率并没有直接关系。</p>
+<p>所谓可运行状态的进程，是指正在使用CPU或者正在等待CPU的进程，也就是我们使用<code>ps</code>命令看到的，处于<strong>R</strong>状态（Running或Runnable）的进程。</p>
+<p>不可中断状态的进程则是正处于内核态关键流程中的进程，并且这些流程不能被打断。比如最常见的是等待磁盘I/O的进程，也就是我们使用<code>ps</code>命令看到的，处于<strong>D</strong>状态（Uninterruptible Sleep，也被称为Disk Sleep）的进程。当一个进程向磁盘读写数据时，它需要等待磁盘的回应，在这个过程中是不能被打断的，否则就会出现磁盘和内存数据不一致的情况。</p>
+<p>所以平均负载可以简单地理解为是平均活跃进程数，最理想的情况是每个CPU刚好运行一个进程，这时的平均负载就等于CPU的个数。比如在只有2个CPU的系统上，如果平均负载是2，那么意味着所有的CPU都刚好被完全占用；如果平均负载是4，意味着有一半的进程竞争不到CPU。我们可以通过查询/proc/cpuoinfo来获取当前系统有几个CPU。</p>
+<p>平均负载有三个值，我们需要综合查看，分析系统负载的趋势：</p>
+<ul>
+<li>如果这三个值相差不大，说明系统运行平稳。</li>
+<li>如果1分钟的值远小于15分钟的值，说明系统最近的负载在减少。</li>
+<li>而反过来，如果1分钟的值远大于15分钟的值，说明系统最近的负载在增加。</li>
+</ul>
+<p>平均负载和CPU使用率不一定完全对应，比如：</p>
+<ul>
+<li>CPU密集型进程，使用大量CPU也会导致平均负载升高，此时两者对应。</li>
+<li>I/O密集型进程，等待I/O会导致平均负载升高，但是CPU使用率不一定很高。</li>
+<li>大量等待CPU的进程调度会导致平均负载升高，此时的CPU使用率也会比较高。</li>
+</ul>
+<h3 id="_2">上下文切换<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<p>众所周知，Linux是一个多任务操作系统，支持远大于其CPU核心数的进程运行。这些进程并非同时运行，而是使用CPU的调度算法轮流执行。在每个任务运行前，CPU需要知道任务从哪里加载、运行，也就是说系统需要提前设置寄存器以及程序计数器的内容，这种环境被称为CPU上下文。</p>
+<p>而CPU上下文切换，就是把上一个任务的环境保存起来，然后加载下一个任务的环境。暂时挂起的任务会在未来的某个时间点上继续执行。</p>
+<p>由于运行任务的不同，CPU上下文切换也需要根据不同的环境分为不同的场景：</p>
+<ul>
+<li>进程上下文切换：进程是Linux系统中最基本的执行单元，进程的切换由操作系统内核来完成，这个过程需要保存和恢复进程的各种寄存器状态、内存页等数据，因此，进程的上下文切换开销比较大。</li>
+<li>线程上下文切换：线程是轻量级的进程，同一进程的多个线程之间是共享进程的上下文的，因此，线程的上下文切换比进程的上下文切换要快得多。</li>
+<li>中断上下文切换：为了快速响应硬件的事情，一个硬件中断会随时打断进程的正常执行，转而执行中断处理程序。在打断其他进程时，就需要将进程当前的状态保存下来，以便后续恢复。这个过程就叫做中断上下文切换。</li>
+</ul>
+<p>对于进程上下文切换这里需要说明一下。一次系统调用涉及到从用户态到内核态，再从内核态到用户态，一共两次CPU上下文切换。</p>
+<p>对于一般的进程之间的上下文切换，只有在进程调度的时候才会用到。Linux为每个CPU都维护了一个就绪队列，将活跃进程（正在运行和等待运行的进程）按照优先级和等待时间排序，然后选择最需要CPU的进程，更详细的介绍请看<a href="../../kernel/sched/#_20">进程调度算法</a>。进程在以下场景中，会触发进程调度：</p>
+<ul>
+<li>分配个进程的时间片耗尽。</li>
+<li>进程在等待某个资源。</li>
+<li>进程调用<code>sleep()</code>等函数主动挂起。</li>
+<li>更高优先级的进程需要运行。</li>
+<li>发生硬件中断。</li>
+</ul>
+<p>上下文切换是衡量性能的一个重要指标，它可以是自愿的，也可以是非自愿的：</p>
+<ul>
+<li>自愿上下文切换变多了，说明进程都在等待资源，可能发生了I/O问题。</li>
+<li>非自愿上下文切换变多了，说明进程都在被强制调度，可能发生了CPU竞争问题。</li>
+</ul>
+<h3 id="cpu_3">CPU缓存命中率<a class="headerlink" href="#cpu_3" title="Permanent link">&para;</a></h3>
+<h2 id="cpu_4">CPU性能分析工具<a class="headerlink" href="#cpu_4" title="Permanent link">&para;</a></h2>
+<ul>
+<li>使用<code>uptime</code>查看系统平均负载：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>uptime
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="m">02</span>:34:03<span class="w"> </span>up<span class="w"> </span><span class="m">2</span><span class="w"> </span>days,<span class="w"> </span><span class="m">20</span>:14,<span class="w">  </span><span class="m">1</span><span class="w"> </span>user,<span class="w">  </span>load<span class="w"> </span>average:<span class="w"> </span><span class="m">0</span>.63,<span class="w"> </span><span class="m">0</span>.83,<span class="w"> </span><span class="m">0</span>.88
 </code></pre></div>
-<h2 id="_3">信号量<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">   </span><span class="c1">//名字</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w"> </span><span class="c1">//FreeRTOS未使用</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">       </span><span class="c1">//控制块（静态创建）地址</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">   </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span><span class="n">osSemaphoreAttr_t</span><span class="p">;</span>
+<ul>
+<li>使用<code>mpstat</code>查看CPU使用率：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a># -P ALL 表示监控所有CPU，后面数字5表示间隔5秒后输出一组数据
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>$ mpstat -P ALL 5
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Linux 4.15.0 (ubuntu) 09/22/18 _x86_64_ (2 CPU)
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>13:30:06     CPU    %usr   %nice    %sys %iowait    %irq   %soft  %steal  %guest  %gnice   %idle
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>13:30:11     all   50.05    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00   49.95
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>13:30:11       0    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00  100.00
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>13:30:11       1  100.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00    0.00
 </code></pre></div>
-<p>常用函数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">osSemaphoreId_t</span><span class="w"> </span><span class="nf">osSemaphoreNew</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">max_count</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">initial_count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osSemaphoreAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osSemaphoreAcquire</span><span class="p">(</span><span class="n">osSemaphoreId_t</span><span class="w"> </span><span class="n">semaphore_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//获取</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osSemaphoreRelease</span><span class="p">(</span><span class="n">osSemaphoreId_t</span><span class="w"> </span><span class="n">semaphore_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//释放</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">osSemaphoreGetCount</span><span class="p">(</span><span class="n">osSemaphoreID_t</span><span class="w"> </span><span class="n">semaphore_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//获取计数量</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osSemaphoreDelete</span><span class="p">(</span><span class="n">osSemaphoreId_t</span><span class="w"> </span><span class="n">semaphore_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
+<ul>
+<li>使用<code>pidstat</code>查看进程的CPU使用率：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 间隔5秒后输出一组数据</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>$<span class="w"> </span>pidstat<span class="w"> </span>-u<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="m">13</span>:37:07<span class="w">      </span>UID<span class="w">       </span>PID<span class="w">    </span>%usr<span class="w"> </span>%system<span class="w">  </span>%guest<span class="w">   </span>%wait<span class="w">    </span>%CPU<span class="w">   </span>CPU<span class="w">  </span>Command
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="m">13</span>:37:12<span class="w">        </span><span class="m">0</span><span class="w">      </span><span class="m">2962</span><span class="w">  </span><span class="m">100</span>.00<span class="w">    </span><span class="m">0</span>.00<span class="w">    </span><span class="m">0</span>.00<span class="w">    </span><span class="m">0</span>.00<span class="w">  </span><span class="m">100</span>.00<span class="w">     </span><span class="m">1</span><span class="w">  </span>stress
 </code></pre></div>
-<h2 id="_4">互斥量<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//名字</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w">  </span><span class="c1">//互斥量类型</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//控制块（静态创建）内存 </span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span><span class="n">osMutexAttr_t</span><span class="p">;</span>
+<ul>
+<li>使用<code>vmstat</code>查看上下文切换情况：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 每隔5秒输出1组数据</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>$<span class="w"> </span>vmstat<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>procs<span class="w"> </span>-----------memory----------<span class="w"> </span>---swap--<span class="w"> </span>-----io----<span class="w"> </span>-system--<span class="w"> </span>------cpu-----
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w"> </span>r<span class="w">  </span>b<span class="w">   </span>swpd<span class="w">   </span>free<span class="w">   </span>buff<span class="w">  </span>cache<span class="w">   </span>si<span class="w">   </span>so<span class="w">    </span>bi<span class="w">    </span>bo<span class="w">   </span><span class="k">in</span><span class="w">   </span>cs<span class="w"> </span>us<span class="w"> </span>sy<span class="w"> </span>id<span class="w"> </span>wa<span class="w"> </span>st
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w"> </span><span class="m">0</span><span class="w">  </span><span class="m">0</span><span class="w">      </span><span class="m">0</span><span class="w"> </span><span class="m">7005360</span><span class="w">  </span><span class="m">91564</span><span class="w"> </span><span class="m">818900</span><span class="w">    </span><span class="m">0</span><span class="w">    </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w">   </span><span class="m">25</span><span class="w">   </span><span class="m">33</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w">  </span><span class="m">0</span><span class="w">  </span><span class="m">0</span>
 </code></pre></div>
-<p>常用函数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">osMutexId_t</span><span class="w"> </span><span class="nf">osMutexNew</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">osMutexAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMutexAcquire</span><span class="p">(</span><span class="n">osMutexId_t</span><span class="w"> </span><span class="n">mutex_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//获取</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMutexRelease</span><span class="p">(</span><span class="n">osMutexId_t</span><span class="w"> </span><span class="n">mutex_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//释放</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMutexDelete</span><span class="p">(</span><span class="n">osMutexId_t</span><span class="w"> </span><span class="n">mutex_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
+<blockquote>
+<p>cs：每秒上下文切换次数。</p>
+<p>in：每秒中断次数。</p>
+<p>r：就绪队列长度。</p>
+<p>b：等待资源的进程数。</p>
+</blockquote>
+<ul>
+<li>使用<code>pidstat</code>查看每个进程上下文切换情况：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 每隔5秒输出1组数据</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>$<span class="w"> </span>pidstat<span class="w"> </span>-w<span class="w"> </span><span class="m">5</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>Linux<span class="w"> </span><span class="m">4</span>.15.0<span class="w"> </span><span class="o">(</span>ubuntu<span class="o">)</span><span class="w">  </span><span class="m">09</span>/23/18<span class="w">  </span>_x86_64_<span class="w">  </span><span class="o">(</span><span class="m">2</span><span class="w"> </span>CPU<span class="o">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="m">08</span>:18:26<span class="w">      </span>UID<span class="w">       </span>PID<span class="w">   </span>cswch/s<span class="w"> </span>nvcswch/s<span class="w">  </span>Command
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="m">08</span>:18:31<span class="w">        </span><span class="m">0</span><span class="w">         </span><span class="m">1</span><span class="w">      </span><span class="m">0</span>.20<span class="w">      </span><span class="m">0</span>.00<span class="w">  </span>systemd
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="m">08</span>:18:31<span class="w">        </span><span class="m">0</span><span class="w">         </span><span class="m">8</span><span class="w">      </span><span class="m">5</span>.40<span class="w">      </span><span class="m">0</span>.00<span class="w">  </span>rcu_sched
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>...
 </code></pre></div>
-<h2 id="_5">事件<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//名字</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w">  </span><span class="c1">//FreeRTOS未使用</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//控制块（静态创建）内存</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">}</span><span class="n">osEventFlagsAttr_t</span><span class="p">;</span>
-</code></pre></div>
-<p>常用函数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="nf">osEventFlagsNew</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">osEventFlagsAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">osEventFlagsSet</span><span class="p">(</span><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="n">ef_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w">    </span><span class="c1">//设置位</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">osEventFlagsClear</span><span class="p">(</span><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="n">ef_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w">    </span><span class="c1">//清空位</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">osEventFlagsWait</span><span class="p">(</span><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="n">ef_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">options</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//等待位</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osEventFlagsDelete</span><span class="p">(</span><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="n">ef_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
-</code></pre></div>
-<h2 id="_6">任务通知<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>CMSIS标准没有提供任务通知的API，属于FreeRTOS的特性。</p>
-<h2 id="_7">定时器<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//名字</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w">  </span><span class="c1">//FreeRTOS未使用</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//控制块（静态创建）内存</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">}</span><span class="n">osTimerAttr_t</span><span class="p">;</span>
-</code></pre></div>
-<p>常用函数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">osTimerId_t</span><span class="w"> </span><span class="nf">osTimerNew</span><span class="p">(</span><span class="n">osTimerFunc_t</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">osTimerType_t</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">argument</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osTimerAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osTimerStart</span><span class="p">(</span><span class="n">osTimerId_t</span><span class="w"> </span><span class="n">timer_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ticks</span><span class="p">);</span><span class="w">    </span><span class="c1">//启动</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osTimerStop</span><span class="p">(</span><span class="n">osTimerId_t</span><span class="w"> </span><span class="n">timer_id</span><span class="p">);</span><span class="w">   </span><span class="c1">//停止</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osTimerDelete</span><span class="p">(</span><span class="n">osTimerId_t</span><span class="w"> </span><span class="n">timer_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
-</code></pre></div>
-<h2 id="_8">内存管理<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>常用函数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">osMemoryPoolId_t</span><span class="w"> </span><span class="nf">osMemoryPoolNew</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">block_count</span><span class="p">,</span><span class="w"> </span><span class="n">unit32_t</span><span class="w"> </span><span class="n">block_size</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osMemoryPoolAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">osMemoryPoolAlloc</span><span class="p">(</span><span class="n">osMemoryPoolId_t</span><span class="w"> </span><span class="n">mp_id</span><span class="p">,</span><span class="w"> </span><span class="n">unit32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//分配</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">osStatut_t</span><span class="w"> </span><span class="nf">osMemoryPoolFree</span><span class="p">(</span><span class="n">osMemoryPoolId_t</span><span class="w"> </span><span class="n">mp_id</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">block</span><span class="p">);</span><span class="w">    </span><span class="c1">//释放</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMemoryPoolDelete</span><span class="p">(</span><span class="n">osMemoryPoolId_t</span><span class="w"> </span><span class="n">mp_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
-</code></pre></div>
+<blockquote>
+<p>cswch/s：每秒自愿上下文切换次数。</p>
+<p>nvcswch/s：每秒非自愿上下文切换次数。</p>
+</blockquote>
 
 
 

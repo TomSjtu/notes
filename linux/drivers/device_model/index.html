@@ -1221,6 +1221,14 @@
           
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -1245,6 +1253,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
@@ -1254,6 +1267,90 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/cpu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPU性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/disk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    磁盘I/O性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../optimization/network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2193,8 +2290,62 @@
 <p>当设置了kset并把它添加到系统中，将在sysfs中创建一个目录。kobject的添加与删除主要是<code>kobject_regsiter()</code>函数和<code>kobject_unregister()</code>函数。在大多数情况下，kobject会在其parent指针中保存kset的指针。</p>
 <h2 id="sysfs">sysfs<a class="headerlink" href="#sysfs" title="Permanent link">&para;</a></h2>
 <p>sysfs文件系统是一个处于内存中的虚拟文件系统，它提供了kobject对象的层次结构视图。用户查询系统中各种设备的拓扑结构，就像查询文件目录一样简单。还可以通过导出文件的方式，将内核变量提供给用户读取或者写入。</p>
-<p>sysfs的核心是把kobject对象与目录项（directory entries）关联起来，这点是通过kobject结构体中的dentry字段实现的。这种关联将kobject对象映射到该目录上。通过这种方式，我们可以轻松地查看挂载于/sys目录下的整个文件系统视图。向sysfs中添加kobject，可以使用<code>kobject_add()</code>和<code>kobject_create_and_add()</code>函数。</p>
-<p>在/sys目录下挂载了至少11个目录：block, bus, class, dev, devices, firmware, fs, hypervisor, kernel, module, power。其中最重要的目录是devices，该目录将设备模型导出到用户空间。其目录机构就是系统中实际的设备拓扑结构。其他目录中的许多数据都是将devices目录下的数据加以转换加工所得。</p>
+<table>
+<thead>
+<tr>
+<th>目录</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>block</td>
+<td>块设备</td>
+</tr>
+<tr>
+<td>bus</td>
+<td>总线</td>
+</tr>
+<tr>
+<td>class</td>
+<td>将设备按照功能分类</td>
+</tr>
+<tr>
+<td>dev</td>
+<td>block和char两个目录，对应部分块设备和字符设备符号链接</td>
+</tr>
+<tr>
+<td>devices</td>
+<td>所有设备</td>
+</tr>
+<tr>
+<td>firmwares</td>
+<td>固件信息</td>
+</tr>
+<tr>
+<td>fs</td>
+<td>文件系统</td>
+</tr>
+<tr>
+<td>hypervisor</td>
+<td>空目录</td>
+</tr>
+<tr>
+<td>kernel</td>
+<td>内核配置参数</td>
+</tr>
+<tr>
+<td>module</td>
+<td>模块信息</td>
+</tr>
+<tr>
+<td>power</td>
+<td>电源管理</td>
+</tr>
+</tbody>
+</table>
+<p>其中最重要的目录是devices，Linux系统中所有设备都可以在这个目录下找到。其他目录中的设备其实都是devices目录中的符号链接。</p>
+<p>sysfs的核心是把kobject对象与目录项（directory entries）关联起来，通过这种方式，我们可以轻松地查看挂载于/sys目录下的整个文件系统视图。向sysfs中添加kobject，可以使用<code>kobject_add()</code>和<code>kobject_create_and_add()</code>函数。</p>
 <p>我们已经知道kobject可以被映射为某个文件目录，仅有如此还不够。因为这样的sysfs仅仅只是一颗树，但没有提供实际数据的文件。为了能够读写这颗树，内核提供了<code>attribute</code>和<code>bin_attribute</code>两种属性。</p>
 <p>在ktype中用<code>struct attribute_group</code>描述这两个属性：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">attribute_group</span><span class="w"> </span><span class="p">{</span>
@@ -2425,7 +2576,7 @@
 </code></pre></div>
 <p>当我们成功注册总线时，会在/sys/bus/目录下创建一个新目录，目录名为我们新注册的总线名。bus目录中包含了当前系统中已经注册了的所有总线，例如i2c，spi，platform等。</p>
 <h2 id="class">class<a class="headerlink" href="#class" title="Permanent link">&para;</a></h2>
-<p>最后一个设备模型概念是class。class是一个设备的高层试图，它抽象出了底层的实现细节。驱动程序可以看到固态硬盘或光盘，但是在class的层次上，它们都只是磁盘而已。class允许用户空间使用设备锁提供的功能，而不关心设备是如何连接的，以及如何工作的。</p>
+<p>最后一个设备模型概念是class。class是一个设备的高级视图，它抽象出了底层的实现细节。驱动程序可以看到固态硬盘或光盘，但是在class的层次上，它们都只是磁盘而已。class允许用户空间使用设备所提供的功能，而不关心设备是如何连接的，以及如何工作的。</p>
 <p>几乎所有的class都显示在/sys/class目录中。比如所有的网络接口都几种在/sys/class/net下，输入设备在/sys/class/input下，串行设备在/sys/class/tty下。</p>
 <p>class的结构体定义如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">class</span><span class="w"> </span><span class="p">{</span>
