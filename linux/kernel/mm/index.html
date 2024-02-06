@@ -733,6 +733,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#swap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Swap机制
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2154,6 +2163,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#swap" class="md-nav__link">
+    <span class="md-ellipsis">
+      Swap机制
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2384,6 +2402,19 @@
 <a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">mm_cachep</span><span class="p">;</span>
 </code></pre></div>
 <p>由于<code>fork()</code>系统调用用来创建一个新的<code>task_struct</code>结构体，于是使用高速缓存可以大大提升系统的性能。</p>
+<h2 id="swap">Swap机制<a class="headerlink" href="#swap" title="Permanent link">&para;</a></h2>
+<p>当系统内存资源紧张时，内核会对一些内存进行回收。对于文件页，大部分可以直接回收，如果是脏页则需要先写入磁盘。对于匿名页，内核引入了Swap机制来回收。</p>
+<p>Swap机制是内核中的一种内存管理技术，用于处理内存不足的情况。当系统中的实际物理内存不足以满足程序运行需求时，操作系统会将部分暂时不用的内存页面移到Swap空间中，从而释放物理内存，以便继续运行其他程序。它包括换出和换入两个过程。</p>
+<ul>
+<li>换出，就是把进程暂时不用的内存数据存储到磁盘中，并释放这些数据占用的内存。</li>
+<li>换入，就是将磁盘中的数据重新加载到内存中。</li>
+</ul>
+<p>当有新的大块内存分配请求而剩余内存不足时，内核就会回收一部分内存，尽可能地满足新内存请求，这个过程被称为<strong>直接内存回收</strong>。</p>
+<p>除了直接内存回收，还有一个专门的内核线程kswapd0用来定期回收内存。为了衡量内存的使用情况，内核定义了三个内存阈值，分别是<strong>页最小阈值</strong>（pages_min）、<strong>页低阈值</strong>（pages_low）和<strong>页高阈值</strong>（pages_high），剩余内存，则用pages_free表示。</p>
+<p><img alt="内存情况" src="../../../images/kernel/pages_free.webp" /></p>
+<p>一旦剩余内存小于页低阈值，就会触发内存的回收。</p>
+<p>在NUMA架构下，每个处理器都会被划分到不同的Node下，而每个Node都有自己的本地内存空间。因此，内核需要根据当前Node的内存使用情况来决定回收的目标。当某个Node内存不足时，内核可以从其他Node寻找空闲内存，也可以从本地回收内存，具体回收模式在/proc/sys/vm/zone_reclaim_mode文件中进行配置。</p>
+<p>/proc/sys/vm/swappiness选项用来调整使用Swap的积极程度，从0~100，数值越大越积极使用Swap，也就是更倾向于回收匿名页；数值越小越消极使用Swap，也就是更倾向于回收文件页。</p>
 
 
 

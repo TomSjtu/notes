@@ -1212,6 +1212,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    内存性能调优
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1221,6 +1232,58 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      内存性能指标
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="内存性能指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buffercache" class="md-nav__link">
+    <span class="md-ellipsis">
+      Buffer/Cache
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      内存性能分析工具
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2010,6 +2073,47 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      内存性能指标
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="内存性能指标">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#buffercache" class="md-nav__link">
+    <span class="md-ellipsis">
+      Buffer/Cache
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      内存性能分析工具
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2027,6 +2131,86 @@
 
 
 <h1 id="_1">内存性能调优<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">内存性能指标<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="buffercache">Buffer/Cache<a class="headerlink" href="#buffercache" title="Permanent link">&para;</a></h3>
+<p>Buffer和Cache被设计用来提升系统I/O的性能，它们缓存在内存中，充当起慢速磁盘与快速CPU之间的桥梁。</p>
+<ul>
+<li>
+<p>Buffers是对<strong>磁盘数据</strong>的缓存，通常不会特别大。</p>
+</li>
+<li>
+<p>Cached是对<strong>文件数据</strong>的缓存。</p>
+</li>
+</ul>
+<p>不论是读还是写，应用程序都优先从缓存中读取，这样可以避免访问低速的磁盘，从而提高系统的I/O性能。</p>
+<h2 id="_3">内存性能分析工具<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li>使用<code>free</code>查看系统内存使用情况：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>free
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">              </span>total<span class="w">        </span>used<span class="w">        </span>free<span class="w">      </span>shared<span class="w">  </span>buff/cache<span class="w">   </span>available
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Mem:<span class="w">        </span><span class="m">8169348</span><span class="w">      </span><span class="m">263524</span><span class="w">     </span><span class="m">6875352</span><span class="w">         </span><span class="m">668</span><span class="w">     </span><span class="m">1030472</span><span class="w">     </span><span class="m">7611064</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Swap:<span class="w">             </span><span class="m">0</span><span class="w">           </span><span class="m">0</span><span class="w">           </span><span class="m">0</span>
+</code></pre></div>
+<blockquote>
+<p>total：总内存大小</p>
+<p>used：已经使用的内存大小</p>
+<p>free：空闲的内存大小</p>
+<p>shared：多个进程共享的内存大小</p>
+<p>buff/cache：缓存和缓冲区占用的内存大小</p>
+<p>available：可用的内存大小</p>
+</blockquote>
+<ul>
+<li>使用<code>top</code>查看进程内存使用情况：</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>top
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>...
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>KiB<span class="w"> </span>Mem<span class="w"> </span>:<span class="w">  </span><span class="m">8169348</span><span class="w"> </span>total,<span class="w">  </span><span class="m">6871440</span><span class="w"> </span>free,<span class="w">   </span><span class="m">267096</span><span class="w"> </span>used,<span class="w">  </span><span class="m">1030812</span><span class="w"> </span>buff/cache
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>KiB<span class="w"> </span>Swap:<span class="w">        </span><span class="m">0</span><span class="w"> </span>total,<span class="w">        </span><span class="m">0</span><span class="w"> </span>free,<span class="w">        </span><span class="m">0</span><span class="w"> </span>used.<span class="w">  </span><span class="m">7607492</span><span class="w"> </span>avail<span class="w"> </span>Mem
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span>PID<span class="w"> </span>USER<span class="w">      </span>PR<span class="w">  </span>NI<span class="w">    </span>VIRT<span class="w">    </span>RES<span class="w">    </span>SHR<span class="w"> </span>S<span class="w">  </span>%CPU<span class="w"> </span>%MEM<span class="w">     </span>TIME+<span class="w"> </span>COMMAND
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span><span class="m">430</span><span class="w"> </span>root<span class="w">      </span><span class="m">19</span><span class="w">  </span>-1<span class="w">  </span><span class="m">122360</span><span class="w">  </span><span class="m">35588</span><span class="w">  </span><span class="m">23748</span><span class="w"> </span>S<span class="w">   </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.4<span class="w">   </span><span class="m">0</span>:32.17<span class="w"> </span>systemd-journal
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w"> </span><span class="m">1075</span><span class="w"> </span>root<span class="w">      </span><span class="m">20</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">771860</span><span class="w">  </span><span class="m">22744</span><span class="w">  </span><span class="m">11368</span><span class="w"> </span>S<span class="w">   </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.3<span class="w">   </span><span class="m">0</span>:38.89<span class="w"> </span>snapd
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w"> </span><span class="m">1048</span><span class="w"> </span>root<span class="w">      </span><span class="m">20</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">170904</span><span class="w">  </span><span class="m">17292</span><span class="w">   </span><span class="m">9488</span><span class="w"> </span>S<span class="w">   </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.2<span class="w">   </span><span class="m">0</span>:00.24<span class="w"> </span>networkd-dispat
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="m">1</span><span class="w"> </span>root<span class="w">      </span><span class="m">20</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">78020</span><span class="w">   </span><span class="m">9156</span><span class="w">   </span><span class="m">6644</span><span class="w"> </span>S<span class="w">   </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.1<span class="w">   </span><span class="m">0</span>:22.92<span class="w"> </span>systemd
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="m">12376</span><span class="w"> </span>azure<span class="w">     </span><span class="m">20</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">76632</span><span class="w">   </span><span class="m">7456</span><span class="w">   </span><span class="m">6420</span><span class="w"> </span>S<span class="w">   </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.1<span class="w">   </span><span class="m">0</span>:00.01<span class="w"> </span>systemd
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="m">12374</span><span class="w"> </span>root<span class="w">      </span><span class="m">20</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">107984</span><span class="w">   </span><span class="m">7312</span><span class="w">   </span><span class="m">6304</span><span class="w"> </span>S<span class="w">   </span><span class="m">0</span>.0<span class="w">  </span><span class="m">0</span>.1<span class="w">   </span><span class="m">0</span>:00.00<span class="w"> </span>sshd
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>...
+</code></pre></div>
+<blockquote>
+<p>VIRT：进程使用的虚拟内存大小，申请过但尚未分配物理内存也会计算在内。</p>
+<p>RES：进程实际使用的物理内存大小。</p>
+<p>SHR：进程使用的共享内存大小，比如进程间通信。</p>
+<p>%MEM：进程使用的物理内存占系统总内存的百分比。</p>
+</blockquote>
+<ul>
+<li>使用<code>cachestat</code>和<code>cachetop</code>查看缓存命中情况：</li>
+</ul>
+<p>这两个工具是bcc软件包的一部分，基于ebpf技术。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>cachestat<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">3</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">   </span>TOTAL<span class="w">   </span>MISSES<span class="w">     </span>HITS<span class="w">  </span>DIRTIES<span class="w">   </span>BUFFERS_MB<span class="w">  </span>CACHED_MB
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">       </span><span class="m">2</span><span class="w">        </span><span class="m">0</span><span class="w">        </span><span class="m">2</span><span class="w">        </span><span class="m">1</span><span class="w">           </span><span class="m">17</span><span class="w">        </span><span class="m">279</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">       </span><span class="m">2</span><span class="w">        </span><span class="m">0</span><span class="w">        </span><span class="m">2</span><span class="w">        </span><span class="m">1</span><span class="w">           </span><span class="m">17</span><span class="w">        </span><span class="m">279</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">       </span><span class="m">2</span><span class="w">        </span><span class="m">0</span><span class="w">        </span><span class="m">2</span><span class="w">        </span><span class="m">1</span><span class="w">           </span><span class="m">17</span><span class="w">        </span><span class="m">279</span><span class="w"> </span>
+</code></pre></div>
+<blockquote>
+<p>TOTAL：总缓存次数。</p>
+<p>MISSES：缓存未命中的次数。</p>
+<p>HITS：缓存命中的次数。</p>
+<p>DIRTIES：缓存中dirty pages脏页）的次数。</p>
+<p>BUFFERS_MB：缓存Buffers的大小，单位是MB。</p>
+<p>CACHED_MB：缓存中Cache的数量，单位是MB。</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>cachetop
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="m">11</span>:58:50<span class="w"> </span>Buffers<span class="w"> </span>MB:<span class="w"> </span><span class="m">258</span><span class="w"> </span>/<span class="w"> </span>Cached<span class="w"> </span>MB:<span class="w"> </span><span class="m">347</span><span class="w"> </span>/<span class="w"> </span>Sort:<span class="w"> </span>HITS<span class="w"> </span>/<span class="w"> </span>Order:<span class="w"> </span>ascending
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>PID<span class="w">      </span>UID<span class="w">      </span>CMD<span class="w">              </span>HITS<span class="w">     </span>MISSES<span class="w">   </span>DIRTIES<span class="w">  </span>READ_HIT%<span class="w">  </span>WRITE_HIT%
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">   </span><span class="m">13029</span><span class="w"> </span>root<span class="w">     </span>python<span class="w">                  </span><span class="m">1</span><span class="w">        </span><span class="m">0</span><span class="w">        </span><span class="m">0</span><span class="w">     </span><span class="m">100</span>.0%<span class="w">       </span><span class="m">0</span>.0%
+</code></pre></div>
+<blockquote>
+<p>READ_HIT：读缓存命中率。</p>
+<p>WRITE_HIT：写缓存命中率。</p>
+</blockquote>
 
 
 

@@ -2564,7 +2564,7 @@
 <p>tasklet可以注册自己本身。</p>
 </li>
 <li>
-<p>tasklet可悲调度以在正常优先级或者更高优先级执行。</p>
+<p>tasklet可被调度在正常优先级或者更高优先级执行。</p>
 </li>
 <li>
 <p>当系统负载低时，tasklet会被立刻执行，但再晚不会晚于下一个定时器tick。</p>
@@ -2584,7 +2584,7 @@
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w">             </span><span class="c1">//传递给函数的参数</span>
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">};</span>
 </code></pre></div>
-<p>state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值TASKLET_STATE_SCHED表明 tasklet已被调度，正准备投人运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。</p>
+<p>state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值TASKLET_STATE_SCHED表明 tasklet已被调度，正准备投入运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。</p>
 <p>count成员是tasklet的引用计数器。如果它不为0，则tasklet被禁止；只有当它为0时，tasklet才被激活。</p>
 <p>已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）数组中。这两个数据结构都是由<code>tasklet_struct</code>结构体构成的链表，链表中每个元素代表一个不同的tasklet。</p>
 <p>tasklet由<code>tasklet_schedule()</code>和<code>tasklet_hi_schedule()</code>函数进行调度，它们接受一个指向<code>tasklet_struct</code>结构的指针作为参数。</p>

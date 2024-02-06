@@ -2288,7 +2288,7 @@
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>model：板子名称
 </code></pre></div>
 <h2 id="of">内核的of函数<a class="headerlink" href="#of" title="Permanent link">&para;</a></h2>
-<p>内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以<code>of</code>开头。</p>
+<p>内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以<code>of</code>开头，定义在&lt;include/linux/of.h&gt;中。</p>
 <p>内核使用<code>device_node</code>结构体来描述一个节点
 <div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
@@ -2316,17 +2316,17 @@
 <p>1.通过节点名字查找指定节点</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_name</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span>
 </code></pre></div>
-<ul>
-<li>from：开始查找的节点，NULL则表示从根节点开始查找</li>
-<li>name：要查找的节点名</li>
-<li>返回值：找到的节点，NULL表示失败</li>
-</ul>
+<blockquote>
+<p>from：开始查找的节点，NULL则表示从根节点开始查找</p>
+<p>name：要查找的节点名</p>
+<p>返回值：找到的节点，NULL表示失败</p>
+</blockquote>
 <p>2.通过<code>device_type</code>属性查找指定节点（X）</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_type</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">type</span><span class="p">)</span>
 </code></pre></div>
-<ul>
-<li>type：要查找的节点的device_type属性值</li>
-</ul>
+<blockquote>
+<p>type：要查找的节点的device_type属性值</p>
+</blockquote>
 <p>由于<code>device_type</code>已经被废弃，所以这个函数已经不用了。</p>
 <p>3.通过<code>device_type</code>和<code>compatible</code>两个属性来查找指定节点</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_compatible_node</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">compatible</span><span class="p">)</span>
@@ -2337,9 +2337,9 @@
 <p>5.通过路径来查找指定节点</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kr">inline</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_path</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">)</span>
 </code></pre></div>
-<ul>
-<li>path：带有全路径的节点名，可以使用节点的别名</li>
-</ul>
+<blockquote>
+<p>path：带有全路径的节点名，可以使用节点的别名</p>
+</blockquote>
 <p>推荐使用这个方法来查找节点。</p>
 <p>节点的属性信息里保存了驱动所需要的内容，内核中使用结构体<code>property</code>表示属性。</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">property</span><span class="p">{</span>
@@ -2352,32 +2352,34 @@
 <a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">bin_attribute</span><span class="w"> </span><span class="n">attr</span><span class="p">;</span><span class="w">  </span><span class="c1">//表示属性的一些元数据</span>
 <a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="p">};</span>
 </code></pre></div>
-<p>内核提供了查找父子节点的<code>of</code>函数。</p>
+<p>通过亲缘关系来查找节点：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_get_parent</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">)</span>
 <a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>
 <a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_get_next_child</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">)</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_get_child_by_name</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
 </code></pre></div>
 <p>同时内核也提供了提取属性值的<code>of</code>函数。</p>
 <p>1.查找指定的属性</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">property</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_property</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">lenp</span><span class="p">)</span>
 </code></pre></div>
-<ul>
-<li>np：设备节点</li>
-<li>name：属性名字</li>
-<li>lenp：属性值的字节数</li>
-</ul>
+<blockquote>
+<p>np：设备节点</p>
+<p>name：属性名字</p>
+<p>lenp：属性值的字节数</p>
+</blockquote>
 <p>2.获取属性中元素的数量</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_count_elems_of_size</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">elem_size</span><span class="p">)</span>
 </code></pre></div>
 <p>3.从属性中获取指定标号的u32类型数据</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_u32_index</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="o">*</span><span class="n">out_value</span><span class="p">)</span>
 </code></pre></div>
-<ul>
-<li>propname：要读取的属性名</li>
-<li>index：要读取的值标号</li>
-<li>out_value：读取到的值</li>
-</ul>
-<p>4.读取u8、u16、u32、u64类型的数组数据</p>
+<blockquote>
+<p>propname：要读取的属性名</p>
+<p>index：要读取的值标号</p>
+<p>out_value：读取到的值</p>
+</blockquote>
+<p>4.读取u8、u16、u32、u64数组类型的数据</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_u8_array</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="n">u8</span><span class="w"> </span><span class="o">*</span><span class="n">out_values</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">sz</span><span class="p">)</span>
 </code></pre></div>
 <p>将函数名中的u8替换成其他数据类型即可。</p>
@@ -2394,6 +2396,10 @@
 <p>现在内核提供了内存映射相关的<code>of</code>函数，可以自动完成物理地址到虚拟地址的转换：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">of_iomap</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">)</span>
 </code></pre></div>
+<p>```
+gpio1 {
+    gpio-ranges = &lt;&amp;pinctrl 1 0 4&gt;;
+};</p>
 
 
 
