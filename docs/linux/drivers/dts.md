@@ -160,7 +160,7 @@ model：板子名称
 
 ## 内核的of函数
 
-内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以`of`开头。
+内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以`of`开头，定义在<include/linux/of.h\>中。
 
 内核使用`device_node`结构体来描述一个节点
 ```C
@@ -194,9 +194,11 @@ struct device_node {
 struct device_node *of_find_node_by_name(struct device_node *from, const char *name);
 ```
 
-- from：开始查找的节点，NULL则表示从根节点开始查找
-- name：要查找的节点名
-- 返回值：找到的节点，NULL表示失败
+> from：开始查找的节点，NULL则表示从根节点开始查找
+
+> name：要查找的节点名
+
+> 返回值：找到的节点，NULL表示失败
 
 2.通过`device_type`属性查找指定节点（X）
 
@@ -204,7 +206,7 @@ struct device_node *of_find_node_by_name(struct device_node *from, const char *n
 struct device_node *of_find_node_by_type(struct device_node *from, const char *type)
 ```
 
-- type：要查找的节点的device_type属性值
+> type：要查找的节点的device_type属性值
 
 由于`device_type`已经被废弃，所以这个函数已经不用了。
 
@@ -226,7 +228,7 @@ struct device_node *of_find_matching_node_and_match(struct device_node *from, co
 inline struct device_node *of_find_node_by_path(const char *path)
 ```
 
-- path：带有全路径的节点名，可以使用节点的别名
+> path：带有全路径的节点名，可以使用节点的别名
 
 推荐使用这个方法来查找节点。
 
@@ -244,12 +246,14 @@ struct property{
 };
 ```
 
-内核提供了查找父子节点的`of`函数。
+通过亲缘关系来查找节点：
 
 ```C
 struct device_node *of_get_parent(const struct device_node *node)
 
 struct device_node *of_get_next_child(const struct device_node *node, struct device_node *prev)
+
+struct device_node *of_get_child_by_name(const struct device_node *node, const char *name)
 ```
 
 同时内核也提供了提取属性值的`of`函数。
@@ -260,9 +264,11 @@ struct device_node *of_get_next_child(const struct device_node *node, struct dev
 property *of_find_property(const struct device_node *np, const char *name, int *lenp)
 ```
 
-- np：设备节点
-- name：属性名字
-- lenp：属性值的字节数
+> np：设备节点
+
+> name：属性名字
+
+> lenp：属性值的字节数
 
 2.获取属性中元素的数量
 
@@ -276,11 +282,13 @@ int of_property_count_elems_of_size(const struct device_node *np, const char *pr
 int of_property_read_u32_index(const struct device_node *np, const char *propname, u32 index, u32 *out_value)
 ```
 
-- propname：要读取的属性名
-- index：要读取的值标号
-- out_value：读取到的值
+> propname：要读取的属性名
 
-4.读取u8、u16、u32、u64类型的数组数据
+> index：要读取的值标号
+
+> out_value：读取到的值
+
+4.读取u8、u16、u32、u64数组类型的数据
 
 ```C
 int of_property_read_u8_array(const struct device_node *np, const char *propname, u8 *out_values, size_t sz)
@@ -314,4 +322,7 @@ int of_property_read_string_index(const struct device_node *np,const char *propn
 void __iomem *of_iomap(struct device_node *np, int index)
 ```
 
-
+```
+gpio1 {
+	gpio-ranges = <&pinctrl 1 0 4>;
+};

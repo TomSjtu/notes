@@ -1,7 +1,5 @@
 # Linux内核体系
 
-> Linux学习笔记
-
 
 ## Table of Contents
 
@@ -33,3 +31,4 @@
 
 - [蜗壳科技](http://www.wowotech.net/)
 
+- [Linux性能优化实战](https://time.geekbang.org/column/intro/100020901?tab=catalog)

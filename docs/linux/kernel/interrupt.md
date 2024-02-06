@@ -218,7 +218,7 @@ tasklet有一些比较有意思的特性：
 
 - tasklet可以注册自己本身。
 
-- tasklet可悲调度以在正常优先级或者更高优先级执行。
+- tasklet可被调度在正常优先级或者更高优先级执行。
 
 - 当系统负载低时，tasklet会被立刻执行，但再晚不会晚于下一个定时器tick。
 
@@ -240,7 +240,7 @@ struct tasklet_struct {
 };
 ```
 
-state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值TASKLET_STATE_SCHED表明 tasklet已被调度，正准备投人运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。
+state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值TASKLET_STATE_SCHED表明 tasklet已被调度，正准备投入运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。
 
 count成员是tasklet的引用计数器。如果它不为0，则tasklet被禁止；只有当它为0时，tasklet才被激活。
 
@@ -413,3 +413,4 @@ void destroy_workqueue(struct workqueue_struct *queue);
 任何在工作队列中被共享的数据也需要使用锁机制。
 
 一般单纯禁止下半部是不够的，更常见的做法是先获得一个锁再禁止下半部的处理。如果需要禁止所有下半部的处理，可以调用`local_bh_disable()`函数。允许下半部处理，调用`local_bh_enable()`函数。函数通过`preempt_count`（内核抢占也是这个计数器）为每个进程维护一个计数器。当计数器为0时，才可以处理下半部。
+

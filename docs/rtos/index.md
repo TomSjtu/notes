@@ -1,6 +1,5 @@
 # RTOS
 
-> RTOS学习笔记
 
 ## Table of Contents
 

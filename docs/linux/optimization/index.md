@@ -1,7 +1,5 @@
 # 性能调优
 
-> 性能调优学习笔记
-
 ![Linux Performance Tools](../../images/kernel/performance-tools.webp)
 
 ## Table of Contents

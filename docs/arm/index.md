@@ -1,8 +1,5 @@
 # Arm
 
-> Arm学习笔记
-
-
 ## 参考资料
 
 - [ARM64体系结构编程与实践](https://book.douban.com/subject/35803160/)

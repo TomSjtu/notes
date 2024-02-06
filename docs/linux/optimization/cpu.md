@@ -1,12 +1,48 @@
 # CPU性能调优
 
-
+![CPU性能调优工具](../../images/kernel/cpu-performance-tools01.webp)
 
 ## CPU性能指标
 
 ### CPU使用率
 
-CPU使用率，是指单位时间内CPU繁忙情况的统计。
+CPU使用率，是指单位时间内CPU使用情况的统计，以百分比的方式展示。
+
+与CPU使用率相关的指标有许多：
+
+- user：用户态时间
+- nice：低优先级用户态时间
+- system：内核态时间
+- idle：空闲时间
+- iowait：等待I/O完成的时间
+- irq：硬中断时间
+- softirq：软中断时间
+- steal：管理程序时间
+- guest：运行虚拟处理器的时间
+- guest_nice：低优先级运行虚拟处理器的时间
+
+使用`perf top`实时显示占用CPU时钟最多的函数或者指令：
+
+```SHELL
+$ perf top
+Samples: 833  of event 'cpu-clock', Event count (approx.): 97742399
+Overhead  Shared Object       Symbol
+   7.28%  perf                [.] 0x00000000001f78a4
+   4.72%  [kernel]            [k] vsnprintf
+   4.32%  [kernel]            [k] module_get_kallsym
+   3.65%  [kernel]            [k] _raw_spin_unlock_irqrestore
+...
+```
+
+输出结果的第一行分别代表采样数（Samples）、事件类型（event）、事件计数（Event count）。
+
+下方的表格各列的含义是：
+
+- Overhead：当前函数或者指令占用的CPU时钟百分比
+- Shared Object：函数或者指令所在的动态链接库名
+- Symbol：函数或者指令名，16进制地址代表未知符号
+
+`perf top`不保存数据，我们可以使用`perf record`和`perf report`命令来记录和分析数据，同时加上-g参数以显示调用关系链。
 
 ### 平均负载
 
@@ -76,9 +112,29 @@ load average: 0.63, 0.83, 0.88  //1分钟、5分钟、15分钟的平均负载
 
 ### CPU缓存命中率
 
-
+CPU具有L1、L2、L3三级缓存，其中L3是共享的。从L1到L3，缓存的大小依次增加，但是性能依次降低。它们的命令率，衡量的是CPU缓存的复用情况。
 
 ## CPU性能分析工具
+
+![CPU性能调优工具](../../images/kernel/cpu-performance-tools02.webp)
+
+其中`top`、`vmstat`、`pidstat`几乎涵盖了所有重要的CPU性能指标。
+
+使用`top`命令动态监测CPU：
+
+```SHELL
+$ top
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND
+28961 root      20   0   43816   3148   4040 R   3.2  0.0   0:00.01 top
+  620 root      20   0   37280  33676    908 D   0.3  0.4   0:00.01 app
+    1 root      20   0  160072   9416   6752 S   0.0  0.1   0:37.64 systemd
+ 1896 root      20   0       0      0      0 Z   0.0  0.0   0:00.00 devapp
+    2 root      20   0       0      0      0 S   0.0  0.0   0:00.10 kthreadd
+    4 root       0 -20       0      0      0 I   0.0  0.0   0:00.00 kworker/0:0H
+    6 root       0 -20       0      0      0 I   0.0  0.0   0:00.00 mm_percpu_wq
+    7 root      20   0       0      0      0 S   0.0  0.0   0:06.37 ksoftirqd/0
+...
+```
 
 - 使用`uptime`查看系统平均负载：
 
@@ -142,6 +198,62 @@ Linux 4.15.0 (ubuntu)  09/23/18  _x86_64_  (2 CPU)
 > cswch/s：每秒自愿上下文切换次数。
 
 > nvcswch/s：每秒非自愿上下文切换次数。
+
+- 使用`dstat`查看CPU和I/O使用情况：
+
+```SHELL
+# 间隔1秒输出10组数据
+$ dstat 1 10
+You did not select any stats, using -cdngy by default.
+--total-cpu-usage-- -dsk/total- -net/total- ---paging-- ---system--
+usr sys idl wai stl| read  writ| recv  send|  in   out | int   csw
+  0   0  96   4   0|1219k  408k|   0     0 |   0     0 |  42   885
+  0   0   2  98   0|  34M    0 | 198B  790B|   0     0 |  42   138
+  0   0   0 100   0|  34M    0 |  66B  342B|   0     0 |  42   135
+  0   0  84  16   0|5633k    0 |  66B  342B|   0     0 |  52   177
+  0   3  39  58   0|  22M    0 |  66B  342B|   0     0 |  43   144
+  0   0   0 100   0|  34M    0 | 200B  450B|   0     0 |  46   147
+  0   0   2  98   0|  34M    0 |  66B  342B|   0     0 |  45   134
+  0   0   0 100   0|  34M    0 |  66B  342B|   0     0 |  39   131
+  0   0  83  17   0|5633k    0 |  66B  342B|   0     0 |  46   168
+  0   3  39  59   0|  22M    0 |  66B  342B|   0     0 |  37   134
+...
+```
+
+- 使用`sar`查看系统的网络收发情况：
+
+```SHELL
+# -n DEV 表示显示网络收发的报告，间隔1秒输出一组数据
+$ sar -n DEV 1
+15:03:46        IFACE   rxpck/s   txpck/s    rxkB/s    txkB/s   rxcmp/s   txcmp/s  rxmcst/s   %ifutil
+15:03:47         eth0  12607.00   6304.00    664.86    358.11      0.00      0.00      0.00      0.01
+15:03:47      docker0   6302.00  12604.00    270.79    664.66      0.00      0.00      0.00      0.00
+15:03:47           lo      0.00      0.00      0.00      0.00      0.00      0.00      0.00      0.00
+15:03:47    veth9f6bbcd   6302.00  12604.00    356.95    664.66      0.00      0.00      0.00      0.05
+```
+
+> IFACE：网卡
+
+> rxpck/txpck：每秒接收与发送的数据包
+
+> rxkB/txkB：每秒接收与发送的千字节
+
+> rxcmp/txcmp：每秒接收与发送的压缩数据包
+
+> rxmcst/txmcst：每秒接收与发送的多播数据包
+
+> %ifutil：网络接口的使用率
+
+- 使用`tcpdump`抓取网络包：
+
+```SHELL
+# -i eth0 只抓取eth0网卡，-n不解析协议名和主机名
+# tcp port 80表示只抓取tcp协议并且端口号为80的网络帧
+$ tcpdump -i eth0 -n tcp port 80
+15:11:32.678966 IP 192.168.0.2.18238 > 192.168.0.30.80: Flags [S], seq 458303614, win 512, length 0
+...
+```
+
 
 
 
