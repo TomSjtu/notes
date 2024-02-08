@@ -1,5 +1,6 @@
 # 内存性能调优
 
+![内存性能调优工具](../../images/kernel/mem-performance-tools01.webp)
 
 ## 内存性能指标
 
@@ -14,6 +15,8 @@ Buffer和Cache被设计用来提升系统I/O的性能，它们缓存在内存中
 不论是读还是写，应用程序都优先从缓存中读取，这样可以避免访问低速的磁盘，从而提高系统的I/O性能。
 
 ## 内存性能分析工具
+
+![内存性能调优工具](../../images/kernel/mem-performance-tools02.webp)
 
 - 使用`free`查看系统内存使用情况：
 
@@ -101,6 +104,48 @@ PID      UID      CMD              HITS     MISSES   DIRTIES  READ_HIT%  WRITE_H
 
 > WRITE_HIT：写缓存命中率。
 
+- 使用`smem`将进程按照swap使用量排序：
 
+```SHELL
+$ smem --sort swap
+  PID User     Command                         Swap      USS      PSS      RSS 
+1168907 ubuntu   bash                               0      468     1091     3576 
+1169141 ubuntu   /bin/bash --init-file /home        0     1060     1693     4416 
+1207585 ubuntu   sleep 180                          0      120      268     1916 
+1208733 ubuntu   /usr/bin/python3 /usr/bin/s        0    10908    11197    13956 
+1784762 ubuntu   /bin/bash --init-file /home        0      976     1038     3104 
+2002992 ubuntu   /lib/systemd/systemd --user        0     2052     2620     6248 
+2003004 ubuntu   /usr/libexec/tracker-miner-        0    10288    10768    16148 
+2003010 ubuntu   /usr/bin/dbus-daemon --sess        0      776      903     3868
+...
+```
+
+- 使用`sar`查看内存各指标变化情况：
+
+```SHELL
+# 间隔1秒输出一组数据
+# -r表示显示内存使用情况，-S表示显示Swap使用情况
+$ sar -r -S 1
+04:39:56    kbmemfree   kbavail kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact   kbdirty
+04:39:57      6249676   6839824   1919632     23.50    740512     67316   1691736     10.22    815156    841868         4
+
+04:39:56    kbswpfree kbswpused  %swpused  kbswpcad   %swpcad
+04:39:57      8388604         0      0.00         0      0.00
+
+04:39:57    kbmemfree   kbavail kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact   kbdirty
+04:39:58      6184472   6807064   1984836     24.30    772768     67380   1691736     10.22    847932    874224        20
+
+04:39:57    kbswpfree kbswpused  %swpused  kbswpcad   %swpcad
+04:39:58      8388604         0      0.00         0      0.00
+
+…
+
+
+04:44:06    kbmemfree   kbavail kbmemused  %memused kbbuffers  kbcached  kbcommit   %commit  kbactive   kbinact   kbdirty
+04:44:07       152780   6525716   8016528     98.13   6530440     51316   1691736     10.22    867124   6869332         0
+
+04:44:06    kbswpfree kbswpused  %swpused  kbswpcad   %swpcad
+04:44:07      8384508      4096      0.05        52      1.27
+```
 
 

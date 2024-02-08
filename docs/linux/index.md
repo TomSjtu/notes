@@ -5,7 +5,6 @@
 
 - [内核剖析](./kernel/index.md)
 - [设备驱动程序](./drivers/index.md)
-- [网络系统](./network/index.md)
 - [性能调优](./optimization/index.md)
 - [ebpf](./ebpf/index.md)
 

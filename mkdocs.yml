@@ -47,7 +47,10 @@ nav:
       - linux/kernel/synch.md
       - linux/kernel/mm.md
       - linux/kernel/vfs.md
+      - linux/kernel/block.md
+      - linux/kernel/network.md
       - linux/kernel/others.md
+      
     
     - 设备驱动程序:
       - linux/drivers/index.md
@@ -64,9 +67,13 @@ nav:
       - linux/drivers/spi.md
       - linux/drivers/uart.md
       - linux/drivers/input.md
+      - linux/drivers/ethernet.md
+      - linux/drivers/pci.md
+      - linux/drivers/usb.md
+      - linux/drivers/mmc.md
+      - linux/drivers/wifi.md
+      - linux/drivers/bluetooth.md
             
-    - 网络系统:
-      - linux/network/index.md
 
     - 性能调优:
       - linux/optimization/index.md
@@ -86,8 +93,10 @@ nav:
     - rt-thread:
       - rtos/rt-thread/index.md
       
-  - Arm: 
+  - ARM: 
     - arm/index.md
+    - arm/aarch64.md
+    - arm/instructions.md
     - arm/barrier.md
 
   - 编程语言: 

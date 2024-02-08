@@ -15,7 +15,7 @@
 - [块设备驱动程序](./blkdev.md)
 - [网络设备驱动程序](./netdev.md)
 
-### 各类子系统
+### 低速设备驱动
 
 - [Pinctrl子系统](./pinctrl.md)
 - [GPIO子系统](./gpio.md)
@@ -24,4 +24,11 @@
 - [UART子系统](./uart.md)
 - [Input子系统](./input.md)
 
-### 驱动程序实例
+### 高速设备驱动
+
+- [以太网](./ethernet.md)
+- [PCI](./pci.md)
+- [USB](./usb.md)
+- [MMC](./mmc.md)
+- [WIFI](./wifi.md)
+- [蓝牙](./bluetooth.md)
