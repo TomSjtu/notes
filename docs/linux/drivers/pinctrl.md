@@ -47,7 +47,7 @@ pinctrl子系统相关的源代码文件如下：
 
 引脚配置的设备树描述如下：
 
-```
+```C
 /*s5pv210-pinctrl.dtsi*/
 &pinctrl0 {
 	gpa0: gpa0 {
@@ -73,7 +73,7 @@ pinctrl子系统相关的源代码文件如下：
 
 除了单个引脚的描述，还可以将多个引脚组合在一起以实现特定的功能，比如SPI接口、I2C接口等，这被称为引脚组（pin group），其设备树描述如下：
 
-```
+```C
 /*s5pv210-pinctrl.dtsi*/
 uart0_data: uart0-data {
 	samsung,pins = "gpa0-0", "gpa0-1";
@@ -105,7 +105,7 @@ i2c0_bus: i2c0-bus {
 
 一个典型的client device引用引脚配置的实例如下：
 
-```
+```C
 device-node-name {  
     pinctrl-names = "default", "init", "sleep";   
     pinctrl-0 = <pin-config-0-a>; 
@@ -166,7 +166,7 @@ struct pinctrl_dev {
 
 > driver_data：驱动程序的私有数据。
 
-> p：保存pinctrl_get(dev)的结果。
+> p：该pin controller对应的client device。
 
 > hog_default：此设备占用的引脚的默认状态。
 
@@ -176,13 +176,13 @@ struct pinctrl_dev {
 
 ```C
 struct pinctrl_desc {
-        const char *name;
-        const struct pinctrl_pin_desc *pins;
-        unsigned int npins;
-        const struct pinctrl_ops *pctlops;
-        const struct pinmux_ops *pmxops;
-        const struct pinconf_ops *confops;
-        struct module *owner;
+    const char *name;
+    const struct pinctrl_pin_desc *pins;
+    unsigned int npins;
+    const struct pinctrl_ops *pctlops;
+    const struct pinmux_ops *pmxops;
+    const struct pinconf_ops *confops;
+    struct module *owner;
 };
 ```
 
@@ -198,7 +198,7 @@ struct pinctrl_desc {
 
 > confops：引脚配置操作。
 
-对于某个pin controller device来说，它要搞明白自己管理多少引脚，并使用自然数为这些引脚编号。所以系统中的引脚信息，都由`struct pinctrl_pin_desc`来描述，包括编号、名字和数据：
+对于某个pin controller device来说，它要搞明白自己管理多少引脚，并使用自然数为这些引脚编号。系统中的引脚信息，都由`struct pinctrl_pin_desc`来描述，包括编号、名字和数据：
 
 ```C
 struct pinctrl_pin_desc {
@@ -214,7 +214,7 @@ struct pinctrl_pin_desc {
 
 > drv_data：引脚的私有数据。
 
-`struct pinctrl_pin_desc`结构体中的编号和名称完全由驱动开发人员自己决定。
+`struct pinctrl_pin_desc`结构体中的编号和名称完全由驱动开发人员自己决定，当然，需要符合一定的规范。
 
 这么说有点枯燥，我们看官方文档的一个示例。假设引脚阵列如下图所示：
 
@@ -264,7 +264,7 @@ pinctrl_register_and_init(&foo_desc, <PARENT>, NULL, &pctl);
 pinctrl_enable(pctl);
 ```
 
-在SOC系统中，为了实现特定的功能，需要将多个引脚进行组合。因此pinctrl子系统必须以group为单位，同时地访问和控制多个引脚，这就是pin group的概念。相应地，pinctrl子系统必须提供一些机制，来获取系统中的有多少个group以及每个group有哪些引脚，这些操作定义在`struct pinctrl_ops`结构体中：
+在SoC系统中，为了实现特定的功能，需要将多个引脚进行组合。因此pinctrl子系统提供以group为单位，同时地访问和控制多个引脚的功能，这就是pin group的概念，这些操作定义在`struct pinctrl_ops`结构体中：
 
 ```C
 struct pinctrl_ops {
@@ -287,11 +287,11 @@ struct pinctrl_ops {
 
 > get_group_pins()：获取pin group的引脚信息。
 
-> dt_node_to_map()：将设备树中的pin controller子节点创建映射，即将devic_node转换为一系列的`struct pinctrl_map`。
+> dt_node_to_map()：为设备树中的pin controller子节点创建映射，即将devic_node转换为一系列的`struct pinctrl_map`。
 
 > dt_free_map()：释放dt_node_to_map()创建的映射。
 
-SOC中的很多引脚可以配置为不同的功能，这被称为引脚的复用（pinmux），pinctrl子系统使用`struct pinmux_ops`结构体来抽象pinmux有关的操作：
+SoC中的很多引脚可以配置为不同的功能，这被称为引脚的复用（pinmux），pinctrl子系统使用`struct pinmux_ops`结构体来抽象复用的有关操作：
 
 ```C
 struct pinmux_ops {
@@ -373,7 +373,6 @@ struct pinconf_ops {
 下图描述了pin controller device类别下几个数据结构之间的关系：
 
 ![pinctrl device](../../images/kernel/pinctrl_device.png)
-
 
 ### client device
 

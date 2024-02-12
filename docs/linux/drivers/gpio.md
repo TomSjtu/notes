@@ -4,17 +4,17 @@ GPIO全称“General Purpose Input/Output”，通用输入输出。GPIO可能�
 
 ## 设备树描述
 
-```
+```C
 /*rk3568.dtsi*/
 gpio0: gpio@fdd60000 {
-			compatible = "rockchip,gpio-bank";
-			reg = <0x0 0xfdd60000 0x0 0x100>;
-			interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
-			clocks = <&pmucru PCLK_GPIO0>;
-			gpio-controller;
-			#gpio-cells = <2>;
-			interrupt-controller;
-			#interrupt-cells = <2>;
+	compatible = "rockchip,gpio-bank";
+	reg = <0x0 0xfdd60000 0x0 0x100>;
+	interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
+	clocks = <&pmucru PCLK_GPIO0>;
+	gpio-controller;
+	#gpio-cells = <2>;
+	interrupt-controller;
+	#interrupt-cells = <2>;
 };
 ```
 
