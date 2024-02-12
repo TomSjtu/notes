@@ -1038,6 +1038,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    I2C子系统
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1047,6 +1058,61 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#i2c_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C协议
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      设备树描述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据结构
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i2c_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C函数接口
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2182,6 +2248,50 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#i2c_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C协议
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      设备树描述
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据结构
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i2c_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C函数接口
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2199,6 +2309,235 @@
 
 
 <h1 id="i2c">I2C子系统<a class="headerlink" href="#i2c" title="Permanent link">&para;</a></h1>
+<h2 id="i2c_1">I2C协议<a class="headerlink" href="#i2c_1" title="Permanent link">&para;</a></h2>
+<p>i2c物理总线示意图如下所示：</p>
+<p><img alt="I2C物理总线" src="../../../images/kernel/i2c-bus.png" /></p>
+<p>i2c支持主从模式，其中一个主设备、多个从设备，各设备地址独立。主设备负责调度总线，决定某个事件和其中一个从设备通信，其他从设备要想通信只能等待。当SCL与SDA同为高电平时，为空闲态。</p>
+<p>i2c物理总线使用两条总线线路：</p>
+<ul>
+<li>SCL:时钟线，传输CLK信号</li>
+<li>SDA：数据线，通信数据都通过SDA</li>
+</ul>
+<p>通信特征：</p>
+<ul>
+<li>串行：只有一根数据线</li>
+<li>同步：主从设备在同一个时钟频率下工作</li>
+<li>非差分：因为I2C通信速率不高，而且通信双方距离很近，一般是板级通信，所以使用电平信号通信</li>
+<li>低速率：传输的数据量不大，本身通信速率很低</li>
+</ul>
+<p>i2c的通信过程：</p>
+<ol>
+<li>开始信号（S）：SDA线从高电平到低电平跳变，同时SCL线保持高电平。</li>
+<li>发送地址和读/写位：主设备通过SDA线发送一个7位设备地址，后面跟着一个读/写位。</li>
+<li>响应信号(ACK)：每一次传输必须伴有一个响应信号，在SCL为高时，通过拉低SDA并保持低来实现。如果从设备忙，它可以使SCL保持在低电平，这会强制使主设备进入等待状态。当从设备空闲后，并且释放时钟线，原来的数据传输才会继续。</li>
+<li>数据传输：SDA上传输的数据必须在SCL为高电平期间保持稳定，SDA上的数据只能在SCL为低电平时变化。</li>
+<li>停止信号(P)：数据传输结束时，SDA线从低电平到高电平的跳变，同时SCL线保持高电平，表示通信结束。</li>
+</ol>
+<p>对于第4点解释一下：</p>
+<p>SDA上传输的数据必须在SCL为高电平期间保持稳定：</p>
+<ul>
+<li>在I2C通信中，SCL负责同步数据传输。当SCL线处于高电平时，表示数据线SDA上的数据稳定有效。</li>
+<li>这意味着在SCL为高电平的期间，SDA线上的数据必须保持不变，任何试图改变SDA线状态的操作都必须等到SCL线变为低电平。</li>
+</ul>
+<p>SDA上的数据只能在SCL为低电平时变化：</p>
+<ul>
+<li>当SCL线处于低电平时，表示数据线SDA可以变化，此时主机或从设备可以改变SDA线的状态，比如发送或接收数据。</li>
+<li>数据线SDA上的变化（比如从高电平到低电平，或从低电平到高电平）都必须发生在SCL线的上升沿或下降沿。</li>
+</ul>
+<p><img alt="起始和停止" src="../../../images/kernel/i2c-signal01.png" /></p>
+<p>连续字节的写入如下图所示：</p>
+<p><img alt="连续字节写入" src="../../../images/kernel/i2c-write.png" /></p>
+<h2 id="_1">设备树描述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nl">i2c0</span><span class="p">:</span><span class="w"> </span><span class="n">i2c</span><span class="err">@</span><span class="n">fdd40000</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rockchip,rk3568-i2c&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rockchip,rk3399-i2c&quot;</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0xfdd40000</span><span class="w"> </span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0x1000</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">interrupts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">GIC_SPI</span><span class="w"> </span><span class="mi">46</span><span class="w"> </span><span class="n">IRQ_TYPE_LEVEL_HIGH</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">clocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="n">pmucru</span><span class="w"> </span><span class="n">CLK_I2C0</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="n">pmucru</span><span class="w"> </span><span class="n">PCLK_I2C0</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="n">clock</span><span class="o">-</span><span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;i2c&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pclk&quot;</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">pinctrl</span><span class="mi">-0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="n">i2c0_xfer</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="n">pinctrl</span><span class="o">-</span><span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;default&quot;</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="cp">#address-cells = &lt;1&gt;;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="cp">#size-cells = &lt;0&gt;;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="n">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;disabled&quot;</span><span class="p">;</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">};</span>
+</code></pre></div>
+<h2 id="_2">数据结构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p><img alt="i2c框架" src="../../../images/kernel/i2c-arch.png" /></p>
+<ul>
+<li>i2c核心：管理i2c驱动和i2c设备的匹配、删除</li>
+<li>i2c设备：i2c硬件设备的抽象</li>
+<li>i2c驱动：i2c设备的驱动程序</li>
+<li>i2c适配器：i2c控制器，用于驱动和设备之间的通信</li>
+</ul>
+<p>i2c驱动中最核心的四个数据结构：</p>
+<ul>
+<li><code>struct i2c_adapter</code></li>
+<li><code>struct i2c_algorithm</code></li>
+<li><code>struct i2c_client</code></li>
+<li><code>struct i2c-driver</code></li>
+</ul>
+<p><code>struct i2c_adapter</code>对应一个i2c controller，所有的设备驱动都需要经过<code>struct i2c_adapter</code>对象的处理才能与物理设备通信：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">module</span><span class="w"> </span><span class="o">*</span><span class="n">owner</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">class</span><span class="p">;</span><span class="w">       </span><span class="cm">/* classes to allow probing for */</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_algorithm</span><span class="w"> </span><span class="o">*</span><span class="n">algo</span><span class="p">;</span><span class="w"> </span><span class="cm">/* the algorithm to access the bus */</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">algo_data</span><span class="p">;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="cm">/* data fields that are valid for all devices   */</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_lock_operations</span><span class="w"> </span><span class="o">*</span><span class="n">lock_ops</span><span class="p">;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">rt_mutex</span><span class="w"> </span><span class="n">bus_lock</span><span class="p">;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">rt_mutex</span><span class="w"> </span><span class="n">mux_lock</span><span class="p">;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">;</span><span class="w">            </span><span class="cm">/* in jiffies */</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">retries</span><span class="p">;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="n">dev</span><span class="p">;</span><span class="w">      </span><span class="cm">/* the adapter device */</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">locked_flags</span><span class="p">;</span><span class="w"> </span><span class="cm">/* owned by the I2C core */</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="cp">#define I2C_ALF_IS_SUSPENDED        0</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="cp">#define I2C_ALF_SUSPEND_REPORTED    1</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">;</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="mi">48</span><span class="p">];</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">completion</span><span class="w"> </span><span class="n">dev_released</span><span class="p">;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex</span><span class="w"> </span><span class="n">userspace_clients_lock</span><span class="p">;</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">userspace_clients</span><span class="p">;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_bus_recovery_info</span><span class="w"> </span><span class="o">*</span><span class="n">bus_recovery_info</span><span class="p">;</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter_quirks</span><span class="w"> </span><span class="o">*</span><span class="n">quirks</span><span class="p">;</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">irq_domain</span><span class="w"> </span><span class="o">*</span><span class="n">host_notify_domain</span><span class="p">;</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">regulator</span><span class="w"> </span><span class="o">*</span><span class="n">bus_regulator</span><span class="p">;</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>struct i2c_algorithm</code>定义了i2c控制器与i2c设备之间通信的算法，最重要的成员是<code>master_xfer()</code>函数，用来将数据发送到i2c controller：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_algorithm</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="cm">/*</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm">     * If an adapter algorithm can&#39;t do I2C-level access, set master_xfer</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cm">     * to NULL. If an adapter algorithm can do SMBus access, set</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cm">     * smbus_xfer. If set to NULL, the SMBus protocol is simulated</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="cm">     * using common I2C messages.</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="cm">     *</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="cm">     * master_xfer should return the number of messages successfully</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="cm">     * processed, or a negative value on error</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="cm">     */</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">master_xfer</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_msg</span><span class="w"> </span><span class="o">*</span><span class="n">msgs</span><span class="p">,</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">               </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">master_xfer_atomic</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">,</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">                   </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_msg</span><span class="w"> </span><span class="o">*</span><span class="n">msgs</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">smbus_xfer</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">,</span><span class="w"> </span><span class="n">u16</span><span class="w"> </span><span class="n">addr</span><span class="p">,</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">              </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">read_write</span><span class="p">,</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">              </span><span class="n">u8</span><span class="w"> </span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="k">union</span><span class="w"> </span><span class="nc">i2c_smbus_data</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">);</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">smbus_xfer_atomic</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">,</span><span class="w"> </span><span class="n">u16</span><span class="w"> </span><span class="n">addr</span><span class="p">,</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="w">                 </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="n">read_write</span><span class="p">,</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="w">                 </span><span class="n">u8</span><span class="w"> </span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="k">union</span><span class="w"> </span><span class="nc">i2c_smbus_data</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">);</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="w">    </span><span class="cm">/* To determine what the adapter supports */</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="w">    </span><span class="n">u32</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">functionality</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">);</span>
+<a id="__codelineno-2-24" name="__codelineno-2-24" href="#__codelineno-2-24"></a>
+<a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="cp">#if IS_ENABLED(CONFIG_I2C_SLAVE)</span>
+<a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">reg_slave</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="o">*</span><span class="n">client</span><span class="p">);</span>
+<a id="__codelineno-2-27" name="__codelineno-2-27" href="#__codelineno-2-27"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">unreg_slave</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="o">*</span><span class="n">client</span><span class="p">);</span>
+<a id="__codelineno-2-28" name="__codelineno-2-28" href="#__codelineno-2-28"></a><span class="cp">#endif</span>
+<a id="__codelineno-2-29" name="__codelineno-2-29" href="#__codelineno-2-29"></a><span class="p">};</span>
+</code></pre></div></p>
+<blockquote>
+<p>master_xfer：作为主设备时的发送函数</p>
+<p>smbus_xfer：作为从设备时的接收函数</p>
+</blockquote>
+<p><code>struct i2c_client</code>表示连接到i2c总线上的设备，是具体硬件设备的抽象：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span><span class="w">       </span><span class="cm">/* div., see below      */</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">addr</span><span class="p">;</span><span class="w">        </span><span class="cm">/* chip address - NOTE: 7bit    */</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">I2C_NAME_SIZE</span><span class="p">];</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adapter</span><span class="p">;</span><span class="w">    </span><span class="cm">/* the adapter we sit on    */</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="n">dev</span><span class="p">;</span><span class="w">      </span><span class="cm">/* the device structure     */</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">init_irq</span><span class="p">;</span><span class="w">           </span><span class="cm">/* irq set at initialization    */</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">;</span><span class="w">            </span><span class="cm">/* irq issued by device     */</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">detected</span><span class="p">;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="cp">#if IS_ENABLED(CONFIG_I2C_SLAVE)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="n">i2c_slave_cb_t</span><span class="w"> </span><span class="n">slave_cb</span><span class="p">;</span><span class="w">    </span><span class="cm">/* callback for slave mode  */</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="cp">#endif</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">devres_group_id</span><span class="p">;</span><span class="w">      </span><span class="cm">/* ID of probe devres group */</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>struct i2c_driver</code>表示i2c设备所对应的驱动程序：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_driver</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">class</span><span class="p">;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="cm">/* Standard driver model interfaces */</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">probe</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="o">*</span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_device_id</span><span class="w"> </span><span class="o">*</span><span class="n">id</span><span class="p">);</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">remove</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="o">*</span><span class="n">client</span><span class="p">);</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="cm">/* New driver model interface to aid the seamless removal of the</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="cm">     * current probe()&#39;s, more commonly unused than used second parameter.</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="cm">     */</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">probe_new</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="o">*</span><span class="n">client</span><span class="p">);</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="cm">/* driver model interfaces that don&#39;t relate to enumeration  */</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">shutdown</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="o">*</span><span class="n">client</span><span class="p">);</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="cm">/* Alert callback, for example for the SMBus alert protocol.</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="cm">     * The format and meaning of the data value depends on the protocol.</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="cm">     * For the SMBus alert protocol, there is a single bit of data passed</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="cm">     * as the alert response&#39;s low bit (&quot;event flag&quot;).</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="cm">     * For the SMBus Host Notify protocol, the data corresponds to the</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="cm">     * 16-bit payload data reported by the slave device acting as master.</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="cm">     */</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">alert</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="o">*</span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">i2c_alert_protocol</span><span class="w"> </span><span class="n">protocol</span><span class="p">,</span>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">              </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">    </span><span class="cm">/* a ioctl like command that can be used to perform specific functions</span>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="cm">     * with the device.</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="cm">     */</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">command</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="o">*</span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">cmd</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">arg</span><span class="p">);</span>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_driver</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_device_id</span><span class="w"> </span><span class="o">*</span><span class="n">id_table</span><span class="p">;</span>
+<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a>
+<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="w">    </span><span class="cm">/* Device detection callback for automatic device creation */</span>
+<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">detect</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="o">*</span><span class="n">client</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_board_info</span><span class="w"> </span><span class="o">*</span><span class="n">info</span><span class="p">);</span>
+<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="o">*</span><span class="n">address_list</span><span class="p">;</span>
+<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">clients</span><span class="p">;</span>
+<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="p">};</span>
+</code></pre></div>
+<p>在<a href="../platform/">平台设备驱动</a>一章中我们描述了平台总线的概念，i2c总线有类似的功能，用来管理i2c设备和i2c驱动的匹配和删除操作：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cm">/*drivers/i2c/i2c-core.c*/</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">bus_type</span><span class="w"> </span><span class="n">i2c_bus_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;i2c&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="p">.</span><span class="n">match</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">i2c_device_match</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="p">.</span><span class="n">probe</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">i2c_device_probe</span><span class="p">,</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="p">.</span><span class="n">remove</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">i2c_device_remove</span><span class="p">,</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="p">.</span><span class="n">shutdown</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">i2c_device_shutdown</span><span class="p">,</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">};</span>
+</code></pre></div>
+<p>多个设备可以挂在同一个i2c总线上，i2c总线驱动由芯片厂商提供。</p>
+<p><code>struct i2c_msg</code>结构体表示i2c传输的消息。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_msg</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">addr</span><span class="p">;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">len</span><span class="p">;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="n">__u8</span><span class="w"> </span><span class="o">*</span><span class="n">buf</span><span class="p">;</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>addr：从设备地址</p>
+<p>flags：标志位</p>
+<p>len：传输数据的长度</p>
+<p>buf：传输数据缓冲区</p>
+</blockquote>
+<h2 id="i2c_2">I2C函数接口<a class="headerlink" href="#i2c_2" title="Permanent link">&para;</a></h2>
+<p>向内核注册/注销一个i2c_adapter：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_add_adapter</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_del_adapter</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">)</span>
+</code></pre></div></p>
+<p>注册/注销一个i2c驱动：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_add_driver</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_driver</span><span class="w"> </span><span class="o">*</span><span class="n">driver</span><span class="p">)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_del_driver</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_driver</span><span class="w"> </span><span class="o">*</span><span class="n">driver</span><span class="p">)</span>
+</code></pre></div></p>
+<p>传输数据：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_transfer</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_msg</span><span class="w"> </span><span class="o">*</span><span class="n">msgs</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">)</span>
+</code></pre></div></p>
 
 
 
