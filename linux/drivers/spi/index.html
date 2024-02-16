@@ -1059,6 +1059,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    SPI子系统
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1068,6 +1079,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spi_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      SPI协议
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -2089,8 +2128,6 @@
           
         
       
-        
-      
     
     
     
@@ -2118,11 +2155,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
@@ -2132,27 +2164,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../others/ld/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    从代码到可执行文件
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
           </ul>
@@ -2182,6 +2193,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#spi_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      SPI协议
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2199,6 +2227,16 @@
 
 
 <h1 id="spi">SPI子系统<a class="headerlink" href="#spi" title="Permanent link">&para;</a></h1>
+<h2 id="spi_1">SPI协议<a class="headerlink" href="#spi_1" title="Permanent link">&para;</a></h2>
+<p>SPI物理总线示意图如下所示：</p>
+<p><img alt="spi物理总线" src="../../../images/kernel/spi-bus.png" /></p>
+<p>SPI有四根控制线，包括：</p>
+<ul>
+<li>SCK：时钟线，数据收发同步</li>
+<li>MOSI：数据线，主设备发送、从设备接收</li>
+<li>MISO：数据线，主设备接收、从设备发送</li>
+<li>CS：片选线，使能从设备</li>
+</ul>
 
 
 

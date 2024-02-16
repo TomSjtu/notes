@@ -2146,8 +2146,6 @@
           
         
       
-        
-      
     
     
     
@@ -2175,11 +2173,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
@@ -2189,27 +2182,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../others/ld/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    从代码到可执行文件
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
           </ul>
@@ -2395,7 +2367,10 @@
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">kernel_ulong_t</span><span class="w"> </span><span class="n">driver_data</span><span class="p">;</span>
 <a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">};</span>
 </code></pre></div>
-<p>name用于指定驱动的名称，总线进行匹配时，会根据该name成员与<code>platform_device</code>中的name成员进行匹配，一旦匹配就会调用<code>probe()</code>函数。driver_data用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。</p>
+<blockquote>
+<p>name：驱动的名称。平台总线进行匹配时，会根据该name成员与<code>platform_device</code>中的name成员进行匹配，一旦匹配就会调用<code>probe()</code>函数。</p>
+<p>driver_data：保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。</p>
+</blockquote>
 <p>这里插个题外话，当手动实现<code>probe()</code>函数时涉及到内存分配的问题。很多驱动程序都使用<code>devm_kzalloc()</code>函数来分配内存。我们接触比较多的是<code>kmalloc()</code>或者<code>kzalloc()</code>来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而<code>devm_kzalloc()</code>函数则可以自动释放内存，这样就不用开发人员担心内存释放的问题了。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。</p>
 <p>注册/注销平台驱动的函数如下：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_driver_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
@@ -2419,7 +2394,7 @@
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">platform_data</span><span class="p">;</span>
 <a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">}</span>
 </code></pre></div>
-<p>总结一下平台驱动：需要手动实现<code>probe()</code>函数，当平台总线成功匹配<code>platform_device</code>和<code>platform_driver</code>时，则会调用驱动的<code>probe()</code>函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体<code>platform_driver</code>，调用<code>platform_driver_register()</code>进行注册。</p>
+<p>总结：在平台设备驱动模型中，驱动的入口函数变成了<code>probe()</code>函数，在这里我们需要实现驱动的初始化与注册。一旦平台总线成功将<code>platform_device</code>和<code>platform_driver</code>匹配，就会调用该函数。</p>
 
 
 

@@ -1089,6 +1089,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      简单示例
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2155,8 +2164,6 @@
           
         
       
-        
-      
     
     
     
@@ -2184,11 +2191,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
@@ -2198,27 +2200,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../others/ld/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    从代码到可执行文件
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
           </ul>
@@ -2285,6 +2266,15 @@
   <a href="#pinctrl" class="md-nav__link">
     <span class="md-ellipsis">
       与Pinctrl子系统交互
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      简单示例
     </span>
   </a>
   
@@ -2462,7 +2452,8 @@
 <p>name：引脚名</p>
 </blockquote>
 <h2 id="gpio_1">GPIO函数接口<a class="headerlink" href="#gpio_1" title="Permanent link">&para;</a></h2>
-<p>定义在&lt;include/linux/gpio/consumer.h&gt;中，常用函数有：</p>
+<p>GPIO的函数接口有两套：legacy模式和基于descriptor的。由于第一套已被废弃，这里只介绍基于descriptor的。</p>
+<p>函数定义在&lt;include/linux/gpio/consumer.h&gt;中：</p>
 <p>获得GPIO：
 <div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">__must_check</span><span class="w"> </span><span class="n">gpiod_get</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">                     </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">con_id</span><span class="p">,</span>
@@ -2493,23 +2484,21 @@
 <p>读写值：
 <div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">gpiod_get_value</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">);</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">gpiod_set_value</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">释放GPIO</span><span class="err">：</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="err">```</span><span class="n">C</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="kt">void</span><span class="w"> </span><span class="n">gpiod_put</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">);</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="kt">void</span><span class="w"> </span><span class="nf">gpiod_put_array</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_descs</span><span class="w"> </span><span class="o">*</span><span class="n">descs</span><span class="p">);</span>
+</code></pre></div></p>
+<p>释放GPIO：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">gpiod_put</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">);</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">gpiod_put_array</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_descs</span><span class="w"> </span><span class="o">*</span><span class="n">descs</span><span class="p">);</span>
 </code></pre></div></p>
 <p>GPIO描述符标志位：
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">gpiod_flags</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="n">GPIOD_ASIS</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">GPIOD_IN</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_SET</span><span class="p">,</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">GPIOD_OUT_LOW</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_SET</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_OUT</span><span class="p">,</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="n">GPIOD_OUT_HIGH</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_SET</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_OUT</span><span class="w"> </span><span class="o">|</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">              </span><span class="n">GPIOD_FLAGS_BIT_DIR_VAL</span><span class="p">,</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="n">GPIOD_OUT_LOW_OPEN_DRAIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_OUT_LOW</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_OPEN_DRAIN</span><span class="p">,</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="n">GPIOD_OUT_HIGH_OPEN_DRAIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_OUT_HIGH</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_OPEN_DRAIN</span><span class="p">,</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">};</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">gpiod_flags</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="n">GPIOD_ASIS</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="n">GPIOD_IN</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_SET</span><span class="p">,</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">GPIOD_OUT_LOW</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_SET</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_OUT</span><span class="p">,</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="n">GPIOD_OUT_HIGH</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_SET</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_OUT</span><span class="w"> </span><span class="o">|</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">              </span><span class="n">GPIOD_FLAGS_BIT_DIR_VAL</span><span class="p">,</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="n">GPIOD_OUT_LOW_OPEN_DRAIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_OUT_LOW</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_OPEN_DRAIN</span><span class="p">,</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="n">GPIOD_OUT_HIGH_OPEN_DRAIN</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_OUT_HIGH</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_OPEN_DRAIN</span><span class="p">,</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">};</span>
 </code></pre></div></p>
 <p>要操作一个引脚，首先要获取这个引脚，然后设置方向，读值或者写值。</p>
 <h2 id="pinctrl">与Pinctrl子系统交互<a class="headerlink" href="#pinctrl" title="Permanent link">&para;</a></h2>
@@ -2519,6 +2508,112 @@
 <li>在GPIO驱动程序中，提供<code>gpio_chip-&gt;request</code>函数；在Pinctrl子系统中，提供pmxops-&gt;gpio_request_enable函数或者<code>pmxops-&gt;request</code>函数</li>
 </ol>
 <p><img alt="GPIO和Pinctrl的映射" src="../../../images/kernel/GPIO%E5%92%8CPinctrl%E7%9A%84%E6%98%A0%E5%B0%84.png" /></p>
+<h2 id="_3">简单示例<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/init.h&gt;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/module.h&gt;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/kernel.h&gt;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/platform_device.h&gt;</span><span class="c1">      /* For platform devices */</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/gpio/consumer.h&gt;</span><span class="c1">        /* For GPIO Descriptor interface */</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/interrupt.h&gt;</span><span class="c1">            /* For IRQ */</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/of.h&gt;</span><span class="c1">                   /* For DT*/</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="cm">/*</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="cm"> * Let us consider the bellow mapping</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="cm"> *</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="cm"> *    foo_device {</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="cm"> *       compatible = &quot;packt,gpio-descriptor-sample&quot;;</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="cm"> *       led-gpios = &lt;&amp;gpio2 15 GPIO_ACTIVE_HIGH&gt;, // red </span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="cm"> *                   &lt;&amp;gpio2 16 GPIO_ACTIVE_HIGH&gt;, // green </span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="cm"> *</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="cm"> *       btn1-gpios = &lt;&amp;gpio2 1 GPIO_ACTIVE_LOW&gt;;</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="cm"> *       btn2-gpios = &lt;&amp;gpio2 1 GPIO_ACTIVE_LOW&gt;;</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="cm"> *   };</span>
+<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="cm"> */</span>
+<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a>
+<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">red</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">green</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">btn1</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">btn2</span><span class="p">;</span>
+<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">;</span>
+<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a>
+<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="k">static</span><span class="w"> </span><span class="n">irqreturn_t</span><span class="w"> </span><span class="nf">btn1_pushed_irq_handler</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="p">{</span>
+<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">state</span><span class="p">;</span>
+<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a>
+<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="w">    </span><span class="cm">/* read the button value and change the led state */</span>
+<a id="__codelineno-9-30" name="__codelineno-9-30" href="#__codelineno-9-30"></a><span class="w">    </span><span class="n">state</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_get_value</span><span class="p">(</span><span class="n">btn2</span><span class="p">);</span>
+<a id="__codelineno-9-31" name="__codelineno-9-31" href="#__codelineno-9-31"></a><span class="w">    </span><span class="n">gpiod_set_value</span><span class="p">(</span><span class="n">red</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">);</span>
+<a id="__codelineno-9-32" name="__codelineno-9-32" href="#__codelineno-9-32"></a><span class="w">    </span><span class="n">gpiod_set_value</span><span class="p">(</span><span class="n">green</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">);</span>
+<a id="__codelineno-9-33" name="__codelineno-9-33" href="#__codelineno-9-33"></a>
+<a id="__codelineno-9-34" name="__codelineno-9-34" href="#__codelineno-9-34"></a><span class="w">    </span><span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;btn1 interrupt: Interrupt! btn2 state is %d)</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">state</span><span class="p">);</span>
+<a id="__codelineno-9-35" name="__codelineno-9-35" href="#__codelineno-9-35"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">IRQ_HANDLED</span><span class="p">;</span>
+<a id="__codelineno-9-36" name="__codelineno-9-36" href="#__codelineno-9-36"></a><span class="p">}</span>
+<a id="__codelineno-9-37" name="__codelineno-9-37" href="#__codelineno-9-37"></a>
+<a id="__codelineno-9-38" name="__codelineno-9-38" href="#__codelineno-9-38"></a><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_device_id</span><span class="w"> </span><span class="n">gpiod_dt_ids</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-39" name="__codelineno-9-39" href="#__codelineno-9-39"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;packt,gpio-descriptor-sample&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-9-40" name="__codelineno-9-40" href="#__codelineno-9-40"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="cm">/* sentinel */</span><span class="w"> </span><span class="p">}</span>
+<a id="__codelineno-9-41" name="__codelineno-9-41" href="#__codelineno-9-41"></a><span class="p">};</span>
+<a id="__codelineno-9-42" name="__codelineno-9-42" href="#__codelineno-9-42"></a>
+<a id="__codelineno-9-43" name="__codelineno-9-43" href="#__codelineno-9-43"></a>
+<a id="__codelineno-9-44" name="__codelineno-9-44" href="#__codelineno-9-44"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">my_pdrv_probe</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">)</span>
+<a id="__codelineno-9-45" name="__codelineno-9-45" href="#__codelineno-9-45"></a><span class="p">{</span>
+<a id="__codelineno-9-46" name="__codelineno-9-46" href="#__codelineno-9-46"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">retval</span><span class="p">;</span>
+<a id="__codelineno-9-47" name="__codelineno-9-47" href="#__codelineno-9-47"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">pdev</span><span class="o">-&gt;</span><span class="n">dev</span><span class="p">;</span>
+<a id="__codelineno-9-48" name="__codelineno-9-48" href="#__codelineno-9-48"></a>
+<a id="__codelineno-9-49" name="__codelineno-9-49" href="#__codelineno-9-49"></a><span class="w">    </span><span class="cm">/*</span>
+<a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a><span class="cm">     * We use gpiod_get/gpiod_get_index() along with the flags</span>
+<a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a><span class="cm">     * in order to configure the GPIO direction and an initial</span>
+<a id="__codelineno-9-52" name="__codelineno-9-52" href="#__codelineno-9-52"></a><span class="cm">     * value in a single function call.</span>
+<a id="__codelineno-9-53" name="__codelineno-9-53" href="#__codelineno-9-53"></a><span class="cm">     *</span>
+<a id="__codelineno-9-54" name="__codelineno-9-54" href="#__codelineno-9-54"></a><span class="cm">     * One could have used:</span>
+<a id="__codelineno-9-55" name="__codelineno-9-55" href="#__codelineno-9-55"></a><span class="cm">     *  red = gpiod_get_index(dev, &quot;led&quot;, 0);</span>
+<a id="__codelineno-9-56" name="__codelineno-9-56" href="#__codelineno-9-56"></a><span class="cm">     *  gpiod_direction_output(red, 0);</span>
+<a id="__codelineno-9-57" name="__codelineno-9-57" href="#__codelineno-9-57"></a><span class="cm">     */</span>
+<a id="__codelineno-9-58" name="__codelineno-9-58" href="#__codelineno-9-58"></a><span class="w">    </span><span class="n">red</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_get_index</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;led&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">GPIOD_OUT_LOW</span><span class="p">);</span>
+<a id="__codelineno-9-59" name="__codelineno-9-59" href="#__codelineno-9-59"></a><span class="w">    </span><span class="n">green</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_get_index</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;led&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GPIOD_OUT_LOW</span><span class="p">);</span>
+<a id="__codelineno-9-60" name="__codelineno-9-60" href="#__codelineno-9-60"></a>
+<a id="__codelineno-9-61" name="__codelineno-9-61" href="#__codelineno-9-61"></a><span class="w">    </span><span class="cm">/*</span>
+<a id="__codelineno-9-62" name="__codelineno-9-62" href="#__codelineno-9-62"></a><span class="cm">     * Configure Button GPIOs as input</span>
+<a id="__codelineno-9-63" name="__codelineno-9-63" href="#__codelineno-9-63"></a><span class="cm">     *</span>
+<a id="__codelineno-9-64" name="__codelineno-9-64" href="#__codelineno-9-64"></a><span class="cm">     * After this, one can call gpiod_set_debounce()</span>
+<a id="__codelineno-9-65" name="__codelineno-9-65" href="#__codelineno-9-65"></a><span class="cm">     * only if the controller has the feature</span>
+<a id="__codelineno-9-66" name="__codelineno-9-66" href="#__codelineno-9-66"></a><span class="cm">     * For example, to debounce  a button with a delay of 200ms</span>
+<a id="__codelineno-9-67" name="__codelineno-9-67" href="#__codelineno-9-67"></a><span class="cm">     *  gpiod_set_debounce(btn1, 200);</span>
+<a id="__codelineno-9-68" name="__codelineno-9-68" href="#__codelineno-9-68"></a><span class="cm">     */</span>
+<a id="__codelineno-9-69" name="__codelineno-9-69" href="#__codelineno-9-69"></a><span class="w">    </span><span class="n">btn1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_get</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;btn1&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">GPIOD_IN</span><span class="p">);</span>
+<a id="__codelineno-9-70" name="__codelineno-9-70" href="#__codelineno-9-70"></a><span class="w">    </span><span class="n">btn2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_get</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;btn2&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">GPIOD_IN</span><span class="p">);</span>
+<a id="__codelineno-9-71" name="__codelineno-9-71" href="#__codelineno-9-71"></a>
+<a id="__codelineno-9-72" name="__codelineno-9-72" href="#__codelineno-9-72"></a><span class="w">    </span><span class="n">irq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_to_irq</span><span class="p">(</span><span class="n">btn1</span><span class="p">);</span>
+<a id="__codelineno-9-73" name="__codelineno-9-73" href="#__codelineno-9-73"></a><span class="w">    </span><span class="n">retval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">request_threaded_irq</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span>
+<a id="__codelineno-9-74" name="__codelineno-9-74" href="#__codelineno-9-74"></a><span class="w">                            </span><span class="n">btn1_pushed_irq_handler</span><span class="p">,</span>
+<a id="__codelineno-9-75" name="__codelineno-9-75" href="#__codelineno-9-75"></a><span class="w">                            </span><span class="n">IRQF_TRIGGER_LOW</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">IRQF_ONESHOT</span><span class="p">,</span>
+<a id="__codelineno-9-76" name="__codelineno-9-76" href="#__codelineno-9-76"></a><span class="w">                            </span><span class="s">&quot;gpio-descriptor-sample&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-9-77" name="__codelineno-9-77" href="#__codelineno-9-77"></a><span class="w">    </span><span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;Hello! device probed!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-9-78" name="__codelineno-9-78" href="#__codelineno-9-78"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-9-79" name="__codelineno-9-79" href="#__codelineno-9-79"></a><span class="p">}</span>
+<a id="__codelineno-9-80" name="__codelineno-9-80" href="#__codelineno-9-80"></a>
+<a id="__codelineno-9-81" name="__codelineno-9-81" href="#__codelineno-9-81"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">my_pdrv_remove</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">)</span>
+<a id="__codelineno-9-82" name="__codelineno-9-82" href="#__codelineno-9-82"></a><span class="p">{</span>
+<a id="__codelineno-9-83" name="__codelineno-9-83" href="#__codelineno-9-83"></a><span class="w">    </span><span class="n">free_irq</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-9-84" name="__codelineno-9-84" href="#__codelineno-9-84"></a><span class="w">    </span><span class="n">gpiod_put</span><span class="p">(</span><span class="n">red</span><span class="p">);</span>
+<a id="__codelineno-9-85" name="__codelineno-9-85" href="#__codelineno-9-85"></a><span class="w">    </span><span class="n">gpiod_put</span><span class="p">(</span><span class="n">green</span><span class="p">);</span>
+<a id="__codelineno-9-86" name="__codelineno-9-86" href="#__codelineno-9-86"></a><span class="w">    </span><span class="n">gpiod_put</span><span class="p">(</span><span class="n">btn1</span><span class="p">);</span>
+<a id="__codelineno-9-87" name="__codelineno-9-87" href="#__codelineno-9-87"></a><span class="w">    </span><span class="n">gpiod_put</span><span class="p">(</span><span class="n">btn2</span><span class="p">);</span>
+<a id="__codelineno-9-88" name="__codelineno-9-88" href="#__codelineno-9-88"></a><span class="w">    </span><span class="n">pr_info</span><span class="p">(</span><span class="s">&quot;good bye reader!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-9-89" name="__codelineno-9-89" href="#__codelineno-9-89"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-9-90" name="__codelineno-9-90" href="#__codelineno-9-90"></a><span class="p">}</span>
+<a id="__codelineno-9-91" name="__codelineno-9-91" href="#__codelineno-9-91"></a>
+<a id="__codelineno-9-92" name="__codelineno-9-92" href="#__codelineno-9-92"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_driver</span><span class="w"> </span><span class="n">mypdrv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-93" name="__codelineno-9-93" href="#__codelineno-9-93"></a><span class="w">    </span><span class="p">.</span><span class="n">probe</span><span class="w">      </span><span class="o">=</span><span class="w"> </span><span class="n">my_pdrv_probe</span><span class="p">,</span>
+<a id="__codelineno-9-94" name="__codelineno-9-94" href="#__codelineno-9-94"></a><span class="w">    </span><span class="p">.</span><span class="n">remove</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="n">my_pdrv_remove</span><span class="p">,</span>
+<a id="__codelineno-9-95" name="__codelineno-9-95" href="#__codelineno-9-95"></a><span class="w">    </span><span class="p">.</span><span class="n">driver</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-96" name="__codelineno-9-96" href="#__codelineno-9-96"></a><span class="w">        </span><span class="p">.</span><span class="n">name</span><span class="w">     </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;gpio_descriptor_sample&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-97" name="__codelineno-9-97" href="#__codelineno-9-97"></a><span class="w">        </span><span class="p">.</span><span class="n">of_match_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">of_match_ptr</span><span class="p">(</span><span class="n">gpiod_dt_ids</span><span class="p">),</span><span class="w">  </span>
+<a id="__codelineno-9-98" name="__codelineno-9-98" href="#__codelineno-9-98"></a><span class="w">        </span><span class="p">.</span><span class="n">owner</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">THIS_MODULE</span><span class="p">,</span>
+<a id="__codelineno-9-99" name="__codelineno-9-99" href="#__codelineno-9-99"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-9-100" name="__codelineno-9-100" href="#__codelineno-9-100"></a><span class="p">};</span>
+<a id="__codelineno-9-101" name="__codelineno-9-101" href="#__codelineno-9-101"></a><span class="n">module_platform_driver</span><span class="p">(</span><span class="n">mypdrv</span><span class="p">);</span>
+<a id="__codelineno-9-102" name="__codelineno-9-102" href="#__codelineno-9-102"></a>
+<a id="__codelineno-9-103" name="__codelineno-9-103" href="#__codelineno-9-103"></a><span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">&quot;John Madieu &lt;john.madieu@gmail.com&gt;&quot;</span><span class="p">);</span>
+<a id="__codelineno-9-104" name="__codelineno-9-104" href="#__codelineno-9-104"></a><span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">&quot;GPL&quot;</span><span class="p">);</span>
+</code></pre></div>
 
 
 

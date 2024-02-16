@@ -2323,8 +2323,6 @@
           
         
       
-        
-      
     
     
     
@@ -2352,11 +2350,6 @@
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
@@ -2366,27 +2359,6 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../others/ld/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    从代码到可执行文件
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
           </ul>
@@ -2645,7 +2617,7 @@
 
 
 <h1 id="_1">进程管理与调度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>进程就是处于执行期的程序，当我们将代码编译成可执行文件时，输入./a.out，我们就开启了一个新的进程。进程从磁盘加载到内存的过程请参考<a href="../../../others/ld/">程序的装载</a>。</p>
+<p>进程就是处于执行期的程序，当我们将代码编译成可执行文件时，输入./a.out，我们就开启了一个新的进程。</p>
 <p>可以把一个进程想象成一个庞大的项目组，它包含了各种资源，例如打开的文件、占用的内存、处理器的状态等。而线程，就像是项目组中负责执行具体任务的个人。正如每个项目组至少需要一个人来执行任务，每个进程都必须有一个主线程。你可以选择将所有任务都交给主线程来完成，但在大多数情况下，我们会把一个大的任务分解成多个小任务，并创建额外的线程来并行处理这些小任务。那么，我们是否可以创建更多的进程来处理这些任务呢？从技术上来说，是可以的，但这通常并不是最佳选择。首先，进程占用的资源比线程多，而线程是轻量级的，创建的速度要快得多。其次，进程之间的资源共享相对复杂，而线程由于共享同一进程的资源，可以更容易地访问这些资源。这就像是在一个公司的不同项目组之间进行工作交接可能会很麻烦，但如果大家都属于同一个项目组，合作就会顺畅得多。</p>
 <h2 id="_2">进程描述符<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>为了管理进程，内核必须清晰地描述每一个进程。在Linux系统下，不管是进程还是线程，内核统一用<code>task_struct</code>结构体管理。</p>
