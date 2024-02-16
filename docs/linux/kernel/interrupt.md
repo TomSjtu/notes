@@ -249,8 +249,8 @@ tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，它
 如果是静态创建一个tasklet，可以使用以下两个宏中的一个：
 
 ```C
-DECLARE_TASKLET(name, func, data)
-DECLARE_TASKLET_DISABLED(name, func, data)
+DECLARE_TASKLET(name, func, data)；
+DECLARE_TASKLET_DISABLED(name, func, data)；
 ```
 
 这两个宏都能静态创建一个`tasklet_struct`结构，区别在于引用计数count的初始值不同。第一个设为0，处于激活状态；第二个设为1，处于禁止状态。
@@ -264,7 +264,7 @@ tasklet_init(t, tasklet_handler, dev);
 编写自己的tasklet处理程序：
 
 ```C
-void tasklet_handler(unsigned long data)
+void tasklet_handler(unsigned long data)；
 ```
 
 tasklet不能睡眠，两个相同的tasklet不会同时执行，但如果与其他tasklet或者是软中断共享了数据，那么必须进行锁保护。
@@ -351,51 +351,49 @@ struct work_struct {
 DECLARE_WORK(name, void(*func)(void *), void *data);
 ```
 
-如果是动态创建：
+动态创建：
 
 ```C
 INIT_WORK(struct work_struct *work, void (*func)(void *), void *data);
 ```
 
-工作队列处理函数的原型是：
+处理工作的回调函数：
 
 ```C
-void work_handler(void *data);
+void work_handler(struct work_struct *work);
 ```
 
-这个函数由一个工作者线程执行，因此处于进程上下文中。默认情况下，允许相应中断，并且不持有任何锁。尽管处理函数位于进程上下文，但是它不可以访问用户空间，因为内核线程在用户空间没有相关的内存映射。
+使用工作队列时要注意，我们既可以使用系统全局的`system_wq`工作队列，也可以使用自定义的工作队列。
 
-将工作提交到工作队列：
+如果要自定义一个工作队列，可以使用宏：
+```C
+create_workqueue(name);
+create_singlethread_workqueue(name);
+```
+
+这两个宏的区别是，第一个宏创建的工作队列可以在多个CPU上并发地执行，而第二个宏创建的工作队列有严格的顺序要求，在给定时间只会按照队列顺序最多执行单个工作。
+
+注意：不管使用哪个宏，在创建自定义工作队列后，必须在退出时，调用以下函数确保资源的释放：
+
+```C
+flush_workqueue(wq);
+destroy_workqueue(wq);
+```
+
+提交工作：
 
 ```C
 int queue_work(struct workqueue_struct *queue, struct work_struct *work);
 int queue_delayed_work(struct workqueue_struct *queue, struct work_struct *work, unsigned long delay);
 ```
 
-对工作进行调度，把给定工作的处理函数提交给缺省的events工作线程：
+在多核系统中，每个CPU上都有一个工作队列，这两个函数不会指定提交至哪个CPU，但会优先选择本地CPU。
+
+提交给`system_wq`：
 
 ```C
-schedule_work(&work);
-```
-
-一旦其所在处理器上的工作者线程被唤醒，就会立刻执行。如果需要工作延迟执行，则可以使用以下函数：
-
-```C
-schedule_delayed_work(&work, delay);
-```
-
-&work指向的`work_struct`则会等待delay个时钟节拍才会执行。
-
-如果缺省的队列不能满足你的要求，你可以创建一个新的工作队列和与之相应的工作者线程。这么做会在每个处理器上都创建一个工作者线程。除非你确定必须要靠自己的线程才能提高性能，否则不要这么做：
-
-```C
-struct workqueue_struct *create_workqueue(const char *name);
-```
-
-在结束对工作队列的使用后，可以调用以下函数来释放资源：
-
-```C
-void destroy_workqueue(struct workqueue_struct *queue);
+bool schedule_work(struct work_struct *work);
+bool schedule_delayed_work(struct work_struct *work, unsigned long delay);
 ```
 
 ## 下半部的同步

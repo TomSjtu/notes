@@ -2,9 +2,9 @@
 
 字符设备驱动框架如图所示：
 
-![Alt text](../../images/kernel/chrdev.png)
+![字符设备框架](../../images/kernel/chrdev.png)
 
-在创建一个字符设备的时候，首先应该向内核申请一个设备号。拿到设备号之后，需要手动实现`file_operation`结构体中的函数指针，并保存到`cdev`结构体中。然后使用`cdev_add()`函数注册`cdev`。
+字符设备需要主、次设备号来唯一确定，设备号的分配应当由内核自动分配。字符设备的操作函数指针保存在`struct file_operation`结构体中，需要驱动开发人员自己实现这些函数。`struct cdev`结构体保存了字符设备的相关信息。
 
 注销设备时需要释放内核中的`cdev`，并且归还申请的设备号。
 
@@ -68,82 +68,33 @@ unsigned long copy_to_user(void *to, const void *from, unsigned long count)
 
 ## 设备号初始化
 
-主设备号标识设备对应的驱动程序，现代Linux内核允许多个驱动共享主设备号，所以还需要次设备号用于正确确定设备文件所指向的设备。内核用`dev_t`类型来表村设备编号——包括主设备号和次设备号。要获取主、次设备号，可以通过宏`MAJOR`、`MINOR`来操作。
+主设备号标识设备对应的驱动程序，现代Linux内核允许多个驱动共享主设备号，所以还需要次设备号用于正确确定设备文件所指向的设备。内核用`dev_t`类型来表示设备编号——包括了主设备号和次设备号。宏`MAJOR`、`MINOR`用于获取一个`dev_t`类型的主、次设备号。
 
-### 设备号的注册与卸载(不推荐的做法)
+### 设备号的注册与卸载
 
-- 注册
+设备号的注册与卸载有两种方式：手动分配与动态分配。
+
+- 手动分配：
+
 ```C
 int register_chrdev(unsigned int major, const char *name, struct file_operations *fops)
+
+int unregister_chrdev(unsigned int major, const char *name)
 ```
 
 这个方法在注册时需要手动指定主设备号，因此你必须事先知道哪个主设备号没有被占用，实际开发中并不推荐，并且该函数还一次性占用了主设备号下的全部次设备号。
 
-如果一定要使用，必须要检查保存在`inode`结构中的次设备号是否被使用。
-
-- 卸载
-```C
-int unregister_chrdev(unsigned int major, const char *name)
-```
-
-### 设备号的注册与卸载(推荐的做法)
-
-- 注册
-
-```C
-int register_chrdev_region(dev_t first, unsigned count, const char *name)
-```
-
-> first：要分配的设备编号的起始值。
-
-> count：请求的连续设备编号个数。
-
-> name：与该编号相关的设备名称，它将出现在/proc/devices和sysfs中。
-
-如果我们提前就知道所需要的设备编号，那么使用`register_chrdev_region()`就够了。但是在大部分情况下，不推荐这么做，而应该使用动态分配函数：
+- 动态分配：
 
 ```C
 int alloc_chrdev_region(dev_t *dev, unsigned baseminor, unsigned count, const char *name)
+
+void unregister_chrdev_region(dev_t first, unsigned count)
 ```
 
 > dev：保存用来申请的设备号。
 
 > baseminor：次设备号的起始值，一般为0。
-
-<q>
-驱动程序应该始终使用`alloc_chrdev_region`而不是`register_chrdev_region` ————《Linux设备驱动程序P50》
-</q>
-
-动态分配的缺点是无法预先创建设备节点（mknod），不过这是小问题，我们可以用`awk`工具从/proc/devices中读取信息，一个简单的脚本程序就可以动态加载驱动程序。
-
-- 卸载
-
-上面两种方法注册的设备统一用以下函数卸载，该函数通常在清理函数中调用：
-
-```C
-void unregister_chrdev_region(dev_t first, unsigned count)
-```
-
-这里我们给出一个完整的示例，假设我们需要注册一个名字为"test"的设备。
-
-```C
-int major;
-int minor;
-dev_t devid;
-
-if(major){
-    /*如果指定了major*/
-    devid = MKDEV(major, 0);
-    register_chrdev_region(devid, 1, "test");
-}else {
-    /*如果没有指定*/
-    alloc_chrdev_region(&devid, 0, 1, "test");
-    major = MAJOR(devid);
-    minor = MINOR(devid);
-}
-```
-
-对设备号操作时，使用到了三个宏定义，`MKDEV`, `MAJOR`, `MINOR`。当给定主设备号时，使用`MKDEV`来构建完整的`devID`，次设备号则一般选择0。
 
 ## 字符设备的注册
 
@@ -157,70 +108,121 @@ void cdev_init(struct cdev *cdev, const struct file_operations *fops)
 
 ```C
 int cdev_add(struct cdev *p, dev_t dev, unsigned count)
+
 void cdev_del(struct cdev *p)
 ```
 
-## 内存映射
-
-### 驱动层的操作
-
-由于Linux有MMU模块，因此无法访问真实的物理地址，只能通过虚拟地址访问硬件外设。所以需要有一个函数可以在物理地址和虚拟地址之间进行转换。
-
-关于如何获取硬件的物理地址，请参考[设备树](./dts.md)。
-
-地址映射函数如下：
-```C
-void __iomem *ioremap(phys_addr_t paddr, unsigned long size)
-```
-
-> paddr：需要访问的物理地址。
-
-> size：需要转化的大小。
-
-> 返回值：虚拟地址。
-
-取消地址映射函数：
+## 简单示例
 
 ```C
-void iounmap(void *addr)
-```
+#include <linux/module.h>
+#include <linux/init.h>
+#include <linux/fs.h>
+#include <linux/version.h>
+#include <linux/device.h>
+#include <linux/cdev.h>
 
-### I/O内存访问函数
+static unsigned int major; /* major number for device */
+static struct class *dummy_class;
+static struct cdev dummy_cdev;
 
-使用ioremap函数将寄存器物理地址映射到虚拟地址后，Linux推荐使用内核自带的读写操作函数对映射后的内存进行读写。
 
-```C
-unsigned int ioread8(void __iomem *addr)
-unsigned int iorea16(void __iomem *addr)
-unsigned int ioread32(void __iomem *addr)
+int dummy_open(struct inode * inode, struct file * filp)
+{
+    pr_info("Someone tried to open me\n");
+    return 0;
+}
 
-void iowrite8(u8 b, void __iomem *addr)
-void iowrite16(u16 b, void __iomem *addr)
-void iowrite32(u32 b, void __iomem *addr)
-```
+int dummy_release(struct inode * inode, struct file * filp)
+{
+    pr_info("Someone closed me\n");
+    return 0;
+}
 
-对于读I/O而言，输入参数为__iomem类型的指针，指向被映射后的地址，返回值为读取到的数据；对于写I/O而言，输入参数第一个为要写入的数据，第二个为要写入的地址，返回值为空。
+ssize_t dummy_read (struct file *filp, char __user * buf, size_t count,
+                                loff_t * offset)
+{
+    pr_info("Nothing to read guy\n");
+    return 0;
+}
 
-下面一段代码演示了地址映射的相关操作：
 
-```C
-unsigned long pa_dr = 0x20A8000 + 0x00;
-unsigned int __iomem *va_dr;
-unsigned int val;
-va_dr = ioremap(pa_dr, 4);
-val = ioread32(va_dr);
-val &= ~(0x01 << 19);
-iowrite32(val, va_dr);
-```
+ssize_t dummy_write(struct file * filp, const char __user * buf, size_t count,
+                                loff_t * offset)
+{
+    pr_info("Can't accept any data guy\n");
+    return count;
+}
 
-### 应用层的操作
+struct file_operations dummy_fops = {
+    open:       dummy_open,
+    release:    dummy_release,
+    read:       dummy_read,
+    write:      dummy_write,
+};
 
-由于Linux内核禁止用户态和内核态直接进行数据交互，我们只能通过内核提供的API函数进行。
+static int __init dummy_char_init_module(void)
+{
+    struct device *dummy_device;
+    int error;
+    dev_t devt = 0;
 
-```C
-unsigned long copy_from_user(void *to, const void *from, unsigned long count)
+    /* Get a range of minor numbers (starting with 0) to work with */
+    error = alloc_chrdev_region(&devt, 0, 1, "dummy_char");
+    if (error < 0) {
+        pr_err("Can't get major number\n");
+        return error;
+    }
+    major = MAJOR(devt);
+    pr_info("dummy_char major number = %d\n",major);
 
-unsigned long copy_to_user(void *to, const void *from, unsigned long count)
+    /* Create device class, visible in /sys/class */
+    dummy_class = class_create(THIS_MODULE, "dummy_char_class");
+    if (IS_ERR(dummy_class)) {
+        pr_err("Error creating dummy char class.\n");
+        unregister_chrdev_region(MKDEV(major, 0), 1);
+        return PTR_ERR(dummy_class);
+    }
+
+    /* Initialize the char device and tie a file_operations to it */
+    cdev_init(&dummy_cdev, &dummy_fops);
+    dummy_cdev.owner = THIS_MODULE;
+    /* Now make the device live for the users to access */
+    cdev_add(&dummy_cdev, devt, 1);
+
+    dummy_device = device_create(dummy_class,
+                                NULL,   /* no parent device */
+                                devt,    /* associated dev_t */
+                                NULL,   /* no additional data */
+                                "dummy_char");  /* device name */
+
+    if (IS_ERR(dummy_device)) {
+        pr_err("Error creating dummy char device.\n");
+        class_destroy(dummy_class);
+        unregister_chrdev_region(devt, 1);
+        return -1;
+    }
+
+    pr_info("dummy char module loaded\n");
+    return 0;
+}
+
+static void __exit dummy_char_cleanup_module(void)
+{
+    unregister_chrdev_region(MKDEV(major, 0), 1);
+    device_destroy(dummy_class, MKDEV(major, 0));
+    cdev_del(&dummy_cdev);
+    class_destroy(dummy_class);
+
+    pr_info("dummy char module Unloaded\n");
+}
+
+module_init(dummy_char_init_module);
+module_exit(dummy_char_cleanup_module);
+
+MODULE_AUTHOR("John Madieu <john.madieu@gmail.com>");
+MODULE_DESCRIPTION("Dummy character driver");
+MODULE_LICENSE("GPL");
 ```
 
 

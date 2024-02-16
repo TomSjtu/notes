@@ -105,29 +105,12 @@ struct timer_list my_timer;
 初始化定时器：
 
 ```C
-init_timer(&my_timer);
+DEFINE_TIMER(name, func)；
+timer_setup(timer, func, flags);
 ```
-
-填充定时器结构中的值：
-
-```C
-my_timer.expires = jiffies + delay;    //定时器超时节拍数
-my_timer.data = 0;                     //定时器处理函数传入的值
-my_timer.function = my_function;       //定时器超时回调函数
-```
-
-如果当前`jiffies`计数大于或等于my_timer.expires的值，那么my_timer.function指向的处理函数就会被执行。处理函数必须符合以下类型：
 
 ```C
 void my_function(unsigned long data);
-```
-
-如果需要通过data参数传递多个数据项，可以将这些数据项捆绑成一个结构体，然后将结构体的指针强制转换成unsigned long传入。
-
-最后，你必须手动激活定时器：
-
-```C
-add_timer(&my_timer);
 ```
 
 一般来说，定时器都会在超时后马上执行，但也有可能会推迟到下一个时钟节拍时才运行，所以不能用定时器来实现任何硬实时的任务。如果需要修改定时器超时时间，可以通过`mod_timer()`函数来实现：
@@ -136,13 +119,19 @@ add_timer(&my_timer);
 mod_timer(&my_timer, jiffies + new_delay);
 ```
 
+启动定时器：
+
+```C
+void add_timer(struct timer_list *timer);
+```
+
 如果在定时器超时前停止定时器，可以使用`del_timer()`函数：
 
 ```C
 del_timer(&my_timer);
 ```
 
-需要注意的是，在SMP系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到`del_timer_syn()`函数来执行删除工作。在大多数情况下，都应该调用这个函数而不是`del_timer()`。在拥有锁的时候，需要做一些额外的检查，以防止死锁。
+需要注意的是，在SMP系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到`del_timer_syn()`函数来执行删除工作。在大多数情况下，都应该调用这个函数而不是`del_timer()`。
 
 ### 延迟执行
 
@@ -183,6 +172,89 @@ schedule_timeout(s * HZ);
 上述代码将当前任务推入可中断睡眠队列，睡眠s秒后唤醒。注意，由于`schedule_timeout()`函数需要调用调度程序，所以调用它的代码必须保证能够睡眠。也就是调用函数必须位于进程上下文中，且不能持有锁。
 
 当任务被重新调度时，将返回代码进入睡眠前的位置继续执行。如果任务提前被唤醒，那么定时器被撤销。
+
+### 高精度定时器
+
+传统的定时器精度不足，只能支持Tick级别的精度。为了实现更高精度的定时器，内核独立设计了一个高精度定时器层（High Resolution Timer Layer），可以提供纳秒级别的精度，以满足对精确时间有迫切需求的程序。
+
+高精度定时器建立在Per CPU变量上，每个CPU都有一个独立的定时器。同时支持低精度模式和高精度模式。内核使用红黑树来组织各个高精度定时器，新的定时器按顺序被插入到红黑树中，树的最左边的节点就是最快到期的定时器。
+
+创建一个高精度定时器：
+
+```C
+struct hrtimer hr_timer;
+```
+
+初始化定时器：
+
+```C
+void hrtimer_init(struct hrtimer *timer, clockid_t which_clock, 
+                  enum hrtimer_mode mode);
+```
+
+定时器初始化时，需要指定定时模式和时钟类型。
+
+定时模式有以下几种：
+
+- HRTIMER_MODE_ABS：绝对定时模式。在这种模式下，定时器将在一个特定的未来时间点到期。
+- HRTIMER_MODE_REL：相对定时模式。在这种模式下，定时器将在当前时间点之后的指定时间间隔到期。
+- HRTIMER_MODE_PINNED：固定定时模式。这是一种特殊的绝对定时模式，用于实时任务，确保定时器在特定的CPU上执行，以减少调度延迟。
+- HRTIMER_MODE_SOFT：软定时模式。定时器回调函数在软中断上下文中执行。
+- HRTIMER_MODE_HARD：硬定时模式。定时器回调函数在硬中断上下文中执行。
+
+时钟类型有以下几种：
+
+- CLOCK_REALTIME：实时时钟。
+- CLOCK_MONOTONIC：单调时钟。
+- CLOCK_BOOTTIME：启动时钟。
+- CLOCK_RAW：原始时钟。
+
+启动一个高精度定时器：
+```C
+int hrtimer_start(struct hrtimer *timer, ktime_t time,
+                  const enum hrtimer_mode mode);
+```
+
+取消一个正在运行的高精度定时器：
+```C
+int hrtimer_cancel(struct hrtimer *timer);
+```
+
+下面是一个简单的例子，用于展示如何使用高精度定时器：
+```C
+#include <linux/hrtimer.h>
+#include <linux/ktime.h>
+
+// 定义一个高精度定时器的回调函数
+static enum hrtimer_restart my_hrtimer_callback(struct hrtimer *timer_for_my_hrtimer)
+{
+    // 定时器到期的处理逻辑
+    // ...
+
+    // 如果需要，重新启动定时器
+    // hrtimer_start(timer_for_my_hrtimer, ktime_set(0, 1000000), HRTIMER_MODE_REL);
+
+    return HRTIMER_NORESTART; // 或者 HRTIMER_RESTART
+}
+
+void my_hrtimer_function(void)
+{
+    struct hrtimer hr_timer;
+    ktime_t ktime;
+
+    // 初始化定时器
+    hrtimer_init(&hr_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+
+    // 设置定时器的回调函数
+    hr_timer.function = &my_hrtimer_callback;
+
+    // 设置定时时间（例如，1毫秒后）
+    ktime = ktime_set(0, 1000000); // 0秒，1000000纳秒
+
+    // 启动定时器
+    hrtimer_start(&hr_timer, ktime, HRTIMER_MODE_REL);
+}
+```
 
 ## 页高速缓存与页回写
 

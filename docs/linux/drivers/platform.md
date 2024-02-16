@@ -112,7 +112,9 @@ struct platform_device_id {
 };
 ```
 
-name用于指定驱动的名称，总线进行匹配时，会根据该name成员与`platform_device`中的name成员进行匹配，一旦匹配就会调用`probe()`函数。driver_data用来保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
+> name：驱动的名称。平台总线进行匹配时，会根据该name成员与`platform_device`中的name成员进行匹配，一旦匹配就会调用`probe()`函数。
+
+> driver_data：保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
 
 这里插个题外话，当手动实现`probe()`函数时涉及到内存分配的问题。很多驱动程序都使用`devm_kzalloc()`函数来分配内存。我们接触比较多的是`kmalloc()`或者`kzalloc()`来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而`devm_kzalloc()`函数则可以自动释放内存，这样就不用开发人员担心内存释放的问题了。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。
 
@@ -152,5 +154,5 @@ static inline void *dev_get_platdata(const struct device *dev)
 }
 ```
 
-总结一下平台驱动：需要手动实现`probe()`函数，当平台总线成功匹配`platform_device`和`platform_driver`时，则会调用驱动的`probe()`函数，在该函数中使用上述的函数接口来获取资源，以初始化设备，最后填充结构体`platform_driver`，调用`platform_driver_register()`进行注册。
+总结：在平台设备驱动模型中，驱动的入口函数变成了`probe()`函数，在这里我们需要实现驱动的初始化与注册。一旦平台总线成功将`platform_device`和`platform_driver`匹配，就会调用该函数。
 
