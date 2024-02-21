@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/vma/">
       
       
-        <link rel="prev" href="../sched/">
+        <link rel="prev" href="../ipc/">
       
       
         <link rel="next" href="../interrupt/">
@@ -505,6 +505,18 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -552,11 +564,53 @@
   
   
     <li class="md-nav__item">
+      <a href="../task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    进程管理与调度
+    进程调度
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ipc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程间通信
   </span>
   
 
@@ -757,6 +811,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../page/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    页高速缓存与页回写
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../vfs/" class="md-nav__link">
         
   
@@ -804,6 +879,69 @@
   
   <span class="md-ellipsis">
     网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核数据类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    电源管理
   </span>
   
 
@@ -1777,6 +1915,8 @@
       
         
       
+        
+      
     
     
     
@@ -1853,6 +1993,27 @@
   
   <span class="md-ellipsis">
     A64指令集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    锁的实现
   </span>
   
 
@@ -2179,6 +2340,8 @@
           
         
       
+        
+      
     
     
     
@@ -2206,6 +2369,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
@@ -2215,6 +2383,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/poker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    德州扑克
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2376,7 +2565,7 @@
 <p>mm_rb：指向一个<code>vm_area_struct</code>结构体的红黑树根节点。</p>
 <p>mmlist：指向一个<code>mm_struct</code>结构体的链表头。</p>
 </blockquote>
-<p>在<a href="../sched/#_9">进程管理与调度</a>中我们介绍了mm变量，用来存放该进程使用的内存描述符，<code>current-&gt;mm</code>就指向当前进程的内存描述符。<code>fork()</code>函数利用<code>copy_mm()</code>函数复制父进程的内存描述符。如果父子进程共享地址空间，则在调用<code>clone()</code>时，设置<font color="green">CLONE_VM</font>标志，这样的进程就是线程。在Linux环境下，是否共享地址空间几乎是进程和线程本质上的唯一区别。如果指定了CLONE_VM，线程就不需要另外分配地址空间了，而是直接将mm域直接指向父进程的内存描述符即可。</p>
+<p>在<a href="../task/">进程管理</a>中我们介绍了mm变量，用来存放该进程使用的内存描述符，<code>current-&gt;mm</code>就指向当前进程的内存描述符。<code>fork()</code>函数利用<code>copy_mm()</code>函数复制父进程的内存描述符。如果父子进程共享地址空间，则在调用<code>clone()</code>时，设置<font color="green">CLONE_VM</font>标志，这样的进程就是线程。在Linux环境下，是否共享地址空间几乎是进程和线程本质上的唯一区别。如果指定了CLONE_VM，线程就不需要另外分配地址空间了，而是直接将mm域直接指向父进程的内存描述符即可。</p>
 <p>内核线程没有进程地址空间，也没有相关的内存描述符，其mm域为NULL。当一个内核线程被调度时，它会直接使用前一个进程的内存描述符。</p>
 <h2 id="_3">虚拟内存区域<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>虚拟内存区域（Virtual Memory Area, VMA）在内核中用<code>vm_area_struct</code>结构体描述。每个<code>vm_area_struct</code>结构都对应于指定地址空间上某块连续的内存区域。vm_start指向了这块虚拟内存区域的起始地址，vm_end指向了这块虚拟内存区域的结束地址。<code>vm_area_struct</code>结构体描述的是[vm_start，vm_end)这样一段左闭右开的虚拟内存区域。</p>
@@ -2438,7 +2627,7 @@
 </li>
 </ul>
 <p>设计内存分配策略时，核心目标是在性能和资源管理之间找到最佳平衡点。对于小内存块的频繁分配与释放操作，<code>malloc()</code> 采用 <code>brk()</code> 系统调用进行内存管理。释放的内存并不会立即返回给操作系统，而是被缓存至内存池中，以便于后续的分配请求能够快速重用这些已释放的内存块，从而减少系统调用的次数和相关的性能开销。</p>
-<p>对于大内存块的分配，<code>malloc</code> 则可能使用 <code>mmap()</code> 系统调用。这种方式在首次访问时可能会触发缺页中断，因为分配的内存初始处于未映射状态，需要操作系统介入以建立虚拟地址到物理内存的映射。这一机制相较于 <code>brk()</code> 系统调用，会带来更高的性能成本。</p>
+<p>对于大内存块的分配，<code>malloc</code> 则会使用 <code>mmap()</code> 系统调用。这种方式在首次访问时可能会触发缺页中断，因为分配的内存初始处于未映射状态，需要操作系统介入以建立虚拟地址到物理内存的映射。这一机制相较于 <code>brk()</code> 系统调用，会带来更高的性能成本。</p>
 
 
 

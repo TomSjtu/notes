@@ -18,7 +18,7 @@
         <link rel="prev" href="../">
       
       
-        <link rel="next" href="sched/">
+        <link rel="next" href="task/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>内核基础知识 - 一只Tom的笔记本</title>
+        <title>内核剖析 - 一只Tom的笔记本</title>
       
     
     
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              内核基础知识
+              内核剖析
             
           </span>
         </div>
@@ -505,6 +505,18 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -552,11 +564,53 @@
   
   
     <li class="md-nav__item">
+      <a href="task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    进程管理与调度
+    进程调度
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ipc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程间通信
   </span>
   
 
@@ -657,6 +711,27 @@
   
   
     <li class="md-nav__item">
+      <a href="page/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    页高速缓存与页回写
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="vfs/" class="md-nav__link">
         
   
@@ -704,6 +779,69 @@
   
   <span class="md-ellipsis">
     网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核数据类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="pm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    电源管理
   </span>
   
 
@@ -1677,6 +1815,8 @@
       
         
       
+        
+      
     
     
     
@@ -1753,6 +1893,27 @@
   
   <span class="md-ellipsis">
     A64指令集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../arm/lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    锁的实现
   </span>
   
 
@@ -2079,6 +2240,8 @@
           
         
       
+        
+      
     
     
     
@@ -2106,6 +2269,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
@@ -2115,6 +2283,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../others/poker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    德州扑克
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2151,11 +2340,89 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#table-of-contents" class="md-nav__link">
     <span class="md-ellipsis">
-      内核源码
+      Table of Contents
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Table of Contents">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      基础知识
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      进程管理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      内存管理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      文件系统
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      网络系统
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      时间系统
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      电源管理
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断和异常
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2177,87 +2444,46 @@
   
 
 
-<h1 id="_1">内核基础知识<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<h2 id="_2">内核源码<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>要获取内核源码，请使用<code>git</code>。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
-</code></pre></div>
-<p>内核源码树由许多目录组成，一些比较重要的目录的描述如下：</p>
-<table>
-<thead>
-<tr>
-<th>目录名</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>arch</td>
-<td>体系结构相关的代码</td>
-</tr>
-<tr>
-<td>block</td>
-<td>块设备I/O层</td>
-</tr>
-<tr>
-<td>drivers</td>
-<td>设备驱动程序</td>
-</tr>
-<tr>
-<td>fs</td>
-<td>文件系统</td>
-</tr>
-<tr>
-<td>include</td>
-<td>内核头文件</td>
-</tr>
-<tr>
-<td>init</td>
-<td>初始化代码</td>
-</tr>
-<tr>
-<td>ipc</td>
-<td>进程间通信代码</td>
-</tr>
-<tr>
-<td>kernel</td>
-<td>内核核心代码</td>
-</tr>
-<tr>
-<td>lib</td>
-<td>内核库函数</td>
-</tr>
-<tr>
-<td>mm</td>
-<td>内存管理</td>
-</tr>
-<tr>
-<td>net</td>
-<td>网络系统</td>
-</tr>
-</tbody>
-</table>
-<p>要编译内核，请使用make menuconfig。内核的各种配置，以CONFIG_FEATURE的形式写入.config文件。配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。</p>
-<p>内核开发的特点如下：</p>
+<h1 id="_1">内核剖析<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="table-of-contents">Table of Contents<a class="headerlink" href="#table-of-contents" title="Permanent link">&para;</a></h2>
+<h3 id="_2">基础知识<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <ul>
-<li>
-<p>不能使用标准C库头文件，只能使用内核提供的头文件。与体系结构无关的头文件位于内核源码根目录下的include目录。与体系结构相关的头文件位于&lt;arch/architecture/include/asm&gt;目录，内核代码以asm前缀的形式包含这些头文件。</p>
-</li>
-<li>
-<p>必须使用GNU C。gcc编译器支持以asm()指令开头嵌入汇编代码。</p>
-</li>
-<li>
-<p>没有内存保护机制。如果是内核访问了非法内存，后果不堪设想。</p>
-</li>
-<li>
-<p>无法执行浮点运算。内核对于浮点运算的支持度不够。</p>
-</li>
-<li>
-<p>必须考虑同步与并发。Linux内核是抢占式多任务处理系统，当前任务随时有可能被另一个任务抢占。</p>
-</li>
-<li>
-<p>必须考虑可移植性。比如保持字节序、64 位对齐、不假定字长和页面长度等一系列准则。</p>
-</li>
+<li><a href="types/">内核数据类型</a></li>
+<li><a href="synch/">内核同步</a></li>
+<li><a href="others/">其他</a></li>
+</ul>
+<h3 id="_3">进程管理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="task/">进程管理</a></li>
+<li><a href="sched/">进程调度</a></li>
+<li><a href="vma/">进程地址空间</a></li>
+<li><a href="ipc/">进程间通信</a></li>
+</ul>
+<h3 id="_4">内存管理<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="mm/">物理内存管理</a></li>
+<li><a href="page/">页高速缓存与页回写</a></li>
+</ul>
+<h3 id="_5">文件系统<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="vfs/">虚拟文件系统</a></li>
+<li><a href="block/">块I/O</a></li>
+</ul>
+<h3 id="_6">网络系统<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="network/">网络系统</a></li>
+</ul>
+<h3 id="_7">时间系统<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="time/">定时器</a></li>
+</ul>
+<h3 id="_8">电源管理<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="pm/">电源管理</a></li>
+</ul>
+<h3 id="_9">中断和异常<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<ul>
+<li><a href="interrupt/">中断和中断处理</a></li>
 </ul>
 
 

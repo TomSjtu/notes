@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/arm/instructions/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/arm/lock/">
       
       
-        <link rel="prev" href="../aarch64/">
+        <link rel="prev" href="../instructions/">
       
       
-        <link rel="next" href="../lock/">
+        <link rel="next" href="../barrier/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>A64指令集 - 一只Tom的笔记本</title>
+        <title>锁的实现 - 一只Tom的笔记本</title>
       
     
     
@@ -71,7 +71,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#a64" class="md-skip">
+        <a href="#_1" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              A64指令集
+              锁的实现
             
           </span>
         </div>
@@ -1883,6 +1883,27 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../instructions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A64指令集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1895,29 +1916,18 @@
         
       
       
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
   
   <span class="md-ellipsis">
-    A64指令集
+    锁的实现
   </span>
   
 
-      </a>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../lock/" class="md-nav__link">
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1926,6 +1936,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arch_spinlock_t" class="md-nav__link">
+    <span class="md-ellipsis">
+      arch_spinlock_t
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arch_rwlock_t" class="md-nav__link">
+    <span class="md-ellipsis">
+      arch_rwlock_t
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#semaphore" class="md-nav__link">
+    <span class="md-ellipsis">
+      semaphore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mutex" class="md-nav__link">
+    <span class="md-ellipsis">
+      mutex
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2341,6 +2407,50 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#arch_spinlock_t" class="md-nav__link">
+    <span class="md-ellipsis">
+      arch_spinlock_t
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#arch_rwlock_t" class="md-nav__link">
+    <span class="md-ellipsis">
+      arch_rwlock_t
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#semaphore" class="md-nav__link">
+    <span class="md-ellipsis">
+      semaphore
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mutex" class="md-nav__link">
+    <span class="md-ellipsis">
+      mutex
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2357,9 +2467,194 @@
   
 
 
-<h1 id="a64">A64指令集<a class="headerlink" href="#a64" title="Permanent link">&para;</a></h1>
-<p>ARMv8增加了新的64位指令集，它可以处理64位宽的寄存器和数据并且使用64位的指针来访问内存，但是其指令集的指令宽度是32位。ARMv8兼容A32指令集，但A64指令集和A32指令集是不兼容的。</p>
-<p>ARMv8支持两种执行状态——AArch64和AArch32。AArch64状态用于执行64位指令，而AArch32状态用于执行32位指令。</p>
+<h1 id="_1">锁的实现<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="arch_spinlock_t">arch_spinlock_t<a class="headerlink" href="#arch_spinlock_t" title="Permanent link">&para;</a></h2>
+<p>早期的ARM平台spin lock的实现使用了<code>raw_spinlock_t</code>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span><span class="n">raw_spinlock_t</span><span class="p">;</span>
+</code></pre></div>
+<p>0表示unlocked，1表示locked。这个版本的锁实现简单，但是存在严重的不公平性问题。也就是所有的线程无序地争抢spin lock，不管线程等待了多久。在冲突比较少的情况下，不公平性体现得并不明显。但是随着硬件的发展，处理器的核心数越来越多，多核之间的冲突愈发剧烈，不公平性就愈发明显。有些线程甚至要等待100,000次机会才会执行一次。</p>
+<p>现在的ARM平台spin lock使用以下定义：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="n">u32</span><span class="w"> </span><span class="n">slock</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">__raw_tickets</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">            </span><span class="n">u16</span><span class="w"> </span><span class="n">owner</span><span class="p">;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">            </span><span class="n">u16</span><span class="w"> </span><span class="n">next</span><span class="p">;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="n">tickets</span><span class="p">;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">}</span><span class="w"> </span><span class="n">arch_spinlock_t</span><span class="p">;</span><span class="w"> </span>
+</code></pre></div>
+<p>该锁实际上就是所谓的票号自旋锁。它的原理类似于去银行办业务，每个进来的人先取一个号然后等待。业务员处理完一个人的业务之后就会叫号，如果叫的号和自己手里取的号是一样的，就轮到自己去办业务。</p>
+<p>owner代表当前正在办理业务的票号，next代表下一个人取号的号码。在最开始的时候，owner和next都等于0，第一个线程进来时，发现这两者相等，于是加锁，并且将next++。后来的线程在next的基础上累加并等待owner释放。当第一个线程释放之后，将owner++，此时owner又等于next，所以第二个线程加锁成功。以此类推。而owner与next的差值就代表排队等待线程的个数。</p>
+<p><img alt="票号自旋锁" src="../../images/arm/ticket_lock.webp" /></p>
+<p>申请锁操作：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">arch_spin_lock</span><span class="p">(</span><span class="n">arch_spinlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">lock</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="n">arch_spinlock_t</span><span class="w"> </span><span class="n">old_lock</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="n">old_lock</span><span class="p">.</span><span class="n">slock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="o">-&gt;</span><span class="n">slock</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="n">lock</span><span class="o">-&gt;</span><span class="n">tickets</span><span class="p">.</span><span class="n">next</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="k">while</span><span class="p">(</span><span class="n">old_lock</span><span class="p">.</span><span class="n">tickets</span><span class="p">.</span><span class="n">next</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">old_lock</span><span class="p">.</span><span class="n">tickets</span><span class="p">.</span><span class="n">owner</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="n">wfe</span><span class="p">();</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">        </span><span class="n">old_lock</span><span class="p">.</span><span class="n">tickets</span><span class="p">.</span><span class="n">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">lock</span><span class="o">-&gt;</span><span class="n">tickets</span><span class="p">.</span><span class="n">owner</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="p">}</span>
+</code></pre></div>
+<p>汇编指令<code>wfe()</code>让ARM核进入低功耗模式。</p>
+<p>释放锁操作：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">arch_spin_unlock</span><span class="p">(</span><span class="n">arch_spinlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">lock</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="n">lock</span><span class="o">-&gt;</span><span class="n">tickets</span><span class="p">.</span><span class="n">owner</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">sev</span><span class="p">();</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">}</span>
+</code></pre></div>
+<p>汇编指令<code>sev()</code>唤醒所有睡眠的CPU。</p>
+<h2 id="arch_rwlock_t">arch_rwlock_t<a class="headerlink" href="#arch_rwlock_t" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">u32</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">}</span><span class="n">arch_rwlock_t</span><span class="p">;</span>
+</code></pre></div>
+<p>lock的最高位代表是否有写线程进入临界区，低31位统计读线程个数。</p>
+<p>read_lock操作：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">arch_read_lock</span><span class="p">(</span><span class="n">arch_rwlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">rw</span><span class="p">)</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">do</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">        </span><span class="n">wfe</span><span class="p">();</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="n">tmp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rw</span><span class="o">&gt;</span><span class="n">lock</span><span class="p">;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">        </span><span class="n">temp</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">tep</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">31</span><span class="o">&gt;&gt;</span><span class="p">);</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="n">rw</span><span class="o">-&gt;</span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">}</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="n">read_unlock操作</span><span class="err">：</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="err">```</span><span class="n">C</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">arch_read_unlock</span><span class="p">(</span><span class="n">arch_rwlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">rw</span><span class="p">)</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="p">{</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">    </span><span class="n">rw</span><span class="o">-&gt;</span><span class="n">lock</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">    </span><span class="n">sev</span><span class="p">();</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="p">}</span>
+</code></pre></div>
+<p>write_lock操作：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">arch_write_lock</span><span class="p">(</span><span class="n">arch_rwlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">rw</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="n">sevl</span><span class="p">();</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">    </span><span class="k">do</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="n">wfe</span><span class="p">();</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">        </span><span class="n">temp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rw</span><span class="o">-&gt;</span><span class="n">lock</span><span class="p">;</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">temp</span><span class="p">);</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">    </span><span class="n">rw</span><span class="o">-&gt;</span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="p">}</span>
+</code></pre></div>
+<p>只有当rw-&gt;lock的值为0，写线程才可以进入临界区，同时将最高位置1。</p>
+<p>write_unlock操作：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="n">arch_write_unlock</span><span class="p">(</span><span class="n">arch_rwlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">rw</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">rw</span><span class="o">-&gt;</span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">sev</span><span class="p">();</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">}</span>
+</code></pre></div></p>
+<h2 id="semaphore">semaphore<a class="headerlink" href="#semaphore" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore_waiter</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">};</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">sturct</span><span class="w"> </span><span class="n">sempahore</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">wait_list</span><span class="p">;</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">};</span>
+</code></pre></div>
+<p>申请semaphore：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">down</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore</span><span class="w"> </span><span class="o">*</span><span class="n">sem</span><span class="p">)</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="p">{</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore_waiter</span><span class="w"> </span><span class="n">waiter</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">count</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">        </span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">count</span><span class="o">--</span><span class="p">;</span><span class="w">                               </span><span class="cm">/* 1 */</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="n">waiter</span><span class="p">.</span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="p">;</span><span class="w">                          </span><span class="cm">/* 2 */</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="n">list_add_tail</span><span class="p">(</span><span class="o">&amp;</span><span class="n">waiter</span><span class="p">.</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">sem</span><span class="o">-&gt;</span><span class="n">wait_list</span><span class="p">);</span><span class="w">   </span><span class="cm">/* 2 */</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="n">schedule</span><span class="p">();</span><span class="w">                                     </span><span class="cm">/* 3 */</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="p">}</span>
+</code></pre></div>
+<p>释放semaphore：</p>
+<p>```C
+void up(struct semaphore *sem)
+{
+    struct semaphore_waiter waiter;</p>
+<div class="highlight"><pre><span></span><code>if (list_empty(&amp;sem-&gt;wait_list)) {
+    sem-&gt;count++;                              /* 1 */
+    return;
+}
+
+waiter = list_first_entry(&amp;sem-&gt;wait_list, struct semaphore_waiter, list);
+list_del(&amp;waiter-&gt;list);                       /* 2 */
+wake_up_process(waiter-&gt;task);                 /* 2 */
+</code></pre></div>
+<p>}
+```
+</p>
+<h2 id="mutex">mutex<a class="headerlink" href="#mutex" title="Permanent link">&para;</a></h2>
+<p>mutex类似于计数值只有1的semaphore，但是只有持有锁的人才能解锁，而信号量可以由任何一个线程释放。
+
+<code>C
+struct mutex_waiter {
+    struct list_head list;
+    struct task_struct *task;
+};
+
+struct mutex {
+    long owner;
+    struct list_head wait_list;
+};</code></p>
+<p>mutex的owner字段记录持有锁的线程ID，wait_list记录等待锁的线程。</p>
+<p>申请mutex：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">mutex_take</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex</span><span class="w"> </span><span class="o">*</span><span class="n">mutex</span><span class="p">)</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex_waiter</span><span class="w"> </span><span class="n">waiter</span><span class="p">;</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">mutex</span><span class="o">-&gt;</span><span class="n">owner</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="w">        </span><span class="n">mutex</span><span class="o">-&gt;</span><span class="n">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="n">current</span><span class="p">;</span><span class="w">               </span><span class="cm">/* 1 */</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">        </span><span class="k">return</span><span class="p">;</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="n">waiter</span><span class="p">.</span><span class="n">task</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="p">;</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span><span class="n">list_add_tail</span><span class="p">(</span><span class="o">&amp;</span><span class="n">waiter</span><span class="p">.</span><span class="n">list</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">mutex</span><span class="o">-&gt;</span><span class="n">wait_list</span><span class="p">);</span><span class="w"> </span><span class="cm">/* 2 */</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="w">    </span><span class="n">schedule</span><span class="p">();</span><span class="w">                                     </span><span class="cm">/* 2 */</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="p">}</span><span class="w"> </span>
+</code></pre></div>
+<p>当mutex-&gt;owner为0时，表示没有线程持有锁。当不能获取mutex时，将线程挂入等待链表。</p>
+<p>释放mutex：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">mutex_release</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex</span><span class="w"> </span><span class="o">*</span><span class="n">mutex</span><span class="p">)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex_waiter</span><span class="w"> </span><span class="o">*</span><span class="n">waiter</span><span class="p">;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">mutex</span><span class="o">-&gt;</span><span class="n">owner</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="n">current</span><span class="p">)</span><span class="w">                         </span><span class="cm">/* 1 */</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">list_empty</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="o">-&gt;</span><span class="n">wait_list</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">        </span><span class="n">mutex</span><span class="o">-&gt;</span><span class="n">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">                                      </span><span class="cm">/* 2 */</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">    </span><span class="n">waiter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">list_first_entry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="o">-&gt;</span><span class="n">wait_list</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex_waiter</span><span class="p">,</span><span class="w"> </span><span class="n">list</span><span class="p">);</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">    </span><span class="n">list_del</span><span class="p">(</span><span class="o">&amp;</span><span class="n">waiter</span><span class="o">-&gt;</span><span class="n">list</span><span class="p">);</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">    </span><span class="n">mutex</span><span class="o">-&gt;</span><span class="n">owner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">long</span><span class="p">)</span><span class="n">waiter</span><span class="o">-&gt;</span><span class="n">task</span><span class="p">;</span><span class="w">                         </span><span class="cm">/* 3 */</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="w">    </span><span class="n">wake_up_process</span><span class="p">(</span><span class="n">waiter</span><span class="o">-&gt;</span><span class="n">task</span><span class="p">);</span><span class="w">                             </span><span class="cm">/* 4 */</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="p">}</span>
+</code></pre></div>
 
 
 

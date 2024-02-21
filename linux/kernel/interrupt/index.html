@@ -505,6 +505,18 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
     
@@ -552,11 +564,53 @@
   
   
     <li class="md-nav__item">
+      <a href="../task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    进程管理与调度
+    进程调度
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ipc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程间通信
   </span>
   
 
@@ -850,6 +904,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../page/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    页高速缓存与页回写
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../vfs/" class="md-nav__link">
         
   
@@ -897,6 +972,69 @@
   
   <span class="md-ellipsis">
     网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../types/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核数据类型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    电源管理
   </span>
   
 
@@ -1870,6 +2008,8 @@
       
         
       
+        
+      
     
     
     
@@ -1946,6 +2086,27 @@
   
   <span class="md-ellipsis">
     A64指令集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    锁的实现
   </span>
   
 
@@ -2272,6 +2433,8 @@
           
         
       
+        
+      
     
     
     
@@ -2299,6 +2462,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
@@ -2308,6 +2476,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/poker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    德州扑克
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2724,10 +2913,10 @@
 <a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w">             </span><span class="c1">//传递给函数的参数</span>
 <a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">};</span>
 </code></pre></div>
-<p>state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值TASKLET_STATE_SCHED表明 tasklet已被调度，正准备投入运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。</p>
+<p>state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值。TASKLET_STATE_SCHED表明tasklet已被调度，正准备投入运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。</p>
 <p>count成员是tasklet的引用计数器。如果它不为0，则tasklet被禁止；只有当它为0时，tasklet才被激活。</p>
 <p>已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）数组中。这两个数据结构都是由<code>tasklet_struct</code>结构体构成的链表，链表中每个元素代表一个不同的tasklet。</p>
-<p>tasklet由<code>tasklet_schedule()</code>和<code>tasklet_hi_schedule()</code>函数进行调度，它们接受一个指向<code>tasklet_struct</code>结构的指针作为参数。</p>
+<p>tasklet由<code>tasklet_schedule()</code>和<code>tasklet_hi_schedule()</code>函数进行调度，它们接受一个指向<code>tasklet_struct</code>结构的指针作为参数，后者将指定的tasklet以高优先级运行。</p>
 <h3 id="tasklet_2">使用tasklet<a class="headerlink" href="#tasklet_2" title="Permanent link">&para;</a></h3>
 <p>如果是静态创建一个tasklet，可以使用以下两个宏中的一个：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="err">；</span>
@@ -2765,7 +2954,7 @@
 <p>如果推后执行的任务需要睡眠，那么就选择工作队列。否则就选择软中断或tasklet。工作队列在你需要获得大量内存时，需要获取信号量时，需要执行阻塞式的I/O操作时，它都会非常有用。</p>
 <h3 id="_10">工作队列的实现<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <p>工作队列子系统提供了缺省的工作者线程（worker thread）来处理需要推后的工作。缺省的工作者线程叫做<font color="green">events/n</font>，n为处理器的编号。你可以创建自己的工作者线程，不过一般使用缺省线程即可。然而，如果一个任务需要特别的处理，或者它对性能有非常严格的要求，那么创建一个专用的内核线程可能就是必要的。专用的工作者线程可以更好地控制和优化任务的执行，但也需要更多的资源和管理开销。</p>
-<p>工作者线程用<code>workqueue_struct</code>结构体表示：</p>
+<p>工作队列用<code>workqueue_struct</code>结构体表示：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_workqueue_struct</span><span class="w"> </span><span class="n">cpu_wq</span><span class="p">[</span><span class="n">NR_CPUS</span><span class="p">]</span><span class="err">；</span>
 <a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
@@ -2799,17 +2988,17 @@
 <div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="n">create_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
 <a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="n">create_singlethread_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
 </code></pre></div></p>
-<p>这两个宏的区别是，第一个宏创建的工作队列可以在多个CPU上并发地执行，而第二个宏创建的工作队列有严格的顺序要求，在给定时间只会按照队列顺序最多执行单个工作。</p>
+<p>这两个宏的区别是，第一个宏在每个处理器上为该工作队列创建专用的线程。第二个宏只创建一个工作者线程。</p>
 <p>注意：不管使用哪个宏，在创建自定义工作队列后，必须在退出时，调用以下函数确保资源的释放：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">flush_workqueue</span><span class="p">(</span><span class="n">wq</span><span class="p">);</span>
-<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="n">destroy_workqueue</span><span class="p">(</span><span class="n">wq</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">flush_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">destroy_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">);</span>
 </code></pre></div>
-<p>提交工作：</p>
+<p>提交工作给自定义工作队列：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
 <a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
 </code></pre></div>
 <p>在多核系统中，每个CPU上都有一个工作队列，这两个函数不会指定提交至哪个CPU，但会优先选择本地CPU。</p>
-<p>提交给<code>system_wq</code>：</p>
+<p>在许多情况下，驱动程序不需要单独的工作队列。如果我们只是偶尔需要向队列中提交任务，则可以使用内核默认的共享工作队列：</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
 <a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
 </code></pre></div>
