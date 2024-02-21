@@ -236,13 +236,13 @@ struct tasklet_struct {
 };
 ```
 
-state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值TASKLET_STATE_SCHED表明 tasklet已被调度，正准备投入运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。
+state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值。TASKLET_STATE_SCHED表明tasklet已被调度，正准备投入运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。
 
 count成员是tasklet的引用计数器。如果它不为0，则tasklet被禁止；只有当它为0时，tasklet才被激活。
 
 已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）数组中。这两个数据结构都是由`tasklet_struct`结构体构成的链表，链表中每个元素代表一个不同的tasklet。
 
-tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，它们接受一个指向`tasklet_struct`结构的指针作为参数。
+tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，它们接受一个指向`tasklet_struct`结构的指针作为参数，后者将指定的tasklet以高优先级运行。
 
 ### 使用tasklet
 
@@ -316,7 +316,7 @@ tasklet_kill(&my_tasklet);
 
 工作队列子系统提供了缺省的工作者线程（worker thread）来处理需要推后的工作。缺省的工作者线程叫做<font color="green">events/n</font>，n为处理器的编号。你可以创建自己的工作者线程，不过一般使用缺省线程即可。然而，如果一个任务需要特别的处理，或者它对性能有非常严格的要求，那么创建一个专用的内核线程可能就是必要的。专用的工作者线程可以更好地控制和优化任务的执行，但也需要更多的资源和管理开销。
 
-工作者线程用`workqueue_struct`结构体表示：
+工作队列用`workqueue_struct`结构体表示：
 
 ```C
 struct workqueue_struct {
@@ -371,16 +371,16 @@ create_workqueue(name);
 create_singlethread_workqueue(name);
 ```
 
-这两个宏的区别是，第一个宏创建的工作队列可以在多个CPU上并发地执行，而第二个宏创建的工作队列有严格的顺序要求，在给定时间只会按照队列顺序最多执行单个工作。
+这两个宏的区别是，第一个宏在每个处理器上为该工作队列创建专用的线程。第二个宏只创建一个工作者线程。
 
 注意：不管使用哪个宏，在创建自定义工作队列后，必须在退出时，调用以下函数确保资源的释放：
 
 ```C
-flush_workqueue(wq);
-destroy_workqueue(wq);
+void flush_workqueue(struct work_struct *work);
+void destroy_workqueue(struct workqueue_struct *wq);
 ```
 
-提交工作：
+提交工作给自定义工作队列：
 
 ```C
 int queue_work(struct workqueue_struct *queue, struct work_struct *work);
@@ -389,7 +389,7 @@ int queue_delayed_work(struct workqueue_struct *queue, struct work_struct *work,
 
 在多核系统中，每个CPU上都有一个工作队列，这两个函数不会指定提交至哪个CPU，但会优先选择本地CPU。
 
-提交给`system_wq`：
+在许多情况下，驱动程序不需要单独的工作队列。如果我们只是偶尔需要向队列中提交任务，则可以使用内核默认的共享工作队列：
 
 ```C
 bool schedule_work(struct work_struct *work);

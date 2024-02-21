@@ -41,14 +41,20 @@ nav:
     - linux/index.md
     - 内核剖析:
       - linux/kernel/index.md
+      - linux/kernel/task.md
       - linux/kernel/sched.md
+      - linux/kernel/ipc.md
       - linux/kernel/vma.md
       - linux/kernel/interrupt.md
       - linux/kernel/synch.md
       - linux/kernel/mm.md
+      - linux/kernel/page.md
       - linux/kernel/vfs.md
       - linux/kernel/block.md
       - linux/kernel/network.md
+      - linux/kernel/time.md
+      - linux/kernel/types.md
+      - linux/kernel/pm.md
       - linux/kernel/others.md
       
     
@@ -97,6 +103,7 @@ nav:
     - arm/index.md
     - arm/aarch64.md
     - arm/instructions.md
+    - arm/lock.md
     - arm/barrier.md
 
   - 编程语言: 
@@ -114,4 +121,5 @@ nav:
 
   - 其他:
     - others/index.md
+    - others/poker.md
     
