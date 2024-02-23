@@ -82,11 +82,11 @@ static inline void arch_read_lock(arch_rwlock_t *rw)
         wfe();
         tmp = rw>lock;
         temp++;
-    }while(tep & (1 << 31>>);
+    }while(tep & (1 << 31);
 
     rw->lock = tmp;
 }
-
+```
 
 read_unlock操作：
 
@@ -147,31 +147,31 @@ void down(struct semaphore *sem)
    	struct semaphore_waiter waiter;
      
    	if (sem->count > 0) {
-   		sem->count--;                               /* 1 */
+   		sem->count--;                               
    		return;
    	}
      
-   	waiter.task = current;                          /* 2 */
-   	list_add_tail(&waiter.list, &sem->wait_list);   /* 2 */
-   	schedule();                                     /* 3 */
+   	waiter.task = current;                          
+   	list_add_tail(&waiter.list, &sem->wait_list);   
+   	schedule();                                     
 }
 ```
 
- 释放semaphore：
+释放semaphore：
 
- ```C
+```C
 void up(struct semaphore *sem)
 {
    	struct semaphore_waiter waiter;
     
    	if (list_empty(&sem->wait_list)) {
-   		sem->count++;                              /* 1 */
+   		sem->count++;                              
    		return;
    	}
      
    	waiter = list_first_entry(&sem->wait_list, struct semaphore_waiter, list);
-   	list_del(&waiter->list);                       /* 2 */
-   	wake_up_process(waiter->task);                 /* 2 */
+   	list_del(&waiter->list);                       
+   	wake_up_process(waiter->task);                 
 }
 ```
 
@@ -201,13 +201,13 @@ void mutex_take(struct mutex *mutex)
     struct mutex_waiter waiter;
      
     if (!mutex->owner) {
-    	mutex->owner = (long)current;               /* 1 */
+    	mutex->owner = (long)current;               
     	return;
     }
      
     waiter.task = current;
-    list_add_tail(&waiter.list, &mutex->wait_list); /* 2 */
-    schedule();                                     /* 2 */
+    list_add_tail(&waiter.list, &mutex->wait_list); 
+    schedule();                                     
 } 
 ```
 
@@ -220,18 +220,18 @@ int mutex_release(struct mutex *mutex)
 {
     struct mutex_waiter *waiter;
      
-    if (mutex->owner != (long)current)                         /* 1 */
+    if (mutex->owner != (long)current)                         
     	return -1;
      
     if (list_empty(&mutex->wait_list)) {
-    	mutex->owner = 0;                                      /* 2 */
+    	mutex->owner = 0;                                      
     	return 0;
     }
      
     waiter = list_first_entry(&mutex->wait_list, struct mutex_waiter, list);
     list_del(&waiter->list);
-    mutex->owner = (long)waiter->task;                         /* 3 */
-    wake_up_process(waiter->task);                             /* 4 */
+    mutex->owner = (long)waiter->task;                         
+    wake_up_process(waiter->task);                             
      
     return 0; 
 }

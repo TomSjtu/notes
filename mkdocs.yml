@@ -27,10 +27,21 @@ theme:
   font: false
 
 markdown_extensions:
+  - admonition
+  - attr_list
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
   - pymdownx.highlight:
       anchor_linenums: true
-
-  - pymdownx.superfences
+      auto_title: true
+      pygments_lang_class: true
+      line_spans: __span
   - toc:
       permalink: true
 
