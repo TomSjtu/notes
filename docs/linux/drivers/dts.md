@@ -65,7 +65,9 @@ label:node-name@unit-address{
 - node-name：用来指定节点的名称。
 - unit-address：用来指定地址，和此节点的reg属性的开始地址必须一致。
 
-> 注意：如果node中没有reg属性，则节点名字中不能有unit-address。unit-address的具体格式和设备挂在哪个bus相关。例如对于CPU，其unit-address就是从0开始编址。而具体的设备，例如以太网控制器，其unit-address就是寄存器地址。
+!!! note
+
+	如果node中没有reg属性，则节点名字中不能有unit-address。unit-address的具体格式和设备挂在哪个bus相关。例如对于CPU，其unit-address就是从0开始编址。而具体的设备，例如以太网控制器，其unit-address就是寄存器地址。
 
 属性值标识了设备的特性，它的值可以是以下几种：
 
@@ -138,7 +140,9 @@ reg = <0x4000e000 0x400>  //起始地址+大小
 
 如果`ranges`属性为空，则说明子地址空间和父地址空间相同，不需要进行转换。
 
-**Arm体系此属性设置为空**。
+!!! note
+
+	Arm体系此属性设置为空。
 
 7.`intc`属性
 
@@ -200,7 +204,7 @@ struct device_node *of_find_node_by_name(struct device_node *from, const char *n
 
 > 返回值：找到的节点，NULL表示失败
 
-2.通过`device_type`属性查找指定节点（X）
+2.~~通过`device_type`属性查找指定节点~~
 
 ```C
 struct device_node *of_find_node_by_type(struct device_node *from, const char *type)
@@ -320,9 +324,4 @@ int of_property_read_string_index(const struct device_node *np,const char *propn
 
 ```C
 void __iomem *of_iomap(struct device_node *np, int index)
-```
 
-```
-gpio1 {
-	gpio-ranges = <&pinctrl 1 0 4>;
-};

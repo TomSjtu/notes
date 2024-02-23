@@ -14,7 +14,12 @@
 
 - 驱动（driver）：硬件设备的驱动程序，负责初始化设备以及实现该设备的一些接口函数。
 
-> platform bus是内核中的一种虚拟总线类型，它不是物理上存在的总线，而是一种抽象的总线。它允许开发者以一种标准的方式来描述和管理那些不通过传统物理总线连接的设备。
+{==
+
+platform bus是内核中的一种虚拟总线类型，它不是物理上存在的总线，而是一种抽象的总线。它允许开发者以一种标准的方式来描述和管理那些不通过传统物理总线连接的设备。
+
+==}
+
 
 Linux内核使用<font color="green">sysfs文件系统</font>将内核的设备驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。
 
@@ -34,7 +39,7 @@ Linux内核使用<font color="green">sysfs文件系统</font>将内核的设备�
 
 ## kobject、ktype和kset
 
-kobject是Linux设备模型的基础，是一种抽象的、统一的对大量硬件设备的描述。它主要提供以下功能：
+kobject是Linux设备模型的基础，是一种抽象的、统一的对硬件设备的描述。它主要提供以下功能：
 
 1. 通过parent指针，将所有kobject以树状结构的形式组合起来。
 2. 使用引用计数kref，来记录kobject被引用的次数，在计数为0时释放它。
@@ -105,9 +110,12 @@ struct kobject {
 
 > uevent_suppress：如果该字段为1，则表示忽略所有上报的uevent事件。
 
-kobject核心机制：
+!!! tip "kobject核心机制"
 
-内嵌在别的数据结构（比如device_driver）中，当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的`release()`回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。
+	内嵌在别的数据结构（比如device_driver）中，当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的`release()`回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。
+
+
+
 
 ktype的数据结构如下：
 
@@ -352,7 +360,7 @@ struct device {
 设备的注册和注销函数是：
 
 ```C
-init device_register(struct device *dev);
+int device_register(struct device *dev);
 
 void device_unregister(struct device *dev);
 ```

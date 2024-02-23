@@ -42,7 +42,9 @@ ssh -T git@github.com
 > Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
 ```
 
-> 注意：SSH通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过SSH连接时，会询问你是否信任该服务器，输入yes即可。
+!!! note ""
+
+    注意：SSH通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过SSH连接时，会询问你是否信任该服务器，输入yes即可。
 
 ## 添加SSH密钥
 

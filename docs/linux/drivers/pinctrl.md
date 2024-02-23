@@ -513,7 +513,7 @@ struct pinctrl_setting_configs {
 > num_configs：需要写入的配置参数个数。
 
 
-`struct pinctrl_map`用于描述client device的映射配置，使用pin controller device的pinctrl_desc->pctlops->dt_node_to_map来处理设备树中的引脚配置节点。例如某配置节点——`pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>`，那么uart0_xfer 、uart0_cts 、uart0_rts节点均会被`dt_node_to_map()`函数解析为一系列的`struct pinctrl_map`，然后被转换为`struct pinctrl_setting`，存入`struct pinctrl_state.settings`链表中。
+`struct pinctrl_map`用于描述client device的映射配置，使用pin controller device的`pinctrl_desc->pctlops->dt_node_to_map`来处理设备树中的引脚配置节点。例如某配置节点——`pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>`，那么uart0_xfer 、uart0_cts 、uart0_rts节点均会被`dt_node_to_map()`函数解析为一系列的`struct pinctrl_map`，然后被转换为`struct pinctrl_setting`，存入`struct pinctrl_state.settings`链表中。
 
 ```C
 struct pinctrl_map {

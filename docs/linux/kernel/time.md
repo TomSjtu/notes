@@ -2,7 +2,7 @@
 
 定时器可以用来在将来的某个特定时间点执行特定的函数。被调度运行的函数会异步地运行，就像硬件中断发生时的场景一样。定时器函数必须以原子的方式运行。在SMP系统中，定时器函数会由注册它的同一CPU执行，以尽可能获得缓存的局部性。任何通过定时器函数访问的共享资源都应该针对并发访问进行保护。
 
-系统级别的定时器能以固定的频率产生中断，这种中断被称为定时器中断，它所对应的中断处理程序负责更新系统时间和执行周期性任务。
+系统级别的定时器能以固定的频率产生中断，这种中断被称为{==定时器中断==}，它所对应的中断处理程序负责更新系统时间和执行周期性任务。
 
 系统定时器中断处理程序需要执行的操作有：
 
@@ -14,9 +14,9 @@
 
 ## 节拍率和jiffies变量
 
-系统定时器的频率被称为节拍率（tick rate），产生的两次时钟中断的间隔就被称为节拍（tick），它等于节拍率分之一秒。内核通过时钟中断间隔来计算系统运行时间。
+系统定时器的频率被称为{==节拍率==}（tick rate），产生的两次时钟中断的间隔就被称为{==节拍==}（tick），它等于节拍率分之一秒。内核通过时钟中断间隔来计算系统运行时间。
 
-定时器频率是通过静态预处理定义的，在系统启动时按照HZ的值对硬件进行设置，该值与体系结构相关。如果设置为1000——即时钟中断频率为1000HZ，那么每秒中断1000次（每1ms产生一次）。
+定时器频率是通过静态预处理定义的，在系统启动时被设置，该值与体系结构相关。如果设置为1000，那么每秒就产生1000次中断（每1ms产生一次）。
 
 定时器频率应设置为一个理想的值，高HZ可以提高系统的性能，使得由时间驱动的事件更为精确。但同时也带来了额外的系统负担，因为处理器会被更频繁地打断去执行时钟中断处理程序。
 
@@ -211,38 +211,39 @@ int hrtimer_start(struct hrtimer *timer, ktime_t time,
 int hrtimer_cancel(struct hrtimer *timer);
 ```
 
-下面是一个简单的例子，用于展示如何使用高精度定时器：
-```C
-#include <linux/hrtimer.h>
-#include <linux/ktime.h>
+!!! example "高精度定时器的使用"
+    ```C
+    #include <linux/hrtimer.h>
+    #include <linux/ktime.h>
 
-// 定义一个高精度定时器的回调函数
-static enum hrtimer_restart my_hrtimer_callback(struct hrtimer *timer_for_my_hrtimer)
-{
-    // 定时器到期的处理逻辑
-    // ...
+    // 定义一个高精度定时器的回调函数
+    static enum hrtimer_restart my_hrtimer_callback(struct hrtimer *timer_for_my_hrtimer)
+    {
+        // 定时器到期的处理逻辑
+        // ...
 
-    // 如果需要，重新启动定时器
-    // hrtimer_start(timer_for_my_hrtimer, ktime_set(0, 1000000), HRTIMER_MODE_REL);
+        // 如果需要，重新启动定时器
+        // hrtimer_start(timer_for_my_hrtimer, ktime_set(0, 1000000), HRTIMER_MODE_REL);
 
-    return HRTIMER_NORESTART; // 或者 HRTIMER_RESTART
-}
+        return HRTIMER_NORESTART; // 或者 HRTIMER_RESTART
+    }
 
-void my_hrtimer_function(void)
-{
-    struct hrtimer hr_timer;
-    ktime_t ktime;
+    void my_hrtimer_function(void)
+    {
+        struct hrtimer hr_timer;
+        ktime_t ktime;
 
-    // 初始化定时器
-    hrtimer_init(&hr_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+        // 初始化定时器
+        hrtimer_init(&hr_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
 
-    // 设置定时器的回调函数
-    hr_timer.function = &my_hrtimer_callback;
+        // 设置定时器的回调函数
+        hr_timer.function = &my_hrtimer_callback;
 
-    // 设置定时时间（例如，1毫秒后）
-    ktime = ktime_set(0, 1000000); // 0秒，1000000纳秒
+        // 设置定时时间（例如，1毫秒后）
+        ktime = ktime_set(0, 1000000); // 0秒，1000000纳秒
 
-    // 启动定时器
-    hrtimer_start(&hr_timer, ktime, HRTIMER_MODE_REL);
-}
-```
+        // 启动定时器
+        hrtimer_start(&hr_timer, ktime, HRTIMER_MODE_REL);
+    }
+    ```
+

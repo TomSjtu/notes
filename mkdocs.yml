@@ -37,9 +37,10 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.mark
   - pymdownx.tilde
+  - pymdownx.tabbed:
+      alternate_style: true
   - pymdownx.highlight:
       anchor_linenums: true
-      auto_title: true
       pygments_lang_class: true
       line_spans: __span
   - toc:
