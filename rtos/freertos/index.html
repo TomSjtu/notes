@@ -2677,33 +2677,33 @@
 4. 运行结果不确定</p>
 <p>因此freertos实现了自己的内存分配接口函数。</p>
 <p>freertos中有五种堆内存，文件定义在Middlewares/Third_Party/FreeRTOS/Source/portable/MemMang下。其中最常用的是heap_4.c，它可以将相邻的空间内存块合并，解决了内存碎片问题。而heap_5.c允许多个不连续的内存区域。需要用到以下结构体进行不同内存块的初始化：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">HeapRegion</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">pucStartAddress</span><span class="p">;</span><span class="w">   </span><span class="c1">//起始地址</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">xSizeInBytes</span><span class="p">;</span><span class="w">       </span><span class="c1">//大小</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span><span class="n">HeapRegion_t</span><span class="p">;</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">HeapRegion</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">pucStartAddress</span><span class="p">;</span><span class="w">   </span><span class="c1">//起始地址</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kt">size_t</span><span class="w"> </span><span class="n">xSizeInBytes</span><span class="p">;</span><span class="w">       </span><span class="c1">//大小</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">}</span><span class="n">HeapRegion_t</span><span class="p">;</span>
+</span></code></pre></div>
 <p>当指定多块内存时，需要用到HeapRegion_t类型的数据，每个数组元素都是一个HeapRegion_t元素。这个数组中，低地址在前，高地址在后。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">HeapRegion_t</span><span class="w"> </span><span class="n">xHeapRegions</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="mh">0x80000000UL</span><span class="p">,</span><span class="w"> </span><span class="mh">0x10000</span><span class="p">},</span><span class="w"> </span><span class="c1">//起始地址和大小</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">{(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="mh">0x90000000UL</span><span class="p">,</span><span class="w"> </span><span class="mh">0x10000</span><span class="p">},</span><span class="w"> </span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">{</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">}</span><span class="w">  </span><span class="c1">//表示数组结束</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">HeapRegion_t</span><span class="w"> </span><span class="n">xHeapRegions</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="p">{(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="mh">0x80000000UL</span><span class="p">,</span><span class="w"> </span><span class="mh">0x10000</span><span class="p">},</span><span class="w"> </span><span class="c1">//起始地址和大小</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="p">{(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="mh">0x90000000UL</span><span class="p">,</span><span class="w"> </span><span class="mh">0x10000</span><span class="p">},</span><span class="w"> </span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="p">{</span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">}</span><span class="w">  </span><span class="c1">//表示数组结束</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
+</span></code></pre></div>
 <p>定义了内存块数组还需要对其进行初始化：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vPortDefineHeapRegions</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">HeapRegion_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pxHeapRegions</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vPortDefineHeapRegions</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">HeapRegion_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pxHeapRegions</span><span class="p">);</span>
+</span></code></pre></div>
 <p>Heap的分配和释放：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">pvPortMalloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">xWantedSize</span><span class="p">);</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vPortFree</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pv</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">pvPortMalloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">xWantedSize</span><span class="p">);</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vPortFree</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pv</span><span class="p">);</span>
+</span></code></pre></div>
 <p>获取当前空闲内存空间：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">size_t</span><span class="w"> </span><span class="nf">xPortGetFreeHeapSize</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">size_t</span><span class="w"> </span><span class="nf">xPortGetFreeHeapSize</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></code></pre></div>
 <p>获取程序运行时空闲内存的最小值：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">size_t</span><span class="w"> </span><span class="nf">xPortGetMinimumEverFreeHeapSize</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">size_t</span><span class="w"> </span><span class="nf">xPortGetMinimumEverFreeHeapSize</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></code></pre></div>
 <h2 id="_3">任务管理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>一个任务最基本的元素有：</p>
 <ul>
@@ -2715,32 +2715,32 @@
 <p>对于单核处理器来说，任何时刻只能有一个任务得到运行，当调度器决定切换任务时，需要将上一个任务的上下文（寄存器，栈）保存。需要注意的是，如果一个任务出现了死循环操作，那么比这个任务优先级低的任务都将无法执行。所以在设计的时候，应该保证任务在不活跃状态时进入阻塞状态以让出CPU使用权，保证其他低优先级的任务可以执行。</p>
 <h3 id="_4">创建任务<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>在FreeRTOS中，任务函数的定义如下：</p>
-<p><div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vATaskFunction</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pvParameters</span><span class="p">)</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">for</span><span class="p">(;;)</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="p">{</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">        </span><span class="c1">//RTOS推荐采用事件驱动型任务</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">WaitForEvent</span><span class="p">(</span><span class="n">EventObject</span><span class="p">,</span><span class="w"> </span><span class="n">Timeout</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pdPASS</span><span class="p">)</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="p">{</span>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">            </span><span class="c1">//处理事件</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">        </span><span class="p">}</span>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">        </span><span class="k">else</span>
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">        </span><span class="p">{</span>
-<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">        </span><span class="p">}</span>
-<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
-<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="n">vTaskDelete</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span><span class="w">  </span><span class="c1">//执行完毕删除自己</span>
-<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">}</span>
-</code></pre></div>
+<p><div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vATaskFunction</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">pvParameters</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="k">for</span><span class="p">(;;)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="p">{</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">        </span><span class="c1">//RTOS推荐采用事件驱动型任务</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">        </span><span class="k">if</span><span class="p">(</span><span class="n">WaitForEvent</span><span class="p">(</span><span class="n">EventObject</span><span class="p">,</span><span class="w"> </span><span class="n">Timeout</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">pdPASS</span><span class="p">)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">        </span><span class="p">{</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">            </span><span class="c1">//处理事件</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">        </span><span class="k">else</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">        </span><span class="p">{</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">        </span><span class="p">}</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">    </span><span class="n">vTaskDelete</span><span class="p">(</span><span class="nb">NULL</span><span class="p">);</span><span class="w">  </span><span class="c1">//执行完毕删除自己</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="p">}</span>
+</span></code></pre></div>
 动态创建任务使用的函数如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">BaseType_t</span><span class="w"> </span><span class="nf">xTaskCreate</span><span class="p">(</span><span class="n">TaskFunction_t</span><span class="w"> </span><span class="n">pxTaskCode</span><span class="p">,</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">                        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pcName</span><span class="p">,</span><span class="w"> </span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">                        </span><span class="k">const</span><span class="w"> </span><span class="n">configSTACK_DEPTH_TYPE</span><span class="w"> </span><span class="n">usStackDepth</span><span class="p">,</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">                        </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pvParameters</span><span class="p">,</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">                        </span><span class="n">UBaseType_t</span><span class="w"> </span><span class="n">uxPriority</span><span class="p">,</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">                        </span><span class="n">TaskHandle_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pxCreatedTask</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">BaseType_t</span><span class="w"> </span><span class="nf">xTaskCreate</span><span class="p">(</span><span class="n">TaskFunction_t</span><span class="w"> </span><span class="n">pxTaskCode</span><span class="p">,</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">                        </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pcName</span><span class="p">,</span><span class="w"> </span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">                        </span><span class="k">const</span><span class="w"> </span><span class="n">configSTACK_DEPTH_TYPE</span><span class="w"> </span><span class="n">usStackDepth</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">                        </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pvParameters</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">                        </span><span class="n">UBaseType_t</span><span class="w"> </span><span class="n">uxPriority</span><span class="p">,</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">                        </span><span class="n">TaskHandle_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pxCreatedTask</span><span class="p">);</span>
+</span></code></pre></div>
 <p>参数说明：</p>
 <table>
 <thead>
@@ -2781,14 +2781,14 @@
 </tbody>
 </table>
 <p>静态创建任务使用的函数如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">TaskHandle_t</span><span class="w"> </span><span class="nf">xTaskCreateStatic</span><span class="p">(</span><span class="n">TaskFunction_t</span><span class="w"> </span><span class="n">pxTaskCode</span><span class="p">,</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pcName</span><span class="p">,</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ulStackDepth</span><span class="p">,</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">                                </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pvParameters</span><span class="p">,</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">                                </span><span class="n">UBaseType_t</span><span class="w"> </span><span class="n">uxPriority</span><span class="p">,</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">                                </span><span class="n">StackType_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">puxStackBuffer</span><span class="p">,</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">                                </span><span class="n">StaticTask_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pxTaskBuffer</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">TaskHandle_t</span><span class="w"> </span><span class="nf">xTaskCreateStatic</span><span class="p">(</span><span class="n">TaskFunction_t</span><span class="w"> </span><span class="n">pxTaskCode</span><span class="p">,</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pcName</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ulStackDepth</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">                                </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pvParameters</span><span class="p">,</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">                                </span><span class="n">UBaseType_t</span><span class="w"> </span><span class="n">uxPriority</span><span class="p">,</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">                                </span><span class="n">StackType_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">puxStackBuffer</span><span class="p">,</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">                                </span><span class="n">StaticTask_t</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">pxTaskBuffer</span><span class="p">);</span>
+</span></code></pre></div>
 <p>相对于动态分配，有两个参数不同：</p>
 <table>
 <thead>
@@ -2840,8 +2840,8 @@
 <li>使系统进入省电模式</li>
 </ul>
 <p>要注意的是，钩子函数不能调用任何使其导致阻塞的函数。空闲钩子函数的定义如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vApplicationIdleHook</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">vApplicationIdleHook</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+</span></code></pre></div>
 <h2 id="_8">任务同步与通信<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <p>这里面的内容以理解原理为主，没有必要去记函数接口，用到什么就查什么。</p>
 <h3 id="_9">消息队列<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
@@ -2873,12 +2873,12 @@
 </ul>
 <p>这里对两个比较重要的函数说明一下：</p>
 <p>等待事件函数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">EventBits_t</span><span class="w"> </span><span class="nf">xEventGroupWaitBits</span><span class="p">(</span><span class="n">EventGroupsHandle_t</span><span class="w"> </span><span class="n">xEventGroup</span><span class="p">,</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">EvetnBits_t</span><span class="w"> </span><span class="n">uxBitsToWaitFor</span><span class="p">,</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">BaseType_t</span><span class="w"> </span><span class="n">xClearOnExit</span><span class="p">,</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">BaseType_t</span><span class="w"> </span><span class="n">xWaitForAllBits</span><span class="p">,</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">                                </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTickToWait</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">EventBits_t</span><span class="w"> </span><span class="nf">xEventGroupWaitBits</span><span class="p">(</span><span class="n">EventGroupsHandle_t</span><span class="w"> </span><span class="n">xEventGroup</span><span class="p">,</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">EvetnBits_t</span><span class="w"> </span><span class="n">uxBitsToWaitFor</span><span class="p">,</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">BaseType_t</span><span class="w"> </span><span class="n">xClearOnExit</span><span class="p">,</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">                                </span><span class="k">const</span><span class="w"> </span><span class="n">BaseType_t</span><span class="w"> </span><span class="n">xWaitForAllBits</span><span class="p">,</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">                                </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTickToWait</span><span class="p">);</span>
+</span></code></pre></div>
 <table>
 <thead>
 <tr>
@@ -2935,11 +2935,11 @@
 </tbody>
 </table>
 <p>同步事件函数：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">EventBits_t</span><span class="w"> </span><span class="nf">xEventGroupSync</span><span class="p">(</span><span class="n">EventGroupHandle_t</span><span class="w"> </span><span class="n">xEventGroup</span><span class="p">,</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">                            </span><span class="k">const</span><span class="w"> </span><span class="n">EventBits_t</span><span class="w"> </span><span class="n">uxBitsToSet</span><span class="p">,</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">                            </span><span class="k">const</span><span class="w"> </span><span class="n">EventBits_t</span><span class="w"> </span><span class="n">uxBitsToWaitFor</span><span class="p">,</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">                            </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">EventBits_t</span><span class="w"> </span><span class="nf">xEventGroupSync</span><span class="p">(</span><span class="n">EventGroupHandle_t</span><span class="w"> </span><span class="n">xEventGroup</span><span class="p">,</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">                            </span><span class="k">const</span><span class="w"> </span><span class="n">EventBits_t</span><span class="w"> </span><span class="n">uxBitsToSet</span><span class="p">,</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">                            </span><span class="k">const</span><span class="w"> </span><span class="n">EventBits_t</span><span class="w"> </span><span class="n">uxBitsToWaitFor</span><span class="p">,</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">                            </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
+</span></code></pre></div>
 <p>该函数用来协同多个任务，当期望的事件一起发生后，才会成功返回。</p>
 <h3 id="_13">任务通知<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <p>FreeRTOS从V8.2.0版本开始提供任务通知这个功能。在大多数情况下，任务通知可以替代信号量、事件组，也可以替代长度为1的队列。任务通知更加灵活，执行速度更快，并且更加节省RAM空间，缺点是任务通知只能由一个任务来接收通知消息。</p>
@@ -2952,15 +2952,15 @@
 </ul>
 <p>任务通知是任务控制块中定义的一个成员变量，因此任务在被创建的时候，任务通知就已经被初始化了。任务通知可以由任务发送，也可以由中断发送。只有在任务中才可以等待通知，而不允许在中断中等待通知。如果任务在等待通知的时候暂时无效，则任务会根据用户指定的阻塞时间内进入阻塞状态。只要有任务或者中断发送任务通知，任务就会从阻塞状态解除。</p>
 <p>每个任务都有一个结构体:TCB（Task Control Block），里面有两个成员，一个用来表示通知状态，一个用来表示通知值。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">tskTaskControlBlock</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="p">......</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="cm">/* configTASK_NOTIFICATION_ARRAY_ENTRIES = 1 */</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ulNotifiedValue</span><span class="p">[</span><span class="w"> </span><span class="n">configTASK_NOTIFICATION_ARRAY_ENTRIES</span><span class="w"> </span><span class="p">];</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">ucNotifyState</span><span class="p">[</span><span class="w"> </span><span class="n">configTASK_NOTIFICATION_ARRAY_ENTRIES</span><span class="w"> </span><span class="p">];</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="p">......</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="p">}</span><span class="w"> </span><span class="n">tskTCB</span><span class="p">;</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">tskTaskControlBlock</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="p">......</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="cm">/* configTASK_NOTIFICATION_ARRAY_ENTRIES = 1 */</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ulNotifiedValue</span><span class="p">[</span><span class="w"> </span><span class="n">configTASK_NOTIFICATION_ARRAY_ENTRIES</span><span class="w"> </span><span class="p">];</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">ucNotifyState</span><span class="p">[</span><span class="w"> </span><span class="n">configTASK_NOTIFICATION_ARRAY_ENTRIES</span><span class="w"> </span><span class="p">];</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="w">    </span><span class="p">......</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="p">}</span><span class="w"> </span><span class="n">tskTCB</span><span class="p">;</span>
+</span></code></pre></div>
 <p>通知状态有3种取值：</p>
 <ul>
 <li>taskNOT_WAITING_NOTIFICATION：任务没有在等待通知</li>
@@ -2972,16 +2972,16 @@
 <p>软件定时器是由操作系统提供的一类接口，它构建在硬件定时器基础之上，以系统节拍周期为单位。系统节拍就是系统时钟的频率，配置为configTICK_RATE_HZ，默认为1000。也就是说1s跳动1000次，那么系统街拍周期就是1ms。软件定时器的定时数值必须是这个节拍周期的整数倍。当然，系统节拍精度越高，软件定时器所能设定的时间间隔就越小，但是系统的开销也会变大。</p>
 <p>FreeRTOS通过一个prvTimerTask的守护任务来管理软件定时器，它是在启动调度器时自动创建的。守护任务会定期检查用户编写的定时器，并调用其回调函数。用户自己编写的任务函数要调用定时器函数时，是通过“定时器命令队列”和守护任务交互的。守护任务的主要工作就是从命令队列中取出命令、处理，执行定时器的回调函数。能否及时处理定时器命令，取决于守护任务的优先级。其优先级默认为confiTIMER_TASK_PRIORITY，为了更好地响应，该优先级应设置为所有任务中最高的优先级。</p>
 <p>定时器回调函数的原型如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ATimerCallback</span><span class="p">(</span><span class="n">TimerHandler_t</span><span class="w"> </span><span class="n">xTimer</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ATimerCallback</span><span class="p">(</span><span class="n">TimerHandler_t</span><span class="w"> </span><span class="n">xTimer</span><span class="p">);</span>
+</span></code></pre></div>
 <p>定时器的回调函数是在守护任务中被调用的，因此该函数不能进入阻塞状态，也不能调用任何会引起阻塞的函数。</p>
 <p>定时器的复位：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">BaseType_t</span><span class="w"> </span><span class="nf">xTimerReset</span><span class="p">(</span><span class="n">TimerHandle_t</span><span class="w"> </span><span class="n">xTimer</span><span class="p">,</span><span class="w"> </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">BaseType_t</span><span class="w"> </span><span class="nf">xTimerReset</span><span class="p">(</span><span class="n">TimerHandle_t</span><span class="w"> </span><span class="n">xTimer</span><span class="p">,</span><span class="w"> </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
+</span></code></pre></div>
 <p>使用该函数可以让定时器的状态从冬眠态变为运行态，如果定时器已经运行，则相当于重新确定超时时间。</p>
 <p>修改周期：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">BaseType_t</span><span class="w"> </span><span class="nf">xTimerChangePeriod</span><span class="p">(</span><span class="n">TimerHandle_t</span><span class="w"> </span><span class="n">xTimer</span><span class="p">,</span><span class="w"> </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xNewPeriod</span><span class="p">,</span><span class="w"> </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">BaseType_t</span><span class="w"> </span><span class="nf">xTimerChangePeriod</span><span class="p">(</span><span class="n">TimerHandle_t</span><span class="w"> </span><span class="n">xTimer</span><span class="p">,</span><span class="w"> </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xNewPeriod</span><span class="p">,</span><span class="w"> </span><span class="n">TickType_t</span><span class="w"> </span><span class="n">xTicksToWait</span><span class="p">);</span>
+</span></code></pre></div>
 <h2 id="_15">中断管理<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
 <p>中断属于异步异常，来源于外部硬件。当没有中断发生时，CPU执行自己的任务。当中断产生时，CPU当前任务被打断，转而去执行中断处理程序。外部设备产生一个中断信号并发送至中断控制器，由中断控制器将信号再转发给CPU，CPU响应中断源的请求。当中断产生时，系统需要保存上下文状态。</p>
 <p>中断的环境有两种：</p>

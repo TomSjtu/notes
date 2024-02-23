@@ -2458,8 +2458,8 @@
 <p>内核在执行系统调用的时候处于进程上下文。<code>current</code>指针指向当前任务，即引发系统调用的那个进程。在进程上下文中，内核可以休眠并且可以被抢占。因此必须保证系统调用时可重入的，因为新的进程可能会使用相同的系统调用。</p>
 <h2 id="_3">内核源码<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>要获取内核源码，请使用<code>git</code>。</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
-</code></pre></div>
+<div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
+</span></code></pre></div>
 <p>内核源码树由许多目录组成，一些比较重要的目录的描述如下：</p>
 <table>
 <thead>

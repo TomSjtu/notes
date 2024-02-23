@@ -2520,20 +2520,20 @@
 <p>下图显示了rtt中各类内核对象的派生和继承关系。</p>
 <p><img alt="Alt text" src="../../images/rt-thread/kernel_object.png" /></p>
 <p>内核对象控制块的数据结构如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">rt_object</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">RT_NAME_MAX</span><span class="p">];</span><span class="w">    </span><span class="c1">//内核对象名称</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">rt_uint8_t</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w">           </span><span class="c1">//内核对象类型</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">rt_uint8_t</span><span class="w"> </span><span class="n">flag</span><span class="p">;</span><span class="w">           </span><span class="c1">//内核对象参数</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">rt_list_t</span><span class="w"> </span><span class="n">list</span><span class="p">;</span><span class="w">            </span><span class="c1">//内核对象管理链表</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">};</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">rt_object</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">RT_NAME_MAX</span><span class="p">];</span><span class="w">    </span><span class="c1">//内核对象名称</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">rt_uint8_t</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w">           </span><span class="c1">//内核对象类型</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">rt_uint8_t</span><span class="w"> </span><span class="n">flag</span><span class="p">;</span><span class="w">           </span><span class="c1">//内核对象参数</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">rt_list_t</span><span class="w"> </span><span class="n">list</span><span class="p">;</span><span class="w">            </span><span class="c1">//内核对象管理链表</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">};</span>
+</span></code></pre></div>
 <p>内核对象容器的数据结构如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">rt_object_information</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="n">rt_object_class_type</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w">    </span><span class="c1">//对象类型</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">rt_list_t</span><span class="w"> </span><span class="n">object_list</span><span class="p">;</span><span class="w">             </span><span class="c1">//对象链表</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">rt_size_t</span><span class="w"> </span><span class="n">object_size</span><span class="p">;</span><span class="w">             </span><span class="c1">//对象大小</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">};</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">rt_object_information</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="n">rt_object_class_type</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w">    </span><span class="c1">//对象类型</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">rt_list_t</span><span class="w"> </span><span class="n">object_list</span><span class="p">;</span><span class="w">             </span><span class="c1">//对象链表</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">rt_size_t</span><span class="w"> </span><span class="n">object_size</span><span class="p">;</span><span class="w">             </span><span class="c1">//对象大小</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">};</span>
+</span></code></pre></div>
 <p>同一类对象由一个rt_object_information结构体来管理，这类对象的每个实例以链表的形式挂在object_list链表上。当某个内核对象被初始化后，该对象就被添加到对应容器中管理。</p>
 <h2 id="_1">线程管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>rtt中线程状态多了一个初始状态，当线程创建完毕还没开始运行时就处于初始状态，该状态下线程不参与调度，宏定义为RT_THREAD_INIT。初始状态的线程需要调用<code>rt_thread_startup()</code>进入就绪状态。</p>
@@ -2599,8 +2599,8 @@
 <p><img alt="Alt text" src="../../images/rt-thread/slab.png" /></p>
 <p>memheap管理算法适用于系统有多个不可连续地址的内存堆。用户只需要在系统初始化时将多个所需的memheap初始化，并开启memheap功能就可以将多个memheap粘合起来统一用作内存分配。</p>
 <p>在使用内存堆时，必须在系统初始化的时候进行堆的初始化：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rt_system_heap_init</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">begin_addr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">end_addr</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rt_system_heap_init</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">begin_addr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">end_addr</span><span class="p">);</span>
+</span></code></pre></div>
 <p>内存堆管理的相关接口函数如下：</p>
 <p><img alt="Alt text" src="../../images/rt-thread/heap_ops.png" /></p>
 <h3 id="_13">内存池管理<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>

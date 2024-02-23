@@ -2360,6 +2360,56 @@
 
 
 <h1 id="_1">电源管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Ensure pip always runs in a virtual environment</p>
+<p>If you set the environment variable <code>PIP_REQUIRE_VIRTUALENV</code> to
+<code>true</code>, <code>pip</code> will refuse to install anything outside a virtual
+environment. Forgetting to activate a <code>venv</code> can be very annoying
+as it will install all sorts of things outside virtual
+environments over time, possibly leading to further errors. So,
+you may want to add this to your <code>.bashrc</code> or <code>.zshrc</code> and
+re-start your shell:</p>
+<div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>export PIP_REQUIRE_VIRTUALENV=true
+</span></code></pre></div>
+</div>
+<p>Text can be <del class="critic">deleted</del> and replacement text <ins class="critic">added</ins>. This can also be
+combined into <del class="critic">one</del><ins class="critic">a single</ins> operation. <mark class="critic">Highlighting</mark> is also
+possible <span class="critic comment">and comments can be added inline</span>.</p>
+<mark class="critic block">
+<p>Formatting can also be applied to blocks by putting the opening and closing
+tags on separate lines and adding new lines between the tags and the content.</p>
+</mark>
+<ul>
+<li>H2O</li>
+<li>
+<p>C20</p>
+</li>
+<li>
+<p><mark>This was marked</mark></p>
+</li>
+<li><ins>This was inserted</ins></li>
+<li><del>This was deleted</del></li>
+</ul>
+<p>=== "C"</p>
+<div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code>``` C
+#include &lt;stdio.h&gt;
+
+int main(void) {
+  printf(&quot;Hello world!\n&quot;);
+  return 0;
+}
+```
+</code></pre></div>
+<p>=== "C++"</p>
+<div class="language-text highlight"><span class="filename">Text Only</span><pre><span></span><code>``` C++
+#include &lt;iostream&gt;
+
+int main(void) {
+  std::cout &lt;&lt; &quot;Hello world!&quot; &lt;&lt; std::endl;
+  return 0;
+}
+```
+</code></pre></div>
 
 
 

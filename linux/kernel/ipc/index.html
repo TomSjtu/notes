@@ -676,10 +676,25 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="共享内存">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      信号量
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       信号
     </span>
@@ -2440,10 +2455,25 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="共享内存">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      信号量
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       信号
     </span>
@@ -2470,36 +2500,205 @@
 
 
 <h1 id="_1">进程间通信<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>进程之间的地址空间相互独立，要实现进程间的通信，需要特殊的机制。</p>
 <h2 id="_2">管道<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>下面的语句创建两个进程，并用管道把这两个进程连接在一起。</p>
+<div class="language-SHELL highlight"><span class="filename">Bash</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>ps<span class="w"> </span>aux<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>kworker
+</span></code></pre></div>
+<p>第一个进程的标准输出被重定向到管道中，第二个进程从这个管道读取输入。</p>
+<p>通过管道传递的数据是顺序的，也就是读和写的顺序一致。从管道中读取数据是一次性操作，读完了空间就被释放了。</p>
+<p>上面这种管道由于没有名字，又叫做<font color="green">匿名管道</font>。</p>
+<p>匿名管道的创建需要经过以下这个函数：</p>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">pipe</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">[</span><span class="mi">2</span><span class="p">]);</span>
+</span></code></pre></div>
+<p><img alt="管道" src="../../../images/kernel/pipe01.webp" /></p>
+<p>fd[0]代表管道的读端，fd[1]代表管道的写端。</p>
+<p>匿名管道可以用于父子进程之间的通信，<code>fork()</code>函数创建的子进程会复制父进程的文件描述符，这样每个进程就都有fd[0]和fd[1]两个文件描述符。由于管道只能一端读，一端写，所以我们可以：</p>
+<ul>
+<li>父进程关闭fd[0]，只保留fd[1]</li>
+<li>子进程关闭fd[1]，只保留fd[0]</li>
+</ul>
+<p>这样父子进程就可以通过匿名管道通信了。</p>
+<p><img alt="管道通信" src="../../../images/kernel/pipe02.webp" /></p>
+<p>还有一种管道叫<font color="green">有名管道</font>。它以一种特殊的文件形式存放在文件系统中，这样两个没有亲缘关系的进程都可以通过访问这个特殊文件的方式来进行通信。</p>
+<p>创建有名管道需要用到这个函数：</p>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">mkfifo</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">pathname</span><span class="p">,</span><span class="w"> </span><span class="kt">mode_t</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
+</span></code></pre></div>
+<p>注意，对于有名管道的读、写操作都会阻塞进程。</p>
+<p>不论是匿名管道还是有名管道，其数据都存放在内存中，遵循先进先出的原则。</p>
 <h2 id="_3">消息队列<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>消息队列的通讯方式就像邮件，发送数据时，会分成一个个独立的数据单元，也就是消息体，每个消息体都是固定大小的存储块，在字节流上不连续。消息体的定义如下：</p>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">msg_buffer</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="kt">long</span><span class="w"> </span><span class="n">mtype</span><span class="p">;</span><span class="w">       </span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span><span class="kt">char</span><span class="w"> </span><span class="n">mtext</span><span class="p">[</span><span class="mi">1024</span><span class="p">];</span><span class="w">   </span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">};</span>
+</span></code></pre></div>
+<p>使用消息队列前需要先调用<code>ftok()</code>函数，该函数会根据文件的<code>inode</code>生成一个唯一的key。只要在这个消息队列的生命周期内，这个文件不被删除，那么无论什么时刻，再调用<code>ftok</code>，也会得到同样的key。这种key的使用方式其他System V IPC进程间通信机制体系中也适用。</p>
+<p>常用函数：</p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>msgget</td>
+<td>创建或访问一个消息队列</td>
+</tr>
+<tr>
+<td>msgsnd</td>
+<td>发送一个消息</td>
+</tr>
+<tr>
+<td>msgrcv</td>
+<td>接收一个消息</td>
+</tr>
+<tr>
+<td>msgctl</td>
+<td>控制消息队列</td>
+</tr>
+</tbody>
+</table>
 <h2 id="_4">共享内存<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<h2 id="_5">信号<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>在Linux系统中，为了响应各种事件定义了非常多的信号。比如当我们发送<code>kill -9 ${pid}</code>时，其实就是发送SIGKILL信号给指定进程，将它杀死。我们可以通过<code>kill -l</code>命令查看所有的信号。每个信号都有一个唯一的ID和对应的默认操作。</p>
+<p>共享内存是一种高效的通信方式，允许多个进程直接访问同一块内存空间。</p>
+<p>常用函数：</p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>shmget</td>
+<td>创建或访问一块共享内存</td>
+</tr>
+<tr>
+<td>shmat</td>
+<td>将共享内存连接到当前进程的地址空间</td>
+</tr>
+<tr>
+<td>shmdt</td>
+<td>将共享内存从当前进程的地址空间断开</td>
+</tr>
+<tr>
+<td>shmctl</td>
+<td>控制共享内存</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_5">信号量<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>与内核同步机制中的信号量类似，System V IPC机制中的信号量也是用于进程间同步的。它能确保多个进程对共享资源的访问，防止并发访问时的数据不一致的情况。</p>
+<p>常用函数：</p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>semget</td>
+<td>创建或访问一个信号量</td>
+</tr>
+<tr>
+<td>semop</td>
+<td>对信号量进行操作</td>
+</tr>
+<tr>
+<td>semctl</td>
+<td>控制信号量</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_6">信号<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>信号的机制与硬件中断非常相似，都是异步地发送一个请求，区别在于中断处理函数是在内核态，而信号处理函数是在用户态。信号可以在任何时刻发送给任何一个进程。</p>
+<p>在Linux系统中，为了响应各种事件定义了非常多的信号。比如当我们发送<code>kill -9 ${pid}</code>时，其实就是发送SIGKILL信号给指定进程，将它杀死。我们可以通过<code>kill -l</code>命令查看所有的信号：</p>
+<div class="language-SHELL highlight"><span class="filename">Bash</span><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># kill -l</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span>SIGHUP<span class="w">       </span><span class="m">2</span><span class="o">)</span><span class="w"> </span>SIGINT<span class="w">       </span><span class="m">3</span><span class="o">)</span><span class="w"> </span>SIGQUIT<span class="w">      </span><span class="m">4</span><span class="o">)</span><span class="w"> </span>SIGILL<span class="w">       </span><span class="m">5</span><span class="o">)</span><span class="w"> </span>SIGTRAP
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w"> </span><span class="m">6</span><span class="o">)</span><span class="w"> </span>SIGABRT<span class="w">      </span><span class="m">7</span><span class="o">)</span><span class="w"> </span>SIGBUS<span class="w">       </span><span class="m">8</span><span class="o">)</span><span class="w"> </span>SIGFPE<span class="w">       </span><span class="m">9</span><span class="o">)</span><span class="w"> </span>SIGKILL<span class="w">     </span><span class="m">10</span><span class="o">)</span><span class="w"> </span>SIGUSR1
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="m">11</span><span class="o">)</span><span class="w"> </span>SIGSEGV<span class="w">     </span><span class="m">12</span><span class="o">)</span><span class="w"> </span>SIGUSR2<span class="w">     </span><span class="m">13</span><span class="o">)</span><span class="w"> </span>SIGPIPE<span class="w">     </span><span class="m">14</span><span class="o">)</span><span class="w"> </span>SIGALRM<span class="w">     </span><span class="m">15</span><span class="o">)</span><span class="w"> </span>SIGTERM
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="m">16</span><span class="o">)</span><span class="w"> </span>SIGSTKFLT<span class="w">   </span><span class="m">17</span><span class="o">)</span><span class="w"> </span>SIGCHLD<span class="w">     </span><span class="m">18</span><span class="o">)</span><span class="w"> </span>SIGCONT<span class="w">     </span><span class="m">19</span><span class="o">)</span><span class="w"> </span>SIGSTOP<span class="w">     </span><span class="m">20</span><span class="o">)</span><span class="w"> </span>SIGTSTP
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="m">21</span><span class="o">)</span><span class="w"> </span>SIGTTIN<span class="w">     </span><span class="m">22</span><span class="o">)</span><span class="w"> </span>SIGTTOU<span class="w">     </span><span class="m">23</span><span class="o">)</span><span class="w"> </span>SIGURG<span class="w">      </span><span class="m">24</span><span class="o">)</span><span class="w"> </span>SIGXCPU<span class="w">     </span><span class="m">25</span><span class="o">)</span><span class="w"> </span>SIGXFSZ
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="m">26</span><span class="o">)</span><span class="w"> </span>SIGVTALRM<span class="w">   </span><span class="m">27</span><span class="o">)</span><span class="w"> </span>SIGPROF<span class="w">     </span><span class="m">28</span><span class="o">)</span><span class="w"> </span>SIGWINCH<span class="w">    </span><span class="m">29</span><span class="o">)</span><span class="w"> </span>SIGIO<span class="w">       </span><span class="m">30</span><span class="o">)</span><span class="w"> </span>SIGPWR
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="m">31</span><span class="o">)</span><span class="w"> </span>SIGSYS<span class="w">      </span><span class="m">34</span><span class="o">)</span><span class="w"> </span>SIGRTMIN<span class="w">    </span><span class="m">35</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+1<span class="w">  </span><span class="m">36</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+2<span class="w">  </span><span class="m">37</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+3
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="m">38</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+4<span class="w">  </span><span class="m">39</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+5<span class="w">  </span><span class="m">40</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+6<span class="w">  </span><span class="m">41</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+7<span class="w">  </span><span class="m">42</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+8
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="m">43</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+9<span class="w">  </span><span class="m">44</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+10<span class="w"> </span><span class="m">45</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+11<span class="w"> </span><span class="m">46</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+12<span class="w"> </span><span class="m">47</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+13
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="m">48</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+14<span class="w"> </span><span class="m">49</span><span class="o">)</span><span class="w"> </span>SIGRTMIN+15<span class="w"> </span><span class="m">50</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-14<span class="w"> </span><span class="m">51</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-13<span class="w"> </span><span class="m">52</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-12
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="m">53</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-11<span class="w"> </span><span class="m">54</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-10<span class="w"> </span><span class="m">55</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-9<span class="w">  </span><span class="m">56</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-8<span class="w">  </span><span class="m">57</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-7
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="m">58</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-6<span class="w">  </span><span class="m">59</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-5<span class="w">  </span><span class="m">60</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-4<span class="w">  </span><span class="m">61</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-3<span class="w">  </span><span class="m">62</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-2
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="m">63</span><span class="o">)</span><span class="w"> </span>SIGRTMAX-1<span class="w">  </span><span class="m">64</span><span class="o">)</span><span class="w"> </span>SIGRTMAX
+</span></code></pre></div>
+<p>每个信号都有一个唯一的ID和其默认的操作：</p>
+<div class="language-SHELL highlight"><span class="filename">Bash</span><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>Signal<span class="w">     </span>Value<span class="w">     </span>Action<span class="w">   </span>Comment
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>──────────────────────────────────────────────────────────────────────
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>SIGHUP<span class="w">        </span><span class="m">1</span><span class="w">       </span>Term<span class="w">    </span>Hangup<span class="w"> </span>detected<span class="w"> </span>on<span class="w"> </span>controlling<span class="w"> </span>terminal
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">                              </span>or<span class="w"> </span>death<span class="w"> </span>of<span class="w"> </span>controlling<span class="w"> </span>process
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>SIGINT<span class="w">        </span><span class="m">2</span><span class="w">       </span>Term<span class="w">    </span>Interrupt<span class="w"> </span>from<span class="w"> </span>keyboard
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>SIGQUIT<span class="w">       </span><span class="m">3</span><span class="w">       </span>Core<span class="w">    </span>Quit<span class="w"> </span>from<span class="w"> </span>keyboard
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>SIGILL<span class="w">        </span><span class="m">4</span><span class="w">       </span>Core<span class="w">    </span>Illegal<span class="w"> </span>Instruction
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>SIGABRT<span class="w">       </span><span class="m">6</span><span class="w">       </span>Core<span class="w">    </span>Abort<span class="w"> </span>signal<span class="w"> </span>from<span class="w"> </span>abort<span class="o">(</span><span class="m">3</span><span class="o">)</span>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>SIGFPE<span class="w">        </span><span class="m">8</span><span class="w">       </span>Core<span class="w">    </span>Floating<span class="w"> </span>point<span class="w"> </span>exception
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>SIGKILL<span class="w">       </span><span class="m">9</span><span class="w">       </span>Term<span class="w">    </span>Kill<span class="w"> </span>signal
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>SIGSEGV<span class="w">      </span><span class="m">11</span><span class="w">       </span>Core<span class="w">    </span>Invalid<span class="w"> </span>memory<span class="w"> </span>reference
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>SIGPIPE<span class="w">      </span><span class="m">13</span><span class="w">       </span>Term<span class="w">    </span>Broken<span class="w"> </span>pipe:<span class="w"> </span>write<span class="w"> </span>to<span class="w"> </span>pipe<span class="w"> </span>with<span class="w"> </span>no
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">                              </span>readers
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a>SIGALRM<span class="w">      </span><span class="m">14</span><span class="w">       </span>Term<span class="w">    </span>Timer<span class="w"> </span>signal<span class="w"> </span>from<span class="w"> </span>alarm<span class="o">(</span><span class="m">2</span><span class="o">)</span>
+</span><span id="__span-5-17"><a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a>SIGTERM<span class="w">      </span><span class="m">15</span><span class="w">       </span>Term<span class="w">    </span>Termination<span class="w"> </span>signal
+</span><span id="__span-5-18"><a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a>SIGUSR1<span class="w">   </span><span class="m">30</span>,10,16<span class="w">    </span>Term<span class="w">    </span>User-defined<span class="w"> </span>signal<span class="w"> </span><span class="m">1</span>
+</span><span id="__span-5-19"><a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a>SIGUSR2<span class="w">   </span><span class="m">31</span>,12,17<span class="w">    </span>Term<span class="w">    </span>User-defined<span class="w"> </span>signal<span class="w"> </span><span class="m">2</span>
+</span><span id="__span-5-20"><a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a>...
+</span></code></pre></div>
 <p>进程对信号的处理方式有三种：</p>
 <ol>
 <li>执行默认操作。</li>
-<li>自定义信号处理函数。</li>
+<li>执行自定义信号处理函数。</li>
 <li>忽略信号。注意，SIGKILL和SIGSTOP无法忽略。</li>
 </ol>
 <p>Linux推荐使用<code>sigaction()</code>函数来自定义信号处理函数。它的定义如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sigaction</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">signum</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">act</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">oldact</span><span class="p">);</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sigaction</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">signum</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">act</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="o">*</span><span class="n">oldact</span><span class="p">);</span>
+</span></code></pre></div>
 <p>而sigaction结构体的定义如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="n">__sighandler_t</span><span class="w"> </span><span class="n">sa_handler</span><span class="p">;</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">sa_flags</span><span class="p">;</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span><span class="n">__sigrestore_t</span><span class="w"> </span><span class="n">sa_restorer</span><span class="p">;</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">sa_mask</span><span class="p">;</span><span class="w">   </span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
-</code></pre></div>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigaction</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="n">__sighandler_t</span><span class="w"> </span><span class="n">sa_handler</span><span class="p">;</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">sa_flags</span><span class="p">;</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="n">__sigrestore_t</span><span class="w"> </span><span class="n">sa_restorer</span><span class="p">;</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">sa_mask</span><span class="p">;</span><span class="w">   </span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">};</span>
+</span></code></pre></div>
 <p>其中<code>sa_handler</code>就是你要定义的信号处理函数。</p>
 <p>发送信号由两种方式，一种是发送给整个线程组的，还有一种是发送给某个单独线程的。信号分为不可靠信号和可靠信号。在<code>task_struct</code>中有一个结构体<code>sigpending</code>，它的定义如下：</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigpending</span><span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">signal</span><span class="p">;</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">};</span>
-</code></pre></div>
-<p>对于不可靠信号，也就是编号小于32的信号，会放在<code>sigset_t</code>集合中，不论发送多少次，在被处理前都只会保留一份。对于可靠信号，则会挂在<code>struct sigpending</code>的链表中挨个处理。</p>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sigpending</span><span class="p">{</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="kt">sigset_t</span><span class="w"> </span><span class="n">signal</span><span class="p">;</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">};</span>
+</span></code></pre></div>
+<p>对于不可靠信号，也就是编号小于32的信号，会放在<code>sigset_t signal</code>集合中，不论发送多少次，在被处理前都只会保留一份。所以不可靠信号会造成信号的丢失。对于可靠信号，则会挂在<code>struct sigpending</code>结构体中的链表里挨个处理。</p>
+<p>一旦信号挂到了<code>task_struct</code>结构体中，就会设置一个TIF_SIGPENDING标志位，表示有信号等待处理。然后在系统调用结束，或者中断处理结束，都会检查这个标志位。如果设置了，就会调用<code>do_signal()</code>函数来处理信号。</p>
+<div class="language-C highlight"><span class="filename">C</span><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">exit_to_usermode_loop</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pt_regs</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="n">cached_flags</span><span class="p">)</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="p">{</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nb">true</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">......</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cached_flags</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">_TIF_NEED_RESCHED</span><span class="p">)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">      </span><span class="n">schedule</span><span class="p">();</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="p">......</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="cm">/* deal with pending signal delivery */</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">cached_flags</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">_TIF_SIGPENDING</span><span class="p">)</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">      </span><span class="n">do_signal</span><span class="p">(</span><span class="n">regs</span><span class="p">);</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="p">......</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">cached_flags</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">EXIT_TO_USERMODE_LOOP_FLAGS</span><span class="p">))</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">      </span><span class="k">break</span><span class="p">;</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">  </span><span class="p">}</span>
+</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>信号处理流程如下图所示：</p>
+<p><img alt="信号处理流程" src="../../../images/kernel/signal.png" /></p>
 
 
 
