@@ -564,6 +564,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../kernel/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../kernel/task/" class="md-nav__link">
         
   
@@ -673,7 +694,7 @@
         
   
   <span class="md-ellipsis">
-    内核同步
+    同步语义
   </span>
   
 
@@ -816,27 +837,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../kernel/pm/" class="md-nav__link">
         
   
@@ -890,6 +890,10 @@
   
     
     
+      
+        
+      
+        
       
         
           
@@ -971,6 +975,48 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
             
@@ -1163,7 +1209,7 @@
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -1916,6 +1962,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1955,6 +2005,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2041,6 +2112,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2059,6 +2151,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -2086,6 +2182,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
@@ -2095,6 +2196,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2502,7 +2645,7 @@
 
 <h1 id="_1">设备模型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>由于Linux支持世界上几乎所有的、不同功能的硬件设备，导致Linux内核中有一半的代码都是设备驱动。随着硬件的快速迭代，设备驱动的代码也在快速增长。</p>
-<p>为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了<font color="green">设备模型</font>（device model）的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。</p>
+<p>为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了<mark class="critic">设备模型</mark>的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：<mark class="critic">设备</mark>与<mark class="critic">驱动</mark>。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。</p>
 <p>设备模型通过几个数据结构来反映当前系统中总线、设备以及驱动工作的情况：</p>
 <ul>
 <li>
@@ -2521,8 +2664,8 @@
 <mark class="critic block">
 <p>platform bus是内核中的一种虚拟总线类型，它不是物理上存在的总线，而是一种抽象的总线。它允许开发者以一种标准的方式来描述和管理那些不通过传统物理总线连接的设备。</p>
 </mark>
-<p>Linux内核使用<font color="green">sysfs文件系统</font>将内核的设备驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。</p>
-<p>/sys文件目录记录了各个设备之间的关系。其中，/sys/bus目录下的每个子目录都是已经注册的总线类型。每个总线类型下还有两个文件夹——devices和drivers；devices是该总线类型下的所有设备，以符号链接的形式指向真正的设备（/sys/devices/）。而drivers是所有注册在这个总线类型上的驱动。</p>
+<p>内核使用<mark class="critic">sysfs文件系统</mark>将设备和驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。</p>
+<p>/sys目录记录了各个设备之间的关系。其中，/sys/bus目录下的每个子目录都是已经注册的总线类型。每个总线类型下还有两个文件夹——devices和drivers：devices是该总线类型下的所有设备，以符号链接的形式指向真正的设备（/sys/devices）。而drivers是所有注册在这个总线类型上的驱动。</p>
 <p><img alt="Linux设备模型" src="../../../images/kernel/linux_device_model01.png" /></p>
 <p>/sys/devices目录下是全局的设备结构体系，包含了所有注册在各类总线上的物理设备。所有的物理设备以总线拓扑的结构来显示。</p>
 <p>/sys/class目录下是包含所有注册在内核中的设备类型，按照设备的功能进行分类。比如鼠标的功能是作为人机交互的输入，于是被归类到/sys/class/input目录下。</p>
@@ -2594,7 +2737,7 @@
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">release</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kobject</span><span class="w"> </span><span class="o">*</span><span class="n">kobj</span><span class="p">);</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sysfs_ops</span><span class="w"> </span><span class="o">*</span><span class="n">sysfs_ops</span><span class="p">;</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">attribute_group</span><span class="w"> </span><span class="o">**</span><span class="n">default_groups</span><span class="p">;</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="cm">/*省略其他成员*/</span><span class="w">  </span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="p">...</span><span class="w"> </span>
 </span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">};</span>
 </span></code></pre></div>
 <blockquote>
@@ -2852,8 +2995,19 @@
 <p>如果匹配到了相同名称的<code>device</code>和<code>device_driver</code>，内核就会执行<code>device_driver</code>中的<code>probe()</code>回调函数，该函数是所有<code>driver</code>的入口函数，用来执行诸如硬件设备初始化、字符设备注册、文件操作ops注册等动作（对应<code>remove()</code>函数）。</p>
 <h2 id="bus">bus<a class="headerlink" href="#bus" title="Permanent link">&para;</a></h2>
 <p>总线是连接处理器和设备之间的通道。为了方便设备模型的实现，系统中的每个设备都需要连接在一个总线上，这个总线可以是内部总线、虚拟总线或者是平台总线。</p>
-<p>总线驱动则负责实现总线的各种行为，其管理着两个链表，分别是添加到该总线的设备链表以及注册到该总线的驱动链表。当你向总线添加（移除）一个设备（驱动）时，便会在对应的列表上添加新的节点， 同时对挂载在该总线的驱动以及设备进行匹配，在匹配过程中会忽略掉那些已经有驱动匹配的设备。</p>
+<p>总线驱动则负责实现总线的各种行为，其管理着两个链表——klist_devices和klist_drivers，分别代表该总线下的设备和驱动。当你向总线添加（移除）一个设备（驱动）时，便会在对应的列表上添加（移除）节点，同时对挂载在该总线的驱动以及设备进行匹配，在匹配过程中会忽略掉那些已经有驱动匹配的设备。</p>
 <p><img alt="总线模型" src="../../../images/kernel/bus_model.jpg" /></p>
+<div class="admonition tip">
+<p class="admonition-title">驱动绑定设备的时机</p>
+<ol>
+<li>
+<p>驱动被注册时（如果设备已经存在）</p>
+</li>
+<li>
+<p>设备被创建时（如果驱动已经注册）</p>
+</li>
+</ol>
+</div>
 <p>内核用<code>struct bus_type</code>结构体抽象出总线：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">bus_type</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
@@ -2871,7 +3025,6 @@
 </span><span id="__span-15-14"><a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">subsys_private</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
 </span><span id="__span-15-15"><a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="p">};</span>
 </span></code></pre></div>
-<p>我们发现<code>bus_type</code>结构体中的大部分成员都与<code>device</code>有关，说明它主要负责设备的注册和注销等操作。</p>
 <blockquote>
 <p>name：该bus的名称，在sysfs中以目录形式存在，比如platform bus表现为/sys/bus/platform。</p>
 <p>dev_name：注册到bus的设备名称。</p>
@@ -2882,8 +3035,9 @@
 <p>match：当属于该bus的device或者device_driver添加到内核时，调用该函数。</p>
 <p>uevent：当属于该bus的device，发生添加、移除或者其他动作时，调用该函数。</p>
 <p>probe、remove：当属于该bus的device，发生初始化和移除时，调用该函数。</p>
-<p>p：保存了bus模块的一些私有数据。</p>
+<p>p：保存了bus模块的一些私有数据，设备和驱动的链表就存放在这里。</p>
 </blockquote>
+<p><code>struct subsys_private</code>结构体的定义如下：</p>
 <p>bus的属性以<code>struct bus_attribute</code>结构体表示：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">bus_attribute</span><span class="p">{</span>
 </span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">attribute</span><span class="w"> </span><span class="n">attr</span><span class="p">;</span>
@@ -2894,10 +3048,9 @@
 <p>bus模块的主要功能是：</p>
 <ul>
 <li>bus的注册和注销</li>
-<li>本bus下有device或者device_driver注册到内核时的处理</li>
-<li>本bus下有device或者device_driver从内核注销时的处理</li>
-<li>device_driver的probe</li>
-<li>管理bus下所有的device和device_driver</li>
+<li>处理设备或者驱动的注册与注销</li>
+<li>实现驱动的<code>probe()</code>函数</li>
+<li>管理bus下所有的设备和驱动</li>
 </ul>
 <p>内核提供了<code>bus_register()</code>函数来注册总线，<code>bus_unregister()</code>函数来注销总线。</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">bus_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">bus_type</span><span class="w"> </span><span class="o">*</span><span class="n">bus</span><span class="p">);</span>
@@ -2934,12 +3087,11 @@
 <p>class_release/dev_release：release回调函数。</p>
 <p>p：子系统的私有数据。</p>
 </blockquote>
-<p>对于子系统这里解释一下。/sys/class和device_name之间的那部分目录称为subsystem。也就是每个dev属性文件所在的路径都可表示为/sys/class/subsystem/device_name/dev。例如，<code>cat /sys/class/tty/tty0/dev</code>会得到4:0，这里subsystem为tty,device_name为tty0。</p>
-<p>class的注册/注销函数如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">__must_check</span><span class="w"> </span><span class="nf">__class_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">class</span><span class="w"> </span><span class="o">*</span><span class="n">class</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">lock_class_key</span><span class="w"> </span><span class="o">*</span><span class="n">key</span><span class="p">);</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">class_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">class</span><span class="w"> </span><span class="o">*</span><span class="n">class</span><span class="p">);</span>
+<p>对于子系统这里解释一下。/sys/class和device_name之间的那部分目录称为subsystem。也就是每个dev属性文件所在的路径都可表示为/sys/class/subsystem/device_name/dev。例如，<code>cat /sys/class/tty/tty0/dev</code>会得到4:0，这里subsystem为tty，device_name为tty0。</p>
+<p>在/sys/class目录下创建新的条目：</p>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="cp">#define class_create(owner, name)</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">class_destroy</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">class</span><span class="w"> </span><span class="o">*</span><span class="n">cls</span><span class="p">)</span>
 </span></code></pre></div>
-<p>class的概念比较抽象，后续，在各类子系统中，我们能看到许多class的用例。</p>
 
 
 

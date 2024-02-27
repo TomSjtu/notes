@@ -15,10 +15,10 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/pl/">
       
       
-        <link rel="prev" href="../arm/barrier/">
+        <link rel="prev" href="../arm/gic/">
       
       
-        <link rel="next" href="../cloud/">
+        <link rel="next" href="gnu_c/">
       
       
       <link rel="icon" href="../assets/images/favicon.png">
@@ -559,6 +559,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../linux/kernel/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../linux/kernel/task/" class="md-nav__link">
         
   
@@ -668,7 +689,7 @@
         
   
   <span class="md-ellipsis">
-    内核同步
+    同步语义
   </span>
   
 
@@ -811,27 +832,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../linux/kernel/types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../linux/kernel/pm/" class="md-nav__link">
         
   
@@ -883,6 +883,10 @@
   
     
     
+      
+        
+      
+        
       
         
           
@@ -964,6 +968,48 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux/drivers/hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../linux/drivers/module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
             
@@ -1062,7 +1108,7 @@
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -1815,6 +1861,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1854,6 +1904,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1940,6 +2011,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1960,6 +2052,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -1990,6 +2086,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link md-nav__link--active" for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
@@ -1999,6 +2100,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2326,6 +2469,32 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#c" class="md-nav__link">
+    <span class="md-ellipsis">
+      C
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#c_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      C++
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2343,6 +2512,14 @@
 
 
 <h1 id="_1">编程的心得体会<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="c">C<a class="headerlink" href="#c" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="gnu_c/">GNU C</a></li>
+</ul>
+<h2 id="c_1">C++<a class="headerlink" href="#c_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="modern_cpp/">现代C++</a></li>
+</ul>
 
 
 

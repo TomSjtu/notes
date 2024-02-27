@@ -564,6 +564,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../kernel/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../kernel/task/" class="md-nav__link">
         
   
@@ -673,7 +694,7 @@
         
   
   <span class="md-ellipsis">
-    内核同步
+    同步语义
   </span>
   
 
@@ -816,27 +837,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../kernel/pm/" class="md-nav__link">
         
   
@@ -890,6 +890,10 @@
   
     
     
+      
+        
+      
+        
       
         
           
@@ -971,6 +975,48 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
             
@@ -1136,7 +1182,7 @@
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -1889,6 +1935,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1928,6 +1978,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2014,6 +2085,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2032,6 +2124,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -2059,6 +2155,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
@@ -2068,6 +2169,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2533,23 +2676,49 @@
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_device_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">);</span>
 </span></code></pre></div>
 <p>这两个函数应该在模块的进入与退出函数中被调用。</p>
+<div class="admonition example">
+<p class="admonition-title">内核platform的注册</p>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">platform_bus_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="n">early_platform_cleanup</span><span class="p">();</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">device_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">platform_bus</span><span class="p">);</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="w">        </span><span class="n">put_device</span><span class="p">(</span><span class="o">&amp;</span><span class="n">platform_bus</span><span class="p">);</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="w">    </span><span class="n">error</span><span class="w"> </span><span class="o">=</span><span class="w">  </span><span class="n">bus_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">platform_bus_type</span><span class="p">);</span>
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">        </span><span class="n">device_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">platform_bus</span><span class="p">);</span>
+</span><span id="__span-4-15"><a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="n">of_platform_register_reconfig_notifier</span><span class="p">();</span>
+</span><span id="__span-4-16"><a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">error</span><span class="p">;</span>
+</span><span id="__span-4-17"><a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="p">}</span>
+</span></code></pre></div>
+</div>
 <h2 id="_4">平台驱动<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>内核使用<code>platform_driver</code>结构体来描述平台驱动：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">platform_driver</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">probe</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">remove</span><span class="p">)(</span><span class="n">structg</span><span class="w"> </span><span class="n">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">suspend</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">pm_message_t</span><span class="w"> </span><span class="n">state</span><span class="p">);</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">resume</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_driver</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
-</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device_id</span><span class="w"> </span><span class="o">*</span><span class="n">id_table</span><span class="p">;</span>
-</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">};</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">platform_driver</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">probe</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">remove</span><span class="p">)(</span><span class="n">structg</span><span class="w"> </span><span class="n">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">suspend</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">,</span><span class="w"> </span><span class="n">pm_message_t</span><span class="w"> </span><span class="n">state</span><span class="p">);</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">resume</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_driver</span><span class="w"> </span><span class="n">driver</span><span class="p">;</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device_id</span><span class="w"> </span><span class="o">*</span><span class="n">id_table</span><span class="p">;</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">};</span>
 </span></code></pre></div>
+<blockquote>
+<p>probe：初始化平台设备</p>
+<p>remove：释放平台设备</p>
+<p>suspend/resume：设备进入/退出休眠状态</p>
+</blockquote>
 <p>除了提供一些回调函数之外，还有一个<code>id_table</code>的指针。这个指针用来表示该驱动能够兼容的<code>platform_device</code>。</p>
 <p>我们来看一下<code>struct platform_device_id</code>结构体的定义：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device_id</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">PLATFORM_NAME_SIZE</span><span class="p">];</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="n">kernel_ulong_t</span><span class="w"> </span><span class="n">driver_data</span><span class="p">;</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">};</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device_id</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">PLATFORM_NAME_SIZE</span><span class="p">];</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">kernel_ulong_t</span><span class="w"> </span><span class="n">driver_data</span><span class="p">;</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">};</span>
 </span></code></pre></div>
 <blockquote>
 <p>name：驱动的名称。平台总线进行匹配时，会根据该name成员与<code>platform_device</code>中的name成员进行匹配，一旦匹配就会调用<code>probe()</code>函数。</p>
@@ -2557,12 +2726,12 @@
 </blockquote>
 <p>这里插个题外话，当手动实现<code>probe()</code>函数时涉及到内存分配的问题。很多驱动程序都使用<code>devm_kzalloc()</code>函数来分配内存。我们接触比较多的是<code>kmalloc()</code>或者<code>kzalloc()</code>来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而<code>devm_kzalloc()</code>函数则可以自动释放内存，这样就不用开发人员担心内存释放的问题了。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。</p>
 <p>注册/注销平台驱动的函数如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_driver_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_driver_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_driver_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_driver_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
 </span></code></pre></div>
 <p>在平台设备中，<code>struct resource</code>结构体用来表示硬件信息，而软件信息则可以用设备结构体<code>device</code>中的成员platform_data来保存。</p>
 <p><code>platform_get_resource()</code>函数通常会在驱动的<code>probe()</code>函数中执行，用于获取<code>platform_device</code>中的<code>resource</code>结构体：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="o">*</span><span class="n">platform_get_resource</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="o">*</span><span class="n">platform_get_resource</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
 </span></code></pre></div>
 <blockquote>
 <p>dev：指定要获取的平台设备。</p>
@@ -2570,13 +2739,13 @@
 <p>num：指定要获取的资源编号。</p>
 </blockquote>
 <p>如果资源类型是IORESOURCE_IRQ，可以使用以下接口还获取中断引脚：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_get_irq</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_get_irq</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
 </span></code></pre></div>
 <p>对于存放在<code>device</code>结构体中platform_data的软件信息，可以使用<code>dev_get_platdata()</code>函数来获取：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">dev_get_platdata</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="p">{</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">platform_data</span><span class="p">;</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">}</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">dev_get_platdata</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">{</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">platform_data</span><span class="p">;</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">}</span>
 </span></code></pre></div>
 <p>总结：在平台设备驱动模型中，驱动的入口函数变成了<code>probe()</code>函数，在这里我们需要实现驱动的初始化与注册。一旦平台总线成功将<code>platform_device</code>和<code>platform_driver</code>匹配，就会调用该函数。</p>
 

@@ -564,6 +564,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../kernel/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../kernel/task/" class="md-nav__link">
         
   
@@ -673,7 +694,7 @@
         
   
   <span class="md-ellipsis">
-    内核同步
+    同步语义
   </span>
   
 
@@ -816,27 +837,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../kernel/pm/" class="md-nav__link">
         
   
@@ -890,6 +890,10 @@
   
     
     
+      
+        
+      
+        
       
         
           
@@ -973,6 +977,48 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
             
               
                 
@@ -1038,7 +1084,7 @@
         <li class="md-nav__item">
   <a href="#dtsdtbdtc" class="md-nav__link">
     <span class="md-ellipsis">
-      DTS、DTB和DTC的关系
+      DTS、DTB和DTC
     </span>
   </a>
   
@@ -1169,7 +1215,7 @@
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -1922,6 +1968,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1961,6 +2011,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2047,6 +2118,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2065,6 +2157,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -2092,6 +2188,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
@@ -2101,6 +2202,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2446,7 +2589,7 @@
         <li class="md-nav__item">
   <a href="#dtsdtbdtc" class="md-nav__link">
     <span class="md-ellipsis">
-      DTS、DTB和DTC的关系
+      DTS、DTB和DTC
     </span>
   </a>
   
@@ -2513,16 +2656,34 @@
 
 
 <h1 id="_1">设备树<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>设备树是一种特殊的描述硬件信息的数据结构，由一系列节点（Node）和属性（Property）组成，节点本身还可以包含子节点，就像一颗树状结构一样。可以描述的信息包括：</p>
+<ul>
+<li>CPU的数量和类别</li>
+<li>内存基地址和大小</li>
+<li>总线和桥的配置</li>
+<li>外设的地址</li>
+<li>中断控制器和中断使用情况</li>
+<li>GPIO控制器和GPIO使用情况</li>
+<li>时钟控制器和时钟使用情况</li>
+</ul>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>是否所有的硬件信息都需要设备树来描述？</p>
+</div>
+<p>答案是不需要。基本上，那些可以动态探测到的设备是不需要描述的，例如USB device。</p>
 <h2 id="_2">设备树的由来<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>起因是在&lt;arch/arm/mach-xxx&gt;目录下充斥着大量重复的board specific的代码，每次Linux内核merge window期间，ARM的代码变化占整个arch目录的一半以上，导致内核十分的臃肿。经过社区讨论后决定：</p>
+<p>起因是&lt;arch/arm/mach-xxx&gt;目录下充斥着大量重复的、描述board specific的代码，在某一次Linux内核代码合并窗口期间，linus大骂ARM社区是a fucking pain in the ass，引发ARM社区地震。于是在2011年 ~ 2012年期间，ARM社区做了大量改动：</p>
 <ol>
 <li>ARM的核心代码仍然保存在&lt;arch/arm&gt;目录下</li>
 <li>ARM SOC周边外设模块的驱动代码保存在drivers目录下</li>
-<li>ARM SOC board specific的代码被移除，由Device Tree机制来负责传递硬件资源信息。</li>
+<li>ARM SOC board specific的代码被移除，由设备树来负责传递硬件资源信息。</li>
 </ol>
-<p>本质上，Device Tree改变了原来用hardcode方式将硬件配置信息嵌入到内核代码的方法。对于嵌入式系统，在系统启动阶段，由bootloader通过bootm命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。</p>
-<p>设备树文件.dts用来描述硬件信息。一个SOC可以制作很多开发板，将这些开发板的通用信息提取出来，变为一个单独的.dtsi文件。其他的.dts可以直接引用通用文件，就像C语言中的头文件。</p>
-<p>一般情况下，.dtsi描述SOC信息，比如CPU架构，主频。.dts文件描述板级信息，比如开发板上有哪些IIC设备、SPI设备等。</p>
+<p>本质上，设备树改变了原来用hardcode方式将硬件配置信息嵌入到内核代码的方法。对于嵌入式系统，在系统启动阶段，由<mark class="critic">bootloader</mark>通过bootm命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。</p>
+<p>一般情况下，.dtsi描述SoC信息，比如CPU架构，主频。.dts文件描述板级信息，比如开发板上有哪些I2C设备、SPI设备等。</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>一个SoC可以制作很多开发板，每个开发板都可以有不同的.dts文件，为了简化，通用的信息就放在.dtsi中，类似于C语言的头文件。</p>
+</div>
 <p><img alt="device tree" src="../../../images/kernel/device_tree.png" /></p>
 <p>开发板的设备树文件一般位于/boot/dtb/[SOC_NAME]/[BOARD_NAME.dtb]。</p>
 <p>如果要查看开发板中的设备树结构可以使用：</p>
@@ -2531,17 +2692,27 @@
 <p>或者</p>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ls<span class="w"> </span>/proc/device-tree
 </span></code></pre></div>
-<h2 id="dtsdtbdtc">DTS、DTB和DTC的关系<a class="headerlink" href="#dtsdtbdtc" title="Permanent link">&para;</a></h2>
-<p>dts是设备树源码文件，包含的头文件为dtsi。dts文件是人类可以看懂的，但是uboot和linux无法识别，因此需要dtc将dts文件编译成dtb文件。dtb文件是uboot和linux可以识别的二进制文件。在Linux源码目录下/scripts/dtc目录包含了dtc工具的源码。</p>
+<h2 id="dtsdtbdtc">DTS、DTB和DTC<a class="headerlink" href="#dtsdtbdtc" title="Permanent link">&para;</a></h2>
+<p>.dts文件是人类可以看懂的，但是内核无法识别。DTC工具可以将.dts编译成.dtb，这样内核就可以识别了。DTC的源码位于内核的&lt;scripts/dtc&gt;目录中。</p>
 <p>dtc的使用方法是：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>dtc<span class="w"> </span>-I<span class="w"> </span>dts<span class="w"> </span>-O<span class="w"> </span>dtb<span class="w"> </span>-o<span class="w"> </span><span class="o">[</span>output<span class="o">]</span>.dtb<span class="w"> </span><span class="o">[</span>input<span class="o">]</span>.dts
 </span></code></pre></div>
 <p>反过来可以生成dts文件：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>dtc<span class="w"> </span>-I<span class="w"> </span>dtb<span class="w"> </span>-O<span class="w"> </span>dts<span class="w"> </span>-o<span class="w"> </span><span class="o">[</span>output<span class="o">]</span>.dts<span class="w"> </span><span class="o">[</span>input<span class="o">]</span>.dtb
 </span></code></pre></div>
-<p>make dtbs会编译所有的dts文件，如果要编译指定的dtb，请使用make board_name.dtb。</p>
+<p><code>make dtbs</code>会编译所有的dts文件，如果要编译指定的dtb，请使用<code>make board_name.dtb</code>。</p>
 <h2 id="dts">DTS基本语法<a class="headerlink" href="#dts" title="Permanent link">&para;</a></h2>
-<p>设备树的语法非常简单，就是由一系列的node和property组成。这些node被组织成树状结构，除了root node，每个node都有一个parent node。每个node都包含一系列的property，用来描述该node的一些信息。node还可以嵌套child node。</p>
+<div class="admonition info">
+<p class="admonition-title">设备树绑定文档</p>
+<p>位于&lt;Documentation/devicetree/bindings&gt;目录下，主要内容包括：</p>
+<ul>
+<li>该模块的基本描述</li>
+<li>必须属性</li>
+<li>可选属性</li>
+<li>一个例子</li>
+</ul>
+</div>
+<p>设备树就是由一系列node和child node组成的，每个node都包含一些属性用来描述这个node的信息。</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>label:node-name@unit-address{
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    属性1 = ...
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    属性2 = ...
@@ -2550,7 +2721,7 @@
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>}
 </span></code></pre></div>
 <ul>
-<li>label：用来指定一个唯一的标签，方便引用。</li>
+<li>label：用来指定一个唯一的标签，之后就可以用&amp;label的方式引用这个node。</li>
 <li>node-name：用来指定节点的名称。</li>
 <li>unit-address：用来指定地址，和此节点的reg属性的开始地址必须一致。</li>
 </ul>
@@ -2571,13 +2742,17 @@
 <h3 id="_4">属性<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>节点由一堆属性组成，节点是具体的设备，但是不同的设备有不同的属性，不过有一些是标准属性。</p>
 <p>1.<code>compatible</code>属性</p>
-<p><code>compatible</code>属性用来表示device和driver的适配：</p>
+<p><code>compatible</code>属性定义了整个系统的名称，它的组织形式为：(manufacturer, model)。内核通过该属性判断它启动的是什么设备。</p>
+<div class="admonition example">
+<p class="admonition-title">瑞芯微</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>compatible = &quot;rockchip, rk3399&quot;;
 </span></code></pre></div>
-<p>表示厂商和SOC名。在驱动文件中有一个of匹配表，用来匹配设备节点和驱动节点。如果设备节点的compatible属性值和of匹配表中任何一个值相等，那么就表示该设备可以使用这个驱动。</p>
+</div>
+<p>使用设备树后，驱动程序需要和.dts中所描述的设备节点进行匹配，从而调用驱动的入口函数<code>probe()</code>，匹配的属性正是compatible属性。对于<code>platform_drvier</code>而言，需要在程序中指明一个OF匹配表。</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_device_id</span><span class="w"> </span><span class="n">rockchip_rk3399_match</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rockchip,rk3399&quot;</span><span class="w"> </span><span class="p">},</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="p">};</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="p">{},</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">};</span>
 </span></code></pre></div>
 <p><code>compatible</code>也可以有多个属性值，按照优先级的顺序进行匹配。</p>
 <p>2.<code>model</code>属性</p>
@@ -2589,21 +2764,23 @@
 <div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>reg = &lt;0x4000e000 0x400&gt;  //起始地址+大小
 </span></code></pre></div>
 <p>5.<code>#address-cells</code>和<code>#size-cells</code>属性</p>
-<p>如果一个<code>device node</code>的sub node有寻址需求（即需要定义<code>reg</code>属性），那么这两个属性就必须要定义，用于描述sub node的<code>reg</code>属性的信息。</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>#address-cells: 决定了子节点reg属性的地址信息所占用的字长
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>#size-cells：决定了子节点reg属性中长度信息所占的字长
 </span></code></pre></div>
-<p>6.<code>ranges</code>属性</p>
-<p><code>ranges</code>属性的值按照(child-bus-address, parent-bus-address, lenght)格式编写。<code>ranges</code>属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过<code>ranges</code>属性获知哪些内存区域或者IO端口是被硬件设备所占用的。</p>
+<p>假如有ethernet、i2c、flash的reg字段形如：</p>
 <ul>
-<li>child-bus-address：子总线地址空间的物理地址，由父节点的#address-cells确定此物理地址占用的字长</li>
-<li>parent-bus-address：父总线地址空间的物理地址，同样由父节点的#address-cells确定此物理地址占用的字长</li>
-<li>length：子地址空间的长度，由父节点的#size-cells确定此地址长度占用的字长</li>
+<li>reg=&lt;0 0 0x1000&gt;;</li>
+<li>reg=&lt;1 0 0x1000&gt;;</li>
+<li>reg=&lt;2 0 0x10000000&gt;;</li>
 </ul>
-<p>如果<code>ranges</code>属性为空，则说明子地址空间和父地址空间相同，不需要进行转换。</p>
+<p>空格隔开的就表示一个cell——第一个元素表示片选，第二个元素表示内存基地址，第三个元素表示长度。</p>
+<p>6.<code>ranges</code>属性</p>
+<p><code>range</code>是地址转换表，按照（子地址，父地址，转换长度）的格式编写。</p>
+<p>比如对于#address-cells和#size-cells都为1的话，以ranges=&lt;0x0 0x10 0x20&gt;为例，表示将子地址的从0x0~(0x0 + 0x20)的地址空间映射到父地址的0x10~(0x10 + 0x20)。</p>
+<p><code>ranges</code>属性的值按照(child-bus-address, parent-bus-address, length)格式编写。<code>ranges</code>属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过<code>ranges</code>属性获知哪些内存区域或者IO端口是被硬件设备所占用的。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Arm体系此属性设置为空。</p>
+<p>如果<code>ranges</code>属性为空，则说明子地址空间和父地址空间相同，不需要进行转换。</p>
 </div>
 <p>7.<code>intc</code>属性</p>
 <p>用于表示中断控制器的相关信息。</p>
@@ -2643,8 +2820,8 @@
 </span><span id="__span-10-19"><a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_irq_controller</span><span class="w"> </span><span class="o">*</span><span class="n">irq_trans</span><span class="p">;</span>
 </span><span id="__span-10-20"><a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="cp">#endif</span>
 </span><span id="__span-10-21"><a id="__codelineno-10-21" name="__codelineno-10-21" href="#__codelineno-10-21"></a><span class="p">};</span>
-</span></code></pre></div>
-与查找节点相关的<code>of</code>函数有5个：</p>
+</span></code></pre></div></p>
+<p>与查找节点相关的<code>of</code>函数有5个：</p>
 <p>1.通过节点名字查找指定节点</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_name</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span>
 </span></code></pre></div>
@@ -2714,20 +2891,21 @@
 <p>4.读取u8、u16、u32、u64数组类型的数据</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_u8_array</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="n">u8</span><span class="w"> </span><span class="o">*</span><span class="n">out_values</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">sz</span><span class="p">)</span>
 </span></code></pre></div>
-<p>将函数名中的u8替换成其他数据类型即可。</p>
-<p>5.读取u8、u16、u32、u64类型属性值</p>
+<p>将函数名中的u8替换成其他数据类型即可。对于32位处理器，最常用的是<code>of_property_read_u32——array()</code>函数。</p>
+<p>5.读取u8、u16、u32、u64整型类型的数据</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_u8</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="n">u8</span><span class="w"> </span><span class="o">*</span><span class="n">out_value</span><span class="p">)</span>
 </span></code></pre></div>
 <p>6.读取属性中字符串的值</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_string</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">out_string</span><span class="p">)</span>
 </span></code></pre></div>
-<p>这个函数使用比较繁琐，建议使用以下函数：</p>
+<p>读取字符串数组属性中第index个字符串：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_string_index</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">out_string</span><span class="p">)</span>
 </span></code></pre></div>
-<p>相比前面的函数增加了参数index，它用于指定读取属性值中第几个字符串，index从零开始计数。 第一个函数只能得到属性值所在地址，也就是第一个字符串的地址，其他字符串需要我们手动修改移动地址，非常麻烦，推荐使用第二个函数。</p>
-<p>现在内核提供了内存映射相关的<code>of</code>函数，可以自动完成物理地址到虚拟地址的转换：</p>
-<p>```C
-void __iomem <em>of_iomap(struct device_node </em>np, int index)</p>
+<p>index从零开始计数。 第一个函数只能得到属性值所在地址，也就是第一个字符串的地址，其他字符串需要我们手动修改移动地址，非常麻烦，推荐使用第二个函数。</p>
+<p>7.内存映射</p>
+<p>该函数可以自动完成物理地址到虚拟地址的转换：</p>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">of_iomap</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">)</span>
+</span></code></pre></div>
 
 
 

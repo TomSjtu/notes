@@ -566,6 +566,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../task/" class="md-nav__link">
         
   
@@ -868,7 +889,7 @@
         
   
   <span class="md-ellipsis">
-    内核同步
+    同步语义
   </span>
   
 
@@ -1011,27 +1032,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../pm/" class="md-nav__link">
         
   
@@ -1083,6 +1083,10 @@
   
     
     
+      
+        
+      
+        
       
         
           
@@ -1164,6 +1168,48 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
             
@@ -1262,7 +1308,7 @@
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -2015,6 +2061,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -2054,6 +2104,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2140,6 +2211,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2158,6 +2250,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -2185,6 +2281,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
@@ -2194,6 +2295,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2707,7 +2850,7 @@
 <p>在响应一个特定的中断时，内核会执行一个函数，该函数叫中断处理程序（interrupt handler）或中断服务例程（interrupt service routine, ISR）。产生中断的每个设备都有一个响应的中断处理程序，一个设备的中断处理程序是它驱动程序的一部分。</p>
 <p>中断处理程序处于特殊的中断上下文中。在解释中断上下文之前，我们先回忆一下进程上下文。在进程上下文中，可以使用<code>current</code>宏关联当前进程，可以睡眠，也可以调用调度程序。与之相反，中断上下文与进程没有什么关联。因为中断的触发是随时到来的，并不知道当前处于哪个进程。因为没有后备进程，所以中断上下文不可睡眠，也不能调用任何可以引起睡眠的函数。</p>
 <p>中断随时有可能发生，因此中断处理程序必须快速执行。但是，中断处理程序往往还要完成大量其他的工作。尤其体现在网络设备上，除了对硬件应答之外，还需要把来自硬件的网络数据拷贝到内存，显然这种工作量不会小。</p>
-<p>要想中断处理程序运行得又快，完成的任务又多是不现实的。于是中断处理的整个过程就分为上半部和下半部两个部分。通常所说的中断处理程序是指上半部——当接收到一个中断后，它立刻被执行，但只做有严格时限的工作。例如对接收到的中断进行应答等等。而稍后需要完成的工作则会被推迟到下半部去，在合适的时机执行。内核提供了多种下半部的机制，稍后会做说明。</p>
+<p>要想中断处理程序运行得又快，完成的任务又多是不现实的。于是中断处理的整个过程就分为上半部（Top Half）和下半部（Bottom Half）两个部分。通常所说的中断处理程序是指上半部——当接收到一个中断后，它立刻被执行，但只做有严格时限的工作。例如对接收到的中断进行应答等等。而稍后需要完成的工作则会被推迟到下半部去，在合适的时机执行。内核提供了多种下半部的机制，稍后会做说明。</p>
 <p>设备驱动程序可以通过<code>request_irq()</code>函数注册一个中断处理程序，并且激活给定的中断线：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">request_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="n">irq_handler_t</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">                </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
@@ -2732,7 +2875,10 @@
 </span></code></pre></div>
 <p>参数irq已经没有什么用了，参数dev用来向中断处理程序传递数据结构。</p>
 <p>Linux上的中断处理程序无需要求可重入。因为中断处理程序运行时相应中断线上的中断是屏蔽的，也就是不会发生相同中断的嵌套。但不同中断的嵌套有可能发生。</p>
-<p>对于共享的中断处理程序，除了要指定<code>request_irq()</code>函数中的参数flags为IRQF_SHARED标志，还需要保证参数dev的唯一性。当内核接收一个中断后，它将依次调用在该中断线上注册的每一个处理程序。因此一个处理程序必须知道它是否该为这个中断负责，如果不是就要立即退出。</p>
+<div class="admonition info">
+<p class="admonition-title">中断共享</p>
+<p>对于共享中断线的中断处理程序，需要在申请中断时指定IRQF_SHARED标志，同时将设备结构体指针作为dev_id传入。在中断到来时，内核遍历共享此中断的所有处理程序，直到某个函数返回IRQ_HANDLED。每个中断处理程序都必须判断是否为本设备的中断。</p>
+</div>
 <h2 id="_3">中断处理机制<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p><img alt="中断流程" src="../../../images/kernel/interrupt.png" /></p>
 <p>中断处理系统在Linux中的实现依赖于体系结构。上图是中断从硬件到内核执行的过程。当一个设备产生中断后，通过总线把电信号发送给中断控制器。如果中断线是激活的，那么中断控制器就会把中断发送给处理器。在大多数体系结构中，这个工作就是通过电信号给处理器的特定管脚发送一个信号。除非处理器禁止了该中断，否则它会立刻停下当前执行的代码，关闭中断系统，然后跳到内存中预定义的位置开始执行那里的代码。这个预定义的位置由内核设置，是中断处理程序的入口点。</p>
@@ -2754,18 +2900,23 @@
 <p>procfs是一个虚拟文件系统，可以通过读/proc/interrupts文件读取系统中与中断相关的统计信息。</p>
 </div>
 <h2 id="_4">中断控制<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>Linux内核提供了一组接口用于操作机器上的中断状态。这些接口为我们提供了能够禁止当前处理器的中断系统，或屏蔽掉整个机器的一条中断线的能力。这些操作都是与体系结构相关的。一般来说，控制中断系统的原因归根到底是需要同步。通过禁止中断，可以确保某个中断处理程序不会被抢占。此外，还可以禁止内核抢占。要注意的是，在编写驱动程序时，应该尽量减少中断，同时不要把这种技术当做互斥机制来使用。</p>
-<p>禁止和激活本地中断的函数为：</p>
+<p>Linux内核提供了一组接口用于操作机器上的中断状态。这些接口为我们提供了能够禁止当前处理器的中断系统，或屏蔽掉整个机器的一条中断线的能力。这些操作都是与体系结构相关的。一般来说，控制中断系统的原因归根到底是需要同步。通过禁止中断，可以确保当前执行路径不会被中断打断。</p>
+<p>下面这两个函数可以禁止/使能本地CPU中断：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">local_irq_disable</span><span class="p">();</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">local_irq_enable</span><span class="p">();</span>
 </span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>中断对于内核的运行至关重要，在屏蔽中断期间所有中断都无法处理。所以在驱动程序中，不要使用这两个函数。</p>
+<p>如果只是想中断下半部，可以使用<code>local_bh_disable()</code>和<code>local_bh_enable()</code>。</p>
+</div>
 <p>如果在调用<code>local_irq_disable()</code>函数前已经禁止了中断，那么该操作会带来潜在的危险。同样，<code>local_irq_enable()</code>函数也存在危险，因为它会无条件激活中断。当内核代码变得复杂时，我们并不知道当前处理器中断状态，所以我们需要一种机制，仅仅时把中断恢复到以前的状态而不是简单地禁止或者是激活。</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">local_irq_save</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">local_irq_restore</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
 </span></code></pre></div>
-<p>在前面的内容中，我们知道了禁止整个处理器上所有中断的函数。在某些情况下，需要禁止特定的中断线。相关函数如下：</p>
+<p>在前面的内容中，我们知道了禁止整个处理器上所有中断的函数。如果只是禁止特定的中断线，相关函数如下：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">disable_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">disable_irq_nosync</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">enable_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
@@ -2930,6 +3081,35 @@
 <p>移除tasklet，通常在设备关闭或者模块退出时调用该函数：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">tasklet_kill</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_tasklet</span><span class="p">);</span>
 </span></code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">tasklet的使用</p>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">do_tasklet</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="p">);</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">my_tasklet</span><span class="p">,</span><span class="w"> </span><span class="n">do_tasklet</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">do_tasklet</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="p">)</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="p">{</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">    </span><span class="p">...</span>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="p">}</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="n">irqreturn_t</span><span class="w"> </span><span class="nf">do_interrupt</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="p">{</span>
+</span><span id="__span-20-11"><a id="__codelineno-20-11" name="__codelineno-20-11" href="#__codelineno-20-11"></a><span class="w">    </span><span class="p">...</span>
+</span><span id="__span-20-12"><a id="__codelineno-20-12" name="__codelineno-20-12" href="#__codelineno-20-12"></a><span class="w">    </span><span class="n">tasklet_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">do_tasklet</span><span class="p">);</span>
+</span><span id="__span-20-13"><a id="__codelineno-20-13" name="__codelineno-20-13" href="#__codelineno-20-13"></a><span class="p">}</span>
+</span><span id="__span-20-14"><a id="__codelineno-20-14" name="__codelineno-20-14" href="#__codelineno-20-14"></a>
+</span><span id="__span-20-15"><a id="__codelineno-20-15" name="__codelineno-20-15" href="#__codelineno-20-15"></a><span class="kt">int</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">my_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span><span id="__span-20-16"><a id="__codelineno-20-16" name="__codelineno-20-16" href="#__codelineno-20-16"></a><span class="p">{</span>
+</span><span id="__span-20-17"><a id="__codelineno-20-17" name="__codelineno-20-17" href="#__codelineno-20-17"></a><span class="w">    </span><span class="cm">/*申请中断*/</span>
+</span><span id="__span-20-18"><a id="__codelineno-20-18" name="__codelineno-20-18" href="#__codelineno-20-18"></a><span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">requset_irq</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="n">do_interrupt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my_irq&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+</span><span id="__span-20-19"><a id="__codelineno-20-19" name="__codelineno-20-19" href="#__codelineno-20-19"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">IRQ_HANDLED</span><span class="p">;</span>
+</span><span id="__span-20-20"><a id="__codelineno-20-20" name="__codelineno-20-20" href="#__codelineno-20-20"></a><span class="p">}</span>
+</span><span id="__span-20-21"><a id="__codelineno-20-21" name="__codelineno-20-21" href="#__codelineno-20-21"></a>
+</span><span id="__span-20-22"><a id="__codelineno-20-22" name="__codelineno-20-22" href="#__codelineno-20-22"></a><span class="kt">void</span><span class="w"> </span><span class="n">__exit</span><span class="w"> </span><span class="nf">my_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span><span id="__span-20-23"><a id="__codelineno-20-23" name="__codelineno-20-23" href="#__codelineno-20-23"></a><span class="p">{</span>
+</span><span id="__span-20-24"><a id="__codelineno-20-24" name="__codelineno-20-24" href="#__codelineno-20-24"></a><span class="w">    </span><span class="n">free_irq</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="n">do_interrupt</span><span class="p">);</span>
+</span><span id="__span-20-25"><a id="__codelineno-20-25" name="__codelineno-20-25" href="#__codelineno-20-25"></a><span class="p">}</span>
+</span></code></pre></div>
+</div>
 <h3 id="ksoftirqd">ksoftirqd<a class="headerlink" href="#ksoftirqd" title="Permanent link">&para;</a></h3>
 <p>每个处理器都有一组辅助处理软中断（和tasklet）的内核线程。当内核中出现大量软中断的时候，内核线程就会选择合适的时机来处理软中断。</p>
 <p>在大流量的网络通信中，软中断的触发频率可能很高，甚至还会自行重复触发，这会导致用户空间的进程无法获得足够的处理器时间。如果软中断和重复触发的软中断都被立即处理，那么当负载很高的时候，系统就会出现明显的卡顿现象。如果选择不处理重新触发的软中断，又会浪费闲置的系统资源，导致软中断出现饥饿现象。</p>
@@ -2941,52 +3121,52 @@
 <h3 id="_10">工作队列的实现<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <p>工作队列子系统提供了缺省的工作者线程（worker thread）来处理需要推后的工作。缺省的工作者线程叫做<mark class="critic">events/n</mark>，n为处理器的编号。你可以创建自己的工作者线程，不过一般使用缺省线程即可。专用的工作者线程可以更好地控制和优化任务的执行，但也需要更多的资源和管理开销。</p>
 <p>工作队列用<code>workqueue_struct</code>结构体表示：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_workqueue_struct</span><span class="w"> </span><span class="n">cpu_wq</span><span class="p">[</span><span class="n">NR_CPUS</span><span class="p">]</span><span class="err">；</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
-</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">singlethread</span><span class="p">;</span>
-</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">freezeable</span><span class="p">;</span>
-</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rt</span><span class="p">;</span>
-</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="p">};</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_workqueue_struct</span><span class="w"> </span><span class="n">cpu_wq</span><span class="p">[</span><span class="n">NR_CPUS</span><span class="p">]</span><span class="err">；</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">singlethread</span><span class="p">;</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">freezeable</span><span class="p">;</span>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rt</span><span class="p">;</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="p">};</span>
 </span></code></pre></div>
 <p>该结构体内有一个<code>cpu_workqueue_struct</code>结构组成的数组，数组的每一项对应系统中的一个处理器。也就是说系统中每个处理器对应一个工作者线程。</p>
 <p>工作由<code>work_struct</code>结构体表示：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="n">atomic_long_t</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">entry</span><span class="p">;</span>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="n">work_func_t</span><span class="w"> </span><span class="n">func</span><span class="p">;</span>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="p">};</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="n">atomic_long_t</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">entry</span><span class="p">;</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="n">work_func_t</span><span class="w"> </span><span class="n">func</span><span class="p">;</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="p">};</span>
 </span></code></pre></div>
 <p>这些结构体被连接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，当没有剩余的操作时，它就会继续休眠。</p>
 <h3 id="_11">使用工作队列<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <p>静态创建一个<code>work_struct</code>结构体：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">DECLARE_WORK</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">DECLARE_WORK</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">);</span>
 </span></code></pre></div>
 <p>动态创建：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">INIT_WORK</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">INIT_WORK</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">);</span>
 </span></code></pre></div>
 <p>处理工作的回调函数：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">work_handler</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">work_handler</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
 </span></code></pre></div>
 <p>使用工作队列时要注意，我们既可以使用系统全局的<code>system_wq</code>工作队列，也可以使用自定义的工作队列。</p>
 <p>如果要自定义一个工作队列，可以使用宏：
-<div class="language-C highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">create_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
-</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">create_singlethread_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="n">create_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="n">create_singlethread_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
 </span></code></pre></div></p>
 <p>这两个宏的区别是，第一个宏在每个处理器上为该工作队列创建专用的线程。第二个宏只创建一个工作者线程。</p>
 <p>注意：不管使用哪个宏，在创建自定义工作队列后，必须在退出时，调用以下函数确保资源的释放：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">flush_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
-</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">destroy_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">flush_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">destroy_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">);</span>
 </span></code></pre></div>
 <p>提交工作给自定义工作队列：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
 </span></code></pre></div>
 <p>在多核系统中，每个CPU上都有一个工作队列，这两个函数不会指定提交至哪个CPU，但会优先选择本地CPU。</p>
 <p>在许多情况下，驱动程序不需要单独的工作队列。如果我们只是偶尔需要向队列中提交任务，则可以使用内核默认的共享工作队列：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
 </span></code></pre></div>
 <h2 id="_12">下半部的同步<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
 <p>在使用下半部机制时，即便是一个单处理器，避免共享数据被同时访问也是至关重要的。使用tasklet的好处是：两个相同类型的tasklet不允许同时执行，即便是不同的处理器也不行。tasklet之间的同步（即不同类型的tasklet共享同一数据），正确使用锁机制即可。</p>

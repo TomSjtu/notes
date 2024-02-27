@@ -18,7 +18,7 @@
         <link rel="prev" href="../pm/">
       
       
-        <link rel="next" href="../../drivers/">
+        <link rel="next" href="../../drivers/hardware/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -566,6 +566,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../task/" class="md-nav__link">
         
   
@@ -675,7 +696,7 @@
         
   
   <span class="md-ellipsis">
-    内核同步
+    同步语义
   </span>
   
 
@@ -818,27 +839,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../pm/" class="md-nav__link">
         
   
@@ -914,15 +914,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      内核源码
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -948,6 +939,10 @@
   
     
     
+      
+        
+      
+        
       
         
           
@@ -1029,6 +1024,48 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
             
@@ -1127,7 +1164,7 @@
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -1880,6 +1917,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1919,6 +1960,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2005,6 +2067,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2023,6 +2106,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -2050,6 +2137,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
@@ -2059,6 +2151,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2401,15 +2535,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      内核源码
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -2451,87 +2576,6 @@
 </ul>
 <p>为了将系统调用号与对应的服务例程联系起来，内核定义了一个系统调用分派表（system call dispatch table），这个表存放在<code>sys_call_table</code>数组中。内核拿到系统调用号之后，就去<code>sys_call_table</code>中找到对应的系统调用实现函数去执行。执行完毕后，使用返回指令从内核态返回至用户态。</p>
 <p>内核在执行系统调用的时候处于进程上下文。<code>current</code>指针指向当前任务，即引发系统调用的那个进程。在进程上下文中，内核可以休眠并且可以被抢占。因此必须保证系统调用时可重入的，因为新的进程可能会使用相同的系统调用。</p>
-<h2 id="_3">内核源码<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>要获取内核源码，请使用<code>git</code>。</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
-</span></code></pre></div>
-<p>内核源码树由许多目录组成，一些比较重要的目录的描述如下：</p>
-<table>
-<thead>
-<tr>
-<th>目录名</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>arch</td>
-<td>体系结构相关的代码</td>
-</tr>
-<tr>
-<td>block</td>
-<td>块设备I/O层</td>
-</tr>
-<tr>
-<td>drivers</td>
-<td>设备驱动程序</td>
-</tr>
-<tr>
-<td>fs</td>
-<td>文件系统</td>
-</tr>
-<tr>
-<td>include</td>
-<td>内核头文件</td>
-</tr>
-<tr>
-<td>init</td>
-<td>初始化代码</td>
-</tr>
-<tr>
-<td>ipc</td>
-<td>进程间通信代码</td>
-</tr>
-<tr>
-<td>kernel</td>
-<td>内核核心代码</td>
-</tr>
-<tr>
-<td>lib</td>
-<td>内核库函数</td>
-</tr>
-<tr>
-<td>mm</td>
-<td>内存管理</td>
-</tr>
-<tr>
-<td>net</td>
-<td>网络系统</td>
-</tr>
-</tbody>
-</table>
-<p>要编译内核，请使用make menuconfig。内核的各种配置，以CONFIG_FEATURE的形式写入.config文件。配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。</p>
-<p>内核开发的特点如下：</p>
-<ul>
-<li>
-<p>不能使用标准C库头文件，只能使用内核提供的头文件。与体系结构无关的头文件位于内核源码根目录下的include目录。与体系结构相关的头文件位于&lt;arch/architecture/include/asm&gt;目录，内核代码以asm前缀的形式包含这些头文件。</p>
-</li>
-<li>
-<p>必须使用GNU C。gcc编译器支持以asm()指令开头嵌入汇编代码。</p>
-</li>
-<li>
-<p>没有内存保护机制。如果是内核访问了非法内存，后果不堪设想。</p>
-</li>
-<li>
-<p>无法执行浮点运算。内核对于浮点运算的支持度不够。</p>
-</li>
-<li>
-<p>必须考虑同步与并发。Linux内核是抢占式多任务处理系统，当前任务随时有可能被另一个任务抢占。</p>
-</li>
-<li>
-<p>必须考虑可移植性。比如保持字节序、64 位对齐、不假定字长和页面长度等一系列准则。</p>
-</li>
-</ul>
 
 
 

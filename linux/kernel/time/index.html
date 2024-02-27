@@ -18,7 +18,7 @@
         <link rel="prev" href="../network/">
       
       
-        <link rel="next" href="../types/">
+        <link rel="next" href="../pm/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -566,6 +566,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../task/" class="md-nav__link">
         
   
@@ -675,7 +696,7 @@
         
   
   <span class="md-ellipsis">
-    内核同步
+    同步语义
   </span>
   
 
@@ -923,15 +944,6 @@
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      定时测量函数
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
       高精度定时器
     </span>
   </a>
@@ -942,27 +954,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -1026,6 +1017,10 @@
   
     
     
+      
+        
+      
+        
       
         
           
@@ -1107,6 +1102,48 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
             
@@ -1205,7 +1242,7 @@
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -1958,6 +1995,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1997,6 +2038,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2083,6 +2145,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2101,6 +2184,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -2128,6 +2215,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
@@ -2137,6 +2229,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2551,15 +2685,6 @@
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      定时测量函数
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
       高精度定时器
     </span>
   </a>
@@ -2625,7 +2750,7 @@
 </span></code></pre></div>
 <p>初始化定时器：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">DEFINE_TIMER</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">)</span><span class="err">；</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">timer_setup</span><span class="p">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">setup_timer</span><span class="p">(</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
 </span></code></pre></div>
 <p>定时器到期激活函数原型：
 <div class="language-C highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">my_function</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
@@ -2633,7 +2758,7 @@
 <p>一般来说，定时器都会在超时后马上执行，但也有可能会推迟到下一个时钟节拍时才运行，所以不能用定时器来实现任何硬实时的任务。如果需要修改定时器超时时间，可以通过<code>mod_timer()</code>函数来实现：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">mod_timer</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">expires</span><span class="p">);</span>
 </span></code></pre></div>
-<p>启动定时器：</p>
+<p>注册定时器：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">add_timer</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">);</span>
 </span></code></pre></div>
 <p>如果在定时器超时前停止定时器，可以使用<code>del_timer()</code>函数：</p>
@@ -2678,9 +2803,7 @@
 <div class="language-C highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">msleep</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">millisecs</span><span class="p">);</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ssleep</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">seconds</span><span class="p">);</span>
 </span></code></pre></div>
-<h2 id="_8">定时测量函数<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>用户态下的进程读取和修改时间、日期用到的函数有：</p>
-<h2 id="_9">高精度定时器<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<h2 id="_8">高精度定时器<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <p>传统的定时器精度不足，只能支持Tick级别的精度。为了实现更高精度的定时器，内核独立设计了一个高精度定时器层（High Resolution Timer Layer），可以提供纳秒级别的精度，以满足对精确时间有迫切需求的程序。</p>
 <p>高精度定时器建立在Per CPU变量上，每个CPU都有一个独立的定时器。同时支持低精度模式和高精度模式。内核使用红黑树来组织各个高精度定时器，新的定时器按顺序被插入到红黑树中，树的最左边的节点就是最快到期的定时器。</p>
 <p>创建一个高精度定时器：</p>

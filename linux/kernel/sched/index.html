@@ -566,6 +566,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../task/" class="md-nav__link">
         
   
@@ -853,7 +874,7 @@
         
   
   <span class="md-ellipsis">
-    内核同步
+    同步语义
   </span>
   
 
@@ -996,27 +1017,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../pm/" class="md-nav__link">
         
   
@@ -1068,6 +1068,10 @@
   
     
     
+      
+        
+      
+        
       
         
           
@@ -1149,6 +1153,48 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
             
@@ -1247,7 +1293,7 @@
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -2000,6 +2046,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -2039,6 +2089,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2125,6 +2196,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2143,6 +2235,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -2170,6 +2266,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
@@ -2179,6 +2280,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2672,10 +2815,9 @@
 <p>操作系统的重要职责就是对各类进程进行合理的调度，有效分配CPU的时间，既要保证进程得到最快的响应，也要保证进程之间的公平性。Linux6.6内核已采用最新的EEVDF算法，本文只介绍沿用已久的CFS调度算法。</p>
 <p>Linux内核是多任务的操作系统，意味着能同时并发地执行多个进程。然而这只是操作系统给用户的幻觉。单个CPU在某个时间点上只能运行一个进程，内核为每个进程分配一小段非常短的时间片，并让不同的进程切换执行，造成了多进程并发运行的假象。在当前进程时间片用完之前，其他进程可能处于睡眠或阻塞状态。</p>
 <div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>Linux内核是抢占式多任务操作系统，意味着一个进程在使用完其分配的时间片之前，会被调度程序强制挂起而运行其他的进程。</p>
+<p class="admonition-title">抢占式多任务操作系统</p>
+<p>一个进程在使用完其分配的时间片之前，可能会被调度程序强制挂起而运行其他的进程。</p>
 </div>
-<p>在2.6.23内核版本，完全公平调度算法(CFS)成为Linux内核默认的调度算法。</p>
 <h2 id="_2">进程的分类<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>进程可以被分为<mark class="critic">I/O消耗型</mark>和<mark class="critic">处理器消耗型</mark>。前者指进程的大部分时间用来提交或者是等待I/O请求，这样的进程通常处于可运行状态，但只运行很短的时间就进入阻塞状态。比如图形界面程序就是典型的I/O消耗型程序，它们大部分时间都在等待来自鼠标或者是键盘的交互。</p>
 <p>相反，处理器消耗型进程把时间大多用在执行代码上，它们通常连续不断地运行。比如某个程序从0开始一直不停地打印数字，这就是一个处理器消耗型进程。从系统性能的角度考虑，调度器应降低处理器消耗型进程的调度频率，而延长其运行时间。对于I/O消耗型进程应做到尽快调度运行。</p>

@@ -18,7 +18,7 @@
         <link rel="prev" href="../lock/">
       
       
-        <link rel="next" href="../../pl/">
+        <link rel="next" href="../gic/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -559,6 +559,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../../linux/kernel/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../linux/kernel/task/" class="md-nav__link">
         
   
@@ -668,7 +689,7 @@
         
   
   <span class="md-ellipsis">
-    内核同步
+    同步语义
   </span>
   
 
@@ -811,27 +832,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/types/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../linux/kernel/pm/" class="md-nav__link">
         
   
@@ -883,6 +883,10 @@
   
     
     
+      
+        
+      
+        
       
         
           
@@ -964,6 +968,48 @@
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/drivers/hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/drivers/module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
             
@@ -1062,7 +1108,7 @@
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -1817,6 +1863,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1859,6 +1909,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1955,6 +2026,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1973,6 +2065,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -2000,6 +2096,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
@@ -2009,6 +2110,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2353,6 +2496,13 @@
 
 
 <h1 id="_1">内存屏障<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>ARM处理器的屏障指令包括：</p>
+<ul>
+<li>DMB（数据内存屏障）：在DMB之后的显式内存访问执行前，保证所有在DMB指令之前的内存访问完成。</li>
+<li>DSB（数据同步屏障）：位于此指令之前的所有显式内存访问、所有缓存、跳转预测和TLB维护操作全部完成。</li>
+<li>ISB（指令同步屏障）：Flush流水线，使得在ISB指令之后的指令重新从指令缓存中加载。</li>
+</ul>
+<p>Linux内核中的自旋锁、互斥体等逻辑，都使用了内存屏障来确保线程安全。</p>
 
 
 

@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/types/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/drivers/hardware/">
       
       
-        <link rel="prev" href="../time/">
+        <link rel="prev" href="../../kernel/others/">
       
       
-        <link rel="next" href="../pm/">
+        <link rel="next" href="../module/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>内核数据类型 - 一只Tom的笔记本</title>
+        <title>硬件知识 - 一只Tom的笔记本</title>
       
     
     
@@ -106,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              内核数据类型
+              硬件知识
             
           </span>
         </div>
@@ -477,8 +477,6 @@
                 
   
   
-    
-  
   
   
     
@@ -486,431 +484,6 @@
       
         
           
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    内核剖析
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_2">
-            <span class="md-nav__icon md-icon"></span>
-            内核剖析
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../task/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程管理
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../sched/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程调度
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ipc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程间通信
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vma/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程地址空间
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../interrupt/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    中断和中断处理
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../synch/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核同步
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../mm/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    物理内存管理
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../page/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    页高速缓存与页回写
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vfs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    虚拟文件系统
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../block/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    块I/O
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../network/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    网络系统
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../time/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    定时器
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    内核数据类型
-  </span>
-  
-
-      </a>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../pm/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    电源管理
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../others/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    其他
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
-      
         
       
         
@@ -953,12 +526,433 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../drivers/" class="md-nav__link ">
+            <a href="../../kernel/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    内核剖析
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            内核剖析
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/sched/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程调度
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/ipc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程间通信
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/vma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程地址空间
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/interrupt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    中断和中断处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/synch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    同步语义
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/mm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    物理内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/page/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    页高速缓存与页回写
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/vfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    虚拟文件系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/block/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    块I/O
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/pm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    电源管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/others/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -975,12 +969,103 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             设备驱动程序
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      存储器
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
             
@@ -991,7 +1076,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/dts/" class="md-nav__link">
+      <a href="../dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1012,7 +1097,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/device_model/" class="md-nav__link">
+      <a href="../device_model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1033,7 +1118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/platform/" class="md-nav__link">
+      <a href="../platform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1054,7 +1139,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/dma/" class="md-nav__link">
+      <a href="../dma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1075,11 +1160,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/chardev/" class="md-nav__link">
+      <a href="../chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    字符设备驱动程序
+    字符设备驱动
   </span>
   
 
@@ -1096,7 +1181,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/blkdev/" class="md-nav__link">
+      <a href="../blkdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1117,7 +1202,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/netdev/" class="md-nav__link">
+      <a href="../netdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1138,7 +1223,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/pinctrl/" class="md-nav__link">
+      <a href="../pinctrl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1159,7 +1244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/gpio/" class="md-nav__link">
+      <a href="../gpio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1180,7 +1265,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/i2c/" class="md-nav__link">
+      <a href="../i2c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1201,7 +1286,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/spi/" class="md-nav__link">
+      <a href="../spi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1222,7 +1307,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/uart/" class="md-nav__link">
+      <a href="../uart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1243,7 +1328,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/input/" class="md-nav__link">
+      <a href="../input/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1264,7 +1349,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/ethernet/" class="md-nav__link">
+      <a href="../ethernet/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1285,7 +1370,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/pci/" class="md-nav__link">
+      <a href="../pci/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1306,7 +1391,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/usb/" class="md-nav__link">
+      <a href="../usb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1327,7 +1412,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/mmc/" class="md-nav__link">
+      <a href="../mmc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1348,7 +1433,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/wifi/" class="md-nav__link">
+      <a href="../wifi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1369,7 +1454,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/bluetooth/" class="md-nav__link">
+      <a href="../bluetooth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1832,6 +1917,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1871,6 +1960,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM Linux启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1957,6 +2067,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1975,6 +2106,10 @@
       
         
           
+        
+      
+        
+      
         
       
     
@@ -2002,6 +2137,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
@@ -2011,6 +2151,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/gnu_c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU C
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/modern_cpp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2338,6 +2520,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      存储器
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2354,7 +2553,8 @@
   
 
 
-<h1 id="_1">内核数据类型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h1 id="_1">硬件知识<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">存储器<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 
 
 
