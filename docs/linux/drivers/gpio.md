@@ -4,19 +4,64 @@ GPIO全称“General Purpose Input/Output”，通用输入输出。GPIO可能�
 
 ## 设备树描述
 
-```C
-/*rk3568.dtsi*/
-gpio0: gpio@fdd60000 {
+对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399而言的GPIO控制器而言：
+
+```C title="rk3399.dtsi"
+
+gpio0: gpio0@ff720000 {
 	compatible = "rockchip,gpio-bank";
-	reg = <0x0 0xfdd60000 0x0 0x100>;
-	interrupts = <GIC_SPI 33 IRQ_TYPE_LEVEL_HIGH>;
-	clocks = <&pmucru PCLK_GPIO0>;
+	reg = <0x0 0xff720000 0x0 0x100>;
+	clocks = <&pmucru PCLK_GPIO0_PMU>;
+	interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH 0>;
+
 	gpio-controller;
-	#gpio-cells = <2>;
+	#gpio-cells = <0x2>;
+
 	interrupt-controller;
-	#interrupt-cells = <2>;
+	#interrupt-cells = <0x2>;
+};
+
+gpio1: gpio1@ff730000 {
+	compatible = "rockchip,gpio-bank";
+	reg = <0x0 0xff730000 0x0 0x100>;
+	clocks = <&pmucru PCLK_GPIO1_PMU>;
+	interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH 0>;
+
+	gpio-controller;
+	#gpio-cells = <0x2>;
+
+	interrupt-controller;
+	#interrupt-cells = <0x2>;
 };
 ```
+
+对于需要用到GPIO控制器的设备，需要在节点中声明
+
+
+```C title="rk3399-firefly.dts"
+
+leds {
+	compatible = "gpio-leds";
+	pinctrl-names = "default";
+	pinctrl-0 = <&work_led_pin>, <&diy_led_pin>;
+
+	work_led: led-0 {
+		label = "work";
+		default-state = "on";
+		gpios = <&gpio2 RK_PD3 GPIO_ACTIVE_HIGH>;
+	};
+
+	diy_led: led-1 {
+		label = "diy";
+		default-state = "off";
+		gpios = <&gpio0 RK_PB5 GPIO_ACTIVE_HIGH>;
+	};
+};
+```
+
+!!! info
+
+	设备驱动可以通过`of_get_named_gpio()`函数获取GPIO。
 
 ## 数据结构
 

@@ -53,6 +53,7 @@ nav:
     - linux/index.md
     - 内核剖析:
       - linux/kernel/index.md
+      - linux/kernel/intro.md
       - linux/kernel/task.md
       - linux/kernel/sched.md
       - linux/kernel/ipc.md
@@ -65,12 +66,13 @@ nav:
       - linux/kernel/block.md
       - linux/kernel/network.md
       - linux/kernel/time.md
-      - linux/kernel/types.md
       - linux/kernel/pm.md
       - linux/kernel/others.md
       
     
     - 设备驱动程序:
+      - linux/drivers/hardware.md
+      - linux/drivers/module.md
       - linux/drivers/index.md
       - linux/drivers/dts.md
       - linux/drivers/device_model.md
@@ -113,13 +115,17 @@ nav:
       
   - ARM: 
     - arm/index.md
+    - arm/boot.md
     - arm/aarch64.md
     - arm/instructions.md
     - arm/lock.md
     - arm/barrier.md
+    - arm/gic.md
 
   - 编程语言: 
     - pl/index.md
+    - pl/gnu_c.md
+    - pl/modern_cpp.md
 
   - 云计算:
     - cloud/index.md

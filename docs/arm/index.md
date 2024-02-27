@@ -1,18 +1,20 @@
 # ARM
 
 
-## Table of Contents
-
-### 基础知识
+## 基础知识
 
 - [ARM架构基础知识](./aarch64.md)
 - [A64指令集](./instructions.md)
+- [ARM Linux启动](./boot.md)
 
-### ARM同步机制
+## ARM同步机制
 
 - [锁的实现](./lock.md)
 - [内存屏障](./barrier.md)
 
+## 中断控制
+
+- [GIC](./gic.md)
 
 ## 参考资料
 

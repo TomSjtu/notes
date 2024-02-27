@@ -2,8 +2,6 @@
 
 ![Linux Performance Tools](../../images/kernel/performance-tools.webp)
 
-## Table of Contents
-
 - [CPU性能](./cpu.md)
 - [内存性能](./memory.md)
 - [磁盘I/O性能](./disk.md)

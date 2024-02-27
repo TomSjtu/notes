@@ -1,8 +1,6 @@
 # Linux内核体系
 
 
-## Table of Contents
-
 - [内核剖析](./kernel/index.md)
 - [设备驱动程序](./drivers/index.md)
 - [性能调优](./optimization/index.md)

@@ -33,17 +33,40 @@ VFS使用一组数据结构来代表通用文件对象，它们分别是：
 
 ### 超级块对象
 
-超级块对象是用来描述一个已安装的文件系统的数据结构，包含了文件系统的关键元数据，这些元数据用于内核管理和维护文件系统。超级块对象是文件系统在内核中表示自己的方式，它提供了文件系统的总体视图。超级块对象由`super_block`结构体表示，通过`alloc_super()`函数创建并初始化。在文件系统安装时，会调用该函数以便从磁盘中读取文件系统超级块。
+超级块对象是用来描述一个已安装的文件系统的数据结构，包含了文件系统的关键元数据，这些元数据用于内核管理和维护文件系统。超级块对象是文件系统在内核中表示自己的方式，它提供了文件系统的总体视图。超级块对象由`struct super_block`结构体表示，通过`alloc_super()`函数创建并初始化。在文件系统安装时，会调用该函数以便从磁盘中读取文件系统超级块。
 
-超级块操作由`super_operations`结构体表示，该结构体中的每一项都是一个指向超级块操作函数的指针。
+超级块操作由`struct super_operations`结构体表示，该结构体中的每一项都是一个指向超级块操作函数的指针。
 
 ### 索引节点对象
 
+```C title="inode结构体"
+struct inode {
+	umode_t			i_mode;					/*inode的权限*/
+	unsigned short		i_opflags;			/*操作标志*/
+	kuid_t			i_uid;					/*inode拥有者ID*/
+	kgid_t			i_gid;					/*inode所属群组ID*/
+	unsigned int		i_flags;			/*inode标志位*/
+	dev_t i_rdev;							/*记录设备号*/
+	loff_t i_size;							/*inode的文件大小*/
+
+	struct timespec64	i_atime;			/*最近一次存取时间*/
+	struct timespec64	i_mtime;			/*最近一次修改时间*
+	struct timespec64	i_ctime;			/*创建时间*/
+
+	union {
+		struct pipe_inode_info	*i_pipe;	/*指向管道文件*/
+		struct cdev		*i_cdev;			*指向字符设备*/
+		char			*i_link;
+		unsigned		i_dir_seq;
+	};
+
+	...
+} 
+```
+
 索引节点对象代表一个文件或目录在文件系统中的逻辑表示，包含了关于文件或目录的元数据，这些元数据描述了文件或目录的属性，如权限、所有者、文件大小、最后访问和修改时间等。索引节点对象由`struct inode`结构体来表示。每个文件系统都有一个索引节点表，该表包含了所有索引节点对象的引用。当用户空间程序通过标准的文件操作系统调用（如 `open()`、`read()`、`write()`等）与文件系统交互时，它们实际上是在与索引节点对象进行交互。
 
-一个索引节点代表文件系统中的一个文件，它可以是设备或管道这样的特殊文件。在`struct inode`结构体中有一些和特殊文件相关的项，比如`i_pipe`指向有名管道，`i_bdev`指向块设备，`i_cdev`指向字符设备。这三个指针被放在一个共用体中，因为一个索引节点每次只能表示其中一种。
-
-与超级块类似，索引节点操作由`inode_operations`结构体表示。
+与超级块类似，索引节点操作由`struct inode_operations`结构体表示。
 
 ### 目录项对象
 
@@ -71,51 +94,15 @@ VFS使用一组数据结构来代表通用文件对象，它们分别是：
 
 ### 文件对象
 
-文件对象是进程已打开的文件在内存中的表示，该对象由`open()`创建，`close()`撤销。与文件有关的调用实际上都是文件操作表`struct files_operations`中定义的函数指针，这里列出来作为参考：
+`struct file`结构体表示一个打开的文件，它包含了与文件相关的各种信息，如文件描述符、文件状态、文件偏移量、文件操作表等。在文件的所有实例都关闭后，内核释放这个数据结构。
 
-```C
-struct file_operations {
-	struct module *owner;
-	loff_t (*llseek) (struct file *, loff_t, int);
-	ssize_t (*read) (struct file *, char __user *, size_t, loff_t *);
-	ssize_t (*write) (struct file *, const char __user *, size_t, loff_t *);
-	ssize_t (*read_iter) (struct kiocb *, struct iov_iter *);
-	ssize_t (*write_iter) (struct kiocb *, struct iov_iter *);
-	int (*iopoll)(struct kiocb *kiocb, bool spin);
-	int (*iterate) (struct file *, struct dir_context *);
-	int (*iterate_shared) (struct file *, struct dir_context *);
-	__poll_t (*poll) (struct file *, struct poll_table_struct *);
-	long (*unlocked_ioctl) (struct file *, unsigned int, unsigned long);
-	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
-	int (*mmap) (struct file *, struct vm_area_struct *);
-	unsigned long mmap_supported_flags;
-	int (*open) (struct inode *, struct file *);
-	int (*flush) (struct file *, fl_owner_t id);
-	int (*release) (struct inode *, struct file *);
-	int (*fsync) (struct file *, loff_t, loff_t, int datasync);
-	int (*fasync) (int, struct file *, int);
-	int (*lock) (struct file *, int, struct file_lock *);
-	ssize_t (*sendpage) (struct file *, struct page *, int, size_t, loff_t *, int);
-	unsigned long (*get_unmapped_area)(struct file *, unsigned long, unsigned long, unsigned long, unsigned long);
-	int (*check_flags)(int);
-	int (*flock) (struct file *, int, struct file_lock *);
-	ssize_t (*splice_write)(struct pipe_inode_info *, struct file *, loff_t *, size_t, unsigned int);
-	ssize_t (*splice_read)(struct file *, loff_t *, struct pipe_inode_info *, size_t, unsigned int);
-	int (*setlease)(struct file *, long, struct file_lock **, void **);
-	long (*fallocate)(struct file *file, int mode, loff_t offset,
-			  loff_t len);
-	void (*show_fdinfo)(struct seq_file *m, struct file *f);
-#ifndef CONFIG_MMU
-	unsigned (*mmap_capabilities)(struct file *);
-#endif
-	ssize_t (*copy_file_range)(struct file *, loff_t, struct file *,
-			loff_t, size_t, unsigned int);
-	loff_t (*remap_file_range)(struct file *file_in, loff_t pos_in,
-				   struct file *file_out, loff_t pos_out,
-				   loff_t len, unsigned int remap_flags);
-	int (*fadvise)(struct file *, loff_t, loff_t, int);
-};
-```
+驱动程序重点关注文件读/写模式f_mode、标志f_flags，私有数据指针private_data被广泛应用于驱动程序自定义描述设备的结构体。
+
+!!! note 
+
+	不同进程可以操作同一文件，在结构体中用f_count作为引用计数。
+
+`struct files_operations`定义了与文件有关的操作函数。
 
 总的来说，内核为每个文件都分配两个数据结构——索引节点和目录项，分别用来记录文件的元数据和目录结构。索引节点是文件的唯一标志，多个目录项可以指向同一个索引节点。比如通过硬链接为文件创建别名，虽然目录位置不同，但是链接的是同一个文件，因此索引节点一致。
 
@@ -237,3 +224,6 @@ proc文件系统是特殊的文件系统，它们的信息并不保存在磁盘�
 
 该目录下保存了系统网络相关的信息，比如网络接口、网络协议栈、网络连接、网络路由表等。最常用的/proc/net/dev保存了通过各网络接口传输的数据的统计量，经常用它来查看网络流量和检查网络传输质量。
 
+## sys文件系统
+
+见[设备模型sysfs](../drivers/device_model.md/#sysfs)一节。

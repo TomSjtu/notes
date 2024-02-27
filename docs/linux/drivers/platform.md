@@ -86,6 +86,30 @@ void platform_device_unregister(struct platform_device *pdev);
 
 这两个函数应该在模块的进入与退出函数中被调用。
 
+
+!!! example "内核platform的注册"
+
+	```C
+	int __init platform_bus_init(void)
+	{
+		int error;
+
+		early_platform_cleanup();
+
+		error = device_register(&platform_bus);
+		if (error) {
+			put_device(&platform_bus);
+			return error;
+		}
+		error =  bus_register(&platform_bus_type);
+		if (error)
+			device_unregister(&platform_bus);
+		of_platform_register_reconfig_notifier();
+		return error;
+	}
+
+	```
+
 ## 平台驱动
 
 内核使用`platform_driver`结构体来描述平台驱动：
@@ -100,6 +124,12 @@ struct platform_driver {
 	const struct platform_device_id *id_table;
 };
 ```
+
+> probe：初始化平台设备
+
+> remove：释放平台设备
+
+> suspend/resume：设备进入/退出休眠状态
 
 除了提供一些回调函数之外，还有一个`id_table`的指针。这个指针用来表示该驱动能够兼容的`platform_device`。
 

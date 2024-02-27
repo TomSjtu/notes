@@ -62,7 +62,7 @@ struct timer_list my_timer;
 
 ```C
 DEFINE_TIMER(name, func)；
-timer_setup(timer, func, flags);
+setup_timer(timer, func, flags);
 ```
 
 定时器到期激活函数原型：
@@ -76,7 +76,7 @@ void my_function(unsigned long data);
 int mod_timer(struct timer_list *timer, unsigned long expires);
 ```
 
-启动定时器：
+注册定时器：
 
 ```C
 void add_timer(struct timer_list *timer);
@@ -157,12 +157,6 @@ void mdelay(unsigned long msecs);
 void msleep(unsigned int millisecs);
 void ssleep(unsigned int seconds);
 ```
-
-## 定时测量函数
-
-用户态下的进程读取和修改时间、日期用到的函数有：
-
-
 
 ## 高精度定时器
 

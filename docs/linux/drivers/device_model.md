@@ -2,7 +2,7 @@
 
 由于Linux支持世界上几乎所有的、不同功能的硬件设备，导致Linux内核中有一半的代码都是设备驱动。随着硬件的快速迭代，设备驱动的代码也在快速增长。
 
-为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了<font color="green">设备模型</font>（device model）的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：设备与驱动。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。
+为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了{==设备模型==}的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：{==设备==}与{==驱动==}。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。
 
 设备模型通过几个数据结构来反映当前系统中总线、设备以及驱动工作的情况：
 
@@ -20,10 +20,9 @@ platform bus是内核中的一种虚拟总线类型，它不是物理上存在�
 
 ==}
 
+内核使用{==sysfs文件系统==}将设备和驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。
 
-Linux内核使用<font color="green">sysfs文件系统</font>将内核的设备驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。
-
-/sys文件目录记录了各个设备之间的关系。其中，/sys/bus目录下的每个子目录都是已经注册的总线类型。每个总线类型下还有两个文件夹——devices和drivers；devices是该总线类型下的所有设备，以符号链接的形式指向真正的设备（/sys/devices/）。而drivers是所有注册在这个总线类型上的驱动。
+/sys目录记录了各个设备之间的关系。其中，/sys/bus目录下的每个子目录都是已经注册的总线类型。每个总线类型下还有两个文件夹——devices和drivers：devices是该总线类型下的所有设备，以符号链接的形式指向真正的设备（/sys/devices）。而drivers是所有注册在这个总线类型上的驱动。
 
 ![Linux设备模型](../../images/kernel/linux_device_model01.png)
 
@@ -115,8 +114,6 @@ struct kobject {
 	内嵌在别的数据结构（比如device_driver）中，当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的`release()`回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。
 
 
-
-
 ktype的数据结构如下：
 
 ```C
@@ -124,7 +121,7 @@ struct kobj_type {
 	void (*release)(struct kobject *kobj);
 	const struct sysfs_ops *sysfs_ops;
 	const struct attribute_group **default_groups;
-	/*省略其他成员*/	
+	...	
 };
 ```
 
@@ -413,9 +410,15 @@ Linux设备模型框架体系下开发，主要包括两个步骤：
 
 总线是连接处理器和设备之间的通道。为了方便设备模型的实现，系统中的每个设备都需要连接在一个总线上，这个总线可以是内部总线、虚拟总线或者是平台总线。
 
-总线驱动则负责实现总线的各种行为，其管理着两个链表，分别是添加到该总线的设备链表以及注册到该总线的驱动链表。当你向总线添加（移除）一个设备（驱动）时，便会在对应的列表上添加新的节点， 同时对挂载在该总线的驱动以及设备进行匹配，在匹配过程中会忽略掉那些已经有驱动匹配的设备。
+总线驱动则负责实现总线的各种行为，其管理着两个链表——klist_devices和klist_drivers，分别代表该总线下的设备和驱动。当你向总线添加（移除）一个设备（驱动）时，便会在对应的列表上添加（移除）节点，同时对挂载在该总线的驱动以及设备进行匹配，在匹配过程中会忽略掉那些已经有驱动匹配的设备。
 
 ![总线模型](../../images/kernel/bus_model.jpg)
+
+!!! tip "驱动绑定设备的时机"
+
+	1. 驱动被注册时（如果设备已经存在）
+	
+	2. 设备被创建时（如果驱动已经注册）
 
 内核用`struct bus_type`结构体抽象出总线：
 
@@ -437,8 +440,6 @@ struct bus_type {
 };
 ```
 
-我们发现`bus_type`结构体中的大部分成员都与`device`有关，说明它主要负责设备的注册和注销等操作。
-
 > name：该bus的名称，在sysfs中以目录形式存在，比如platform bus表现为/sys/bus/platform。
 
 > dev_name：注册到bus的设备名称。
@@ -457,7 +458,9 @@ struct bus_type {
 
 > probe、remove：当属于该bus的device，发生初始化和移除时，调用该函数。
 
-> p：保存了bus模块的一些私有数据。
+> p：保存了bus模块的一些私有数据，设备和驱动的链表就存放在这里。
+
+`struct subsys_private`结构体的定义如下：
 
 bus的属性以`struct bus_attribute`结构体表示：
 
@@ -472,10 +475,9 @@ struct bus_attribute{
 bus模块的主要功能是：
 
 - bus的注册和注销
-- 本bus下有device或者device_driver注册到内核时的处理
-- 本bus下有device或者device_driver从内核注销时的处理
-- device_driver的probe
-- 管理bus下所有的device和device_driver
+- 处理设备或者驱动的注册与注销
+- 实现驱动的`probe()`函数
+- 管理bus下所有的设备和驱动
 
 内核提供了`bus_register()`函数来注册总线，`bus_unregister()`函数来注销总线。
 
@@ -526,13 +528,12 @@ struct class {
 
 > p：子系统的私有数据。
 
-对于子系统这里解释一下。/sys/class和device_name之间的那部分目录称为subsystem。也就是每个dev属性文件所在的路径都可表示为/sys/class/subsystem/device_name/dev。例如，`cat /sys/class/tty/tty0/dev`会得到4:0，这里subsystem为tty,device_name为tty0。
+对于子系统这里解释一下。/sys/class和device_name之间的那部分目录称为subsystem。也就是每个dev属性文件所在的路径都可表示为/sys/class/subsystem/device_name/dev。例如，`cat /sys/class/tty/tty0/dev`会得到4:0，这里subsystem为tty，device_name为tty0。
 
-class的注册/注销函数如下：
+在/sys/class目录下创建新的条目：
 
 ```C
-int __must_check __class_register(struct class *class, struct lock_class_key *key);
-void class_unregister(struct class *class);
+#define class_create(owner, name)
+void class_destroy(struct class *cls)
 ```
 
-class的概念比较抽象，后续，在各类子系统中，我们能看到许多class的用例。

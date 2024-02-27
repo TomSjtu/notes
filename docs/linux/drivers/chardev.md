@@ -1,12 +1,27 @@
-# 字符设备驱动程序
+# 字符设备驱动
+
+字符设备是最常见的设备，这种设备的读写可以直接进行而无需经过缓冲区，比如键盘、打印机、串口等。从用户态的角度来看，一个字符设备本质上就是一个文件，进程可以通过标准I/O系统调用来访问字符设备，对应的实现函数存储在`struct file_operations`结构体中。
 
 字符设备驱动框架如图所示：
 
 ![字符设备框架](../../images/kernel/chrdev.png)
 
-字符设备需要主、次设备号来唯一确定，设备号的分配应当由内核自动分配。字符设备的操作函数指针保存在`struct file_operation`结构体中，需要驱动开发人员自己实现这些函数。`struct cdev`结构体保存了字符设备的相关信息。
+内核使用`struct cdev`结构体来描述一个字符设备：
 
-注销设备时需要释放内核中的`cdev`，并且归还申请的设备号。
+```C
+struct cdev {
+    struct kobject kobj;            
+    struct module *owner;           
+    struct file_operations *ops;
+    struct list_head list;
+    dev_t dev;
+    unsigned int count;
+};
+```
+
+字符设备需要主、次设备号来唯一确定，设备号的分配应当由内核自动分配。字符设备的操作函数指针保存在`struct file_operation`结构体中，需要驱动开发人员自己实现这些函数。
+
+注销设备时需要释放内核中的`struct cdev`，并且归还申请的设备号。
 
 ## 快速参考
 
@@ -68,19 +83,22 @@ unsigned long copy_to_user(void *to, const void *from, unsigned long count)
 
 ## 设备号初始化
 
-主设备号标识设备对应的驱动程序，现代Linux内核允许多个驱动共享主设备号，所以还需要次设备号用于正确确定设备文件所指向的设备。内核用`dev_t`类型来表示设备编号——包括了主设备号和次设备号。宏`MAJOR`、`MINOR`用于获取一个`dev_t`类型的主、次设备号。
+设备通过两个设备号来标识：主设备号和次设备号。可以输入命令`ls -l /dev`查看当前系统中已有的设备号。
+
+主设备号用来识别设备对应的驱动程序，因为现代Linux内核允许多个驱动共享主设备号，所以还需要次设备号用于正确确定设备文件所指向的设备。比如某个UART驱动可以控制所有的UART设备，它们的主设备号相同，次设备号用于确定具体是哪个UART设备。
+
+内核用`dev_t`类型来表示设备编号——包括了主设备号和次设备号。宏`MAJOR`、`MINOR`用于获取一个`dev_t`类型的主、次设备号。
 
 设备号的注册与卸载有两种方式：手动分配与动态分配。
 
 - 手动分配：
 
 ```C
-int register_chrdev(unsigned int major, const char *name, struct file_operations *fops)
+int register_chrdev_region(dev_t from, unsigned count, const char *name)
 
-int unregister_chrdev(unsigned int major, const char *name)
 ```
 
-这个方法在注册时需要手动指定主设备号，因此你必须事先知道哪个主设备号没有被占用，实际开发中并不推荐，并且该函数还一次性占用了主设备号下的全部次设备号。
+该函数用于已知起始设备的设备号。
 
 - 动态分配：
 
@@ -90,11 +108,27 @@ int alloc_chrdev_region(dev_t *dev, unsigned baseminor, unsigned count, const ch
 void unregister_chrdev_region(dev_t first, unsigned count)
 ```
 
-> dev：保存用来申请的设备号。
-
 > baseminor：次设备号的起始值，一般为0。
 
-内核会自动为该设备分配主、次设备号。
+该函数用于设备号未知，向系统动态申请未被占用的设备号。
+
+
+## file_operations结构体
+
+`struct file_operations`结构体中的函数指针是字符设备驱动程序设计的主体内容。这些函数会在应用程序调用诸如`read()`、`write()`等系统调用时被内核调用。该结构体比较庞大，感兴趣的读者可以自行阅读源码。
+
+最基本的实现函数有`open()`、`release()`、`read()`、`write()`。
+
+由于用户空间不能直接访问内核空间的内存，因此需要借助两个函数完成通信：
+
+```C
+unsigned long copy_from_user(void *to, const void *from, unsigned long count)
+
+unsigned long copy_to_user(void *to, const void *from, unsigned long count)
+```
+
+内核空间在访问用户空间时，需要先通过`access_ok()`函数确认其合法性。
+
 
 ## 字符设备的注册
 
@@ -220,8 +254,8 @@ static void __exit dummy_char_cleanup_module(void)
     pr_info("dummy char module Unloaded\n");
 }
 
-module_init(dummy_char_init_module);
-module_exit(dummy_char_cleanup_module);
+MODULE_INIT(dummy_char_init_module);
+MODULE_EXIT(dummy_char_cleanup_module);
 
 MODULE_AUTHOR("John Madieu <john.madieu@gmail.com>");
 MODULE_DESCRIPTION("Dummy character driver");
