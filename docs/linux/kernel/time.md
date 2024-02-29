@@ -62,7 +62,7 @@ struct timer_list my_timer;
 
 ```C
 DEFINE_TIMER(name, func)；
-setup_timer(timer, func, flags);
+void setup_timer(struct timer_list *timer, void (*function)(unsigned long), unsigned long data);
 ```
 
 定时器到期激活函数原型：

@@ -155,9 +155,7 @@ int platform_driver_register(struct platform_device *drv);
 void platform_driver_unregister(struct platform_device *drv);
 ```
 
-在平台设备中，`struct resource`结构体用来表示硬件信息，而软件信息则可以用设备结构体`device`中的成员platform_data来保存。
-
-`platform_get_resource()`函数通常会在驱动的`probe()`函数中执行，用于获取`platform_device`中的`resource`结构体：
+在平台设备中，`struct resource`结构体用来表示设备资源，可以通过`platform_get_resource()`函数来获取，它通常在`probe()`函数中执行：
 
 ```C
 struct resource *platform_get_resource(struct platform_device *dev, unsigned int type, unsigned int num);
@@ -175,7 +173,7 @@ struct resource *platform_get_resource(struct platform_device *dev, unsigned int
 int platform_get_irq(struct platform_device *pdev, unsigned int num);
 ```
 
-对于存放在`device`结构体中platform_data的软件信息，可以使用`dev_get_platdata()`函数来获取：
+对于存放在`device`结构体中platform_data，可以使用`dev_get_platdata()`函数来获取：
 
 ```C
 static inline void *dev_get_platdata(const struct device *dev)

@@ -5,7 +5,9 @@
 - [硬件知识](./hardware.md)
 - [内核模块](./module.md)
 - [设备树](./dts.md)
+- [中断子系统](./interrupt.md)
 - [直接内存访问](./dma.md)
+
 
 ## 设备模型框架
 

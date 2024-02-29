@@ -71,13 +71,14 @@ nav:
       
     
     - 设备驱动程序:
+      - linux/drivers/index.md
       - linux/drivers/hardware.md
       - linux/drivers/module.md
-      - linux/drivers/index.md
       - linux/drivers/dts.md
+      - linux/drivers/interrupt.md
+      - linux/drivers/dma.md
       - linux/drivers/device_model.md
       - linux/drivers/platform.md
-      - linux/drivers/dma.md
       - linux/drivers/chardev.md
       - linux/drivers/blkdev.md
       - linux/drivers/netdev.md
@@ -124,8 +125,18 @@ nav:
 
   - 编程语言: 
     - pl/index.md
-    - pl/gnu_c.md
-    - pl/modern_cpp.md
+    - C:
+      - pl/gnu_c.md
+    
+    - 现代C++:
+      - pl/modern_cpp.md
+    
+    - QT:
+      - pl/qt.md
+
+    - Python:
+      - pl/python.md
+    
 
   - 云计算:
     - cloud/index.md

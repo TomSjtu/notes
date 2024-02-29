@@ -200,7 +200,22 @@ restart:
 
 等待队列是由等待某些事件发生的进程组成的简单链表。内核用`wait_queue_head_t`来表示等待队列。等待队列可以通过DECLARE_WAITQUEUE()静态创建或者是`init_waitqueue_head()`动态创建。
 
-唤醒操作通过`wake_up()`完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到红黑树中。
+等待事件有以下函数：
+
+```C
+int wait_event(wait_queue_head_t q, int condition);
+int wait_event_interruptible(wait_queue_head_t q, int condition);
+int wait_event_timeout(wait_queue_head_t q, int condition, unsigned int timeout);
+int wait_event_interruptible_timeout(wait_queue_head_t q, int condition, unsigned int timeout);
+```
+
+它们都用于将进程加入到等待队列，直到某个事件发生。“interruptible”表示可以被信号唤醒，“timeout”表示等待超时时间。
+
+!!! info
+
+	等待事件还有两个更低级函数：`prepare_to_wait()`和`finish_wait()`——用于对进程更精细度的控制，`wait_event()`函数实际是对它们的封装。可参考<include/linux/wait.h\>中的源码。
+
+唤醒操作通过`wake_up()`完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到红黑树中。`wake_up_process()`用于唤醒特定的进程。
 
 ## 调度队列与调度实体
 
@@ -316,13 +331,24 @@ for_each_class(class){
 
 ![进程调度](../../images/kernel/sched.webp)
 
-## 调度的方式
-
-调度分为主动调度与抢占式调度。主动调度一般发生在进程在等待某个事件的过程中，主动让出CPU，调用`schedule()`函数。
-
 ## 抢占与上下文切换
 
+调度分为主动调度与抢占式调度。主动调度一般发生在进程在等待某个事件的过程中，主动让出CPU，然后调用`schedule()`函数。不管哪种调度，最后都会执行上下文切换。
 
+所谓上下文切换，就是从一个可执行进程切换到另一个可执行进程的过程，由`context_switch()`函数负责执行，当触发进程调度时，就会调用该函数。它主要完成两件事：
+
+- 切换虚拟内存空间
+- 切换处理器状态，包括保存上一个进程的栈和寄存器信息，还有其他与体系结构相关的状态信息。
+
+内核提供了`need_resched`标志来表明是否需要重新执行一次调度。当某个进程应该被抢占时，该标志就会被设置，然后调用`schedule()`函数，触发进程调度。`need_resched()`函数用来检查这个标志的值，如果被设置就返回真。
+
+### 用户抢占
+
+当内核即将返回用户空间时，如果`need_resched`标志被设置，就会导致`schedule()`函数被调用，此时就会发生用户抢占。从内核返回用户空间是安全的，既然它可以继续执行当前进程，它当然也可以去调度一个新的进程运行。不论是从内核态返回还是从中断返回，`need_resched`标志都会被检查。
+
+### 内核抢占
+
+对于不支持内核抢占的操作系统而言，内核代码可以一直执行直到它完成为止。而Linux支持内核抢占，只要重新调度是安全的。为了保证内核抢占的安全性，Linux引入了`preempt_count`计数器，初始值为0。每当使用锁的时候数值加1，释放锁的时候数值减1。从中断返回内核空间的时候，内核会检查`need_resched`和`preempt_count`标志，如果`need_resched`被设置，并且`preempt_count`为0，就会调用`schedule()`函数。
 
 ## 调度相关的系统调用
 

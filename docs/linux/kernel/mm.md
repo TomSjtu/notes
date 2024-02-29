@@ -96,7 +96,7 @@ void *kmalloc(size_t size, gfp_t flags)
 
 不管是在页分配函数还是在`kmalloc()`中，都用到了分配器标志。标志分为三类：行为修饰符、区修饰符和类型标志。类型标志组合了前两者，简化了修饰符的使用，我们只需要知道类型标志即可。内核中最常用的就是{==GFP_KERNEL==}，该标志适用于绝大多数内存分配场景。这种分配方式可能会引起睡眠，所以只能用在可以重新安全调度的进程上下文中。
 
-另一个截然相反的标志是{==GFP_ATOMIC==}，这个标志表示不能睡眠的内存分配。与GFP_KERNEL相比，它分配成功的机会较小，但是在一些无法睡眠的代码中，也只能选择GFP_ATOMIC。GFP_DMA标志表示分配器必须满足从ZONE_DMA进行分配的请求，该标志用在需要DMA的内存的设备驱动程序中。在编写的绝大多数代码中，要么是GFP_KERNEL，要么是GFP_ATOMIC，其他标志用到的情况极少，就不做说明了。下面这张表格总结了标志的使用场景。
+另一个截然相反的标志是{==GFP_ATOMIC==}，这个标志表示不能睡眠的内存分配。与GFP_KERNEL相比，它分配成功的机会较小，但是在一些无法睡眠的代码中，也只能选择GFP_ATOMIC。{==GFP_DMA==}标志表示分配器必须从ZONE_DMA进行分配的请求，该标志用在需要DMA的内存的设备驱动程序中。在编写的绝大多数代码中，要么是GFP_KERNEL，要么是GFP_ATOMIC，其他标志用到的情况极少，就不做说明了。下面这张表格总结了标志的使用场景。
 
 | 情形 | 相应标志 |
 | --- | --- |
@@ -170,9 +170,19 @@ void vfree(const void *addr)
 
 ## slab分配器
 
+!!! info "内核配置界面"
+
+    在General setup->Choose Slab allocator中，可以选择三种不同的slab分配技术：
+
+    - CONFIG_SLAB：遗留版本
+    - CONFIG_SLOB：简单的分配器，适用于内存受限的系统(配置CONFIG_EMBEDDED后可激活)
+    - CONFIG_SLUB：默认分配器，比SLAB简单，扩展性更好
+
 在内核编程中，分配和释放数据结构是一项极为常见的工作。为了高效地处理这些数据结构的频繁分配与回收，开发者们通常会利用{==空闲链表==}来优化这一过程。空闲链表本质上是一个预先分配的数据结构块的集合，这些块都处于可用状态。当系统需要新的数据结构实例时，可以直接从空闲链表中获取一个现成的块，这样就避免了实时内存分配的消耗。使用完毕后，该数据结构实例被归还到空闲链表中，而不是被直接释放。在这种机制下，空闲链表充当了一种特殊的{==对象高速缓存==}，它能够快速地存储和提供那些经常被使用的数据结构类型。这样的设计不仅提升了内存管理的效率，还减少了内存碎片，是一种非常实用的编程技巧。
 
 Linux内核提供了slab分配器，它通过将不同类型的对象组织到各自的高速缓存组中，来优化这些对象的分配和回收。每个高速缓存组专门用于存储一种特定类型的对象。例如，一个高速缓存可能用于管理进程描述符（`task_struct`结构），而另一个则用于索引节点对象（`struct inode`）。
+
+由于`fork()`系统调用用来创建一个新的`task_struct`结构体，使用高速缓存可以大大提升系统的性能。
 
 !!! info "slab分配器的作用"
 
@@ -184,11 +194,9 @@ Linux内核提供了slab分配器，它通过将不同类型的对象组织到�
 
 slab可以处于三种状态之一：满、部分满或空。满的slab意味着所有对象都已分配出去，空的slab则表示所有对象都未被分配，而部分满的slab则包含了已分配和未分配的对象。当内核请求新对象时，优先从部分满的slab中分配。如果没有，则从空的slab中分配。如果连空的slab都没有，就会创建新的slab。
 
-每个高速缓存都使用`kmem_cache`结构体表示。这个结构包含三个链表：slabs_full、slabs_partial、slabs_empty，这些链表包含了高速缓存中的所有slab。`struct slab`用来描述每个slab。
+每个高速缓存都使用`struct kmem_cache`结构体表示。这个结构包含三个链表：slabs_full、slabs_partial、slabs_empty，这些链表包含了高速缓存中的所有slab。`struct slab`用来描述每个slab。
 
-slab层的管理是在每个高速缓存的基础上，通过内核提供的统一接口来完成的。创建和撤销高速缓存，并在高速缓存内分配和释放对象。复杂的高速缓存机制和slab的管理完全由内部机制来处理，用户无须关心。
-
-高速缓存的使用统计情况可以从/proc/slabinfo中获得。其中形如kmalloc-xxx的slab称为通用型slab，含有具体名字的slab称为专用slab，用来为特定的结构体分配内存。  
+slab层的管理是在每个高速缓存的基础上，通过内核提供的统一接口来完成的：创建和撤销高速缓存，并在高速缓存内分配和释放对象。复杂的高速缓存机制和slab的管理完全由内部机制来处理，用户无须关心。
 
 ```C
 struct kmem_cache *kmem_cache_create(const char *name, size_t size,
@@ -198,6 +206,8 @@ int kmem_cache_destroy(struct kmem_cache *cachep)                       //撤销
 void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)          //从缓存中分配对象
 void kmem_cache_free(struct kmem_cache *cachep, void *objp)             //释放一个对象，将它返回给原先的slab
 ```
+
+高速缓存的使用统计情况可以从/proc/slabinfo中获得。其中形如kmalloc-xxx的slab称为通用型slab，含有具体名字的slab称为专用slab，用来为特定的结构体分配内存。  
 
 在文件<kernel/fork.c\>中，我们可以看到许多高速缓存的实现：
 
@@ -220,9 +230,6 @@ static struct kmem_cache *vm_area_cachep;
 /* SLAB cache for mm_struct structures (tsk->mm) */
 static struct kmem_cache *mm_cachep;
 ```
-
-由于`fork()`系统调用用来创建一个新的`task_struct`结构体，使用高速缓存可以大大提升系统的性能。
-
 
 ## Swap机制
 

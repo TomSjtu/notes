@@ -42,6 +42,16 @@ int request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
 
 `request_irq()`可能会睡眠，因此不能在不允许阻塞代码中调用该函数。
 
+在某些情况下，处理中断的设备驱动程序无法在非阻塞模式下读取设备的寄存器，你必须在中断上下文中触发一个在进程上下文执行的操作以访问设备的寄存器。内核提供了`request_threaded_irq()`函数：
+
+```C
+int request_threaded_irq(struct device *dev, unsigned int irq, irq_handler_t handler,
+                          irq_handler_t thread_fn, unsigned long flags,
+                          const char *name, void *dev)
+```
+
+如果函数的参数handler被设置为NULL，则将执行默认的主处理程序。这个主处理程序只返回IRQ_WAKE_THREAD来唤醒关关的内核线程，后者将执行thread_fn处理程序。thread_fn处理程序将在启用所有中断的情况下运行。
+
 卸载驱动程序时，需要注销相应的中断处理程序，并释放中断线：
 
 ```C
@@ -196,7 +206,7 @@ my_softirq->action(my_softirq);
 接着，在运行时通过调用`open_softirq()`函数注册软中断处理程序，该函数有两个参数，软中断索引号和处理函数：
 
 ```C
-open_softirq(NET_TX_SOFTIRQ, net_tx_action)
+void open_softirq(int nr, void (*action)(struct softirq_action*));
 ```
 
 软中断处理程序执行的时候，允许响应中断，但它自己不能休眠。在一个处理程序运行时，当前处理器上的软中断被禁止。但其他处理器仍然可以执行别的软中断。这意味着共享数据需要锁的保护。因此大部分软中断处理，都通过采取单处理器数据来避免加锁，从而提供更出色的性能。

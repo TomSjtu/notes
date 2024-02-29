@@ -6,7 +6,7 @@ GPIO全称“General Purpose Input/Output”，通用输入输出。GPIO可能�
 
 对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399而言的GPIO控制器而言：
 
-```C title="rk3399.dtsi"
+```devicetree title="rk3399.dtsi"
 
 gpio0: gpio0@ff720000 {
 	compatible = "rockchip,gpio-bank";
@@ -35,10 +35,15 @@ gpio1: gpio1@ff730000 {
 };
 ```
 
-对于需要用到GPIO控制器的设备，需要在节点中声明
+!!! tip
 
+	- interrupt-controller：空属性，表示该节点可接收中断信号
+	- \#interrupt-cells：表示子设备节点的interrupts属性中的单元数目
+	- interrupts：表示该节点可接收的中断信号，每个描述符对应一个中断信号
 
-```C title="rk3399-firefly.dts"
+对于需要用到GPIO控制器的设备，需要在节点中声明：
+
+```devicetree title="rk3399-firefly.dts"
 
 leds {
 	compatible = "gpio-leds";
@@ -168,7 +173,7 @@ struct gpio_chip {
 
 使用`gpiochip_add_data()`宏来注册`struct gpio_chip`。
 
-每个引脚都对应一个`struct gpio_desc`，引脚信息被保存在一个链表中：
+GPIO中的每个引脚都对应一个`struct gpio_desc`，引脚信息被保存在一个链表中：
 
 ```C
 struct gpio_desc {
@@ -223,48 +228,30 @@ GPIO的函数接口有两套：legacy模式和基于descriptor的。由于第一
 
 获得GPIO：
 ```C
-struct gpio_desc *__must_check gpiod_get(struct device *dev,
+struct gpio_desc *gpiod_get(struct device *dev,
 					 const char *con_id,
 					 enum gpiod_flags flags);
-struct gpio_desc *__must_check gpiod_get_index(struct device *dev,
+struct gpio_desc *gpiod_get_index(struct device *dev,
 					       const char *con_id,
 					       unsigned int idx,
 					       enum gpiod_flags flags);
-struct gpio_descs *__must_check gpiod_get_array(struct device *dev,
+struct gpio_descs *gpiod_get_array(struct device *dev,
 						const char *con_id,
 						enum gpiod_flags flags);
 
-struct gpio_desc *__must_check devm_gpiod_get(struct device *dev,
+struct gpio_desc *devm_gpiod_get(struct device *dev,
 					      const char *con_id,
 					      enum gpiod_flags flags);
-struct gpio_desc *__must_check devm_gpiod_get_index(struct device *dev,
+struct gpio_desc *devm_gpiod_get_index(struct device *dev,
 						    const char *con_id,
 						    unsigned int idx,
 						    enum gpiod_flags flags);
-struct gpio_descs *__must_check devm_gpiod_get_array(struct device *dev,
+struct gpio_descs *devm_gpiod_get_array(struct device *dev,
 						     const char *con_id,
 						     enum gpiod_flags flags);
 ```
 
-设置方向：
-```C
-int gpiod_direction_input(struct gpio_desc *desc);
-int gpiod_direction_output(struct gpio_desc *desc, int value);
-```
-
-读写值：
-```C
-int gpiod_get_value(const struct gpio_desc *desc);
-void gpiod_set_value(struct gpio_desc *desc, int value);
-```
-
-释放GPIO：
-```C
-void gpiod_put(struct gpio_desc *desc);
-void gpiod_put_array(struct gpio_descs *descs);
-```
-
-GPIO描述符标志位：
+其中gpiod_flags如下：
 ```C
 enum gpiod_flags {
 	GPIOD_ASIS	= 0,
@@ -277,7 +264,83 @@ enum gpiod_flags {
 };
 ```
 
-要操作一个引脚，首先要获取这个引脚，然后设置方向，读值或者写值。
+!!! info "重要标志位"
+
+	- GPIOD_ASIS：不初始化GPIO
+	- GPIOD_IN：将GPIO初始化为输入端
+	- GPIOD_OUT_LOW：将GPIO初始化为输出端，并将值设置为0
+	- GPIOD_OUT_HIGH：将GPIO初始化为输出端，并将值设置为1
+
+假如有设备树描述如下所示：
+```devicetree
+foo_device {
+	compatible = "acme, foo";
+	...
+	led-gpios  <&gpioa 15 GPIO_ACTIVE_HIGH>,	/*red*/
+			   <&gpiob 16 GPIO_ACTIVE_HIGH>,	/*green*/
+			   <&gpioc 17 GPIO_ACTIVE_HIGH>;	/*blue*/
+
+	power-gpios = <&gpiob 1 GPIO_ACTIVE_LOW>;	
+};
+```
+
+这里led-gpios中的led就是function，&gpioa是特定GPIO控制器节点的pointer handle，数字15、16、17是每个GPIO控制器的编号，GPIO_ACTIVE_HIGH就是标志位。在驱动程序中获取GPIO资源可以这么做：
+
+```C
+struct gpio_desc *gpio_red = gpiod_get_index(dev, "led", 0, GPIO_ACTIVE_HIGH);
+struct gpio_desc *gpio_green = gpiod_get_index(dev, "led", 1, GPIO_ACTIVE_HIGH);
+struct gpio_desc *gpio_blue = gpiod_get_index(dev, "led", 2, GPIO_ACTIVE_HIGH);
+struct gpio_desc *gpio_power = gpiod_get(dev, "power", GPIO_ACTIVE_LOW);
+```
+
+编写需要控制GPIO的驱动程序时，必须指定方向。可以直接使用带flags参数的`devm_gpio_get()`函数，或者如果flags设置为GPIOD_ASIS时，就可以在随后调用`gpiod_direction_input()`或`gpiod_direction_output()`来设置方向：
+
+```C
+int gpiod_direction_input(struct gpio_desc *desc);
+int gpiod_direction_output(struct gpio_desc *desc, int value);
+```
+
+使用以下函数在原子上下文内访问GPIO：
+```C
+int gpiod_get_value(const struct gpio_desc *desc);
+void gpiod_set_value(struct gpio_desc *desc, int value);
+```
+
+Linux驱动程序不关注物理电路的实现，所有的`gpoid_set_value_xxx()`函数均使用逻辑值进行操作——将参数value解释为“有效”（“1”）或者“无效”（“0”），函数会自动地设置响应的物理电路。
+
+在GPIO的世界中，有两种常见的逻辑电平：
+
+- 高电平有效（High Active）：在这个模式下，逻辑高（通常是1或3V以上）表示引脚的激活状态。
+- 低电平有效（Low Active）：在这个模式下，逻辑低（通常是0V或GND）表示引脚的激活状态。
+
+如果一条物理线路被设置为低电平有效，当调用`gpio_set_value(gpio, 1)`时，会自动设置物理电路为低电平。
+
+!!! note "相关函数汇总"
+
+	| 函数名 | 电平有效属性 | 物理线路 |
+	|-------|-------------|----------|
+	| gpiod_set_value(gpio, 0) | 高电平有效 | 配置为低电平 |
+	| gpiod_set_value(gpio, 1) | 高电平有效 | 配置为高电平 |
+	| gpiod_set_value(gpio, 0) | 低电平有效 | 配置为高电平 |
+	| gpiod_set_value(gpio, 1) | 低电平有效 | 配置为低电平 |
+	
+
+中断请求可以通过GPIO触发，使用以下函数获取与给定GPIO对应的irq号：
+```C
+int gpiod_to_irq(const struct gpio_desc *desc);
+```
+
+该函数通过传递一个GPIO descriptor，返回irq号，如果该GPIO没有与中断控制器连接，则返回-EINVAL。
+
+该函数返回的irq号可以用在`request_irq()`和`free_irq()`函数中。
+
+释放GPIO：
+```C
+void gpiod_put(struct gpio_desc *desc);
+void gpiod_put_array(struct gpio_descs *descs);
+```
+
+
 
 ## 与Pinctrl子系统交互
 

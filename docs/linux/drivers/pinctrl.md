@@ -47,7 +47,7 @@ pinctrl子系统相关的源代码文件如下：
 
 引脚配置的设备树描述如下：
 
-```C title="s5pv210-pinctrl.dtsi"
+```devicetree title="s5pv210-pinctrl.dtsi"
 
 &pinctrl0 {
 	gpa0: gpa0 {
@@ -73,7 +73,7 @@ pinctrl子系统相关的源代码文件如下：
 
 除了单个引脚的描述，还可以将多个引脚组合在一起以实现特定的功能，比如SPI接口、I2C接口等，这被称为引脚组（pin group），其设备树描述如下：
 
-```C title="s5pv210-pinctrl.dtsi"
+```devicetree title="s5pv210-pinctrl.dtsi"
 
 uart0_data: uart0-data {
 	samsung,pins = "gpa0-0", "gpa0-1";

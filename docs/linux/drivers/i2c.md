@@ -49,7 +49,7 @@ SDA上的数据只能在SCL为低电平时变化：
 
 ## 设备树描述
 
-```C
+```devicetree
 i2c0: i2c@fdd40000 {
 	compatible = "rockchip,rk3568-i2c", "rockchip,rk3399-i2c";
 	reg = <0x0 0xfdd40000 0x0 0x1000>;
