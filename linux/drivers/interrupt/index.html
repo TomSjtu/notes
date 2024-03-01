@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/drivers/wifi/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/drivers/interrupt/">
       
       
-        <link rel="prev" href="../mmc/">
+        <link rel="prev" href="../dts/">
       
       
-        <link rel="next" href="../bluetooth/">
+        <link rel="next" href="../dma/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>Wifi - 一只Tom的笔记本</title>
+        <title>中断子系统 - 一只Tom的笔记本</title>
       
     
     
@@ -69,6 +69,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -101,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Wifi
+              中断子系统
             
           </span>
         </div>
@@ -1042,10 +1047,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../interrupt/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    中断子系统
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1054,6 +1079,62 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      在设备树中声明
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gic" class="md-nav__link">
+    <span class="md-ellipsis">
+      顶层GIC中断控制器
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      子中断控制器
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      在代码中获得中断
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1399,17 +1480,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../wifi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1418,7 +1492,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -2740,6 +2813,52 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      在设备树中声明
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gic" class="md-nav__link">
+    <span class="md-ellipsis">
+      顶层GIC中断控制器
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      子中断控制器
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      在代码中获得中断
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -2757,9 +2876,48 @@
   
 
 
-  <h1>Wifi</h1>
-
-
+<h1 id="_1">中断子系统<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">在设备树中声明<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="gic">顶层GIC中断控制器<a class="headerlink" href="#gic" title="Permanent link">&para;</a></h2>
+<div class="language-devicetree highlight"><span class="filename">rk3568.dtsi</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nl">gic</span><span class="p">:</span><span class="w"> </span><span class="nf">interrupt-controller</span><span class="o">@</span><span class="mi">fd400000</span><span class="cm"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kr">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;arm,gic-v3&quot;</span><span class="p">;</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kr">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0xfd400000</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mh">0x10000</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="cm">/* GICD */</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">          </span><span class="o">&lt;</span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0xfd460000</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mh">0x80000</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span><span class="cm">/* GICR */</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">interrupts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="na">GIC_PPI</span><span class="w"> </span><span class="mi">9</span><span class="w"> </span><span class="na">IRQ_TYPE_LEVEL_HIGH</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="n">interrupt-controller</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="o">#</span><span class="n">interrupt-cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">3</span><span class="o">&gt;</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">};</span>
+</span></code></pre></div>
+<blockquote>
+<p>compatible：表明使用ARM GIC-V3中断控制器</p>
+<p>reg：该中断控制器的基地址和大小</p>
+<p>interrupts：表明该中断控制器的中断信息，这里使用GIC_PPI的第9号中断，高电平触发</p>
+<p>interrupt-controller：表明这是一个中断控制器，属性为空</p>
+<p>#interrupt-cells：表明它的“子”中断控制器需要多少个cells来描述一个中断</p>
+</blockquote>
+<h2 id="_3">子中断控制器<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p><img alt="中断示意图" src="../../../images/kernel/inter-controller.png" /></p>
+<p>对于GPIO，可以将其视为中断控制器，但除了以上三个属性之外，还需要指定，使用上一级的哪一个中断控制器和哪一个中断：</p>
+<ol>
+<li>interrupt-parent属性：指定上一级的中断控制器</li>
+<li>
+<p>interrupts属性：指定具体的中断号，第一个单元格定义了控制器内中断的索引，第二个单元格用于指定以下标志之一：</p>
+</li>
+<li>
+<p>1：上升沿触发</p>
+</li>
+<li>2：下降沿触发</li>
+<li>3：高电平触发</li>
+<li>4：低电平触发</li>
+</ol>
+<p>如果支持extended语法，则可以直接使用interrupts-extended属性来取代以上两个属性：</p>
+<div class="language-devicetree highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">interrupts-extended</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">gpio1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="na">RISING</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">gpio2</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="na">RISING</span><span class="o">&gt;</span><span class="p">;</span>
+</span></code></pre></div>
+<h2 id="_4">在代码中获得中断<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>设备树中的某些节点可以被转换为platform_device，可以使用<code>platform_get_resource()</code>函数获得中断资源。</p>
+<p>对于I2C设备，I2C总线驱动在处理设备树的I2C节点时，会自动将其保存在<code>struct i2c_client</code>结构体中的irq成员里。SPI设备也是类似的原理。</p>
+<p>如果你的设备节点既不能转换为platform_device，它也不是I2C设备、SPI设备，那么在驱动程序中可以自行调用<code>of_irq_get()</code>函数去解析设备树，得到中断号。</p>
+<p>对于GPIO设备，可以使用<code>gpiod_get_irq()</code>函数获得中断号。</p>
 
 
 
