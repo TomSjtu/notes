@@ -61,7 +61,7 @@ make gconfig(要求安装GTK+)
 
 ![内核菜单配置界面](../../images/kernel/menuconfig.png)
 
-运行`make menuconfig`后，配合工具首先查找<arch/[architecture]/Kconfig\>文件，该文件除了定义一系列CONFIG配置项，还通过关键字`source`语句引入了一系列Kconfig文件，这些文件定义了要用到的其他配置项，最终形成一个分层的树形结构。
+运行`make menuconfig`后，配置工具首先查找<arch/[architecture]/Kconfig\>文件，该文件除了定义一系列CONFIG配置项，还通过关键字`source`语句引入了一系列Kconfig文件，这些文件定义了要用到的其他配置项，最终形成一个分层的树形结构。
 
 在内核中添加程序需要完成以下三个步骤：
 
@@ -79,12 +79,12 @@ make gconfig(要求安装GTK+)
     - obj-m：编译成模块
     - obj-n：不编译进内核
 
-自己编写时可以仿照内核的写法，
+自己编写时可以仿照内核的写法。
 
 
 !!! info "内核镜像"
 
-    vmlinux: 原始的未经任何处理的Linux ELF镜像，无法烧写到开发板，需要通过`objcopy`命令生成二进制文件。
+    vmlinux: 原始的未经任何处理的Linux ELF镜像，无法烧写到开发板，需要通过`objcopy`命令生成二进制文件
 
     Image: 对vmlinux使用`objcopy`处理的可烧写到开发板的镜像，但是比较大
 

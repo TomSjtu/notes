@@ -3,9 +3,10 @@
 
 ## 基础知识
 
+- [ARM Linux启动](./boot.md)
 - [ARM架构基础知识](./aarch64.md)
 - [A64指令集](./instructions.md)
-- [ARM Linux启动](./boot.md)
+
 
 ## ARM同步机制
 

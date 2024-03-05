@@ -3,6 +3,7 @@
 ## 基础知识
 
 - [硬件知识](./hardware.md)
+- [通信协议](./protocol.md)
 - [内核模块](./module.md)
 - [设备树](./dts.md)
 - [中断子系统](./interrupt.md)

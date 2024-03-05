@@ -85,7 +85,7 @@ struct msg_buffer {
 | shmctl | 控制共享内存 |
 
 
-### 信号量
+## 信号量
 
 与内核同步机制中的信号量类似，System V IPC机制中的信号量也是用于进程间同步的。它能确保多个进程对共享资源的访问，防止并发访问时的数据不一致的情况。
 
@@ -150,13 +150,23 @@ SIGUSR2   31,12,17    Term    User-defined signal 2
 
 1. 执行默认操作。
 2. 执行自定义信号处理函数。
-3. 忽略信号。注意，SIGKILL和SIGSTOP无法忽略。
+3. 忽略信号。
+
+!!! note
+
+    注意，SIGKILL和 IGSTOP信号无法忽略。
 
 Linux推荐使用`sigaction()`函数来自定义信号处理函数。它的定义如下：
 
 ```C
 int sigaction(int signum, const struct sigaction *act, struct sigaction *oldact);
 ```
+
+> signum：要处理的信号值
+
+> act：指向sigaction结构体的指针，定义了信号处理函数和信号处理函数的附加信息，若为空则采用缺省方式
+
+> oldact：指向sigaction结构体的指针，用于保存原来对信号的处理方式
 
 而sigaction结构体的定义如下：
 
