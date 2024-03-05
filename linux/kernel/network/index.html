@@ -806,6 +806,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    网络系统
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -815,6 +826,52 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#io" class="md-nav__link">
+    <span class="md-ellipsis">
+      I/O多路复用
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selectpoll" class="md-nav__link">
+    <span class="md-ellipsis">
+      select/poll
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#epoll" class="md-nav__link">
+    <span class="md-ellipsis">
+      epoll
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -949,6 +1006,8 @@
       
         
       
+        
+      
     
     
       
@@ -1002,6 +1061,27 @@
   
   <span class="md-ellipsis">
     硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    通信协议
   </span>
   
 
@@ -2750,6 +2830,41 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#io" class="md-nav__link">
+    <span class="md-ellipsis">
+      I/O多路复用
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#selectpoll" class="md-nav__link">
+    <span class="md-ellipsis">
+      select/poll
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#epoll" class="md-nav__link">
+    <span class="md-ellipsis">
+      epoll
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2768,6 +2883,62 @@
 
 <h1 id="_1">网络系统<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p><img alt="网络栈" src="../../../images/kernel/network-arch.webp" /></p>
+<h2 id="io">I/O多路复用<a class="headerlink" href="#io" title="Permanent link">&para;</a></h2>
+<p>用一个进程来维护多个socket，这就是I/O多路复用技术，类似于一个CPU并发多个进程。</p>
+<p>select/poll/epoll是内核提供给用户态的多路复用的系统调用函数，进程可以从一个系统调用中获取多个事件。</p>
+<h2 id="selectpoll">select/poll<a class="headerlink" href="#selectpoll" title="Permanent link">&para;</a></h2>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">numfds</span><span class="p">,</span><span class="w"> </span><span class="n">fd_set</span><span class="w"> </span><span class="o">*</span><span class="n">readfds</span><span class="p">,</span><span class="w"> </span><span class="n">fd_set</span><span class="w"> </span><span class="o">*</span><span class="n">writefds</span><span class="p">,</span><span class="w"> </span><span class="n">fd_set</span><span class="w"> </span><span class="o">*</span><span class="n">exceptfds</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timeval</span><span class="w"> </span><span class="o">*</span><span class="n">timeout</span><span class="p">);</span>
+</span></code></pre></div>
+<p>其中readfds、writefds、exceptfds分别是被<code>select()</code>监视时，读、写、异常的文件描述符集合。</p>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">poll</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pollfd</span><span class="w"> </span><span class="o">*</span><span class="n">fds</span><span class="p">,</span><span class="w"> </span><span class="kt">nfds_t</span><span class="w"> </span><span class="n">nfds</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
+</span></code></pre></div>
+<p>select实现多路复用的方式是，将已连接的socket都放到一个文件描述符的集合，然后调用<code>select()</code>函数，将该集合拷贝到内核里，内核会遍历这个集合，检查是否有事件产生，然后标记产生事件的socket。接着讲整个集合拷贝回用户态，用户态继续遍历该集合找到可读写的socket然后再处理。</p>
+<p>select的缺点是：</p>
+<ol>
+<li>每次调用select，都需要把fd集合从用户态拷贝到内核态，再从内核态拷贝至用户态，这个开销在fd很多时会很大</li>
+<li>同时每次调用select都需要在内核遍历传递进来的所有的fd集合</li>
+<li>select支持的文件描述符数量太小了，默认是1024</li>
+</ol>
+<p>poll用链表的方式来组织fd集合，突破了文件描述符的限制，但是本质和select一样，都通过线性表的方式存储描述符，都需要遍历来找到可读写的socket，时间复杂度为O(n)。</p>
+<h2 id="epoll">epoll<a class="headerlink" href="#epoll" title="Permanent link">&para;</a></h2>
+<div class="language-C highlight"><span class="filename">epoll的函数接口</span><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_create</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_ctl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">event</span><span class="p">);</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">events</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">maxevents</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
+</span></code></pre></div>
+<div class="language-C highlight"><span class="filename">epoll的用法</span><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">bind</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">listen</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epoll_create</span><span class="p">(...);</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w"> </span><span class="c1">//将所有需要监听的socket添加到epfd中</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epoll_wait</span><span class="p">(...);</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="n">接收到数据的socket</span><span class="p">){</span>
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">        </span><span class="c1">//处理</span>
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>在上述代码中，先调用<code>epoll_create()</code>创建一个epoll对象，然后调用<code>epoll_ctl()</code>将需要监听的socket添加到对象中，最后调用<code>epoll_wait()</code>等待socket可读写。</p>
+<p>epoll通过两种方式，解决了select和poll的缺点：</p>
+<ol>
+<li>使用红黑树来跟踪待检测的文件描述符，将需要监控的socket通过<code>epoll_ctl()</code>函数加入到红黑树中。</li>
+<li>使用事件驱动机制，当socket可读写时，内核会发送一个事件给进程，进程只需要在事件到达时处理即可，无需遍历整个红黑树。</li>
+</ol>
+<p><img alt="epoll示意图" src="../../../images/kernel/epoll.webp" /></p>
+<p>epoll支持两种触发方式，分别是边缘触发和水平触发。</p>
+<ul>
+<li>
+<p>边缘触发：当一个文件描述符上有可读写的数据时，epoll_wait()会返回该文件描述符。如果该文件描述符可读写的数据没有读取完，那么下一次再调用epoll_wait()时，不会再次返回该文件描述符，而是继续等待该文件描述符可读写。</p>
+</li>
+<li>
+<p>水平触发：当一个文件描述符上有可读写的数据时，epoll_wait()会返回该文件描述符。如果该文件描述符可读写的数据没有读取完，那么下一次再调用epoll_wait()时，会再次返回该文件描述符，直到该文件描述符的可读写数据被读取完毕。</p>
+</li>
+</ul>
+<p>如果使用边缘触发模式，进程在收到通知后，要尽可能地读写数据，以免数据丢失。</p>
+<p>在使用I/O多路复用时，最好搭配非阻塞I/O一起使用。</p>
 
 
 

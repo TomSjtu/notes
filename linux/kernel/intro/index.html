@@ -1045,6 +1045,8 @@
       
         
       
+        
+      
     
     
       
@@ -1098,6 +1100,27 @@
   
   <span class="md-ellipsis">
     硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    通信协议
   </span>
   
 
@@ -3031,7 +3054,7 @@
 </span></code></pre></div>
 <p>其中最推荐的是<code>make menuconfig</code>，它不依赖于QT或者GTK+，且非常直观。运行<code>make menuconfig</code>后的界面（ARM）如下图所示：</p>
 <p><img alt="内核菜单配置界面" src="../../../images/kernel/menuconfig.png" /></p>
-<p>运行<code>make menuconfig</code>后，配合工具首先查找&lt;arch/[architecture]/Kconfig&gt;文件，该文件除了定义一系列CONFIG配置项，还通过关键字<code>source</code>语句引入了一系列Kconfig文件，这些文件定义了要用到的其他配置项，最终形成一个分层的树形结构。</p>
+<p>运行<code>make menuconfig</code>后，配置工具首先查找&lt;arch/[architecture]/Kconfig&gt;文件，该文件除了定义一系列CONFIG配置项，还通过关键字<code>source</code>语句引入了一系列Kconfig文件，这些文件定义了要用到的其他配置项，最终形成一个分层的树形结构。</p>
 <p>在内核中添加程序需要完成以下三个步骤：</p>
 <ol>
 <li>将编写的源代码复制到对应的目录中。</li>
@@ -3048,10 +3071,10 @@
 <li>obj-n：不编译进内核</li>
 </ul>
 </div>
-<p>自己编写时可以仿照内核的写法，</p>
+<p>自己编写时可以仿照内核的写法。</p>
 <div class="admonition info">
 <p class="admonition-title">内核镜像</p>
-<p>vmlinux: 原始的未经任何处理的Linux ELF镜像，无法烧写到开发板，需要通过<code>objcopy</code>命令生成二进制文件。</p>
+<p>vmlinux: 原始的未经任何处理的Linux ELF镜像，无法烧写到开发板，需要通过<code>objcopy</code>命令生成二进制文件</p>
 <p>Image: 对vmlinux使用<code>objcopy</code>处理的可烧写到开发板的镜像，但是比较大</p>
 <p>zImage: 压缩Image后的镜像</p>
 <p>uImage: 由uboot的<code>mkimage</code>工具加工zImage得到64字节头的Image，供uboot启动</p>

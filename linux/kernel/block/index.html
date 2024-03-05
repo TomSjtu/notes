@@ -839,6 +839,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#io_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      异步I/O
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -997,6 +1006,8 @@
       
         
       
+        
+      
     
     
       
@@ -1050,6 +1061,27 @@
   
   <span class="md-ellipsis">
     硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    通信协议
   </span>
   
 
@@ -2822,6 +2854,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#io_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      异步I/O
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -2863,6 +2904,43 @@
 <li>CFQ：默认I/O调度器，为每个进程维护了一个I/O调度队列，并按照时间片来均匀分布每个进程的I/O请求。适用于运行大量进程的系统。</li>
 <li>DeadLine：为读、写请求创建不同的I/O队列，确保达到deadline的请求被优先处理。常用于数据库中。</li>
 </ul>
+<h2 id="io_1">异步I/O<a class="headerlink" href="#io_1" title="Permanent link">&para;</a></h2>
+<p>Linux中最常用的输入/输出模型是同步I/O，在请求发出之后，应用程序会阻塞直到请求被满足。</p>
+<p>异步I/O是另一种输入/输出模型，它允许应用程序在请求发出之后立即返回，而不会阻塞。glibc中的异步I/O函数接口主要包括：</p>
+<table>
+<thead>
+<tr>
+<th>函数名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>aio_read</td>
+<td>异步读</td>
+</tr>
+<tr>
+<td>aio_write</td>
+<td>异步写</td>
+</tr>
+<tr>
+<td>aio_error</td>
+<td>获取异步I/O操作的状态</td>
+</tr>
+<tr>
+<td>aio_return</td>
+<td>获取异步I/O操作的结果</td>
+</tr>
+<tr>
+<td>aio_suspend</td>
+<td>挂起进程，直到异步I/O操作完成</td>
+</tr>
+<tr>
+<td>aio_cancel</td>
+<td>取消异步I/O操作</td>
+</tr>
+</tbody>
+</table>
 
 
 

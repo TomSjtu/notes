@@ -12,26 +12,28 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/others/poker/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/drivers/protocol/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../hardware/">
       
       
+        <link rel="next" href="../module/">
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
     
     
       
-        <title>德州扑克 - 一只Tom的笔记本</title>
+        <title>通信协议 - 一只Tom的笔记本</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e359304.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -44,7 +46,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -84,7 +86,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../../.." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -104,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              德州扑克
+              通信协议
             
           </span>
         </div>
@@ -179,7 +181,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
     
@@ -194,11 +196,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../linux/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
     
@@ -218,7 +222,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../rtos/" class="md-tabs__link">
+        <a href="../../../rtos/" class="md-tabs__link">
           
   
     
@@ -238,7 +242,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../arm/" class="md-tabs__link">
+        <a href="../../../arm/" class="md-tabs__link">
           
   
     
@@ -258,7 +262,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../pl/" class="md-tabs__link">
+        <a href="../../../pl/" class="md-tabs__link">
           
   
     
@@ -278,7 +282,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../cloud/" class="md-tabs__link">
+        <a href="../../../cloud/" class="md-tabs__link">
           
   
     
@@ -298,7 +302,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../tools/" class="md-tabs__link">
+        <a href="../../../tools/" class="md-tabs__link">
           
   
     
@@ -314,13 +318,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../others/" class="md-tabs__link">
           
   
     
@@ -361,7 +363,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -391,7 +393,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -408,6 +410,8 @@
       
   
   
+    
+  
   
   
     
@@ -428,19 +432,22 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../linux/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -451,13 +458,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Linux
@@ -524,7 +531,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../linux/kernel/" class="md-nav__link ">
+            <a href="../../kernel/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -557,7 +564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/intro/" class="md-nav__link">
+      <a href="../../kernel/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -578,7 +585,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/task/" class="md-nav__link">
+      <a href="../../kernel/task/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -599,7 +606,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/sched/" class="md-nav__link">
+      <a href="../../kernel/sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -620,7 +627,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/ipc/" class="md-nav__link">
+      <a href="../../kernel/ipc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -641,7 +648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/vma/" class="md-nav__link">
+      <a href="../../kernel/vma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -662,7 +669,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/interrupt/" class="md-nav__link">
+      <a href="../../kernel/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -683,7 +690,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/synch/" class="md-nav__link">
+      <a href="../../kernel/synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -704,7 +711,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/mm/" class="md-nav__link">
+      <a href="../../kernel/mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -725,7 +732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/page/" class="md-nav__link">
+      <a href="../../kernel/page/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -746,7 +753,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/vfs/" class="md-nav__link">
+      <a href="../../kernel/vfs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -767,7 +774,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/block/" class="md-nav__link">
+      <a href="../../kernel/block/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -788,7 +795,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/network/" class="md-nav__link">
+      <a href="../../kernel/network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -809,7 +816,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/time/" class="md-nav__link">
+      <a href="../../kernel/time/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -830,7 +837,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/pm/" class="md-nav__link">
+      <a href="../../kernel/pm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -851,7 +858,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/others/" class="md-nav__link">
+      <a href="../../kernel/others/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -877,6 +884,8 @@
                 
   
   
+    
+  
   
   
     
@@ -938,16 +947,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../linux/drivers/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -964,7 +973,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_3">
             <span class="md-nav__icon md-icon"></span>
             设备驱动程序
@@ -980,7 +989,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/hardware/" class="md-nav__link">
+      <a href="../hardware/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -998,10 +1007,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../linux/drivers/protocol/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    通信协议
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1010,6 +1039,167 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      基础知识
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uart" class="md-nav__link">
+    <span class="md-ellipsis">
+      UART
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UART">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      帧格式
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      缺点
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rs232" class="md-nav__link">
+    <span class="md-ellipsis">
+      RS232协议
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RS232协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      电平转换
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      缺点
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rs485" class="md-nav__link">
+    <span class="md-ellipsis">
+      RS485
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RS485">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      优点
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="I2C">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#i2c_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C总线
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      同步信号
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spi" class="md-nav__link">
+    <span class="md-ellipsis">
+      SPI
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1022,7 +1212,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/module/" class="md-nav__link">
+      <a href="../module/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1043,7 +1233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/dts/" class="md-nav__link">
+      <a href="../dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1064,7 +1254,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/interrupt/" class="md-nav__link">
+      <a href="../interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1085,7 +1275,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/dma/" class="md-nav__link">
+      <a href="../dma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1106,7 +1296,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/device_model/" class="md-nav__link">
+      <a href="../device_model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1127,7 +1317,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/platform/" class="md-nav__link">
+      <a href="../platform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1148,7 +1338,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/chardev/" class="md-nav__link">
+      <a href="../chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1169,7 +1359,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/blkdev/" class="md-nav__link">
+      <a href="../blkdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1190,7 +1380,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/netdev/" class="md-nav__link">
+      <a href="../netdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1211,7 +1401,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/pinctrl/" class="md-nav__link">
+      <a href="../pinctrl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1232,7 +1422,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/gpio/" class="md-nav__link">
+      <a href="../gpio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1253,7 +1443,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/i2c/" class="md-nav__link">
+      <a href="../i2c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1274,7 +1464,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/spi/" class="md-nav__link">
+      <a href="../spi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1295,7 +1485,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/uart/" class="md-nav__link">
+      <a href="../uart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1316,7 +1506,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/input/" class="md-nav__link">
+      <a href="../input/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1337,7 +1527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/ethernet/" class="md-nav__link">
+      <a href="../ethernet/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1358,7 +1548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/pci/" class="md-nav__link">
+      <a href="../pci/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1379,7 +1569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/usb/" class="md-nav__link">
+      <a href="../usb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1400,7 +1590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/mmc/" class="md-nav__link">
+      <a href="../mmc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1421,7 +1611,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/wifi/" class="md-nav__link">
+      <a href="../wifi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1442,7 +1632,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/bluetooth/" class="md-nav__link">
+      <a href="../bluetooth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1500,7 +1690,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../linux/optimization/" class="md-nav__link ">
+            <a href="../../optimization/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1533,7 +1723,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/optimization/cpu/" class="md-nav__link">
+      <a href="../../optimization/cpu/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1554,7 +1744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/optimization/memory/" class="md-nav__link">
+      <a href="../../optimization/memory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1575,7 +1765,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/optimization/disk/" class="md-nav__link">
+      <a href="../../optimization/disk/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1596,7 +1786,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/optimization/network/" class="md-nav__link">
+      <a href="../../optimization/network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1646,7 +1836,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../linux/ebpf/" class="md-nav__link ">
+            <a href="../../ebpf/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1716,7 +1906,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../rtos/" class="md-nav__link ">
+            <a href="../../../rtos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1770,7 +1960,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../rtos/freertos/" class="md-nav__link ">
+            <a href="../../../rtos/freertos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1806,7 +1996,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../rtos/freertos/CMSIS/" class="md-nav__link">
+      <a href="../../../rtos/freertos/CMSIS/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1848,7 +2038,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../rtos/rt-thread/" class="md-nav__link ">
+            <a href="../../../rtos/rt-thread/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1924,7 +2114,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../arm/" class="md-nav__link ">
+            <a href="../../../arm/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1957,7 +2147,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/boot/" class="md-nav__link">
+      <a href="../../../arm/boot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1978,7 +2168,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/aarch64/" class="md-nav__link">
+      <a href="../../../arm/aarch64/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1999,7 +2189,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/instructions/" class="md-nav__link">
+      <a href="../../../arm/instructions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2020,7 +2210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/lock/" class="md-nav__link">
+      <a href="../../../arm/lock/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2041,7 +2231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/barrier/" class="md-nav__link">
+      <a href="../../../arm/barrier/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2062,7 +2252,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/gic/" class="md-nav__link">
+      <a href="../../../arm/gic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2119,7 +2309,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../pl/" class="md-nav__link ">
+            <a href="../../../pl/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2194,7 +2384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pl/gnu_c/" class="md-nav__link">
+      <a href="../../../pl/gnu_c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2265,7 +2455,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pl/modern_cpp/" class="md-nav__link">
+      <a href="../../../pl/modern_cpp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2336,7 +2526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pl/qt/" class="md-nav__link">
+      <a href="../../../pl/qt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2407,7 +2597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pl/python/" class="md-nav__link">
+      <a href="../../../pl/python/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2466,7 +2656,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../cloud/" class="md-nav__link ">
+            <a href="../../../cloud/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2499,7 +2689,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../cloud/docker/" class="md-nav__link">
+      <a href="../../../cloud/docker/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2554,7 +2744,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../tools/" class="md-nav__link ">
+            <a href="../../../tools/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2587,7 +2777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/github/" class="md-nav__link">
+      <a href="../../../tools/github/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2608,7 +2798,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/vim/" class="md-nav__link">
+      <a href="../../../tools/vim/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2629,7 +2819,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../tools/markdown/" class="md-nav__link">
+      <a href="../../../tools/markdown/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2654,8 +2844,6 @@
       
   
   
-    
-  
   
   
     
@@ -2670,22 +2858,19 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../others/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2696,13 +2881,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             其他
@@ -2715,30 +2900,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    德州扑克
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../others/poker/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2747,77 +2912,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      胜率
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="胜率">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      底牌胜率
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      翻拍前全压
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      投机翻牌圈
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      翻牌前的再加注
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2859,17 +2953,26 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      胜率
+      基础知识
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="胜率">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uart" class="md-nav__link">
+    <span class="md-ellipsis">
+      UART
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="UART">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      底牌胜率
+      帧格式
     </span>
   </a>
   
@@ -2878,16 +2981,7 @@
           <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      翻拍前全压
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      投机翻牌圈
+      缺点
     </span>
   </a>
   
@@ -2899,9 +2993,99 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#rs232" class="md-nav__link">
+    <span class="md-ellipsis">
+      RS232协议
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RS232协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      电平转换
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      翻牌前的再加注
+      缺点
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rs485" class="md-nav__link">
+    <span class="md-ellipsis">
+      RS485
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="RS485">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      优点
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#i2c" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="I2C">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#i2c_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      I2C总线
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      同步信号
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spi" class="md-nav__link">
+    <span class="md-ellipsis">
+      SPI
     </span>
   </a>
   
@@ -2925,59 +3109,74 @@
   
 
 
-<h1 id="_1">德州扑克<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h1 id="_1">通信协议<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">基础知识<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>并行与串行：并行是指数据可以同时传送，而串行是指数据必须一个接着一个地传送。</p>
+<p>单工与双工：单工是指数据只能在一个方向上传输，不能双向传输。双工是指数据可以在两个方向上传输。</p>
+<p>半双工与全双工：半双工是指数据可以在两个方向上传输，但是不能同时进行。全双工是指数据可以在两个方向上同时传输。</p>
+<p>波特率：用于描述UART通信时的通信速度，单位为bit per second，即每秒传送的位数。</p>
+<h2 id="uart">UART<a class="headerlink" href="#uart" title="Permanent link">&para;</a></h2>
+<p>UART——通用异步收发器，是一种通用的串行、异步通信总线，该总线有两条数据线，可以实现全双工的发送和接收。</p>
+<h3 id="_3">帧格式<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p><img alt="UART帧格式" src="../../../images/kernel/uart01.webp" /></p>
+<ul>
+<li>空闲位：高电平，表示没有数据传输</li>
+<li>起始位：低电平，开始传送数据</li>
+<li>数据位：5~8位，先发数据的低位，再发高位</li>
+<li>校验位：奇偶校验，将数据位加上校验位，1的位数为偶数（偶校验），1的位数为奇数（奇校验）</li>
+<li>停止位：高电平，表示数据传输结束</li>
+</ul>
+<h3 id="_4">缺点<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>1.电气接口不统一</p>
+<p>UART只对信号时序进行了定义，而未定义接口的电气特性；</p>
+<p>UART通信时一般直接使用处理器使用的电平，即TTL电平，不同处理器不能直接通信；</p>
+<p>UART没有规定不同器件连接时连接器的标准，所以不同器件之间通过UART通信时连接很不方便。</p>
+<p>2.抗干扰能力差</p>
+<p>UART使用TTL信号来表示0和1，但TTL信号的抗干扰能力很差，数据在传输过程中很容易出错。</p>
+<p>3.通信距离极短</p>
+<p>因为TTL信号抗干扰能力差， 所以其通信距离也很短，一般只能用于一个电路板上的两个不同芯片之间的通信。</p>
+<h2 id="rs232">RS232协议<a class="headerlink" href="#rs232" title="Permanent link">&para;</a></h2>
+<p>RS232协议是一种用于串行通信的标准，规定采用了一个标准的连接器，规定了统一的引脚和电平标准。</p>
+<p>IBM对RS232协议进行了简化，现在工业控制的RS232接口一般只使用RXD、TXD、GND三条线。</p>
+<p>该标准规定逻辑"1"的电平为-3V到-15V，逻辑"0"的电平为+3V到+15V，其传送距离最大可达15M。</p>
+<h3 id="_5">电平转换<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>虽然很多处理器都会集成UART控制器，但是处理器产生的信号一般都是TTL信号而不是符合RS232标准的信号，所以一般我们还需要在处理器的外部去添加电路对信号电平进行转换。</p>
+<h3 id="_6">缺点<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>1.接口的信号电平值较高，容易烧坏芯片，需要电平转换才能与TTL电路连接</p>
 <ol>
-<li>选择起手范围</li>
-<li>控制底池大小</li>
-<li>控制对手手牌率实现</li>
+<li>
+<p>通信速度较低</p>
+</li>
+<li>
+<p>抗噪声干扰性弱</p>
+</li>
+<li>
+<p>传输距离较短</p>
+</li>
 </ol>
-<p>下注原则：价值下注或者诈唬下注</p>
-<p>阻挡牌：</p>
-<p>当阻挡了对手的诈唬组合，对手的下注多半代表牌力，此时应放弃抓诈。</p>
-<p>成牌转诈唬需要满足几个条件：</p>
+<h2 id="rs485">RS485<a class="headerlink" href="#rs485" title="Permanent link">&para;</a></h2>
+<p>RS485协议能在远距离条件下以及电子噪声大的环境下有效传输信号，该标准允许连接多个收发器，这样可以利用单一的RS485接口建立起一个设备网络。</p>
+<p>RS485采用差分信号传输，两线间的电压差为+2V到+6V表示逻辑"1"，-2V到-6V表示逻辑"0"，这样即使一条线上出现噪声也不会影响信号的传输。</p>
+<p>使用差分信号极大地减少了噪声信号的干扰，延长了通信距离，最大可达1500m。</p>
+<p>RS485接口信号的电平比RRS232降低了，所以也不易损坏接口电路的芯片，且该电平与TTL电平兼容。</p>
+<p>RS485采用两线制，这种接线方式为总线式拓扑结构，在同一总线上可以同时存在多个节点。因为采用两线制，数据的发送和接收都要使用者这对差分信号线，发送和接收不能同时进行，所以采用半双工的方式工作。</p>
+<h3 id="_7">优点<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <ol>
-<li>对手有一定牌力，但不是顶端范围。</li>
-<li>对手知道我们击中了牌面，且认为我们的范围很强。</li>
-<li>我们的牌力不够强，，但是阻挡了对手的一些顶端范围。</li>
-<li>对手在面对强牌时，有较高的弃牌率。</li>
+<li>接口电平值较低，不易烧坏芯片</li>
+<li>通信速度快</li>
+<li>抗噪声干扰性强</li>
+<li>传输距离较远</li>
+<li>可实现多节点组网</li>
 </ol>
-<p>此时可以将成牌转成诈唬，扮演范围中的强牌而诈唬走对手的中等牌。</p>
-<p>薄价值下注：当对手认为我们诈唬可能性很高时，可以用比对方略强一点的牌扮演诈唬牌，让对方来抓。</p>
-<h2 id="_2">胜率<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<h3 id="_3">底牌胜率<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<ol>
-<li>大对子 vs 小对子：80%</li>
-<li>主宰踢脚：70% ~ 75%</li>
-<li>两大 vs 两小：60% ~ 65%</li>
-<li>一大一小 vs 两中间：56% ~ 58%</li>
-<li>一大一中 vs 一中一小：62% ~ 64%</li>
-<li>大对子 vs 两小：80% ~ 90%</li>
-<li>中对子 vs 一大一小：70%</li>
-<li>小对子 vs 两大：50% ~ 55%</li>
-</ol>
-<h3 id="_4">翻拍前全压<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>AQs ≈ TT，AQo ≈ 99， AJs ≈ 88，AJo ≈ 77，ATs ≈ 66，ATo ≈ 55。</p>
-<h3 id="_5">投机翻牌圈<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<ol>
-<li>口袋对中三条：13.3%</li>
-<li>天同花：0.85%</li>
-<li>前门听花：13.4%</li>
-<li>天顺：1.3%</li>
-<li>两端听顺：10.48%</li>
-<li>AK中对子：32.43%</li>
-<li>JJ发高张：52%</li>
-<li>Ax中A：17.3%</li>
-</ol>
-<h2 id="_6">翻牌前的再加注<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>3bet策略：</p>
-<ol>
-<li>隔离鱼</li>
-<li>扮演强牌</li>
-<li>平衡范围</li>
-<li>对手弃牌过多</li>
-</ol>
-<p>跟注4bet：</p>
-<p>小同花连牌 &gt; A同花 &gt; 对子 &gt; 中高牌</p>
+<h2 id="i2c">I2C<a class="headerlink" href="#i2c" title="Permanent link">&para;</a></h2>
+<p>I2C总线是一种串行的、半双工的总线，主要用于短距离、低速的芯片之间的通信。I2C总线有两根双相的信号线，一根数据线SDA用于收发数据，一根时钟线SCL用于时钟同步。将芯片与总线对应的线相连即可通信。</p>
+<h3 id="i2c_1">I2C总线<a class="headerlink" href="#i2c_1" title="Permanent link">&para;</a></h3>
+<p>I2C总线是一种多主机总线，连接在I2C总线上的器件分为主机和从机。通信必须由主机发起和结束，从机负责响应。每个连接到I2C总线上的器件都有一个唯一的地址(7bit)，且既可以当主机也可以当从机，但同一时刻只能有一个主机。</p>
+<p>主机在发送起始信号后，必须先发送一个字节(8bit)的数据，该数据的前7位表示从机地址，最后一位表示字节的传送方向。总线上所有的从机都会收到该数据，然后与自己的地址进行比较，如果符合就返回一个ACK信号，再根据数据传送方向将自己定位为发送器或者接收器。</p>
+<p>数据传送时，先传送最高位，后传送低位，发送器发完一个字节的数据之后接收器必须发送1位ACK信号，表示数据接收成功。</p>
+<h3 id="_8">同步信号<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>I2C总线在进行数据传送时，SCL必须保持低电平，SDA可以任意变化；当SCL为高电平时，接收器从数据线上读取一位数据，此时SDA不允许变化。</p>
+<h2 id="spi">SPI<a class="headerlink" href="#spi" title="Permanent link">&para;</a></h2>
 
 
 
@@ -3030,10 +3229,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
       
     
   </body>
