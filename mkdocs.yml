@@ -106,7 +106,17 @@ nav:
 
     - ebpf:
       - linux/ebpf/index.md
-  
+ 
+  - ARM: 
+    - arm/index.md
+    - arm/boot.md
+    - arm/aarch64.md
+    - arm/instructions.md
+    - arm/assembler.md
+    - arm/lock.md
+    - arm/barrier.md
+    - arm/gic.md
+
   - RTOS:
     - rtos/index.md
     - freertos:
@@ -114,15 +124,6 @@ nav:
     - CMSIS: rtos/freertos/CMSIS.md
     - rt-thread:
       - rtos/rt-thread/index.md
-      
-  - ARM: 
-    - arm/index.md
-    - arm/boot.md
-    - arm/aarch64.md
-    - arm/instructions.md
-    - arm/lock.md
-    - arm/barrier.md
-    - arm/gic.md
 
   - 编程语言: 
     - pl/index.md
