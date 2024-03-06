@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/rtos/rt-thread/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/arm/assembler/">
       
       
-        <link rel="prev" href="../freertos/CMSIS/">
+        <link rel="prev" href="../instructions/">
       
       
-        <link rel="next" href="../../pl/">
+        <link rel="next" href="../lock/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>rtt内核简介 - 一只Tom的笔记本</title>
+        <title>GNU汇编 - 一只Tom的笔记本</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#rtt" class="md-skip">
+        <a href="#gnu" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              rtt内核简介
+              GNU汇编
             
           </span>
         </div>
@@ -216,11 +216,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../arm/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -236,13 +238,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../rtos/" class="md-tabs__link">
           
   
     
@@ -1688,6 +1688,8 @@
       
   
   
+    
+  
   
   
     
@@ -1714,19 +1716,22 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../arm/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1737,13 +1742,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             ARM
@@ -1759,7 +1764,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/boot/" class="md-nav__link">
+      <a href="../boot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1780,7 +1785,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/aarch64/" class="md-nav__link">
+      <a href="../aarch64/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1801,7 +1806,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/instructions/" class="md-nav__link">
+      <a href="../instructions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1819,10 +1824,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../arm/assembler/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    GNU汇编
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1831,6 +1856,44 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#gcc" class="md-nav__link">
+    <span class="md-ellipsis">
+      gcc编译流程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      伪指令
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1843,7 +1906,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/lock/" class="md-nav__link">
+      <a href="../lock/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1864,7 +1927,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/barrier/" class="md-nav__link">
+      <a href="../barrier/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1885,7 +1948,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/gic/" class="md-nav__link">
+      <a href="../gic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1910,8 +1973,6 @@
       
   
   
-    
-  
   
   
     
@@ -1930,22 +1991,19 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../rtos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1956,13 +2014,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             RTOS
@@ -1999,7 +2057,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../freertos/" class="md-nav__link ">
+            <a href="../../rtos/freertos/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2035,7 +2093,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../freertos/CMSIS/" class="md-nav__link">
+      <a href="../../rtos/freertos/CMSIS/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2053,8 +2111,6 @@
                 
   
   
-    
-  
   
   
     
@@ -2070,16 +2126,16 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="./" class="md-nav__link md-nav__link--active">
+            <a href="../../rtos/rt-thread/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2091,7 +2147,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4_4">
             <span class="md-nav__icon md-icon"></span>
             rt-thread
@@ -2793,144 +2849,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#gcc" class="md-nav__link">
+    <span class="md-ellipsis">
+      gcc编译流程
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      线程管理
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      时钟管理
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      线程间同步
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="线程间同步">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      信号量
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      互斥量
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      事件组
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      线程间通信
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="线程间通信">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      邮箱
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
-      消息队列
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
-    <span class="md-ellipsis">
-      信号
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    <span class="md-ellipsis">
-      内存管理
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="内存管理">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
-    <span class="md-ellipsis">
-      内存堆管理
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_13" class="md-nav__link">
-    <span class="md-ellipsis">
-      内存池管理
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
-    <span class="md-ellipsis">
-      中断管理
+      伪指令
     </span>
   </a>
   
@@ -2954,114 +2884,42 @@
   
 
 
-<h1 id="rtt">rtt内核简介<a class="headerlink" href="#rtt" title="Permanent link">&para;</a></h1>
-<blockquote>
-<p>由于不同RTOS的内核大差不差，这里只记录下rtt内核比较特殊的地方。</p>
-</blockquote>
-<p>rtt内核架构如下图所示：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/Software_framework_diagram.png" /></p>
-<p>rtt内核模块主要分为：</p>
-<ol>
-<li>线程调度</li>
-<li>时钟管理</li>
-<li>线程间同步与通信</li>
-<li>内存管理</li>
-<li>中断管理</li>
-<li>I/O设备管理</li>
-<li>外设接口</li>
-</ol>
-<p>下图显示了rtt中各类内核对象的派生和继承关系。</p>
-<p><img alt="Alt text" src="../../images/rt-thread/kernel_object.png" /></p>
-<p>内核对象控制块的数据结构如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">rt_object</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">RT_NAME_MAX</span><span class="p">];</span><span class="w">    </span><span class="c1">//内核对象名称</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">rt_uint8_t</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w">           </span><span class="c1">//内核对象类型</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">rt_uint8_t</span><span class="w"> </span><span class="n">flag</span><span class="p">;</span><span class="w">           </span><span class="c1">//内核对象参数</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">rt_list_t</span><span class="w"> </span><span class="n">list</span><span class="p">;</span><span class="w">            </span><span class="c1">//内核对象管理链表</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">};</span>
+<h1 id="gnu">GNU汇编<a class="headerlink" href="#gnu" title="Permanent link">&para;</a></h1>
+<h2 id="gcc">gcc编译流程<a class="headerlink" href="#gcc" title="Permanent link">&para;</a></h2>
+<p>以一个简单的c语言程序为例：</p>
+<div class="language-C highlight"><span class="filename">test.c</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kt">int</span><span class="w"> </span><span class="n">data</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">{</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;%d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="n">data</span><span class="p">);</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
 </span></code></pre></div>
-<p>内核对象容器的数据结构如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">rt_object_information</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">enum</span><span class="w"> </span><span class="n">rt_object_class_type</span><span class="w"> </span><span class="n">type</span><span class="p">;</span><span class="w">    </span><span class="c1">//对象类型</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">rt_list_t</span><span class="w"> </span><span class="n">object_list</span><span class="p">;</span><span class="w">             </span><span class="c1">//对象链表</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">rt_size_t</span><span class="w"> </span><span class="n">object_size</span><span class="p">;</span><span class="w">             </span><span class="c1">//对象大小</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">};</span>
-</span></code></pre></div>
-<p>同一类对象由一个rt_object_information结构体来管理，这类对象的每个实例以链表的形式挂在object_list链表上。当某个内核对象被初始化后，该对象就被添加到对应容器中管理。</p>
-<h2 id="_1">线程管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>rtt中线程状态多了一个初始状态，当线程创建完毕还没开始运行时就处于初始状态，该状态下线程不参与调度，宏定义为RT_THREAD_INIT。初始状态的线程需要调用<code>rt_thread_startup()</code>进入就绪状态。</p>
-<p>rtt最大支持256个优先级，对于ARM Cortex-M系列一般采用32个优先级。</p>
-<p>每个线程都有时间片参数，时间片仅对优先级相同的就绪状态线程有效（即同优先级参与调度）。时间片的单位是一个系统节拍，其意义是线程单次运行的时长。</p>
-<p>使用<code>rt_thread_create()</code>函数创建一个动态线程，使用<code>rt_thread_delete()</code>函数删除一个动态线程。静态线程的API分别是<code>rt_thread_init()</code>函数和<code>rt_thread_detach()</code>函数。使用<code>rt_thread_startup()</code>函数启动线程，<code>rt_thread_yield()</code>函数让出线程资源，<code>rt_thread_delay()</code>函数使线程睡眠，<code>rt_thread_resume()</code>函数恢复线程。</p>
-<h2 id="_2">时钟管理<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>全局变量rt_tick每次经过一个时钟节拍，值就会加1，它表示系统从启动开始总共经过的始终节拍数。此外，rt_tick每次加1都会检查当前线程的时间片是否使用完，以及是否有定时器超时。</p>
-<p>rtt的定时器可以分为HARD_TIMER模式——在中断环境中执行，和SOFT_TIMER模式——在线程环境中执行。</p>
-<p>新创建并激活的定时器都会以超时时间排序的方式插入到rt_timer_list链表中。所有定时器在定时超时后都会从定时器链表中被移除，而周期性定时器会在它再次启动时被加入定时器链表。与定时器有关的操作如下图所示：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/timer_ops.png" /></p>
-<h2 id="_3">线程间同步<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<h3 id="_4">信号量<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>信号量相关接口函数如下：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/sem_ops.png" /></p>
-<p>rtt内核在创建信号量的时候，可以通过flag参数指定信号量不可用时多个线程等待的排队方式。比如RT_IPC_FLAG_FIFO表示按照先进先出的方式排队，RT_IPC_FLAG_PRIO表示按照优先级的方式进行排队。一般采用优先级方式，除非应用程序非常在意先来后到。</p>
-<h3 id="_5">互斥量<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>互斥量相关接口函数如下：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/mutex_ops.png" /></p>
-<p>互斥量主要适用于以下情况：</p>
-<ol>
-<li>线程多次持有互斥量，互斥量可以递归持有而信号量会导致死锁。</li>
-<li>由于多线程同步而造成优先级反转问题。</li>
-</ol>
-<h3 id="_6">事件组<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>rtt定义的事件集有以下特点：</p>
-<ol>
-<li>
-<p>事件只与线程相关，事件间相互独立：每个线程可拥有32个事件标志，采用一个32bit无符号整型数进行记录，每一个bit代表一个事件；</p>
-</li>
-<li>
-<p>事件仅用于同步，不提供数据传输功能；</p>
-</li>
-<li>
-<p>事件无排队性，即多次向线程发送同一事件 (如果线程还未来得及读走)，其效果等同于只发送一次。</p>
-</li>
-</ol>
-<p>每个线程都拥有一个事件信息标记，它有三个属性，分别是RT_EVENT_FLAG_AND(逻辑与)，RT_EVENT_FLAG_OR(逻辑或）以及RT_EVENT_FLAG_CLEAR(清除标记）。当线程等待事件同步时，可以通过32个事件标志和这个事件信息标记来判断当前接收的事件是否满足同步条件。</p>
-<p>事件组相关接口函数如下：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/event_ops.png" /></p>
-<h2 id="_7">线程间通信<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<h3 id="_8">邮箱<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<p>邮箱的特点是开销比较低，效率较高。邮箱中的每一封邮件只能容纳固定的4字节内容，也就是说邮箱只能用来传输固定大小的内容。邮箱使用一个固定缓冲区大小来存储邮件，其大小在创建时被定义。</p>
-<p>非阻塞方式的邮件发送过程能够安全的应用于中断服务中，是线程、中断服务、定时器向线程发送消息的有效手段。根据对应的情况，邮箱的收取或者发送都可以设置为超时阻塞，进入阻塞状态的线程将睡眠，等待对应条件满足后唤醒。</p>
-<p>邮箱相关接口函数如下：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/mb_ops.png" /></p>
-<h3 id="_9">消息队列<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
-<p>消息队列是邮箱的扩展，可以用来传输不固定长度的内容。</p>
-<p>消息队列需要将消息缓存在自己的内存空间中，因此内存占用比邮箱要大。多个线程能够读取同一个消息队列。而当消息队列是空的时候，可以挂起读取线程。当有新的消息到达时，挂起的线程将被唤醒以接收并处理消息。消息队列是一种异步的通信方式。</p>
-<p>消息队列相关接口函数如下：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/msg_ops.png" /></p>
-<h3 id="_10">信号<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<p>信号其实是用户层面对硬件中断的一种模拟，一个线程收到信号之后会转去对应的信号处理函数。rtt中使用<strong>rt_sigset_t</strong>类型来定义信号集。</p>
-<p>当一个线程收到信号时，如果它处于挂起状态，那么它会改为就绪状态去处理对应的信号。</p>
-<p>信号相关接口函数如下：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/signal_ops.png" /></p>
-<p>在信号的使用过程中，先定义线程需要的信号处理函数，然后使用<code>rt_signal_install()</code>函数将<strong>signo</strong>与对应的信号处理函数相关联。</p>
-<h2 id="_11">内存管理<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
-<p>实时系统要求内存块的分配过程在可预测的时间内完成，否则实时任务对外部事件的响应将变得不确定。rtt内核在内存分配管理算法上，提供了两大类：内存堆管理与内存池管理。而内存对管理又划分为三种情况：小内存管理算法，slab管理算法和memheap管理算法。</p>
-<h3 id="_12">内存堆管理<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
-<p>小内存管理是一个简单的内存分配算法。初始时，它是一块大内存，当需要分配内存块时，从这块大内存上分割出响应的内存块，空闲的内存块归还给堆管理系统。每个内存块都用双向链表的方式链接起来。通过<strong>*used</strong>成员变量标记当前内存块是否已被使用。</p>
-<p>slab分配器会根据对象的大小分成多个区（zone），一个zone的大小在32K到128K字节之间，系统中的zone最多包括72种对象，一次性最大可以分配16K的空间。如果超出了16K则直接从页分配器中分配。每个zone上都是固定大小的内存块链接在一起。而72种对象的zone链表则放在一个数组中统一管理，如下图所示：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/slab.png" /></p>
-<p>memheap管理算法适用于系统有多个不可连续地址的内存堆。用户只需要在系统初始化时将多个所需的memheap初始化，并开启memheap功能就可以将多个memheap粘合起来统一用作内存分配。</p>
-<p>在使用内存堆时，必须在系统初始化的时候进行堆的初始化：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">rt_system_heap_init</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">begin_addr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">end_addr</span><span class="p">);</span>
-</span></code></pre></div>
-<p>内存堆管理的相关接口函数如下：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/heap_ops.png" /></p>
-<h3 id="_13">内存池管理<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
-<p>频繁地调用内存分配和释放函数会导致内存碎片，因此rtt引进了另外一种内存管理方法：内存池。</p>
-<p>内存池用于分配大量大小相同的小内存块，内存池在创建时先向系统申请一大块内存，然后分成同样大小的多个小内存块，小内存块直接通过链表连接起来（此链表也称为空闲链表）。每次分配的时候，从空闲链表中取出链头上第一个内存块，提供给申请者。内存池一旦初始化完成，内部的内存块大小将不能再做调整。</p>
-<p>内存池相关接口函数如下：</p>
-<p><img alt="Alt text" src="../../images/rt-thread/mempool_ops.png" /></p>
-<h2 id="_14">中断管理<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<p>gcc编译流程包括以下四个步骤：</p>
+<p>1.预处理：gcc - E test.c -o test.i
+2.编译：gcc -S test.i -o test.s
+3.汇编：as test.s -o test.o
+4.链接：ld test.o -o test -lc</p>
+<p>汇编阶段生成的.o可重定位文件以及链接阶段生成的可执行文件都是ELF文件格式的一种。</p>
+<p>ELF文件主要包含：</p>
+<ul>
+<li>ELF header：描述整个文件的基本属性 </li>
+<li>program header table：描述如何创建一个进程的内存映像</li>
+<li>各个段</li>
+<li>section header table：描述段的信息</li>
+</ul>
+<p><code>readelf</code>命令可以用来查看一个ELF文件的组成。比如<code>readelf -h</code>用来读取ELF header，<code>readelf -S</code>用来读取section header table。</p>
+<h2 id="_1">伪指令<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>伪指令在汇编期间由汇编器处理，可以实现多种功能。</p>
+<p>一些常用的伪指令比如：</p>
+<ul>
+<li>对齐伪指令：.align</li>
+<li>数据定义伪指令：.byte，.word</li>
+<li>函数控制伪指令：.global，.ifeq expression</li>
+<li>段伪指令：.section</li>
+<li>宏伪指令：.macro</li>
+</ul>
 
 
 
