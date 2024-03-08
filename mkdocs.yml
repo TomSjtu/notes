@@ -113,9 +113,12 @@ nav:
     - arm/aarch64.md
     - arm/instructions.md
     - arm/assembler.md
+    - arm/exception.md
+    - arm/gic.md
+    - arm/atomic.md
     - arm/lock.md
     - arm/barrier.md
-    - arm/gic.md
+
 
   - RTOS:
     - rtos/index.md

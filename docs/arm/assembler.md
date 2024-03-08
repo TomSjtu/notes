@@ -33,6 +33,126 @@ ELF文件主要包含：
 
 `readelf`命令可以用来查看一个ELF文件的组成。比如`readelf -h`用来读取ELF header，`readelf -S`用来读取section header table。
 
+## 链接器
+
+在现代软件工程中，一个大的项目往往由多个源文件组成，这些源文件经过预处理、编译、汇编后生成.o文件，然后通过链接器将这些.o文件链接成一个可执行文件。而链接脚本就告诉了链接器如何将目标文件组合起来。
+
+以下是一段链接脚本的示例：
+
+```C title="u-boot.lds"
+#include <config.h>
+#include <asm/psci.h>
+
+OUTPUT_FORMAT("elf64-littleaarch64", "elf64-littleaarch64", "elf64-littleaarch64")
+OUTPUT_ARCH(aarch64)
+ENTRY(_start)
+SECTIONS
+{
+	. = 0x00000000;
+
+	. = ALIGN(8);
+	.text :
+	{
+		*(.__image_copy_start)
+		CPUDIR/start.o (.text*)
+	}
+
+	/* This needs to come before *(.text*) */
+	.efi_runtime : {
+                __efi_runtime_start = .;
+		*(.text.efi_runtime*)
+		*(.rodata.efi_runtime*)
+		*(.data.efi_runtime*)
+                __efi_runtime_stop = .;
+	}
+
+	.text_rest :
+	{
+		*(.text*)
+	}
+
+	. = ALIGN(8);
+	.rodata : { *(SORT_BY_ALIGNMENT(SORT_BY_NAME(.rodata*))) }
+
+	. = ALIGN(8);
+	.data : {
+		*(.data*)
+	}
+
+	. = ALIGN(8);
+
+	. = .;
+
+	. = ALIGN(8);
+	__u_boot_list : {
+		KEEP(*(SORT(__u_boot_list*)));
+	}
+
+	. = ALIGN(8);
+
+	.efi_runtime_rel : {
+                __efi_runtime_rel_start = .;
+		*(.rel*.efi_runtime)
+		*(.rel*.efi_runtime.*)
+                __efi_runtime_rel_stop = .;
+	}
+
+	. = ALIGN(8);
+
+	.image_copy_end :
+	{
+		*(.__image_copy_end)
+	}
+
+	. = ALIGN(8);
+
+	.rel_dyn_start :
+	{
+		*(.__rel_dyn_start)
+	}
+
+	.rela.dyn : {
+		*(.rela*)
+	}
+
+	.rel_dyn_end :
+	{
+		*(.__rel_dyn_end)
+	}
+
+	_end = .;
+
+	. = ALIGN(8);
+
+	.bss_start : {
+		KEEP(*(.__bss_start));
+	}
+
+	.bss : {
+		*(.bss*)
+		 . = ALIGN(8);
+	}
+
+	.bss_end : {
+		KEEP(*(.__bss_end));
+	}
+
+	/DISCARD/ : { *(.dynsym) }
+	/DISCARD/ : { *(.dynstr*) }
+	/DISCARD/ : { *(.dynamic*) }
+	/DISCARD/ : { *(.plt*) }
+	/DISCARD/ : { *(.interp*) }
+	/DISCARD/ : { *(.gnu*) }
+}
+```
+
+该链接脚本主要做了几件事：
+
+1. 指明输出二进制文件的格式和架构
+2. 指明程序的入口点为_start
+3. 设置程序的各个段，指明对齐方式
+4. 丢弃一些不必要的段
+
 ## 伪指令
 
 伪指令在汇编期间由汇编器处理，可以实现多种功能。

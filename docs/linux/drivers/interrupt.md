@@ -3,7 +3,7 @@
 
 ## 在设备树中声明
 
-## 顶层GIC中断控制器
+### 顶层GIC中断控制器
 
 ```devicetree title="rk3568.dtsi"
 gic: interrupt-controller@fd400000 {
@@ -26,19 +26,20 @@ gic: interrupt-controller@fd400000 {
 
 > \#interrupt-cells：表明它的“子”中断控制器需要多少个cells来描述一个中断
 
-## 子中断控制器
+### 子中断控制器
 
 ![中断示意图](../../images/kernel/inter-controller.png)
 
 对于GPIO，可以将其视为中断控制器，但除了以上三个属性之外，还需要指定，使用上一级的哪一个中断控制器和哪一个中断：
 
 1. interrupt-parent属性：指定上一级的中断控制器
+
 2. interrupts属性：指定具体的中断号，第一个单元格定义了控制器内中断的索引，第二个单元格用于指定以下标志之一：
 
-- 1：上升沿触发
-- 2：下降沿触发
-- 3：高电平触发
-- 4：低电平触发
+	- 1：上升沿触发
+	- 2：下降沿触发
+	- 3：高电平触发
+	- 4：低电平触发
 
 如果支持extended语法，则可以直接使用interrupts-extended属性来取代以上两个属性：
 

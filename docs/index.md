@@ -2,16 +2,16 @@
 
 !!! quote ""
 
-    没有学术的民主和思想的自由，科学就不能繁荣。 ————2003版高一物理必修一课本
+    没有学术的民主和思想的自由，科学就不能繁荣。 ——2003版高一物理必修一课本
 
 
 ## 内容导航 
 
 - [Linux](linux/index.md)
 
-- [RTOS](rtos/index.md)
+- [ARM](arm/index.md)
 
-- [Arm](arm/index.md)
+- [RTOS](rtos/index.md)
 
 - [编程语言](pl/index.md)
 
