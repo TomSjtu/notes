@@ -1827,6 +1827,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1959,6 +1963,69 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../arm/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/atomic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    原子操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../arm/lock/" class="md-nav__link">
         
   
@@ -1985,27 +2052,6 @@
   
   <span class="md-ellipsis">
     内存屏障
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../arm/gic/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    GIC
   </span>
   
 
@@ -3045,7 +3091,7 @@
 <h3 id="_6">导出符号<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>模块导出符号以<code>EXPORT_SYMBOL(符号名)</code>作为前缀，导出的符号可以在其他模块中被访问。<code>EXPORT_SYMBOL_GPL(符号名)</code>导出的符号在模块加载时会受到GPL协议的约束。</p>
 <h3 id="_7">模块的声明与描述<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>我们可以以<code>MODULE_AUTHOR</code>、<code>MODULE_DESCRIPTION</code>、<code>MODULE_LICENSE</code>、<code>MODULE_ALIAS</code>、<code>MODULE_DEVICE_TABLE</code>、<code>MODULE_VERSION</code>分别声明模块的作者、描述、许可证、别名、设备表、版本号。</p>
+<p>我们可以用<code>MODULE_AUTHOR</code>、<code>MODULE_DESCRIPTION</code>、<code>MODULE_LICENSE</code>、<code>MODULE_ALIAS</code>、<code>MODULE_DEVICE_TABLE</code>、<code>MODULE_VERSION</code>分别声明模块的作者、描述、许可证、别名、设备表、版本号。</p>
 <h3 id="_8">模块的编译<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>一个典型的Makefile文件示例如下：</p>
 <div class="language-Makefile highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">ifneq ($(KERNELRELEASE),)</span>

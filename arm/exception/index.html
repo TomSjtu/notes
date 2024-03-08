@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/pl/modern_cpp/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/arm/exception/">
       
       
-        <link rel="prev" href="../gnu_c/">
+        <link rel="prev" href="../assembler/">
       
       
-        <link rel="next" href="../qt/">
+        <link rel="next" href="../gic/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>现代C++ - 一只Tom的笔记本</title>
+        <title>异常处理 - 一只Tom的笔记本</title>
       
     
     
@@ -70,7 +70,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#c" class="md-skip">
+        <a href="#_1" class="md-skip">
           Skip to content
         </a>
       
@@ -106,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              现代C++
+              异常处理
             
           </span>
         </div>
@@ -216,11 +216,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../arm/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -256,13 +258,11 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../pl/" class="md-tabs__link">
           
   
     
@@ -1688,6 +1688,8 @@
       
   
   
+    
+  
   
   
     
@@ -1718,19 +1720,22 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../arm/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1741,13 +1746,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             ARM
@@ -1763,7 +1768,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/boot/" class="md-nav__link">
+      <a href="../boot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1784,7 +1789,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/aarch64/" class="md-nav__link">
+      <a href="../aarch64/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1805,7 +1810,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/instructions/" class="md-nav__link">
+      <a href="../instructions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1826,7 +1831,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/assembler/" class="md-nav__link">
+      <a href="../assembler/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1844,10 +1849,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../arm/exception/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1856,6 +1881,110 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="异常">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常等级
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理流程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常向量表
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="中断">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断处理过程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断现场
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1868,7 +1997,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/gic/" class="md-nav__link">
+      <a href="../gic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1889,7 +2018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/atomic/" class="md-nav__link">
+      <a href="../atomic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1910,7 +2039,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/lock/" class="md-nav__link">
+      <a href="../lock/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1931,7 +2060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../arm/barrier/" class="md-nav__link">
+      <a href="../barrier/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2158,8 +2287,6 @@
       
   
   
-    
-  
   
   
     
@@ -2180,22 +2307,19 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../pl/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2206,13 +2330,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             编程语言
@@ -2270,7 +2394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gnu_c/" class="md-nav__link">
+      <a href="../../pl/gnu_c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2296,8 +2420,6 @@
                 
   
   
-    
-  
   
   
     
@@ -2311,11 +2433,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
         
           
           <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
@@ -2329,7 +2451,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_3">
             <span class="md-nav__icon md-icon"></span>
             现代C++
@@ -2340,19 +2462,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../pl/modern_cpp/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2361,7 +2474,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -2424,7 +2536,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../qt/" class="md-nav__link">
+      <a href="../../pl/qt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2495,7 +2607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../python/" class="md-nav__link">
+      <a href="../../pl/python/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2842,6 +2954,98 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="异常">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常类型
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常等级
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常处理流程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      异常向量表
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="中断">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断处理过程
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      中断现场
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2858,7 +3062,115 @@
   
 
 
-<h1 id="c">现代C++<a class="headerlink" href="#c" title="Permanent link">&para;</a></h1>
+<h1 id="_1">异常处理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">异常<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>在ARMv8体系结构中，异常和中断都属于异常处理。</p>
+<h3 id="_3">异常类型<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>1.中断</p>
+<p>在ARM64处理器中，中断请求分为<mark class="critic">普通中断请求</mark>(IRQ)和<mark class="critic">快速中断请求</mark>(FIQ)，其中FIQ的优先级高于IRQ。</p>
+<p>外设的中断引脚连接到中断控制器，中断控制器的IRQ线和FIQ线分别连接到CPU内部的IRQ引脚和FIQ引脚。外设的请求先送到中断控制器，由中断控制器仲裁并确定其优先级，然后再发送给CPU。</p>
+<p>2.中止</p>
+<p>中止分为指令中止和数据中止，通常是访问内存地址时发生了错误，处理器的MMU捕获这些错误并报告给处理器。</p>
+<p>3.复位</p>
+<p>复位是优先级最高的一种异常处理，CPU复位引脚产生复位信号，让CPU进入复位状态，然后重新启动。</p>
+<p>4.异常指令</p>
+<ul>
+<li>SVC指令：系统调用指令，用于调用操作系统提供的服务</li>
+<li>HVC指令：硬件虚拟化指令，用于调用虚拟化相关的服务</li>
+<li>SMC指令：安全监视器调用指令，用于调用安全监视器提供的服务</li>
+</ul>
+<h3 id="_4">异常等级<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>ARM64处理器分为两种模式：<mark class="critic">特权模式</mark>和<mark class="critic">非特权模式</mark>。操作系统内核运行在特权模式，而用户态程序运行在非特权模式。除此之外，ARM64还支持虚拟化扩展以及安全模式扩展，这四种模式被称为<mark class="critic">异常等级</mark>(Exception Level)：</p>
+<ul>
+<li>EL0：非特权模式，运行应用程序</li>
+<li>EL1：特权模式，运行操作系统内核</li>
+<li>EL1：虚拟化模式，运行虚拟化管理程序</li>
+<li>EL2：安全模式，运行安全世界管理程序</li>
+</ul>
+<h3 id="_5">异常处理流程<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>当异常发生后，内核必须能感知异常的发生，并且生成一个当前的异常等级ELx，然后：</p>
+<ol>
+<li>把PSTATE寄存器的值保存到对应异常等级的SPSR_ELx中</li>
+<li>把返回地址保存到对应异常等级的ELR_ELx中</li>
+<li>将PSTATE寄存器里的D、A、I、F标志位设为1，即关闭调试异常、SError、IRQ和FIQ</li>
+<li>切换SP寄存器为目标异常等级的SP_ELx寄存器</li>
+<li>切换到对应目标异常等级ELx，然后跳转到异常向量表中</li>
+<li>执行异常向量表中对应的异常处理函数</li>
+<li>执行ERET指令从异常返回</li>
+</ol>
+<p>ERET指令需要完成：</p>
+<ol>
+<li>从ELR_ELx中恢复PC指针</li>
+<li>从SPSR_ELx中恢复PSTATE寄存器</li>
+</ol>
+<p>根据系统的配置，异常可以在当前异常等级处理，也可以陷入更高级别异常等级去处理。但是EL0不能用来处理异常。</p>
+<p>由于不同异常等级都有对应的SP寄存器，因此在汇编代码跳转到<code>main()</code>函数之前，需要确保每个异常等级对应的栈空间可用。</p>
+<p>异常处理的执行状态保存在HCR_EL2寄存器中，返回时的执行状态保存在SPSR中。</p>
+<h3 id="_6">异常向量表<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>异常向量表存放的基地址可以通过向量基址寄存器(Vector Base Address Register)来设置。在ARMv8体系结构中，除了EL0，每个EL都有自己的异常向量表，基地址保存在对应的VBAR_ELx寄存器中。</p>
+<p><img alt="异常向量表" src="../../images/arm/exception_vector.png" /></p>
+<p>根据官方文档可知，如果处理器在内核态EL1异常等级中触发了IRQ，且配置了SP_EL1寄存器作为栈指针，那么处理器就会跳转到"VBAR_EL1 + 0x280"地址处的异常向量中。如果处理器在用户态EL0异常登记中触发了IRQ，若为AArch64执行状态，那么处理器就会跳转到"VBAR_EL1 + 0x480"地址处的异常向量中。</p>
+<h2 id="_7">中断<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>ARM64处理器上有两个与中断相关的引脚：</p>
+<ul>
+<li>nIRQ：IRQ信号，每个CPU内核都有一根信号线，低电平有效</li>
+<li>nFIQ：FIQ信号，每个CPU内核都有一根信号线，低电平有效</li>
+</ul>
+<p>PSTATE寄存器里面有两位与中断有关，可以用来屏蔽和打开中断，分别是I——IRQ，F——FIQ。</p>
+<h3 id="_8">中断处理过程<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>一般的中断处理过程如下：</p>
+<ol>
+<li>保存现场，然后跳转到中断向量表中</li>
+<li>根据中断向量表中的地址，跳转到顶层中断处理程序</li>
+<li>读取中断号，根据中断号，跳转到设备的中断处理程序</li>
+<li>在设备中断处理程序中，处理这个中断</li>
+<li>返回顶层中断处理程序，调用ERET指令返回现场</li>
+<li>执行中断前的下一条指令</li>
+</ol>
+<h3 id="_9">中断现场<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>中断发生时需要保存现场，ARM64处理器需要保存以下内容：</p>
+<ul>
+<li>PSTATE寄存器里的值</li>
+<li>PC值</li>
+<li>SP值</li>
+<li>X0~X30寄存器里的值</li>
+</ul>
+<p>栈框数据结构<code>struct pt_regs</code>用来描述需要保存的中断现场：</p>
+<div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">pt_regs</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="nc">user_pt_regs</span><span class="w"> </span><span class="n">user_regs</span><span class="p">;</span>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">            </span><span class="n">u64</span><span class="w"> </span><span class="n">regs</span><span class="p">[</span><span class="mi">31</span><span class="p">];</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">            </span><span class="n">u64</span><span class="w"> </span><span class="n">sp</span><span class="p">;</span>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">            </span><span class="n">u64</span><span class="w"> </span><span class="n">pc</span><span class="p">;</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">            </span><span class="n">u64</span><span class="w"> </span><span class="n">pstate</span><span class="p">;</span>
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">        </span><span class="p">};</span>
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="p">};</span>
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="n">u64</span><span class="w"> </span><span class="n">orig_x0</span><span class="p">;</span>
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="cp">#ifdef __AARCH64EB__</span>
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="n">u32</span><span class="w"> </span><span class="n">unused2</span><span class="p">;</span>
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">    </span><span class="n">s32</span><span class="w"> </span><span class="n">syscallno</span><span class="p">;</span>
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="cp">#else</span>
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">    </span><span class="n">s32</span><span class="w"> </span><span class="n">syscallno</span><span class="p">;</span>
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a><span class="w">    </span><span class="n">u32</span><span class="w"> </span><span class="n">unused2</span><span class="p">;</span>
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="cp">#endif</span>
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="w">    </span><span class="n">u64</span><span class="w"> </span><span class="n">sdei_ttbr1</span><span class="p">;</span>
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">    </span><span class="cm">/* Only valid when ARM64_HAS_IRQ_PRIO_MASKING is enabled. */</span>
+</span><span id="__span-0-21"><a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">    </span><span class="n">u64</span><span class="w"> </span><span class="n">pmr_save</span><span class="p">;</span>
+</span><span id="__span-0-22"><a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a><span class="w">    </span><span class="n">u64</span><span class="w"> </span><span class="n">stackframe</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+</span><span id="__span-0-23"><a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>
+</span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="cm">/* Only valid for some EL1 exceptions. */</span>
+</span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="n">u64</span><span class="w"> </span><span class="n">lockdep_hardirqs</span><span class="p">;</span>
+</span><span id="__span-0-26"><a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="n">u64</span><span class="w"> </span><span class="n">exit_rcu</span><span class="p">;</span>
+</span><span id="__span-0-27"><a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="p">};</span>
+</span></code></pre></div>
+<ul>
+<li>栈框的PSTATE保存SPSR_EL1的内容</li>
+<li>栈框的PC保存ELR_EL1的内容</li>
+<li>栈框的SP保存栈顶的位置</li>
+<li>栈框的regs[30]保存LR的值</li>
+<li>栈框的regs[0] ~ regs[29]保存X0~X29的值</li>
+</ul>
 
 
 

@@ -836,15 +836,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#swap" class="md-nav__link">
-    <span class="md-ellipsis">
-      Swap机制
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -1845,6 +1836,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1977,6 +1972,69 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../arm/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/atomic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    原子操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../arm/lock/" class="md-nav__link">
         
   
@@ -2003,27 +2061,6 @@
   
   <span class="md-ellipsis">
     内存屏障
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../arm/gic/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    GIC
   </span>
   
 
@@ -2997,15 +3034,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#swap" class="md-nav__link">
-    <span class="md-ellipsis">
-      Swap机制
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -3195,10 +3223,10 @@
 </span></code></pre></div>
 <p>这两个函数都会睡眠，因此不能在中断上下文中使用。</p>
 <h2 id="_5">伙伴系统<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>伙伴系统（Buddy System）是一种内存分配算法，它被用于操作系统的内存管理。在这种系统中，内存被分成多个大小相等的块，每个块的大小都是2的幂次方。这些块被组织成一颗树结构，其中每个块都是另一个块的“伙伴”。</p>
-<p>内核把所有的空闲页分组为11个页块链表，每个块链表分别包含很多个大小的页块，有 1、2、4、8、16、32、64、128、256、512 和 1024 个连续页的页块。最大可以申请1024个连续页，对应 4MB大小的连续内存。</p>
+<p>伙伴系统（Buddy System）是一种内存分配算法，它被用于管理操作系统的内存分配和释放。该算法将内存分成多个大小相等的块，每个块的大小都是2的幂次方，并将相邻的块组合成一对"伙伴"。</p>
+<p>内核把所有的空闲页分组为11个页块链表，每个链表分别包含很多个大小的页块，有 1、2、4、8、16、32、64、128、256、512和 1024个连续页的页块。最大可以申请1024个连续页，对应4MB大小的连续内存。</p>
 <p><img alt="伙伴系统" src="../../../images/kernel/buddy.webp" /></p>
-<p>当操作系统需要分配内存时，它会根据请求的大小找到最接近的且大小足够的块进行分配。如果分配的块比所需的大小大，那么这个块会被分成两个大小相等的子块，其中一个子块被用来满足内存分配请求，而另一个则成为它的“伙伴”。</p>
+<p>当操作系统需要分配内存时，它会根据请求的大小找到最接近的且大小足够的块进行分配。如果分配的块比所需的大小大，那么这个块会被分成两个大小相等的子块，其中一个子块被用来满足内存分配请求，而另一个则成为它的"伙伴"。</p>
 <p>在伙伴系统中，当需要分配一个特定大小的内存块时，系统会按照以下步骤操作：</p>
 <ol>
 <li>
@@ -3276,19 +3304,6 @@
 </span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="cm">/* SLAB cache for mm_struct structures (tsk-&gt;mm) */</span>
 </span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">mm_cachep</span><span class="p">;</span>
 </span></code></pre></div>
-<h2 id="swap">Swap机制<a class="headerlink" href="#swap" title="Permanent link">&para;</a></h2>
-<p>当系统内存资源紧张时，内核会对一些内存进行回收。对于文件页，大部分可以直接回收，如果是脏页则需要先写入磁盘。对于匿名页，内核引入了Swap机制来回收。</p>
-<p>Swap机制是内核中的一种内存管理技术，用于处理内存不足的情况。当系统中的实际物理内存不足以满足程序运行需求时，操作系统会将部分暂时不用的内存页面移到Swap空间中，从而释放物理内存，以便继续运行其他程序。它包括换出和换入两个过程。</p>
-<ul>
-<li>换出，就是把进程暂时不用的内存数据存储到磁盘中，并释放这些数据占用的内存。</li>
-<li>换入，就是将磁盘中的数据重新加载到内存中。</li>
-</ul>
-<p>当有新的大块内存分配请求而剩余内存不足时，内核就会回收一部分内存，尽可能地满足新内存请求，这个过程被称为<mark class="critic">直接内存回收</mark>。</p>
-<p>除了直接内存回收，还有一个专门的内核线程kswapd0用来定期回收内存。为了衡量内存的使用情况，内核定义了三个内存阈值，分别是页最小阈值（pages_min）、页低阈值（pages_low）和页高阈值（pages_high），剩余内存，则用pages_free表示。</p>
-<p><img alt="内存情况" src="../../../images/kernel/pages_free.webp" /></p>
-<p>一旦剩余内存小于页低阈值，就会触发内存的回收。</p>
-<p>在NUMA架构下，每个处理器都会被划分到不同的Node下，而每个Node都有自己的本地内存空间。因此，内核需要根据当前Node的内存使用情况来决定回收的目标。当某个Node内存不足时，内核可以从其他Node寻找空闲内存，也可以从本地回收内存，具体回收模式在/proc/sys/vm/zone_reclaim_mode文件中进行配置。</p>
-<p>/proc/sys/vm/swappiness选项用来调整使用Swap的积极程度，从0~100，数值越大越积极使用Swap，也就是更倾向于回收匿名页；数值越小越消极使用Swap，也就是更倾向于回收文件页。</p>
 
 
 

@@ -1791,6 +1791,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1923,6 +1927,69 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../arm/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/atomic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    原子操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../arm/lock/" class="md-nav__link">
         
   
@@ -1949,27 +2016,6 @@
   
   <span class="md-ellipsis">
     内存屏障
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../arm/gic/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    GIC
   </span>
   
 
@@ -2923,7 +2969,7 @@
 <p>Buffer和Cache被设计用来提升系统I/O的性能，它们缓存在内存中，充当起慢速磁盘与快速CPU之间的桥梁。</p>
 <ul>
 <li>
-<p>Buffers是对<mark class="critic">磁盘数据</mark>的缓存，通常不会特别大。</p>
+<p>Buffer是对<mark class="critic">磁盘数据</mark>的缓存，通常不会特别大。</p>
 </li>
 <li>
 <p>Cached是对<mark class="critic">文件数据</mark>的缓存。</p>
@@ -2942,11 +2988,12 @@
 </span></code></pre></div>
 <blockquote>
 <p>total：总内存大小</p>
-<p>used：已经使用的内存大小</p>
+<p>used：已经使用的内存大小，包括实际使用的内存和buffer以及cache</p>
 <p>free：空闲的内存大小</p>
 <p>shared：多个进程共享的内存大小</p>
-<p>buff/cache：缓存和缓冲区占用的内存大小</p>
-<p>available：可用的内存大小</p>
+<p>buff/cache：磁盘缓存和文件缓存的大小</p>
+<p>available：可用的内存大小，即系统最大可以压榨的内存余量</p>
+<p>swap：交换分区的内存使用情况</p>
 </blockquote>
 <ul>
 <li>使用<code>top</code>查看进程内存使用情况：</li>

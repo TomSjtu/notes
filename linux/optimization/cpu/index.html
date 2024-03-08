@@ -1818,6 +1818,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -1950,6 +1954,69 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../arm/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/atomic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    原子操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../arm/lock/" class="md-nav__link">
         
   
@@ -1976,27 +2043,6 @@
   
   <span class="md-ellipsis">
     内存屏障
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../arm/gic/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    GIC
   </span>
   
 
@@ -3131,35 +3177,51 @@
 <p>nvcswch/s：每秒非自愿上下文切换次数。</p>
 </blockquote>
 <ul>
+<li>使用<code>watch</code>查看软中断使用情况：</li>
+</ul>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>watch<span class="w"> </span>-d<span class="w"> </span>cat<span class="w"> </span>/proc/softirqs
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">                    </span>CPU0<span class="w">       </span>CPU1
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">          </span>HI:<span class="w">          </span><span class="m">0</span><span class="w">          </span><span class="m">0</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">       </span>TIMER:<span class="w">    </span><span class="m">1083906</span><span class="w">    </span><span class="m">2368646</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">      </span>NET_TX:<span class="w">         </span><span class="m">53</span><span class="w">          </span><span class="m">9</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">      </span>NET_RX:<span class="w">    </span><span class="m">1550643</span><span class="w">    </span><span class="m">1916776</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">       </span>BLOCK:<span class="w">          </span><span class="m">0</span><span class="w">          </span><span class="m">0</span>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span>IRQ_POLL:<span class="w">          </span><span class="m">0</span><span class="w">          </span><span class="m">0</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">     </span>TASKLET:<span class="w">     </span><span class="m">333637</span><span class="w">       </span><span class="m">3930</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">       </span>SCHED:<span class="w">     </span><span class="m">963675</span><span class="w">    </span><span class="m">2293171</span>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">     </span>HRTIMER:<span class="w">          </span><span class="m">0</span><span class="w">          </span><span class="m">0</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">         </span>RCU:<span class="w">    </span><span class="m">1542111</span><span class="w">    </span><span class="m">1590625</span>
+</span></code></pre></div>
+<ul>
 <li>使用<code>dstat</code>查看CPU和I/O使用情况：</li>
 </ul>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1"># 间隔1秒输出10组数据</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>$<span class="w"> </span>dstat<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">10</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>You<span class="w"> </span>did<span class="w"> </span>not<span class="w"> </span><span class="k">select</span><span class="w"> </span>any<span class="w"> </span>stats,<span class="w"> </span>using<span class="w"> </span>-cdngy<span class="w"> </span>by<span class="w"> </span>default.
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>--total-cpu-usage--<span class="w"> </span>-dsk/total-<span class="w"> </span>-net/total-<span class="w"> </span>---paging--<span class="w"> </span>---system--
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>usr<span class="w"> </span>sys<span class="w"> </span>idl<span class="w"> </span>wai<span class="w"> </span>stl<span class="p">|</span><span class="w"> </span><span class="nb">read</span><span class="w">  </span>writ<span class="p">|</span><span class="w"> </span>recv<span class="w">  </span>send<span class="p">|</span><span class="w">  </span><span class="k">in</span><span class="w">   </span>out<span class="w"> </span><span class="p">|</span><span class="w"> </span>int<span class="w">   </span>csw
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">96</span><span class="w">   </span><span class="m">4</span><span class="w">   </span><span class="m">0</span><span class="p">|</span>1219k<span class="w">  </span>408k<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">42</span><span class="w">   </span><span class="m">885</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">2</span><span class="w">  </span><span class="m">98</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>198B<span class="w">  </span>790B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">42</span><span class="w">   </span><span class="m">138</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">42</span><span class="w">   </span><span class="m">135</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">84</span><span class="w">  </span><span class="m">16</span><span class="w">   </span><span class="m">0</span><span class="p">|</span>5633k<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">52</span><span class="w">   </span><span class="m">177</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">3</span><span class="w">  </span><span class="m">39</span><span class="w">  </span><span class="m">58</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>22M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">43</span><span class="w">   </span><span class="m">144</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>200B<span class="w">  </span>450B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">46</span><span class="w">   </span><span class="m">147</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">2</span><span class="w">  </span><span class="m">98</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">45</span><span class="w">   </span><span class="m">134</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">39</span><span class="w">   </span><span class="m">131</span>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">83</span><span class="w">  </span><span class="m">17</span><span class="w">   </span><span class="m">0</span><span class="p">|</span>5633k<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">46</span><span class="w">   </span><span class="m">168</span>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">3</span><span class="w">  </span><span class="m">39</span><span class="w">  </span><span class="m">59</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>22M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">37</span><span class="w">   </span><span class="m">134</span>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>...
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># 间隔1秒输出10组数据</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>$<span class="w"> </span>dstat<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">10</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>You<span class="w"> </span>did<span class="w"> </span>not<span class="w"> </span><span class="k">select</span><span class="w"> </span>any<span class="w"> </span>stats,<span class="w"> </span>using<span class="w"> </span>-cdngy<span class="w"> </span>by<span class="w"> </span>default.
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>--total-cpu-usage--<span class="w"> </span>-dsk/total-<span class="w"> </span>-net/total-<span class="w"> </span>---paging--<span class="w"> </span>---system--
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>usr<span class="w"> </span>sys<span class="w"> </span>idl<span class="w"> </span>wai<span class="w"> </span>stl<span class="p">|</span><span class="w"> </span><span class="nb">read</span><span class="w">  </span>writ<span class="p">|</span><span class="w"> </span>recv<span class="w">  </span>send<span class="p">|</span><span class="w">  </span><span class="k">in</span><span class="w">   </span>out<span class="w"> </span><span class="p">|</span><span class="w"> </span>int<span class="w">   </span>csw
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">96</span><span class="w">   </span><span class="m">4</span><span class="w">   </span><span class="m">0</span><span class="p">|</span>1219k<span class="w">  </span>408k<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">42</span><span class="w">   </span><span class="m">885</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">2</span><span class="w">  </span><span class="m">98</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>198B<span class="w">  </span>790B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">42</span><span class="w">   </span><span class="m">138</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">42</span><span class="w">   </span><span class="m">135</span>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">84</span><span class="w">  </span><span class="m">16</span><span class="w">   </span><span class="m">0</span><span class="p">|</span>5633k<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">52</span><span class="w">   </span><span class="m">177</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">3</span><span class="w">  </span><span class="m">39</span><span class="w">  </span><span class="m">58</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>22M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">43</span><span class="w">   </span><span class="m">144</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>200B<span class="w">  </span>450B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">46</span><span class="w">   </span><span class="m">147</span>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">2</span><span class="w">  </span><span class="m">98</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">45</span><span class="w">   </span><span class="m">134</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w"> </span><span class="m">100</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>34M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">39</span><span class="w">   </span><span class="m">131</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">0</span><span class="w">  </span><span class="m">83</span><span class="w">  </span><span class="m">17</span><span class="w">   </span><span class="m">0</span><span class="p">|</span>5633k<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">46</span><span class="w">   </span><span class="m">168</span>
+</span><span id="__span-10-15"><a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">  </span><span class="m">0</span><span class="w">   </span><span class="m">3</span><span class="w">  </span><span class="m">39</span><span class="w">  </span><span class="m">59</span><span class="w">   </span><span class="m">0</span><span class="p">|</span><span class="w">  </span>22M<span class="w">    </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span>66B<span class="w">  </span>342B<span class="p">|</span><span class="w">   </span><span class="m">0</span><span class="w">     </span><span class="m">0</span><span class="w"> </span><span class="p">|</span><span class="w">  </span><span class="m">37</span><span class="w">   </span><span class="m">134</span>
+</span><span id="__span-10-16"><a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a>...
 </span></code></pre></div>
 <ul>
 <li>使用<code>sar</code>查看系统的网络收发情况：</li>
 </ul>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="c1"># -n DEV 表示显示网络收发的报告，间隔1秒输出一组数据</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>$<span class="w"> </span>sar<span class="w"> </span>-n<span class="w"> </span>DEV<span class="w"> </span><span class="m">1</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="m">15</span>:03:46<span class="w">        </span>IFACE<span class="w">   </span>rxpck/s<span class="w">   </span>txpck/s<span class="w">    </span>rxkB/s<span class="w">    </span>txkB/s<span class="w">   </span>rxcmp/s<span class="w">   </span>txcmp/s<span class="w">  </span>rxmcst/s<span class="w">   </span>%ifutil
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="m">15</span>:03:47<span class="w">         </span>eth0<span class="w">  </span><span class="m">12607</span>.00<span class="w">   </span><span class="m">6304</span>.00<span class="w">    </span><span class="m">664</span>.86<span class="w">    </span><span class="m">358</span>.11<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.01
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="m">15</span>:03:47<span class="w">      </span>docker0<span class="w">   </span><span class="m">6302</span>.00<span class="w">  </span><span class="m">12604</span>.00<span class="w">    </span><span class="m">270</span>.79<span class="w">    </span><span class="m">664</span>.66<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="m">15</span>:03:47<span class="w">           </span>lo<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="m">15</span>:03:47<span class="w">    </span>veth9f6bbcd<span class="w">   </span><span class="m">6302</span>.00<span class="w">  </span><span class="m">12604</span>.00<span class="w">    </span><span class="m">356</span>.95<span class="w">    </span><span class="m">664</span>.66<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.05
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># -n DEV 表示显示网络收发的报告，间隔1秒输出一组数据</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>$<span class="w"> </span>sar<span class="w"> </span>-n<span class="w"> </span>DEV<span class="w"> </span><span class="m">1</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="m">15</span>:03:46<span class="w">        </span>IFACE<span class="w">   </span>rxpck/s<span class="w">   </span>txpck/s<span class="w">    </span>rxkB/s<span class="w">    </span>txkB/s<span class="w">   </span>rxcmp/s<span class="w">   </span>txcmp/s<span class="w">  </span>rxmcst/s<span class="w">   </span>%ifutil
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="m">15</span>:03:47<span class="w">         </span>eth0<span class="w">  </span><span class="m">12607</span>.00<span class="w">   </span><span class="m">6304</span>.00<span class="w">    </span><span class="m">664</span>.86<span class="w">    </span><span class="m">358</span>.11<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.01
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="m">15</span>:03:47<span class="w">      </span>docker0<span class="w">   </span><span class="m">6302</span>.00<span class="w">  </span><span class="m">12604</span>.00<span class="w">    </span><span class="m">270</span>.79<span class="w">    </span><span class="m">664</span>.66<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="m">15</span>:03:47<span class="w">           </span>lo<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="m">15</span>:03:47<span class="w">    </span>veth9f6bbcd<span class="w">   </span><span class="m">6302</span>.00<span class="w">  </span><span class="m">12604</span>.00<span class="w">    </span><span class="m">356</span>.95<span class="w">    </span><span class="m">664</span>.66<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.00<span class="w">      </span><span class="m">0</span>.05
 </span></code></pre></div>
 <blockquote>
 <p>IFACE：网卡</p>
@@ -3172,11 +3234,11 @@
 <ul>
 <li>使用<code>tcpdump</code>抓取网络包：</li>
 </ul>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="c1"># -i eth0 只抓取eth0网卡，-n不解析协议名和主机名</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="c1"># tcp port 80表示只抓取tcp协议并且端口号为80的网络帧</span>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>$<span class="w"> </span>tcpdump<span class="w"> </span>-i<span class="w"> </span>eth0<span class="w"> </span>-n<span class="w"> </span>tcp<span class="w"> </span>port<span class="w"> </span><span class="m">80</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="m">15</span>:11:32.678966<span class="w"> </span>IP<span class="w"> </span><span class="m">192</span>.168.0.2.18238<span class="w"> </span>&gt;<span class="w"> </span><span class="m">192</span>.168.0.30.80:<span class="w"> </span>Flags<span class="w"> </span><span class="o">[</span>S<span class="o">]</span>,<span class="w"> </span>seq<span class="w"> </span><span class="m">458303614</span>,<span class="w"> </span>win<span class="w"> </span><span class="m">512</span>,<span class="w"> </span>length<span class="w"> </span><span class="m">0</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>...
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># -i eth0 只抓取eth0网卡，-n不解析协议名和主机名</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="c1"># tcp port 80表示只抓取tcp协议并且端口号为80的网络帧</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>$<span class="w"> </span>tcpdump<span class="w"> </span>-i<span class="w"> </span>eth0<span class="w"> </span>-n<span class="w"> </span>tcp<span class="w"> </span>port<span class="w"> </span><span class="m">80</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="m">15</span>:11:32.678966<span class="w"> </span>IP<span class="w"> </span><span class="m">192</span>.168.0.2.18238<span class="w"> </span>&gt;<span class="w"> </span><span class="m">192</span>.168.0.30.80:<span class="w"> </span>Flags<span class="w"> </span><span class="o">[</span>S<span class="o">]</span>,<span class="w"> </span>seq<span class="w"> </span><span class="m">458303614</span>,<span class="w"> </span>win<span class="w"> </span><span class="m">512</span>,<span class="w"> </span>length<span class="w"> </span><span class="m">0</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>...
 </span></code></pre></div>
 
 

@@ -2,367 +2,377 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://tomsjtu.github.io/notes/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/aarch64/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/assembler/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://tomsjtu.github.io/notes/arm/atomic/</loc>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/barrier/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/boot/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://tomsjtu.github.io/notes/arm/exception/</loc>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/gic/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/instructions/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/lock/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/cloud/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/cloud/docker/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/blkdev/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/bluetooth/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/chardev/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/device_model/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/dma/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/dts/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/ethernet/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/gpio/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/hardware/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/i2c/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/input/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/interrupt/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/mmc/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/module/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/netdev/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/pci/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/pinctrl/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/platform/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/protocol/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/spi/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/uart/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/usb/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/wifi/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/ebpf/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/block/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/interrupt/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/intro/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/ipc/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/mm/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/network/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/others/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/page/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/pm/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/sched/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/synch/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/task/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/time/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/vfs/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/vma/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/cpu/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/disk/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/memory/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/network/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/others/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/others/poker/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/gnu_c/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/modern_cpp/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/python/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/qt/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/rtos/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/rtos/freertos/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/rtos/freertos/CMSIS/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/rtos/rt-thread/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/tools/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/tools/github/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/tools/markdown/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/tools/vim/</loc>
-         <lastmod>2024-03-06</lastmod>
+         <lastmod>2024-03-08</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
