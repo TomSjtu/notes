@@ -1715,6 +1715,8 @@
       
         
       
+        
+      
     
     
       
@@ -1789,6 +1791,27 @@
   
   <span class="md-ellipsis">
     ARM架构基础知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../arm/standard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    编程规范
   </span>
   
 
@@ -2709,9 +2732,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#https" class="md-nav__link">
     <span class="md-ellipsis">
-      网络配置
+      HTTPS连接
     </span>
   </a>
   
@@ -2720,7 +2743,25 @@
         <li class="md-nav__item">
   <a href="#ssh" class="md-nav__link">
     <span class="md-ellipsis">
+      SSH连接
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssh_1" class="md-nav__link">
+    <span class="md-ellipsis">
       添加SSH密钥
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      网络配置
     </span>
   </a>
   
@@ -2913,9 +2954,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#https" class="md-nav__link">
     <span class="md-ellipsis">
-      网络配置
+      HTTPS连接
     </span>
   </a>
   
@@ -2924,7 +2965,25 @@
         <li class="md-nav__item">
   <a href="#ssh" class="md-nav__link">
     <span class="md-ellipsis">
+      SSH连接
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ssh_1" class="md-nav__link">
+    <span class="md-ellipsis">
       添加SSH密钥
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      网络配置
     </span>
   </a>
   
@@ -2967,55 +3026,59 @@
 
 
 <h1 id="github">github<a class="headerlink" href="#github" title="Permanent link">&para;</a></h1>
-<h2 id="_1">网络配置<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>由于众所周知的原因，github在国内的访问不尽如人意，但是国外开源项目几乎都部署在github上，不得不用。如果是自己的虚拟机连接网速比较慢，建议开个梯子然后配置下流量代理：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>http.proxy<span class="w"> </span>http://127.0.0.1:<span class="o">[</span>端口号<span class="o">]</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>https.proxy<span class="w"> </span>http://127.0.0.1:<span class="o">[</span>端口号<span class="o">]</span>
-</span></code></pre></div>
-<p>这两行命令的意思是让http和https协议的流量全部走你梯子的代理，端口号根据梯子的配置自行输入。配置完以后<code>git clone</code>应该不会卡了。如果你要取消全局代理，输入以下命令：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>--unset<span class="w"> </span>http.proxy
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>--unset<span class="w"> </span>https.proxy
-</span></code></pre></div>
-<p>一般来说，github的SSH默认通过端口22建立连接，除非你更改了配置文件强制使用HTTPS的443端口连接。</p>
+<p>github支持HTTPS和SSH连接，但无论是哪种方式，都需要验证你的身份。</p>
+<h2 id="https">HTTPS连接<a class="headerlink" href="#https" title="Permanent link">&para;</a></h2>
+<p>过去，HTTPS连接要求你输入用户名和密码，但是这种方式由于不安全已经被github废弃。现在，要想通过HTTPS连接，你必须使用另外一种叫<a href="https://github.com/git-ecosystem/git-credential-manager/blob/main/README.md">Git Credential Manager</a>的方式。请直接查看官网文档。</p>
+<h2 id="ssh">SSH连接<a class="headerlink" href="#ssh" title="Permanent link">&para;</a></h2>
+<p>SSH连接默认采用22端口，但是有时候防火墙会阻止这种行为。如果遇到这种情况，你可以采用上面的HTTPS连接。如果HTTPS连接也不行，你可以尝试采用HTTPS端口的SSH连接。</p>
 <p>要测试通过HTTPS端口的SSH连接是否可行，输入以下命令：</p>
-<p><div class="language-SHELL highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ssh<span class="w"> </span>-T<span class="w"> </span>-p<span class="w"> </span><span class="m">443</span><span class="w"> </span>git@ssh.github.com
+<p><div class="language-SHELL highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ssh<span class="w"> </span>-T<span class="w"> </span>-p<span class="w"> </span><span class="m">443</span><span class="w"> </span>git@ssh.github.com
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>&gt;<span class="w"> </span>Hi<span class="w"> </span>USERNAME!<span class="w"> </span>You<span class="err">&#39;</span>ve<span class="w"> </span>successfully<span class="w"> </span>authenticated,<span class="w"> </span>but<span class="w"> </span>GitHub<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>provide<span class="w"> </span>shell<span class="w"> </span>access.
+</span></code></pre></div>
+如果输出以上内容，则说明连接可行。你可以更改~/.ssh/config文件，强制与github的连接都通过SSH的443端口。</p>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Host<span class="w"> </span>github.com
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Hostname<span class="w"> </span>ssh.github.com
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Port<span class="w"> </span><span class="m">443</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>User<span class="w"> </span>git
+</span></code></pre></div>
+<p>更改配置后，再次测试SSH连接是否可行：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>&gt;<span class="w"> </span>Hi<span class="w"> </span>USERNAME!<span class="w"> </span>You<span class="err">&#39;</span>ve<span class="w"> </span>successfully<span class="w"> </span>authenticated,<span class="w"> </span>but<span class="w"> </span>GitHub<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>provide<span class="w"> </span>shell<span class="w"> </span>access.
 </span></code></pre></div>
-如果输出以上内容，则说明连接可行。你可以更改~/.ssh/config文件，强制与github的连接都通过该服务器和端口：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>Host<span class="w"> </span>github.com
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>Hostname<span class="w"> </span>ssh.github.com
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>Port<span class="w"> </span><span class="m">443</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>User<span class="w"> </span>git
-</span></code></pre></div>
-<p>通过再次连接到github来测试是否有效，注意这时就不需要指定端口号了：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>&gt;<span class="w"> </span>Hi<span class="w"> </span>USERNAME!<span class="w"> </span>You<span class="err">&#39;</span>ve<span class="w"> </span>successfully<span class="w"> </span>authenticated,<span class="w"> </span>but<span class="w"> </span>GitHub<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>provide<span class="w"> </span>shell<span class="w"> </span>access.
-</span></code></pre></div>
 <div class="admonition note">
-<p>注意：SSH通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过SSH连接时，会询问你是否信任该服务器，输入yes即可。</p>
+<p>注意：SSH通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过SSH连接时，会询问你是否信任该服务器，输入yes即可。github的SSH公钥存放在<a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints">Github's SSH key fingerprints</a>。你可以添加到~/.ssh/known_hosts来避免验证。</p>
 </div>
-<h2 id="ssh">添加SSH密钥<a class="headerlink" href="#ssh" title="Permanent link">&para;</a></h2>
+<h2 id="ssh_1">添加SSH密钥<a class="headerlink" href="#ssh_1" title="Permanent link">&para;</a></h2>
 <p>添加SSH密钥的过程很简单，按照步骤一步步来即可。</p>
 <p>1.首先输入以下命令，将邮件地址改为你注册github的邮箱：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
 </span></code></pre></div>
 <p>系统会要求你输入一些信息，连续按回车跳过即可。</p>
 <p>2.将SSH密钥添加到ssh-agent：</p>
 <p>先启动ssh代理：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>ssh-agent<span class="w"> </span>-s<span class="k">)</span><span class="s2">&quot;</span>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>ssh-agent<span class="w"> </span>-s<span class="k">)</span><span class="s2">&quot;</span>
 </span></code></pre></div>
 <p>然后添加私钥：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>ssh-add<span class="w"> </span>~/.ssh/id_ed25519
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ssh-add<span class="w"> </span>~/.ssh/id_ed25519
 </span></code></pre></div>
 <p>3.向你的账户添加新的SSH密钥</p>
 <p>现在，.ssh/目录下有两个文件，以pub结尾的就是公钥，需要你上传至github服务器。</p>
-<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cat<span class="w"> </span>~/.ssh/id_ed25519.pub
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cat<span class="w"> </span>~/.ssh/id_ed25519.pub
 </span></code></pre></div>
 <p>复制打印的内容，然后在github个人资料面点击设置，找到<code>SSH and GPG keys</code>，点击<code>New SSH key</code>，最后粘贴复制的公钥即可。</p>
+<h2 id="_1">网络配置<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>github支持流量代理：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>http.proxy<span class="w"> </span>http://127.0.0.1:<span class="o">[</span>端口号<span class="o">]</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>https.proxy<span class="w"> </span>http://127.0.0.1:<span class="o">[</span>端口号<span class="o">]</span>
+</span></code></pre></div>
+<p>这两行命令的意思是让http和https协议的流量全部走你梯子的代理，端口号根据梯子的配置自行输入。配置完以后<code>git clone</code>应该不会卡了。如果你要取消全局代理，输入以下命令：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>--unset<span class="w"> </span>http.proxy
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>--unset<span class="w"> </span>https.proxy
+</span></code></pre></div>
 <h2 id="_2">管理远程仓库<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>要添加一个远程仓库链接，使用<code>git remote add</code> 命令，该命令需要两个参数：</p>
 <ul>

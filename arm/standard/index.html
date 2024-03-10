@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/arm/barrier/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/arm/standard/">
       
       
-        <link rel="prev" href="../lock/">
+        <link rel="prev" href="../aarch64/">
       
       
-        <link rel="next" href="../../rtos/">
+        <link rel="next" href="../instructions/">
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>内存屏障 - 一只Tom的笔记本</title>
+        <title>编程规范 - 一只Tom的笔记本</title>
       
     
     
@@ -106,7 +106,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              内存屏障
+              编程规范
             
           </span>
         </div>
@@ -1809,10 +1809,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../standard/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    编程规范
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1821,6 +1841,44 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据类型
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数调用标准
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1956,19 +2014,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../barrier/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1977,7 +2026,6 @@
   
 
       </a>
-      
     </li>
   
 
@@ -2863,6 +2911,32 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      数据类型
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数调用标准
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -2879,14 +2953,15 @@
   
 
 
-<h1 id="_1">内存屏障<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>ARM处理器的屏障指令包括：</p>
-<ul>
-<li>DMB（数据内存屏障）：在DMB之后的显式内存访问执行前，保证所有在DMB指令之前的内存访问完成。</li>
-<li>DSB（数据同步屏障）：位于此指令之前的所有显式内存访问、所有缓存、跳转预测和TLB维护操作全部完成。</li>
-<li>ISB（指令同步屏障）：Flush流水线，使得在ISB指令之后的指令重新从指令缓存中加载。</li>
-</ul>
-<p>Linux内核中的自旋锁、互斥体等逻辑，都使用了内存屏障来确保线程安全。</p>
+<h1 id="_1">编程规范<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">数据类型<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">函数调用标准<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ol>
+<li>函数的前8个参数用X0 ~ X7寄存器传递</li>
+<li>多于的参数用栈来传递</li>
+<li>函数的返回值保存在X0寄存器</li>
+<li>函数的返回地址保存在X30(LR0)寄存器</li>
+</ol>
 
 
 
