@@ -1,24 +1,14 @@
 # github
 
-## 网络配置
+github支持HTTPS和SSH连接，但无论是哪种方式，都需要验证你的身份。
 
-由于众所周知的原因，github在国内的访问不尽如人意，但是国外开源项目几乎都部署在github上，不得不用。如果是自己的虚拟机连接网速比较慢，建议开个梯子然后配置下流量代理：
+## HTTPS连接
 
-```SHELL
-git config --global http.proxy http://127.0.0.1:[端口号]
- 
-git config --global https.proxy http://127.0.0.1:[端口号]
-```
+过去，HTTPS连接要求你输入用户名和密码，但是这种方式由于不安全已经被github废弃。现在，要想通过HTTPS连接，你必须使用另外一种叫[Git Credential Manager](https://github.com/git-ecosystem/git-credential-manager/blob/main/README.md)的方式。请直接查看官网文档。
 
-这两行命令的意思是让http和https协议的流量全部走你梯子的代理，端口号根据梯子的配置自行输入。配置完以后`git clone`应该不会卡了。如果你要取消全局代理，输入以下命令：
+## SSH连接
 
-```SHELL
-git config --global --unset http.proxy
- 
-git config --global --unset https.proxy
-```
-
-一般来说，github的SSH默认通过端口22建立连接，除非你更改了配置文件强制使用HTTPS的443端口连接。
+SSH连接默认采用22端口，但是有时候防火墙会阻止这种行为。如果遇到这种情况，你可以采用上面的HTTPS连接。如果HTTPS连接也不行，你可以尝试采用HTTPS端口的SSH连接。
 
 要测试通过HTTPS端口的SSH连接是否可行，输入以下命令：
 
@@ -27,7 +17,7 @@ ssh -T -p 443 git@ssh.github.com
 
 > Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
 ```
-如果输出以上内容，则说明连接可行。你可以更改~/.ssh/config文件，强制与github的连接都通过该服务器和端口：
+如果输出以上内容，则说明连接可行。你可以更改~/.ssh/config文件，强制与github的连接都通过SSH的443端口。
 
 ```SHELL
 Host github.com
@@ -36,7 +26,7 @@ Port 443
 User git
 ```
 
-通过再次连接到github来测试是否有效，注意这时就不需要指定端口号了：
+更改配置后，再次测试SSH连接是否可行：
 
 ```SHELL
 ssh -T git@github.com
@@ -46,7 +36,7 @@ ssh -T git@github.com
 
 !!! note ""
 
-    注意：SSH通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过SSH连接时，会询问你是否信任该服务器，输入yes即可。
+    注意：SSH通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过SSH连接时，会询问你是否信任该服务器，输入yes即可。github的SSH公钥存放在[Github's SSH key fingerprints](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)。你可以添加到~/.ssh/known_hosts来避免验证。
 
 ## 添加SSH密钥
 
@@ -83,6 +73,24 @@ cat ~/.ssh/id_ed25519.pub
 ```
 
 复制打印的内容，然后在github个人资料面点击设置，找到`SSH and GPG keys`，点击`New SSH key`，最后粘贴复制的公钥即可。
+
+## 网络配置
+
+github支持流量代理：
+
+```SHELL
+git config --global http.proxy http://127.0.0.1:[端口号]
+ 
+git config --global https.proxy http://127.0.0.1:[端口号]
+```
+
+这两行命令的意思是让http和https协议的流量全部走你梯子的代理，端口号根据梯子的配置自行输入。配置完以后`git clone`应该不会卡了。如果你要取消全局代理，输入以下命令：
+
+```SHELL
+git config --global --unset http.proxy
+ 
+git config --global --unset https.proxy
+```
 
 ## 管理远程仓库
 

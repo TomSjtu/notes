@@ -111,6 +111,7 @@ nav:
     - arm/index.md
     - arm/boot.md
     - arm/aarch64.md
+    - arm/standard.md
     - arm/instructions.md
     - arm/assembler.md
     - arm/exception.md
