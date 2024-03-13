@@ -3,20 +3,21 @@
 
 ## C
 
-- [GNU C](./gnu_c.md)
+- [GNU C](./c/gnu_c.md)
+- [C语言杂项](./c/unamed.md)
 
 
 ## 现代C++ 
 
-- [现代C++](./modern_cpp.md)
+- [现代C++](./c++/modern_cpp.md)
 
 ## QT
 
-- [QT](./qt.md)
+- [QT](./qt/qt.md)
 
 ## Python
 
-- [Python](./python.md)
+- [Python](./python/python.md)
 
 ## 参考资料
 

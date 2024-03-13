@@ -12,22 +12,22 @@
 - [A64指令集](./instructions.md)
 - [GNU汇编](./assembler.md)
 
+## 异常处理
+
+- [异常处理](./exception.md)
+- [GIC](./gic.md)
+
 ## ARM同步机制
 
 - [原子操作](./atomic.md)
 - [锁的实现](./lock.md)
 - [内存屏障](./barrier.md)
 
-## 异常处理
-
-- [异常处理](./exception.md)
-- [GIC](./gic.md)
-
 ## 内存管理
 
-- [内存管理]
-- [高速缓存]
-- [TLB管理]
+- [内存管理](./mm.md)
+- [高速缓存](./cache.md)
+- [TLB管理](./tlb.md)
 
 ## 参考资料
 

@@ -48,7 +48,11 @@ Linux内核可大致分为五个子系统——进程管理、内存管理、文
 
 ## 编译内核
 
-Linux驱动开发者需要牢固掌握Linux内核的编译方法，以及为嵌入式系统构建可运行的Linux系统操作镜像。要编译内核，可以使用以下指令：
+Linux内核从源码到安装使用大致可以分为三个阶段：配置、编译、安装。配置的过程主要由Kconfig提供的图形界面完成，编译与安装主要由Kbuild系统，由`make`命令实现。
+
+### Kconfig
+
+要配置内核，可以使用以下指令：
 
 ```C
 make config(基于文本)
@@ -61,7 +65,7 @@ make gconfig(要求安装GTK+)
 
 ![内核菜单配置界面](../../images/kernel/menuconfig.png)
 
-运行`make menuconfig`后，配置工具首先查找<arch/[architecture]/Kconfig\>文件，该文件除了定义一系列CONFIG配置项，还通过关键字`source`语句引入了一系列Kconfig文件，这些文件定义了要用到的其他配置项，最终形成一个分层的树形结构。
+运行`make menuconfig`后，配置工具首先查找<arch/[architecture]/Kconfig\>文件，该文件除了定义一系列CONFIG配置项，还通过关键字`source`语句引入了一系列Kconfig文件。每个Kconfig文件分别描述了所属目录源文档相关的内核配置菜单，最终形成一个分层的树形结构。就是我们在执行`make menuconfig`后看到的目录菜单。
 
 在内核中添加程序需要完成以下三个步骤：
 
@@ -69,7 +73,9 @@ make gconfig(要求安装GTK+)
 2. 在目录的Kconfig文件中添加对于新代码的编译配置选项。
 3. 在目录的Makefile文件中添加对于新代码的编译条目。
 
-内核的各种配置，以CONFIG_FEATURE的形式写入主目录的.config文件。配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。
+内核的各种配置，以CONFIG_FEATURE的形式写入主目录的.config文件。再执行`make`命令时，就会根据.config文件中的配置选项，编译出对应的可执行文件。
+
+配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。
 
 假如MMU的源代码文件为：mmu.c，在该目录的Kconfig文件中有个条目config MMU，则在Makefile文件中关于此目录的编译条目为：obj-$(CONFIG_MMU) += mmu.o。如果关于MMU的配置选项选择为"Y"或者"M"，则编译mmu.o；如果选择为"N"，则不编译mmu.o。
 
@@ -81,6 +87,30 @@ make gconfig(要求安装GTK+)
 
 自己编写时可以仿照内核的写法。
 
+Kconfig的主要关键字有：
+
+| 关键字 | 描述 |
+| :------ | :------ |
+| config | Kconfig最基本单元，定义了配置项的详细信息 |
+| menu/endmenu | 目录，可以把一部分相关的配置项包含在一个menu中，menu可以嵌套使用 |
+| if/endif | 条件编译 |
+| choice/endchoice | 一组选择项，只能是bool或者tristate |
+| comment | 注释 |
+| source | 引入其他Kconfig文件 |
+
+### Makefile
+
+Kbuild对Makefile进行了功能上的扩充，使其在编译内核文件时更加高效、简洁。
+
+内核Makefile一共包含五部分：
+
+| 文件 | 描述 |
+| :------ | :------ |
+| 顶层Makefile | 定义了内核的编译规则，如编译器、编译选项等 |
+| .config文件 | 定义了内核的配置选项 |
+| arch/${ARCH}/Makefile | 定义了特定体系结构的编译规则 |
+| scripts/Makefile | 包含了所有定义与规则 |
+| 各目录中的Makefile | 定义了当前目录的编译规则 |
 
 !!! info "内核镜像"
 
@@ -91,11 +121,6 @@ make gconfig(要求安装GTK+)
     zImage: 压缩Image后的镜像
 
     uImage: 由uboot的`mkimage`工具加工zImage得到64字节头的Image，供uboot启动
-
-
-### Kconfig语法(待完成)
-
-
 
 ## 启动内核(待完成)
 

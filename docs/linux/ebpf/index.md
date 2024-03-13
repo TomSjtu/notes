@@ -1,11 +1,11 @@
 # ebpf技术
 
-安装bcc软件包：
+## 基础知识
 
-```SHELL
-sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4052245BD4284CDD
-echo "deb https://repo.iovisor.org/apt/xenial xenial main" | sudo tee /etc/apt/sources.list.d/iovisor.list
-sudo apt-get update
-sudo apt-get install -y bcc-tools libbcc-examples linux-headers-$(uname -r)
-```
+- [eBPF入门](./intro.md)
 
+## 参考资料
+
+- [eBPF开发实践教程](https://eunomia.dev/zh/tutorials/)
+- [性能之巅(第2版)](https://book.douban.com/subject/35934902/)
+- [Linux内核观测技术BPF](https://book.douban.com/subject/35170101/)

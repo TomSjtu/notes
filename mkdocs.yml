@@ -106,6 +106,7 @@ nav:
 
     - ebpf:
       - linux/ebpf/index.md
+      - linux/ebpf/intro.md
  
   - ARM: 
     - arm/index.md
@@ -119,6 +120,9 @@ nav:
     - arm/atomic.md
     - arm/lock.md
     - arm/barrier.md
+    - arm/mm.md
+    - arm/cache.md
+    - arm/tlb.md
 
 
   - RTOS:
@@ -132,16 +136,17 @@ nav:
   - 编程语言: 
     - pl/index.md
     - C:
-      - pl/gnu_c.md
+      - pl/c/gnu_c.md
+      - pl/c/unamed.md
     
     - 现代C++:
-      - pl/modern_cpp.md
+      - pl/c++/modern_cpp.md
     
     - QT:
-      - pl/qt.md
+      - pl/qt/qt.md
 
     - Python:
-      - pl/python.md
+      - pl/python/python.md
     
 
   - 云计算:
