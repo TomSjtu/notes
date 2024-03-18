@@ -1310,6 +1310,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    UART子系统
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1319,6 +1330,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#uart_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      UART协议
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -1462,7 +1501,7 @@
         
   
   <span class="md-ellipsis">
-    Bluetooth
+    蓝牙
   </span>
   
 
@@ -2402,11 +2441,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/gnu_c/" class="md-nav__link">
+      <a href="../../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    GNU C
+    GCC工具链
   </span>
   
 
@@ -2456,6 +2495,8 @@
       
         
       
+        
+      
     
     
     
@@ -2485,6 +2526,27 @@
             现代C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2986,6 +3048,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#uart_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      UART协议
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3003,6 +3082,26 @@
 
 
 <h1 id="uart">UART子系统<a class="headerlink" href="#uart" title="Permanent link">&para;</a></h1>
+<h2 id="uart_1">UART协议<a class="headerlink" href="#uart_1" title="Permanent link">&para;</a></h2>
+<p>UART是通用异步收发器，通信双方只要采用相同的帧格式和波特率，就可以在无需时钟信号的情况下，仅使用两根信号线(RX和TX)，就能实现全双工的发送和接收。</p>
+<p>UART使用标准的TTL/CMOS逻辑电平来表示数据，1表示高电平，0表示低电平。数据传输速率用波特率来表示，双方的波特率必须要保持一致。</p>
+<p><img alt="UART帧格式" src="../../../images/kernel/uart01.webp" /></p>
+<ul>
+<li>空闲位：高电平，表示没有数据传输</li>
+<li>起始位：低电平，开始传送数据</li>
+<li>数据位：5~8位，先发数据的低位，再发高位</li>
+<li>校验位：奇偶校验(非必须)，将数据位加上校验位，1的位数为偶数（偶校验），1的位数为奇数（奇校验）</li>
+<li>停止位：高电平，表示数据传输结束</li>
+</ul>
+<p>UART的缺点：</p>
+<p>1.电气接口不统一</p>
+<p>UART只对信号时序进行了定义，而未定义接口的电气特性；</p>
+<p>UART通信时一般直接使用处理器使用的电平，即TTL电平，不同处理器不能直接通信；</p>
+<p>UART没有规定不同器件连接时连接器的标准，所以不同器件之间通过UART通信时连接很不方便。</p>
+<p>2.抗干扰能力差</p>
+<p>UART使用TTL信号来表示0和1，但TTL信号的抗干扰能力很差，数据在传输过程中很容易出错。</p>
+<p>3.通信距离极短</p>
+<p>因为TTL信号抗干扰能力差， 所以其通信距离也很短，一般只能用于一个电路板上的两个不同芯片之间的通信。</p>
 
 
 

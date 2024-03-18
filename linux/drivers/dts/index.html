@@ -1146,9 +1146,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#of" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      内核的of函数
+      设备树操作函数
     </span>
   </a>
   
@@ -1552,7 +1552,7 @@
         
   
   <span class="md-ellipsis">
-    Bluetooth
+    蓝牙
   </span>
   
 
@@ -2492,11 +2492,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/gnu_c/" class="md-nav__link">
+      <a href="../../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    GNU C
+    GCC工具链
   </span>
   
 
@@ -2546,6 +2546,8 @@
       
         
       
+        
+      
     
     
     
@@ -2575,6 +2577,27 @@
             现代C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3134,9 +3157,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#of" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      内核的of函数
+      设备树操作函数
     </span>
   </a>
   
@@ -3161,7 +3184,7 @@
 
 
 <h1 id="_1">设备树<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>设备树是一种特殊的描述硬件信息的数据结构，由一系列节点（Node）和属性（Property）组成，节点本身还可以包含子节点，就像一颗树状结构一样。可以描述的信息包括：</p>
+<p>设备树是一种特殊的专门用于描述硬件信息的数据结构，它由一系列节点（node）和属性（property）组成，节点本身还可以包含子节点，就像一棵树状结构一样。设备树中可以描述的信息包括：</p>
 <ul>
 <li>CPU的数量和类别</li>
 <li>内存基地址和大小</li>
@@ -3183,7 +3206,7 @@
 <li>ARM SOC周边外设模块的驱动代码保存在drivers目录下</li>
 <li>ARM SOC board specific的代码被移除，由设备树来负责传递硬件资源信息。</li>
 </ol>
-<p>本质上，设备树改变了原来用hardcode方式将硬件配置信息嵌入到内核代码的方法。对于嵌入式系统，在系统启动阶段，由<mark class="critic">bootloader</mark>通过bootm命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。</p>
+<p>本质上，设备树改变了传递硬件配置信息的方式。对于嵌入式系统，在系统启动阶段，改由<mark class="critic">bootloader</mark>通过<code>bootm</code>命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。</p>
 <p>一般情况下，.dtsi描述SoC信息，比如CPU架构，主频。.dts文件描述板级信息，比如开发板上有哪些I2C设备、SPI设备等。</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
@@ -3199,13 +3222,13 @@
 </span></code></pre></div>
 <h2 id="dtsdtbdtc">DTS、DTB和DTC<a class="headerlink" href="#dtsdtbdtc" title="Permanent link">&para;</a></h2>
 <p>.dts文件是人类可以看懂的，但是内核无法识别。DTC工具可以将.dts编译成.dtb，这样内核就可以识别了。DTC的源码位于内核的&lt;scripts/dtc&gt;目录中。</p>
-<p>dtc的使用方法是：</p>
+<p>使用DTC工具编译生成.dtb文件：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>dtc<span class="w"> </span>-I<span class="w"> </span>dts<span class="w"> </span>-O<span class="w"> </span>dtb<span class="w"> </span>-o<span class="w"> </span><span class="o">[</span>output<span class="o">]</span>.dtb<span class="w"> </span><span class="o">[</span>input<span class="o">]</span>.dts
 </span></code></pre></div>
-<p>反过来可以生成dts文件：</p>
+<p>反过来可以生成.dts文件：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>dtc<span class="w"> </span>-I<span class="w"> </span>dtb<span class="w"> </span>-O<span class="w"> </span>dts<span class="w"> </span>-o<span class="w"> </span><span class="o">[</span>output<span class="o">]</span>.dts<span class="w"> </span><span class="o">[</span>input<span class="o">]</span>.dtb
 </span></code></pre></div>
-<p><code>make dtbs</code>会编译所有的dts文件，如果要编译指定的dtb，请使用<code>make board_name.dtb</code>。</p>
+<p><code>make dtbs</code>会编译所有的.dts文件，如果要编译指定的.dtb，请使用<code>make board_name.dtb</code>。</p>
 <h2 id="dts">DTS基本语法<a class="headerlink" href="#dts" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
 <p class="admonition-title">设备树绑定文档</p>
@@ -3249,7 +3272,7 @@
 <p>1.<code>compatible</code>属性</p>
 <p><code>compatible</code>属性定义了整个系统的名称，它的组织形式为：(manufacturer, model)。内核通过该属性判断它启动的是什么设备。</p>
 <div class="admonition example">
-<p class="admonition-title">瑞芯微</p>
+<p class="admonition-title">瑞芯微RK3399</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>compatible = &quot;rockchip, rk3399&quot;;
 </span></code></pre></div>
 </div>
@@ -3266,7 +3289,7 @@
 <p><code>status</code>属性的值与设备状态有关，通过设置<code>status</code>属性可以禁用或者启用设备。</p>
 <p>4.<code>reg</code>属性</p>
 <p><code>reg</code>属性的值一般是以(address, length)对的形式出现。用于描述设备资源在其父总线定义的地址空间内的地址。</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>reg = &lt;0x4000e000 0x400&gt;  //起始地址+大小
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>reg = &lt;0x4000e000 0x400&gt;  //起始地址 + 长度
 </span></code></pre></div>
 <p>5.<code>#address-cells</code>和<code>#size-cells</code>属性</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>#address-cells: 决定了子节点reg属性的地址信息所占用的字长
@@ -3280,30 +3303,31 @@
 </ul>
 <p>空格隔开的就表示一个cell——第一个元素表示片选，第二个元素表示内存基地址，第三个元素表示长度。</p>
 <p>6.<code>ranges</code>属性</p>
-<p><code>range</code>是地址转换表，按照（子地址，父地址，转换长度）的格式编写。</p>
-<p>比如对于#address-cells和#size-cells都为1的话，以ranges=&lt;0x0 0x10 0x20&gt;为例，表示将子地址的从0x0~(0x0 + 0x20)的地址空间映射到父地址的0x10~(0x10 + 0x20)。</p>
-<p><code>ranges</code>属性的值按照(child-bus-address, parent-bus-address, length)格式编写。<code>ranges</code>属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过<code>ranges</code>属性获知哪些内存区域或者IO端口是被硬件设备所占用的。</p>
+<p><code>range</code>是地址映射表，按照（子地址，父地址，映射长度）的格式编写。</p>
+<p>比如#address-cells和#size-cells都为1的话，以ranges=&lt;0x0 0x10 0x20&gt;为例，表示将子地址的0x0映射到父地址的0x10，共映射0x20个字节。</p>
+<p><code>ranges</code>属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过<code>ranges</code>属性获知哪些内存区域或者IO端口是被硬件设备所占用的。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>如果<code>ranges</code>属性为空，则说明子地址空间和父地址空间相同，不需要进行转换。</p>
 </div>
 <p>7.<code>intc</code>属性</p>
-<p>用于表示中断控制器的相关信息。</p>
+<p>用于表示中断控制器的相关信息，可以包含以下信息：</p>
 <ul>
-<li>interrupt-controller：</li>
-<li>interrupt-cells：</li>
-<li>interrupt-parent：</li>
-<li>interrupts：</li>
+<li>interrupt-controller</li>
+<li>interrupt-cells</li>
+<li>interrupt-parent</li>
+<li>interrupts</li>
 </ul>
+<p>中断控制器更详细的内容见<a href="../interrupt/">中断子系统</a>。</p>
 <p>根节点必须要有的属性有：</p>
-<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>#address-cells:子节点reg属性中，用多少个u32整数来描述地址
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>#size-cells：子节点reg属性中，用多少个u32整数来描述大小
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>compatible：指定板子兼容的平台
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>model：板子名称
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>compatible：指定板子兼容的平台
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>model：板子名称
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>#address-cells：子节点reg属性中，用多少个u32整数来描述地址
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>#size-cells：子节点reg属性中，用多少个u32整数来描述大小
 </span></code></pre></div>
-<h2 id="of">内核的of函数<a class="headerlink" href="#of" title="Permanent link">&para;</a></h2>
+<h2 id="_5">设备树操作函数<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以<code>of</code>开头，定义在&lt;include/linux/of.h&gt;中。</p>
-<p>内核使用<code>device_node</code>结构体来描述一个节点
+<p>内核使用<code>device_node</code>结构体来描述一个节点：
 <div class="language-C highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
 </span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="n">phandle</span><span class="w"> </span><span class="n">phandle</span><span class="p">;</span>

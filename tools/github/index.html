@@ -1448,7 +1448,7 @@
         
   
   <span class="md-ellipsis">
-    Bluetooth
+    蓝牙
   </span>
   
 
@@ -2388,11 +2388,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../pl/c/gnu_c/" class="md-nav__link">
+      <a href="../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    GNU C
+    GCC工具链
   </span>
   
 
@@ -2442,6 +2442,8 @@
       
         
       
+        
+      
     
     
     
@@ -2471,6 +2473,27 @@
             现代C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/c%2B%2B/unamed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -2904,6 +2927,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      版本控制
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3128,6 +3160,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      版本控制
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3255,6 +3296,20 @@
 </span></code></pre></div>
 <p>合并代码：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>git<span class="w"> </span>merge<span class="w"> </span><span class="o">[</span>另一个分支名<span class="o">]</span>
+</span></code></pre></div>
+<h2 id="_3">版本控制<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>放弃工作目录中的修改(还未提交到工作区)：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span><span class="o">[</span>file<span class="o">]</span><span class="w">  </span>//放弃某个文件的修改
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.<span class="w">       </span>//放弃所有修改
+</span></code></pre></div>
+<p>回退到之前某个版本，且丢弃该版本之后的所有修改：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span>
+</span></code></pre></div>
+<p>撤销之前某个版本，但保留该版本后面的版本：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>git<span class="w"> </span>revert<span class="w"> </span>-n<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span><span class="w">  </span>//-n表示手动解决冲突
+</span></code></pre></div>
+<p>暂存工作区：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>git<span class="w"> </span>stash
 </span></code></pre></div>
 
 

@@ -1783,7 +1783,7 @@
         
   
   <span class="md-ellipsis">
-    Bluetooth
+    蓝牙
   </span>
   
 
@@ -2723,11 +2723,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/gnu_c/" class="md-nav__link">
+      <a href="../../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    GNU C
+    GCC工具链
   </span>
   
 
@@ -2777,6 +2777,8 @@
       
         
       
+        
+      
     
     
     
@@ -2806,6 +2808,27 @@
             现代C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3623,19 +3646,24 @@
 
 
 <h1 id="_1">进程调度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>操作系统的重要职责就是对各类进程进行合理的调度，有效分配CPU的时间，既要保证进程得到最快的响应，也要保证进程之间的公平性。Linux6.6内核已采用最新的EEVDF算法，本文只介绍沿用已久的CFS调度算法。</p>
-<p>Linux内核是多任务的操作系统，意味着能同时并发地执行多个进程。然而这只是操作系统给用户的幻觉。单个CPU在某个时间点上只能运行一个进程，内核为每个进程分配一小段非常短的时间片，并让不同的进程切换执行，造成了多进程并发运行的假象。在当前进程时间片用完之前，其他进程可能处于睡眠或阻塞状态。</p>
+<p>操作系统的重要职责就是对各类进程进行合理的调度，有效分配CPU的时间，既要保证进程得到最快的响应，也要保证进程之间的公平性。</p>
+<p>Linux内核是多任务的操作系统，能并发地执行多个进程。但是单个CPU在某段时间内只能运行一个进程，内核为每个进程分配一小段非常短的时间片，并让不同的进程切换执行，造成了多进程并发运行的假象。在当前进程时间片用完之前，其他进程可能处于睡眠或阻塞状态。</p>
 <div class="admonition info">
 <p class="admonition-title">抢占式多任务操作系统</p>
-<p>一个进程在使用完其分配的时间片之前，可能会被调度程序强制挂起而运行其他的进程。</p>
+<p>一个进程在使用完其分配的时间片之前，可能会被调度程序强制挂起而运行其他的进程，这被称为是抢占。</p>
 </div>
 <h2 id="_2">操作系统的分类<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>1.批处理系统(Batch Processing System)</p>
-<p>用户将一批作业提交给操作系统后就不再干预，由操作系统控制它们自动运行。</p>
-<p>2.实时系统(Real-Time System)</p>
-<p>实时系统保证计算的正确性以及程序的实时响应，一般应用在航天、汽车工业等。</p>
-<p>3.分时系统(Time Sharing System)</p>
-<p>分时系统将计算机的资源进行时间上的分割，每个时间段称为一个时间片，每个用户依次轮流使用时间片。</p>
+<ol>
+<li>
+<p>批处理系统(Batch Processing System)：用户将一批作业提交给操作系统后就不再干预，由操作系统控制它们自动运行。</p>
+</li>
+<li>
+<p>实时系统(Real-Time System)：实时系统保证计算的正确性以及程序的实时响应，一般应用在航天、汽车工业等。</p>
+</li>
+<li>
+<p>分时系统(Time Sharing System)：分时系统将计算机的资源进行时间上的分割，每个时间段称为一个时间片，每个用户依次轮流使用时间片。</p>
+</li>
+</ol>
 <p>Linux属于分时系统，也是目前互联网服务器的主流。</p>
 <h2 id="_3">进程的分类<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>进程可以被分为<mark class="critic">I/O消耗型</mark>和<mark class="critic">处理器消耗型</mark>。前者指进程的大部分时间用来提交或者是等待I/O请求，这样的进程通常处于可运行状态，但只运行很短的时间就进入阻塞状态。比如图形界面程序就是典型的I/O消耗型程序，它们大部分时间都在等待来自鼠标或者是键盘的交互。</p>
@@ -3863,7 +3891,7 @@
 <p class="admonition-title">Info</p>
 <p>等待事件还有两个更低级函数：<code>prepare_to_wait()</code>和<code>finish_wait()</code>——用于对进程更精细度的控制，<code>wait_event()</code>函数实际是对它们的封装。可参考&lt;include/linux/wait.h&gt;中的源码。</p>
 </div>
-<p>唤醒操作通过<code>wake_up()</code>完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到红黑树中。<code>wake_up_process()</code>用于唤醒特定的进程。</p>
+<p>唤醒操作通过<code>wake_up()</code>/<code>wake_up_interruptible()</code>完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到红黑树中。<code>wake_up_process()</code>用于唤醒特定的进程。</p>
 <h2 id="_24">调度队列与调度实体<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h2>
 <p><code>task_struct</code>中包含了多种调度实体：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sched_entity</span><span class="w"> </span><span class="n">se</span><span class="p">;</span><span class="w">     </span><span class="c1">//完全公平调度实体</span>

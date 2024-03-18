@@ -1205,6 +1205,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      获取资源
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1519,7 +1528,7 @@
         
   
   <span class="md-ellipsis">
-    Bluetooth
+    蓝牙
   </span>
   
 
@@ -2459,11 +2468,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/gnu_c/" class="md-nav__link">
+      <a href="../../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    GNU C
+    GCC工具链
   </span>
   
 
@@ -2513,6 +2522,8 @@
       
         
       
+        
+      
     
     
     
@@ -2542,6 +2553,27 @@
             现代C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3076,6 +3108,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      获取资源
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3105,7 +3146,7 @@
 <li>platform drvier：继承自device_driver模块，用于驱动platform设备。</li>
 </ul>
 <h2 id="_2">平台总线<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用<code>platform_match()</code>函数对新增的设备或驱动进行配对。内核使用<code>struct bus_type platform_bus_type</code>来描述平台总线，该总线在内核初始化的时候注册：</p>
+<p>在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用<code>platform_match()</code>函数对新增的设备或驱动进行配对。<code>struct bus_type platform_bus_type</code>用来描述平台总线——内核初始化的时候自动注册：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">sturct</span><span class="w"> </span><span class="n">bus_type</span><span class="w"> </span><span class="n">platform_bus_type</span><span class="p">{</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;platform&quot;</span><span class="p">,</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="p">.</span><span class="n">dev_groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">platform_dev_groups</span><span class="p">,</span>
@@ -3114,9 +3155,9 @@
 </span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">.</span><span class="n">pm</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">platform_dev_pm_ops</span><span class="p">,</span>
 </span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">};</span>
 </span></code></pre></div>
-<p>对<code>platform_bus_type</code>的初始化来说，<code>match</code>函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。对于每个驱动总线，都必须实例化该函数指针。</p>
+<p>对<code>platform_bus_type</code>的初始化来说，<code>match</code>函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。其他的驱动总线，也必须实例化该函数指针。</p>
 <h2 id="_3">平台设备<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>内核使用<code>platform_device</code>结构体来描述平台设备：</p>
+<p><code>platform_device</code>结构体用来描述平台设备：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">     </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//设备名称，匹配时会比较驱动的名字</span>
 </span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">     </span><span class="kt">int</span><span class="w"> </span><span class="n">id</span><span class="p">;</span><span class="w">              </span><span class="c1">//内核允许存在多个</span>
@@ -3144,8 +3185,8 @@
 </span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">};</span>
 </span></code></pre></div>
 <blockquote>
-<p>name： 指定资源的名字，可以设置为NULL</p>
 <p>start、end： 指定资源的起始地址以及结束地址</p>
+<p>name： 指定资源的名字，可以设置为NULL</p>
 <p>flags： 用于指定该资源的类型，在Linux中，资源包括I/O、Memory、Register、IRQ、DMA、Bus等多种类型，最常见的有以下几种：</p>
 </blockquote>
 <table>
@@ -3174,8 +3215,7 @@
 </tr>
 </tbody>
 </table>
-<p>设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有IO端口映射和IO內存映射两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用<code>IORESOURCE_MEM</code>。</p>
-<p>在资源的起始地址和结束地址中，对于IORESOURCE_IO或者是IORESOURCE_MEM，他们表示要使用的内存的起始位置以及结束位置；若是只用一个中断引脚或者是一个通道，则它们的start和end成员值必须是相等的。</p>
+<p>设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有<mark class="critic">IO端口映射</mark>和<mark class="critic">IO內存映射</mark>两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用<code>IORESOURCE_MEM</code>。</p>
 <p>注册/注销平台设备用到的函数如下：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_device_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">);</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_device_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">);</span>
@@ -3203,7 +3243,7 @@
 </span></code></pre></div>
 </div>
 <h2 id="_4">平台驱动<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>内核使用<code>platform_driver</code>结构体来描述平台驱动：</p>
+<p><code>platform_driver</code>结构体用来描述平台驱动：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">platform_driver</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">probe</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">remove</span><span class="p">)(</span><span class="n">structg</span><span class="w"> </span><span class="n">platform_device</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
@@ -3216,9 +3256,9 @@
 <blockquote>
 <p>probe：初始化平台设备</p>
 <p>remove：释放平台设备</p>
-<p>suspend/resume：设备进入/退出休眠状态</p>
+<p>suspend/resume：设备进入/退出休眠状态，电源管理相关</p>
 </blockquote>
-<p>除了提供一些回调函数之外，还有一个<code>id_table</code>的指针。这个指针用来表示该驱动能够兼容的<code>platform_device</code>。</p>
+<p>除了以上四个回调函数，最关键的还有一个<code>id_table</code>的指针。这个指针指向用来表示该驱动匹配的<code>platform_device</code>。</p>
 <p>我们来看一下<code>struct platform_device_id</code>结构体的定义：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device_id</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">PLATFORM_NAME_SIZE</span><span class="p">];</span>
@@ -3229,11 +3269,12 @@
 <p>name：驱动的名称。平台总线进行匹配时，会根据该name成员与<code>platform_device</code>中的name成员进行匹配，一旦匹配就会调用<code>probe()</code>函数。</p>
 <p>driver_data：保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。</p>
 </blockquote>
-<p>这里插个题外话，当手动实现<code>probe()</code>函数时涉及到内存分配的问题。很多驱动程序都使用<code>devm_kzalloc()</code>函数来分配内存。我们接触比较多的是<code>kmalloc()</code>或者<code>kzalloc()</code>来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而<code>devm_kzalloc()</code>函数则可以自动释放内存，这样就不用开发人员担心内存释放的问题了。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。</p>
+<p>这里插个题外话，当手动实现<code>probe()</code>函数时涉及到内存分配的问题。很多驱动程序都使用<code>devm_kzalloc()</code>函数来分配内存。我们接触比较多的是<code>kmalloc()</code>或者<code>kzalloc()</code>来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而<code>devm_kzalloc()</code>函数则可以自动地释放内存。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。</p>
 <p>注册/注销平台驱动的函数如下：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_driver_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_driver_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
 </span></code></pre></div>
+<h2 id="_5">获取资源<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>在平台设备中，<code>struct resource</code>结构体用来表示设备资源，可以通过<code>platform_get_resource()</code>函数来获取，它通常在<code>probe()</code>函数中执行：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="o">*</span><span class="n">platform_get_resource</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
 </span></code></pre></div>

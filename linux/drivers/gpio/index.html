@@ -1537,7 +1537,7 @@
         
   
   <span class="md-ellipsis">
-    Bluetooth
+    蓝牙
   </span>
   
 
@@ -2477,11 +2477,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/gnu_c/" class="md-nav__link">
+      <a href="../../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    GNU C
+    GCC工具链
   </span>
   
 
@@ -2531,6 +2531,8 @@
       
         
       
+        
+      
     
     
     
@@ -2560,6 +2562,27 @@
             现代C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3131,9 +3154,9 @@
 
 
 <h1 id="gpio">GPIO子系统<a class="headerlink" href="#gpio" title="Permanent link">&para;</a></h1>
-<p>GPIO全称“General Purpose Input/Output”，通用输入输出。GPIO可能是芯片自带的，也可能通过I2C、SPI接口扩展。</p>
+<p>GPIO全称“General Purpose Input/Output”，通用输入输出。</p>
 <h2 id="_1">设备树描述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399而言的GPIO控制器而言：</p>
+<p>对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399的GPIO控制器而言：</p>
 <div class="language-devicetree highlight"><span class="filename">rk3399.dtsi</span><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nl">gpio0</span><span class="p">:</span><span class="w"> </span><span class="nf">gpio0</span><span class="o">@</span><span class="mi">ff720000</span><span class="cm"> </span><span class="p">{</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kr">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rockchip,gpio-bank&quot;</span><span class="p">;</span>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kr">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0xff720000</span><span class="w"> </span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0x100</span><span class="o">&gt;</span><span class="p">;</span>
@@ -3160,14 +3183,6 @@
 </span><span id="__span-0-24"><a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="o">#</span><span class="n">interrupt-cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x2</span><span class="o">&gt;</span><span class="p">;</span>
 </span><span id="__span-0-25"><a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="p">};</span>
 </span></code></pre></div>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<ul>
-<li>interrupt-controller：空属性，表示该节点可接收中断信号</li>
-<li>#interrupt-cells：表示子设备节点的interrupts属性中的单元数目</li>
-<li>interrupts：表示该节点可接收的中断信号，每个描述符对应一个中断信号</li>
-</ul>
-</div>
 <p>对于需要用到GPIO控制器的设备，需要在节点中声明：</p>
 <div class="language-devicetree highlight"><span class="filename">rk3399-firefly.dts</span><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nf">leds</span><span class="cm"> </span><span class="p">{</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kr">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;gpio-leds&quot;</span><span class="p">;</span>

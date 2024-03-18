@@ -1537,7 +1537,7 @@
         
   
   <span class="md-ellipsis">
-    Bluetooth
+    蓝牙
   </span>
   
 
@@ -2477,11 +2477,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/gnu_c/" class="md-nav__link">
+      <a href="../../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    GNU C
+    GCC工具链
   </span>
   
 
@@ -2531,6 +2531,8 @@
       
         
       
+        
+      
     
     
     
@@ -2560,6 +2562,27 @@
             现代C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3196,16 +3219,16 @@
 </span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">copy_to_user</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
 </span></code></pre></div>
 <h2 id="_3">设备号初始化<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>设备通过两个设备号来标识：主设备号和次设备号。可以输入命令<code>ls -l /dev</code>查看当前系统中已有的设备号。</p>
-<p>主设备号用来识别设备对应的驱动程序，因为现代Linux内核允许多个驱动共享主设备号，所以还需要次设备号用于正确确定设备文件所指向的设备。比如某个UART驱动可以控制所有的UART设备，它们的主设备号相同，次设备号用于确定具体是哪个UART设备。</p>
+<p>设备通过两个设备号来标识：<mark class="critic">主设备号</mark>和<mark class="critic">次设备号</mark>。可以输入命令<code>ls -l /dev</code>查看当前系统中已有的设备号。</p>
+<p>主设备号用来识别设备对应的驱动程序，因为现代Linux内核允许多个驱动共享主设备号，所以还需要次设备号用于正确确定设备文件所指向的设备。</p>
 <p>内核用<code>dev_t</code>类型来表示设备编号——包括了主设备号和次设备号。宏<code>MAJOR</code>、<code>MINOR</code>用于获取一个<code>dev_t</code>类型的主、次设备号。</p>
-<p>设备号的注册与卸载有两种方式：手动分配与动态分配。</p>
+<p>设备号的注册与卸载有两种方式：<mark class="critic">手动分配</mark>与<mark class="critic">动态分配</mark>。</p>
 <ul>
 <li>手动分配：</li>
 </ul>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">register_chrdev_region</span><span class="p">(</span><span class="kt">dev_t</span><span class="w"> </span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
 </span></code></pre></div>
-<p>该函数用于已知起始设备的设备号。</p>
+<p>该函数用于设备号已知。</p>
 <ul>
 <li>动态分配：</li>
 </ul>
@@ -3217,9 +3240,10 @@
 <p>baseminor：次设备号的起始值，一般为0。</p>
 </blockquote>
 <p>该函数用于设备号未知，向系统动态申请未被占用的设备号。</p>
+<p>由于驱动在注册的时候，不可能每次都知道自己需要哪个设备号，因此一般使用第二种方式来申请设备号。</p>
 <h2 id="file_operations">file_operations结构体<a class="headerlink" href="#file_operations" title="Permanent link">&para;</a></h2>
 <p><code>struct file_operations</code>结构体中的函数指针是字符设备驱动程序设计的主体内容。这些函数会在应用程序调用诸如<code>read()</code>、<code>write()</code>等系统调用时被内核调用。该结构体比较庞大，感兴趣的读者可以自行阅读源码。</p>
-<p>最基本的实现函数有<code>open()</code>、<code>release()</code>、<code>read()</code>、<code>write()</code>。</p>
+<p>结构体中最基本的函数有<code>open()</code>、<code>release()</code>、<code>read()</code>、<code>write()</code>，其实就是对应文件的打开、关闭、读写。</p>
 <p>由于用户空间不能直接访问内核空间的内存，因此需要借助两个函数完成通信：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">copy_from_user</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
@@ -3227,12 +3251,9 @@
 </span></code></pre></div>
 <p>内核空间在访问用户空间时，需要先通过<code>access_ok()</code>函数确认其合法性。</p>
 <h2 id="_4">字符设备的注册<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>内核使用<code>struct cdev</code>结构来表示字符设备，在实现了<code>file_operations</code>结构体中的回调函数之后，我们需要使用<code>cdev_init()</code>函数来将文件操作指针与你注册的字符设备相关联。</p>
+<p><code>struct cdev</code>结构体用来表示字符设备，在实现了<code>file_operations</code>结构体中的回调函数之后，我们需要使用<code>cdev_init()</code>函数来告诉内核如何控制这个字符设备：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">cdev_init</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">cdev</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file_operations</span><span class="w"> </span><span class="o">*</span><span class="n">fops</span><span class="p">)</span>
 </span></code></pre></div>
-<div class="admonition info">
-<p><code>struct file_operations</code>结构体定义了操作字符设备的各类回调函数，比如<code>open()</code>、<code>read()</code>、<code>write()</code>、<code>release()</code>等，需要驱动开发人员自己实现。</p>
-</div>
 <p>注册完毕之后，调用<code>cdev_add()</code>函数向内核添加一个新的字符设备，<code>cdev_del()</code>函数用来删除。</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">cdev_add</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cdev</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">dev_t</span><span class="w"> </span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
 </span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>

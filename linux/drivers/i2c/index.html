@@ -1546,7 +1546,7 @@
         
   
   <span class="md-ellipsis">
-    Bluetooth
+    蓝牙
   </span>
   
 
@@ -2486,11 +2486,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/gnu_c/" class="md-nav__link">
+      <a href="../../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    GNU C
+    GCC工具链
   </span>
   
 
@@ -2540,6 +2540,8 @@
       
         
       
+        
+      
     
     
     
@@ -2569,6 +2571,27 @@
             现代C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
             
               
                 
@@ -3150,27 +3173,25 @@
 
 <h1 id="i2c">I2C子系统<a class="headerlink" href="#i2c" title="Permanent link">&para;</a></h1>
 <h2 id="i2c_1">I2C协议<a class="headerlink" href="#i2c_1" title="Permanent link">&para;</a></h2>
-<p>i2c物理总线示意图如下所示：</p>
+<p>I2C总线主要用于短距离、低速的芯片之间的通信。它有两根信号线，数据线SDA用于收发数据，时钟线SCL用于时钟同步。将芯片与总线对应的线相连即可通信。</p>
+<p>I2C物理总线示意图如下所示：</p>
 <p><img alt="I2C物理总线" src="../../../images/kernel/i2c-bus.png" /></p>
-<p>i2c支持主从模式，其中一个主设备、多个从设备，各设备地址独立。主设备负责调度总线，决定某个事件和其中一个从设备通信，其他从设备要想通信只能等待。当SCL与SDA同为高电平时，为空闲态。</p>
-<p>i2c物理总线使用两条总线线路：</p>
-<ul>
-<li>SCL:时钟线，传输CLK信号</li>
-<li>SDA：数据线，通信数据都通过SDA</li>
-</ul>
+<p>I2C支持主从模式，一个主设备、多个从设备，各设备地址独立。主设备负责调度总线，决定某个事件和其中一个从设备通信，其他从设备要想通信只能等待。当SCL与SDA同为高电平时，为空闲态。</p>
+<p>主机在发送起始信号后，必须先发送一个字节(8bit)的数据，该数据的前7位表示从机地址，最后一位表示字节的传送方向。总线上所有的从机都会收到该数据，然后与自己的地址进行比较，如果符合就返回一个ACK信号，再根据数据传送方向将自己定位为发送器或者接收器。</p>
 <p>通信特征：</p>
 <ul>
 <li>串行：只有一根数据线</li>
 <li>同步：主从设备在同一个时钟频率下工作</li>
+<li>半双工：只能单向通信，不能同时收发数据</li>
 <li>非差分：因为I2C通信速率不高，而且通信双方距离很近，一般是板级通信，所以使用电平信号通信</li>
 <li>低速率：传输的数据量不大，本身通信速率很低</li>
 </ul>
-<p>i2c的通信过程：</p>
+<p>I2C的通信过程：</p>
 <ol>
 <li>开始信号（S）：SDA线从高电平到低电平跳变，同时SCL线保持高电平。</li>
 <li>发送地址和读/写位：主设备通过SDA线发送一个7位设备地址，后面跟着一个读/写位。</li>
 <li>响应信号(ACK)：每一次传输必须伴有一个响应信号，在SCL为高时，通过拉低SDA并保持低来实现。如果从设备忙，它可以使SCL保持在低电平，这会强制使主设备进入等待状态。当从设备空闲后，并且释放时钟线，原来的数据传输才会继续。</li>
-<li>数据传输：SCL为低电平时，SDA可以变化信号来传输数据。</li>
+<li>数据传输：SCL为低电平时，SDA可以变化高低电平来传输数据。</li>
 <li>数据读取：SCL为高电平时，读取一位数据，SDA不允许变化。</li>
 <li>停止信号(P)：数据传输结束时，SDA线从低电平到高电平的跳变，同时SCL线保持高电平，表示通信结束。</li>
 </ol>
@@ -3192,14 +3213,14 @@
 </span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">};</span>
 </span></code></pre></div>
 <h2 id="_2">数据结构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p><img alt="i2c框架" src="../../../images/kernel/i2c-arch.png" /></p>
+<p><img alt="I2C框架" src="../../../images/kernel/i2c-arch.png" /></p>
 <ul>
-<li>i2c核心：管理i2c驱动和i2c设备的匹配、删除</li>
-<li>i2c设备：i2c硬件设备的抽象</li>
-<li>i2c驱动：i2c设备的驱动程序</li>
-<li>i2c适配器：i2c控制器，用于驱动和设备之间的通信</li>
+<li>I2C核心：管理I2C驱动和I2C设备的匹配、删除 </li>
+<li>I2C设备：I2C硬件设备的抽象</li>
+<li>I2C驱动：I2C设备的驱动程序</li>
+<li>I2C适配器：I2C控制器，用于驱动和设备之间的通信</li>
 </ul>
-<p>i2c驱动中最核心的四个数据结构：</p>
+<p>I2C驱动中最核心的四个数据结构：</p>
 <ul>
 <li><code>struct i2c_adapter</code></li>
 <li><code>struct i2c_algorithm</code></li>
@@ -3239,7 +3260,7 @@
 </span><span id="__span-1-30"><a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">regulator</span><span class="w"> </span><span class="o">*</span><span class="n">bus_regulator</span><span class="p">;</span>
 </span><span id="__span-1-31"><a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a><span class="p">};</span>
 </span></code></pre></div>
-<p><code>struct i2c_adapter</code>中最重要的成员——<code>struct i2c_algorithm</code>，它规定了i2c控制器与i2c设备之间通信的算法，而<code>master_xfer()</code>函数，用来规定如何将数据发送到i2c设备：
+<p><code>struct i2c_adapter</code>中最重要的成员——<code>struct i2c_algorithm</code>，它规定了I2C控制器与I2C设备之间通信的算法，而<code>MASTER_XFER()</code>函数，用来规定如何将数据发送到I2C设备：
 <div class="language-C highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_algorithm</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="cm">/*</span>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm">     * If an adapter algorithm can&#39;t do I2C-level access, set master_xfer</span>
@@ -3274,7 +3295,7 @@
 <p>master_xfer：作为主设备时的发送函数</p>
 <p>smbus_xfer：实现SMBus协议的发送函数</p>
 </blockquote>
-<p><code>struct i2c_client</code>表示连接到i2c总线上的设备，是具体硬件设备的抽象：</p>
+<p><code>struct i2c_client</code>表示连接到I2C总线上的设备，是具体硬件设备的抽象：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_client</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span><span class="w">       </span><span class="cm">/* div., see below      */</span>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w"> </span><span class="n">addr</span><span class="p">;</span><span class="w">        </span><span class="cm">/* chip address - NOTE: 7bit    */</span>
@@ -3290,7 +3311,7 @@
 </span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">devres_group_id</span><span class="p">;</span><span class="w">      </span><span class="cm">/* ID of probe devres group */</span>
 </span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">};</span>
 </span></code></pre></div>
-<p><code>struct i2c_driver</code>表示i2c设备所对应的驱动程序：</p>
+<p><code>struct i2c_driver</code>表示I2C设备所对应的驱动程序：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_driver</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">class</span><span class="p">;</span>
 </span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
@@ -3330,7 +3351,7 @@
 </span><span id="__span-4-37"><a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">clients</span><span class="p">;</span>
 </span><span id="__span-4-38"><a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="p">};</span>
 </span></code></pre></div>
-<p>在<a href="../platform/">平台设备驱动</a>一章中我们描述了平台总线的概念，i2c总线有类似的功能，用来管理i2c设备和i2c驱动的匹配和删除操作：</p>
+<p>在<a href="../platform/">平台设备驱动</a>一章中我们描述了平台总线的概念，I2C总线有类似的功能，用来管理I2C设备和I2C驱动的匹配和删除操作：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cm">/*drivers/i2c/i2c-core.c*/</span>
 </span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">bus_type</span><span class="w"> </span><span class="n">i2c_bus_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="p">.</span><span class="n">name</span><span class="w">       </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;i2c&quot;</span><span class="p">,</span>
@@ -3340,8 +3361,8 @@
 </span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="p">.</span><span class="n">shutdown</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">i2c_device_shutdown</span><span class="p">,</span>
 </span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="p">};</span>
 </span></code></pre></div>
-<p>多个设备可以挂在同一个i2c总线上，i2c总线驱动由芯片厂商提供。</p>
-<p><code>struct i2c_msg</code>结构体表示i2c传输的消息。</p>
+<p>多个设备可以挂在同一个I2C总线上，I2C总线驱动由芯片厂商提供。</p>
+<p><code>struct i2c_msg</code>结构体表示I2C传输的消息。</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_msg</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">addr</span><span class="p">;</span>
 </span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">__u16</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
@@ -3369,7 +3390,7 @@
 <div class="language-C highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_add_adapter</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">)</span>
 </span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_del_adapter</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">)</span>
 </span></code></pre></div></p>
-<p>注册/注销一个i2c驱动：
+<p>注册/注销一个I2C驱动：
 <div class="language-C highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_add_driver</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_driver</span><span class="w"> </span><span class="o">*</span><span class="n">driver</span><span class="p">)</span>
 </span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_del_driver</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_driver</span><span class="w"> </span><span class="o">*</span><span class="n">driver</span><span class="p">)</span>
 </span></code></pre></div></p>
@@ -3377,9 +3398,9 @@
 <div class="language-C highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">i2c_transfer</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_adapter</span><span class="w"> </span><span class="o">*</span><span class="n">adap</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">i2c_msg</span><span class="w"> </span><span class="o">*</span><span class="n">msgs</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">)</span>
 </span></code></pre></div></p>
 <h2 id="i2c-tools">使用i2c tools<a class="headerlink" href="#i2c-tools" title="Permanent link">&para;</a></h2>
-<p>i2c tools是一个命令行工具，可以用来操作i2c设备。输入<code>sudo apt install i2c-tools</code>安装。</p>
+<p>i2c tools是一个命令行工具，可以用来操作I2C设备。输入<code>sudo apt install i2c-tools</code>安装。</p>
 <ul>
-<li>i2cdetect：扫描i2c总线上的设备</li>
+<li>i2cdetect：扫描I2C总线上的设备</li>
 </ul>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>Usage:<span class="w"> </span>i2cdetect<span class="w"> </span><span class="o">[</span>-y<span class="o">]</span><span class="w"> </span><span class="o">[</span>-a<span class="o">]</span><span class="w"> </span><span class="o">[</span>-q<span class="p">|</span>-r<span class="o">]</span><span class="w"> </span>I2CBUS<span class="w"> </span><span class="o">[</span>FIRST<span class="w"> </span>LAST<span class="o">]</span>
 </span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">       </span>i2cdetect<span class="w"> </span>-F<span class="w"> </span>I2CBUS
@@ -3395,7 +3416,7 @@
 </span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">  </span>first、last：扫描的地址范围
 </span></code></pre></div>
 <ul>
-<li>i2cset：向i2c设备某个寄存器写入值</li>
+<li>i2cset：向I2C设备某个寄存器写入值</li>
 </ul>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>Usage:<span class="w"> </span>i2cset<span class="w"> </span><span class="o">[</span>-f<span class="o">]</span><span class="w"> </span><span class="o">[</span>-y<span class="o">]</span><span class="w"> </span><span class="o">[</span>-m<span class="w"> </span>MASK<span class="o">]</span><span class="w"> </span><span class="o">[</span>-r<span class="o">]</span><span class="w"> </span><span class="o">[</span>-a<span class="o">]</span><span class="w"> </span>I2CBUS<span class="w"> </span>CHIP-ADDRESS<span class="w"> </span>DATA-ADDRESS<span class="w"> </span><span class="o">[</span>VALUE<span class="o">]</span><span class="w"> </span>...<span class="w"> </span><span class="o">[</span>MODE<span class="o">]</span>
 </span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">  </span>I2CBUS<span class="w"> </span>is<span class="w"> </span>an<span class="w"> </span>integer<span class="w"> </span>or<span class="w"> </span>an<span class="w"> </span>I2C<span class="w"> </span>bus<span class="w"> </span>name
@@ -3418,7 +3439,7 @@
 </span><span id="__span-11-19"><a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">    </span>mode：指定读取的大小，b字节，w字，s是SMBus块，i是i2c块
 </span></code></pre></div>
 <ul>
-<li>i2cget：从i2c设备某个寄存器读取值</li>
+<li>i2cget：从I2C设备某个寄存器读取值</li>
 </ul>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>Usage:<span class="w"> </span>i2cget<span class="w"> </span><span class="o">[</span>-f<span class="o">]</span><span class="w"> </span><span class="o">[</span>-y<span class="o">]</span><span class="w"> </span><span class="o">[</span>-a<span class="o">]</span><span class="w"> </span>I2CBUS<span class="w"> </span>CHIP-ADDRESS<span class="w"> </span><span class="o">[</span>DATA-ADDRESS<span class="w"> </span><span class="o">[</span>MODE<span class="o">]]</span>
 </span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">  </span>I2CBUS<span class="w"> </span>is<span class="w"> </span>an<span class="w"> </span>integer<span class="w"> </span>or<span class="w"> </span>an<span class="w"> </span>I2C<span class="w"> </span>bus<span class="w"> </span>name
@@ -3437,7 +3458,7 @@
 </span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">    </span>mode:指定读取的大小，b字节，w字，s是SMBus块，i是i2c块
 </span></code></pre></div>
 <ul>
-<li>i2cdump：读取某个i2c设备所有寄存器的值</li>
+<li>i2cdump：读取某个I2C设备所有寄存器的值</li>
 </ul>
 <div class="language-SHELL highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>Usage:<span class="w"> </span>i2cdump<span class="w"> </span><span class="o">[</span>-f<span class="o">]</span><span class="w"> </span><span class="o">[</span>-y<span class="o">]</span><span class="w"> </span><span class="o">[</span>-r<span class="w"> </span>first-last<span class="o">]</span><span class="w"> </span><span class="o">[</span>-a<span class="o">]</span><span class="w"> </span>I2CBUS<span class="w"> </span>ADDRESS<span class="w"> </span><span class="o">[</span>MODE<span class="w"> </span><span class="o">[</span>BANK<span class="w"> </span><span class="o">[</span>BANKREG<span class="o">]]]</span>
 </span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span>I2CBUS<span class="w"> </span>is<span class="w"> </span>an<span class="w"> </span>integer<span class="w"> </span>or<span class="w"> </span>an<span class="w"> </span>I2C<span class="w"> </span>bus<span class="w"> </span>name
@@ -3473,7 +3494,6 @@
 </span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">    </span>p<span class="w"> </span><span class="o">(</span>use<span class="w"> </span>pseudo<span class="w"> </span>random<span class="w"> </span>generator<span class="w"> </span><span class="k">until</span><span class="w"> </span>LENGTH<span class="w"> </span>with<span class="w"> </span>value<span class="w"> </span>as<span class="w"> </span>seed<span class="o">)</span>
 </span></code></pre></div>
 <h2 id="_3">简单示例<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>抄一段github上别人写的读取EEPROM（i2c连接）的代码：</p>
 <div class="language-C highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/version.h&gt;</span>
 </span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/module.h&gt;</span>
 </span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/init.h&gt;</span>
