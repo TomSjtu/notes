@@ -176,9 +176,9 @@ sysfs文件系统是一个处于内存中的虚拟文件系统，它提供了kob
 
 sysfs的核心是把kobject对象与目录项（directory entries）关联起来，通过这种方式，我们可以轻松地查看挂载于/sys目录下的整个文件系统视图。向sysfs中添加kobject，可以使用`kobject_add()`和`kobject_create_and_add()`函数。
 
-我们已经知道kobject可以被映射为某个文件目录，仅有如此还不够。因为这样的sysfs仅仅只是一颗树，但没有提供实际数据的文件。为了能够读写这颗树，内核提供了`attribute`和`bin_attribute`两种属性。
+我们已经知道kobject可以被映射为某个文件目录，仅有如此还不够。因为这样的sysfs仅仅只是一棵树，但没有提供实际数据的文件。为了能够读写这棵树，内核提供了`attribute`和`bin_attribute`两种属性。
 
-在ktype中用`struct attribute_group`描述这两个属性：
+在前面ktype的定义中，成员`struct attribute_group`包含了这两种属性：
 
 ```C
 struct attribute_group {
@@ -186,9 +186,11 @@ struct attribute_group {
 	struct attribute **attrs;
 	struct bin_attribute **bin_attrs;
 };
+```
 
-/*attribute和bin_attribute的定义如下*/
+`attribute`和`bin_attribute`的定义如下：
 
+```C
 struct attribute {
 	const char *name;	//属性的名字
 	umode_t mode;		//属性的权限
@@ -225,9 +227,9 @@ struct sysfs_ops {
 
 uevent是kobject功能的一部分，用于在kobject状态发生改变时，比如添加、移除，通知用户空间。用户空间收到讯息后，做出相应的处理。
 
-该机制通常是用来支持热插拔（hotplug）设备的，例如当U盘插入后，USB相关的驱动会动态创建用于表示该U盘的device结构，并告知用户空间为该U盘动态创建/dev/目录下的设备节点。
+该机制通常是用来支持{==热插拔==}（hotplug）设备的，例如当U盘插入后，USB相关的驱动会动态创建用于表示该U盘的device结构，并告知用户空间为该U盘动态创建/dev/目录下的设备节点。
 
-uevent机制比较简单，当设备模型中任何设备有事件需要上报时，都会触发uevent提供的接口。uevent模块可以通过两个途径把事件上报到用户空间：一种是通过kmod模块，另一种是通过netlink通信机制。
+uevent机制比较简单，当设备模型中任何设备有事件需要上报时，都会触发uevent提供的接口。uevent模块可以通过两个途径把事件上报到用户空间：一种是通过{==kmod模块==}，另一种是通过{==netlink通信机制==}。
 
 uevent的代码主要位于kobject.h和kobject_uevent.c两个文件。
 
@@ -334,7 +336,7 @@ struct device {
 };
 ```
 
-> kobj：表示该设备并把它连接到结构体系中的kobject。
+> kobj：连接到内核的设备模型体系中。
 
 > parent：设备的父设备，大多数情况下父设备是某种bus或者是host controller。
 
@@ -487,7 +489,7 @@ int bus_register(struct bus_type *bus);
 void bus_unregister(struct bus_type *bus);
 ```
 
-当我们成功注册总线时，会在/sys/bus/目录下创建一个新目录，目录名为我们新注册的总线名。bus目录中包含了当前系统中已经注册了的所有总线，例如i2c，spi，platform等。
+当我们成功注册总线时，会在/sys/bus/目录下创建一个新目录，目录名为我们新注册的总线名。bus目录中包含了当前系统中已经注册了的所有总线，例如I2C、SPI、platform等。
 
 ## class
 
@@ -530,7 +532,7 @@ struct class {
 
 对于子系统这里解释一下。/sys/class和device_name之间的那部分目录称为subsystem。也就是每个dev属性文件所在的路径都可表示为/sys/class/subsystem/device_name/dev。例如，`cat /sys/class/tty/tty0/dev`会得到4:0，这里subsystem为tty，device_name为tty0。
 
-在/sys/class目录下创建新的条目：
+在/sys/class目录下创建/删除新的条目：
 
 ```C
 #define class_create(owner, name)

@@ -22,7 +22,7 @@ gic: interrupt-controller@fd400000 {
 
 > interrupts：表明该中断控制器的中断信息，这里使用GIC_PPI的第9号中断，高电平触发
 
-> interrupt-controller：表明这是一个中断控制器，属性为空
+> interrupt-controller：表明这是一个中断控制器
 
 > \#interrupt-cells：表明它的“子”中断控制器需要多少个cells来描述一个中断
 

@@ -3,12 +3,13 @@
 
 ## C
 
-- [GNU C](./c/gnu_c.md)
+- [GCC工具链](./c/gcc.md)
 - [C语言杂项](./c/unamed.md)
 
 
 ## 现代C++ 
 
+- [C++杂项](./c++/unamed.md)
 - [现代C++](./c++/modern_cpp.md)
 
 ## QT

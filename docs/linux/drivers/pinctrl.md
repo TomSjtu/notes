@@ -1,10 +1,12 @@
 # Pinctrl子系统
 
-Pinctrl：Pin Controller，即引脚控制，通俗地来说就是一组可以控制引脚的寄存器集合。它主要有以下三种功能：
+Pinctrl：Pin Controller，即引脚控制器，通俗地来说就是一组可以控制引脚的寄存器集合。它主要有以下三种功能：
 
 - 引脚枚举与命名，每个pin的ID唯一
 - 引脚复用，比如单个引脚可以配置成GPIO，多个引脚还可以组成一个pin group，形成特定的功能
 - 引脚配置，比如使能或禁止引脚的上拉、下拉电阻
+
+当实例化一个pin controller时，它会在pinctrl子系统框架下注册一个描述符，该描述符包含一个引脚描述符数组，描述了这个特定的引脚控制器处理的引脚。
 
 pinctrl子系统涉及到两个对象：
 
@@ -12,7 +14,7 @@ pinctrl子系统涉及到两个对象：
 
 - {==client device==}：使用pinctrl子系统的设备，需要描述使用的引脚，由驱动工程师编写。
 
-内核分别抽象出`struct pinctrl_dev`和`struct device`来表示上面两个对象。
+内核分别用`struct pinctrl_dev`和`struct device`来表示上面两个对象。
 
 ## 源文件列表
 
@@ -264,7 +266,72 @@ pinctrl_register_and_init(&foo_desc, <PARENT>, NULL, &pctl);
 pinctrl_enable(pctl);
 ```
 
-在SoC系统中，为了实现特定的功能，需要将多个引脚进行组合。因此pinctrl子系统提供以group为单位，同时地访问和控制多个引脚的功能，这就是pin group的概念，这些操作定义在`struct pinctrl_ops`结构体中：
+在SoC系统中，为了实现特定的功能，需要将多个引脚进行组合。因此pinctrl子系统提供以group为单位，同时地访问和控制多个引脚的功能，这就是引脚组(pin group)的概念，这些操作定义在`struct pinctrl_ops`结构体中。我们来看内核官方文档的一个示例：
+
+!!! example "操作引脚组"
+
+	```C
+	#include <linux/pinctrl/pinctrl.h>
+
+	struct foo_group {
+		const char *name;
+		const unsigned int *pins;
+		const unsigned num_pins;
+	};
+
+	static const unsigned int spi0_pins[] = { 0, 8, 16, 24 };
+	static const unsigned int i2c0_pins[] = { 24, 25 };
+
+	static const struct foo_group foo_groups[] = {
+		{
+			.name = "spi0_grp",
+			.pins = spi0_pins,
+			.num_pins = ARRAY_SIZE(spi0_pins),
+		},
+		{
+			.name = "i2c0_grp",
+			.pins = i2c0_pins,
+			.num_pins = ARRAY_SIZE(i2c0_pins),
+		},
+	};
+
+
+	static int foo_get_groups_count(struct pinctrl_dev *pctldev)
+	{
+		return ARRAY_SIZE(foo_groups);
+	}
+
+	static const char *foo_get_group_name(struct pinctrl_dev *pctldev,
+					unsigned selector)
+	{
+		return foo_groups[selector].name;
+	}
+
+	static int foo_get_group_pins(struct pinctrl_dev *pctldev, unsigned selector,
+				const unsigned **pins,
+				unsigned *num_pins)
+	{
+		*pins = (unsigned *) foo_groups[selector].pins;
+		*num_pins = foo_groups[selector].num_pins;
+		return 0;
+	}
+
+	static struct pinctrl_ops foo_pctrl_ops = {
+		.get_groups_count = foo_get_groups_count,
+		.get_group_name = foo_get_group_name,
+		.get_group_pins = foo_get_group_pins,
+	};
+
+
+	static struct pinctrl_desc foo_desc = {
+	...
+	.pctlops = &foo_pctrl_ops,
+	}
+	```
+
+pinctrl子系统会自动调用这些函数来获取引脚组的信息，维护这些函数是驱动工程师的责任。
+
+此时再来看`struct pinctrl_ops`结构体中的一些回调函数，你大概就能明白它们的作用是什么了：
 
 ```C
 struct pinctrl_ops {
@@ -336,7 +403,67 @@ struct pinmux_ops {
 
 什么是function？function是引脚功能的抽象，SPI是一个function，I2C也是一个function。但是即便知道具体的function name，我们也不能确定其使用引脚的情况。比如一个SPI0的功能可能使用了引脚组{A8, A7, A6, A5}，也可能使用了引脚组{G4, G3, G2, G1}。但毫无疑问，这两个引脚组不能同时处于激活状态，因为芯片内部SPI0的逻辑功能电路只有一个。因此，只有给出function selector（就像数组的一个索引）和function的pin group selector才能进行function mux的设定。
 
-引脚的配置，比如上拉、下拉、高阻抗等，pinctrl子系统使用`struct pinconf_ops`结构体来抽象配置的操作：
+引脚的配置，比如上拉、下拉、高阻抗等，pinctrl子系统使用`struct pinconf_ops`结构体来抽象配置的操作。先来看官方文档的示例：
+
+!!! example "引脚的配置"
+
+	```C
+	#include <linux/pinctrl/pinctrl.h>
+	#include <linux/pinctrl/pinconf.h>
+	#include "platform_x_pindefs.h"
+
+	static int foo_pin_config_get(struct pinctrl_dev *pctldev,
+			unsigned offset,
+			unsigned long *config)
+	{
+		struct my_conftype conf;
+
+		... Find setting for pin @ offset ...
+
+		*config = (unsigned long) conf;
+	}
+
+	static int foo_pin_config_set(struct pinctrl_dev *pctldev,
+			unsigned offset,
+			unsigned long config)
+	{
+		struct my_conftype *conf = (struct my_conftype *) config;
+
+		switch (conf) {
+			case PLATFORM_X_PULL_UP:
+			...
+			}
+	}
+
+	static int foo_pin_config_group_get (struct pinctrl_dev *pctldev,
+			unsigned selector,
+			unsigned long *config)
+	{
+		...
+	}
+
+	static int foo_pin_config_group_set (struct pinctrl_dev *pctldev,
+			unsigned selector,
+			unsigned long config)
+	{
+		...
+	}
+
+	static struct pinconf_ops foo_pconf_ops = {
+		.pin_config_get = foo_pin_config_get,
+		.pin_config_set = foo_pin_config_set,
+		.pin_config_group_get = foo_pin_config_group_get,
+		.pin_config_group_set = foo_pin_config_group_set,
+	};
+
+	/* Pin config operations are handled by some pin controller */
+	static struct pinctrl_desc foo_desc = {
+		...
+		.confops = &foo_pconf_ops,
+	};
+	```
+
+这实际上就是对`struct pinconf_ops`结构体中的回调函数的实现，其中带有dbg字段的是用来调试的：
 
 ```C
 struct pinconf_ops {

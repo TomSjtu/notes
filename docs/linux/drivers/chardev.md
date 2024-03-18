@@ -83,13 +83,13 @@ unsigned long copy_to_user(void *to, const void *from, unsigned long count)
 
 ## 设备号初始化
 
-设备通过两个设备号来标识：主设备号和次设备号。可以输入命令`ls -l /dev`查看当前系统中已有的设备号。
+设备通过两个设备号来标识：{==主设备号==}和{==次设备号==}。可以输入命令`ls -l /dev`查看当前系统中已有的设备号。
 
-主设备号用来识别设备对应的驱动程序，因为现代Linux内核允许多个驱动共享主设备号，所以还需要次设备号用于正确确定设备文件所指向的设备。比如某个UART驱动可以控制所有的UART设备，它们的主设备号相同，次设备号用于确定具体是哪个UART设备。
+主设备号用来识别设备对应的驱动程序，因为现代Linux内核允许多个驱动共享主设备号，所以还需要次设备号用于正确确定设备文件所指向的设备。
 
 内核用`dev_t`类型来表示设备编号——包括了主设备号和次设备号。宏`MAJOR`、`MINOR`用于获取一个`dev_t`类型的主、次设备号。
 
-设备号的注册与卸载有两种方式：手动分配与动态分配。
+设备号的注册与卸载有两种方式：{==手动分配==}与{==动态分配==}。
 
 - 手动分配：
 
@@ -98,7 +98,7 @@ int register_chrdev_region(dev_t from, unsigned count, const char *name)
 
 ```
 
-该函数用于已知起始设备的设备号。
+该函数用于设备号已知。
 
 - 动态分配：
 
@@ -112,12 +112,13 @@ void unregister_chrdev_region(dev_t first, unsigned count)
 
 该函数用于设备号未知，向系统动态申请未被占用的设备号。
 
+由于驱动在注册的时候，不可能每次都知道自己需要哪个设备号，因此一般使用第二种方式来申请设备号。
 
 ## file_operations结构体
 
 `struct file_operations`结构体中的函数指针是字符设备驱动程序设计的主体内容。这些函数会在应用程序调用诸如`read()`、`write()`等系统调用时被内核调用。该结构体比较庞大，感兴趣的读者可以自行阅读源码。
 
-最基本的实现函数有`open()`、`release()`、`read()`、`write()`。
+结构体中最基本的函数有`open()`、`release()`、`read()`、`write()`，其实就是对应文件的打开、关闭、读写。
 
 由于用户空间不能直接访问内核空间的内存，因此需要借助两个函数完成通信：
 
@@ -132,14 +133,11 @@ unsigned long copy_to_user(void *to, const void *from, unsigned long count)
 
 ## 字符设备的注册
 
-内核使用`struct cdev`结构来表示字符设备，在实现了`file_operations`结构体中的回调函数之后，我们需要使用`cdev_init()`函数来将文件操作指针与你注册的字符设备相关联。
+`struct cdev`结构体用来表示字符设备，在实现了`file_operations`结构体中的回调函数之后，我们需要使用`cdev_init()`函数来告诉内核如何控制这个字符设备：
 
 ```C
 void cdev_init(struct cdev *cdev, const struct file_operations *fops)
 ```
-
-!!! info ""
-    `struct file_operations`结构体定义了操作字符设备的各类回调函数，比如`open()`、`read()`、`write()`、`release()`等，需要驱动开发人员自己实现。
 
 注册完毕之后，调用`cdev_add()`函数向内核添加一个新的字符设备，`cdev_del()`函数用来删除。
 

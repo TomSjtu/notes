@@ -190,3 +190,33 @@ git check -b [新分支名]
 git merge [另一个分支名]
 ```
 
+## 版本控制
+
+放弃工作目录中的修改(还未提交到工作区)：
+
+```SHELL
+git checkout -- [file]  //放弃某个文件的修改
+git checkout -- .       //放弃所有修改
+```
+
+回退到之前某个版本，且丢弃该版本之后的所有修改：
+
+```SHELL
+git reset --hard [版本号]
+```
+
+撤销之前某个版本，但保留该版本后面的版本：
+
+```SHELL
+git revert -n [版本号]  //-n表示手动解决冲突
+```
+
+暂存工作区：
+
+```SHELL
+git stash
+```
+
+
+
+

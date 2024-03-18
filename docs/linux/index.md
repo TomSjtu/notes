@@ -1,12 +1,13 @@
 # Linux内核体系
 
+!!! quote ""
+
+    Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program.——by Linus Torvalds
 
 - [内核剖析](./kernel/index.md)
 - [设备驱动程序](./drivers/index.md)
 - [性能调优](./optimization/index.md)
 - [ebpf](./ebpf/index.md)
-
-
 
 ## 参考资料
 

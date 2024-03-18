@@ -1,32 +1,31 @@
 # I2C子系统
 
-
 ## I2C协议
 
-i2c物理总线示意图如下所示：
+I2C总线主要用于短距离、低速的芯片之间的通信。它有两根信号线，数据线SDA用于收发数据，时钟线SCL用于时钟同步。将芯片与总线对应的线相连即可通信。
+
+I2C物理总线示意图如下所示：
 
 ![I2C物理总线](../../images/kernel/i2c-bus.png)
 
-i2c支持主从模式，其中一个主设备、多个从设备，各设备地址独立。主设备负责调度总线，决定某个事件和其中一个从设备通信，其他从设备要想通信只能等待。当SCL与SDA同为高电平时，为空闲态。
+I2C支持主从模式，一个主设备、多个从设备，各设备地址独立。主设备负责调度总线，决定某个事件和其中一个从设备通信，其他从设备要想通信只能等待。当SCL与SDA同为高电平时，为空闲态。
 
-i2c物理总线使用两条总线线路：
-
-- SCL:时钟线，传输CLK信号
-- SDA：数据线，通信数据都通过SDA
+主机在发送起始信号后，必须先发送一个字节(8bit)的数据，该数据的前7位表示从机地址，最后一位表示字节的传送方向。总线上所有的从机都会收到该数据，然后与自己的地址进行比较，如果符合就返回一个ACK信号，再根据数据传送方向将自己定位为发送器或者接收器。
 
 通信特征：
 
 - 串行：只有一根数据线
 - 同步：主从设备在同一个时钟频率下工作
+- 半双工：只能单向通信，不能同时收发数据
 - 非差分：因为I2C通信速率不高，而且通信双方距离很近，一般是板级通信，所以使用电平信号通信
 - 低速率：传输的数据量不大，本身通信速率很低
 
-i2c的通信过程：
+I2C的通信过程：
 
 1. 开始信号（S）：SDA线从高电平到低电平跳变，同时SCL线保持高电平。
 2. 发送地址和读/写位：主设备通过SDA线发送一个7位设备地址，后面跟着一个读/写位。
 3. 响应信号(ACK)：每一次传输必须伴有一个响应信号，在SCL为高时，通过拉低SDA并保持低来实现。如果从设备忙，它可以使SCL保持在低电平，这会强制使主设备进入等待状态。当从设备空闲后，并且释放时钟线，原来的数据传输才会继续。
-4. 数据传输：SCL为低电平时，SDA可以变化信号来传输数据。
+4. 数据传输：SCL为低电平时，SDA可以变化高低电平来传输数据。
 5. 数据读取：SCL为高电平时，读取一位数据，SDA不允许变化。
 6. 停止信号(P)：数据传输结束时，SDA线从低电平到高电平的跳变，同时SCL线保持高电平，表示通信结束。
 
@@ -55,14 +54,14 @@ i2c0: i2c@fdd40000 {
 
 ## 数据结构
 
-![i2c框架](../../images/kernel/i2c-arch.png)
+![I2C框架](../../images/kernel/i2c-arch.png)
 
-- i2c核心：管理i2c驱动和i2c设备的匹配、删除
-- i2c设备：i2c硬件设备的抽象
-- i2c驱动：i2c设备的驱动程序
-- i2c适配器：i2c控制器，用于驱动和设备之间的通信
+- I2C核心：管理I2C驱动和I2C设备的匹配、删除 
+- I2C设备：I2C硬件设备的抽象
+- I2C驱动：I2C设备的驱动程序
+- I2C适配器：I2C控制器，用于驱动和设备之间的通信
 
-i2c驱动中最核心的四个数据结构：
+I2C驱动中最核心的四个数据结构：
 
 - `struct i2c_adapter`
 - `struct i2c_algorithm`
@@ -105,7 +104,7 @@ struct i2c_adapter {
 };
 ```
 
-`struct i2c_adapter`中最重要的成员——`struct i2c_algorithm`，它规定了i2c控制器与i2c设备之间通信的算法，而`master_xfer()`函数，用来规定如何将数据发送到i2c设备：
+`struct i2c_adapter`中最重要的成员——`struct i2c_algorithm`，它规定了I2C控制器与I2C设备之间通信的算法，而`MASTER_XFER()`函数，用来规定如何将数据发送到I2C设备：
 ```C
 struct i2c_algorithm {
 	/*
@@ -142,7 +141,7 @@ struct i2c_algorithm {
 
 > smbus_xfer：实现SMBus协议的发送函数
 
-`struct i2c_client`表示连接到i2c总线上的设备，是具体硬件设备的抽象：
+`struct i2c_client`表示连接到I2C总线上的设备，是具体硬件设备的抽象：
 
 ```C
 struct i2c_client {
@@ -161,7 +160,7 @@ struct i2c_client {
 };
 ```
 
-`struct i2c_driver`表示i2c设备所对应的驱动程序：
+`struct i2c_driver`表示I2C设备所对应的驱动程序：
 
 ```C
 struct i2c_driver {
@@ -204,7 +203,7 @@ struct i2c_driver {
 };
 ```
 
-在[平台设备驱动](./platform.md)一章中我们描述了平台总线的概念，i2c总线有类似的功能，用来管理i2c设备和i2c驱动的匹配和删除操作：
+在[平台设备驱动](./platform.md)一章中我们描述了平台总线的概念，I2C总线有类似的功能，用来管理I2C设备和I2C驱动的匹配和删除操作：
 
 ```C
 /*drivers/i2c/i2c-core.c*/
@@ -217,9 +216,9 @@ struct bus_type i2c_bus_type = {
 };
 ```
 
-多个设备可以挂在同一个i2c总线上，i2c总线驱动由芯片厂商提供。
+多个设备可以挂在同一个I2C总线上，I2C总线驱动由芯片厂商提供。
 
-`struct i2c_msg`结构体表示i2c传输的消息。
+`struct i2c_msg`结构体表示I2C传输的消息。
 
 ```C
 struct i2c_msg {
@@ -255,7 +254,7 @@ int i2c_add_adapter(struct i2c_adapter *adap)
 int i2c_del_adapter(struct i2c_adapter *adap)
 ```
 
-注册/注销一个i2c驱动：
+注册/注销一个I2C驱动：
 ```C
 int i2c_add_driver(struct i2c_driver *driver)
 int i2c_del_driver(struct i2c_driver *driver)
@@ -268,9 +267,9 @@ int i2c_transfer(struct i2c_adapter *adap, struct i2c_msg *msgs, int num)
 
 ## 使用i2c tools
 
-i2c tools是一个命令行工具，可以用来操作i2c设备。输入`sudo apt install i2c-tools`安装。
+i2c tools是一个命令行工具，可以用来操作I2C设备。输入`sudo apt install i2c-tools`安装。
 
-- i2cdetect：扫描i2c总线上的设备
+- i2cdetect：扫描I2C总线上的设备
 
 ```SHELL
 Usage: i2cdetect [-y] [-a] [-q|-r] I2CBUS [FIRST LAST]
@@ -287,7 +286,7 @@ Usage: i2cdetect [-y] [-a] [-q|-r] I2CBUS [FIRST LAST]
   first、last：扫描的地址范围
 ```
 
-- i2cset：向i2c设备某个寄存器写入值
+- i2cset：向I2C设备某个寄存器写入值
 
 ```SHELL
 Usage: i2cset [-f] [-y] [-m MASK] [-r] [-a] I2CBUS CHIP-ADDRESS DATA-ADDRESS [VALUE] ... [MODE]
@@ -311,7 +310,7 @@ Usage: i2cset [-f] [-y] [-m MASK] [-r] [-a] I2CBUS CHIP-ADDRESS DATA-ADDRESS [VA
     mode：指定读取的大小，b字节，w字，s是SMBus块，i是i2c块
 ```
 
-- i2cget：从i2c设备某个寄存器读取值
+- i2cget：从I2C设备某个寄存器读取值
 
 ```SHELL
 Usage: i2cget [-f] [-y] [-a] I2CBUS CHIP-ADDRESS [DATA-ADDRESS [MODE]]
@@ -331,7 +330,7 @@ Usage: i2cget [-f] [-y] [-a] I2CBUS CHIP-ADDRESS [DATA-ADDRESS [MODE]]
     mode:指定读取的大小，b字节，w字，s是SMBus块，i是i2c块
 ```
 
-- i2cdump：读取某个i2c设备所有寄存器的值
+- i2cdump：读取某个I2C设备所有寄存器的值
 
 ```SHELL
 Usage: i2cdump [-f] [-y] [-r first-last] [-a] I2CBUS ADDRESS [MODE [BANK [BANKREG]]]
@@ -372,7 +371,6 @@ Usage: i2ctransfer [-f] [-y] [-v] [-V] [-a] I2CBUS DESC [DATA] [DESC [DATA]]...
 
 ## 简单示例
 
-抄一段github上别人写的读取EEPROM（i2c连接）的代码：
 
 ```C
 #include <linux/version.h>

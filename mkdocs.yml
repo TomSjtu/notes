@@ -136,10 +136,11 @@ nav:
   - 编程语言: 
     - pl/index.md
     - C:
-      - pl/c/gnu_c.md
+      - pl/c/gcc.md
       - pl/c/unamed.md
     
     - 现代C++:
+      - pl/c++/unamed.md
       - pl/c++/modern_cpp.md
     
     - QT:

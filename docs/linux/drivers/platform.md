@@ -14,7 +14,7 @@ Platform架构图如下所示：
 
 ## 平台总线
 
-在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用`platform_match()`函数对新增的设备或驱动进行配对。内核使用`struct bus_type platform_bus_type`来描述平台总线，该总线在内核初始化的时候注册：
+在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用`platform_match()`函数对新增的设备或驱动进行配对。`struct bus_type platform_bus_type`用来描述平台总线——内核初始化的时候自动注册：
 
 ```C
 sturct bus_type platform_bus_type{
@@ -26,11 +26,11 @@ sturct bus_type platform_bus_type{
 };
 ```
 
-对`platform_bus_type`的初始化来说，`match`函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。对于每个驱动总线，都必须实例化该函数指针。
+对`platform_bus_type`的初始化来说，`match`函数指针最为重要，它指向的函数负责实现平台总线和平台设备的匹配过程。其他的驱动总线，也必须实例化该函数指针。
 
 ## 平台设备
 
-内核使用`platform_device`结构体来描述平台设备：
+`platform_device`结构体用来描述平台设备：
 
 ```C
  struct platform_device {
@@ -60,9 +60,9 @@ struct resource {
 };
 ```
 
-> name： 指定资源的名字，可以设置为NULL
-
 > start、end： 指定资源的起始地址以及结束地址
+
+> name： 指定资源的名字，可以设置为NULL
 
 > flags： 用于指定该资源的类型，在Linux中，资源包括I/O、Memory、Register、IRQ、DMA、Bus等多种类型，最常见的有以下几种：
 
@@ -73,9 +73,7 @@ struct resource {
 | IORESOURCE_IRQ | 用于指定该设备使用某个中断 |
 | IORESOURCE_DMA | 用于指定使用的DMA通道 |
 
-设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有IO端口映射和IO內存映射两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用`IORESOURCE_MEM`。
-
-在资源的起始地址和结束地址中，对于IORESOURCE_IO或者是IORESOURCE_MEM，他们表示要使用的内存的起始位置以及结束位置；若是只用一个中断引脚或者是一个通道，则它们的start和end成员值必须是相等的。
+设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有{==IO端口映射==}和{==IO內存映射==}两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用`IORESOURCE_MEM`。
 
 注册/注销平台设备用到的函数如下：
 
@@ -112,7 +110,7 @@ void platform_device_unregister(struct platform_device *pdev);
 
 ## 平台驱动
 
-内核使用`platform_driver`结构体来描述平台驱动：
+`platform_driver`结构体用来描述平台驱动：
 
 ```C
 struct platform_driver {
@@ -129,9 +127,9 @@ struct platform_driver {
 
 > remove：释放平台设备
 
-> suspend/resume：设备进入/退出休眠状态
+> suspend/resume：设备进入/退出休眠状态，电源管理相关
 
-除了提供一些回调函数之外，还有一个`id_table`的指针。这个指针用来表示该驱动能够兼容的`platform_device`。
+除了以上四个回调函数，最关键的还有一个`id_table`的指针。这个指针指向用来表示该驱动匹配的`platform_device`。
 
 我们来看一下`struct platform_device_id`结构体的定义：
 
@@ -146,7 +144,7 @@ struct platform_device_id {
 
 > driver_data：保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
 
-这里插个题外话，当手动实现`probe()`函数时涉及到内存分配的问题。很多驱动程序都使用`devm_kzalloc()`函数来分配内存。我们接触比较多的是`kmalloc()`或者`kzalloc()`来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而`devm_kzalloc()`函数则可以自动释放内存，这样就不用开发人员担心内存释放的问题了。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。
+这里插个题外话，当手动实现`probe()`函数时涉及到内存分配的问题。很多驱动程序都使用`devm_kzalloc()`函数来分配内存。我们接触比较多的是`kmalloc()`或者`kzalloc()`来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而`devm_kzalloc()`函数则可以自动地释放内存。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。
 
 注册/注销平台驱动的函数如下：
 
@@ -154,6 +152,8 @@ struct platform_device_id {
 int platform_driver_register(struct platform_device *drv);
 void platform_driver_unregister(struct platform_device *drv);
 ```
+
+## 获取资源
 
 在平台设备中，`struct resource`结构体用来表示设备资源，可以通过`platform_get_resource()`函数来获取，它通常在`probe()`函数中执行：
 

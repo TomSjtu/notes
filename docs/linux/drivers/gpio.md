@@ -1,10 +1,10 @@
 # GPIO子系统
 
-GPIO全称“General Purpose Input/Output”，通用输入输出。GPIO可能是芯片自带的，也可能通过I2C、SPI接口扩展。
+GPIO全称“General Purpose Input/Output”，通用输入输出。
 
 ## 设备树描述
 
-对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399而言的GPIO控制器而言：
+对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399的GPIO控制器而言：
 
 ```devicetree title="rk3399.dtsi"
 
@@ -34,12 +34,6 @@ gpio1: gpio1@ff730000 {
 	#interrupt-cells = <0x2>;
 };
 ```
-
-!!! tip
-
-	- interrupt-controller：空属性，表示该节点可接收中断信号
-	- \#interrupt-cells：表示子设备节点的interrupts属性中的单元数目
-	- interrupts：表示该节点可接收的中断信号，每个描述符对应一个中断信号
 
 对于需要用到GPIO控制器的设备，需要在节点中声明：
 

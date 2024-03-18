@@ -1,6 +1,6 @@
 # 设备树
 
-设备树是一种特殊的描述硬件信息的数据结构，由一系列节点（Node）和属性（Property）组成，节点本身还可以包含子节点，就像一颗树状结构一样。可以描述的信息包括：
+设备树是一种特殊的专门用于描述硬件信息的数据结构，它由一系列节点（node）和属性（property）组成，节点本身还可以包含子节点，就像一棵树状结构一样。设备树中可以描述的信息包括：
 
 - CPU的数量和类别
 - 内存基地址和大小
@@ -24,7 +24,7 @@
 2. ARM SOC周边外设模块的驱动代码保存在drivers目录下
 3. ARM SOC board specific的代码被移除，由设备树来负责传递硬件资源信息。
 
-本质上，设备树改变了原来用hardcode方式将硬件配置信息嵌入到内核代码的方法。对于嵌入式系统，在系统启动阶段，由{==bootloader==}通过bootm命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。
+本质上，设备树改变了传递硬件配置信息的方式。对于嵌入式系统，在系统启动阶段，改由{==bootloader==}通过`bootm`命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。
 
 一般情况下，.dtsi描述SoC信息，比如CPU架构，主频。.dts文件描述板级信息，比如开发板上有哪些I2C设备、SPI设备等。
 
@@ -52,19 +52,19 @@ ls /proc/device-tree
 
 .dts文件是人类可以看懂的，但是内核无法识别。DTC工具可以将.dts编译成.dtb，这样内核就可以识别了。DTC的源码位于内核的<scripts/dtc\>目录中。
 
-dtc的使用方法是：
+使用DTC工具编译生成.dtb文件：
 
 ```SHELL
 dtc -I dts -O dtb -o [output].dtb [input].dts
 ```
 
-反过来可以生成dts文件：
+反过来可以生成.dts文件：
 
 ```SHELL
 dtc -I dtb -O dts -o [output].dts [input].dtb
 ```
 
-`make dtbs`会编译所有的dts文件，如果要编译指定的dtb，请使用`make board_name.dtb`。
+`make dtbs`会编译所有的.dts文件，如果要编译指定的.dtb，请使用`make board_name.dtb`。
 
 ## DTS基本语法
 
@@ -118,7 +118,7 @@ label:node-name@unit-address{
 
 `compatible`属性定义了整个系统的名称，它的组织形式为：(manufacturer, model)。内核通过该属性判断它启动的是什么设备。
 
-!!! example "瑞芯微"
+!!! example "瑞芯微RK3399"
 
 	```
 	compatible = "rockchip, rk3399";
@@ -148,7 +148,7 @@ static const struct of_device_id rockchip_rk3399_match[] = {
 `reg`属性的值一般是以(address, length)对的形式出现。用于描述设备资源在其父总线定义的地址空间内的地址。
 
 ```
-reg = <0x4000e000 0x400>  //起始地址+大小
+reg = <0x4000e000 0x400>  //起始地址 + 长度
 ```
 
 5.`#address-cells`和`#size-cells`属性
@@ -168,11 +168,11 @@ reg = <0x4000e000 0x400>  //起始地址+大小
 
 6.`ranges`属性
 
-`range`是地址转换表，按照（子地址，父地址，转换长度）的格式编写。
+`range`是地址映射表，按照（子地址，父地址，映射长度）的格式编写。
 
-比如对于#address-cells和#size-cells都为1的话，以ranges=<0x0 0x10 0x20>为例，表示将子地址的从0x0~(0x0 + 0x20)的地址空间映射到父地址的0x10~(0x10 + 0x20)。
+比如#address-cells和#size-cells都为1的话，以ranges=<0x0 0x10 0x20>为例，表示将子地址的0x0映射到父地址的0x10，共映射0x20个字节。
 
-`ranges`属性的值按照(child-bus-address, parent-bus-address, length)格式编写。`ranges`属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过`ranges`属性获知哪些内存区域或者IO端口是被硬件设备所占用的。
+`ranges`属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过`ranges`属性获知哪些内存区域或者IO端口是被硬件设备所占用的。
 
 !!! note
 
@@ -180,27 +180,29 @@ reg = <0x4000e000 0x400>  //起始地址+大小
 
 7.`intc`属性
 
-用于表示中断控制器的相关信息。
+用于表示中断控制器的相关信息，可以包含以下信息：
 
-- interrupt-controller：
-- interrupt-cells：
-- interrupt-parent：
-- interrupts：
+- interrupt-controller
+- interrupt-cells
+- interrupt-parent
+- interrupts
+
+中断控制器更详细的内容见[中断子系统](./interrupt.md)。
 
 根节点必须要有的属性有：
 
 ```
-#address-cells:子节点reg属性中，用多少个u32整数来描述地址
-#size-cells：子节点reg属性中，用多少个u32整数来描述大小
 compatible：指定板子兼容的平台
 model：板子名称
+#address-cells：子节点reg属性中，用多少个u32整数来描述地址
+#size-cells：子节点reg属性中，用多少个u32整数来描述大小
 ```
 
-## 内核的of函数
+## 设备树操作函数
 
 内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以`of`开头，定义在<include/linux/of.h\>中。
 
-内核使用`device_node`结构体来描述一个节点
+内核使用`device_node`结构体来描述一个节点：
 ```C
 struct device_node {
 	const char *name;
