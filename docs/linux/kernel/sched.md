@@ -131,9 +131,9 @@ const struct sched_class *sched_class;
 
 	在选择下一个可运行进程时，内核调度器会按照优先级顺序依次遍历所有调度器类，直到在那个调度器类上找到一个可运行进程为止。
 
-### 完全公平调度策略
+### CFS调度策略
 
-CFS在保证系统整体性能的前提下，将每个进程的运行时间平均分配，即每个进程能获得1/n的处理器时间——n为可运行进程的数量。`nice`值被作为进程获得的处理器运行比的权重，越高的`nice`值获得更低的处理器使用时间。调度器建立了`nice`值和权重的关系：
+完全公平调度策略在保证系统整体性能的前提下，将每个进程的运行时间平均分配，即每个进程能获得1/n的处理器时间——n为可运行进程的数量。`nice`值被作为进程获得的处理器运行比的权重，越高的`nice`值获得更低的处理器使用时间。调度器建立了`nice`值和权重的关系：
 
 ```C
 const int sched_prio_to_weight[40] = {
@@ -156,7 +156,7 @@ const int sched_prio_to_weight[40] = {
 
 你一定注意到，如果一个系统中可运行进程趋于无穷呢？那么每个进程获得的处理器使用时间不就趋于0了么？为此，CFS规定了每个进程获得的时间片底线，这个底线称为{==最小粒度==}——默认为1ms。也就是说进程一旦被调度，都至少运行1ms时间。通常情况下，一个系统中可运行进程的数量是有限的，无疑，这时CFS可谓是相当公平。
 
-### 实时调度策略
+### RT调度策略
 
 Linux提供了两种实时调度策略：{==SCHED_FIFO==}和{==SCHED_RR==}。普通的、非实时的调度策略是SCHED_NORMAL。实时调度策略的实现在文件<kernel/sched_rt.c\>中。
 
@@ -177,14 +177,14 @@ SCHED_RR是带有时间片的SCHED_FIFO，同一优先级的任务轮换执行�
 
 有一类进程比实时进程和普通进程的优先级更高，这类进程的特点是每隔固定的周期都会起来干活，需要一定的时间处理自己的事务，比如典型的系统定时器中断函数。
 
-为了应对这种需求，3.14内核引入了一类新的进程叫做deadline进程，这类进程的调度策略是{==SCHED_DEADLINE==}。每个周期到来之时，调度器都要优先处理该deadline进程对于CPU时间的需求，然后在指定的deadline时间内调度该进程运行
+为了应对这种需求，3.14内核引入了一类新的进程叫做deadline进程，这类进程的调度策略是{==SCHED_DEADLINE==}。每个周期到来之时，调度器都要优先处理该deadline进程对于CPU时间的需求，然后在指定的deadline时间内调度该进程运行。
 
 
 ### IDLE调度策略
 
 idle类进程的优先级非常低，实在没有进程运行时才会考虑idle类的进程。
 
-## 完全公平调度的实现
+## CFS的实现
 
 ### 时间记账
 
@@ -313,7 +313,7 @@ int wait_event_timeout(wait_queue_head_t q, int condition, unsigned int timeout)
 int wait_event_interruptible_timeout(wait_queue_head_t q, int condition, unsigned int timeout);
 ```
 
-它们都用于将进程加入到等待队列，直到某个事件发生。“interruptible”表示可以被信号唤醒，“timeout”表示等待超时时间。
+它们都用于将进程加入到等待队列，直到某个事件发生。"interruptible"表示可以被信号唤醒，"timeout"表示等待超时时间。
 
 !!! info
 
@@ -326,12 +326,12 @@ int wait_event_interruptible_timeout(wait_queue_head_t q, int condition, unsigne
 `task_struct`中包含了多种调度实体：
 
 ```C
-struct sched_entity se;     //完全公平调度实体
-struct sched_rt_entity rt;  //实时调度实体
+struct sched_entity se;     //CFS调度实体
+struct sched_rt_entity rt;  //RT调度实体
 struct sched_dl_entity dl;  //dl调度实体
 ```
 
-每个CPU都挂载了`struct rq`结构体，用于描述在此CPU上所运行的所有进程。在调度时，调度器会先去实时进程队列去查找是否有实时进程需要运行，如果没有才会去CFS队列中查找。
+每个CPU都挂载了一个`struct rq`结构体，用于描述在此CPU上所运行的所有进程。在调度时，调度器会先去RT队列去查找是否有实时进程需要运行，如果没有才会去CFS队列中查找。
 
 ```C
 struct rq {
@@ -354,7 +354,7 @@ struct rq {
 };
 ```
 
-cfs调度队列的定义如下：
+CFS调度队列的定义如下：
 
 ```C
 /* CFS-related fields in a runqueue */
@@ -377,7 +377,7 @@ struct cfs_rq {
 };
 ```
 
-调度类的定义如下：
+对于每个调度队列，内核提供了调度类来实现自己的调度方法，它的定义如下：
 
 ```C
 struct sched_class {
@@ -411,7 +411,7 @@ struct sched_class {
 }
 ```
 
-这个结构体定义了许多方法，相当于是调度基类，由各种不同的调度类自己实现这些方法。
+内核的的调度类：
 
 ```C
 extern const struct sched_class stop_sched_class;
@@ -428,7 +428,6 @@ for_each_class(class){
     p = pick_next_task(rq, prev, rf);
     ...
 }
-
 ```
 
 于是整个运行场景就是，在每个CPU上有一个队列rq，这个队列里面包含多个子队列，例如rt_rq和cfs_rq，不同的队列实现了不同的方法。当CPU需要寻找下一个任务执行时，会按照优先级依次调用调度类，不同的调度类操作不同的队列。当rt_sched_class被调用时，它会在rt_rq上查找下一个任务。如果找不到就会轮到fair_sched_class，它会在cfs_rq上查找下一个任务。
@@ -437,14 +436,14 @@ for_each_class(class){
 
 ## 抢占与上下文切换
 
-调度分为主动调度与抢占式调度。主动调度一般发生在进程在等待某个事件的过程中，主动让出CPU，然后调用`schedule()`函数。不管哪种调度，最后都会执行上下文切换。
+调度分为{==主动调度==}与{==抢占式调度==}。主动调度一般发生在进程在等待某个事件的过程中，主动让出CPU，让内核选择下一个进程去运行。不管哪种调度，最后都会触发{==上下文切换==}。
 
 所谓上下文切换，就是从一个可执行进程切换到另一个可执行进程的过程，由`context_switch()`函数负责执行，当触发进程调度时，就会调用该函数。它主要完成两件事：
 
 - 切换虚拟内存空间
 - 切换处理器状态，包括保存上一个进程的栈和寄存器信息，还有其他与体系结构相关的状态信息。
 
-内核提供了`need_resched`标志来表明是否需要重新执行一次调度。当某个进程应该被抢占时，该标志就会被设置，然后调用`schedule()`函数，触发进程调度。`need_resched()`函数用来检查这个标志的值，如果被设置就返回真。
+内核提供了`need_resched`标志来表明是否需要重新执行一次调度。当某个进程应该被抢占时，该标志就会被设置，内核会在适当的时机调用`schedule()`函数，触发进程调度。`need_resched()`函数用来检查这个标志的值，如果被设置就返回真。
 
 ### 用户抢占
 
@@ -452,7 +451,7 @@ for_each_class(class){
 
 ### 内核抢占
 
-对于不支持内核抢占的操作系统而言，内核代码可以一直执行直到它完成为止。而Linux支持内核抢占，只要重新调度是安全的。为了保证内核抢占的安全性，Linux引入了`preempt_count`计数器，初始值为0。每当使用锁的时候数值加1，释放锁的时候数值减1。从中断返回内核空间的时候，内核会检查`need_resched`和`preempt_count`标志，如果`need_resched`被设置，并且`preempt_count`为0，就会调用`schedule()`函数。
+对于不支持内核抢占的操作系统而言，内核代码可以一直执行直到它完成为止。而Linux支持内核抢占——只要重新调度是安全的。相对于用户抢占，内核抢占显然首先需要保证安全性，为此Linux引入了`preempt_count`计数器，初始值为0。每当使用锁的时候数值加1，释放锁的时候数值减1。从中断返回内核空间的时候，内核会同时检查`need_resched`和`preempt_count`标志：如果`need_resched`被设置，并且`preempt_count`为0，才会调用`schedule()`函数。
 
 ## 调度相关的用户接口
 

@@ -131,14 +131,35 @@ compatible属性用来指示内核选用哪一个pin controller driver来驱动�
 
 ## 数据结构
 
-学习pinctrl子系统，首先要了解其内部的数据结构，然后再去研究源码就比较轻松。
+pinctrl子系统的数据结构比较复杂，大致如下：
+
+![pinctrl](../../images/kernel/pinctrl-ds.png)
 
 主要涉及到的数据结构是：
 
-- pin controller device相关：pinctrl_desc, pinctrl_ops, pinmux_ops, pinconf_ops, pinctrl_dev
+- pin controller device相关：pinctrl_dev, pinctrl_desc, pinctrl_ops, pinmux_ops, pinconf_ops
 - client device相关：pinctrl, pinctrl_state, pinctrl_setting, pinctrl_map, pinctrl_dt_map
 
-由于涉及到的结构体比较多，每个结构体的成员也非常复杂，这里省略了一部分不太重要的内容，对于重复性的内容也不再说明，感兴趣的读者可自行阅读源码进行学习。
+驱动开发工程师应在client device中实现自己的配置信息，然后调用`pinctrl_register()`函数将该配置信息注册到pinctrl子系统中去：
+
+![alt text](../../images/kernel/pinctrl_register.png)
+
+`struct pinctrl_dev`结构体用来描述SoC的所有引脚信息和一系列操作函数集。成员`struct pin_desc`结构体用来描述特定引脚控制器，包括引脚配置信息以及设置该引脚控制器的方法，也就是`pinctrl_ops`、`pinmux_ops`、`pinconf_ops`。这些一般由SoC原厂来提供驱动。
+
+`pinctrl`用来描述client device引脚的状态和使用情况，比如对于uart、i2c、spi等设备如果都需要通过pinctrl系统与其他设备通信，那么就需要配置相应的引脚信息连接到对应的控制器以及配置引脚的一些电气信息，例如上拉下拉等。在休眠时还可以设置为高阻态来降低功耗。该数据结构既然是client端就需要挂入到设备驱动模型结构中，所以我们可以看到它其实是`struct dev_pin_info`结构体的一个成员，而`struct dev_pin_info`又是`struct device`结构体的一个成员。
+
+`pinctrl_map`用来描述板级配置信息，一块单板会使用SoC的不同控制器和不同配置。若DTS中有节点如下：
+
+```devicetree
+&uart0 {
+	pinctrl-names = "default", "sleep";
+	pinctrl-0 = <&uart0_pins>;
+	pinctrl-1 = <&uart0_sleep_pins>;
+	status = "okay";
+};
+```
+
+则`pinctrl-0`以及`pinctrl-1`会被解析成一个个`pinctrl_map`结构体，然后通过pinctrl_register_mappings()`函数将控制器用到的引脚信息注册到内核。
 
 ### pin controller device
 
@@ -503,6 +524,15 @@ struct pinconf_ops {
 
 ### client device
 
+主要包含：
+
+- struct dev_pin_info
+- struct pinctrl
+- struct pinctrl_state
+- struct pinctrl_setting
+
+![client device](../../images/kernel/pinctrl-client.png)
+
 在内核启动阶段，device_node一般会被转换为`platform_device`结构体，或者其他结构体比如`i2c_client`、`spi_device`，它们内部都有一个`struct device`成员（也即继承了struct device的属性和方法）。
 
 在`struct device`结构体里有一个`struct dev_pin_info`结构体，用来保存设备的引脚信息：
@@ -639,7 +669,6 @@ struct pinctrl_setting_configs {
 
 > num_configs：需要写入的配置参数个数。
 
-
 `struct pinctrl_map`用于描述client device的映射配置，使用pin controller device的`pinctrl_desc->pctlops->dt_node_to_map`来处理设备树中的引脚配置节点。例如某配置节点——`pinctrl-0 = <&uart0_xfer &uart0_cts &uart0_rts>`，那么uart0_xfer 、uart0_cts 、uart0_rts节点均会被`dt_node_to_map()`函数解析为一系列的`struct pinctrl_map`，然后被转换为`struct pinctrl_setting`，存入`struct pinctrl_state.settings`链表中。
 
 ```C
@@ -725,10 +754,6 @@ struct pinctrl_dt_map {
 > map：实际映射表数据。
 
 > num_maps：映射表中的数目。
-
-下图描述了client device类别下几个数据结构之间的关系：
-
-![client device](../../images/kernel/client_device.png)
 
 ## 与GPIO子系统交互
 

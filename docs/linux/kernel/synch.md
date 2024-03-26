@@ -400,7 +400,7 @@ typedef struct {}arch_spinlock_t;
 
 写者操作：
 
-1. 获取sequence counter的值，如果是偶数则可以进入临界区，否则等待。
+1. 获取sequence counter的值，如果是偶数则可以进入临界区，否则等待
 2. 进入临界区后，读取数据
 3. 获取sequence counter的值，如果等于原来的值，说明没有写者进入，则表示OK，否则返回至第一步
 

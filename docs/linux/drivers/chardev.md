@@ -147,6 +147,11 @@ int cdev_add(struct cdev *p, dev_t dev, unsigned count)
 void cdev_del(struct cdev *p)
 ```
 
+## 高级字符驱动操作
+
+
+
+
 ## 简单示例
 
 ```C

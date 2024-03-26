@@ -61,14 +61,9 @@ i2c0: i2c@fdd40000 {
 - I2C驱动：I2C设备的驱动程序
 - I2C适配器：I2C控制器，用于驱动和设备之间的通信
 
-I2C驱动中最核心的四个数据结构：
+### I2C总线驱动
 
-- `struct i2c_adapter`
-- `struct i2c_algorithm`
-- `struct i2c_client`
-- `struct i2c-driver`
-
-`struct i2c_adapter`对应一个i2c controller，所有的设备驱动都需要经过`struct i2c_adapter`对象的处理才能与物理设备通信：
+`struct i2c_adapter`用于描述一个特定的I2C总线控制器：
 
 ```C
 struct i2c_adapter {
@@ -141,7 +136,37 @@ struct i2c_algorithm {
 
 > smbus_xfer：实现SMBus协议的发送函数
 
-`struct i2c_client`表示连接到I2C总线上的设备，是具体硬件设备的抽象：
+`struct i2c_algorithm`中的通信函数以`struct i2c_msg`为基本单位：
+
+```C
+struct i2c_msg {
+	__u16 addr;
+	__u16 flags;
+#define I2C_M_RD		0x0001	/* guaranteed to be 0x0001! */
+#define I2C_M_TEN		0x0010	/* use only if I2C_FUNC_10BIT_ADDR */
+#define I2C_M_DMA_SAFE		0x0200	/* use only in kernel space */
+#define I2C_M_RECV_LEN		0x0400	/* use only if I2C_FUNC_SMBUS_READ_BLOCK_DATA */
+#define I2C_M_NO_RD_ACK		0x0800	/* use only if I2C_FUNC_PROTOCOL_MANGLING */
+#define I2C_M_IGNORE_NAK	0x1000	/* use only if I2C_FUNC_PROTOCOL_MANGLING */
+#define I2C_M_REV_DIR_ADDR	0x2000	/* use only if I2C_FUNC_PROTOCOL_MANGLING */
+#define I2C_M_NOSTART		0x4000	/* use only if I2C_FUNC_NOSTART */
+#define I2C_M_STOP		0x8000	/* use only if I2C_FUNC_PROTOCOL_MANGLING */
+	__u16 len;
+	__u8 *buf;
+};
+```
+
+> addr：从设备地址
+
+> flags：标志位
+
+> len：传输数据的长度
+
+> buf：传输数据缓冲区
+
+### I2C设备驱动
+
+`struct i2c_client`表示挂载到I2C总线上的设备，是具体硬件设备的抽象：
 
 ```C
 struct i2c_client {
@@ -218,33 +243,7 @@ struct bus_type i2c_bus_type = {
 
 多个设备可以挂在同一个I2C总线上，I2C总线驱动由芯片厂商提供。
 
-`struct i2c_msg`结构体表示I2C传输的消息。
 
-```C
-struct i2c_msg {
-	__u16 addr;
-	__u16 flags;
-#define I2C_M_RD		0x0001	/* guaranteed to be 0x0001! */
-#define I2C_M_TEN		0x0010	/* use only if I2C_FUNC_10BIT_ADDR */
-#define I2C_M_DMA_SAFE		0x0200	/* use only in kernel space */
-#define I2C_M_RECV_LEN		0x0400	/* use only if I2C_FUNC_SMBUS_READ_BLOCK_DATA */
-#define I2C_M_NO_RD_ACK		0x0800	/* use only if I2C_FUNC_PROTOCOL_MANGLING */
-#define I2C_M_IGNORE_NAK	0x1000	/* use only if I2C_FUNC_PROTOCOL_MANGLING */
-#define I2C_M_REV_DIR_ADDR	0x2000	/* use only if I2C_FUNC_PROTOCOL_MANGLING */
-#define I2C_M_NOSTART		0x4000	/* use only if I2C_FUNC_NOSTART */
-#define I2C_M_STOP		0x8000	/* use only if I2C_FUNC_PROTOCOL_MANGLING */
-	__u16 len;
-	__u8 *buf;
-};
-```
-
-> addr：从设备地址
-
-> flags：标志位
-
-> len：传输数据的长度
-
-> buf：传输数据缓冲区
 
 ## I2C函数接口
 

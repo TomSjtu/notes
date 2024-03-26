@@ -14,6 +14,10 @@ Buffer和Cache被设计用来提升系统I/O的性能，它们缓存在内存中
 
 不论是读还是写，应用程序都优先从缓存中读取，这样可以避免访问低速的磁盘，从而提高系统的I/O性能。
 
+### Free/Available
+
+系统从上电到引导完成，firmware/BIOS要占用一部分内存，内核占用一部分内存，剩下的就是MemTotal。MemFree表示系统尚未使用的内存，而MemAvailable = MemFree + 可回收的内存。
+
 ## 内存性能分析工具
 
 ![内存性能调优工具](../../images/kernel/mem-performance-tools02.webp)

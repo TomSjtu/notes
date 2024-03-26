@@ -38,6 +38,16 @@ platform bus是内核中的一种虚拟总线类型，它不是物理上存在�
 
 ## kobject、ktype和kset
 
+设备驱动模型的基本元素有三个：
+
+- kobject：sysfs中的一个目录，表示基本驱动对象。
+- kset：一个特殊的kobject，用来管理类似的kobject。
+- ktype：目录下kobject属性文件操作的接口。
+
+它们之间的关系如下图所示：
+
+![关系示意图](../../images/kernel/device_model.png)
+
 kobject是Linux设备模型的基础，是一种抽象的、统一的对硬件设备的描述。它主要提供以下功能：
 
 1. 通过parent指针，将所有kobject以树状结构的形式组合起来。
@@ -45,7 +55,7 @@ kobject是Linux设备模型的基础，是一种抽象的、统一的对硬件�
 3. 和sysfs虚拟文件系统配合，将每一个kobject的特性，以文件的形式开放给用户空间查询。
 4. 通过uevent机制，将热插拔事件（比如一个设备通过USB连接到系统）通知用户空间。
 
-内核很少单独创建kobject对象，而是将其作为顶层基类（C语言没有面向对象的机制），嵌入到其他数据结构中。比如`struct cdev`结构体：
+内核很少单独创建kobject对象，而是将其作为顶层基类（C语言没有面向对象的机制），嵌入到其他数据结构中。当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的`release()`回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。
 
 ```C
 struct cdev {
@@ -63,12 +73,6 @@ struct cdev {
 struct cdev *device = container_of(kp, struct cdev, kobj);
 ```
  
-设备驱动模型的基本元素有三个：
-
-- kobject：sysfs中的一个目录，表示基本驱动对象。
-- kset：一个特殊的kobject，用来管理类似的kobject。
-- ktype：目录下kobject属性文件操作的接口。
-
 kobject的数据结构如下：
 
 ```C
@@ -78,7 +82,7 @@ struct kobject {
 	struct kobject		*parent;
 	struct kset		*kset;
 	struct kobj_type	*ktype;
-	struct kernfs_node	*sd; /* sysfs directory entry */
+	struct kernfs_node	*sd; 
 	struct kref		kref;
 	unsigned int state_initialized:1;
 	unsigned int state_in_sysfs:1;
@@ -93,9 +97,9 @@ struct kobject {
 
 > parent：指向父kobject的指针，在sysfs中表示上一层的节点。
 
-> kset：该kobject属于的kset。若该kobject未指定parent，则会把kset作为parent。
+> kset：该kobject所属的kset。若该kobject未指定parent，则会把kset作为parent。
 
-> ktype：该kobject属于的kobj_type，每个kobject必须有一个ktype。
+> ktype：该kobject所属的类型。
 
 > sd：该kobject在sysfs中的对应目录项。
 
@@ -109,11 +113,6 @@ struct kobject {
 
 > uevent_suppress：如果该字段为1，则表示忽略所有上报的uevent事件。
 
-!!! tip "kobject核心机制"
-
-	内嵌在别的数据结构（比如device_driver）中，当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的`release()`回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。
-
-
 ktype的数据结构如下：
 
 ```C
@@ -123,11 +122,17 @@ struct kobj_type {
 	const struct attribute_group **default_groups;
 	...	
 };
+
+
+struct sysfs_ops {
+	ssize_t (*show)(struct kobject *kobj, struct attribute *attr, char *buf);
+	ssize_t (*store)(struct kobject *kobj, struct attribute *attr, const char *buf, size_t count);
+};
 ```
 
 > release：当kobject引用计数归零时调用该析构函数，负责释放kobject的内存。
 
-> sysfs_ops：sysfs文件系统读写时的特性。
+> sysfs_ops：sysfs文件系统读写时的操作方法，cat/echo操作，最终会调用show/store方法。
 
 > default_groups：定义了kobject的属性，由struct attritube和struct bin_attribute构成。
 
@@ -150,9 +155,176 @@ struct kset {
 
 > uevent_ops：uevent是用户空间的缩写，提供了与用户空间热插拔进行通信的机制。当任何kobject需要上报uevent时，都要调用所属的kset中uevent_ops中的函数。uevent的概念稍后说明。
 
-kset是kobject对象的集合体。它与ktype的区别在于：具有相同ktype的kobject可以被分组到不同的kset。
+kset是多个kobject对象的集合。它与ktype的区别在于：具有相同ktype的kobject可以被分组到不同的kset。sysfs中的组织结构的依据就是kset，/sys/bus目录就是一个kset对象。
 
 当设置了kset并把它添加到系统中，将在sysfs中创建一个目录。kobject的添加与删除主要是`kobject_regsiter()`函数和`kobject_unregister()`函数。在大多数情况下，kobject会在其parent指针中保存kset的指针。
+
+![结构关系](../../images/kernel/device_model02.png)
+
+kset既是kobject的集合，本身也是一个kobject，可以添加到其他集合中，从而构建更复杂的拓扑结构。
+
+示例代码：
+
+来源：https://www.cnblogs.com/LoyenWang/p/13334196.html
+
+```C
+#include <linux/kernel.h>
+#include <linux/module.h>
+#include <linux/slab.h>
+#include <linux/kobject.h>
+
+//自定义一个结构，包含了struct kobject子结构
+struct test_kobj {
+    int value;
+    struct kobject kobj;
+};
+
+//自定义个属性结构体，包含了struct attribute结构
+struct test_kobj_attribute {
+    struct attribute attr;
+    ssize_t (*show)(struct test_kobj *obj, struct test_kobj_attribute *attr, char *buf);
+    ssize_t (*store)(struct test_kobj *obj, struct test_kobj_attribute *attr, const char *buf, size_t count);
+};
+
+//声明一个全局结构用于测试
+struct test_kobj *obj;
+
+//用于初始化sysfs_ops中的函数指针
+static ssize_t test_kobj_attr_show(struct kobject *kobj, struct attribute *attr, char *buf)
+{
+    struct test_kobj_attribute *test_kobj_attr;
+    ssize_t ret = -EIO;
+
+    test_kobj_attr = container_of(attr, struct test_kobj_attribute, attr);
+    
+    //回调到具体的实现函数
+    if (test_kobj_attr->show)
+        ret = test_kobj_attr->show(container_of(kobj, struct test_kobj, kobj), test_kobj_attr, buf);
+    
+    return ret;
+}
+
+//用于初始化sysfs_ops中的函数指针
+static ssize_t test_kobj_attr_store(struct kobject *kobj, struct attribute *attr, const char *buf, size_t count)
+{
+    struct test_kobj_attribute *test_kobj_attr;
+    ssize_t ret = -EIO;
+
+    test_kobj_attr = container_of(attr, struct test_kobj_attribute, attr);
+    
+    //回调到具体的实现函数
+    if (test_kobj_attr->store)
+        ret = test_kobj_attr->store(container_of(kobj, struct test_kobj, kobj), test_kobj_attr, buf, count);
+    
+    return ret;
+}
+
+//用于初始化kobj_ktype
+const struct sysfs_ops test_kobj_sysfs_ops = {
+    .show = test_kobj_attr_show,
+    .store = test_kobj_attr_store,
+};
+
+//用于初始化kobj_ktype，最终用于释放kobject
+void obj_release(struct kobject *kobj)
+{
+    struct test_kobj *obj = container_of(kobj, struct test_kobj, kobj);
+
+    printk(KERN_INFO "test kobject release %s\n", kobject_name(&obj->kobj));
+    
+    kfree(obj);
+}
+
+//定义kobj_ktype，用于指定kobject的类型，初始化的时候使用
+static struct kobj_type test_kobj_ktype = {
+    .release = obj_release,
+    .sysfs_ops = &test_kobj_sysfs_ops,
+};
+
+//show函数的具体实现
+ssize_t name_show(struct test_kobj *obj, struct test_kobj_attribute *attr, char *buffer)
+{
+    return sprintf(buffer, "%s\n", kobject_name(&obj->kobj));
+}
+
+//show函数的具体实现
+ssize_t value_show(struct test_kobj *obj, struct test_kobj_attribute *attr, char *buffer)
+{
+    return sprintf(buffer, "%d\n", obj->value);
+}
+
+//store函数的具体实现
+ssize_t value_store(struct test_kobj *obj, struct test_kobj_attribute *attr, const char *buffer, size_t size)
+{
+    sscanf(buffer, "%d", &obj->value);
+
+    return size;
+}
+
+//定义属性，最终注册进sysfs系统
+struct test_kobj_attribute name_attribute = __ATTR(name, 0664, name_show, NULL);
+struct test_kobj_attribute value_attribute = __ATTR(value, 0664, value_show, value_store);
+struct attribute *test_kobj_attrs[] = {
+    &name_attribute.attr,
+    &value_attribute.attr,
+    NULL,
+};
+
+//定义组
+struct attribute_group test_kobj_group = {
+    .name = "test_kobj_group",
+    .attrs = test_kobj_attrs,
+};
+
+//模块初始化函数
+static int __init test_kobj_init(void)
+{
+    int retval;
+    printk(KERN_INFO "test_kobj_init\n");
+    obj = kmalloc(sizeof(struct test_kobj), GFP_KERNEL);
+    if (!obj) {
+        return -ENOMEM;
+    }
+    
+    obj->value = 1;
+    memset(&obj->kobj, 0, sizeof(struct kobject));
+    //添加进sysfs系统
+    kobject_init_and_add(&obj->kobj, &test_kobj_ktype, NULL, "test_kobj");
+
+    //在sys文件夹下创建文件
+    retval = sysfs_create_files(&obj->kobj, (const struct attribute **)test_kobj_attrs);
+    if (retval) {
+        kobject_put(&obj->kobj);
+        return retval;
+    }
+    
+    //在sys文件夹下创建group
+    retval = sysfs_create_group(&obj->kobj, &test_kobj_group);
+    if (retval) {
+        kobject_put(&obj->kobj);
+        return retval;
+    }
+    
+    return 0;
+}
+
+//模块清理函数
+static void __exit test_kobj_exit(void)
+{
+    printk(KERN_INFO "test_kobj_exit\n");
+
+    kobject_del(&obj->kobj);
+    kobject_put(&obj->kobj);
+    
+    return;
+}
+
+module_init(test_kobj_init);
+module_exit(test_kobj_exit);
+
+MODULE_AUTHOR("LoyenWang");
+MODULE_LICENSE("GPL");
+```
 
 ## sysfs
 

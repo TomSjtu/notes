@@ -19,12 +19,13 @@ theme:
     - toc.follow
     - navigation.top
     - content.code.copy
+    - search.highlight
+    - search.share
+    
      
   palette:
     primary: light blue
  
-
-  font: false
 
 markdown_extensions:
   - admonition
@@ -42,7 +43,10 @@ markdown_extensions:
   - pymdownx.highlight:
       anchor_linenums: true
       pygments_lang_class: true
-      line_spans: __span
+      line_spans: 
+  - pymdownx.inlinehilite
+  - pymdownx.betterem
+  - pymdownx.magiclink
   - toc:
       permalink: true
 
@@ -53,13 +57,17 @@ nav:
     - linux/index.md
     - 内核剖析:
       - linux/kernel/index.md
-      - linux/kernel/intro.md
+      - linux/kernel/compile.md
+      - linux/kernel/program.md
+      - linux/kernel/debug.md
+      - linux/kernel/synch.md
+      - linux/kernel/others.md
       - linux/kernel/task.md
       - linux/kernel/sched.md
       - linux/kernel/ipc.md
       - linux/kernel/vma.md
       - linux/kernel/interrupt.md
-      - linux/kernel/synch.md
+      - linux/kernel/bottom_half.md
       - linux/kernel/mm.md
       - linux/kernel/page.md
       - linux/kernel/vfs.md
@@ -67,7 +75,7 @@ nav:
       - linux/kernel/network.md
       - linux/kernel/time.md
       - linux/kernel/pm.md
-      - linux/kernel/others.md
+      
       
     
     - 设备驱动程序:
@@ -139,9 +147,10 @@ nav:
       - pl/c/gcc.md
       - pl/c/unamed.md
     
-    - 现代C++:
-      - pl/c++/unamed.md
-      - pl/c++/modern_cpp.md
+    - C++:
+      - pl/cpp/index.md
+      - pl/cpp/unamed.md
+      - pl/cpp/cpp11.md
     
     - QT:
       - pl/qt/qt.md
