@@ -15,14 +15,14 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/mm/">
       
       
-        <link rel="prev" href="../synch/">
+        <link rel="prev" href="../bottom_half/">
       
       
         <link rel="next" href="../page/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
     
     
       
@@ -30,10 +30,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e359304.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -43,6 +43,12 @@
       
     
     
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
@@ -63,7 +69,6 @@
     
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="indigo">
   
-    
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -118,6 +123,7 @@
     
     
     
+    
       <label class="md-header__button md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
@@ -134,6 +140,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
@@ -160,7 +171,7 @@
         <a href="https://github.com/TomSjtu/notes" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -376,7 +387,7 @@
       <a href="https://github.com/TomSjtu/notes" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -431,14 +442,15 @@
       
     
     
-    
-    
+      
+        
+        
       
       
+    
     
     <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
@@ -517,13 +529,20 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
@@ -564,11 +583,95 @@
   
   
     <li class="md-nav__item">
-      <a href="../intro/" class="md-nav__link">
+      <a href="../compile/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核的编译与启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    调试技术
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../synch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    同步语义
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../others/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    其他
   </span>
   
 
@@ -690,11 +793,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../synch/" class="md-nav__link">
+      <a href="../bottom_half/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    同步语义
+    中断下半部
   </span>
   
 
@@ -969,27 +1072,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../others/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    其他
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1059,11 +1141,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
@@ -1611,11 +1694,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
@@ -1758,11 +1842,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
@@ -1873,14 +1958,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
@@ -1899,7 +1982,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2215,14 +2298,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
@@ -2241,7 +2322,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2271,11 +2352,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
@@ -2348,11 +2430,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
@@ -2419,14 +2502,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
@@ -2445,7 +2526,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2475,11 +2556,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
@@ -2563,38 +2645,53 @@
     
       
         
+          
+        
+      
+        
       
         
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
         
         
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
         
           
-          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../pl/cpp/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
-    现代C++
+    C++
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_3">
             <span class="md-nav__icon md-icon"></span>
-            现代C++
+            C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -2603,7 +2700,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+      <a href="../../../pl/cpp/unamed/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2624,11 +2721,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c%2B%2B/modern_cpp/" class="md-nav__link">
+      <a href="../../../pl/cpp/cpp11/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    现代C++
+    C++11新特性
   </span>
   
 
@@ -2659,11 +2756,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
@@ -2729,11 +2827,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
@@ -2810,14 +2909,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
@@ -2836,7 +2933,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2900,14 +2997,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
@@ -2926,7 +3021,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -3028,14 +3123,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
@@ -3054,7 +3147,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -3220,52 +3313,49 @@
 
 
 <h1 id="_1">物理内存管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>现代多核处理器采用了NUMA架构，即非一致性内存访问架构。在这种架构下，每个CPU都有自己的本地Node，而其他CPU的Node就是远端Node。CPU访问本地Node的速度要比远端快很多。为了优化内存访问效率，Linux内核将物理内存划分为多个Node，每个Node又包含了许多Zone，Zone又被划分为page。</p>
+<p>现代多核处理器采用了NUMA架构，即非一致性内存访问架构。在这种架构下，每个cpu都有自己的本地node，而其他cpu的node就是远端node，cpu访问本地node的速度要比远端快很多。在NUMA架构中，一个node就代表一个CPU直接访问的本地内存区域。每个node又包含了许多zone，zone又被划分为page。</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
-<p>内核使用<code>struct pglist_data</code>来描述一个NUMA node的内存布局情况。</p>
+<p>内核使用<code>struct pglist_data</code>来描述一个numa node的内存布局情况。</p>
 </div>
 <h2 id="_2">页和区<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p><mark class="critic">页</mark>（page）是内核物理内存管理的基本单位，每页通常包含4KB的空间。内核将物理内存划分成众多固定大小的页，主要是为了提升内核在内存分配和回收方面的效率，可以更加灵活地处理内存请求，优化资源分配，并简化了内存寻址和映射的过程，同时也为虚拟内存的管理提供了便利。<code>struct page</code>结构体表示页，该定义的简化版如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">_count</span><span class="p">;</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">_mapcount</span><span class="p">;</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">private</span><span class="p">;</span>
-</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">address_space</span><span class="w"> </span><span class="o">*</span><span class="n">mapping</span><span class="p">;</span>
-</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">pgoff_t</span><span class="w"> </span><span class="n">index</span><span class="p">;</span>
-</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">lru</span><span class="p">;</span>
-</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">virtual</span><span class="p">;</span>
-</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">};</span>
-</span></code></pre></div>
+<p><mark class="critic">页</mark>（page）是内核物理内存管理的基本单位，每页通常包含4kb的空间。内核将物理内存划分成众多固定大小的页，主要是为了提升内核在内存分配和回收方面的效率，可以更加灵活地处理内存请求，优化资源分配，并简化了内存寻址和映射的过程，同时也为虚拟内存的管理提供了便利。<code>struct page</code>结构体表示页，该定义的简化版如下：</p>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">_count</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">_mapcount</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">private</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">address_space</span><span class="w"> </span><span class="o">*</span><span class="n">mapping</span><span class="p">;</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="n">pgoff_t</span><span class="w"> </span><span class="n">index</span><span class="p">;</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">lru</span><span class="p">;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">virtual</span><span class="p">;</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="p">};</span>
+</code></pre></div>
 <blockquote>
 <p>flags：存放页的状态，是不是脏页，是不是锁定在内存中等，每一位单独表示一种状态，定义在&lt;linux/page-flags.h&gt;中。</p>
 <p>_count：存放页的引用计数，当页被分配给一个或多个进程时，这个计数器会增加。当页被释放时，计数器减少。直到计数器降至0，页才能被回收。</p>
 <p>_mapcount：用于记录页表项映射到该物理页的次数。这通常用于共享内存页，多个进程可能映射到同一个物理页。</p>
 <p>mapping：指向一个address_space结构的指针，这个结构体用于描述与文件相关的内存映射信息。如果页属于文件缓存，这个字段将指向相应的address_space结构。</p>
 <p>index：表示页在映射的文件中的偏移量，即页在文件中的索引号。</p>
-<p>lru：一个双向链表节点，用于将页链入到各种链表中，比如活跃链表、不活跃链表等。这是内核实现页置换算法（如LRU）的一部分。</p>
+<p>lru：一个双向链表节点，用于将页链入到各种链表中，比如活跃链表、不活跃链表等。这是内核实现页置换算法（如lru）的一部分。</p>
 <p>virtual：页在虚拟内存中的地址。</p>
 </blockquote>
 <p>为了更好地管理不同类型的内存和优化内存分配策略，内核还将页划分为不同的<mark class="critic">区</mark>(zone)，通常划分为以下几个区：</p>
 <ul>
 <li>
-<p>ZONE_DMA：用于DMA操作的内存区，通常位于物理内存的低地址部分。</p>
+<p>zone_dma：用于dma操作的内存区，通常位于物理内存的低地址部分。</p>
 </li>
 <li>
-<p>ZONE_DMA32：与ZONE_DMA类似，但适用于32位地址的DMA操作。</p>
+<p>zone_normal：普通的内存区，可以由内核和用户空间进程使用。</p>
 </li>
 <li>
-<p>ZONE_NORMAL：普通的内存区，可以由内核和用户空间进程使用。</p>
-</li>
-<li>
-<p>ZONE_HIGHMEM：高端内存区，用于处理超过直接映射范围的内存。</p>
+<p>zone_highmem：高端内存区，用于处理超过直接映射范围的内存。</p>
 </li>
 </ul>
 <p>区的使用和分布与体系结构密切相关，内核将页划分为区，就可以根据用途进行分配。区的划分没有物理意义，只是为了方便管理而采取的一种逻辑分组。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>大多数内核和用户空间的分配使用ZONE_NORMAL即可。</p>
+<p>大多数内核和用户空间的分配使用zone_normal即可。</p>
 </div>
 <h2 id="_3">页的分配与释放<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>内核提供了一些以页为单位的连续内存分配与释放的函数，也被称为低级页分配器：</p>
@@ -3322,20 +3412,20 @@
 <p class="admonition-title">Note</p>
 <p>使用<code>kmalloc()</code>函数分配的内存只能使用<code>kfree()</code>函数释放。</p>
 </div>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">kmalloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">gfp_t</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span>
-</span></code></pre></div>
-<p>该函数返回一个指向内存块的指针，至少有size大小。所分配的内存区在物理上是连续的且不清零。除非没有足够的内存可用，否则内核总能分配成功。<code>kmalloc()</code>分配函数总是调用<code>__get_free_pages()</code>来分配内存，通常来说其最大只能分配32个页，也就是128K大小。</p>
-<p>当然，在对<code>kmalloc()</code>调用之后，你还是需要检查返回值是否为NULL：</p>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">kmalloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">gfp_t</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span>
+</code></pre></div>
+<p>该函数返回一个指向内存块的指针，至少有size大小。所分配的内存区在物理上是连续的且不清零。除非没有足够的内存可用，否则内核总能分配成功。<code>kmalloc()</code>分配函数总是调用<code>__get_free_pages()</code>来分配内存，通常来说其最大只能分配32个页，也就是128k大小。</p>
+<p>当然，在对<code>kmalloc()</code>调用之后，你还是需要检查返回值是否为null：</p>
 <div class="admonition exmaple">
 <p class="admonition-title">Exmaple</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">dog</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">dog</span><span class="p">),</span><span class="w"> </span><span class="n">GFP_KERNEL</span><span class="p">)</span><span class="err">；</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="cm">/*处理错误*/</span>
-</span></code></pre></div>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">dog</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">dog</span><span class="p">),</span><span class="w"> </span><span class="n">gfp_kernel</span><span class="p">)</span><span class="err">；</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="cm">/*处理错误*/</span>
+</code></pre></div>
 </div>
-<p>不管是在页分配函数还是在<code>kmalloc()</code>中，都用到了分配器标志。标志分为三类：行为修饰符、区修饰符和类型标志。类型标志组合了前两者，简化了修饰符的使用，我们只需要知道类型标志即可。内核中最常用的就是<mark class="critic">GFP_KERNEL</mark>，该标志适用于绝大多数内存分配场景。这种分配方式可能会引起睡眠，所以只能用在可以重新安全调度的进程上下文中。</p>
-<p>另一个截然相反的标志是<mark class="critic">GFP_ATOMIC</mark>，这个标志表示不能睡眠的内存分配。与GFP_KERNEL相比，它分配成功的机会较小，但是在一些无法睡眠的代码中，也只能选择GFP_ATOMIC。<mark class="critic">GFP_DMA</mark>标志表示分配器必须从ZONE_DMA进行分配的请求，该标志用在需要DMA的内存的设备驱动程序中。在编写的绝大多数代码中，要么是GFP_KERNEL，要么是GFP_ATOMIC，其他标志用到的情况极少，就不做说明了。下面这张表格总结了标志的使用场景。</p>
+<p>不管是在页分配函数还是在<code>kmalloc()</code>中，都用到了分配器标志。标志分为三类：行为修饰符、区修饰符和类型标志。类型标志组合了前两者，简化了修饰符的使用，我们只需要知道类型标志即可。内核中最常用的就是<mark class="critic">gfp_kernel</mark>，该标志适用于绝大多数内存分配场景。这种分配方式可能会引起睡眠，所以只能用在可以重新安全调度的进程上下文中。</p>
+<p>另一个截然相反的标志是<mark class="critic">gfp_atomic</mark>，这个标志表示不能睡眠的内存分配。与gfp_kernel相比，它分配成功的机会较小，但是在一些无法睡眠的代码中，也只能选择gfp_atomic。<mark class="critic">gfp_dma</mark>标志表示分配器必须从zone_dma进行分配的请求，该标志用在需要dma的内存的设备驱动程序中。在编写的绝大多数代码中，要么是gfp_kernel，要么是gfp_atomic，其他标志用到的情况极少，就不做说明了。下面这张表格总结了标志的使用场景。</p>
 <table>
 <thead>
 <tr>
@@ -3346,31 +3436,31 @@
 <tbody>
 <tr>
 <td>可以睡眠的进程上下文</td>
-<td>GFP_KERNEL</td>
+<td>gfp_kernel</td>
 </tr>
 <tr>
 <td>不可以睡眠的进程上下文</td>
-<td>GFP_ATOMIC</td>
+<td>gfp_atomic</td>
 </tr>
 <tr>
 <td>中断处理程序</td>
-<td>GFP_ATOMIC</td>
+<td>gfp_atomic</td>
 </tr>
 <tr>
 <td>软中断</td>
-<td>GFP_ATOMIC</td>
+<td>gfp_atomic</td>
 </tr>
 <tr>
 <td>tasklet</td>
-<td>GFP_ATOMIC</td>
+<td>gfp_atomic</td>
 </tr>
 <tr>
-<td>可以睡眠的DMA内存</td>
-<td>（GFP_DMA | GFP_KERNEL）</td>
+<td>可以睡眠的dma内存</td>
+<td>（gfp_dma | gfp_kernel）</td>
 </tr>
 <tr>
-<td>不可以睡眠的DMA内存</td>
-<td>（GFP_DMA）| GFP_ATOMIC</td>
+<td>不可以睡眠的dma内存</td>
+<td>（gfp_dma）| gfp_atomic</td>
 </tr>
 </tbody>
 </table>
@@ -3378,25 +3468,25 @@
 <p>基于页的分配策略能够更加精细地控制内存区域，而<code>kmalloc()</code>函数会因为分配粒度的问题浪费一定数量的内存。</p>
 <h3 id="kzalloc">kzalloc()<a class="headerlink" href="#kzalloc" title="Permanent link">&para;</a></h3>
 <p><code>kzalloc()</code>等价于先用<code>kmalloc()</code>申请空间，然后调用<code>memset()</code>对内容清零：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">kzalloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">gfp_t</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">kmalloc</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">__GFP_ZERO</span><span class="p">);</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
-</span></code></pre></div>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">kzalloc</span><span class="p">(</span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">gfp_t</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="p">{</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">kmalloc</span><span class="p">(</span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="n">flags</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">__gfp_zero</span><span class="p">);</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
+</code></pre></div>
 <h3 id="vmalloc">vmalloc()<a class="headerlink" href="#vmalloc" title="Permanent link">&para;</a></h3>
 <p><code>vmalloc()</code>函数与<code>kmalloc()</code>函数在内存分配方面具有相似的功能，但它们在物理地址连续性方面有所不同。与<code>kmalloc()</code>保证分配的内存页在物理地址上连续不同，<code>vmalloc()</code>分配的内存页在物理地址上可以是不连续的。这种现象与用户空间内存分配函数<code>malloc()</code>类似，<code>malloc()</code>返回的页在进程的虚拟地址空间中是连续的，但并不保证这些页在物理地址上也是连续的。</p>
-<p>在大多数情况下，只有硬件设备需要访问物理地址连续的内存页。这是因为许多体系结构的硬件设备存在于内存管理单元（MMU）之外，它们无法处理虚拟地址。因此，硬件设备所使用的任何内存区域都必须是物理上连续的内存块。</p>
+<p>在大多数情况下，只有硬件设备需要访问物理地址连续的内存页。这是因为许多体系结构的硬件设备存在于内存管理单元（mmu）之外，它们无法处理虚拟地址。因此，硬件设备所使用的任何内存区域都必须是物理上连续的内存块。</p>
 <p>相比之下，软件使用的内存块则没有这样的严格要求。软件通常可以通过虚拟地址来访问内存，即使这些虚拟地址对应的物理内存不是连续的。这是因为操作系统通过页表管理机制，可以将不连续的物理内存映射到连续的虚拟地址空间中。这种机制使得软件可以高效地使用分散的物理内存资源，而无需关心内存的物理布局。</p>
 <p>由于<code>vmalloc()</code>需要对不连续的页进行专门的映射处理，所以其性能不如<code>kmalloc()</code>。仅在不得已的情形下才会使用，比如为了获得大块内存时。因为<code>kmalloc()</code>分配的内存块是连续的，当系统中的内存碎片较多时，尝试分配大块内存可能会失败，而<code>vmalloc()</code>则不会。</p>
 <p><code>vmalloc()</code>的分配和释放接口如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">vmalloc</span><span class="p">(</span><span class="n">unsinged</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">size</span><span class="p">)</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kt">void</span><span class="w"> </span><span class="n">vfree</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
-</span></code></pre></div>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">vmalloc</span><span class="p">(</span><span class="n">unsinged</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">size</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kt">void</span><span class="w"> </span><span class="n">vfree</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
+</code></pre></div>
 <p>这两个函数都会睡眠，因此不能在中断上下文中使用。</p>
 <h2 id="_5">伙伴系统<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>伙伴系统（Buddy System）是一种内存分配算法，它被用于管理操作系统的内存分配和释放。该算法将内存分成多个大小相等的块，每个块的大小都是2的幂次方，并将相邻的块组合成一对"伙伴"。</p>
-<p>内核把所有的空闲页分组为11个页块链表，每个链表分别包含很多个大小的页块，有 1、2、4、8、16、32、64、128、256、512和 1024个连续页的页块。最大可以申请1024个连续页，对应4MB大小的连续内存。</p>
+<p>伙伴系统（buddy system）是一种内存分配算法，它被用于管理操作系统的内存分配和释放。该算法将内存分成多个大小相等的块，每个块的大小都是2的幂次方，并将相邻的块组合成一对"伙伴"。</p>
+<p>内核把所有的空闲页分组为11个页块链表，每个链表分别包含很多个大小的页块，有 1、2、4、8、16、32、64、128、256、512和 1024个连续页的页块。最大可以申请1024个连续页，对应4mb大小的连续内存。</p>
 <p><img alt="伙伴系统" src="../../../images/kernel/buddy.webp" /></p>
 <p>当操作系统需要分配内存时，它会根据请求的大小找到最接近的且大小足够的块进行分配。如果分配的块比所需的大小大，那么这个块会被分成两个大小相等的子块，其中一个子块被用来满足内存分配请求，而另一个则成为它的"伙伴"。</p>
 <p>在伙伴系统中，当需要分配一个特定大小的内存块时，系统会按照以下步骤操作：</p>
@@ -3422,11 +3512,11 @@
 <h2 id="slab">slab分配器<a class="headerlink" href="#slab" title="Permanent link">&para;</a></h2>
 <div class="admonition info">
 <p class="admonition-title">内核配置界面</p>
-<p>在General setup-&gt;Choose Slab allocator中，可以选择三种不同的slab分配技术：</p>
+<p>在general setup-&gt;choose slab allocator中，可以选择三种不同的slab分配技术：</p>
 <ul>
-<li>CONFIG_SLAB：遗留版本</li>
-<li>CONFIG_SLOB：简单的分配器，适用于内存受限的系统(配置CONFIG_EMBEDDED后可激活)</li>
-<li>CONFIG_SLUB：默认分配器，比SLAB简单，扩展性更好</li>
+<li>config_slab：遗留版本</li>
+<li>config_slob：简单的分配器，适用于内存受限的系统(配置config_embedded后可激活)</li>
+<li>config_slub：默认分配器，比slab简单，扩展性更好</li>
 </ul>
 </div>
 <p>伙伴算法实现了以页为单位、大块内存的分配和释放，而在实际编程中，我们仅仅需要分配和释放单个对象，因此slab分配器应运而生。slab分配器把不同的对象划分为<mark class="critic">高速缓存</mark>，其中每个高速缓存专门用于存储一种特定类型的对象。例如，一个高速缓存可能用于管理进程描述符（<code>task_struct</code>结构），而另一个则用于索引节点对象（<code>struct inode</code>）。当系统需要新的数据结构实例时，可以直接从高速缓存中获取一个现成的块，这样就避免了新内存的消耗。使用完毕后，该数据结构实例被归还到高速缓存中，而不是被直接释放。在这种机制下，高速缓存实际上是那些频繁被使用的数据结构类型的集合。这样的设计不仅提升了内存管理的效率，还减少了内存碎片，是一种非常实用的编程技巧。</p>
@@ -3447,33 +3537,40 @@
 <p>slab可以处于三种状态之一：满、部分满或空。满的slab意味着所有对象都已分配出去，空的slab则表示所有对象都未被分配，而部分满的slab则包含了已分配和未分配的对象。当内核请求新对象时，优先从部分满的slab中分配。如果没有，则从空的slab中分配。如果连空的slab都没有，就会创建新的slab。</p>
 <p>每个高速缓存都使用<code>struct kmem_cache</code>结构体表示。这个结构包含三个链表：slabs_full、slabs_partial、slabs_empty，这些链表包含了高速缓存中的所有slab。<code>struct slab</code>用来描述每个slab。</p>
 <p>slab层的管理是在每个高速缓存的基础上，通过内核提供的统一接口来完成的：创建和撤销高速缓存，并在高速缓存内分配和释放对象。复杂的高速缓存机制和slab的管理完全由内部机制来处理，用户无须关心。</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">kmem_cache_create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">                                     </span><span class="kt">size_t</span><span class="w"> </span><span class="n">align</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">                                     </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">ctor</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">))</span><span class="w">              </span><span class="c1">//创建一个新的高速缓存</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kt">int</span><span class="w"> </span><span class="n">kmem_cache_destroy</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cachep</span><span class="p">)</span><span class="w">                       </span><span class="c1">//撤销一个高速缓存</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">kmem_cache_alloc</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cachep</span><span class="p">,</span><span class="w"> </span><span class="n">gfp_t</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span><span class="w">          </span><span class="c1">//从缓存中分配对象</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kt">void</span><span class="w"> </span><span class="n">kmem_cache_free</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cachep</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">objp</span><span class="p">)</span><span class="w">             </span><span class="c1">//释放一个对象，将它返回给原先的slab</span>
-</span></code></pre></div>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">kmem_cache_create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">size</span><span class="p">,</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">                                     </span><span class="kt">size_t</span><span class="w"> </span><span class="n">align</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">                                     </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">ctor</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">))</span><span class="w">              </span><span class="c1">//创建一个新的高速缓存</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kt">int</span><span class="w"> </span><span class="n">kmem_cache_destroy</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cachep</span><span class="p">)</span><span class="w">                       </span><span class="c1">//撤销一个高速缓存</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">kmem_cache_alloc</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cachep</span><span class="p">,</span><span class="w"> </span><span class="n">gfp_t</span><span class="w"> </span><span class="n">flags</span><span class="p">)</span><span class="w">          </span><span class="c1">//从缓存中分配对象</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kt">void</span><span class="w"> </span><span class="n">kmem_cache_free</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">cachep</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">objp</span><span class="p">)</span><span class="w">             </span><span class="c1">//释放一个对象，将它返回给原先的slab</span>
+</code></pre></div>
 <p>高速缓存的使用统计情况可以从/proc/slabinfo中获得。其中形如kmalloc-xxx的slab称为通用型slab，含有具体名字的slab称为专用slab，用来为特定的结构体分配内存。  </p>
 <p>由于<code>fork()</code>系统调用用来创建一个进程，而进程的创建与销毁是非常频繁的，因此我们可以在文件&lt;kernel/fork.c&gt;中，看到许多高速缓存的实现：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cm">/* SLAB cache for signal_struct structures (tsk-&gt;signal) */</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">signal_cachep</span><span class="p">;</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="cm">/* SLAB cache for sighand_struct structures (tsk-&gt;sighand) */</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">sighand_cachep</span><span class="p">;</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="cm">/* SLAB cache for files_struct structures (tsk-&gt;files) */</span>
-</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">files_cachep</span><span class="p">;</span>
-</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
-</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="cm">/* SLAB cache for fs_struct structures (tsk-&gt;fs) */</span>
-</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">fs_cachep</span><span class="p">;</span>
-</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
-</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="cm">/* SLAB cache for vm_area_struct structures */</span>
-</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">vm_area_cachep</span><span class="p">;</span>
-</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
-</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="cm">/* SLAB cache for mm_struct structures (tsk-&gt;mm) */</span>
-</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">mm_cachep</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-c highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cm">/* slab cache for signal_struct structures (tsk-&gt;signal) */</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">signal_cachep</span><span class="p">;</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="cm">/* slab cache for sighand_struct structures (tsk-&gt;sighand) */</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">sighand_cachep</span><span class="p">;</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="cm">/* slab cache for files_struct structures (tsk-&gt;files) */</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">files_cachep</span><span class="p">;</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="cm">/* slab cache for fs_struct structures (tsk-&gt;fs) */</span>
+<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">fs_cachep</span><span class="p">;</span>
+<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>
+<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="cm">/* slab cache for vm_area_struct structures */</span>
+<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">vm_area_cachep</span><span class="p">;</span>
+<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>
+<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="cm">/* slab cache for mm_struct structures (tsk-&gt;mm) */</span>
+<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">kmem_cache</span><span class="w"> </span><span class="o">*</span><span class="n">mm_cachep</span><span class="p">;</span>
+</code></pre></div>
+
+
+
+
+
+
+
 
 
 
@@ -3484,6 +3581,7 @@
             </div>
           
           
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
@@ -3518,10 +3616,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
       
     
   </body>

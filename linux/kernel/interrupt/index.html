@@ -18,11 +18,11 @@
         <link rel="prev" href="../vma/">
       
       
-        <link rel="next" href="../synch/">
+        <link rel="next" href="../bottom_half/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
     
     
       
@@ -30,10 +30,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e359304.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -43,6 +43,12 @@
       
     
     
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
@@ -63,7 +69,6 @@
     
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="indigo">
   
-    
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -118,6 +123,7 @@
     
     
     
+    
       <label class="md-header__button md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
@@ -134,6 +140,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
@@ -160,7 +171,7 @@
         <a href="https://github.com/TomSjtu/notes" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -376,7 +387,7 @@
       <a href="https://github.com/TomSjtu/notes" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -431,14 +442,15 @@
       
     
     
-    
-    
+      
+        
+        
       
       
+    
     
     <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
@@ -517,13 +529,20 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
@@ -564,11 +583,95 @@
   
   
     <li class="md-nav__item">
-      <a href="../intro/" class="md-nav__link">
+      <a href="../compile/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核的编译与启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    调试技术
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../synch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    同步语义
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../others/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    其他
   </span>
   
 
@@ -750,123 +853,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      软中断
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="软中断">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      软中断的实现
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用软中断
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tasklet" class="md-nav__link">
-    <span class="md-ellipsis">
-      tasklet
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="tasklet">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tasklet_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      tasklet的实现
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tasklet_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用tasklet
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ksoftirqd" class="md-nav__link">
-    <span class="md-ellipsis">
-      ksoftirqd
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
-      工作队列
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="工作队列">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
-    <span class="md-ellipsis">
-      工作队列的实现
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用工作队列
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
-    <span class="md-ellipsis">
-      下半部的同步
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -883,11 +869,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../synch/" class="md-nav__link">
+      <a href="../bottom_half/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    同步语义
+    中断下半部
   </span>
   
 
@@ -1044,27 +1030,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../others/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    其他
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1134,11 +1099,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
@@ -1686,11 +1652,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
@@ -1833,11 +1800,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
@@ -1948,14 +1916,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
@@ -1974,7 +1940,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2290,14 +2256,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
@@ -2316,7 +2280,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2346,11 +2310,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
@@ -2423,11 +2388,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
@@ -2494,14 +2460,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
@@ -2520,7 +2484,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2550,11 +2514,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
@@ -2638,38 +2603,53 @@
     
       
         
+          
+        
+      
+        
       
         
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
         
         
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
         
           
-          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../pl/cpp/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
-    现代C++
+    C++
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_3">
             <span class="md-nav__icon md-icon"></span>
-            现代C++
+            C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -2678,7 +2658,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+      <a href="../../../pl/cpp/unamed/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2699,11 +2679,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c%2B%2B/modern_cpp/" class="md-nav__link">
+      <a href="../../../pl/cpp/cpp11/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    现代C++
+    C++11新特性
   </span>
   
 
@@ -2734,11 +2714,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
@@ -2804,11 +2785,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
@@ -2885,14 +2867,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
@@ -2911,7 +2891,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2975,14 +2955,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
@@ -3001,7 +2979,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -3103,14 +3081,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
@@ -3129,7 +3105,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -3234,123 +3210,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      软中断
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="软中断">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      软中断的实现
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用软中断
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#tasklet" class="md-nav__link">
-    <span class="md-ellipsis">
-      tasklet
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="tasklet">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#tasklet_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      tasklet的实现
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tasklet_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用tasklet
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ksoftirqd" class="md-nav__link">
-    <span class="md-ellipsis">
-      ksoftirqd
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
-    <span class="md-ellipsis">
-      工作队列
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="工作队列">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
-    <span class="md-ellipsis">
-      工作队列的实现
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用工作队列
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_12" class="md-nav__link">
-    <span class="md-ellipsis">
-      下半部的同步
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -3370,55 +3229,18 @@
 
 
 <h1 id="_1">中断和中断处理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>中断是一种事件，该事件改变处理器执行指令的顺序。这种方式有同步和异步之分。同步中断也被称为异常。在处理器执行到由于编程失误而导致的错误指令（比如除以0）的时候，或者是在执行期间出现特殊情况（比如缺页），必须靠内核处理的时候，处理器就会产生一个异常。异步中断则是由硬件引起的。</p>
-<p>中断又可以分为可屏蔽中断和不可屏蔽中断。通常，I/O设备发出的所有中断请求都是可屏蔽的，而部分危急事件（比如硬件故障）是不可屏蔽的。每个中断和异常都是由0 ~ 255之间的一个数来标识，这个数被称作为是向量（vector）。不可屏蔽中断的向量是固定的，而可屏蔽中断的向量可以通过对中断控制器的编程来改变。</p>
-<p>显然，中断信号提供了一种特殊的方式，让处理器去执行正常运行代码之外的逻辑。当一个中断信号到来时，CPU必须停下它当前正在做的事情，转而去处理中断代码。为了做到这一点，就需要在内核态堆栈保存当前上下文环境，并且把触发了何种中断也放进寄存器中。</p>
-<p>你可能会把中断处理与进程切换联系起来。确实这两者有部分相似之处，但是中断执行的代码不是进程环境。它是一个内核控制的特殊路径，必须快速处理，不能停留。</p>
+<p>中断是特定情况触发的一种事件，它会打断当前代码执行流程转而执行新的程序。</p>
+<p>中断的硬件系统主要有三种器件：外设、中断控制器和CPU。外设提供中断信号，中断控制器负责接收信号，同时对信号进行优先级处理，然后发送给CPU。对于ARM而言，信号线有IRQ和FIQ两种。</p>
 <h2 id="_2">中断处理程序<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>在响应一个特定的中断时，内核会执行一个函数，该函数叫中断处理程序（interrupt handler）或中断服务例程（interrupt service routine, ISR）。产生中断的每个设备都有一个响应的中断处理程序，一个设备的中断处理程序是它驱动程序的一部分。</p>
-<p>中断处理程序处于特殊的中断上下文中。在解释中断上下文之前，我们先回忆一下进程上下文。在进程上下文中，可以使用<code>current</code>宏关联当前进程，可以睡眠，也可以调用调度程序。与之相反，中断上下文与进程没有什么关联。因为中断的触发是随时到来的，并不知道当前处于哪个进程。因为没有后备进程，所以中断上下文不可睡眠，也不能调用任何可以引起睡眠的函数。</p>
-<p>中断随时有可能发生，因此中断处理程序必须快速执行。但是，中断处理程序往往还要完成大量其他的工作。尤其体现在网络设备上，除了对硬件应答之外，还需要把来自硬件的网络数据拷贝到内存，显然这种工作量不会小。</p>
-<p>要想中断处理程序运行得又快，完成的任务又多是不现实的。于是中断处理的整个过程就分为上半部（Top Half）和下半部（Bottom Half）两个部分。通常所说的中断处理程序是指上半部——当接收到一个中断后，它立刻被执行，但只做有严格时限的工作。例如对接收到的中断进行应答等等。而稍后需要完成的工作则会被推迟到下半部去，在合适的时机执行。内核提供了多种下半部的机制，稍后会做说明。</p>
-<p>设备驱动程序可以通过<code>request_irq()</code>函数注册一个中断处理程序，并且激活给定的中断线：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">request_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="n">irq_handler_t</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">                </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
-</span></code></pre></div>
-<p>第一个参数irq表示要分配的中断号。</p>
-<p>第二个参数handler是一个函数指针，指向处理这个中断的实际中断处理程序。</p>
-<p>第三个参数flags可以为0，也可以是下列一个或多个标志的位掩码，更多的定义在&lt;linux/interrupt.h&gt;：</p>
-<ul>
-<li>IRQF_TIMER——系统定时器标志</li>
-<li>IRQF_SHARED——在多个中断处理程序之间共享中断线。如果中断处理程序在同一条线上注册，那么必须指定这个标志。</li>
-</ul>
-<p>第四个参数name是与中断相关的设备的ASCII文本表示。这些名字会被/proc/irq和/proc/interrupts文件使用。</p>
-<p>第五个参数dev用于确定共享中断线的中断处理程序。当多个中断处理程序共享某条中断线，其中某个需要释放时，dev将提供唯一的标志信息以便确定是哪个程序需要删除。</p>
-<p><code>request_irq()</code>成功返回0，错误返回非0。最常见的错误是-EBUSY，表示给定的中断线已经被使用。</p>
-<p><code>request_irq()</code>可能会睡眠，因此不能在不允许阻塞代码中调用该函数。</p>
-<p>在某些情况下，处理中断的设备驱动程序无法在非阻塞模式下读取设备的寄存器，你必须在中断上下文中触发一个在进程上下文执行的操作以访问设备的寄存器。内核提供了<code>request_threaded_irq()</code>函数：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">request_threaded_irq</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="n">irq_handler_t</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">                          </span><span class="n">irq_handler_t</span><span class="w"> </span><span class="n">thread_fn</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">                          </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
-</span></code></pre></div>
-<p>如果函数的参数handler被设置为NULL，则将执行默认的主处理程序。这个主处理程序只返回IRQ_WAKE_THREAD来唤醒关关的内核线程，后者将执行thread_fn处理程序。thread_fn处理程序将在启用所有中断的情况下运行。</p>
-<p>卸载驱动程序时，需要注销相应的中断处理程序，并释放中断线：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">free_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
-</span></code></pre></div>
-<p>如果指定的中断线不是共享的，那么该函数删除处理程序的同时将禁用这条中断线。如果是共享的，那么仅删除所对应的中断处理程序，而这条中断线只有在删除了最后一个处理程序时才会被禁用。</p>
-<p>要编写自己的中断处理程序，需要用到以下函数：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">static</span><span class="w"> </span><span class="n">irqreturn_t</span><span class="w"> </span><span class="n">intr_handler</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
-</span></code></pre></div>
-<p>参数irq已经没有什么用了，参数dev用来向中断处理程序传递数据结构。</p>
-<p>Linux上的中断处理程序无需要求可重入。因为中断处理程序运行时相应中断线上的中断是屏蔽的，也就是不会发生相同中断的嵌套。但不同中断的嵌套有可能发生。</p>
-<div class="admonition info">
-<p class="admonition-title">中断共享</p>
-<p>对于共享中断线的中断处理程序，需要在申请中断时指定IRQF_SHARED标志，同时将设备结构体指针作为dev_id传入。在中断到来时，内核遍历共享此中断的所有处理程序，直到某个函数返回IRQ_HANDLED。每个中断处理程序都必须判断是否为本设备的中断。</p>
-</div>
+<p>中断处理程序处于特殊的<mark class="critic">中断上下文</mark>中。在解释中断上下文之前，我们先回忆一下进程上下文。在进程上下文中，可以使用<code>current</code>宏关联当前进程，可以睡眠，也可以调用调度程序。与之相反，中断上下文与进程没有什么关联。因为中断的触发是随时到来的，并不知道当前处于哪个进程。因为没有后备进程，所以中断上下文不可睡眠，也不能调用任何可以引起睡眠的函数。</p>
+<p>中断处理程序必须快进快出，以免影响正常的代码逻辑。内核对于中断的处理分成了两个部分：上半部（Top Half）和下半部（Bottom Half）。通常所说的中断处理程序是指上半部——当接收到一个中断后，它立刻被执行，但只做有严格时限的工作。例如对接收到的中断进行应答等等。而下半部则执行延后的工作，由内核来选择合适的时机执行。</p>
 <h2 id="_3">中断处理机制<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p><img alt="中断流程" src="../../../images/kernel/interrupt.png" /></p>
-<p>中断处理系统在Linux中的实现依赖于体系结构。上图是中断从硬件到内核执行的过程。当一个设备产生中断后，通过总线把电信号发送给中断控制器。如果中断线是激活的，那么中断控制器就会把中断发送给处理器。在大多数体系结构中，这个工作就是通过电信号给处理器的特定管脚发送一个信号。除非处理器禁止了该中断，否则它会立刻停下当前执行的代码，关闭中断系统，然后跳到内存中预定义的位置开始执行那里的代码。这个预定义的位置由内核设置，是中断处理程序的入口点。</p>
+<p>中断处理系统在Linux中的实现依赖于体系结构。上图是大致的中断处理流程示意图。当一个设备产生中断后，通过总线把电信号发送给中断控制器。如果中断线是激活的，那么中断控制器就会把中断发送给处理器。在大多数体系结构中，这个工作就是通过电信号给处理器的特定管脚发送一个信号。除非处理器禁止了该中断，否则它会立刻停下当前执行的代码，关闭中断系统，然后跳到内存中预定义的位置开始执行那里的代码。这个预定义的位置由各体系设置，是中断处理程序的入口点。</p>
 <p>对于每条中断线，处理器都会跳到对应的一个唯一的位置。这样，内核就可以知道所接收中断的IRQ号了。初始入口点在栈中保存IRQ号，并存放当前寄存器的值（这些值属于被中断的任务）。然后，由内核调用<code>do_IRQ()</code>函数：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">do_IRQ</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pt_regs</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">)</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">do_IRQ</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pt_regs</span><span class="w"> </span><span class="o">*</span><span class="n">regs</span><span class="p">)</span>
+</code></pre></div>
 <p>由于初始入口点已经将IRQ号和寄存器的值保存在栈中了，所以函数<code>do_IRQ()</code>可以直接提取栈中的参数。</p>
 <p><code>do_IRQ()</code>执行完中断服务器程序后，会检查是否需要重新调度（need_resched标志位），然后判断返回哪个空间：</p>
 <ul>
@@ -3429,33 +3251,29 @@
 <p>返回内核空间：如果preempt_count标志为0，调用<code>schedule()</code>函数，否则不会触发调度。</p>
 </li>
 </ul>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>procfs是一个虚拟文件系统，可以通过读/proc/interrupts文件读取系统中与中断相关的统计信息。</p>
-</div>
 <h2 id="_4">中断控制<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>Linux内核提供了一组接口用于操作机器上的中断状态。这些接口为我们提供了能够禁止当前处理器的中断系统，或屏蔽掉整个机器的一条中断线的能力。这些操作都是与体系结构相关的。一般来说，控制中断系统的原因归根到底是需要同步。通过禁止中断，可以确保当前执行路径不会被中断打断。</p>
 <p>下面这两个函数可以禁止/使能本地CPU中断：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">local_irq_disable</span><span class="p">();</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">local_irq_enable</span><span class="p">();</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">local_irq_disable</span><span class="p">();</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">local_irq_enable</span><span class="p">();</span>
+</code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>中断对于内核的运行至关重要，在屏蔽中断期间所有中断都无法处理。所以在驱动程序中，不要使用这两个函数。</p>
 <p>如果只是想中断下半部，可以使用<code>local_bh_disable()</code>和<code>local_bh_enable()</code>。</p>
 </div>
 <p>如果在调用<code>local_irq_disable()</code>函数前已经禁止了中断，那么该操作会带来潜在的危险。同样，<code>local_irq_enable()</code>函数也存在危险，因为它会无条件激活中断。当内核代码变得复杂时，我们并不知道当前处理器中断状态，所以我们需要一种机制，仅仅时把中断恢复到以前的状态而不是简单地禁止或者是激活。</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">local_irq_save</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">local_irq_restore</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">local_irq_save</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">local_irq_restore</span><span class="p">(</span><span class="n">flags</span><span class="p">);</span>
+</code></pre></div>
 <p>在前面的内容中，我们知道了禁止整个处理器上所有中断的函数。如果只是禁止特定的中断线，相关函数如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">disable_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">disable_irq_nosync</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">enable_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">synchronize_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">disable_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">disable_irq_nosync</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">enable_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">synchronize_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">);</span>
+</code></pre></div>
 <p>由于现代设备驱动程序的中断处理程序往往共享某个中断线，禁止了某条中断线也就禁止了这条线上所有设备的中断传递。因此这些接口函数不应该被使用。</p>
 <h2 id="_5">下半部机制<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>操作系统需要有一个快速、异步且简单的机制负责对硬件迅速做出相应并完成那些时间要求很严格的操作。中断处理程序很适合于实现这些功能。而对于那些时间要求相对宽松的任务，应当放到下半部去处理。</p>
@@ -3466,248 +3284,21 @@
 <li>如果这个任务不能被其他中断打断。</li>
 </ul>
 <p>其他所有任务，考虑放在下半部执行。在编写程序时，中断处理程序仅执行最关键的紧急任务，将后续的非紧急任务放在下半部中处理。</p>
-<h2 id="_6">软中断<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>软中断的英文名是softirq，与软件中断（software irq）没有任何关系。</p>
-</div>
-<p>软中断使用比较少，tasklet是下半部更常用过的一种形式。但是，由于tasklet是通过软中断实现的，所以也有必要先研究软中断。</p>
-<h3 id="_7">软中断的实现<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>软中断在编译期间静态分配，由<code>softirq_action</code>结构体表示：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">softirq_action</span><span class="p">{</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">action</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">softirq_action</span><span class="o">*</span><span class="p">);</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">};</span>
-</span></code></pre></div>
-<p>在&lt;kernel/softirq.c&gt;中定义了一个包含有32个该结构体的数组：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">softirq_action</span><span class="w"> </span><span class="n">softirq_vec</span><span class="p">[</span><span class="n">NR_SOFTIRQS</span><span class="p">];</span>
-</span></code></pre></div>
-<p>每个被注册的软中断都占据该数组的一项，因此最大有32个软中断。</p>
-<p>软中断处理程序action的函数原型如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">softirq_handler</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">softirq_action</span><span class="w"> </span><span class="o">*</span><span class="p">)</span>
-</span></code></pre></div>
-<p>当内核运行一个软中断处理程序时，就会执行这个action函数，其唯一的参数是指向相应<code>softirq_action</code>结构体的指针。例如，如果my_softirq指向softirq_vec数组的某项，那么内核就会用如下的方式调用软中断处理程序中的函数：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">my_softirq</span><span class="o">-&gt;</span><span class="n">action</span><span class="p">(</span><span class="n">my_softirq</span><span class="p">);</span>
-</span></code></pre></div>
-<p>一个注册的软中断必须在被标记后才会执行，这被称为触发软中断（raising the softirq）。通常，中断处理程序会在返回前标记它的软中断，使其在稍后被执行。<code>do_softirq()</code>函数会检查softirq_vec数组中所有待处理的软中断，调用它们的处理程序。</p>
-<h3 id="_8">使用软中断<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<p>软中断保留给系统中对时间要求最严格以及最重要的下半部使用。内核在&lt;linux/interrupt.h&gt;中已经定义了一个枚举类型来静态地声明软中断，索引号表示其优先级。要建立一个新的软中断必须在此枚举类型中加入新的项，而且你必须根据它的优先级来决定加入的位置。下表列出了已有的tasklet类型。</p>
-<table>
-<thead>
-<tr>
-<th>tasklet</th>
-<th>优先级</th>
-<th>软中断描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>HI_SOFTIRQ</td>
-<td>0</td>
-<td>优先级高的tasklets</td>
-</tr>
-<tr>
-<td>TIMER_SOFTIRQ</td>
-<td>1</td>
-<td>定时器的下半部</td>
-</tr>
-<tr>
-<td>NET_TX_SOFTIRQ</td>
-<td>2</td>
-<td>发送网络数据包</td>
-</tr>
-<tr>
-<td>NET_RX_SOFTIRQ</td>
-<td>3</td>
-<td>接收网络数据包</td>
-</tr>
-<tr>
-<td>BLOCK_SOFTIRQ</td>
-<td>4</td>
-<td>BLOCK装置</td>
-</tr>
-<tr>
-<td>TASKLET_SOFTIRQ</td>
-<td>5</td>
-<td>正常优先权的tasklets</td>
-</tr>
-<tr>
-<td>SCHED_SOFTIRQ</td>
-<td>6</td>
-<td>调度程序</td>
-</tr>
-<tr>
-<td>HRTIMER_SOFTIRQ</td>
-<td>7</td>
-<td>高分辨率定时器</td>
-</tr>
-<tr>
-<td>RCU_SOFTIRQ</td>
-<td>8</td>
-<td>RCU锁定</td>
-</tr>
-</tbody>
-</table>
-<p>接着，在运行时通过调用<code>open_softirq()</code>函数注册软中断处理程序，该函数有两个参数，软中断索引号和处理函数：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">open_softirq</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">action</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">softirq_action</span><span class="o">*</span><span class="p">));</span>
-</span></code></pre></div>
-<p>软中断处理程序执行的时候，允许响应中断，但它自己不能休眠。在一个处理程序运行时，当前处理器上的软中断被禁止。但其他处理器仍然可以执行别的软中断。这意味着共享数据需要锁的保护。因此大部分软中断处理，都通过采取单处理器数据来避免加锁，从而提供更出色的性能。</p>
-<p>在注册完之后，新的软中断处理程序就能够运行。<code>raise_softirq()</code>函数可以将一个软中断设置为挂起状态，让它在下次调用<code>do_softirq()</code>函数时投入运行。</p>
-<p>在中断处理程序中触发软中断是最常见的形式。内核在执行完中断处理程序之后，马上就会调用<code>do_softirq()</code>函数，于是软中断开始执行给定的任务。</p>
-<h2 id="tasklet">tasklet<a class="headerlink" href="#tasklet" title="Permanent link">&para;</a></h2>
-<p>tasklet是利用软中断实现的一种下半部机制，但是它的接口更简单，锁保护要求较低。大多数情况都可以使用tasklet来完成你需要的工作。</p>
-<p>tasklet有一些比较有意思的特性：</p>
+<p><code>task_struct</code>中的<code>preempt_count</code>字段用于记录当前任务的上下文状态。</p>
+<p><img alt="preempt_count" src="../../../images/kernel/preempt_count.png" /></p>
 <ul>
-<li>
-<p>一个tasklet可在稍后被禁止或者重新启用；只有启用的次数和禁止的次数相同时，tasklet才会被执行。</p>
-</li>
-<li>
-<p>tasklet可以注册自己本身。</p>
-</li>
-<li>
-<p>tasklet可被调度在正常优先级或者更高优先级执行。</p>
-</li>
-<li>
-<p>当系统负载低时，tasklet会被立刻执行，但再晚不会晚于下一个定时器tick。</p>
-</li>
-<li>
-<p>一个tasklet可以与其他tasklet并发，但是同一个tasklet永远不会在多个CPU上同时运行，且只会在调度自己的同一CPU上运行。</p>
-</li>
+<li>PREEMPT_BITS：记录禁止抢占的次数</li>
+<li>SOFTIRQ_BITS：记录是否使能下半部</li>
+<li>HARDIRQ_BITS：记录是否处于硬件中断上下文中</li>
 </ul>
-<h3 id="tasklet_1">tasklet的实现<a class="headerlink" href="#tasklet_1" title="Permanent link">&para;</a></h3>
-<p>tasklet由两类软中断代表：HI_SOFTIRQ和TASKLET_SOFTIRQ。前者优先级比后者高。</p>
-<p>tasklet结构体如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">tasklet_struct</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">tasklet_struct</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w">    </span><span class="c1">//链表中下一个tasklet</span>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">            </span><span class="c1">//tasklet的状态</span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">count</span><span class="p">;</span><span class="w">                 </span><span class="c1">//引用计数器</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="p">);</span><span class="w">    </span><span class="c1">//处理函数</span>
-</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">;</span><span class="w">             </span><span class="c1">//传递给函数的参数</span>
-</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">};</span>
-</span></code></pre></div>
-<p>state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值。TASKLET_STATE_SCHED表明tasklet已被调度，正准备投入运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。</p>
-<p>count成员是tasklet的引用计数器。如果它不为0，则tasklet被禁止；只有当它为0时，tasklet才被激活。</p>
-<p>已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）数组中。这两个数据结构都是由<code>tasklet_struct</code>结构体构成的链表，链表中每个元素代表一个不同的tasklet。</p>
-<p>tasklet由<code>tasklet_schedule()</code>和<code>tasklet_hi_schedule()</code>函数进行调度，它们接受一个指向<code>tasklet_struct</code>结构的指针作为参数，后者将指定的tasklet以高优先级运行。</p>
-<h3 id="tasklet_2">使用tasklet<a class="headerlink" href="#tasklet_2" title="Permanent link">&para;</a></h3>
-<p>如果是静态创建一个tasklet，可以使用以下两个宏中的一个：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="err">；</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">DECLARE_TASKLET_DISABLED</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="err">；</span>
-</span></code></pre></div>
-<p>这两个宏都能静态创建一个<code>tasklet_struct</code>结构，区别在于引用计数count的初始值不同。第一个设为0，处于激活状态；第二个设为1，处于禁止状态。</p>
-<p>如果是动态创建：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">tasklet_init</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">tasklet_handler</span><span class="p">,</span><span class="w"> </span><span class="n">dev</span><span class="p">);</span>
-</span></code></pre></div>
-<p>编写自己的tasklet处理程序：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">tasklet_handler</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">)</span><span class="err">；</span>
-</span></code></pre></div>
-<p>tasklet不能睡眠，两个相同的tasklet不会同时执行，但如果与其他tasklet或者是软中断共享了数据，那么必须进行锁保护。</p>
-<p>通过调用<code>tasklet_schedule()</code>函数并传递给它相应的<code>tasklet_struct</code>指针，该tasklet就会被调度以便执行：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">tasklet_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_tasklet</span><span class="p">);</span>
-</span></code></pre></div>
-<p>一个tasklet总是在调度它的处理器上运行。要禁止/使能tasklet，可以使用这两个函数：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">tasklet_disable</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_tasklet</span><span class="p">);</span><span class="w">   </span>
-</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="n">tasklet_disable_nosync</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_tasklet</span><span class="p">);</span><span class="w">         </span>
-</span></code></pre></div>
-<p>第一个函数禁止指定的tasklet，如果正在运行，则会等待期执行完毕。第二个函数不会等待任何正在运行的tasklet。</p>
-<p>使能tasklet：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">tasklet_enable</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_tasklet</span><span class="p">);</span>
-</span></code></pre></div>
-<p>移除tasklet，通常在设备关闭或者模块退出时调用该函数：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">tasklet_kill</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_tasklet</span><span class="p">);</span>
-</span></code></pre></div>
-<div class="admonition example">
-<p class="admonition-title">tasklet的使用</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">do_tasklet</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="p">);</span>
-</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">my_tasklet</span><span class="p">,</span><span class="w"> </span><span class="n">do_tasklet</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>
-</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="kt">void</span><span class="w"> </span><span class="nf">do_tasklet</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="p">)</span>
-</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="p">{</span>
-</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">    </span><span class="p">...</span>
-</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="p">}</span>
-</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
-</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="n">irqreturn_t</span><span class="w"> </span><span class="nf">do_interrupt</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
-</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="p">{</span>
-</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="w">    </span><span class="p">...</span>
-</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="w">    </span><span class="n">tasklet_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">do_tasklet</span><span class="p">);</span>
-</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="p">}</span>
-</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>
-</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="kt">int</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">my_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-</span><span id="__span-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="p">{</span>
-</span><span id="__span-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="w">    </span><span class="cm">/*申请中断*/</span>
-</span><span id="__span-21-18"><a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a><span class="w">    </span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">requset_irq</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="n">do_interrupt</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;my_irq&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-</span><span id="__span-21-19"><a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">IRQ_HANDLED</span><span class="p">;</span>
-</span><span id="__span-21-20"><a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="p">}</span>
-</span><span id="__span-21-21"><a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a>
-</span><span id="__span-21-22"><a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a><span class="kt">void</span><span class="w"> </span><span class="n">__exit</span><span class="w"> </span><span class="nf">my_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-</span><span id="__span-21-23"><a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a><span class="p">{</span>
-</span><span id="__span-21-24"><a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a><span class="w">    </span><span class="n">free_irq</span><span class="p">(</span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="n">do_interrupt</span><span class="p">);</span>
-</span><span id="__span-21-25"><a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a><span class="p">}</span>
-</span></code></pre></div>
-</div>
-<h3 id="ksoftirqd">ksoftirqd<a class="headerlink" href="#ksoftirqd" title="Permanent link">&para;</a></h3>
-<p>每个处理器都有一组辅助处理软中断（和tasklet）的内核线程。当内核中出现大量软中断的时候，内核线程就会选择合适的时机来处理软中断。</p>
-<p>在大流量的网络通信中，软中断的触发频率可能很高，甚至还会自行重复触发，这会导致用户空间的进程无法获得足够的处理器时间。如果软中断和重复触发的软中断都被立即处理，那么当负载很高的时候，系统就会出现明显的卡顿现象。如果选择不处理重新触发的软中断，又会浪费闲置的系统资源，导致软中断出现饥饿现象。</p>
-<p>内核中的方案时不会立即处理重复触发的软中断。当大量软中断出现的时候，内核会唤醒一组内核线程来处理这些负载。这些线程在最低优先级（nice=19）运行，避免与其他任务抢占资源。</p>
-<p>每个处理器都有一个这样的线程，名字为<mark class="critic">ksoftirqd/n</mark>，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用<code>do_softirq()</code>函数来处理它们。</p>
-<h2 id="_9">工作队列<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
-<p>工作队列是一种延后执行的机制，可以将后续的工作交给一个内核线程执行——这个下半部分总是在进程上下文中执行。这样，通过工作队列实现的代码就能享受进程上下文的所有优势，比如可以重新调度甚至是睡眠。</p>
-<p>如果推后执行的任务需要睡眠，那么就选择工作队列。否则就选择软中断或tasklet。工作队列在你需要获得大量内存时，需要获取信号量时，需要执行阻塞式的I/O操作时，它都会非常有用。</p>
-<h3 id="_10">工作队列的实现<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<p>工作队列子系统提供了缺省的工作者线程（worker thread）来处理需要推后的工作。缺省的工作者线程叫做<mark class="critic">events/n</mark>，n为处理器的编号。你可以创建自己的工作者线程，不过一般使用缺省线程即可。专用的工作者线程可以更好地控制和优化任务的执行，但也需要更多的资源和管理开销。</p>
-<p>工作队列用<code>workqueue_struct</code>结构体表示：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_workqueue_struct</span><span class="w"> </span><span class="n">cpu_wq</span><span class="p">[</span><span class="n">NR_CPUS</span><span class="p">]</span><span class="err">；</span>
-</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
-</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
-</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">singlethread</span><span class="p">;</span>
-</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">freezeable</span><span class="p">;</span>
-</span><span id="__span-22-7"><a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">rt</span><span class="p">;</span>
-</span><span id="__span-22-8"><a id="__codelineno-22-8" name="__codelineno-22-8" href="#__codelineno-22-8"></a><span class="p">};</span>
-</span></code></pre></div>
-<p>该结构体内有一个<code>cpu_workqueue_struct</code>结构组成的数组，数组的每一项对应系统中的一个处理器。也就是说系统中每个处理器对应一个工作者线程。</p>
-<p>工作由<code>work_struct</code>结构体表示：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="w">    </span><span class="n">atomic_long_t</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
-</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">entry</span><span class="p">;</span>
-</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">    </span><span class="n">work_func_t</span><span class="w"> </span><span class="n">func</span><span class="p">;</span>
-</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="p">};</span>
-</span></code></pre></div>
-<p>这些结构体被连接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，当没有剩余的操作时，它就会继续休眠。</p>
-<h3 id="_11">使用工作队列<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
-<p>静态创建一个<code>work_struct</code>结构体：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">DECLARE_WORK</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">);</span>
-</span></code></pre></div>
-<p>动态创建：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">INIT_WORK</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="p">),</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">data</span><span class="p">);</span>
-</span></code></pre></div>
-<p>处理工作的回调函数：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">work_handler</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
-</span></code></pre></div>
-<p>使用工作队列时要注意，我们既可以使用系统全局的<code>system_wq</code>工作队列，也可以使用自定义的工作队列。</p>
-<p>如果要自定义一个工作队列，可以使用宏：
-<div class="language-C highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">create_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
-</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a><span class="n">create_singlethread_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
-</span></code></pre></div></p>
-<p>这两个宏的区别是，第一个宏在每个处理器上为该工作队列创建专用的线程。第二个宏只创建一个工作者线程。</p>
-<p>注意：不管使用哪个宏，在创建自定义工作队列后，必须在退出时，调用以下函数确保资源的释放：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">flush_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
-</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">destroy_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">);</span>
-</span></code></pre></div>
-<p>提交工作给自定义工作队列：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
-</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
-</span></code></pre></div>
-<p>在多核系统中，每个CPU上都有一个工作队列，这两个函数不会指定提交至哪个CPU，但会优先选择本地CPU。</p>
-<p>在许多情况下，驱动程序不需要单独的工作队列。如果我们只是偶尔需要向队列中提交任务，则可以使用内核默认的共享工作队列：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
-</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
-</span></code></pre></div>
-<h2 id="_12">下半部的同步<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
-<p>在使用下半部机制时，即便是一个单处理器，避免共享数据被同时访问也是至关重要的。使用tasklet的好处是：两个相同类型的tasklet不允许同时执行，即便是不同的处理器也不行。tasklet之间的同步（即不同类型的tasklet共享同一数据），正确使用锁机制即可。</p>
-<p>如果是进程上下文和下半部共享数据，在访问这些数据之前，你需要禁止下半部的处理并获得锁的使用权，以防止死锁的出现。</p>
-<p>如果是中断上下文和下半部共享数据，在访问这些数据之前，你需要禁止中断并获得锁的使用权，也是为了防止死锁的出现。</p>
-<p>任何在工作队列中被共享的数据也需要使用锁机制。</p>
-<p>一般单纯禁止下半部是不够的，更常见的做法是先获得一个锁再禁止下半部的处理。如果需要禁止所有下半部的处理，可以调用<code>local_bh_disable()</code>函数。允许下半部处理，调用<code>local_bh_enable()</code>函数。函数通过<code>preempt_count</code>（内核抢占也是这个计数器）为每个进程维护一个计数器。当计数器为0时，才可以处理下半部。</p>
+<p>其余内容，见<a href="../bottom_half/">中断下半部</a>。</p>
+
+
+
+
+
+
+
 
 
 
@@ -3718,6 +3309,7 @@
             </div>
           
           
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
@@ -3752,10 +3344,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
       
     
   </body>

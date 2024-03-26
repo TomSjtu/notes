@@ -15,14 +15,14 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/synch/">
       
       
-        <link rel="prev" href="../interrupt/">
+        <link rel="prev" href="../debug/">
       
       
-        <link rel="next" href="../mm/">
+        <link rel="next" href="../others/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.4.14">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
     
     
       
@@ -30,10 +30,10 @@
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.fad675c6.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e359304.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.356b1318.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -43,6 +43,12 @@
       
     
     
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
       
     
     
@@ -63,7 +69,6 @@
     
     <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="indigo">
   
-    
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -118,6 +123,7 @@
     
     
     
+    
       <label class="md-header__button md-icon" for="__search">
         
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
@@ -134,6 +140,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
@@ -160,7 +171,7 @@
         <a href="https://github.com/TomSjtu/notes" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -376,7 +387,7 @@
       <a href="https://github.com/TomSjtu/notes" title="Go to repository" class="md-source" data-md-component="source">
   <div class="md-source__icon md-icon">
     
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
   </div>
   <div class="md-source__repository">
     GitHub
@@ -431,14 +442,15 @@
       
     
     
-    
-    
+      
+        
+        
       
       
+    
     
     <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
@@ -517,13 +529,20 @@
       
         
       
+        
+      
+        
+      
+        
+      
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
@@ -564,7 +583,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../intro/" class="md-nav__link">
+      <a href="../compile/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核的编译与启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../program/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -585,95 +625,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../task/" class="md-nav__link">
+      <a href="../debug/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    进程管理
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../sched/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程调度
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ipc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程间通信
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../vma/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程地址空间
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../interrupt/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    中断和中断处理
+    调试技术
   </span>
   
 
@@ -994,6 +950,153 @@
   
   
     <li class="md-nav__item">
+      <a href="../others/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sched/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程调度
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ipc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程间通信
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程地址空间
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interrupt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    中断和中断处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bottom_half/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    中断下半部
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../mm/" class="md-nav__link">
         
   
@@ -1134,27 +1237,6 @@
 
               
             
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../others/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    其他
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
           </ul>
         </nav>
       
@@ -1224,11 +1306,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
@@ -1776,11 +1859,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
@@ -1923,11 +2007,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
@@ -2038,14 +2123,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
@@ -2064,7 +2147,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2380,14 +2463,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
@@ -2406,7 +2487,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2436,11 +2517,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
@@ -2513,11 +2595,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
@@ -2584,14 +2667,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
@@ -2610,7 +2691,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -2640,11 +2721,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
@@ -2728,38 +2810,53 @@
     
       
         
+          
+        
+      
+        
       
         
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
         
         
-        
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
         
           
-          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../pl/cpp/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
-    现代C++
+    C++
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_3">
             <span class="md-nav__icon md-icon"></span>
-            现代C++
+            C++
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -2768,7 +2865,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c%2B%2B/unamed/" class="md-nav__link">
+      <a href="../../../pl/cpp/unamed/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2789,11 +2886,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c%2B%2B/modern_cpp/" class="md-nav__link">
+      <a href="../../../pl/cpp/cpp11/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    现代C++
+    C++11新特性
   </span>
   
 
@@ -2824,11 +2921,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
@@ -2894,11 +2992,12 @@
       
     
     
+      
+      
     
     
     <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
@@ -2975,14 +3074,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
@@ -3001,7 +3098,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="">
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -3065,14 +3162,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
@@ -3091,7 +3186,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="">
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -3193,14 +3288,12 @@
       
     
     
-    
-    
       
       
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    
+    <li class="md-nav__item md-nav__item--nested">
       
-        
         
         
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
@@ -3219,7 +3312,7 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="">
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -3562,8 +3655,8 @@
 <h2 id="_2">同步概念<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <h3 id="_3">临界区<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>所谓临界区就是访问和操作共享资源的代码。多个线程同时访问临界区是不安全的，因此临界区必须加以保护。考虑一个非常简单的情况。假设我们有一个全局变量i，操作仅仅是对其加1。</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">i</span><span class="o">++</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">i</span><span class="o">++</span><span class="p">;</span>
+</code></pre></div>
 <p>一条简单的自增操作在CPU执行的时候却需要三条汇编指令：</p>
 <ol>
 <li>从内存中读出变量i的值并放在一个寄存器内。</li>
@@ -3573,34 +3666,34 @@
 <p>实际上，在多线程并发的情况下，其他线程有可能在这三条指令间隙的任意时刻“插队”。这种概率虽然很小，但是计算机每秒运行上百万条指令，“插队”可能每过几秒就发生一次。假设有两个线程按照我们期望的那样，依次操作这个全局变量，若i的初始值为1，那么最终结果应该是3。但是假如第二个线程在第一个线程执行到最后一步之前——也就是i的值还没有回写，就去内存中读取了i的值（此时i的值仍然为1），我们最后得到的i的值就是2而不是3，这与我们预期的结果不符。</p>
 <div class="admonition example">
 <p class="admonition-title">多线程访问共享资源</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pthread.h&gt;</span>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">thread_func</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">arg</span><span class="p">)</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">{</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">;</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">{</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="n">i</span><span class="o">++</span><span class="p">;</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">{</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="n">pthread_t</span><span class="w"> </span><span class="n">tid1</span><span class="p">,</span><span class="w"> </span><span class="n">tid2</span><span class="p">;</span>
-</span><span id="__span-1-19"><a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tid1</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">thread_func</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-</span><span id="__span-1-20"><a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tid2</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">thread_func</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-</span><span id="__span-1-21"><a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
-</span><span id="__span-1-22"><a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">pthread_join</span><span class="p">(</span><span class="n">tid1</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-</span><span id="__span-1-23"><a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="n">pthread_join</span><span class="p">(</span><span class="n">tid2</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
-</span><span id="__span-1-24"><a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
-</span><span id="__span-1-25"><a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;i = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
-</span><span id="__span-1-26"><a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-</span><span id="__span-1-27"><a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="p">}</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pthread.h&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">thread_func</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">arg</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="p">{</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">;</span><span class="n">j</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">1000000</span><span class="p">;</span><span class="w"> </span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">        </span><span class="n">i</span><span class="o">++</span><span class="p">;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">}</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">argc</span><span class="p">,</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">argv</span><span class="p">[])</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="p">{</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="n">pthread_t</span><span class="w"> </span><span class="n">tid1</span><span class="p">,</span><span class="w"> </span><span class="n">tid2</span><span class="p">;</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tid1</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">thread_func</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="n">pthread_create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">tid2</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="n">thread_func</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="w">    </span><span class="n">pthread_join</span><span class="p">(</span><span class="n">tid1</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="w">    </span><span class="n">pthread_join</span><span class="p">(</span><span class="n">tid2</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;i = %d</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a><span class="p">}</span>
+</code></pre></div>
 </div>
 <p>以上是一段示例代码，在编译时请加上-lpthread，以链接正确的库。多次执行该程序后你会发现最终的结果是不确定的。</p>
 <p>这是最简单的临界区例子，对于这种简单的竞争条件，我们不需要用到复杂的锁机制，因为锁对于CPU的性能有很大的影响。多数处理器都提供了指令来原子地读、写变量。我们称之为<mark class="critic">原子指令</mark>。使用原子指令可以解决一些简单的并发问题。两条原子指令不可能交错执行，因为处理器会从硬件上禁止这种可能性。</p>
@@ -3631,91 +3724,91 @@
 <p>有的时候我们会要求某些指令按照特定的顺序执行，这被称为顺序性，以屏障（barrier）指令来实现。</p>
 <p>1.<mark class="critic">原子整数</mark>操作</p>
 <p>针对整数的原子操作使用一个特殊的<code>atomic_t</code>类型的数据。它的定义在&lt;linux/types.h&gt;中：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="p">{</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">}</span><span class="n">atomic_t</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">}</span><span class="n">atomic_t</span><span class="p">;</span>
+</code></pre></div>
 <p>使用原子整数操作的声明在&lt;asm/atomic.h&gt;中定义：</p>
 <ul>
 <li>设置原子变量的值：</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_set</span><span class="p">(</span><span class="n">atomic</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">atomic_t</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ATOMIC_INIT</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_set</span><span class="p">(</span><span class="n">atomic</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">);</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">atomic_t</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ATOMIC_INIT</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</code></pre></div>
 <ul>
 <li>获取原子变量的值</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">atomic_read</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">atomic_read</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+</code></pre></div>
 <ul>
 <li>原子加减</li>
 </ul>
-<p><div class="language-C highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_sub</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span></code></pre></div>
+<p><div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_add</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_sub</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+</code></pre></div>
 - 原子自增/自减</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_inc</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_dec</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_inc</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">atomic_dec</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+</code></pre></div>
 <ul>
 <li>操作并测试</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_inc_and_test</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_dec_and_test</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_sub_and_test</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_inc_and_test</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_dec_and_test</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_sub_and_test</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+</code></pre></div>
 <p>上述操作测试结果是否为0,并返回一个布尔值。</p>
 <ul>
 <li>操作并返回</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_add_return</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_sub_return</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_inc_return</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_dec_return</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_add_return</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_sub_return</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_inc_return</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_dec_return</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
+</code></pre></div>
 <p>上述操作返回新的值。</p>
 <div class="admonition example">
 <p class="admonition-title">使设备只能被一个进程打开</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">static</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ATOMIC_INIT</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">open</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">)</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">{</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="p">...</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">atomic_dec_and_test</span><span class="p">(</span><span class="o">&amp;</span><span class="n">count</span><span class="p">){</span>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">        </span><span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">count</span><span class="p">);</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">EBUSY</span><span class="p">;</span><span class="w">                  </span><span class="cm">/*设备已经被打开*/</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="p">...</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="p">}</span>
-</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
-</span><span id="__span-9-15"><a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">release</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">)</span>
-</span><span id="__span-9-16"><a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">{</span>
-</span><span id="__span-9-17"><a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">count</span><span class="p">);</span><span class="w">                 </span><span class="cm">/*释放设备*/</span>
-</span><span id="__span-9-18"><a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-</span><span id="__span-9-19"><a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="p">}</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">static</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ATOMIC_INIT</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">open</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">)</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">{</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">atomic_dec_and_test</span><span class="p">(</span><span class="o">&amp;</span><span class="n">count</span><span class="p">){</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">        </span><span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">EBUSY</span><span class="p">;</span><span class="w">                  </span><span class="cm">/*设备已经被打开*/</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="p">}</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">release</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">)</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">{</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">count</span><span class="p">);</span><span class="w">                 </span><span class="cm">/*释放设备*/</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="p">}</span>
+</code></pre></div>
 </div>
 <p>原子操作通常是内联函数，且是用内嵌汇编指令来实现的。gcc内嵌汇编代码请参考：<a href="http://www.ethernut.de/en/documents/arm-inline-asm.html">ARM GCC Inline Assembler</a>。</p>
 <p><code>atomic64_t</code>类型是64位的原子变量，其功能和32位一致，区别是接口以<code>atomic64</code>前缀命名。</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">}</span><span class="n">atomic64_t</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">}</span><span class="n">atomic64_t</span><span class="p">;</span>
+</code></pre></div>
 <p>2.<mark class="critic">原子位</mark>操作</p>
 <p><code>atomic_t</code>类型对整数算术来讲比较有用。但是当需要以原子形式来操作单个的位时，这种类型就无法派上用场了。Linux内核提供了对位的原子操作。</p>
 <p>原子位的操作非常快，只要硬件底层硬件支持，这种操作可以使用单个机器指令来执行。这些函数与体系结构相关，定义在&lt;asm/bitops.h&gt;中。即使是在SMP计算机上，这些函数依旧可以确保是原子的。原子位的参数是一个位号+指针。</p>
 <ul>
 <li>设置位</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+</code></pre></div>
 <ul>
 <li>清除位</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clear_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clear_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>所谓设置位，就是将addr指向的内存地址中的第nr位设置为1。</p>
@@ -3724,28 +3817,28 @@
 <ul>
 <li>切换位</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">change_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">change_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+</code></pre></div>
 <ul>
 <li>测试位：</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">test_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">test_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+</code></pre></div>
 <ul>
 <li>测试并操作位：</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_set_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
-</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_clear_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
-</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_change_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_set_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_clear_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_change_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+</code></pre></div>
 <p>上述操作等同于执行<code>test_bit()</code>后再执行<code>xxx_bit()</code>。</p>
 <div class="admonition example">
 <p class="admonition-title">Example</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">     </span><span class="c1">//设置addr指向的第nr位</span>
-</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clear_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">   </span><span class="c1">//清除addr指向的第nr位</span>
-</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">change_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">  </span><span class="c1">//切换addr指向的第nr位</span>
-</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">test_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">         </span><span class="c1">//返回指定位的当前值</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">     </span><span class="c1">//设置addr指向的第nr位</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clear_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">   </span><span class="c1">//清除addr指向的第nr位</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">change_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">  </span><span class="c1">//切换addr指向的第nr位</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">test_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">         </span><span class="c1">//返回指定位的当前值</span>
+</code></pre></div>
 </div>
 <h3 id="_8">自旋锁<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>原子操作只能针对一些简单的场景，复杂的场景必须得用锁。</p>
@@ -3775,14 +3868,14 @@
 <p>在这种场景下，假设CPU0上的进程A持有自旋锁进入了临界区。这时候外设P发生了中断，并且调度到了CPU1上执行，由于CPU0上的进程A持有锁，它会稍等一会直到进程A释放。但是如果是调度到CPU0上执行，就会发生死锁。为了解决这样的问题，内核在涉及到中断上下文的访问时，自旋锁就需要和禁止本地CPU上的中断联合使用。</p>
 <p>当然，如果外设P延后到了中断下半部之后去执行，直接禁止本地中断就显得不必要了，因为可能会有其他的中断到来，粗暴地禁止会影响系统的性能。这时我们只需要禁止下半部即可。</p>
 <p>内核中的<code>spinlock_t</code>定义如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">spinlock</span><span class="p">{</span>
-</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">raw_spinlock</span><span class="w"> </span><span class="n">rlock</span><span class="p">;</span>
-</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="p">}</span><span class="n">spinlock_t</span><span class="p">;</span>
-</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
-</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">raw_spinlock</span><span class="p">{</span>
-</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="n">arch_spinlock_t</span><span class="w"> </span><span class="n">raw_lock</span><span class="p">;</span>
-</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="p">}</span><span class="n">raw_spinlock_t</span><span class="p">;</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">spinlock</span><span class="p">{</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">raw_spinlock</span><span class="w"> </span><span class="n">rlock</span><span class="p">;</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="p">}</span><span class="n">spinlock_t</span><span class="p">;</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">raw_spinlock</span><span class="p">{</span>
+<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="n">arch_spinlock_t</span><span class="w"> </span><span class="n">raw_lock</span><span class="p">;</span>
+<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="p">}</span><span class="n">raw_spinlock_t</span><span class="p">;</span>
+</code></pre></div>
 <p>为什么会有两个？这是因为内核实时补丁PREEMPT_RT。该补丁试图为linux内核增加硬实时功能，比如高精度定时器就是应用之一。实时内核希望将spinlock分成可以睡眠和不可以睡眠两种。于是，最终的命名规则是：</p>
 <ol>
 <li>spinlock，在配置了PREEMPT_RT时，表示可以睡眠。</li>
@@ -3790,8 +3883,8 @@
 <li>arch_spinlock，与架构相关。</li>
 </ol>
 <p>对于UP平台，所有的<code>arch_spinlock_t</code>的定义都是一样的：
-<div class="language-C highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{}</span><span class="n">arch_spinlock_t</span><span class="p">;</span>
-</span></code></pre></div></p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{}</span><span class="n">arch_spinlock_t</span><span class="p">;</span>
+</code></pre></div></p>
 <h4 id="_10">函数接口<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h4>
 <table>
 <thead>
@@ -3966,17 +4059,17 @@
 <p>由上面的操作可知，当临界区没有读者时，sequence counter为偶数，否则为奇数。</p>
 <p>写者操作：</p>
 <ol>
-<li>获取sequence counter的值，如果是偶数则可以进入临界区，否则等待。</li>
+<li>获取sequence counter的值，如果是偶数则可以进入临界区，否则等待</li>
 <li>进入临界区后，读取数据</li>
 <li>获取sequence counter的值，如果等于原来的值，说明没有写者进入，则表示OK，否则返回至第一步</li>
 </ol>
 <h4 id="_16">函数接口<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h4>
 <p>顺序锁的写操作使用与自旋锁相同，读操作模式如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">do</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_seqbegin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seqlock</span><span class="p">);</span>
-</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="p">...</span>
-</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">read_seqretry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seqlock</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">do</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_seqbegin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seqlock</span><span class="p">);</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">read_seqretry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seqlock</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">);</span>
+</code></pre></div>
 <h3 id="_17">信号量<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
 <p>Linux中的信号量是一种睡眠锁。当有一个任务试图获得一个已经被占用的信号量时，该任务会加入等待队列，然后睡眠。由于释放了资源处理器可以去执行其他的代码。当持有的信号量被释放时，处于等待队列中的那个任务会被唤醒，并获得该信号量。</p>
 <p>实际上，Linux提供两种信号量：</p>
@@ -4023,11 +4116,11 @@
 <p>对于关心具体数值的生产者/消费者问题，使用信号量比较合适。</p>
 <h3 id="_19">互斥体<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
 <p>在多数情况下，信号量只是作为一个计数为1的允许睡眠的自旋锁存在。为了找到一个更简单且可以睡眠的锁，开发者们引入了互斥体（mutex）。其行为和计数为1的信号量类似，但是操作的接口更简单，实现也更高效。基本使用方法如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">DEFINE_MUTEX</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span>
-</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
-</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="n">mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
-</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">DEFINE_MUTEX</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="n">mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
+</code></pre></div>
 <p>mutex的简洁与高效源于相比使用信号量更多的受限性：</p>
 <ul>
 <li>任何时刻只能有一个任务持有mutex。</li>
@@ -4072,8 +4165,8 @@
 <h3 id="_20">完成变量<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
 <p>如果在内核中一个任务需要发送信号通知另一个任务发生了某种特定事件，此时可以用完成变量（completion variable）。当某个任务完成工作后，会使用完成变量去唤醒正在等待的任务。</p>
 <p>完成变量由结构体completion表示，定义在&lt;linux/completion.h&gt;中。其创建方法如下：</p>
-<div class="language-C highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">DECLARE_COMPLETION</span><span class="p">(</span><span class="n">comp</span><span class="p">);</span>
-</span></code></pre></div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">DECLARE_COMPLETION</span><span class="p">(</span><span class="n">comp</span><span class="p">);</span>
+</code></pre></div>
 <p>或者使用<code>init_completion()</code>动态创建。需要等待的任务调用<code>wait_for_completion()</code>来等待特定事件。当事件发生后，产生事件的任务调用<code>complete()</code>来发送信号唤醒正在等待的任务。</p>
 <h3 id="rcu">RCU机制<a class="headerlink" href="#rcu" title="Permanent link">&para;</a></h3>
 <p>读取-复制-更新（read-copy-update）是一种高级的保护共享数据结构的机制，特别是用在多核处理器系统中。它允许一个CPU安全地读取数据，而另一个CPU同时更新这些数据。由于在更新数据时不需要用到锁，因此极大地提高了系统的性能。</p>
@@ -4205,11 +4298,19 @@
 
 
 
+
+
+
+
+
+
+
                 
               </article>
             </div>
           
           
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
           <button type="button" class="md-top md-icon" data-md-component="top" hidden>
@@ -4244,10 +4345,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.f886a092.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.cd18aaf1.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
       
     
   </body>
