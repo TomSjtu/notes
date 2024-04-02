@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.14">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.10ba22f1.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -2462,6 +2462,8 @@
       
         
       
+        
+      
     
     
       
@@ -2614,6 +2616,16 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2683,11 +2695,116 @@
   
   
     <li class="md-nav__item">
+      <a href="../../pl/cpp/oop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    面向对象
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/container/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    标准库容器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/mm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/concurrency/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    多线程编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../pl/cpp/cpp11/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    C++11新特性
+    C++11
   </span>
   
 
@@ -2830,6 +2947,77 @@
   
   <span class="md-ellipsis">
     Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Go
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Go
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/go/go/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Go
   </span>
   
 
@@ -3239,7 +3427,7 @@
 
 
 <h1 id="_1">内存管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>现代操作系统对内存进行了抽象，进程所使用的都是虚拟地址，由MMU单元负责翻译成真实的物理地址。程序在虚拟地址空间里可以任意分配虚拟内存，但只有当程序需要访问或修改虚拟内存时，内核才会为其分配物理页面，这个过程叫做<mark class="critic">缺页异常</mark>（page fault）</p>
+<p>现代操作系统对内存进行了抽象，进程所使用的都是虚拟地址，由MMU单元负责翻译成真实的物理地址。程序在虚拟地址空间里可以任意分配虚拟内存，但只有当程序需要访问或修改虚拟内存时，内核才会为其分配物理页面，这个过程叫做<mark class="critic">缺页异常</mark>（page fault）。</p>
 <p>以32位系统为例，如果采用最简单的一级页表，虚拟地址空间的寻址范围是0 ~ 4GB。虚拟地址VA[31:0]可以分为两部分：VA[31:12]是虚拟页帧号(VPN)，作为索引值在页表中查询页表项；VA[11:0]是页面偏移量。页帧号加上页面偏移就构成了最终物理地址。</p>
 <p>页面的大小一般是4KB，如果要映射整个4GB地址空间，需要4GB/4KB=2<sup>20</sup>个页表项，每个页表项占用4字节，最终需要4MB大小的物理内存来存放这张页表。在多进程系统中，每个进程都拥有自己的一套页表，每次都要分配4MB的物理内存，这是无法接受的。因此内核往往会使用<mark class="critic">多级页表</mark>，当处理器执行程序时，只加载一级页表，根据物理内存的使用情况逐步创建和分配剩余的页表。</p>
 <h2 id="_2">源码文件<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
@@ -3329,7 +3517,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.bd41221c.min.js"></script>
       
     
   </body>

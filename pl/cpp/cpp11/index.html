@@ -15,22 +15,22 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/pl/cpp/cpp11/">
       
       
-        <link rel="prev" href="../unamed/">
+        <link rel="prev" href="../concurrency/">
       
       
         <link rel="next" href="../../qt/qt/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.14">
     
     
       
-        <title>C++11新特性 - 一只Tom的笔记本</title>
+        <title>C++11 - 一只Tom的笔记本</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.10ba22f1.min.css">
       
         
         <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              C++11新特性
+              C++11
             
           </span>
         </div>
@@ -2377,6 +2377,8 @@
       
         
       
+        
+      
     
     
       
@@ -2534,6 +2536,16 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2600,6 +2612,111 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../oop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    面向对象
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../container/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    标准库容器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concurrency/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    多线程编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -2616,7 +2733,7 @@
           
   
   <span class="md-ellipsis">
-    C++11新特性
+    C++11
   </span>
   
 
@@ -2627,7 +2744,7 @@
         
   
   <span class="md-ellipsis">
-    C++11新特性
+    C++11
   </span>
   
 
@@ -2669,9 +2786,138 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
+      强枚举类型
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      属性
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="属性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nodiscard" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[nodiscard]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deprecated" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[deprecated]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maybe_unused" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[maybe_unused]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noreturn" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[noreturn]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#likely" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[likely]]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      结构化绑定
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      初始化列表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      原始字面量
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      显式默认与删除
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explicit" class="md-nav__link">
+    <span class="md-ellipsis">
+      explicit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
       右值引用
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="右值引用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      移动语义
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2679,6 +2925,15 @@
   <a href="#lambda" class="md-nav__link">
     <span class="md-ellipsis">
       lambda表达式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      智能指针
     </span>
   </a>
   
@@ -2826,6 +3081,77 @@
   
   <span class="md-ellipsis">
     Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Go
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Go
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../go/go/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Go
   </span>
   
 
@@ -3195,9 +3521,138 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
+      强枚举类型
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      属性
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="属性">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#nodiscard" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[nodiscard]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deprecated" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[deprecated]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#maybe_unused" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[maybe_unused]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#noreturn" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[noreturn]]
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#likely" class="md-nav__link">
+    <span class="md-ellipsis">
+      [[likely]]
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      结构化绑定
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      初始化列表
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      原始字面量
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      显式默认与删除
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#explicit" class="md-nav__link">
+    <span class="md-ellipsis">
+      explicit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
       右值引用
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="右值引用">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      移动语义
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3205,6 +3660,15 @@
   <a href="#lambda" class="md-nav__link">
     <span class="md-ellipsis">
       lambda表达式
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      智能指针
     </span>
   </a>
   
@@ -3228,7 +3692,7 @@
   
 
 
-<h1 id="c11">C++11新特性<a class="headerlink" href="#c11" title="Permanent link">&para;</a></h1>
+<h1 id="c11">C++11<a class="headerlink" href="#c11" title="Permanent link">&para;</a></h1>
 <h2 id="_1">新字符类型<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>C++98中提供了<code>wchar_t</code>字符类型和前缀L，用以表示宽字符，但是在不同平台上宽字符的字节不同，为了解决这个问题，新标准提出了<code>char16_t</code>和<code>char32_t</code>字符类型，分别表示16位和32位的Unicode字符，并且提供了三种UTF编码前缀：</p>
 <ul>
@@ -3242,8 +3706,111 @@
 <li>一眼就能看出变量的初始化类型</li>
 <li>较为复杂的类型比如<code>lambda</code>表达式</li>
 </ol>
-<h2 id="_2">右值引用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_2">强枚举类型<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>旧式的枚举类型存在名称冲突的问题，即在枚举中定义的变量会与父作用域中的名称产生冲突，因此旧式的枚举必须保证独一无二的枚举值，即便是在多文件中也是如此。且C编译器会为其赋值为int类型的变量，它甚至可以与int类型的变量直接进行比较：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">red</span><span class="p">,</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">green</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">blue</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">};</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="kt">int</span><span class="w"> </span><span class="n">red</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="c1">//名称冲突，编译无法通过</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="k">if</span><span class="p">(</span><span class="n">red</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">){</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;red == 0</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">}</span>
+</code></pre></div>
+<p>使用强枚举类型可以避免以上问题：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">red</span><span class="p">,</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">green</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">blue</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">};</span>
+</code></pre></div>
+<p>强枚举类型的成员变量作用域限定在名称空间内。同旧式枚举类型一样，编译器也会对强枚举类型成员赋值，区别是不会自动转换成整数，因此以下代码是非法的：<code>if(color::red == 0) {}</code>。</p>
+<h2 id="_3">属性<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>gcc编译器支持属性<code>__attribute__</code>，可以用于修饰变量、函数、类型等。从C++11开始，使用双括号语法[[]]对属性进行标准化支持。</p>
+<h3 id="nodiscard">[[nodiscard]]<a class="headerlink" href="#nodiscard" title="Permanent link">&para;</a></h3>
+<p><code>[[nodiscard]]</code>属性用于修饰函数，表示该函数的返回值不会被忽略，如果被忽略，编译器会发出警告。</p>
+<h3 id="deprecated">[[deprecated]]<a class="headerlink" href="#deprecated" title="Permanent link">&para;</a></h3>
+<p><code>[[deprecated]]</code>属性表示该内容已经被弃用，不建议使用。</p>
+<h3 id="maybe_unused">[[maybe_unused]]<a class="headerlink" href="#maybe_unused" title="Permanent link">&para;</a></h3>
+<p><code>[[maybe_unused]]</code>属性禁止编译器在未使用某些内容时发出警告。</p>
+<h3 id="noreturn">[[noreturn]]<a class="headerlink" href="#noreturn" title="Permanent link">&para;</a></h3>
+<p><code>[[noreturn]]</code>属性用于修饰函数，表示该函数不会返回。</p>
+<h3 id="likely">[[likely]]<a class="headerlink" href="#likely" title="Permanent link">&para;</a></h3>
+<p><code>[[likely]]</code>属性告诉编译器代码执行这个分支的可能性比较大。</p>
+<h2 id="_4">结构化绑定<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>结构化绑定允许同时获取一个元组的多个值，例如假设有：</p>
+<p><code>array values{11, 22, 33};</code></p>
+<p>则可以使用<code>auto [a, b, c] = values;</code>来获取<code>a</code>、<code>b</code>、<code>c</code>的值。注意，结构化绑定必须使用<code>auto</code>关键字以自动推导类型。</p>
+<p>使用结构化绑定声明的变量数量必须与右侧表达式中的值数量匹配。</p>
+<p>通过使用<code>auto&amp;</code>或<code>const auto &amp;</code>，还可以创建一组非const或const引用。</p>
+<h2 id="_5">初始化列表<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>初始化列表在&lt;initializer_list&gt;中定义，它允许使用花括号初始化一个对象。列表中的所有元素必须为统一类型。</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">makeSum</span><span class="p">(</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">values</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">total</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">values</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="p">{</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="n">total</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">total</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">}</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">{</span><span class="n">makeSum</span><span class="p">({</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">})};</span>
+</code></pre></div>
+<h2 id="_6">原始字面量<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>原始字面量是C++11引入的新特性，以<code>R"()"</code>的形式定义。它会将括号内的内容原样输出。</p>
+<h2 id="_7">显式默认与删除<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p><code>default</code>和<code>delete</code>关键字用于修饰成员函数，告诉编译器使用默认版本或将其删除。</p>
+<h2 id="explicit">explicit<a class="headerlink" href="#explicit" title="Permanent link">&para;</a></h2>
+<p><code>explicit</code>关键字用于修饰只有一个参数的构造函数，告诉编译器禁止隐式类型转换。</p>
+<h2 id="_8">右值引用<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<p>在C++中，左值是可以获取其地址的一个变量，由于经常出现在赋值语句的左边，因此被称为左值。并不是所有非左值就是右值，例如字面量、临时对象。考虑如下语句：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+</code></pre></div>
+<p>在这条语句中，a为左值，4*2的结果是右值，它是一个临时值，语句执行完就会被销毁。</p>
+<p>右值引用就是用来表示右值的引用，通过<code>&amp;&amp;</code>符号来表示。它的目的是在涉及到右值时，提供右值引用的版本，从而减少不必要的拷贝操作，提升系统的性能。为了了解右值引用，我们先来看这个例子：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleMessage</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">message</span><span class="p">)</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;lvalue Message:&quot;</span><span class="o">&lt;&lt;</span><span class="n">message</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleMessage</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="n">message</span><span class="p">)</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">{</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;rvalue Message:&quot;</span><span class="o">&lt;&lt;</span><span class="n">message</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="p">}</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">{</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;hello&quot;</span><span class="p">};</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="w">    </span><span class="n">handleMessage</span><span class="p">(</span><span class="n">a</span><span class="p">);</span><span class="w">           </span><span class="c1">//调用左值版本</span>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">    </span><span class="n">string</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="p">{</span><span class="s">&quot;world&quot;</span><span class="p">};</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="n">handleMessage</span><span class="p">(</span><span class="n">a</span><span class="o">+</span><span class="n">b</span><span class="p">);</span><span class="w">         </span><span class="c1">//调用右值版本</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">    </span><span class="n">handleMessage</span><span class="p">(</span><span class="s">&quot;world&quot;</span><span class="p">);</span><span class="w">     </span><span class="c1">//调用右值版本</span>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="p">}</span>
+</code></pre></div>
+<p>在上述例子中，handleMessage函数有两个版本，一个是接受左值参数，另一个接受右值参数。在调用handleMessage函数时，根据传入参数的类型，编译器会自动选择调用左值版本还是右值版本。我们可以使用<code>std::move()</code>来强制调用右值版本：<code>handleMessage(std::move(a))</code>。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>将临时值赋值给右值引用，相当于提升了临时值的生命周期。</p>
+</div>
+<h3 id="_9">移动语义<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>移动语义是通过右值引用实现的。为了对类增加移动语义，需要手动实现移动构造函数和移动赋值运算符。这两个函数应使用<code>noexcept</code>关键字标记，告诉编译器不会抛出异常。</p>
+<p>一个简单的定义如下：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">class</span><span class="w"> </span><span class="n">Simple</span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">public</span><span class="o">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">        </span><span class="n">Simple</span><span class="p">(</span><span class="n">Simple</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="p">)</span><span class="n">noexcept</span><span class="p">;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="n">Simple</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Simple</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="p">)</span><span class="n">noexcept</span><span class="p">;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">};</span>
+</code></pre></div>
+<p>注意：在返回值语句中，只需要<code>return object</code>即可，不需要使用<code>std::move()</code>。</p>
 <h2 id="lambda">lambda表达式<a class="headerlink" href="#lambda" title="Permanent link">&para;</a></h2>
+<h2 id="_10">智能指针<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
 
 
 
@@ -3299,7 +3866,7 @@
     <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.bd41221c.min.js"></script>
       
     
   </body>

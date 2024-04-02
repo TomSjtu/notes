@@ -22,7 +22,7 @@
       
       
       <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.10">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.14">
     
     
       
@@ -30,7 +30,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.7e359304.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.10ba22f1.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
@@ -2606,6 +2606,8 @@
       
         
       
+        
+      
     
     
       
@@ -2758,6 +2760,16 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2827,11 +2839,116 @@
   
   
     <li class="md-nav__item">
+      <a href="../../pl/cpp/oop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    面向对象
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/container/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    标准库容器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/mm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/concurrency/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    多线程编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../pl/cpp/cpp11/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    C++11新特性
+    C++11
   </span>
   
 
@@ -2974,6 +3091,77 @@
   
   <span class="md-ellipsis">
     Python
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Go
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_6">
+            <span class="md-nav__icon md-icon"></span>
+            Go
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/go/go/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Go
   </span>
   
 
@@ -3541,7 +3729,7 @@
 </code></pre></div>
 <h3 id="_2">入栈与出栈<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
 <p>函数传递的参数如果少于8个，则使用X0-X7寄存器传递，如果多于8个，则使用栈传递。SP指针指向栈顶，从栈底到栈顶的这段空间，称为栈帧。</p>
-<p>A32指令集提供了POUSH与POP指令来实现入栈与出栈，但是A64指令集已经移除，而转而使用加载与存储指令。</p>
+<p>A32指令集提供了PUSH与POP指令来实现入栈与出栈，但是A64指令集已经移除，而转而使用加载与存储指令。</p>
 <h3 id="mov">MOV指令<a class="headerlink" href="#mov" title="Permanent link">&para;</a></h3>
 <p>MOV指令只能用于数据在寄存器之间的搬移，以及往寄存器里写立即数，但是有限制。</p>
 <h2 id="_3">算术与移位指令<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
@@ -3632,7 +3820,7 @@
 <p>LDR伪指令加载的是绝对地址，即程序编译时的链接地址。ADR加载的是当前PC的相对地址，可以理解为当前运行时label的物理地址。由于运行地址和链接地址可能不同，因此需要在不同场景下选择使用。</p>
 </div>
 <h3 id="_10">内存独占指令<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<p>ARMv8体系提供独占的内存访问(exclusive memory access)指令.LDXR指令尝试在内存总线中申请一个独占访问的锁，然后访问一个内存地址。STXR指令会往刚才LDXR指令已经申请独占访问的内存地址中写入新内容。这两个指令配合使用来完成一些同步操作。</p>
+<p>ARMv8体系提供独占的内存访问(exclusive memory access)指令。LDXR指令尝试在内存总线中申请一个独占访问的锁，然后访问一个内存地址。STXR指令会往刚才LDXR指令已经申请独占访问的内存地址中写入新内容。这两个指令配合使用来完成一些同步操作。</p>
 <h3 id="_11">异常处理指令<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <ul>
 <li>SVC：系统调用指令，陷入EL1</li>
@@ -3718,7 +3906,7 @@
     <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.8fd75fb4.min.js"></script>
+      <script src="../../assets/javascripts/bundle.bd41221c.min.js"></script>
       
     
   </body>
