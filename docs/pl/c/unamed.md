@@ -14,6 +14,18 @@
 | float | 单精度浮点型 | 4 |
 | double | 双精度浮点型 | 8 |
 
+## sizeof和strlen
+
+`sizeof()`计算的是变量的大小，`strlen()`计算的是字符串的长度。
+
+```C
+char text[] = "abcdef";
+sizeof(text); // 7
+strlen(text); // 6
+```
+
+但是，如果C风格的字符串存储为char *，则`sizeof()`返回指针的大小。
+
 ## 指针
 
 指针其实也是变量，只不过其中存储的是地址，由地址去间接地访问指向的变量。

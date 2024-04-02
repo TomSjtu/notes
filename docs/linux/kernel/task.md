@@ -81,9 +81,7 @@ state可以取的值有：
 
 很明显可以看出，上述状态的设置是通过对应的位来实现的。
 
-state字段的值用一个简单的赋值语句设置：`p->state = TASK_RUNNING`。
-
-也可以使用`set_task_state`和`set_current_state`宏：前者用来设置指定进程的状态，后者用来设置当前进程的状态。
+要改变进程的状态，可以使用`set_task_state`和`set_current_state`宏：前者用来设置指定进程的状态，后者用来设置当前进程的状态。
 
 TASK_RUNNING表示进程正在执行或者准备执行。
 

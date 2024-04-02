@@ -149,6 +149,51 @@ void cdev_del(struct cdev *p)
 
 ## 高级字符驱动操作
 
+### ioctl
+
+大部分的驱动除了具备基本的读写功能之外，还需要对设备有控制能力，这些操作通过`ioctl()`函数来实现。
+
+用户空间的`ioctl()`：`int ioctl(int fd, int cmd, ...)`。
+
+驱动程序的`ioctl()`：`long (*unlocked_ioctl)(struct file *filep, unsigned int cmd, unsigned long arg)`。
+
+`ioctl()`方法的cmd参数是用户与驱动交流的"协议"，内核提供了统一的命名格式，将32位的int型划分成4个段：
+
+- dir：表示数据传输方向，占据2个bit，可以为_IOC_NONE、_IOC_READ、IOC_WRITE、_IOC_READ|_IOC_WRITE，分别表示无数据、读数据、写数据、读写数据。
+
+- type：设备类型，占据8bit，为任意的char，作用是让ioctl命令有唯一的设备标识。
+
+- nr：编号，为任意的unsigned char，多个ioctl命令递增
+
+- size：指定了arg参数的数据类型和长度，ARM架构为14bit
+
+内核提供了宏以生成上述格式的`ioctl()`命令：
+
+```C
+#define _IOC(dir,type,nr,size) \
+    (((dir)  << _IOC_DIRSHIFT) | \
+     ((type) << _IOC_TYPESHIFT) | \
+     ((nr)   << _IOC_NRSHIFT) | \
+     ((size) << _IOC_SIZESHIFT))
+```
+
+为了方便可以使用衍生宏_IOC()来直接定义`ioctl()`命令：
+
+```C
+#define _IO(type,nr)        _IOC(_IOC_NONE,(type),(nr),0)
+#define _IOR(type,nr,size)  _IOC(_IOC_READ,(type),(nr),(_IOC_TYPECHECK(size)))
+#define _IOW(type,nr,size)  _IOC(_IOC_WRITE,(type),(nr),(_IOC_TYPECHECK(size)))
+#define _IOWR(type,nr,size) _IOC(_IOC_READ|_IOC_WRITE,(type),(nr),(_IOC_TYPECHECK(size))
+```
+
+> _IO：不带参数的ioctl命令
+
+> _IOW：带写参数的ioctl命令
+
+> _IOR：带读参数的ioctl命令
+
+> _IOWR：带读写参数的ioctl命令
+
 
 
 

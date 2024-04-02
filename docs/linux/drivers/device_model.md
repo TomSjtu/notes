@@ -46,7 +46,7 @@ platform bus是内核中的一种虚拟总线类型，它不是物理上存在�
 
 它们之间的关系如下图所示：
 
-![关系示意图](../../images/kernel/device_model.png)
+![关系图](../../images/kernel/device_model.png)
 
 kobject是Linux设备模型的基础，是一种抽象的、统一的对硬件设备的描述。它主要提供以下功能：
 

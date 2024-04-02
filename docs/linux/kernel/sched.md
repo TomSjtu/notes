@@ -302,7 +302,7 @@ restart:
 
 睡眠的进程处于一个特殊的不可执行状态，常见原因就是在等待文件I/O。内核将需要睡眠的进程标记为睡眠状态，从红黑树中移除，加入等待队列，然后调用`schedule()`选择下一个进程。
 
-等待队列是由等待某些事件发生的进程组成的简单链表。内核用`wait_queue_head_t`来表示等待队列。等待队列可以通过DECLARE_WAITQUEUE()静态创建或者是`init_waitqueue_head()`动态创建。
+等待队列是由等待某些事件发生的进程组成的简单链表。内核用`wait_queue_head_t`来表示等待队列。等待队列可以通过`DECLARE_WAITQUEUE()`静态创建或者是`init_waitqueue_head()`动态创建。
 
 等待事件有以下函数：
 
@@ -321,6 +321,8 @@ int wait_event_interruptible_timeout(wait_queue_head_t q, int condition, unsigne
 
 唤醒操作通过`wake_up()`/`wake_up_interruptible()`完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到红黑树中。`wake_up_process()`用于唤醒特定的进程。
 
+需要注意的是，`wake_up()`函数会将所有等待队列中的进程唤醒，如果这些进程需要争抢资源，则会引发严重的性能问题。替代方法是{==独占等待==}。
+
 ## 调度队列与调度实体
 
 `task_struct`中包含了多种调度实体：
@@ -331,7 +333,7 @@ struct sched_rt_entity rt;  //RT调度实体
 struct sched_dl_entity dl;  //dl调度实体
 ```
 
-每个CPU都挂载了一个`struct rq`结构体，用于描述在此CPU上所运行的所有进程。在调度时，调度器会先去RT队列去查找是否有实时进程需要运行，如果没有才会去CFS队列中查找。
+每个CPU都挂载了一个`struct rq`结构体，用于描述在此CPU上所运行的所有进程。在调度时，调度器会先去高优先级队列查找是否有进程需要运行，如果没有才会去低一级优先级的队列中查找。
 
 ```C
 struct rq {

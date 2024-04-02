@@ -79,6 +79,8 @@ int request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
 
 `request_irq()`可能会睡眠，因此不能在不允许阻塞的代码中调用该函数。
 
+如果要使用线程化的中断处理程序，可以使用`request_threaded_irq()`函数。
+
 要编写自己的中断处理程序，在以下函数中实现：
 
 ```C

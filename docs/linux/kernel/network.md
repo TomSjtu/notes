@@ -20,7 +20,7 @@ int select(int numfds, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, str
 int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 ```
 
-select实现多路复用的方式是，将已连接的socket都放到一个文件描述符的集合，然后调用`select()`函数，将该集合拷贝到内核里，内核会遍历这个集合，检查是否有事件产生，然后标记产生事件的socket。接着讲整个集合拷贝回用户态，用户态继续遍历该集合找到可读写的socket然后再处理。
+select实现多路复用的方式是，将已连接的socket都放到一个文件描述符的集合，然后调用`select()`函数，将该集合拷贝到内核里，内核会遍历这个集合，检查是否有事件产生，然后标记产生事件的socket。接着将整个集合拷贝回用户态，用户态继续遍历该集合找到可读写的socket然后再处理。
 
 select的缺点是：
 

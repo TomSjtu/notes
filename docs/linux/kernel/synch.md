@@ -100,7 +100,7 @@ i++;
 
 有的时候我们会要求某些指令按照特定的顺序执行，这被称为顺序性，以屏障（barrier）指令来实现。
 
-1.{==原子整数==}操作
+#### 原子整数操作
 
 针对整数的原子操作使用一个特殊的`atomic_t`类型的数据。它的定义在<linux/types.h\>中：
 
@@ -131,6 +131,7 @@ atomic_read(atomic_t *v);
 void atomic_add(int i, atomic_t *v);
 void atomic_sub(int i, atomic_t *v);
 ```
+
 - 原子自增/自减
 
 ```C
@@ -194,7 +195,7 @@ typedef struct {
 }atomic64_t;
 ```
 
-2.{==原子位==}操作
+#### 原子位操作
 
 `atomic_t`类型对整数算术来讲比较有用。但是当需要以原子形式来操作单个的位时，这种类型就无法派上用场了。Linux内核提供了对位的原子操作。
 

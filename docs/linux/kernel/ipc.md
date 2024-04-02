@@ -154,7 +154,7 @@ SIGUSR2   31,12,17    Term    User-defined signal 2
 
 !!! note
 
-    注意，SIGKILL和 IGSTOP信号无法忽略。
+    注意，SIGKILL和SIGSTOP信号无法忽略。
 
 Linux推荐使用`sigaction()`函数来自定义信号处理函数。它的定义如下：
 
@@ -181,7 +181,7 @@ struct sigaction {
 
 其中`sa_handler`就是你要定义的信号处理函数。
 
-发送信号由两种方式，一种是发送给整个线程组的，还有一种是发送给某个单独线程的。信号分为不可靠信号和可靠信号。在`task_struct`中有一个结构体`sigpending`，它的定义如下：
+发送信号有两种方式，一种是发送给整个线程组的，还有一种是发送给某个单独线程的。信号分为不可靠信号和可靠信号。在`task_struct`中有一个结构体`sigpending`，它的定义如下：
 
 ```C
 struct sigpending{

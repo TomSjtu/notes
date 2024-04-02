@@ -150,6 +150,11 @@ nav:
     - C++:
       - pl/cpp/index.md
       - pl/cpp/unamed.md
+      - pl/cpp/oop.md
+      - pl/cpp/container.md
+      - pl/cpp/algorithm.md
+      - pl/cpp/mm.md
+      - pl/cpp/concurrency.md
       - pl/cpp/cpp11.md
     
     - QT:
@@ -157,6 +162,9 @@ nav:
 
     - Python:
       - pl/python/python.md
+
+    - Go:
+      - pl/go/go.md
     
 
   - 云计算:

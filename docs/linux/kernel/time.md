@@ -38,7 +38,7 @@ struct timespec64 {
 };
 ```
 
-## 动态定时器
+## 动态定时器的使用
 
 `struct timer_list`结构体用来表示一个动态定时器：
 ```C
