@@ -833,11 +833,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/page/" class="md-nav__link">
+      <a href="../../kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -1699,18 +1699,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#buffercache" class="md-nav__link">
+  <a href="#freeavailable" class="md-nav__link">
     <span class="md-ellipsis">
-      Buffer/Cache
+      Free/Available
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#freeavailable" class="md-nav__link">
+  <a href="#buffercache" class="md-nav__link">
     <span class="md-ellipsis">
-      Free/Available
+      Buffer/Cache
     </span>
   </a>
   
@@ -1972,7 +1972,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2628,6 +2628,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2697,6 +2705,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../pl/cpp/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../pl/cpp/oop/" class="md-nav__link">
         
   
@@ -2744,6 +2794,48 @@
   
   <span class="md-ellipsis">
     标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
   </span>
   
 
@@ -3379,18 +3471,18 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#buffercache" class="md-nav__link">
+  <a href="#freeavailable" class="md-nav__link">
     <span class="md-ellipsis">
-      Buffer/Cache
+      Free/Available
     </span>
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#freeavailable" class="md-nav__link">
+  <a href="#buffercache" class="md-nav__link">
     <span class="md-ellipsis">
-      Free/Available
+      Buffer/Cache
     </span>
   </a>
   
@@ -3431,6 +3523,9 @@
 <h1 id="_1">内存性能调优<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p><img alt="内存性能调优工具" src="../../../images/kernel/mem-performance-tools01.webp" /></p>
 <h2 id="_2">内存性能指标<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="freeavailable">Free/Available<a class="headerlink" href="#freeavailable" title="Permanent link">&para;</a></h3>
+<p>系统从上电到引导完成，firmware/BIOS要占用一部分内存，内核占用一部分内存，还有一些保留的内存，剩下的就是MemTotal。</p>
+<p>MemFree表示系统空闲的内存。除开空闲内存外，系统中还有一些内存经过回收以后也可以释放出来，这两部分加起来就是MemAvailable。</p>
 <h3 id="buffercache">Buffer/Cache<a class="headerlink" href="#buffercache" title="Permanent link">&para;</a></h3>
 <p>Buffer和Cache被设计用来提升系统I/O的性能，它们缓存在内存中，充当起慢速磁盘与快速CPU之间的桥梁。</p>
 <ul>
@@ -3442,8 +3537,6 @@
 </li>
 </ul>
 <p>不论是读还是写，应用程序都优先从缓存中读取，这样可以避免访问低速的磁盘，从而提高系统的I/O性能。</p>
-<h3 id="freeavailable">Free/Available<a class="headerlink" href="#freeavailable" title="Permanent link">&para;</a></h3>
-<p>系统从上电到引导完成，firmware/BIOS要占用一部分内存，内核占用一部分内存，剩下的就是MemTotal。MemFree表示系统尚未使用的内存，而MemAvailable = MemFree + 可回收的内存。</p>
 <h2 id="_3">内存性能分析工具<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p><img alt="内存性能调优工具" src="../../../images/kernel/mem-performance-tools02.webp" /></p>
 <ul>
@@ -3455,7 +3548,7 @@
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Swap:<span class="w">             </span><span class="m">0</span><span class="w">           </span><span class="m">0</span><span class="w">           </span><span class="m">0</span>
 </code></pre></div>
 <blockquote>
-<p>total：总内存大小</p>
+<p>total：操作系统可以管理的总内存大小</p>
 <p>used：已经使用的内存大小，包括实际使用的内存和buffer以及cache</p>
 <p>free：空闲的内存大小</p>
 <p>shared：多个进程共享的内存大小</p>

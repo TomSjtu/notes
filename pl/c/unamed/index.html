@@ -828,11 +828,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/page/" class="md-nav__link">
+      <a href="../../../linux/kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -1883,7 +1883,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2775,6 +2775,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2844,6 +2852,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../../cpp/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../cpp/oop/" class="md-nav__link">
         
   
@@ -2891,6 +2941,48 @@
   
   <span class="md-ellipsis">
     标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
   </span>
   
 
@@ -3918,13 +4010,13 @@
 <p>如果我们需要在"main.c"中使用到该全局变量，应该怎么修改呢？</p>
 </div>
 <p>答案就是使用<code>extern</code>关键字。</p>
-<p>在"test.h"中：<code>extern int a</code>——这是一个声明。同时在"test.c"中：<code>int a = 10;</code>——这是一个定义。</p>
+<p>在"test.h"中：<code>extern int a;</code>——这是一个声明。同时在"test.c"中：<code>int a = 10;</code>——这是一个定义。</p>
 <p>这样在"main.c"中就可以直接引用变量a了。</p>
 <h3 id="_11">头文件重复包含<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <p><code>#include</code>命令在预处理阶段会直接被展开，预处理器将展开后的代码直接复制到.c文件中。如果被包含的头文件中还包含了其他的头文件，预处理器就会递归地包含这些头文件直到不再包含任何头文件。</p>
 <p>递归包含会引入一个问题，就是重复地引入一个相同的头文件，这会导致变量重定义的错误。比如"test1.h"中定义了变量a，"test2.h"和"test3.h"都包含了"test1.h"，那么编译的时候就会报错。</p>
 <p>为了解决这个问题，C语言提供了<code>#ifndef</code>、<code>#define</code>和<code>#endif</code>三个预处理命令。这种宏保护方案使得程序员可以随意地引入当前模块需要的所有头文件，而不用操心这些头文件中是否包含了其他的头文件。</p>
-<p>MSVC编译器提供了<code>#pragma once</code>来达到同样的效果，该宏并不是跨平台的，所以如果想要跨平台还是得使用条件编译指令。</p>
+<p><code>#pragma once</code>可以用来替代以上指令。</p>
 <h3 id="extern-c">extern "C"<a class="headerlink" href="#extern-c" title="Permanent link">&para;</a></h3>
 <p>这部分内容应该放在C++中，因为这是C++编译器特有的，不过既然写到<code>extern</code>了，就放在这里吧。</p>
 <p>简单地说就是C++为了支持函数重载，会将函数名重新编码成一个全局唯一的符号，这样才能让链接器准确识别每个符号所对应的对象。而C语言不支持函数重载，因此对函数名不做复杂的处理。两种编译器不同的行为导致C++调用C编译器编译的函数时，会报"符号未定义"的错误。</p>

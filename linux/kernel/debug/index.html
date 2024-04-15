@@ -902,11 +902,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../page/" class="md-nav__link">
+      <a href="../recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -1957,7 +1957,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2613,6 +2613,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2682,6 +2690,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../pl/cpp/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../pl/cpp/oop/" class="md-nav__link">
         
   
@@ -2729,6 +2779,48 @@
   
   <span class="md-ellipsis">
     标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
   </span>
   
 
@@ -3417,15 +3509,15 @@
 </tr>
 <tr>
 <td>KERN_ALERT</td>
-<td>需要立即注意的错误</td>
+<td>需要立即采取行动</td>
 </tr>
 <tr>
 <td>KERN_CRIT</td>
-<td>临界情况</td>
+<td>临界状态，通常涉及严重的硬件或软件操作失败</td>
 </tr>
 <tr>
 <td>KERN_ERR</td>
-<td>错误</td>
+<td>报告错误状态，设备驱动程序常用</td>
 </tr>
 <tr>
 <td>KERN_WARNING</td>
@@ -3433,7 +3525,7 @@
 </tr>
 <tr>
 <td>KERN_NOTICE</td>
-<td>普通信息</td>
+<td>提示信息</td>
 </tr>
 <tr>
 <td>KERN_INFO</td>
@@ -3445,7 +3537,9 @@
 </tr>
 </tbody>
 </table>
-<p>内核消息被保存在环形队列中，新消息会覆盖旧消息。用户空间守护进程klogd从记录缓冲区中获取内核消息，然后由syslogd守护进程保存至系统日志文件中。</p>
+<p>变量console_loglevel的初始值是DEFAULT_CONSOLE_LOGLEVEL，只有优先级小于这个值的等级，才能被打印出来。</p>
+<p>用户空间守护进程klogd从记录缓冲区中获取内核消息，然后由syslogd守护进程保存至系统日志文件中。如果klogd没有运行，那么消息就无法传递到用户空间，只能通过<code>dmesg</code>命令查看。</p>
+<p>内核使用<mark class="critic">循环缓冲区</mark>来记录消息，如果缓冲区内容已满，<code>printk</code>就绕回开始处填写新的数据，这将覆盖陈旧的内容</p>
 <h2 id="oops">内核oops<a class="headerlink" href="#oops" title="Permanent link">&para;</a></h2>
 <p>oops是内核告知用户有故障发生的最常用的方式，oops的产生有多种原因，比如内存访问越界或者非法指令等。内核发出oops时处于极不稳定状态，有可能会崩溃。</p>
 <h2 id="_3">内核调试配置选项<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>

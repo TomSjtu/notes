@@ -833,11 +833,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/page/" class="md-nav__link">
+      <a href="../../kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -1290,6 +1290,15 @@
       
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      设备树的转换
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       获取资源
     </span>
@@ -1966,7 +1975,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2622,6 +2631,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2691,6 +2708,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../pl/cpp/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../pl/cpp/oop/" class="md-nav__link">
         
   
@@ -2738,6 +2797,48 @@
   
   <span class="md-ellipsis">
     标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
   </span>
   
 
@@ -3392,6 +3493,15 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
+      设备树的转换
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
       获取资源
     </span>
   </a>
@@ -3426,6 +3536,10 @@
 <li>platform device：继承自device模块，用于描述platform设备。</li>
 <li>platform drvier：继承自device_driver模块，用于驱动platform设备。</li>
 </ul>
+<div class="admonition info">
+<p class="admonition-title">查看platform节点</p>
+<p>platform的节点可以在/sys/bus/platform/devices下查看。</p>
+</div>
 <h2 id="_2">平台总线<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用<code>platform_match()</code>函数对新增的设备或驱动进行配对。<code>struct bus_type platform_bus_type</code>用来描述平台总线——内核初始化的时候自动注册：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">sturct</span><span class="w"> </span><span class="n">bus_type</span><span class="w"> </span><span class="n">platform_bus_type</span><span class="p">{</span>
@@ -3547,7 +3661,7 @@
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">};</span>
 </code></pre></div>
 <blockquote>
-<p>name：驱动的名称。平台总线进行匹配时，会根据该name成员与<code>platform_device</code>中的name成员进行匹配，一旦匹配就会调用<code>probe()</code>函数。</p>
+<p>name：该名字必须与设备树中要转换为platform_device节点的compatible属性值相同，否则无法进行匹配。</p>
 <p>driver_data：保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。</p>
 </blockquote>
 <p>这里插个题外话，当手动实现<code>probe()</code>函数时涉及到内存分配的问题。很多驱动程序都使用<code>devm_kzalloc()</code>函数来分配内存。我们接触比较多的是<code>kmalloc()</code>或者<code>kzalloc()</code>来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而<code>devm_kzalloc()</code>函数则可以自动地释放内存。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。</p>
@@ -3555,9 +3669,44 @@
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_driver_register</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">platform_driver_unregister</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">drv</span><span class="p">);</span>
 </code></pre></div>
-<h2 id="_5">获取资源<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">设备树的转换<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>在旧版内核中，<code>platform_devcie</code>是静态定义的，硬件资源放在<code>struct resource</code>中。</p>
+<p>设备树替换了平台总线模型中对硬件资源描述的部分，内核将满足规则的device_node转换为platform_device：</p>
+<ol>
+<li>根节点下包含compatible属性的子节点</li>
+<li>节点中compatible属性的值为"simple-bus"、"simple-mfd"、"isa"之一，且包含compatible属性的子节点</li>
+</ol>
+<p>假设有<code>struct resource</code>定义如下：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="n">my_resources</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">        </span><span class="p">.</span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xFDD60000</span><span class="p">,</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">        </span><span class="p">.</span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xFDD60004</span><span class="p">,</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">        </span><span class="p">.</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IORESOURCE_MEM</span><span class="p">,</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">        </span><span class="p">.</span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xFDD60008</span><span class="p">,</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">        </span><span class="p">.</span><span class="n">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mh">0xFDD6000C</span><span class="p">,</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">        </span><span class="p">.</span><span class="n">flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IORESOUCE_IRQ</span><span class="p">,</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">    </span><span class="p">},</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="p">};</span>
+</code></pre></div>
+<p>那么可以在设备树中描述该资源：</p>
+<div class="language-devicetree highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="nf">/</span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="nf">topnode</span><span class="p">{</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">        </span><span class="kr">#address-cells</span><span class="o">=&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">        </span><span class="kr">#size-cells</span><span class="o">=&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">        </span><span class="kr">compatible</span><span class="o">=</span><span class="s">&quot;simple-bus&quot;</span><span class="p">;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">        </span><span class="nf">myled</span><span class="p">{</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">            </span><span class="kr">compatible</span><span class="o">=</span><span class="s">&quot;my node&quot;</span><span class="p">;</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">            </span><span class="kr">reg</span><span class="o">=&lt;</span><span class="mh">0xFDD60000</span><span class="w"> </span><span class="mh">0x00000004</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">        </span><span class="p">};</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="p">};</span>
+</code></pre></div>
+<h2 id="_6">获取资源<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>在平台设备中，<code>struct resource</code>结构体用来表示设备资源，可以通过<code>platform_get_resource()</code>函数来获取，它通常在<code>probe()</code>函数中执行：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="o">*</span><span class="n">platform_get_resource</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">resource</span><span class="w"> </span><span class="o">*</span><span class="n">platform_get_resource</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
 </code></pre></div>
 <blockquote>
 <p>dev：指定要获取的平台设备。</p>
@@ -3565,13 +3714,13 @@
 <p>num：指定要获取的资源编号。</p>
 </blockquote>
 <p>如果资源类型是IORESOURCE_IRQ，可以使用以下接口还获取中断引脚：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_get_irq</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">platform_get_irq</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">platform_device</span><span class="w"> </span><span class="o">*</span><span class="n">pdev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">);</span>
 </code></pre></div>
 <p>对于存放在<code>device</code>结构体中platform_data，可以使用<code>dev_get_platdata()</code>函数来获取：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">dev_get_platdata</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">{</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">platform_data</span><span class="p">;</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">}</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">dev_get_platdata</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">platform_data</span><span class="p">;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="p">}</span>
 </code></pre></div>
 <p>总结：在平台设备驱动模型中，驱动的入口函数变成了<code>probe()</code>函数，在这里我们需要实现驱动的初始化与注册。一旦平台总线成功将<code>platform_device</code>和<code>platform_driver</code>匹配，就会调用该函数。</p>
 

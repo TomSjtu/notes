@@ -828,11 +828,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/page/" class="md-nav__link">
+      <a href="../../../linux/kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -1883,7 +1883,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2546,6 +2546,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2615,6 +2623,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../oop/" class="md-nav__link">
         
   
@@ -2662,6 +2712,48 @@
   
   <span class="md-ellipsis">
     标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
   </span>
   
 
@@ -3708,7 +3800,7 @@
 </ol>
 <h2 id="_2">强枚举类型<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>旧式的枚举类型存在名称冲突的问题，即在枚举中定义的变量会与父作用域中的名称产生冲突，因此旧式的枚举必须保证独一无二的枚举值，即便是在多文件中也是如此。且C编译器会为其赋值为int类型的变量，它甚至可以与int类型的变量直接进行比较：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="p">{</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">enum</span><span class="w"> </span><span class="nc">color</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">red</span><span class="p">,</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">green</span><span class="p">,</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">blue</span>
@@ -3721,7 +3813,7 @@
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">}</span>
 </code></pre></div>
 <p>使用强枚举类型可以避免以上问题：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">class</span><span class="w"> </span><span class="n">color</span><span class="w"> </span><span class="p">{</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">enum</span><span class="w"> </span><span class="k">class</span><span class="w"> </span><span class="nc">color</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="n">red</span><span class="p">,</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">green</span><span class="p">,</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="n">blue</span>
@@ -3748,7 +3840,7 @@
 <p>通过使用<code>auto&amp;</code>或<code>const auto &amp;</code>，还可以创建一组非const或const引用。</p>
 <h2 id="_5">初始化列表<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>初始化列表在&lt;initializer_list&gt;中定义，它允许使用花括号初始化一个对象。列表中的所有元素必须为统一类型。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">makeSum</span><span class="p">(</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">values</span><span class="p">)</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">makeSum</span><span class="p">(</span><span class="n">initializer_list</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="w"> </span><span class="n">values</span><span class="p">)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">total</span><span class="p">{</span><span class="mi">0</span><span class="p">};</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="k">auto</span><span class="w"> </span><span class="n">value</span><span class="o">:</span><span class="w"> </span><span class="n">values</span><span class="p">)</span>
@@ -3768,11 +3860,11 @@
 <p><code>explicit</code>关键字用于修饰只有一个参数的构造函数，告诉编译器禁止隐式类型转换。</p>
 <h2 id="_8">右值引用<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
 <p>在C++中，左值是可以获取其地址的一个变量，由于经常出现在赋值语句的左边，因此被称为左值。并不是所有非左值就是右值，例如字面量、临时对象。考虑如下语句：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span>
 </code></pre></div>
 <p>在这条语句中，a为左值，4*2的结果是右值，它是一个临时值，语句执行完就会被销毁。</p>
 <p>右值引用就是用来表示右值的引用，通过<code>&amp;&amp;</code>符号来表示。它的目的是在涉及到右值时，提供右值引用的版本，从而减少不必要的拷贝操作，提升系统的性能。为了了解右值引用，我们先来看这个例子：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleMessage</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">message</span><span class="p">)</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">handleMessage</span><span class="p">(</span><span class="n">string</span><span class="w"> </span><span class="o">&amp;</span><span class="n">message</span><span class="p">)</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="p">{</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;lvalue Message:&quot;</span><span class="o">&lt;&lt;</span><span class="n">message</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
 <a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">}</span>
@@ -3802,14 +3894,49 @@
 <h3 id="_9">移动语义<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p>移动语义是通过右值引用实现的。为了对类增加移动语义，需要手动实现移动构造函数和移动赋值运算符。这两个函数应使用<code>noexcept</code>关键字标记，告诉编译器不会抛出异常。</p>
 <p>一个简单的定义如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">class</span><span class="w"> </span><span class="n">Simple</span><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">public</span><span class="o">:</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">        </span><span class="n">Simple</span><span class="p">(</span><span class="n">Simple</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="p">)</span><span class="n">noexcept</span><span class="p">;</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="n">Simple</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Simple</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="p">)</span><span class="n">noexcept</span><span class="p">;</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Simple</span><span class="p">{</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">        </span><span class="n">Simple</span><span class="p">(</span><span class="n">Simple</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="p">)</span><span class="k">noexcept</span><span class="p">;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="n">Simple</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="k">operator</span><span class="o">=</span><span class="p">(</span><span class="n">Simple</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="p">)</span><span class="k">noexcept</span><span class="p">;</span>
 <a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">};</span>
 </code></pre></div>
 <p>注意：在返回值语句中，只需要<code>return object</code>即可，不需要使用<code>std::move()</code>。</p>
 <h2 id="lambda">lambda表达式<a class="headerlink" href="#lambda" title="Permanent link">&para;</a></h2>
+<p>std::function是一个多态函数包装器，可以用来创建指向任何可调用对象的类型，比如函数、函数对象或者lambda表达式。下面代码是一个使用的示例：</p>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">num</span><span class="p">,</span><span class="w"> </span><span class="n">string_view</span><span class="w"> </span><span class="n">str</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">cout</span><span class="o">&lt;&lt;</span><span class="s">&quot;using function&quot;</span><span class="o">&lt;&lt;</span><span class="n">endl</span><span class="p">;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="p">}</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="p">{</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">    </span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">(</span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="n">string_view</span><span class="p">)</span><span class="o">&gt;</span><span class="n">f1</span><span class="p">{</span><span class="n">func</span><span class="p">};</span>
+<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">    </span><span class="n">f1</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="s">&quot;hello&quot;</span><span class="p">);</span>
+<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="p">}</span>
+</code></pre></div>
+<p>可以使用<code>auto f1{func}</code>来定义f1，只不过编译器推导的类型为函数指针，而不是std::function。</p>
+<p>lambda表达式的语法如下：</p>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="p">[</span><span class="n">capture</span><span class="w"> </span><span class="n">list</span><span class="p">](</span><span class="n">parameter</span><span class="w"> </span><span class="n">list</span><span class="p">)</span><span class="k">mutable</span><span class="w"> </span><span class="n">exception</span><span class="w"> </span><span class="n">attribute</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="p">{</span><span class="n">statement</span><span class="p">}</span>
+</code></pre></div>
+<p>编译器自动将任何lambda表达式转换为函数对象。如果不指定返回类型，则编译器会自动进行推导。推导的结构会移除任何引用和const限定，除非使用<code>decltype(auto)</code>。</p>
+<p>[]称为捕获块，lambda有两种捕获方式：</p>
+<ol>
+<li>值捕获：捕获块中的变量默认为const，除非标记为<code>mutable</code>。</li>
+<li>引用捕获：通过&amp;捕获。</li>
+</ol>
+<p>下面是一些捕获块的示例：</p>
+<ul>
+<li>[&amp;x]：引用捕获x</li>
+<li>[x]：按值捕获x</li>
+<li>[=, &amp;x]：默认按值捕获，除了x按引用捕获</li>
+<li>[this]：捕获当前类对象，对象需保证存活</li>
+<li>[*this]：捕获当前对象的拷贝，对象可以不存活</li>
+<li>[=, this]：按值捕获所有内容，显示捕获this指针</li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>全局变量总是使用引用捕获，即便要求按值捕获！</p>
+</div>
 <h2 id="_10">智能指针<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
 
 

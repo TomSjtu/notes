@@ -828,11 +828,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/kernel/page/" class="md-nav__link">
+      <a href="../../linux/kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -1888,7 +1888,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2620,6 +2620,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2689,6 +2697,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../../pl/cpp/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../pl/cpp/oop/" class="md-nav__link">
         
   
@@ -2736,6 +2786,48 @@
   
   <span class="md-ellipsis">
     标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
   </span>
   
 
@@ -3458,7 +3550,7 @@
 </tr>
 </tbody>
 </table>
-<p>以上参数限定了内存屏障指令中的读写两个方向，还可以进一步细化为仅读——LD后缀，仅写——ST后缀。比如ISHLD就是仅限制内部共享域的内存读指令。</p>
+<p>还可以对内存屏障指令限定读写方向：仅读——LD后缀，仅写——ST后缀。比如ISHLD就是仅限制内部共享域的内存读指令。</p>
 <h2 id="dmb">DMB指令<a class="headerlink" href="#dmb" title="Permanent link">&para;</a></h2>
 <p>DMB指令只能保证前后的内存访问指令按照顺序执行，内存访问指令包括普通的加载和存储指令，也包括数据高速缓存指令。</p>
 <p>DMB指令后面必须带参数，用来指定共享属性域。</p>

@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/pl/cpp/oop/">
       
       
-        <link rel="prev" href="../unamed/">
+        <link rel="prev" href="../exception/">
       
       
         <link rel="next" href="../container/">
@@ -828,11 +828,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/page/" class="md-nav__link">
+      <a href="../../../linux/kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -1883,7 +1883,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2546,6 +2546,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2599,6 +2607,48 @@
   
   <span class="md-ellipsis">
     C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
   </span>
   
 
@@ -2786,6 +2836,48 @@
   
   <span class="md-ellipsis">
     标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
   </span>
   
 
@@ -3548,34 +3640,34 @@
 <h3 id="finaloverride">final和override<a class="headerlink" href="#finaloverride" title="Permanent link">&para;</a></h3>
 <p><code>final</code>关键字用于指示类或者方法不能被继承。</p>
 <p><code>override</code>关键字可以正确指明要重写的基类方法。有的时候，当我们在基类中声明了<code>virtual</code>方法，然后在派生类中重写了该方法。如果我们修改了基类的方法，但忘记同步到派生类中，在程序运行时就会调用基类的方法，这与预期不符。使用<code>override</code>关键字后，编译器会检查派生类的方法是否正确重写了基类的方法。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">class</span><span class="w"> </span><span class="n">Base</span><span class="w"> </span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Base</span><span class="w"> </span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">public</span><span class="o">:</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">someMethod</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">someMethod</span><span class="p">(</span><span class="kt">double</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">};</span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
 <a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">class</span><span class="w"> </span><span class="n">Derived</span><span class="o">:</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">Base</span><span class="w"> </span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">Derived</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Base</span><span class="w"> </span>
 <a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="p">{</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="n">public</span><span class="o">:</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">        </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">someMethod</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="n">override</span><span class="w"> </span><span class="p">{}</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">someMethod</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">d</span><span class="p">)</span><span class="w"> </span><span class="k">override</span><span class="w"> </span><span class="p">{}</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="p">};</span>
 </code></pre></div>
 <p>上述代码在编译时会导致错误，关键字<code>override</code>表明将重写基类的<code>someMethod</code>方法，但是Base类中只接收双精度数，而不是整数。当要重写某个基类方法时，始终加上<code>override</code>关键字。</p>
 <h3 id="_3">虚函数<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>C++使用动态绑定来支持虚函数。一旦函数被声明为<code>virtual</code>，就会生成一个虚函数表，该表包含指向虚函数的指针。类的每一个对象都包含指向虚函数表的指针，当对象调用某个虚函数时，通过指针找到虚函数表地址，然后根据对象的类型在运行期执行正确的版本。</p>
 <p>为了更好地理解虚函数表，我们来看以下这个例子：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">class</span><span class="w"> </span><span class="n">Base</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Base</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">public</span><span class="o">:</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">func1</span><span class="p">();</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="n">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">func2</span><span class="p">();</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">func1</span><span class="p">();</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">        </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">func2</span><span class="p">();</span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
 <a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">class</span><span class="w"> </span><span class="n">Derived</span><span class="o">:</span><span class="w"> </span><span class="n">public</span><span class="w"> </span><span class="n">Base</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="k">class</span><span class="w"> </span><span class="nc">Derived</span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Base</span>
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">{</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="n">public</span><span class="o">:</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="n">func2</span><span class="p">()</span><span class="w"> </span><span class="n">override</span><span class="p">;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="k">public</span><span class="o">:</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="n">func2</span><span class="p">()</span><span class="w"> </span><span class="k">override</span><span class="p">;</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="nf">noVirtualFunc</span><span class="p">();</span>
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="p">};</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>
@@ -3588,25 +3680,26 @@
 <p class="admonition-title">Note</p>
 <p>析构函数必须声明为virtual，以正确调用对应类的析构函数释放资源。</p>
 </div>
+<p>C++中，虚函数表存放于只读数据段(.rodata)，虚函数则存放于代码段(.text)，虚函数表指针存储的位置和所属对象的位置相同，也就是说可以在栈也可以在堆。</p>
 <h2 id="_4">不同的数据成员类型<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <h3 id="_5">静态数据成员<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>有时让类的所有对象都包含某个变量的副本是没有必要的，数据成员只对类有意义，比如我们需要对类的对象进行统计，就可以在类中定义一个<code>static</code>数据成员：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">class</span><span class="w"> </span><span class="n">MyClass</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="n">public</span><span class="o">:</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">public</span><span class="o">:</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">m_count</span><span class="p">;</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">};</span>
 </code></pre></div>
 <p>在C++17之前，静态数据成员只能在类外初始化，C++17之后，可以将静态数据成员声明为<code>inline</code>直接初始化。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">class</span><span class="w"> </span><span class="n">MyClass</span><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="n">public</span><span class="o">:</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">public</span><span class="o">:</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">        </span><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">m_count</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span>
 <a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">};</span>
 </code></pre></div>
 <p>在类方法内部，可以像使用普通数据成员哪样使用静态数据成员：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">class</span><span class="w"> </span><span class="n">MyClass</span><span class="p">{</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">public</span><span class="o">:</span>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="k">public</span><span class="o">:</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">getID</span><span class="p">()</span><span class="k">const</span><span class="p">;</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="n">private</span><span class="o">:</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="k">private</span><span class="o">:</span>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">        </span><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">m_count</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">        </span><span class="kt">int</span><span class="w"> </span><span class="n">m_id</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">};</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">};</span>

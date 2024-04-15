@@ -1166,11 +1166,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../page/" class="md-nav__link">
+      <a href="../recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -2221,7 +2221,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2877,6 +2877,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2946,6 +2954,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../pl/cpp/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../pl/cpp/oop/" class="md-nav__link">
         
   
@@ -2993,6 +3043,48 @@
   
   <span class="md-ellipsis">
     标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
   </span>
   
 
@@ -4162,16 +4254,17 @@
 <p>睡眠的进程处于一个特殊的不可执行状态，常见原因就是在等待文件I/O。内核将需要睡眠的进程标记为睡眠状态，从红黑树中移除，加入等待队列，然后调用<code>schedule()</code>选择下一个进程。</p>
 <p>等待队列是由等待某些事件发生的进程组成的简单链表。内核用<code>wait_queue_head_t</code>来表示等待队列。等待队列可以通过<code>DECLARE_WAITQUEUE()</code>静态创建或者是<code>init_waitqueue_head()</code>动态创建。</p>
 <p>等待事件有以下函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">);</span>
+<div class="language-C highlight"><span class="filename">include/linux/wait.h</span><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">);</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_interruptible</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">);</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_interruptible_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
 </code></pre></div>
+<ul>
+<li>condition == 0：休眠</li>
+<li>condition == 1：唤醒</li>
+</ul>
 <p>它们都用于将进程加入到等待队列，直到某个事件发生。"interruptible"表示可以被信号唤醒，"timeout"表示等待超时时间。</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>等待事件还有两个更低级函数：<code>prepare_to_wait()</code>和<code>finish_wait()</code>——用于对进程更精细度的控制，<code>wait_event()</code>函数实际是对它们的封装。可参考&lt;include/linux/wait.h&gt;中的源码。</p>
-</div>
+<p><img alt="睡眠操作" src="../../../images/kernel/wait.png" /></p>
 <p>唤醒操作通过<code>wake_up()</code>/<code>wake_up_interruptible()</code>完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到红黑树中。<code>wake_up_process()</code>用于唤醒特定的进程。</p>
 <p>需要注意的是，<code>wake_up()</code>函数会将所有等待队列中的进程唤醒，如果这些进程需要争抢资源，则会引发严重的性能问题。替代方法是<mark class="critic">独占等待</mark>。</p>
 <h2 id="_21">调度队列与调度实体<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h2>
@@ -4273,6 +4366,9 @@
 <li>切换虚拟内存空间</li>
 <li>切换处理器状态，包括保存上一个进程的栈和寄存器信息，还有其他与体系结构相关的状态信息。</li>
 </ul>
+<blockquote>
+<p>更详细的内容可以参考：<a href="https://blog.csdn.net/weixin_42135087/article/details/106479984">https://blog.csdn.net/weixin_42135087/article/details/106479984</a>。</p>
+</blockquote>
 <p>内核提供了<code>need_resched</code>标志来表明是否需要重新执行一次调度。当某个进程应该被抢占时，该标志就会被设置，内核会在适当的时机调用<code>schedule()</code>函数，触发进程调度。<code>need_resched()</code>函数用来检查这个标志的值，如果被设置就返回真。</p>
 <h3 id="_23">用户抢占<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
 <p>当内核即将返回用户空间时，如果<code>need_resched</code>标志被设置，就会导致<code>schedule()</code>函数被调用，此时就会发生用户抢占。从内核返回用户空间是安全的，既然它可以继续执行当前进程，它当然也可以去调度一个新的进程运行。不论是从内核态返回还是从中断返回，<code>need_resched</code>标志都会被检查。</p>

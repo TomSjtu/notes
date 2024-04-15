@@ -828,11 +828,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/page/" class="md-nav__link">
+      <a href="../../../linux/kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -1883,7 +1883,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2546,6 +2546,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2599,6 +2607,48 @@
   
   <span class="md-ellipsis">
     C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
   </span>
   
 
@@ -2678,6 +2728,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../mm/" class="md-nav__link">
         
   
@@ -2708,6 +2800,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    多线程编程
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -2717,6 +2820,73 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      线程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="线程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      线程本地存储
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      原子变量
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="原子变量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      原子操作
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3290,6 +3460,62 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      线程
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="线程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      线程本地存储
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      原子变量
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="原子变量">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      原子操作
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3307,6 +3533,19 @@
 
 
 <h1 id="_1">多线程编程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">线程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>&lt;thread&gt;库中定义的线程库可以使用多种方式创建线程，包括：</p>
+<ul>
+<li>通过函数指针创建线程：可以传入多个参数</li>
+<li>通过lambda表达式创建线程</li>
+<li>通过类成员函数创建线程：需要同时传递类方法和类实例</li>
+</ul>
+<p><code>join()</code>调用时阻塞的，会一直等待线程执行完毕，而<code>detach()</code>调用会使线程与主线程分离。</p>
+<h3 id="_3">线程本地存储<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p><code>thread_local</code>可以将任何变量标记为线程本地数据，每个线程都有一个独立的副本。</p>
+<h2 id="_4">原子变量<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>头文件&lt;atomic&gt;定义了C++中的原子类型，标准库为所有基本类型都定义了命名的原子类型，比如<code>atomic_int</code>、<code>atomic_bool</code>等。</p>
+<h3 id="_5">原子操作<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 
 
 

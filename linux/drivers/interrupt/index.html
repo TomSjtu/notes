@@ -833,11 +833,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/page/" class="md-nav__link">
+      <a href="../../kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    页高速缓存与页回写
+    内存回收
   </span>
   
 
@@ -1218,9 +1218,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#gpio" class="md-nav__link">
     <span class="md-ellipsis">
-      子中断控制器
+      子GPIO中断控制器
     </span>
   </a>
   
@@ -1228,24 +1228,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      在代码中获得中断
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      在驱动中使用中断
-    </span>
-  </a>
   
 </li>
       
@@ -1981,7 +1963,7 @@
         
   
   <span class="md-ellipsis">
-    ARM Linux启动
+    ARM64的启动
   </span>
   
 
@@ -2637,6 +2619,14 @@
       
         
       
+        
+      
+        
+      
+        
+      
+        
+      
     
     
       
@@ -2706,6 +2696,48 @@
   
   
     <li class="md-nav__item">
+      <a href="../../../pl/cpp/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../../../pl/cpp/oop/" class="md-nav__link">
         
   
@@ -2753,6 +2785,48 @@
   
   <span class="md-ellipsis">
     标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
   </span>
   
 
@@ -3397,9 +3471,9 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#gpio" class="md-nav__link">
     <span class="md-ellipsis">
-      子中断控制器
+      子GPIO中断控制器
     </span>
   </a>
   
@@ -3407,24 +3481,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      在代码中获得中断
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      在驱动中使用中断
-    </span>
-  </a>
   
 </li>
       
@@ -3465,7 +3521,7 @@
 <p>interrupt-controller：表明这是一个中断控制器</p>
 <p>#interrupt-cells：表明它的“子”中断控制器需要多少个cells来描述一个中断</p>
 </blockquote>
-<h3 id="_3">子中断控制器<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<h3 id="gpio">子GPIO中断控制器<a class="headerlink" href="#gpio" title="Permanent link">&para;</a></h3>
 <p><img alt="中断示意图" src="../../../images/kernel/inter-controller.png" /></p>
 <p>对于GPIO，可以将其视为中断控制器，但除了以上三个属性之外，还需要指定，使用上一级的哪一个中断控制器和哪一个中断：</p>
 <ol>
@@ -3485,15 +3541,45 @@
 <p>如果支持extended语法，则可以直接使用interrupts-extended属性来取代以上两个属性：</p>
 <div class="language-devicetree highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">interrupts-extended</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">gpio1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="na">RISING</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">gpio2</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="na">RISING</span><span class="o">&gt;</span><span class="p">;</span>
 </code></pre></div>
-<h2 id="_4">在代码中获得中断<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>BSP工程师编写代码如下：</p>
+<div class="language-devicetree highlight"><span class="filename">rk3399.dtsi</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nl">gpio0</span><span class="p">:</span><span class="w"> </span><span class="nf">gpio0</span><span class="o">@</span><span class="mi">ff720000</span><span class="cm"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">            </span><span class="kr">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rockchip,gpio-bank&quot;</span><span class="p">;</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">            </span><span class="kr">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0xff720000</span><span class="w"> </span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0x100</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">            </span><span class="n">clocks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">pmucru</span><span class="w"> </span><span class="na">PCLK_GPIO0_PMU</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">            </span><span class="n">interrupts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="na">GIC_SPI</span><span class="w"> </span><span class="mi">14</span><span class="w"> </span><span class="na">IRQ_TYPE_LEVEL_HIGH</span><span class="w"> </span><span class="mi">0</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">            </span><span class="n">gpio-controller</span><span class="p">;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">            </span><span class="o">#</span><span class="n">gpio-cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x2</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">            </span><span class="n">interrupt-controller</span><span class="p">;</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">            </span><span class="o">#</span><span class="n">interrupt-cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x2</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="p">};</span>
+</code></pre></div>
+<p>开发人员编写代码如下：</p>
+<div class="language-devicetree highlight"><span class="filename">rk3399-firefly.dts</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nl">brcmf</span><span class="p">:</span><span class="w"> </span><span class="nf">wifi</span><span class="o">@</span><span class="mi">1</span><span class="cm"> </span><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="kr">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">1</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kr">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;brcm,bcm4329-fmac&quot;</span><span class="p">;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="n">interrupt-parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">gpio0</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="n">interrupts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="na">RK_PA3</span><span class="w"> </span><span class="na">GPIO_ACTIVE_HIGH</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="n">interrupt-names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;host-wake&quot;</span><span class="p">;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span><span class="n">brcm</span><span class="p">,</span><span class="n">drive-strength</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">5</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">pinctrl-names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;default&quot;</span><span class="p">;</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="n">pinctrl-0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">wifi_host_wake_l</span><span class="o">&gt;</span><span class="p">;</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>interrupt-parent：指明该node使用哪个中断控制器</p>
+<p>interrupts：根据父节点interrupt-cells属性，指明使用的中断类型</p>
+</blockquote>
+<h1 id="_3">在代码中获得中断<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h1>
 <p>设备树中的某些节点可以被转换为platform_device，可以使用<code>platform_get_resource()</code>函数获得中断资源。</p>
 <p>对于I2C设备，I2C总线驱动在处理设备树的I2C节点时，会自动将其保存在<code>struct i2c_client</code>结构体中的irq成员里。SPI设备也是类似的原理。</p>
 <p>如果你的设备节点既不能转换为platform_device，它也不是I2C设备、SPI设备，那么在驱动程序中可以自行调用<code>of_irq_get()</code>函数去解析设备树，得到中断号。</p>
 <p>对于GPIO设备，可以使用<code>gpiod_get_irq()</code>函数获得中断号。</p>
-<h2 id="_5">在驱动中使用中断<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_4">在驱动中使用中断<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>设备驱动程序可以通过<code>request_irq()</code>函数注册一个中断处理程序，并且激活给定的中断线：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">request_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="n">irq_handler_t</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">                </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">request_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="n">irq_handler_t</span><span class="w"> </span><span class="n">handler</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">                </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
 <p>irq：分配的中断号。</p>
@@ -3506,7 +3592,7 @@
 <p><code>request_irq()</code>可能会睡眠，因此不能在不允许阻塞的代码中调用该函数。</p>
 <p>如果要使用线程化的中断处理程序，可以使用<code>request_threaded_irq()</code>函数。</p>
 <p>要编写自己的中断处理程序，在以下函数中实现：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">static</span><span class="w"> </span><span class="n">irqreturn_t</span><span class="w"> </span><span class="n">intr_handler</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">static</span><span class="w"> </span><span class="n">irqreturn_t</span><span class="w"> </span><span class="n">intr_handler</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
 </code></pre></div>
 <p>参数irq已经没有什么用了，参数dev用来向中断处理程序传递数据结构。</p>
 <p>Linux上的中断处理程序无需要求可重入。因为中断处理程序运行时相应中断线上的中断是屏蔽的，也就是不会发生相同中断的嵌套。但不同中断的嵌套有可能发生。</p>
@@ -3516,7 +3602,7 @@
 </div>
 <p>如果指定的中断线不是共享的，那么该函数删除处理程序的同时将禁用这条中断线。如果是共享的，那么仅删除所对应的中断处理程序，而这条中断线只有在删除了最后一个处理程序时才会被禁用。</p>
 <p>卸载驱动程序时，需要注销相应的中断处理程序，并释放中断线：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">free_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">free_irq</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">irq</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">)</span>
 </code></pre></div>
 
 
