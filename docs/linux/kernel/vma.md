@@ -181,13 +181,13 @@ void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset)
 
 `malloc()`是C库里的一个动态分配内存的函数，申请内存时有两种方式：
 
-- 方式一：通过`sbrk()`系统调用从堆分配内存。
+- 方式一：通过`brk()`系统调用从堆分配内存。
 
 - 方式二：通过`mmap()`系统调用从文件映射区分配内存。
 
 `malloc()`源码规定了一个阈值MMAP_THRESHOLD，默认为128kB：
 
-- 如果分配的内存小于这个阈值，则通过`sbrk()`申请内存。
+- 如果分配的内存小于这个阈值，则通过`brk()`申请内存。
 
 - 如果分配的内存大于这个阈值，则通过`mmap()`申请内存。
 

@@ -306,18 +306,19 @@ restart:
 
 等待事件有以下函数：
 
-```C
+```C title="include/linux/wait.h"
 int wait_event(wait_queue_head_t q, int condition);
 int wait_event_interruptible(wait_queue_head_t q, int condition);
 int wait_event_timeout(wait_queue_head_t q, int condition, unsigned int timeout);
 int wait_event_interruptible_timeout(wait_queue_head_t q, int condition, unsigned int timeout);
 ```
 
+- condition == 0：休眠
+- condition == 1：唤醒
+
 它们都用于将进程加入到等待队列，直到某个事件发生。"interruptible"表示可以被信号唤醒，"timeout"表示等待超时时间。
 
-!!! info
-
-	等待事件还有两个更低级函数：`prepare_to_wait()`和`finish_wait()`——用于对进程更精细度的控制，`wait_event()`函数实际是对它们的封装。可参考<include/linux/wait.h\>中的源码。
+![睡眠操作](../../images/kernel/wait.png)
 
 唤醒操作通过`wake_up()`/`wake_up_interruptible()`完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到红黑树中。`wake_up_process()`用于唤醒特定的进程。
 
@@ -444,6 +445,8 @@ for_each_class(class){
 
 - 切换虚拟内存空间
 - 切换处理器状态，包括保存上一个进程的栈和寄存器信息，还有其他与体系结构相关的状态信息。
+
+> 更详细的内容可以参考：https://blog.csdn.net/weixin_42135087/article/details/106479984。
 
 内核提供了`need_resched`标志来表明是否需要重新执行一次调度。当某个进程应该被抢占时，该标志就会被设置，内核会在适当的时机调用`schedule()`函数，触发进程调度。`need_resched()`函数用来检查这个标志的值，如果被设置就返回真。
 

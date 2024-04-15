@@ -47,6 +47,26 @@ pinctrl子系统相关的源代码文件如下：
 
 ## 设备树描述
 
+pinctrl子系统的设备树分为两部分：
+
+- 客户端：由原厂工程师编写，每个厂家的语法不同
+- 服务端：由驱动工程师编写，语法固定
+
+由于服务端比较简单，我们先来看服务端的语法。
+
+一个典型的client device引用引脚配置的实例如下：
+
+```C
+device-node-name {  
+    pinctrl-names = "default", "init", "sleep";   
+    pinctrl-0 = <pin-config-0-a>; 
+    pinctrl-1 = <pin-config-1-b>; 
+	pinctrl-2 = <pin-config-2-c>;        
+};
+```
+
+pinctrl-names表示引脚的三种状态——default, init, sleep。状态的定义与电源管理系统相关（Power Management）。比如当设备进入睡眠状态时，我们可以精确控制引脚状态以节省功耗。每个状态从0 ~ 2按顺序编号。pinctrl-x后面跟的是引脚的配置，由原厂工程师指定。
+
 引脚配置的设备树描述如下：
 
 ```devicetree title="s5pv210-pinctrl.dtsi"
@@ -95,28 +115,7 @@ i2c0_bus: i2c0-bus {
 
 在这个例子中，uart0的引脚组配置需要用到"gpa0-0, gpa0-1"，i2c0的引脚组配置需要用到"gpd1-0", "gpd1-1"。一旦选择了某个功能，pins中定义的所有引脚都需要在pin-function中做相应的功能设定，具体设定的值需要在芯片手册中查找。
 
-还有一些引脚配置属性比如：
-
-- samsung,pin-val：引脚输出缓冲区的初始值
-- samsung,pin-pud：上下拉配置
-- samsung,pin-drv：驱动器强度配置
-- samsung,pin-pud-pdn：低功耗模式下的上下拉配置
-- samsung,pin-drv-pdn：低功耗模式下的驱动器强度配置
-
-具体的配置信息每个SOC厂商都有不同的标准，除非你是原厂工程师，否则只需要依葫芦画瓢即可。
-
-一个典型的client device引用引脚配置的实例如下：
-
-```C
-device-node-name {  
-    pinctrl-names = "default", "init", "sleep";   
-    pinctrl-0 = <pin-config-0-a>; 
-    pinctrl-1 = <pin-config-1-b>; 
-	pinctrl-2 = <pin-config-2-c>;        
-};
-```
-
-这里pinctrl-names就表示引脚的state——default, init, sleep等。对于某个client device，它使用的一组引脚应该同时处于某种state下，state的定义与电源管理系统相关（Power Management）。比如当设备进入睡眠状态时，我们可以精确控制引脚状态以节省功耗。每个state由下面的0、1、2配置对应。pinctrl-x是一个句柄（phandle）列表，每个句柄指向一个pin configuration。
+具体的配置信息每个SoC厂商都有不同的标准，除非你是原厂工程师，否则只需要依葫芦画瓢即可。
 
 由设备树的知识我们知道，每个设备树描述的device node最终会形成一个树状结构，在内核初始化的过程中，会扫描这个树状结构，并根据每个device node的配置信息，初始化对应的设备并加入到内核中。类似地，pin controller driver的初始化也是从设备树节点开始的：
 

@@ -3,7 +3,7 @@
 
 ## 基础知识
 
-- [ARM Linux启动](./boot.md)
+- [ARM64的启动](./boot.md)
 - [ARM架构基础知识](./aarch64.md)
 - [编程规范](./standard.md)
 

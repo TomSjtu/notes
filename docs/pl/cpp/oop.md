@@ -24,7 +24,7 @@
 
 `override`关键字可以正确指明要重写的基类方法。有的时候，当我们在基类中声明了`virtual`方法，然后在派生类中重写了该方法。如果我们修改了基类的方法，但忘记同步到派生类中，在程序运行时就会调用基类的方法，这与预期不符。使用`override`关键字后，编译器会检查派生类的方法是否正确重写了基类的方法。
 
-```C
+```CPP
 class Base 
 {
     public:
@@ -48,7 +48,7 @@ C++使用动态绑定来支持虚函数。一旦函数被声明为`virtual`，�
 
 为了更好地理解虚函数表，我们来看以下这个例子：
 
-```C
+```CPP
 class Base
 {
     public:
@@ -75,8 +75,7 @@ Derived myDerived;
 
     析构函数必须声明为virtual，以正确调用对应类的析构函数释放资源。
 
-
-
+C++中，虚函数表存放于只读数据段(.rodata)，虚函数则存放于代码段(.text)，虚函数表指针存储的位置和所属对象的位置相同，也就是说可以在栈也可以在堆。
 
 
 ## 不同的数据成员类型
@@ -85,7 +84,7 @@ Derived myDerived;
 
 有时让类的所有对象都包含某个变量的副本是没有必要的，数据成员只对类有意义，比如我们需要对类的对象进行统计，就可以在类中定义一个`static`数据成员：
 
-```C
+```CPP
 class MyClass {
     public:
         static int m_count;
@@ -94,7 +93,7 @@ class MyClass {
 
 在C++17之前，静态数据成员只能在类外初始化，C++17之后，可以将静态数据成员声明为`inline`直接初始化。
 
-```C
+```CPP
 class MyClass{
     public:
         static inline int m_count { 0 };
@@ -103,7 +102,7 @@ class MyClass{
 
 在类方法内部，可以像使用普通数据成员哪样使用静态数据成员：
 
-```C
+```CPP
 class MyClass{
     public:
         int getID()const;

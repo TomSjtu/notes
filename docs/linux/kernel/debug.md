@@ -11,15 +11,19 @@
 | 日志等级 | 描述
 | ----- | ----- |
 | KERN_EMERG | 紧急情况 |
-| KERN_ALERT | 需要立即注意的错误 |
-| KERN_CRIT | 临界情况 |
-| KERN_ERR | 错误 |
+| KERN_ALERT | 需要立即采取行动 |
+| KERN_CRIT | 临界状态，通常涉及严重的硬件或软件操作失败 |
+| KERN_ERR | 报告错误状态，设备驱动程序常用 |
 | KERN_WARNING | 警告 |
-| KERN_NOTICE | 普通信息 |
+| KERN_NOTICE | 提示信息 |
 | KERN_INFO | 记录信息 |
 | KERN_DEBUG | 调试信息 |
 
-内核消息被保存在环形队列中，新消息会覆盖旧消息。用户空间守护进程klogd从记录缓冲区中获取内核消息，然后由syslogd守护进程保存至系统日志文件中。
+变量console_loglevel的初始值是DEFAULT_CONSOLE_LOGLEVEL，只有优先级小于这个值的等级，才能被打印出来。
+
+用户空间守护进程klogd从记录缓冲区中获取内核消息，然后由syslogd守护进程保存至系统日志文件中。如果klogd没有运行，那么消息就无法传递到用户空间，只能通过`dmesg`命令查看。
+
+内核使用{==循环缓冲区==}来记录消息，如果缓冲区内容已满，`printk`就绕回开始处填写新的数据，这将覆盖陈旧的内容
 
 ## 内核oops
 

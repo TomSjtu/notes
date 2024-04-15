@@ -1,12 +1,33 @@
 # 原子操作
 
+ARMv8.0的实现如下：
+
+```C title="linux/arch/arm64/include/asm/atomic_ll_sc.h"
+#define ATOMIC_OP(op, asm_op, constraint)				\
+static inline void							\
+__ll_sc_atomic_##op(int i, atomic_t *v)					\
+{									\
+	unsigned long tmp;						\
+	int result;							\
+									\
+	asm volatile("// atomic_" #op "\n"				\
+	"	prfm	pstl1strm, %2\n"				\
+	"1:	ldxr	%w0, %2\n"					\
+	"	" #asm_op "	%w0, %w0, %w3\n"			\
+	"	stxr	%w1, %w0, %2\n"					\
+	"	cbnz	%w1, 1b\n"					\
+	: "=&r" (result), "=&r" (tmp), "+Q" (v->counter)		\
+	: __stringify(constraint) "r" (i));				\
+}
+```
+
 ## 独占内存访问指令
 
-ARMv8指令集提供了LDXR和STXR，用于实现对变量的原子操作。
+LDXR和STXR指令，用于实现对变量的原子操作。
 
 LDXR是独占内存加载指令，它以独占的方式加载内存地址的值到通用寄存器。
 
-STXR是独占内存存储指令，它以独占的方式将通用寄存器中的值存储到内存地址。执行的结果放在Ws寄存器中，如果该寄存器为0则执行成功
+STXR是独占内存存储指令，它以独占的方式将通用寄存器中的值存储到内存地址。执行的结果放在Ws寄存器中，如果该寄存器为0则执行成功。
 
 LDXP和STXP是多字节的独占内存访问指令。
 

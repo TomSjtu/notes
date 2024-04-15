@@ -114,9 +114,18 @@ label:node-name@unit-address{
 
 节点由一堆属性组成，节点是具体的设备，但是不同的设备有不同的属性，不过有一些是标准属性。
 
+根节点必须要有的属性有：
+
+```
+compatible：指定板子兼容的平台
+model：板子名称
+#address-cells：子节点reg属性中，用多少个u32整数来描述地址
+#size-cells：子节点reg属性中，用多少个u32整数来描述大小
+```
+
 1.`compatible`属性
 
-`compatible`属性定义了整个系统的名称，它的组织形式为：(manufacturer, model)。内核通过该属性判断它启动的是什么设备。
+`compatible`属性用来和驱动进行匹配，它的组织形式为：(manufacturer, model)。内核通过该属性判断它启动的是什么设备。
 
 !!! example "瑞芯微RK3399"
 
@@ -137,7 +146,7 @@ static const struct of_device_id rockchip_rk3399_match[] = {
 
 2.`model`属性
 
-`model`属性用来表示设备的型号。
+`model`属性用来描述设备的一些信息。
 
 3.`status`属性
 
@@ -158,13 +167,19 @@ reg = <0x4000e000 0x400>  //起始地址 + 长度
 #size-cells：决定了子节点reg属性中长度信息所占的字长
 ```
 
-假如有ethernet、i2c、flash的reg字段形如：
+!!! example "reg属性举例"
 
-- reg=<0 0 0x1000>;
-- reg=<1 0 0x1000>;
-- reg=<2 0 0x10000000>;
+	```
+	node1{
+		#address-cells = <1>;
+		#size-cells = <1>;
+		node1-child{
+			reg = <0x02200000 0x4000>;
+		};
+	};
+	```
 
-空格隔开的就表示一个cell——第一个元素表示片选，第二个元素表示内存基地址，第三个元素表示长度。
+则reg中第一个值表示地址，第二个值表示长度。
 
 6.`ranges`属性
 
@@ -189,14 +204,7 @@ reg = <0x4000e000 0x400>  //起始地址 + 长度
 
 中断控制器更详细的内容见[中断子系统](./interrupt.md)。
 
-根节点必须要有的属性有：
 
-```
-compatible：指定板子兼容的平台
-model：板子名称
-#address-cells：子节点reg属性中，用多少个u32整数来描述地址
-#size-cells：子节点reg属性中，用多少个u32整数来描述大小
-```
 
 ## 设备树操作函数
 
@@ -226,6 +234,31 @@ struct device_node {
 #endif
 };
 ```
+
+> name：节点中的name属性
+
+> full_name：节点的名字
+
+> properties：指向该节点下的第一个属性
+
+`struct property`的定义如下：
+
+```C
+struct property {
+	char	*name;
+	int	length;
+	void	*value;
+	struct property *next;
+};
+```
+
+> name：属性名
+
+> length：属性值的长度
+
+> value：属性值
+
+> next：指向下一个属性
 
 与查找节点相关的`of`函数有5个：
 
@@ -271,8 +304,6 @@ inline struct device_node *of_find_node_by_path(const char *path)
 
 > path：带有全路径的节点名，可以使用节点的别名
 
-推荐使用这个方法来查找节点。
-
 节点的属性信息里保存了驱动所需要的内容，内核中使用结构体`property`表示属性。
 
 ```C
@@ -287,7 +318,7 @@ struct property{
 };
 ```
 
-通过亲缘关系来查找节点：
+6.通过亲缘关系来查找节点：
 
 ```C
 struct device_node *of_get_parent(const struct device_node *node)
@@ -325,43 +356,27 @@ int of_property_read_u32_index(const struct device_node *np, const char *propnam
 
 > propname：要读取的属性名
 
-> index：要读取的值标号
+> index：读取该属性下的第几个值
 
 > out_value：读取到的值
 
-4.读取u8、u16、u32、u64数组类型的数据
+4.读取u32数组类型的数据
 
 ```C
-int of_property_read_u8_array(const struct device_node *np, const char *propname, u8 *out_values, size_t sz)
+int of_property_read_u32_array(const struct device_node *np, const char *propname, u32 *out_values, size_t sz_min, size_t sz_max)
 ```
 
-将函数名中的u8替换成其他数据类型即可。对于32位处理器，最常用的是`of_property_read_u32——array()`函数。
 
-5.读取u8、u16、u32、u64整型类型的数据
-
-```C
-int of_property_read_u8(const struct device_node *np, const char *propname, u8 *out_value)
-```
-
-6.读取属性中字符串的值
-
-```C
-int of_property_read_string(struct device_node *np, const char *propname, const char **out_string)
-```
-
-读取字符串数组属性中第index个字符串：
+5.读取属性中字符串的值
 
 ```C
 int of_property_read_string_index(const struct device_node *np,const char *propname, int index,const char **out_string)
 ```
 
-index从零开始计数。 第一个函数只能得到属性值所在地址，也就是第一个字符串的地址，其他字符串需要我们手动修改移动地址，非常麻烦，推荐使用第二个函数。
-
-7.内存映射
+6.内存映射
 
 该函数可以自动完成物理地址到虚拟地址的转换：
 
 ```C
 void __iomem *of_iomap(struct device_node *np, int index)
-
 ```

@@ -12,6 +12,10 @@ Platform架构图如下所示：
 - platform device：继承自device模块，用于描述platform设备。
 - platform drvier：继承自device_driver模块，用于驱动platform设备。
 
+!!! info "查看platform节点"
+
+	platform的节点可以在/sys/bus/platform/devices下查看。
+
 ## 平台总线
 
 在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用`platform_match()`函数对新增的设备或驱动进行配对。`struct bus_type platform_bus_type`用来描述平台总线——内核初始化的时候自动注册：
@@ -140,7 +144,7 @@ struct platform_device_id {
 };
 ```
 
-> name：驱动的名称。平台总线进行匹配时，会根据该name成员与`platform_device`中的name成员进行匹配，一旦匹配就会调用`probe()`函数。
+> name：该名字必须与设备树中要转换为platform_device节点的compatible属性值相同，否则无法进行匹配。
 
 > driver_data：保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
 
@@ -152,6 +156,51 @@ struct platform_device_id {
 int platform_driver_register(struct platform_device *drv);
 void platform_driver_unregister(struct platform_device *drv);
 ```
+
+## 设备树的转换
+
+在旧版内核中，`platform_devcie`是静态定义的，硬件资源放在`struct resource`中。
+
+设备树替换了平台总线模型中对硬件资源描述的部分，内核将满足规则的device_node转换为platform_device：
+
+1. 根节点下包含compatible属性的子节点
+2. 节点中compatible属性的值为"simple-bus"、"simple-mfd"、"isa"之一，且包含compatible属性的子节点
+
+假设有`struct resource`定义如下：
+
+```C
+static struct resource my_resources[] = {
+	[0] = {
+		.start = 0xFDD60000,
+		.end = 0xFDD60004,
+		.flags = IORESOURCE_MEM,
+	},
+	[1] = {
+		.start = 0xFDD60008,
+		.end = 0xFDD6000C,
+		.flags = IORESOUCE_IRQ,
+	},
+};
+```
+
+那么可以在设备树中描述该资源：
+
+```devicetree
+/{
+	topnode{
+		#address-cells=<1>;
+		#size-cells=<1>;
+		compatible="simple-bus";
+		myled{
+			compatible="my node";
+			reg=<0xFDD60000 0x00000004>;
+		};
+	};
+
+};
+```
+
+
 
 ## 获取资源
 

@@ -3,6 +3,9 @@
 ## 基础知识
 
 - [C++杂项](./unamed.md)
+- [I/O流](./io.md)
+- [异常处理](./exception.md)
+
 
 ## 面向对象
 
@@ -12,6 +15,8 @@
 
 - [标准库容器](./container.md)
 - [标准库算法](./algorithm.md)
+- [正则表达式](./regex.md)
+- [日期和时间](./time.md)
 
 ## 内存管理
 

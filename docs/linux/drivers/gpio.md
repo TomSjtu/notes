@@ -4,7 +4,7 @@ GPIO全称“General Purpose Input/Output”，通用输入输出。
 
 ## 设备树描述
 
-对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399的GPIO控制器而言：
+对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399的GPIO控制器而言，由原厂BSP工程师编写代码如下：
 
 ```devicetree title="rk3399.dtsi"
 
@@ -35,7 +35,7 @@ gpio1: gpio1@ff730000 {
 };
 ```
 
-对于需要用到GPIO控制器的设备，需要在节点中声明：
+驱动开发人员使用GPIO设备时，需要在节点中声明：
 
 ```devicetree title="rk3399-firefly.dts"
 
@@ -57,6 +57,11 @@ leds {
 	};
 };
 ```
+
+GPIO还可以有其他属性，比如：
+
+- ngpios=<18>：表示该GPIO控制器有18个引脚
+- gpio-ranges=<&pinctrl1 0 20 10>：表示该GPIO的0 ~ 9引脚映射到pinctrl1的20 ~ 29引脚
 
 !!! info
 

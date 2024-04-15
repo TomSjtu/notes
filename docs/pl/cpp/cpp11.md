@@ -19,7 +19,7 @@ C++98中提供了`wchar_t`字符类型和前缀L，用以表示宽字符，但�
 
 旧式的枚举类型存在名称冲突的问题，即在枚举中定义的变量会与父作用域中的名称产生冲突，因此旧式的枚举必须保证独一无二的枚举值，即便是在多文件中也是如此。且C编译器会为其赋值为int类型的变量，它甚至可以与int类型的变量直接进行比较：
 
-```C
+```CPP
 enum color {
     red,
     green,
@@ -35,7 +35,7 @@ if(red == 0){
 
 使用强枚举类型可以避免以上问题：
 
-```C
+```CPP
 enum class color {
     red,
     green,
@@ -86,7 +86,7 @@ gcc编译器支持属性`__attribute__`，可以用于修饰变量、函数、�
 
 初始化列表在<initializer_list\>中定义，它允许使用花括号初始化一个对象。列表中的所有元素必须为统一类型。
 
-```C
+```CPP
 int makeSum(initializer_list<int> values)
 {
     int total{0};
@@ -117,7 +117,7 @@ int a {makeSum({1, 2, 3, 4, 5})};
 
 在C++中，左值是可以获取其地址的一个变量，由于经常出现在赋值语句的左边，因此被称为左值。并不是所有非左值就是右值，例如字面量、临时对象。考虑如下语句：
 
-```C
+```CPP
 int a = 4 * 2;
 ```
 
@@ -125,7 +125,7 @@ int a = 4 * 2;
 
 右值引用就是用来表示右值的引用，通过`&&`符号来表示。它的目的是在涉及到右值时，提供右值引用的版本，从而减少不必要的拷贝操作，提升系统的性能。为了了解右值引用，我们先来看这个例子：
 
-```C
+```CPP
 void handleMessage(string &message)
 {
     cout<<"lvalue Message:"<<message<<endl;
@@ -161,7 +161,7 @@ int main()
 
 一个简单的定义如下：
 
-```C
+```CPP
 class Simple{
     public:
         Simple(Simple &&)noexcept;
@@ -173,6 +173,55 @@ class Simple{
 
 
 ## lambda表达式
+
+std::function是一个多态函数包装器，可以用来创建指向任何可调用对象的类型，比如函数、函数对象或者lambda表达式。下面代码是一个使用的示例：
+
+```CPP
+void func(int num, string_view str)
+{
+    cout<<"using function"<<endl;
+}
+
+int main()
+{
+    function<void(int, string_view)>f1{func};
+    f1(1,"hello");
+}
+```
+
+可以使用`auto f1{func}`来定义f1，只不过编译器推导的类型为函数指针，而不是std::function。
+
+lambda表达式的语法如下：
+
+```CPP
+[capture list](parameter list)mutable exception attribute -> return type {statement}
+```
+
+编译器自动将任何lambda表达式转换为函数对象。如果不指定返回类型，则编译器会自动进行推导。推导的结构会移除任何引用和const限定，除非使用`decltype(auto)`。
+
+
+[]称为捕获块，lambda有两种捕获方式：
+
+1. 值捕获：捕获块中的变量默认为const，除非标记为`mutable`。
+2. 引用捕获：通过&捕获。
+
+下面是一些捕获块的示例：
+
+- [&x]：引用捕获x
+- [x]：按值捕获x
+- [=, &x]：默认按值捕获，除了x按引用捕获
+- [this]：捕获当前类对象，对象需保证存活
+- [*this]：捕获当前对象的拷贝，对象可以不存活
+- [=, this]：按值捕获所有内容，显示捕获this指针
+
+
+!!! warning
+
+    全局变量总是使用引用捕获，即便要求按值捕获！
+
+
+
+
 
 
 ## 智能指针

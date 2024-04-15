@@ -25,7 +25,7 @@ gic: interrupt-controller@fd400000 {
 
 > \#interrupt-cells：表明它的“子”中断控制器需要多少个cells来描述一个中断
 
-### 子中断控制器
+### 子GPIO中断控制器
 
 ![中断示意图](../../images/kernel/inter-controller.png)
 
@@ -46,7 +46,42 @@ gic: interrupt-controller@fd400000 {
 interrupts-extended = <&gpio1 5 RISING>, <&gpio2 6 RISING>;
 ```
 
-## 在代码中获得中断
+BSP工程师编写代码如下：
+
+```devicetree title="rk3399.dtsi"
+gpio0: gpio0@ff720000 {
+			compatible = "rockchip,gpio-bank";
+			reg = <0x0 0xff720000 0x0 0x100>;
+			clocks = <&pmucru PCLK_GPIO0_PMU>;
+			interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH 0>;
+
+			gpio-controller;
+			#gpio-cells = <0x2>;
+
+			interrupt-controller;
+			#interrupt-cells = <0x2>;
+};
+```
+
+开发人员编写代码如下：
+
+```devicetree title="rk3399-firefly.dts"
+brcmf: wifi@1 {
+	reg = <1>;
+	compatible = "brcm,bcm4329-fmac";
+	interrupt-parent = <&gpio0>;
+	interrupts = <RK_PA3 GPIO_ACTIVE_HIGH>;
+	interrupt-names = "host-wake";
+	brcm,drive-strength = <5>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&wifi_host_wake_l>;
+};
+```
+> interrupt-parent：指明该node使用哪个中断控制器
+
+> interrupts：根据父节点interrupt-cells属性，指明使用的中断类型
+
+# 在代码中获得中断
 
 设备树中的某些节点可以被转换为platform_device，可以使用`platform_get_resource()`函数获得中断资源。
 

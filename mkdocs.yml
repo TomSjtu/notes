@@ -31,6 +31,8 @@ markdown_extensions:
   - admonition
   - attr_list
   - footnotes
+  - def_list
+  - tables
   - pymdownx.details
   - pymdownx.superfences
   - pymdownx.critic
@@ -47,6 +49,8 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.betterem
   - pymdownx.magiclink
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - toc:
       permalink: true
 
@@ -69,7 +73,7 @@ nav:
       - linux/kernel/interrupt.md
       - linux/kernel/bottom_half.md
       - linux/kernel/mm.md
-      - linux/kernel/page.md
+      - linux/kernel/recycle.md
       - linux/kernel/vfs.md
       - linux/kernel/block.md
       - linux/kernel/network.md
@@ -150,9 +154,13 @@ nav:
     - C++:
       - pl/cpp/index.md
       - pl/cpp/unamed.md
+      - pl/cpp/io.md
+      - pl/cpp/exception.md
       - pl/cpp/oop.md
       - pl/cpp/container.md
       - pl/cpp/algorithm.md
+      - pl/cpp/regex.md
+      - pl/cpp/time.md
       - pl/cpp/mm.md
       - pl/cpp/concurrency.md
       - pl/cpp/cpp11.md
