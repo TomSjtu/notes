@@ -78,6 +78,8 @@ nav:
       - linux/kernel/block.md
       - linux/kernel/network.md
       - linux/kernel/time.md
+      - linux/kernel/timer.md
+      - linux/kernel/hrtimer.md
       - linux/kernel/pm.md
       
       
@@ -172,7 +174,8 @@ nav:
       - pl/python/python.md
 
     - Go:
-      - pl/go/go.md
+      - pl/go/index.md
+      - pl/go/intro.md
     
 
   - 云计算:

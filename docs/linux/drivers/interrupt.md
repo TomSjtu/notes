@@ -1,5 +1,11 @@
 # 中断子系统
 
+## 中断号
+
+- IRQ number：软件中断号，在Linux系统中唯一，编程时用的就是这个
+- HW interrupt ID：硬件中断号，由中断控制器对外设中断进行编号
+- IRQ domain：负责实现硬件中断号和软件中断号的映射
+
 ## 在设备树中声明中断
 
 ### 顶层GIC中断控制器
@@ -81,15 +87,29 @@ brcmf: wifi@1 {
 
 > interrupts：根据父节点interrupt-cells属性，指明使用的中断类型
 
-# 在代码中获得中断
+## 在代码中获得中断
 
-设备树中的某些节点可以被转换为platform_device，可以使用`platform_get_resource()`函数获得中断资源。
+设备树中的某些节点可以被转换为platform_device，可以使用`platform_get_irq()`函数获得中断资源。
 
-对于I2C设备，I2C总线驱动在处理设备树的I2C节点时，会自动将其保存在`struct i2c_client`结构体中的irq成员里。SPI设备也是类似的原理。
+对于GPIO设备，可以使用`gpio_to_irq()`函数获得中断号。
 
-如果你的设备节点既不能转换为platform_device，它也不是I2C设备、SPI设备，那么在驱动程序中可以自行调用`of_irq_get()`函数去解析设备树，得到中断号。
+从interrupts属性中获取到对应的中断号：
 
-对于GPIO设备，可以使用`gpiod_get_irq()`函数获得中断号。
+```C
+unsigned int irq_of_parse_and_map(struct device_node *np, int index)
+```
+
+获取irq_data结构体：
+
+```C
+struct irq_data *irq_get_irq_data(unsigned int irq)
+```
+
+获取中断触发标志：
+
+```C
+u32 irqd_get_trigger_type(struct irq_data *data)
+```
 
 ## 在驱动中使用中断
 

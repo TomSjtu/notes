@@ -8,11 +8,11 @@ GIC从功能上来说，除了常用的中断使能、中断屏蔽、优先级�
 
 GIC支持三种类型的中断：
 
-SGI（Software Generated Interrupt）：软件产生的中断，可以用于多核间的通信，一个CPU可以通过写GIC的寄存器给另外一个CPU产生中断。
+- SGI（Software Generated Interrupt）：软件产生的中断，可以用于多核间的通信，一个CPU可以通过写GIC的寄存器给另外一个CPU产生中断。
 
-PPI（Private Peripheral Interrupt）：某个CPU私有外设的中断，只能发给绑定的那个CPU。
+- PPI（Private Peripheral Interrupt）：某个CPU私有外设的中断，只能发给绑定的那个CPU。
 
-SPI（Shared Peripheral Interrupt）：共享外设的中断，可以发送给任何一个CPU。
+- SPI（Shared Peripheral Interrupt）：共享外设的中断，可以发送给任何一个CPU。
 
 每一个中断支持的状态有以下4种：
 

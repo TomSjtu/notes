@@ -185,13 +185,17 @@ reg = <0x4000e000 0x400>  //起始地址 + 长度
 
 `range`是地址映射表，按照（子地址，父地址，映射长度）的格式编写。
 
-比如#address-cells和#size-cells都为1的话，以ranges=<0x0 0x10 0x20>为例，表示将子地址的0x0映射到父地址的0x10，共映射0x20个字节。
+子地址由ranges所在节点的"#address-cells"属性决定，父地址由ranges父节点的"#address-cells"属性决定，映射长度由ranges父节点的"#size-cells"属性决定。
+
+以ranges=<0x0 0x10 0x20>为例，表示将子地址的0x0映射到父地址的0x10，共映射0x20个字节。
 
 `ranges`属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过`ranges`属性获知哪些内存区域或者IO端口是被硬件设备所占用的。
 
-!!! note
+根据ranges属性的不同把设备分成三类：
 
-	如果`ranges`属性为空，则说明子地址空间和父地址空间相同，不需要进行转换。
+- ranges属性不为空：非内存映射型设备，CPU不可以直接访问，需要通过地址映射
+- ranges属性为空：内存映射型设备，CPU可以直接访问
+- 没有ranges属性：只能被父节点访问
 
 7.`intc`属性
 
@@ -203,8 +207,6 @@ reg = <0x4000e000 0x400>  //起始地址 + 长度
 - interrupts
 
 中断控制器更详细的内容见[中断子系统](./interrupt.md)。
-
-
 
 ## 设备树操作函数
 
@@ -365,7 +367,6 @@ int of_property_read_u32_index(const struct device_node *np, const char *propnam
 ```C
 int of_property_read_u32_array(const struct device_node *np, const char *propname, u32 *out_values, size_t sz_min, size_t sz_max)
 ```
-
 
 5.读取属性中字符串的值
 

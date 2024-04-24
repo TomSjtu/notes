@@ -47,33 +47,34 @@ SYM_CODE_START(primary_entry)
 SYM_CODE_END(primary_entry)
 ```
 
-启动的main entry为`primary_entry`，该函数调用了一系列函数用于初始化，我们逐个分析。
+启动的入口函数为`primary_entry`，该函数又调用了一系列初始化函数，我们逐个分析。
 
 ### 保存参数
 
 ```C
 SYM_CODE_START_LOCAL(preserve_boot_args)
-	mov	x21, x0				// 保存DTB的地址至x21寄存器，释放x0
+	mov	x21, x0				// 保存设备树的地址至x21寄存器
 
-	adr_l	x0, boot_args			// 获取boot_args变量的地址，并保存至x0
-	stp	x21, x1, [x0]			// 这两行指令实际就是将x0~x3寄存器的值保存至boot_args中
-	stp	x2, x3, [x0, #16]
+	adr_l	x0, boot_args			// 将boot_args变量的地址保存至x0
+	stp	x21, x1, [x0]			// 保存x0和x1的值到boot_args[0]和boot_args[1]
+	stp	x2, x3, [x0, #16]		//保存x2和x3的值到boot_args[2]和boot_args[3]
 
 	dmb	sy				// 数据内存屏障指令，sy表示全系统共享域
-
 
 	add	x1, x0, #0x20			// 4 x 8 bytes
 	b	dcache_inval_poc		// tail call
 SYM_CODE_END(preserve_boot_args)
 ```
 
-由于关闭了MMU和D-cache，存储操作略过了cache，直接写入了RAM。但是为了安全起见，仍然需要清除cache——调用`dcache_inval_poc`函数。
+在启动前，MMU和D-cache已经被关闭，因此存储指令略过了cache，直接写入RAM。但是为了安全起见，仍然需要清除cache——调用`dcache_inval_poc`函数。
 
 !!! question "x0~x3寄存器"
 
     为何要保留这四个寄存器的值？在boot protocol中有解释：x0是dtb的地址，x1~x3必须为0，用来保留使用。在`setup_arch`函数执行时，会校验boot_args的值。
 
-### 初始化EL mode
+### 初始化异常等级
+
+我们期望系统从EL2模式下启动，如果不是，则需要先配置相关环境，在返回前，必须将BOOT_CPU_MODE的值保存在w0寄存器中：
 
 ```C
 /*
@@ -91,16 +92,17 @@ SYM_FUNC_START(init_kernel_el)
 	mrs	x0, CurrentEL                   //读取当前异常等级至x0寄存器
 	cmp	x0, #CurrentEL_EL2              //与EL2进行比较
 	b.eq	init_el2                    //如果相等，跳转到init_el2函数
+										//不相等则执行下面代码
 
 SYM_INNER_LABEL(init_el1, SYM_L_LOCAL)
-	mov_q	x0, INIT_SCTLR_EL1_MMU_OFF
-	msr	sctlr_el1, x0
-	isb
-	mov_q	x0, INIT_PSTATE_EL1
-	msr	spsr_el1, x0
+	mov_q	x0, INIT_SCTLR_EL1_MMU_OFF	
+	msr	sctlr_el1, x0					
+	isb									
+	mov_q	x0, INIT_PSTATE_EL1	
+	msr	spsr_el1, x0					
 	msr	elr_el1, lr
 	mov	w0, #BOOT_CPU_MODE_EL1
-	eret
+	eret								//ERET指令用于从异常中返回
 
 SYM_INNER_LABEL(init_el2, SYM_L_LOCAL)
 	mov_q	x0, HCR_HOST_NVHE_FLAGS
@@ -111,7 +113,7 @@ SYM_INNER_LABEL(init_el2, SYM_L_LOCAL)
 
 	/* Hypervisor stub */
 	adr_l	x0, __hyp_stub_vectors
-	msr	vbar_el2, x0
+	msr	vbar_el2, x0					//设置向量基地址寄存器VBAR_EL2
 	isb
 
 	/*
@@ -154,6 +156,8 @@ __cpu_stick_to_vhe:
 SYM_FUNC_END(init_kernel_el)
 ```
 
+上面代码主要配置了一些系统寄存器的环境，然后从对应的异常等级返回。
+
 ### 设置CPU启动模式
 
 进入该函数前，必须保证w0保存了__boot_cpu_mode的值，该值用于保存CPU启动时的Exception level，它的定义如下：
@@ -184,9 +188,11 @@ SYM_FUNC_START_LOCAL(set_cpu_boot_mode_flag)
 SYM_FUNC_END(set_cpu_boot_mode_flag)
 ```
 
-我们期望所有CPU都在同一模式下启动，如果都在EL2模式下启动，则说明系统支持虚拟化。
+我们期望所有CPU都在同一模式下启动，如果都在EL2模式下启动，则说明系统支持虚拟化，kvm模块才可以顺利启动。
 
 ### 建立页表
+
+为了提高性能，加快初始化速度，必须在某个阶段打开MMU，而在打开MMU之前，必须要先设定好页表。
 
 ```C
 SYM_FUNC_START_LOCAL(__create_page_tables)
@@ -324,7 +330,6 @@ SYM_FUNC_END(__create_page_tables)
 
 ### 初始化CPU
 
-
 代码位于<arch/arm64/mm/proc.S\>中：
 ```C
 /*
@@ -401,8 +406,7 @@ SYM_FUNC_START(__cpu_setup)
 SYM_FUNC_END(__cpu_setup)
 ```
 
-
-### primary_switch
+### 开启MMU
 
 ```C
 SYM_FUNC_START_LOCAL(__primary_switch)
@@ -444,8 +448,101 @@ SYM_FUNC_START_LOCAL(__primary_switch)
 #endif
 	ldr	x8, =__primary_switched
 	adrp	x0, __PHYS_OFFSET
-	br	x8
+	br	x8						//跳转至__primary_switched
 SYM_FUNC_END(__primary_switch)
+```
+
+__enable_mmu的代码如下：
+
+```C
+/*
+ * Enable the MMU.
+ *
+ *  x0  = SCTLR_EL1 value for turning on the MMU.
+ *  x1  = TTBR1_EL1 value
+ *
+ * Returns to the caller via x30/lr. This requires the caller to be covered
+ * by the .idmap.text section.
+ *
+ * Checks if the selected granule size is supported by the CPU.
+ * If it isn't, park the CPU
+ */
+SYM_FUNC_START(__enable_mmu)
+	mrs	x2, ID_AA64MMFR0_EL1
+	ubfx	x2, x2, #ID_AA64MMFR0_TGRAN_SHIFT, 4
+	cmp     x2, #ID_AA64MMFR0_TGRAN_SUPPORTED_MIN
+	b.lt    __no_granule_support
+	cmp     x2, #ID_AA64MMFR0_TGRAN_SUPPORTED_MAX
+	b.gt    __no_granule_support
+	update_early_cpu_boot_status 0, x2, x3
+	adrp	x2, idmap_pg_dir
+	phys_to_ttbr x1, x1
+	phys_to_ttbr x2, x2
+	msr	ttbr0_el1, x2			// load TTBR0
+	offset_ttbr1 x1, x3
+	msr	ttbr1_el1, x1			// load TTBR1
+	isb
+
+	set_sctlr_el1	x0
+
+	ret
+SYM_FUNC_END(__enable_mmu)
+```
+
+在开启MMU之后，使用bx命令跳转至__primary_switched，进行最后的栈设置和异常向量表设置，然后进入start_kernel：
+
+```C
+/*
+ * The following fragment of code is executed with the MMU enabled.
+ *
+ *   x0 = __PHYS_OFFSET
+ */
+SYM_FUNC_START_LOCAL(__primary_switched)
+	adr_l	x4, init_task
+	init_cpu_task x4, x5, x6
+
+	adr_l	x8, vectors			// load VBAR_EL1 with virtual
+	msr	vbar_el1, x8			// vector table address
+	isb
+
+	stp	x29, x30, [sp, #-16]!
+	mov	x29, sp
+
+	str_l	x21, __fdt_pointer, x5		// Save FDT pointer
+
+	ldr_l	x4, kimage_vaddr		// Save the offset between
+	sub	x4, x4, x0			// the kernel virtual and
+	str_l	x4, kimage_voffset, x5		// physical mappings
+
+	// Clear BSS
+	adr_l	x0, __bss_start
+	mov	x1, xzr
+	adr_l	x2, __bss_stop
+	sub	x2, x2, x0
+	bl	__pi_memset
+	dsb	ishst				// Make zero page visible to PTW
+
+#if defined(CONFIG_KASAN_GENERIC) || defined(CONFIG_KASAN_SW_TAGS)
+	bl	kasan_early_init
+#endif
+	mov	x0, x21				// pass FDT address in x0
+	bl	early_fdt_map			// Try mapping the FDT early
+	bl	init_feature_override		// Parse cpu feature overrides
+#ifdef CONFIG_RANDOMIZE_BASE
+	tst	x23, ~(MIN_KIMG_ALIGN - 1)	// already running randomized?
+	b.ne	0f
+	bl	kaslr_early_init		// parse FDT for KASLR options
+	cbz	x0, 0f				// KASLR disabled? just proceed
+	orr	x23, x23, x0			// record KASLR offset
+	ldp	x29, x30, [sp], #16		// we must enable KASLR, return
+	ret					// to __primary_switch()
+0:
+#endif
+	bl	switch_to_vhe			// Prefer VHE if possible
+	ldp	x29, x30, [sp], #16
+	bl	start_kernel			//jump to kernel
+	ASM_BUG()
+SYM_FUNC_END(__primary_switched)
 ```
 
 ## 内核镜像文件

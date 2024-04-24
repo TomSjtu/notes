@@ -14,7 +14,7 @@
 
 当CONFIG_PGTABLE_LEVELS=3时，没有PUD页表；当CONFIG_PGTABLE_LEVELS=2时，没有PUD和PMD页表。
 
-## ARMv8 MMU
+## 虚拟地址空间
 
 ARMv8中，内核空间的页表基地址存放在TTBR1_EL1寄存器中，用户空间的页表基地址存放在TTBR0_EL1寄存器中。内核空间的高位全为1，用户空间的高位全为0，如下图所示：
 
@@ -26,7 +26,11 @@ AArch64体系结构中的页表支持以下特性：
 - 输入地址的最大位宽为48位
 - 页面粒度可以是4KB、16KB或64KB
 
+以PAGE_SIZE为4KB为例，虚拟地址空间的映射关系如下：
 
+![页表映射关系](../images/arm/mapping.gif)
+
+整个地址翻译的过程是这样的：首先通过虚拟地址的高位可以知道是属于userspace还是kernel space，分别选择对应的TTBR寄存器。这个寄存器中保存了PGD的基地址，指向了一个lookup table，每一个entry都是描述符，可能是Table descriptor、block descriptor或者是page descriptor。如果命中了一个block descriptor，那么地址翻译过程就结束了，当然对于4-level的地址翻译过程，PGD中当然保存的是Table descriptor，从而指向了下一节的Translation table，在kernel中称之PUD。随后的地址翻译概念类似，是一个PMD过程，最后一个level是PTE，也就是传说中的page table entry了，到了最后的地址翻译阶段。这时候PTE中都是一个个的page descriptor，从而完成了最后的地址翻译过程。 
 
 ### 页表项属性
 

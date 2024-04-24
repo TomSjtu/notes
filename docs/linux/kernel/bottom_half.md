@@ -171,9 +171,9 @@ state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值。TA
 
 count成员是tasklet的引用计数器。如果它不为0，则tasklet被禁止；只有当它为0时，tasklet才被激活。
 
-已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）数组中。这两个数据结构都是由`tasklet_struct`结构体构成的链表，链表中每个元素代表一个不同的tasklet。
+已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）链表中，每个元素都是一个`tasklet_struct`结构体。
 
-tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，它们接受一个指向`tasklet_struct`结构的指针作为参数，后者将指定的tasklet以高优先级运行。
+tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，区别是后者将以高优先级运行指定的tasklet。
 
 ### 使用tasklet
 
@@ -197,35 +197,47 @@ void tasklet_schedule(struct tasklet_struct *t)
 void tasklet_kill(struct tasklet_struct *t)
 ```
 
-!!! example "tasklet的使用"
+!!! example "tasklet示例代码"
 
     ```C
+    int irq;
+
     void do_tasklet(unsigned long);
     DECLARE_TASKLET(my_tasklet, do_tasklet, 0);
 
-    void do_tasklet(unsigned long)
+    void do_tasklet(unsigned long data)
     {
-        ...
+        printk("This is tasklet!\n");
     }
 
     irqreturn_t do_interrupt(int irq, void *dev_id)
     {
-        ...
+        printk("interrupt handled!\n");
+        /*在中断处理程序中调度tasklet*/
         tasklet_schedule(&do_tasklet);
-    }
-
-    int __init my_init(void)
-    {
-        /*申请中断*/
-        result = requset_irq(irq, do_interrupt, 0, "my_irq", NULL);
         return IRQ_HANDLED;
     }
 
-    void __exit my_exit(void)
+    static int __init my_init(void)
     {
-        free_irq(irq, do_interrupt);
+        int ret;
+        irq = gpio_to_irq(13);
+        printk("irq is %d\n", irq);
+       
+        result = requset_irq(irq, do_interrupt, IRQF_TRIGGER_RISING, "my_irq", NULL);
+
+        /*动态初始化tasklet可以在这里声明*/
+        return 0;
     }
 
+    static void __exit my_exit(void)
+    {
+        free_irq(irq, do_interrupt);
+        tasklet_kill(&my_tasklet);
+    }
+
+    module_init(my_init);
+    module_exit(my_exit);
     ```
 
 ### ksoftirqd
@@ -242,11 +254,13 @@ void tasklet_kill(struct tasklet_struct *t)
 
 工作队列是一种延后执行的机制，可以将后续的工作交给一个内核线程执行——这个下半部分总是在进程上下文中执行。这样，通过工作队列实现的代码就能享受进程上下文的所有优势，比如可以重新调度甚至是睡眠。
 
-如果推后执行的任务需要睡眠，那么就选择工作队列。否则就选择软中断或tasklet。工作队列在你需要获得大量内存时，需要获取信号量时，需要执行阻塞式的I/O操作时，它都会非常有用。
+如果推后执行的任务需要睡眠，那么在下半部中就只能选择工作队列，否则优先选择tasklet。
+
+内核的工作队列分为两种：共享工作队列和自定义工作队列。
+
+内核提供了缺省的工作者线程（worker thread）{==events/n==}来执行工作队列中的任务，n为处理器的编号。
 
 ### 工作队列的实现
-
-工作队列子系统提供了缺省的工作者线程（worker thread）来处理需要推后的工作。缺省的工作者线程叫做{==events/n==}，n为处理器的编号。你可以创建自己的工作者线程，不过一般使用缺省线程即可。专用的工作者线程可以更好地控制和优化任务的执行，但也需要更多的资源和管理开销。
 
 工作队列用`workqueue_struct`结构体表示：
 
@@ -263,7 +277,7 @@ struct workqueue_struct {
 
 该结构体内有一个`cpu_workqueue_struct`结构组成的数组，数组的每一项对应系统中的一个处理器。也就是说系统中每个处理器对应一个工作者线程。
 
-工作由`work_struct`结构体表示：
+`struct work_struct`描述的就是要延迟执行的工作：
 
 ```C
 struct work_struct {
@@ -273,42 +287,48 @@ struct work_struct {
 };
 ```
 
-这些结构体被连接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，当没有剩余的操作时，它就会继续休眠。
+这些`work_struct`被连接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，当没有剩余的操作时，它就会继续休眠。
 
 ### 使用工作队列
 
-静态创建一个`work_struct`结构体：
+创建一个`work_struct`结构体：
 
 ```C
-DECLARE_WORK(name, void(*func)(void *), void *data);
+/*静态创建*/
+DECLARE_WORK(name, func);
+
+/*动态创建*/
+INIT_WORK(name, func);
 ```
 
-动态创建：
+将工作推送到内核默认的共享工作队列：
 
 ```C
-INIT_WORK(struct work_struct *work, void (*func)(void *), void *data);
+bool schedule_work(struct work_struct *work);
+bool schedule_delayed_work(struct work_struct *work, unsigned long delay);
 ```
 
-处理工作的回调函数：
+取消已经调度的工作：
 
 ```C
-void work_handler(struct work_struct *work);
+bool cancel_work_sync(struct work_struct *work);
 ```
 
-使用工作队列时要注意，我们既可以使用内核线程工作队列，也可以使用自定义的工作队列。
-
-如果要自定义一个工作队列，可以使用宏：
+如果要自定义一个工作队列，则可以使用宏：
 ```C
 create_workqueue(name);
 create_singlethread_workqueue(name);
 ```
 
-这两个宏的区别是，第一个宏在每个处理器上为该工作队列创建专用的线程。第二个宏只创建一个工作者线程。
+这两个宏都会返回一个`struct workqueue_struct`的指针。区别是：第一个宏在每个处理器上为该工作队列创建专用的线程，第二个宏只创建一个工作者线程。
 
 注意：不管使用哪个宏，在创建自定义工作队列后，必须在退出时，调用以下函数确保资源的释放：
 
 ```C
+/*刷新工作队列，告诉内核尽快处理*/
 void flush_workqueue(struct work_struct *work);
+
+/*删除工作队列*/
 void destroy_workqueue(struct workqueue_struct *wq);
 ```
 
@@ -321,12 +341,64 @@ int queue_delayed_work(struct workqueue_struct *queue, struct work_struct *work,
 
 在多核系统中，每个CPU上都有一个工作队列，这两个函数不会指定提交至哪个CPU，但会优先选择本地CPU。
 
-在许多情况下，驱动程序不需要单独的工作队列。如果我们只是偶尔需要向队列中提交任务，则可以使用内核默认的共享工作队列：
+### 延迟工作
+
+`struct delayed_work`结构体用来描述一个延迟工作，它实际上是`work_struct`和`timer_list`的组合体：
+    
+```C
+struct delayed_work {
+	struct work_struct work;
+	struct timer_list timer;
+
+	/* target workqueue and CPU ->timer uses to queue ->work */
+	struct workqueue_struct *wq;
+	int cpu;
+};
+```
+
+创建延迟工作：
 
 ```C
-bool schedule_work(struct work_struct *work);
-bool schedule_delayed_work(struct work_struct *work, unsigned long delay);
+/*静态定义*/
+DECLARE_DELAYED_WORK(name, func);
+
+/*动态定义*/
+INIT_DELAYED_WORK(name, func);
 ```
+
+在共享工作队列上调度延迟工作：
+
+```C
+bool schedule_delayed_work(struct delayed_work *work, unsigned long delay);
+```
+
+在自定义工作队列上调度延迟工作：
+
+```C
+bool queue_delayed_work(struct workqueue_struct *queue, struct delayed_work *work, unsigned long delay);
+```
+
+取消已经调度的延迟工作：
+
+```C
+bool cancel_delayed_work_sync(struct delayed_work *work);
+```
+
+## CMWQ
+
+CMWQ全称Concurrency Managed Workqueue，它属于工作队列，主要是为了解决旧的工作队列机制存在的一些问题而被开发出来的。
+
+!!! question "为何需要CMWQ？"
+
+旧的工作队列机制存在着一些问题：
+
+1. 调度问题：工作由单个工作者线程处理，队列中的工作必须等待之前的工作完成。
+2. 并发性能问题：每个CPU运行一个独立的工作队列，如果某个CPU上的工作阻塞，不能转移到其他空闲的CPU上去执行。
+3. 死锁问题：假如某个驱动模块比较复杂，需要用到两个工作A和B，工作A依赖工作B，当调度到同一个工作队列上时，就会出现死锁。
+
+旧的工作队列机制中，工作是与工作线程紧密相关的，创建就必须绑定。在CMWQ中，将这种固定关系打破，提出了worker pool的概念。将系统中划分为不同的worker pool，所有的工作队列共享。用户可以自己创建工作队列并通过标志位来约束挂入该工作队列上工作的处理方式。工作队列会根据标志位将工作交付给系统中某个worker pool处理。
+
+
 
 ## 下半部的同步
 

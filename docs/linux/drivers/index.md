@@ -13,7 +13,7 @@
 ## 设备模型框架
 
 - [设备模型](./device_model.md)
-- [平台设备驱动](./platform.md)
+- [平台总线模型](./platform.md)
 
 ## 字符、块和网络
 
