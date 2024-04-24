@@ -528,6 +528,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -769,7 +773,7 @@
         
   
   <span class="md-ellipsis">
-    中断和中断处理
+    中断处理程序
   </span>
   
 
@@ -916,7 +920,49 @@
         
   
   <span class="md-ellipsis">
+    时间子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
     定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/hrtimer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高精度定时器
   </span>
   
 
@@ -1213,7 +1259,7 @@
         
   
   <span class="md-ellipsis">
-    平台设备驱动
+    平台总线模型
   </span>
   
 
@@ -3108,6 +3154,10 @@
     
       
         
+          
+        
+      
+        
       
     
     
@@ -3122,16 +3172,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
         
           
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../pl/go/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Go
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_6">
@@ -3141,17 +3199,19 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../pl/go/go/" class="md-nav__link">
+      <a href="../../pl/go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Go
+    快速入门
   </span>
   
 
@@ -3604,7 +3664,7 @@
 
 <h1 id="_1">异常处理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <h2 id="_2">异常<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>在ARMv8体系结构中，异常和中断都属于异常处理。</p>
+<p>在ARM64体系结构中，异常可以分为同步异常和异步异常。异步异常就是常说的中断，来自于CPU核心的外部。</p>
 <h3 id="_3">异常类型<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
 <p>1.中断</p>
 <p>在ARM64处理器中，中断请求分为<mark class="critic">普通中断请求</mark>(IRQ)和<mark class="critic">快速中断请求</mark>(FIQ)，其中FIQ的优先级高于IRQ。</p>
@@ -3616,7 +3676,7 @@
 <p>4.异常指令</p>
 <ul>
 <li>SVC指令：系统调用指令，用于调用操作系统提供的服务</li>
-<li>HVC指令：硬件虚拟化指令，用于调用虚拟化相关的服务</li>
+<li>HVC指令：硬件虚拟化指令，用于调用虚拟化(Hypervisor)相关的服务</li>
 <li>SMC指令：安全监视器调用指令，用于调用安全监视器提供的服务</li>
 </ul>
 <h3 id="_4">异常等级<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>

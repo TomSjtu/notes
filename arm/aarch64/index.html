@@ -528,6 +528,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -769,7 +773,7 @@
         
   
   <span class="md-ellipsis">
-    中断和中断处理
+    中断处理程序
   </span>
   
 
@@ -916,7 +920,49 @@
         
   
   <span class="md-ellipsis">
+    时间子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
     定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/hrtimer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高精度定时器
   </span>
   
 
@@ -1213,7 +1259,7 @@
         
   
   <span class="md-ellipsis">
-    平台设备驱动
+    平台总线模型
   </span>
   
 
@@ -3042,6 +3088,10 @@
     
       
         
+          
+        
+      
+        
       
     
     
@@ -3056,16 +3106,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
         
           
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../pl/go/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Go
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_6">
@@ -3075,17 +3133,19 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../pl/go/go/" class="md-nav__link">
+      <a href="../../pl/go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Go
+    快速入门
   </span>
   
 
@@ -3606,6 +3666,8 @@
 <p>11.NZCV寄存器</p>
 <p>表示PSTATE寄存器中{N, Z, C, V}字段的值。</p>
 <h2 id="_1">异常等级<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>异常是指某些外部或内部的事件，导致CPU去往更高异常等级，执行一些预先设定的代码。在执行完毕后，返回发生异常的现场。</p>
+<p>ARM64最大支持四种异常：</p>
 <p><img alt="异常等级" src="../../images/arm/exception_level.webp" /></p>
 <ul>
 <li>

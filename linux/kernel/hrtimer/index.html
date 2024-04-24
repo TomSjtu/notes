@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/drivers/dma/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/hrtimer/">
       
       
-        <link rel="prev" href="../interrupt/">
+        <link rel="prev" href="../timer/">
       
       
-        <link rel="next" href="../device_model/">
+        <link rel="next" href="../pm/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>直接内存访问 - 一只Tom的笔记本</title>
+        <title>高精度定时器 - 一只Tom的笔记本</title>
       
     
     
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              直接内存访问
+              高精度定时器
             
           </span>
         </div>
@@ -488,528 +488,6 @@
                 
   
   
-  
-  
-    
-    
-      
-        
-          
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../kernel/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    内核剖析
-  </span>
-  
-
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_2">
-            <span class="md-nav__icon md-icon"></span>
-            内核剖析
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/compile/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核的编译与启动
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/program/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内核编程
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/debug/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    调试技术
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/synch/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    同步语义
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/others/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    其他
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/task/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程管理
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/sched/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程调度
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/ipc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程间通信
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/vma/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    进程地址空间
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/interrupt/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    中断处理程序
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/bottom_half/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    中断下半部
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/mm/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    物理内存管理
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/recycle/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    内存回收
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/vfs/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    虚拟文件系统
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/block/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    块I/O
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/network/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    网络系统
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/time/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    时间子系统
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/timer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    定时器
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/hrtimer/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    高精度定时器
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../kernel/pm/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    电源管理
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
     
   
   
@@ -1019,12 +497,6 @@
       
         
           
-        
-      
-        
-      
-        
-      
         
       
         
@@ -1077,7 +549,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
           
@@ -1086,23 +558,23 @@
               
   
   <span class="md-ellipsis">
-    设备驱动程序
+    内核剖析
   </span>
   
 
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2_3">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
-            设备驱动程序
+            内核剖析
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1115,11 +587,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../hardware/" class="md-nav__link">
+      <a href="../compile/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    硬件知识
+    内核的编译与启动
   </span>
   
 
@@ -1136,11 +608,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../protocol/" class="md-nav__link">
+      <a href="../program/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    通信协议
+    内核编程
   </span>
   
 
@@ -1157,11 +629,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../module/" class="md-nav__link">
+      <a href="../debug/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    内核模块
+    调试技术
   </span>
   
 
@@ -1178,11 +650,116 @@
   
   
     <li class="md-nav__item">
-      <a href="../dts/" class="md-nav__link">
+      <a href="../synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    设备树
+    同步语义
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../others/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sched/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程调度
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ipc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程间通信
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程地址空间
   </span>
   
 
@@ -1203,7 +780,175 @@
         
   
   <span class="md-ellipsis">
-    中断子系统
+    中断处理程序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bottom_half/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    中断下半部
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    物理内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recycle/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存回收
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    虚拟文件系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../block/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    块I/O
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    时间子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    定时器
   </span>
   
 
@@ -1229,54 +974,15 @@
         
       
       
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    直接内存访问
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
-    直接内存访问
+    高精度定时器
   </span>
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      交换数据
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
       
     </li>
   
@@ -1290,7 +996,262 @@
   
   
     <li class="md-nav__item">
-      <a href="../device_model/" class="md-nav__link">
+      <a href="../pm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    电源管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../drivers/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    设备驱动程序
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            设备驱动程序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    通信协议
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/dts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设备树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/interrupt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    中断子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/dma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    直接内存访问
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../drivers/device_model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1311,7 +1272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../platform/" class="md-nav__link">
+      <a href="../../drivers/platform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1332,7 +1293,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../chardev/" class="md-nav__link">
+      <a href="../../drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1353,7 +1314,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../blkdev/" class="md-nav__link">
+      <a href="../../drivers/blkdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1374,7 +1335,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../netdev/" class="md-nav__link">
+      <a href="../../drivers/netdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1395,7 +1356,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pinctrl/" class="md-nav__link">
+      <a href="../../drivers/pinctrl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1416,7 +1377,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gpio/" class="md-nav__link">
+      <a href="../../drivers/gpio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1437,7 +1398,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../i2c/" class="md-nav__link">
+      <a href="../../drivers/i2c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1458,7 +1419,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../spi/" class="md-nav__link">
+      <a href="../../drivers/spi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1479,7 +1440,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../uart/" class="md-nav__link">
+      <a href="../../drivers/uart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1500,7 +1461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../input/" class="md-nav__link">
+      <a href="../../drivers/input/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1521,7 +1482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ethernet/" class="md-nav__link">
+      <a href="../../drivers/ethernet/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1542,7 +1503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pci/" class="md-nav__link">
+      <a href="../../drivers/pci/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1563,7 +1524,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../usb/" class="md-nav__link">
+      <a href="../../drivers/usb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1584,7 +1545,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mmc/" class="md-nav__link">
+      <a href="../../drivers/mmc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1605,7 +1566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../wifi/" class="md-nav__link">
+      <a href="../../drivers/wifi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1626,7 +1587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../bluetooth/" class="md-nav__link">
+      <a href="../../drivers/bluetooth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3481,23 +3442,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      交换数据
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -3514,34 +3458,75 @@
   
 
 
-<h1 id="_1">直接内存访问<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>直接内存访问(DMA)是一种高级的硬件机制，它允许外围设备和内存之间直接传输它们的I/O数据，而不需要CPU的参与。使用这种机制可以大大提高与设备通信的效率。</p>
-<h2 id="_2">交换数据<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>1.单变量访问：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">get_user</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">*</span><span class="n">address</span><span class="p">)</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">put_user</span><span class="p">(</span><span class="n">type</span><span class="w"> </span><span class="n">val</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="w"> </span><span class="o">*</span><span class="n">address</span><span class="p">)</span>
+<h1 id="_1">高精度定时器<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>传统的定时器精度不足，只能支持Tick级别的精度。为了实现更高精度的定时器，内核独立设计了一个高精度定时器层(High Resolution Timer Layer)，可以提供纳秒级别的精度，以满足对精确时间有迫切需求的程序。</p>
+<p>高精度定时器建立在Per CPU变量上，每个CPU都有一个独立的定时器。同时支持低精度模式和高精度模式。内核使用红黑树来组织各个高精度定时器，新的定时器按顺序被插入到红黑树中，树的最左边的节点就是最快到期的定时器。</p>
+<p>创建一个高精度定时器：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="n">hr_timer</span><span class="p">;</span>
 </code></pre></div>
-<p>2.数组访问：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">copy_to_user</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">copy_from_user</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">to</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<p>初始化定时器：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">hrtimer_init</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="kt">clockid_t</span><span class="w"> </span><span class="n">which_clock</span><span class="p">,</span><span class="w"> </span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">                  </span><span class="k">enum</span><span class="w"> </span><span class="n">hrtimer_mode</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
 </code></pre></div>
-<p>3.内存映射I/O访问</p>
-<p>获取I/O虚拟地址：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">devm_ioremap</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">size</span><span class="p">)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kt">void</span><span class="w"> </span><span class="n">devm_iounmap</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
+<p>定时器初始化时，需要指定定时模式和时钟类型。</p>
+<p>定时模式有以下几种：</p>
+<ul>
+<li>HRTIMER_MODE_ABS：绝对定时模式。在这种模式下，定时器将在一个特定的未来时间点到期。</li>
+<li>HRTIMER_MODE_REL：相对定时模式。在这种模式下，定时器将在当前时间点之后的指定时间间隔到期。</li>
+<li>HRTIMER_MODE_PINNED：固定定时模式。这是一种特殊的绝对定时模式，用于实时任务，确保定时器在特定的CPU上执行，以减少调度延迟。</li>
+<li>HRTIMER_MODE_SOFT：软定时模式。定时器回调函数在软中断上下文中执行。</li>
+<li>HRTIMER_MODE_HARD：硬定时模式。定时器回调函数在硬中断上下文中执行。</li>
+</ul>
+<p>时钟类型有以下几种：</p>
+<ul>
+<li>CLOCK_REALTIME：实时时钟。</li>
+<li>CLOCK_MONOTONIC：单调时钟。</li>
+<li>CLOCK_BOOTTIME：启动时钟。</li>
+<li>CLOCK_RAW：原始时钟。</li>
+</ul>
+<p>启动一个高精度定时器：
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">hrtimer_start</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="n">ktime_t</span><span class="w"> </span><span class="n">time</span><span class="p">,</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">                  </span><span class="k">const</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">hrtimer_mode</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
+</code></pre></div></p>
+<p>取消一个正在运行的高精度定时器：
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">hrtimer_cancel</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">);</span>
+</code></pre></div></p>
+<div class="admonition example">
+<p class="admonition-title">高精度定时器的使用</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/hrtimer.h&gt;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/ktime.h&gt;</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1">// 定义一个高精度定时器的回调函数</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">static</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">hrtimer_restart</span><span class="w"> </span><span class="nf">my_hrtimer_callback</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="o">*</span><span class="n">timer_for_my_hrtimer</span><span class="p">)</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="p">{</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="c1">// 定时器到期的处理逻辑</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="w">    </span><span class="c1">// ...</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="w">    </span><span class="c1">// 如果需要，重新启动定时器</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="w">    </span><span class="c1">// hrtimer_start(timer_for_my_hrtimer, ktime_set(0, 1000000), HRTIMER_MODE_REL);</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">HRTIMER_NORESTART</span><span class="p">;</span><span class="w"> </span><span class="c1">// 或者 HRTIMER_RESTART</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">}</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
+<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="kt">void</span><span class="w"> </span><span class="nf">my_hrtimer_function</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="p">{</span>
+<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="n">hr_timer</span><span class="p">;</span>
+<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a><span class="w">    </span><span class="n">ktime_t</span><span class="w"> </span><span class="n">ktime</span><span class="p">;</span>
+<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a>
+<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">    </span><span class="c1">// 初始化定时器</span>
+<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">    </span><span class="n">hrtimer_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hr_timer</span><span class="p">,</span><span class="w"> </span><span class="n">CLOCK_MONOTONIC</span><span class="p">,</span><span class="w"> </span><span class="n">HRTIMER_MODE_REL</span><span class="p">);</span>
+<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
+<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">    </span><span class="c1">// 设置定时器的回调函数</span>
+<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="w">    </span><span class="n">hr_timer</span><span class="p">.</span><span class="n">function</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">my_hrtimer_callback</span><span class="p">;</span>
+<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a>
+<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">    </span><span class="c1">// 设置定时时间（例如，1毫秒后）</span>
+<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a><span class="w">    </span><span class="n">ktime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ktime_set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1000000</span><span class="p">);</span><span class="w"> </span><span class="c1">// 0秒，1000000纳秒</span>
+<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a>
+<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">    </span><span class="c1">// 启动定时器</span>
+<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a><span class="w">    </span><span class="n">hrtimer_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hr_timer</span><span class="p">,</span><span class="w"> </span><span class="n">ktime</span><span class="p">,</span><span class="w"> </span><span class="n">HRTIMER_MODE_REL</span><span class="p">);</span>
+<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="p">}</span>
 </code></pre></div>
-<p>访问I/O虚拟地址：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ioread8</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ioread16</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ioread32</span><span class="p">(</span><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kt">void</span><span class="w"> </span><span class="n">iowrite8</span><span class="p">(</span><span class="n">u8</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="kt">void</span><span class="w"> </span><span class="n">iowrite16</span><span class="p">(</span><span class="n">u16</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="kt">void</span><span class="w"> </span><span class="n">iowrite32</span><span class="p">(</span><span class="n">u32</span><span class="w"> </span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">)</span>
-</code></pre></div>
+</div>
 
 
 

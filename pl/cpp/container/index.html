@@ -528,6 +528,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -769,7 +773,7 @@
         
   
   <span class="md-ellipsis">
-    中断和中断处理
+    中断处理程序
   </span>
   
 
@@ -916,7 +920,49 @@
         
   
   <span class="md-ellipsis">
+    时间子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
     定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/hrtimer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高精度定时器
   </span>
   
 
@@ -1213,7 +1259,7 @@
         
   
   <span class="md-ellipsis">
-    平台设备驱动
+    平台总线模型
   </span>
   
 
@@ -3221,6 +3267,10 @@
     
       
         
+          
+        
+      
+        
       
     
     
@@ -3235,16 +3285,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
         
           
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../go/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Go
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_6">
@@ -3254,17 +3312,19 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../go/go/" class="md-nav__link">
+      <a href="../../go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Go
+    快速入门
   </span>
   
 
@@ -4007,7 +4067,7 @@
 <h3 id="string_view">string_view<a class="headerlink" href="#string_view" title="Permanent link">&para;</a></h3>
 <p>在过去，接收只读字符串一直是一件比较头疼的事情，<code>string_view</code>的出现解决了接口不一致的问题。它用来提供对字符串的只读访问，不拥有字符串的所有权，因此不能用来保存临时字符串。一般用在函数参数中按值传递。</p>
 <h3 id="bitset">bitset<a class="headerlink" href="#bitset" title="Permanent link">&para;</a></h3>
-<p>可通过<code>set()</code>、<code>reset()</code>、<code>flip()</code>方法改变单个位的值，通过重载的<code>operator[]</code>运算符访问和设置单个位。<code>test()</code>方法用于测试位是否为1。</p>
+<p><code>bitset</code>是标准库提供的用于存储和操作位的数据结构。可通过<code>set()</code>、<code>reset()</code>、<code>flip()</code>方法改变单个位的值，通过重载的<code>operator[]</code>运算符访问和设置单个位。<code>test()</code>方法用于测试位是否为1。</p>
 
 
 

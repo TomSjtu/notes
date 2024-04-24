@@ -533,6 +533,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -774,7 +778,7 @@
         
   
   <span class="md-ellipsis">
-    中断和中断处理
+    中断处理程序
   </span>
   
 
@@ -921,7 +925,49 @@
         
   
   <span class="md-ellipsis">
+    时间子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
     定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/hrtimer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高精度定时器
   </span>
   
 
@@ -1320,7 +1366,7 @@
         
   
   <span class="md-ellipsis">
-    平台设备驱动
+    平台总线模型
   </span>
   
 
@@ -3086,6 +3132,10 @@
     
       
         
+          
+        
+      
+        
       
     
     
@@ -3100,16 +3150,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
         
           
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../pl/go/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Go
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_6">
@@ -3119,17 +3177,19 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/go/go/" class="md-nav__link">
+      <a href="../../../pl/go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Go
+    快速入门
   </span>
   
 
@@ -3688,12 +3748,15 @@
 <p>则reg中第一个值表示地址，第二个值表示长度。</p>
 <p>6.<code>ranges</code>属性</p>
 <p><code>range</code>是地址映射表，按照（子地址，父地址，映射长度）的格式编写。</p>
-<p>比如#address-cells和#size-cells都为1的话，以ranges=&lt;0x0 0x10 0x20&gt;为例，表示将子地址的0x0映射到父地址的0x10，共映射0x20个字节。</p>
+<p>子地址由ranges所在节点的"#address-cells"属性决定，父地址由ranges父节点的"#address-cells"属性决定，映射长度由ranges父节点的"#size-cells"属性决定。</p>
+<p>以ranges=&lt;0x0 0x10 0x20&gt;为例，表示将子地址的0x0映射到父地址的0x10，共映射0x20个字节。</p>
 <p><code>ranges</code>属性用来指定某个设备的地址范围或者IO范围，这是对设备进行寻址的重要信息。操作系统通过<code>ranges</code>属性获知哪些内存区域或者IO端口是被硬件设备所占用的。</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>如果<code>ranges</code>属性为空，则说明子地址空间和父地址空间相同，不需要进行转换。</p>
-</div>
+<p>根据ranges属性的不同把设备分成三类：</p>
+<ul>
+<li>ranges属性不为空：非内存映射型设备，CPU不可以直接访问，需要通过地址映射</li>
+<li>ranges属性为空：内存映射型设备，CPU可以直接访问</li>
+<li>没有ranges属性：只能被父节点访问</li>
+</ul>
 <p>7.<code>intc</code>属性</p>
 <p>用于表示中断控制器的相关信息，可以包含以下信息：</p>
 <ul>

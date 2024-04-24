@@ -18,7 +18,7 @@
         <link rel="prev" href="../network/">
       
       
-        <link rel="next" href="../pm/">
+        <link rel="next" href="../timer/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>定时器 - 一只Tom的笔记本</title>
+        <title>时间子系统 - 一只Tom的笔记本</title>
       
     
     
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              定时器
+              时间子系统
             
           </span>
         </div>
@@ -535,6 +535,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -776,7 +780,7 @@
         
   
   <span class="md-ellipsis">
-    中断和中断处理
+    中断处理程序
   </span>
   
 
@@ -932,7 +936,7 @@
           
   
   <span class="md-ellipsis">
-    定时器
+    时间子系统
   </span>
   
 
@@ -943,7 +947,7 @@
         
   
   <span class="md-ellipsis">
-    定时器
+    时间子系统
   </span>
   
 
@@ -965,27 +969,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#jiffies" class="md-nav__link">
-    <span class="md-ellipsis">
-      节拍率和jiffies变量
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#timespec64" class="md-nav__link">
-    <span class="md-ellipsis">
-      timespec64
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      动态定时器的使用
+      不同精度的时间
     </span>
   </a>
   
@@ -994,35 +980,35 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      延迟执行
+      软件架构
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="延迟执行">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      忙等待
+      文件列表
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      让出处理器
+      用户空间接口
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="用户空间接口">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      超时执行
+      系统时间
     </span>
   </a>
   
@@ -1031,7 +1017,16 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      短延迟
+      进程睡眠
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      定时器
     </span>
   </a>
   
@@ -1042,19 +1037,52 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      高精度定时器
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hrtimer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高精度定时器
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -1347,7 +1375,7 @@
         
   
   <span class="md-ellipsis">
-    平台设备驱动
+    平台总线模型
   </span>
   
 
@@ -3113,6 +3141,10 @@
     
       
         
+          
+        
+      
+        
       
     
     
@@ -3127,16 +3159,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
         
           
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../pl/go/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Go
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_6">
@@ -3146,17 +3186,19 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/go/go/" class="md-nav__link">
+      <a href="../../../pl/go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Go
+    快速入门
   </span>
   
 
@@ -3506,27 +3548,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#jiffies" class="md-nav__link">
-    <span class="md-ellipsis">
-      节拍率和jiffies变量
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#timespec64" class="md-nav__link">
-    <span class="md-ellipsis">
-      timespec64
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      动态定时器的使用
+      不同精度的时间
     </span>
   </a>
   
@@ -3535,35 +3559,35 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      延迟执行
+      软件架构
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="延迟执行">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      忙等待
+      文件列表
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      让出处理器
+      用户空间接口
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="用户空间接口">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      超时执行
+      系统时间
     </span>
   </a>
   
@@ -3572,7 +3596,16 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      短延迟
+      进程睡眠
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      定时器
     </span>
   </a>
   
@@ -3580,15 +3613,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      高精度定时器
-    </span>
-  </a>
   
 </li>
       
@@ -3610,169 +3634,235 @@
   
 
 
-<h1 id="_1">定时器<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>定时器可以用来在将来的某个特定时间点执行特定的函数。被调度运行的函数会异步地运行，就像硬件中断发生时的场景一样。定时器函数必须以原子的方式运行。在SMP系统中，定时器函数会由注册它的同一CPU执行，以尽可能获得缓存的局部性。任何通过定时器函数访问的共享资源都应该针对并发访问进行保护。</p>
-<p>系统级别的定时器能以固定的频率产生中断，这种中断被称为<mark class="critic">定时器中断</mark>，它所对应的中断处理程序负责更新系统时间和执行周期性任务。</p>
-<p>系统定时器中断处理程序需要执行的操作有：</p>
-<ul>
-<li>更新系统启动以来所经过的时间</li>
-<li>更新时间和日期</li>
-<li>确定当前进程在每个CPU上已运行了多少时间</li>
-<li>运行超时的动态定时器</li>
-<li>更新资源使用统计</li>
-</ul>
-<h2 id="jiffies">节拍率和jiffies变量<a class="headerlink" href="#jiffies" title="Permanent link">&para;</a></h2>
-<p>系统定时器的频率被称为<mark class="critic">节拍率</mark>（tick rate），产生的两次时钟中断的间隔就被称为<mark class="critic">节拍</mark>（tick），它等于节拍率分之一秒。内核通过时钟中断间隔来计算系统运行时间。</p>
-<p>定时器频率是通过静态预处理定义的，在系统启动时被设置，该值与体系结构相关。如果设置为1000，那么每秒就产生1000次中断（每1ms产生一次）。</p>
-<p>定时器频率应设置为一个理想的值，高HZ可以提高系统的性能，使得由时间驱动的事件更为精确。但同时也带来了额外的系统负担，因为处理器会被更频繁地打断去执行时钟中断处理程序。</p>
-<p>全局变量<code>jiffies</code>用来记录系统启动以来产生的节拍总数。内核在启动时将该变量初始化为0，此后每产生一次时钟中断该值就+1。因为一秒内时钟中断的次数等于HZ，所以<code>jiffies</code>一秒内增加的值也就为HZ。系统运行时间以秒为计，其值等于jiffies/HZ。</p>
-<p><code>jiffies</code>变量被定义为unsigned long类型。在32位体系结构上是32位。如果时钟频率为100HZ，那么497天后会溢出。如果是64位体系结构，可以放心地认为它不会溢出。</p>
-<p>当<code>jiffies</code>变量的值溢出后再继续增加的话，它会回绕至0。内核使用<code>time_after</code>、<code>time_after_eq</code>、<code>time_before</code>和<code>time_before_eq</code>宏来判断两个时间值的关系。</p>
-<p>为了解决<code>jiffies</code>变量的溢出问题，内核引入了<code>jiffies_64</code>变量，这是一个64位的无符号整数。在64位架构上，这两个变量是一个值；但在32位架构上，对64位值的访问不是原子的。这意味着读取64位值的高32位和低32位时，变量的值可能会发生更新而导致获取错误的值。因此在32位架构上不能对64位的值直接读取，必须使用一个特殊的辅助函数<code>get_jiffies_64</code>。</p>
-<h2 id="timespec64">timespec64<a class="headerlink" href="#timespec64" title="Permanent link">&para;</a></h2>
-<p><code>struct timespec64</code>结构体用来表示一个时间值，它由两个64位的无符号整数组成：
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">timespec64</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">time64_t</span><span class="w">    </span><span class="n">tv_sec</span><span class="p">;</span><span class="w">         </span><span class="cm">/* seconds */</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kt">long</span><span class="w">        </span><span class="n">tv_nsec</span><span class="p">;</span><span class="w">        </span><span class="cm">/* nanoseconds */</span>
+<h1 id="_1">时间子系统<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>Linux采用了1970年1月1日0点0分0秒作为基准点(epoch)。</p>
+<h2 id="_2">不同精度的时间<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>基于秒的时间定义：<code>typedef long time_t</code>。</p>
+<p>基于微秒的时间定义：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">timeval</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">time_t</span><span class="w"> </span><span class="n">tv_sec</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">suseconds_t</span><span class="w"> </span><span class="n">tv_usec</span><span class="p">;</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">};</span>
-</code></pre></div></p>
-<h2 id="_2">动态定时器的使用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p><code>struct timer_list</code>结构体用来表示一个动态定时器：
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">hlist_node</span><span class="w">   </span><span class="n">entry</span><span class="p">;</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">expires</span><span class="p">;</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kt">void</span><span class="w">            </span><span class="p">(</span><span class="o">*</span><span class="n">function</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">u32</span><span class="w">         </span><span class="n">flags</span><span class="p">;</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">};</span>
-</code></pre></div></p>
-<p>定时器的使用很简单。你只需要执行一些初始化工作，设置一个超时时间，指定超时发生后需要执行的函数，然后激活定时器就可以了。内核提供了一组与定时器相关的接口用来简化定时器的操作。</p>
-<p>创建定时器：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="n">my_timer</span><span class="p">;</span>
 </code></pre></div>
-<p>初始化定时器：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">DEFINE_TIMER</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">)</span><span class="err">；</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kt">void</span><span class="w"> </span><span class="n">setup_timer</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">function</span><span class="p">)(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="p">),</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
+<p>基于纳秒的时间定义：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kt">time_t</span><span class="w"> </span><span class="n">tv_sec</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">tv_nsec</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">};</span>
 </code></pre></div>
-<p>定时器到期激活函数原型：
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">my_function</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
-</code></pre></div></p>
-<p>一般来说，定时器都会在超时后马上执行，但也有可能会推迟到下一个时钟节拍时才运行，所以不能用定时器来实现任何硬实时的任务。如果需要修改定时器超时时间，可以通过<code>mod_timer()</code>函数来实现：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">mod_timer</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">expires</span><span class="p">);</span>
-</code></pre></div>
-<p>注册定时器：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">add_timer</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">);</span>
-</code></pre></div>
-<p>如果在定时器超时前停止定时器，可以使用<code>del_timer()</code>函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">del_timer</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">);</span>
-</code></pre></div>
-<p>需要注意的是，在SMP系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到<code>del_timer_syn()</code>函数来执行删除工作。在大多数情况下，都应该调用这个函数而不是<code>del_timer()</code>。在持有锁时，需要格外小心<code>del_timer_syn()</code>函数的使用，因为如果定时器函数试图获取相同的锁，系统就会进入死锁。</p>
-<h2 id="_3">延迟执行<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>内核代码往往需要推迟某些任务的执行，这种推迟通常发生在等待硬件完成某些工作，而且等待时间往往非常短。内核提供了多种延迟方法来处理延迟请求。</p>
-<h3 id="_4">忙等待<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>最简单的延迟方法就是忙等待。该方法仅仅在想要延迟的时间是节拍的整数倍，或者精确率要求不高的情况下才可以使用。忙等待的实现非常简单——在一个循环中不断等待直到希望的时钟节拍数耗尽，比如：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">timeout</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">jiffies</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w">    </span><span class="c1">//等待10个节拍</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">while</span><span class="p">(</span><span class="n">time_before</span><span class="p">(</span><span class="n">jiffies</span><span class="p">,</span><span class="w"> </span><span class="n">timeout</span><span class="p">)){</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="c1">//relax</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">}</span>
-</code></pre></div>
-<p>该循环将不断执行，直到<code>jiffies</code>大于delay为止。这是一种低效的办法， 因为处理器除了等待不会做任何事情。</p>
-<h3 id="_5">让出处理器<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>忙等待大大浪费了系统的性能，一种解决办法是在不需要CPU的情况下主动释放：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">while</span><span class="p">(</span><span class="n">time_before</span><span class="p">(</span><span class="n">jiffies</span><span class="p">,</span><span class="w"> </span><span class="n">timeout</span><span class="p">)){</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="n">schedule</span><span class="p">();</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">}</span>
-</code></pre></div>
-<h3 id="_6">超时执行<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>如果驱动程序使用等待队列来等待其他一些事件，而我们同时希望在特定时间段中运行，可以使用<code>wait_event_timeout()</code>或者<code>wait_event_interruptible_timeout()</code>函数。调用上述函数会使进程进入等待状态，直到某个条件为真：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">long</span><span class="w"> </span><span class="nf">wait_event_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kt">long</span><span class="w"> </span><span class="nf">wait_event_interruptible_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
-</code></pre></div>
-<p>这两个函数的区别是，第一个函数不可中断，而第二个函数可以响应信号。两个函数都会在给定的等待队列上休眠，在超时到期时返回。如果有其他进程在等待队列上调用了<code>wake_up()</code>函数，也会使得进程从等待队列中被唤醒。</p>
-<p>对于无需等待特定事件而延迟的情况，可以使用<code>schedule_timeout()</code>函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">signed</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="nf">schedule_timeout</span><span class="p">(</span><span class="kt">signed</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
-</code></pre></div>
-<p>timeout是用<code>jiffies</code>表示的延迟时间。<code>schedule_timeout()</code>函数要求预先设置进程状态：<code>set_current_state(TASK_INTERRUPTIBLE)</code>。</p>
-<p>注意，由于<code>schedule_timeout()</code>函数需要调用调度程序，所以调用它的代码必须保证能够睡眠。也就是调用函数必须位于进程上下文中，且不能持有锁。</p>
-<p>当任务被重新调度时，将返回代码进入睡眠前的位置继续执行。如果任务提前被唤醒，那么定时器被撤销。</p>
-<h3 id="_7">短延迟<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>基于<code>jiffies</code>的延迟方法受限于时钟节拍，无法提供更短、更精确的延迟要求。为此，内核提供了三个可以处理ns、us和ms级别的短延迟函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ndelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">nsecs</span><span class="p">);</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">udelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">usecs</span><span class="p">);</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">mdelay</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">msecs</span><span class="p">);</span>
-</code></pre></div>
-<p>这些函数的实际实现在&lt;asm/delay.h&gt;中，很明显，这些是与体系架构相关的函数。这三个函数都是忙等待函数，在延迟过程中无法运行其他任务。不涉及忙等待的函数有以下两个，它们会将当前进程置入休眠状态：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">msleep</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">millisecs</span><span class="p">);</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">ssleep</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">seconds</span><span class="p">);</span>
-</code></pre></div>
-<h2 id="_8">高精度定时器<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>传统的定时器精度不足，只能支持Tick级别的精度。为了实现更高精度的定时器，内核独立设计了一个高精度定时器层（High Resolution Timer Layer），可以提供纳秒级别的精度，以满足对精确时间有迫切需求的程序。</p>
-<p>高精度定时器建立在Per CPU变量上，每个CPU都有一个独立的定时器。同时支持低精度模式和高精度模式。内核使用红黑树来组织各个高精度定时器，新的定时器按顺序被插入到红黑树中，树的最左边的节点就是最快到期的定时器。</p>
-<p>创建一个高精度定时器：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="n">hr_timer</span><span class="p">;</span>
-</code></pre></div>
-<p>初始化定时器：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">hrtimer_init</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="kt">clockid_t</span><span class="w"> </span><span class="n">which_clock</span><span class="p">,</span><span class="w"> </span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">                  </span><span class="k">enum</span><span class="w"> </span><span class="n">hrtimer_mode</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
-</code></pre></div>
-<p>定时器初始化时，需要指定定时模式和时钟类型。</p>
-<p>定时模式有以下几种：</p>
+<h2 id="_3">软件架构<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p><img alt="Timer lib" src="../../../images/kernel/timer_lib.gif" /></p>
+<p>如图所示，timer的功能被分成了两块：</p>
 <ul>
-<li>HRTIMER_MODE_ABS：绝对定时模式。在这种模式下，定时器将在一个特定的未来时间点到期。</li>
-<li>HRTIMER_MODE_REL：相对定时模式。在这种模式下，定时器将在当前时间点之后的指定时间间隔到期。</li>
-<li>HRTIMER_MODE_PINNED：固定定时模式。这是一种特殊的绝对定时模式，用于实时任务，确保定时器在特定的CPU上执行，以减少调度延迟。</li>
-<li>HRTIMER_MODE_SOFT：软定时模式。定时器回调函数在软中断上下文中执行。</li>
-<li>HRTIMER_MODE_HARD：硬定时模式。定时器回调函数在硬中断上下文中执行。</li>
+<li>Global Counter：全局计数器，不属于任何一个CPU</li>
+<li>CPU Local Timer：CPU本地计数器</li>
 </ul>
-<p>时钟类型有以下几种：</p>
-<ul>
-<li>CLOCK_REALTIME：实时时钟。</li>
-<li>CLOCK_MONOTONIC：单调时钟。</li>
-<li>CLOCK_BOOTTIME：启动时钟。</li>
-<li>CLOCK_RAW：原始时钟。</li>
-</ul>
-<p>启动一个高精度定时器：
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">hrtimer_start</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">,</span><span class="w"> </span><span class="n">ktime_t</span><span class="w"> </span><span class="n">time</span><span class="p">,</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">                  </span><span class="k">const</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">hrtimer_mode</span><span class="w"> </span><span class="n">mode</span><span class="p">);</span>
-</code></pre></div></p>
-<p>取消一个正在运行的高精度定时器：
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">hrtimer_cancel</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="o">*</span><span class="n">timer</span><span class="p">);</span>
-</code></pre></div></p>
-<div class="admonition example">
-<p class="admonition-title">高精度定时器的使用</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/hrtimer.h&gt;</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/ktime.h&gt;</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1">// 定义一个高精度定时器的回调函数</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="k">static</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">hrtimer_restart</span><span class="w"> </span><span class="nf">my_hrtimer_callback</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="o">*</span><span class="n">timer_for_my_hrtimer</span><span class="p">)</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="p">{</span>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="c1">// 定时器到期的处理逻辑</span>
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="c1">// ...</span>
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a>
-<a id="__codelineno-18-10" name="__codelineno-18-10" href="#__codelineno-18-10"></a><span class="w">    </span><span class="c1">// 如果需要，重新启动定时器</span>
-<a id="__codelineno-18-11" name="__codelineno-18-11" href="#__codelineno-18-11"></a><span class="w">    </span><span class="c1">// hrtimer_start(timer_for_my_hrtimer, ktime_set(0, 1000000), HRTIMER_MODE_REL);</span>
-<a id="__codelineno-18-12" name="__codelineno-18-12" href="#__codelineno-18-12"></a>
-<a id="__codelineno-18-13" name="__codelineno-18-13" href="#__codelineno-18-13"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">HRTIMER_NORESTART</span><span class="p">;</span><span class="w"> </span><span class="c1">// 或者 HRTIMER_RESTART</span>
-<a id="__codelineno-18-14" name="__codelineno-18-14" href="#__codelineno-18-14"></a><span class="p">}</span>
-<a id="__codelineno-18-15" name="__codelineno-18-15" href="#__codelineno-18-15"></a>
-<a id="__codelineno-18-16" name="__codelineno-18-16" href="#__codelineno-18-16"></a><span class="kt">void</span><span class="w"> </span><span class="nf">my_hrtimer_function</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<a id="__codelineno-18-17" name="__codelineno-18-17" href="#__codelineno-18-17"></a><span class="p">{</span>
-<a id="__codelineno-18-18" name="__codelineno-18-18" href="#__codelineno-18-18"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">hrtimer</span><span class="w"> </span><span class="n">hr_timer</span><span class="p">;</span>
-<a id="__codelineno-18-19" name="__codelineno-18-19" href="#__codelineno-18-19"></a><span class="w">    </span><span class="n">ktime_t</span><span class="w"> </span><span class="n">ktime</span><span class="p">;</span>
-<a id="__codelineno-18-20" name="__codelineno-18-20" href="#__codelineno-18-20"></a>
-<a id="__codelineno-18-21" name="__codelineno-18-21" href="#__codelineno-18-21"></a><span class="w">    </span><span class="c1">// 初始化定时器</span>
-<a id="__codelineno-18-22" name="__codelineno-18-22" href="#__codelineno-18-22"></a><span class="w">    </span><span class="n">hrtimer_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hr_timer</span><span class="p">,</span><span class="w"> </span><span class="n">CLOCK_MONOTONIC</span><span class="p">,</span><span class="w"> </span><span class="n">HRTIMER_MODE_REL</span><span class="p">);</span>
-<a id="__codelineno-18-23" name="__codelineno-18-23" href="#__codelineno-18-23"></a>
-<a id="__codelineno-18-24" name="__codelineno-18-24" href="#__codelineno-18-24"></a><span class="w">    </span><span class="c1">// 设置定时器的回调函数</span>
-<a id="__codelineno-18-25" name="__codelineno-18-25" href="#__codelineno-18-25"></a><span class="w">    </span><span class="n">hr_timer</span><span class="p">.</span><span class="n">function</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">my_hrtimer_callback</span><span class="p">;</span>
-<a id="__codelineno-18-26" name="__codelineno-18-26" href="#__codelineno-18-26"></a>
-<a id="__codelineno-18-27" name="__codelineno-18-27" href="#__codelineno-18-27"></a><span class="w">    </span><span class="c1">// 设置定时时间（例如，1毫秒后）</span>
-<a id="__codelineno-18-28" name="__codelineno-18-28" href="#__codelineno-18-28"></a><span class="w">    </span><span class="n">ktime</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ktime_set</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1000000</span><span class="p">);</span><span class="w"> </span><span class="c1">// 0秒，1000000纳秒</span>
-<a id="__codelineno-18-29" name="__codelineno-18-29" href="#__codelineno-18-29"></a>
-<a id="__codelineno-18-30" name="__codelineno-18-30" href="#__codelineno-18-30"></a><span class="w">    </span><span class="c1">// 启动定时器</span>
-<a id="__codelineno-18-31" name="__codelineno-18-31" href="#__codelineno-18-31"></a><span class="w">    </span><span class="n">hrtimer_start</span><span class="p">(</span><span class="o">&amp;</span><span class="n">hr_timer</span><span class="p">,</span><span class="w"> </span><span class="n">ktime</span><span class="p">,</span><span class="w"> </span><span class="n">HRTIMER_MODE_REL</span><span class="p">);</span>
-<a id="__codelineno-18-32" name="__codelineno-18-32" href="#__codelineno-18-32"></a><span class="p">}</span>
+<h2 id="_4">文件列表<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>文件名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>time.c</td>
+<td>用户空间的接口</td>
+</tr>
+<tr>
+<td>timer.c</td>
+<td>低精度timer模块</td>
+</tr>
+<tr>
+<td>hrtimer.c</td>
+<td>高精度timer模块</td>
+</tr>
+<tr>
+<td>itimer.c</td>
+<td>周期性timer模块</td>
+</tr>
+<tr>
+<td>posix-timer.c</td>
+<td>POSIX timer模块</td>
+</tr>
+<tr>
+<td>posix-clock.c</td>
+<td>POSIX clock模块</td>
+</tr>
+<tr>
+<td>alarmtimer.c</td>
+<td>alarm timer模块</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">用户空间接口<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>从应用程序的角度来看，对于时间相关的服务要求主要有三种：</p>
+<ol>
+<li>获取系统时间</li>
+<li>进程睡眠操作</li>
+<li>设置定时器事件</li>
+</ol>
+<h3 id="_6">系统时间<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>1.秒级别的时间函数</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kt">time_t</span><span class="w"> </span><span class="nf">time</span><span class="p">(</span><span class="kt">time_t</span><span class="w"> </span><span class="o">*</span><span class="n">t</span><span class="p">);</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kt">int</span><span class="w"> </span><span class="nf">stime</span><span class="p">(</span><span class="kt">time_t</span><span class="w"> </span><span class="o">*</span><span class="n">t</span><span class="p">);</span>
 </code></pre></div>
-</div>
+<p><code>time()</code>函数返回当前时间点到epoch的秒数，<code>stime()</code>设定当前时间点到epoch的秒数。</p>
+<p>2.微妙级别的时间函数</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;sys/time.h&gt;</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">gettimeofday</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">timeval</span><span class="w"> </span><span class="o">*</span><span class="n">tv</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timezone</span><span class="w"> </span><span class="o">*</span><span class="n">tz</span><span class="p">);</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kt">int</span><span class="w"> </span><span class="nf">settimeofday</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timeval</span><span class="w"> </span><span class="o">*</span><span class="n">tv</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timezone</span><span class="w"> </span><span class="o">*</span><span class="n">tz</span><span class="p">);</span>
+</code></pre></div>
+<p>这两个函数与上面类似，只不过精度可以达到微妙级别。</p>
+<p>3.纳秒级别的时间函数</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">clock_getres</span><span class="p">(</span><span class="kt">clockid_t</span><span class="w"> </span><span class="n">clk_id</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="o">*</span><span class="n">res</span><span class="p">);</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="kt">int</span><span class="w"> </span><span class="nf">clock_gettime</span><span class="p">(</span><span class="kt">clockid_t</span><span class="w"> </span><span class="n">clk_id</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="o">*</span><span class="n">tp</span><span class="p">);</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="kt">int</span><span class="w"> </span><span class="nf">clock_settime</span><span class="p">(</span><span class="kt">clockid_t</span><span class="w"> </span><span class="n">clk_id</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="o">*</span><span class="n">tp</span><span class="p">);</span>
+</code></pre></div>
+<p>clock ID为系统时钟的参数，定义如下：</p>
+<table>
+<thead>
+<tr>
+<th>时钟</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CLOCK_REALTIME</td>
+<td>系统实时时间</td>
+</tr>
+<tr>
+<td>CLOCK_MONOTONIC</td>
+<td>系统启动后经过的时间</td>
+</tr>
+<tr>
+<td>CLOCK_PROCESS_CPUTIME_ID</td>
+<td>进程在CPU上运行的时间</td>
+</tr>
+<tr>
+<td>CLOCK_THREAD_CPUTIME_ID</td>
+<td>线程在CPU上运行的时间</td>
+</tr>
+</tbody>
+</table>
+<p>当传入参数是CLOCK_REALTIME时，函数与之前行为类似，精度为纳秒级别。</p>
+<p>CLOCK_MONOTONIC一般用于两个采样点之间的时间间隔。</p>
+<p>对应用程序进行性能分析和统计时，内核提供了基于进程或线程的系统时钟：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;pthread.h&gt;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">clock_getcpuclockid</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="kt">clockid_t</span><span class="w"> </span><span class="o">*</span><span class="n">clock_id</span><span class="p">);</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="kt">int</span><span class="w"> </span><span class="nf">pthread_getcpuclockid</span><span class="p">(</span><span class="n">pthread_t</span><span class="w"> </span><span class="kr">thread</span><span class="p">,</span><span class="w"> </span><span class="kt">clockid_t</span><span class="w"> </span><span class="o">*</span><span class="n">clock_id</span><span class="p">);</span>
+</code></pre></div>
+<h3 id="_7">进程睡眠<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>1.秒级别的睡眠函数</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">sleep</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">seconds</span><span class="p">);</span>
+</code></pre></div>
+<p>该函数返回没有睡眠的时间。</p>
+<p>2.{<del>微秒级别的睡眠函数</del>}</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">usleep</span><span class="p">(</span><span class="n">useconds_t</span><span class="w"> </span><span class="n">usec</span><span class="p">);</span>
+</code></pre></div>
+<p>该函数已被废弃。</p>
+<p>3.纳秒级别的睡眠函数</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">nanosleep</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="o">*</span><span class="n">req</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="o">*</span><span class="n">rem</span><span class="p">);</span>
+</code></pre></div>
+<p><code>nanosleep()</code>取代了<code>usleep()</code>，在req中设定你要睡眠的秒数和纳秒数。rem表示还有多少时间没有睡完。</p>
+<p>4.更高级的睡眠函数</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">clock_nanosleep</span><span class="p">(</span><span class="kt">clockid_t</span><span class="w"> </span><span class="n">clk_id</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="o">*</span><span class="n">request</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="o">*</span><span class="n">remain</span><span class="p">);</span>
+</code></pre></div>
+<blockquote>
+<p>clk_id：指明是种类型</p>
+<p>flag：0或者1，表示相对时间或绝对时间</p>
+</blockquote>
+<h3 id="_8">定时器<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>1.alarm函数</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;unistd.h&gt;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">alarm</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">seconds</span><span class="p">);</span>
+</code></pre></div>
+<p>该函数在制定秒数(基于CLOCK_REALTIME)过去后，向该进程发送SIGALRM信号。</p>
+<p>2.POSIX timer</p>
+<p>创建timer：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;signal.h&gt;</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="kt">int</span><span class="w"> </span><span class="n">timer_create</span><span class="p">(</span><span class="kt">clockid_t</span><span class="w"> </span><span class="n">clockid</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigevent</span><span class="w"> </span><span class="o">*</span><span class="n">sevp</span><span class="p">,</span><span class="w"> </span><span class="kt">timer_t</span><span class="w"> </span><span class="o">*</span><span class="n">timerid</span><span class="p">)</span>
+</code></pre></div>
+<p><code>struct sigevent</code>的定义如下：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">union</span><span class="w"> </span><span class="nc">sigval</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="p">{</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">  </span><span class="kt">int</span><span class="w"> </span><span class="n">sival_int</span><span class="p">;</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">  </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">sival_ptr</span><span class="p">;</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="p">};</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sigevent</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">  </span><span class="p">{</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="w">    </span><span class="n">__sigval_t</span><span class="w"> </span><span class="n">sigev_value</span><span class="p">;</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sigev_signo</span><span class="p">;</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sigev_notify</span><span class="p">;</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">    </span><span class="k">union</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">      </span><span class="p">{</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">_pad</span><span class="p">[</span><span class="n">__SIGEV_PAD_SIZE</span><span class="p">];</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">    </span><span class="cm">/* When SIGEV_SIGNAL and SIGEV_THREAD_ID set, LWP ID of the</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="cm">       thread to receive the signal.  */</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="w">    </span><span class="n">__pid_t</span><span class="w"> </span><span class="n">_tid</span><span class="p">;</span>
+<a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a>
+<a id="__codelineno-12-21" name="__codelineno-12-21" href="#__codelineno-12-21"></a><span class="w">    </span><span class="k">struct</span>
+<a id="__codelineno-12-22" name="__codelineno-12-22" href="#__codelineno-12-22"></a><span class="w">      </span><span class="p">{</span>
+<a id="__codelineno-12-23" name="__codelineno-12-23" href="#__codelineno-12-23"></a><span class="w">        </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">_function</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="n">__sigval_t</span><span class="p">);</span><span class="w"> </span><span class="cm">/* Function to start.  */</span>
+<a id="__codelineno-12-24" name="__codelineno-12-24" href="#__codelineno-12-24"></a><span class="w">        </span><span class="n">pthread_attr_t</span><span class="w"> </span><span class="o">*</span><span class="n">_attribute</span><span class="p">;</span><span class="w">     </span><span class="cm">/* Thread attributes.  */</span>
+<a id="__codelineno-12-25" name="__codelineno-12-25" href="#__codelineno-12-25"></a><span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="n">_sigev_thread</span><span class="p">;</span>
+<a id="__codelineno-12-26" name="__codelineno-12-26" href="#__codelineno-12-26"></a><span class="w">      </span><span class="p">}</span><span class="w"> </span><span class="n">_sigev_un</span><span class="p">;</span>
+<a id="__codelineno-12-27" name="__codelineno-12-27" href="#__codelineno-12-27"></a><span class="w">  </span><span class="p">}</span><span class="w"> </span><span class="n">sigevent_t</span><span class="p">;</span>
+</code></pre></div>
+<p>成员sigev_notify定义了当定时器超时后，如何通知该进程：</p>
+<ul>
+<li>SIGEV_NONE：不需要异步通知，程序自己调用<code>timer_gettime()</code>来轮询定时器状态</li>
+<li>SIGEV_SIGNAL：使用signal异步通知，信号由成员sigev_signo定义</li>
+<li>SIGEV_THREAD：创建一个线程执行定时器超时回调函数</li>
+<li>SIGEV_THREAD_ID：行为和SIGEV_SIGNAL类似，但是信号被送至进程的一个指定线程中</li>
+</ul>
+<p>设定定时器：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">timer_settime</span><span class="p">(</span><span class="kt">timer_t</span><span class="w"> </span><span class="n">timerid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">itimerspec</span><span class="w"> </span><span class="o">*</span><span class="n">value</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">itimerspec</span><span class="w"> </span><span class="o">*</span><span class="n">ovalue</span><span class="p">);</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="kt">int</span><span class="w"> </span><span class="nf">timer_gettime</span><span class="p">(</span><span class="kt">timer_t</span><span class="w"> </span><span class="n">timerid</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">itimerspec</span><span class="w"> </span><span class="o">*</span><span class="n">curr_value</span><span class="p">);</span>
+</code></pre></div>
+<p><code>struct itimerspec</code>的定义如下：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">itimerspec</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">  </span><span class="p">{</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="n">it_interval</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Interval for periodic timer */</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">timespec</span><span class="w"> </span><span class="n">it_value</span><span class="p">;</span><span class="w">   </span><span class="cm">/* Time until next expiration */</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">  </span><span class="p">};</span>
+</code></pre></div>
+<p>it_value用来设置第一次超时时间，it_interval用来设置周期超时时间。</p>
+<p>删除定时器：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;time.h&gt;</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">timer_delete</span><span class="p">(</span><span class="kt">timer_t</span><span class="w"> </span><span class="n">timerid</span><span class="p">);</span>
+</code></pre></div>
 
 
 

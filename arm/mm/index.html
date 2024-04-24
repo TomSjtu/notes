@@ -528,6 +528,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -769,7 +773,7 @@
         
   
   <span class="md-ellipsis">
-    中断和中断处理
+    中断处理程序
   </span>
   
 
@@ -916,7 +920,49 @@
         
   
   <span class="md-ellipsis">
+    时间子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
     定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/hrtimer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高精度定时器
   </span>
   
 
@@ -1213,7 +1259,7 @@
         
   
   <span class="md-ellipsis">
-    平台设备驱动
+    平台总线模型
   </span>
   
 
@@ -2149,17 +2195,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#armv8-mmu" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      ARMv8 MMU
+      虚拟地址空间
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ARMv8 MMU">
+    <nav class="md-nav" aria-label="虚拟地址空间">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       页表项属性
     </span>
@@ -2173,7 +2219,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       地址转换控制寄存器
     </span>
@@ -3066,6 +3112,10 @@
     
       
         
+          
+        
+      
+        
       
     
     
@@ -3080,16 +3130,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
         
           
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../pl/go/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Go
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_6">
@@ -3099,17 +3157,19 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../pl/go/go/" class="md-nav__link">
+      <a href="../../pl/go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Go
+    快速入门
   </span>
   
 
@@ -3468,17 +3528,17 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#armv8-mmu" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      ARMv8 MMU
+      虚拟地址空间
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="ARMv8 MMU">
+    <nav class="md-nav" aria-label="虚拟地址空间">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
+  <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
       页表项属性
     </span>
@@ -3492,7 +3552,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       地址转换控制寄存器
     </span>
@@ -3529,7 +3589,7 @@
 <li>arch/arm64/include/asm/pgtable.h：页表设置相关</li>
 </ul>
 <p>当CONFIG_PGTABLE_LEVELS=3时，没有PUD页表；当CONFIG_PGTABLE_LEVELS=2时，没有PUD和PMD页表。</p>
-<h2 id="armv8-mmu">ARMv8 MMU<a class="headerlink" href="#armv8-mmu" title="Permanent link">&para;</a></h2>
+<h2 id="_3">虚拟地址空间<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>ARMv8中，内核空间的页表基地址存放在TTBR1_EL1寄存器中，用户空间的页表基地址存放在TTBR0_EL1寄存器中。内核空间的高位全为1，用户空间的高位全为0，如下图所示：</p>
 <p><img alt="地址转换" src="../../images/arm/mm.jpg" /></p>
 <p>AArch64体系结构中的页表支持以下特性：</p>
@@ -3538,7 +3598,10 @@
 <li>输入地址的最大位宽为48位</li>
 <li>页面粒度可以是4KB、16KB或64KB</li>
 </ul>
-<h3 id="_3">页表项属性<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>以PAGE_SIZE为4KB为例，虚拟地址空间的映射关系如下：</p>
+<p><img alt="页表映射关系" src="../../images/arm/mapping.gif" /></p>
+<p>整个地址翻译的过程是这样的：首先通过虚拟地址的高位可以知道是属于userspace还是kernel space，分别选择对应的TTBR寄存器。这个寄存器中保存了PGD的基地址，指向了一个lookup table，每一个entry都是描述符，可能是Table descriptor、block descriptor或者是page descriptor。如果命中了一个block descriptor，那么地址翻译过程就结束了，当然对于4-level的地址翻译过程，PGD中当然保存的是Table descriptor，从而指向了下一节的Translation table，在kernel中称之PUD。随后的地址翻译概念类似，是一个PMD过程，最后一个level是PTE，也就是传说中的page table entry了，到了最后的地址翻译阶段。这时候PTE中都是一个个的page descriptor，从而完成了最后的地址翻译过程。 </p>
+<h3 id="_4">页表项属性<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>1.共享性与缓存性</p>
 <p>缓存性是指页面是否使能了高速缓存，另外还能指定高速缓存是内部共享还是外部共享。共享性是指在SMP系统中，某个内存区域的高速缓存可以被哪些观察者观察到。</p>
 <p>2.访问权限</p>
@@ -3547,7 +3610,7 @@
 <p>AF(Access Flag)用来指示页面是否被访问过：1表示已经被访问过。</p>
 <p>4.全局和进程特有TLB</p>
 <p>用来设置TLB的类型。</p>
-<h2 id="_4">地址转换控制寄存器<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_5">地址转换控制寄存器<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>主要有以下几个：</p>
 <ul>
 <li>转换控制寄存器(TCR)：包含与地址转换相关的控制信息以及与高速缓存相关的配置信息</li>

@@ -528,6 +528,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -769,7 +773,7 @@
         
   
   <span class="md-ellipsis">
-    中断和中断处理
+    中断处理程序
   </span>
   
 
@@ -916,7 +920,49 @@
         
   
   <span class="md-ellipsis">
+    时间子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
     定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/hrtimer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高精度定时器
   </span>
   
 
@@ -1213,7 +1259,7 @@
         
   
   <span class="md-ellipsis">
-    平台设备驱动
+    平台总线模型
   </span>
   
 
@@ -2837,13 +2883,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#this_thread" class="md-nav__link">
     <span class="md-ellipsis">
-      线程
+      this_thread
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="线程">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      线程库
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="线程库">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3074,6 +3129,10 @@
     
       
         
+          
+        
+      
+        
       
     
     
@@ -3088,16 +3147,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
         
           
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../go/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Go
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_6">
@@ -3107,17 +3174,19 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../go/go/" class="md-nav__link">
+      <a href="../../go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Go
+    快速入门
   </span>
   
 
@@ -3467,13 +3536,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#this_thread" class="md-nav__link">
     <span class="md-ellipsis">
-      线程
+      this_thread
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="线程">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      线程库
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="线程库">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -3533,7 +3611,15 @@
 
 
 <h1 id="_1">多线程编程<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<h2 id="_2">线程<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="this_thread">this_thread<a class="headerlink" href="#this_thread" title="Permanent link">&para;</a></h2>
+<p><code>std::this_thread</code>是一个关于线程的命名空间，提供了四个公共的成员函数，用于对当前线程进行操作。</p>
+<ul>
+<li><code>get_id</code>：获取当前线程的ID</li>
+<li><code>sleep_for</code>：使当前线程休眠一段时间</li>
+<li><code>sleep_until</code>：使当前线程休眠到某个时间点(timepoint)</li>
+<li><code>yield</code>：使当前线程让出CPU资源</li>
+</ul>
+<h2 id="_2">线程库<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>&lt;thread&gt;库中定义的线程库可以使用多种方式创建线程，包括：</p>
 <ul>
 <li>通过函数指针创建线程：可以传入多个参数</li>

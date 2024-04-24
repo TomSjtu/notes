@@ -528,6 +528,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -769,7 +773,7 @@
         
   
   <span class="md-ellipsis">
-    中断和中断处理
+    中断处理程序
   </span>
   
 
@@ -916,7 +920,49 @@
         
   
   <span class="md-ellipsis">
+    时间子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
     定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/hrtimer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高精度定时器
   </span>
   
 
@@ -1213,7 +1259,7 @@
         
   
   <span class="md-ellipsis">
-    平台设备驱动
+    平台总线模型
   </span>
   
 
@@ -2746,47 +2792,14 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      不同的数据成员类型
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="不同的数据成员类型">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
       静态数据成员
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      引用数据成员
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      枚举类型
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       运算符重载
     </span>
@@ -3110,6 +3123,10 @@
     
       
         
+          
+        
+      
+        
       
     
     
@@ -3124,16 +3141,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_6" >
         
           
-          <label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../go/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Go
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_6">
@@ -3143,17 +3168,19 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
                 
   
   
   
   
     <li class="md-nav__item">
-      <a href="../../go/go/" class="md-nav__link">
+      <a href="../../go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    Go
+    快速入门
   </span>
   
 
@@ -3538,47 +3565,14 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      不同的数据成员类型
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="不同的数据成员类型">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
       静态数据成员
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      引用数据成员
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      枚举类型
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
       
         <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       运算符重载
     </span>
@@ -3636,7 +3630,7 @@
 </tr>
 </tbody>
 </table>
-<p>当基类的指针或引用指向派生类对象时，派生类保留其数据成员和重写的方法。但是通过类型转换将派生类对象转换为基类对象时，就会丢失其独有特征。重写方法和派生类数据的丢失称为截断(slicing)。</p>
+<p>当基类的指针或引用指向派生类对象时，派生类保留其数据成员和重写的方法。但是通过类型转换将派生类对象转换为基类对象时，就会丢失其独有特征。重写方法和派生类数据的丢失称为<mark class="critic">截断</mark>(slicing)。</p>
 <h3 id="finaloverride">final和override<a class="headerlink" href="#finaloverride" title="Permanent link">&para;</a></h3>
 <p><code>final</code>关键字用于指示类或者方法不能被继承。</p>
 <p><code>override</code>关键字可以正确指明要重写的基类方法。有的时候，当我们在基类中声明了<code>virtual</code>方法，然后在派生类中重写了该方法。如果我们修改了基类的方法，但忘记同步到派生类中，在程序运行时就会调用基类的方法，这与预期不符。使用<code>override</code>关键字后，编译器会检查派生类的方法是否正确重写了基类的方法。</p>
@@ -3681,8 +3675,7 @@
 <p>析构函数必须声明为virtual，以正确调用对应类的析构函数释放资源。</p>
 </div>
 <p>C++中，虚函数表存放于只读数据段(.rodata)，虚函数则存放于代码段(.text)，虚函数表指针存储的位置和所属对象的位置相同，也就是说可以在栈也可以在堆。</p>
-<h2 id="_4">不同的数据成员类型<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<h3 id="_5">静态数据成员<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<h2 id="_4">静态数据成员<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <p>有时让类的所有对象都包含某个变量的副本是没有必要的，数据成员只对类有意义，比如我们需要对类的对象进行统计，就可以在类中定义一个<code>static</code>数据成员：</p>
 <div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyClass</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="k">public</span><span class="o">:</span>
@@ -3711,10 +3704,7 @@
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="p">}</span>
 </code></pre></div>
 <p>如果要在类方法外访问静态数据成员，则只有在public的时候可以通过::作用域解析运算符访问。但一般不推荐这么做，如果要访问，应提供static的get/set方法。</p>
-<h3 id="_6">引用数据成员<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>引用数据成员要么在定义时初始化，要么在构造函数初始化器中初始化。它始终指向你要初始化的对象。</p>
-<h3 id="_7">枚举类型<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<h2 id="_8">运算符重载<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h2 id="_5">运算符重载<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>C++20简化了运算符重载的代码编写，只需提供<code>operator==</code>和<code>operator&lt;=&gt;</code>，就会自动为所有6个比较运算符提供支持。</p>
 
 
