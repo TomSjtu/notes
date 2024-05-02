@@ -84,20 +84,6 @@ struct msg_buffer {
 | shmdt | 将共享内存从当前进程的地址空间断开 |
 | shmctl | 控制共享内存 |
 
-
-## 信号量
-
-与内核同步机制中的信号量类似，System V IPC机制中的信号量也是用于进程间同步的。它能确保多个进程对共享资源的访问，防止并发访问时的数据不一致的情况。
-
-常用函数：
-
-| 函数名 | 说明 |
-|------|------|
-| semget | 创建或访问一个信号量 |
-| semop | 对信号量进行操作 |
-| semctl | 控制信号量 |
-
-
 ## 信号
 
 信号的机制与硬件中断非常相似，都是异步地发送一个请求，区别在于中断处理函数是在内核态，而信号处理函数是在用户态。信号可以在任何时刻发送给任何一个进程。
@@ -216,3 +202,75 @@ static void exit_to_usermode_loop(struct pt_regs *regs, u32 cached_flags)
 
 ![信号处理流程](../../images/kernel/signal.png)
 
+## netlink
+
+netlink是一种用户态和内核态之间进行通信的机制，当然用户之间，甚至内核之间也是可以通信的，只不过这不是netlink的主要使用场景，因此不在此讨论。
+
+netlink支持两种类型的通信方式：单播和多播。
+
+- 单播：一个用户进程对应一个内核进程。
+- 多播：多个用户进程对应一个内核进程。内核会创建一个多播组，然后将有需求的用户进程加入到该组中来接受内核消息。
+
+如果只是单播，可以不用执行`bind()`函数，用`sendto()`和`recvfrom()`就可以完成数据的发送和接收。
+
+如果涉及到多播，需要执行`bind()`函数将多个进程关联到某个多播组，用`sendmsg()`和`recvmsg()`来完成数据的发送和接收。
+
+注意：从用户空间传递到内核的数据无需排队，但是反过来要。
+
+### 消息格式
+
+消息由两部分组成：消息头和消息体。消息头为固定的16字节，定义如下：
+
+```C
+struct nlmsghdr {
+  __u32 nlmsg_len;    /* Length of message including header */
+  __u16 nlmsg_type;   /* Message content */
+  __u16 nlmsg_flags;  /* Additional flags */
+  __u32 nlmsg_seq;    /* Sequence number */
+  __u32 nlmsg_pid;    /* Sending process port ID */
+};
+```
+
+> nlmsg_len：整个消息的长度，包括消息头
+
+> nlmsg_type：消息的类型，是数据还是控制。
+
+> nlmsg_flags：附加在消息上的额外信息。
+
+> nlmsg_seq：消息的序列号，确保数据不被丢失。当内核向用户空间发送广播消息时，该字段为0。
+
+> nlmsg_pid：为数据交换的通道分配的数字标识，用于确保数据交互的正确性。
+
+### 地址结构体
+
+```C
+struct sockaddr_nl {
+	__kernel_sa_family_t	nl_family;	/* AF_NETLINK	*/
+	unsigned short	nl_pad;		/* zero		*/
+	__u32		nl_pid;		/* port ID	*/
+       	__u32		nl_groups;	/* multicast groups mask */
+};
+```
+
+> nl_family：协议族，必须为AF_NETLINK
+
+> nl_pad：填充字段，必须为0
+
+> nl_pid：该字段在两种情况下为0：从用户空间发往内核空间；从内核发送多播消息到用户空间。
+
+> nl_groups：多播组地址掩码。
+
+```C
+static u32 netlink_group_mask(u32 group)
+{
+  return group? 1 << (group - 1) : 0;
+}
+```
+
+在用户空间的代码中，如果要加入到多播组1，就要设置nl_groups为1；多播组2的掩码为2，多播组3的掩码为4。如果设置为0，表示不希望加入任何多播组。
+
+## zeromq
+
+github地址：https://github.com/zeromq/libzmq。
+
+zeromq是一个基于SOCKET、开源的轻量级通信库。

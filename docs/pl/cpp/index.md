@@ -5,7 +5,7 @@
 - [C++杂项](./unamed.md)
 - [I/O流](./io.md)
 - [异常处理](./exception.md)
-
+- [包管理](./package.md)
 
 ## 面向对象
 

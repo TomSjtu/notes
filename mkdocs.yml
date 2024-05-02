@@ -69,11 +69,13 @@ nav:
       - linux/kernel/task.md
       - linux/kernel/sched.md
       - linux/kernel/ipc.md
-      - linux/kernel/vma.md
       - linux/kernel/interrupt.md
       - linux/kernel/bottom_half.md
       - linux/kernel/mm.md
+      - linux/kernel/vma.md
       - linux/kernel/recycle.md
+      - linux/kernel/oom.md
+      - linux/kernel/ion.md
       - linux/kernel/vfs.md
       - linux/kernel/block.md
       - linux/kernel/network.md
@@ -104,11 +106,12 @@ nav:
       - linux/drivers/uart.md
       - linux/drivers/input.md
       - linux/drivers/ethernet.md
-      - linux/drivers/pci.md
+      - linux/drivers/pcie.md
       - linux/drivers/usb.md
       - linux/drivers/mmc.md
       - linux/drivers/wifi.md
       - linux/drivers/bluetooth.md
+      - linux/drivers/socketcan.md
             
 
     - 性能调优:
@@ -150,6 +153,7 @@ nav:
   - 编程语言: 
     - pl/index.md
     - C:
+      - pl/c/standard.md
       - pl/c/gcc.md
       - pl/c/unamed.md
     
@@ -158,6 +162,7 @@ nav:
       - pl/cpp/unamed.md
       - pl/cpp/io.md
       - pl/cpp/exception.md
+      - pl/cpp/package.md
       - pl/cpp/oop.md
       - pl/cpp/container.md
       - pl/cpp/algorithm.md
@@ -190,5 +195,9 @@ nav:
 
   - 其他:
     - others/index.md
-    - others/poker.md
+    - others/config.md
+    - others/serializer.md
+
+
+
     

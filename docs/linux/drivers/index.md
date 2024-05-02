@@ -30,11 +30,16 @@
 - [UART子系统](./uart.md)
 - [Input子系统](./input.md)
 
+
 ## 高速设备驱动
 
 - [以太网](./ethernet.md)
-- [PCI](./pci.md)
+- [PCIE](./pcie.md)
 - [USB](./usb.md)
 - [MMC](./mmc.md)
 - [WIFI](./wifi.md)
 - [蓝牙](./bluetooth.md)
+
+## 其他设备驱动
+
+- [Socket Can](./socketcan.md)

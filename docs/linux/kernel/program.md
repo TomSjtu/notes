@@ -28,13 +28,24 @@
 
 ## 内核数据类型
 
-内核的数据类型主要分为三大类：int——标准C语言类型，u32——确定大小类型，pid_t——特定内核对象类型
+内核的数据类型主要分为三大类：int——标准C语言类型，u32——确定大小类型，pid_t——特定内核对象类型。
 
 内核中最常用的数据类型由它们自己的typedef声明，这样可以防止出现任何移植性问题。比如pid_t就屏蔽了可能的差异。
 
+## 内核数据结构
+
+内核数据结构贯穿于整个内核代码中，这里介绍4个基本的内核数据结构。
+
+- 链表
+- 队列
+- 映射
+- 红黑树
+
 ### 链表
 
-内核用`struct list_head`结构体表示一个双向链表，在需要链表的数据结构中嵌入一个list_head：
+链表是linux内核中最简单，同时也是应用最广泛的数据结构，定义在文件<linux/list.h\>中。
+
+与传统链表的使用方法不同，内核的链表没有数据，只有前后指针：
 
 ```C 
 struct list_head {
@@ -42,5 +53,49 @@ struct list_head {
 };
 ```
 
-链表在使用前必须用INIT_LIST_HEAD宏进行初始化。文件<include/linux/list.h\>中声明了操作链表的函数。
+链表在使用前必须调用`INIT_LIST_HEAD`宏进行初始化。链表头节点可以用`LIST_HEAD`宏声明。
+
+内核会将链表嵌入到其他结构体中，然后使用`container_of`宏获取结构体的地址。
+
+!!! example "链表的使用示例"
+
+    ```C
+    struct student {
+        int id;
+        char name[64];
+        struct list_head list;
+    };
+
+    struct student *stu = container_of(list, struct student, list);
+    ```
+
+操作链表：
+
+```C
+/*在head节点后插入new节点*/
+list_add(struct list_head *new, struct list_head *head);
+
+/*在head节点前插入new节点*/
+list_add_tail(struct list_head *new, struct list_head *head);
+
+/*删除节点*/
+list_del(struct list_head *entry);
+
+/*移除链表中的list项，然后加入到另一链表的head节点后*/
+list_move(struct list_head *list, struct list_head *head);
+
+/*判断链表是否为空*/
+list_empty(struct list_head *head);
+
+/*拼接两个链表*/
+list_splice(struct list_head *list, struct list_head *head);
+
+/*遍历链表*/
+list_for_each_entry(pos, head, member);
+```
+
+### 队列
+
+
+
 
