@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/pl/cpp/package/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/cma/">
       
       
-        <link rel="prev" href="../exception/">
+        <link rel="prev" href="../ion/">
       
       
-        <link rel="next" href="../oop/">
+        <link rel="next" href="../vfs/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>包管理 - 一只Tom的笔记本</title>
+        <title>连续内存分配 - 一只Tom的笔记本</title>
       
     
     
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              包管理
+              连续内存分配
             
           </span>
         </div>
@@ -207,11 +207,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../linux/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
     
@@ -267,18 +269,36 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../pl/" class="md-tabs__link">
           
   
     
   
   编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../ai/" class="md-tabs__link">
+          
+  
+    
+  
+  人工智能
 
         </a>
       </li>
@@ -421,6 +441,8 @@
       
   
   
+    
+  
   
   
     
@@ -441,19 +463,22 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -464,13 +489,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Linux
@@ -483,6 +508,8 @@
                 
   
   
+    
+  
   
   
     
@@ -536,22 +563,24 @@
       
         
       
+        
+      
     
     
       
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/kernel/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -568,7 +597,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             内核剖析
@@ -584,7 +613,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/compile/" class="md-nav__link">
+      <a href="../compile/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -605,7 +634,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/program/" class="md-nav__link">
+      <a href="../program/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -626,7 +655,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/debug/" class="md-nav__link">
+      <a href="../debug/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -647,7 +676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/synch/" class="md-nav__link">
+      <a href="../synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -668,7 +697,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/others/" class="md-nav__link">
+      <a href="../others/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -689,7 +718,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/task/" class="md-nav__link">
+      <a href="../task/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -710,7 +739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/sched/" class="md-nav__link">
+      <a href="../sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -731,7 +760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/ipc/" class="md-nav__link">
+      <a href="../ipc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -752,7 +781,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/interrupt/" class="md-nav__link">
+      <a href="../interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -773,7 +802,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/bottom_half/" class="md-nav__link">
+      <a href="../bottom_half/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -794,7 +823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/mm/" class="md-nav__link">
+      <a href="../mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -815,7 +844,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/vma/" class="md-nav__link">
+      <a href="../vma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -836,7 +865,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/recycle/" class="md-nav__link">
+      <a href="../recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -857,7 +886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/oom/" class="md-nav__link">
+      <a href="../oom/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -878,7 +907,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/ion/" class="md-nav__link">
+      <a href="../ion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -896,10 +925,41 @@
                 
   
   
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    连续内存分配
+  </span>
+  
+
+      </a>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/vfs/" class="md-nav__link">
+      <a href="../vfs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -920,7 +980,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/block/" class="md-nav__link">
+      <a href="../block/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -941,7 +1001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/network/" class="md-nav__link">
+      <a href="../network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -962,7 +1022,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/time/" class="md-nav__link">
+      <a href="../time/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -983,7 +1043,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/timer/" class="md-nav__link">
+      <a href="../timer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1004,7 +1064,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/hrtimer/" class="md-nav__link">
+      <a href="../hrtimer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1025,7 +1085,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/pm/" class="md-nav__link">
+      <a href="../pm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1123,7 +1183,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/drivers/" class="md-nav__link ">
+            <a href="../../drivers/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1156,7 +1216,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/hardware/" class="md-nav__link">
+      <a href="../../drivers/hardware/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1177,7 +1237,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/protocol/" class="md-nav__link">
+      <a href="../../drivers/protocol/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1198,7 +1258,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/module/" class="md-nav__link">
+      <a href="../../drivers/module/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1219,7 +1279,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/dts/" class="md-nav__link">
+      <a href="../../drivers/dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1240,7 +1300,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/interrupt/" class="md-nav__link">
+      <a href="../../drivers/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1261,7 +1321,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/dma/" class="md-nav__link">
+      <a href="../../drivers/dma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1282,7 +1342,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/device_model/" class="md-nav__link">
+      <a href="../../drivers/device_model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1303,7 +1363,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/platform/" class="md-nav__link">
+      <a href="../../drivers/platform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1324,7 +1384,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/chardev/" class="md-nav__link">
+      <a href="../../drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1345,7 +1405,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/blkdev/" class="md-nav__link">
+      <a href="../../drivers/blkdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1366,7 +1426,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/netdev/" class="md-nav__link">
+      <a href="../../drivers/netdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1387,7 +1447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/pinctrl/" class="md-nav__link">
+      <a href="../../drivers/pinctrl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1408,7 +1468,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/gpio/" class="md-nav__link">
+      <a href="../../drivers/gpio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1429,7 +1489,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/i2c/" class="md-nav__link">
+      <a href="../../drivers/i2c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1450,7 +1510,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/spi/" class="md-nav__link">
+      <a href="../../drivers/spi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1471,7 +1531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/uart/" class="md-nav__link">
+      <a href="../../drivers/uart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1492,7 +1552,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/input/" class="md-nav__link">
+      <a href="../../drivers/input/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1513,7 +1573,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/ethernet/" class="md-nav__link">
+      <a href="../../drivers/ethernet/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1534,7 +1594,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/pcie/" class="md-nav__link">
+      <a href="../../drivers/pcie/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1555,7 +1615,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/usb/" class="md-nav__link">
+      <a href="../../drivers/usb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1576,7 +1636,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/mmc/" class="md-nav__link">
+      <a href="../../drivers/mmc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1597,7 +1657,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/wifi/" class="md-nav__link">
+      <a href="../../drivers/wifi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1618,7 +1678,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/bluetooth/" class="md-nav__link">
+      <a href="../../drivers/bluetooth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1639,7 +1699,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/socketcan/" class="md-nav__link">
+      <a href="../../drivers/socketcan/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1697,7 +1757,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/optimization/" class="md-nav__link ">
+            <a href="../../optimization/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1730,7 +1790,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/cpu/" class="md-nav__link">
+      <a href="../../optimization/cpu/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1751,7 +1811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/memory/" class="md-nav__link">
+      <a href="../../optimization/memory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1772,7 +1832,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/disk/" class="md-nav__link">
+      <a href="../../optimization/disk/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1793,7 +1853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/network/" class="md-nav__link">
+      <a href="../../optimization/network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1845,7 +1905,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/ebpf/" class="md-nav__link ">
+            <a href="../../ebpf/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1878,7 +1938,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/ebpf/intro/" class="md-nav__link">
+      <a href="../../ebpf/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2473,8 +2533,6 @@
       
   
   
-    
-  
   
   
     
@@ -2497,22 +2555,19 @@
     
     
       
-        
-        
-      
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../../pl/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2523,13 +2578,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5">
             <span class="md-nav__icon md-icon"></span>
             编程语言
@@ -2591,7 +2646,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../c/standard/" class="md-nav__link">
+      <a href="../../../pl/c/standard/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2612,7 +2667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../c/gcc/" class="md-nav__link">
+      <a href="../../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2633,7 +2688,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../c/unamed/" class="md-nav__link">
+      <a href="../../../pl/c/misc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2659,8 +2714,6 @@
                 
   
   
-    
-  
   
   
     
@@ -2694,22 +2747,24 @@
       
         
       
+        
+      
     
     
       
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="../../../pl/cpp/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2726,7 +2781,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_3">
             <span class="md-nav__icon md-icon"></span>
             C++
@@ -2742,7 +2797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../unamed/" class="md-nav__link">
+      <a href="../../../pl/cpp/misc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2763,7 +2818,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../io/" class="md-nav__link">
+      <a href="../../../pl/cpp/io/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2784,7 +2839,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../exception/" class="md-nav__link">
+      <a href="../../../pl/cpp/exception/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2802,85 +2857,18 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    包管理
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/cmake/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    包管理
+    CMake
   </span>
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#cmake" class="md-nav__link">
-    <span class="md-ellipsis">
-      CMake
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vcpkg" class="md-nav__link">
-    <span class="md-ellipsis">
-      Vcpkg
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conan" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conan
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2893,7 +2881,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../oop/" class="md-nav__link">
+      <a href="../../../pl/cpp/conan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conan
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/oop/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2914,7 +2923,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../container/" class="md-nav__link">
+      <a href="../../../pl/cpp/container/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2935,7 +2944,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../algorithm/" class="md-nav__link">
+      <a href="../../../pl/cpp/algorithm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2956,7 +2965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../regex/" class="md-nav__link">
+      <a href="../../../pl/cpp/regex/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2977,7 +2986,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../time/" class="md-nav__link">
+      <a href="../../../pl/cpp/time/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2998,7 +3007,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mm/" class="md-nav__link">
+      <a href="../../../pl/cpp/mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3019,7 +3028,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../concurrency/" class="md-nav__link">
+      <a href="../../../pl/cpp/concurrency/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3040,7 +3049,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cpp11/" class="md-nav__link">
+      <a href="../../../pl/cpp/cpp11/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3111,7 +3120,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../qt/qt/" class="md-nav__link">
+      <a href="../../../pl/qt/qt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3182,7 +3191,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../python/python/" class="md-nav__link">
+      <a href="../../../pl/python/python/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3234,7 +3243,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../go/" class="md-nav__link ">
+            <a href="../../../pl/go/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3267,7 +3276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../go/intro/" class="md-nav__link">
+      <a href="../../../pl/go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3326,11 +3335,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../cloud/" class="md-nav__link ">
+            <a href="../../../ai/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    云计算
+    人工智能
   </span>
   
 
@@ -3345,6 +3354,154 @@
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            人工智能
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/dl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    深度学习
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            深度学习
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai/dl/onnx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ONNX
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../cloud/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    云计算
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             云计算
           </label>
@@ -3409,7 +3566,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
         
           
           
@@ -3425,14 +3582,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             Tools
           </label>
@@ -3527,6 +3684,8 @@
       
         
       
+        
+      
     
     
       
@@ -3537,7 +3696,7 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
           
@@ -3553,14 +3712,14 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             其他
           </label>
@@ -3610,6 +3769,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/video/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    音视频基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3637,41 +3817,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#cmake" class="md-nav__link">
-    <span class="md-ellipsis">
-      CMake
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#vcpkg" class="md-nav__link">
-    <span class="md-ellipsis">
-      Vcpkg
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#conan" class="md-nav__link">
-    <span class="md-ellipsis">
-      Conan
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -3688,10 +3833,29 @@
   
 
 
-<h1 id="_1">包管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<h2 id="cmake">CMake<a class="headerlink" href="#cmake" title="Permanent link">&para;</a></h2>
-<h2 id="vcpkg">Vcpkg<a class="headerlink" href="#vcpkg" title="Permanent link">&para;</a></h2>
-<h2 id="conan">Conan<a class="headerlink" href="#conan" title="Permanent link">&para;</a></h2>
+<h1 id="_1">连续内存分配<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>连续内存分配(CMA，Continuous Memory Allocator)是内存管理中的一个模块，主要负责物理地址上连续的内存分配。一般系统会在启动过程中，从整个memory中配置一段连续内存用于CMA，然后内核其他的模块可以通过CMA的接口API进行连续内存的分配。CMA的核心并不是设计精巧的算法来管理地址连续的内存块，实际上它的底层还是依赖内核伙伴系统这样的内存管理机制，或者说CMA是处于需要连续内存块的其他内核模块（例如DMA mapping framework）和内存管理模块之间的一个中间层模块，主要功能包括：</p>
+<ul>
+<li>
+<p>解析DTS或者命令行中的参数，确定CMA内存的区域，这样的区域我们定义为CMA area。</p>
+</li>
+<li>
+<p>提供<code>cma_alloc()</code>和<code>cma_release()</code>两个接口函数用于分配和释放CMA pages。</p>
+</li>
+<li>
+<p>记录和跟踪CMA area中各个pages的状态。</p>
+</li>
+<li>
+<p>调用伙伴系统接口，进行真正的内存分配。</p>
+</li>
+</ul>
+<div class="admonition question">
+<p class="admonition-title">Question</p>
+<p>为什么需要CMA？</p>
+</div>
+<p>对大块连续内存的需求主要来自于各种驱动。比如图像、视频驱动。假如拍摄一张高清图像需要分配20MB的内存，你可能觉得这没什么。当然，在系统刚刚启动时，内存的余量还比较充足。但是随着系统的运行，内存不断地分配和释放，大块内存不断地被分解、分解，再分解，内存的碎片化导致分配地址连续的大块内存越来越艰难。一旦内存分配失败，camera功能就无法使用，用户当然不会答应。</p>
+<p>ARM64支持多种页面大小——4k、64K甚至更大的page size。但在大多数CPU架构上，Linux内核总是倾向于使用最小的page size——4K。大于4K的page统称为"huge page"。huge page可以帮我们应对大块内存分配的需求，但是page size的设置牵一发而动全身，关系到整个系统的稳定性和性能，因此不能把它当作解决大块内存分配的方法。</p>
+<p>CMA就是为了解决上述困境而被引入的。对于标记为CMA的内存，当前驱动没有分配使用的时候，这些内存可以被内核的其他模块使用（当然有一定的要求）。而当驱动要求分配CMA内存后，其他模块需要吐出来，形成物理地址连续的大块内存，给具体的驱动来使用。</p>
 
 
 
