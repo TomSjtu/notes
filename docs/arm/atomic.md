@@ -21,6 +21,8 @@ __ll_sc_atomic_##op(int i, atomic_t *v)					\
 }
 ```
 
+注意：armv8.1增加的LSE（Large System Extension）feature使用的是`ldadd`指令。
+
 ## 独占内存访问指令
 
 LDXR和STXR指令，用于实现对变量的原子操作。

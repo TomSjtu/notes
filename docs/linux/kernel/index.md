@@ -26,6 +26,7 @@
 - [内存回收](./recycle.md)
 - [OOM](./oom.md)
 - [ION内存管理器](./ion.md)
+- [连续内存分配](./cma.md)
 
 ## 文件系统
 

@@ -2,10 +2,14 @@
 
 ## 基础知识
 
-- [C++杂项](./unamed.md)
+- [C++杂项](./misc.md)
 - [I/O流](./io.md)
 - [异常处理](./exception.md)
-- [包管理](./package.md)
+
+## 包管理
+
+- [CMake](./cmake.md)
+- [Conan](./conan.md)
 
 ## 面向对象
 

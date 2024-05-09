@@ -2,7 +2,9 @@
 
 !!! quote ""
 
-    Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program.——by Linus Torvalds
+    "Most good programmers do programming not because they expect to get paid or get adulation by the public, but because it is fun to program."
+
+    -- Linus Torvalds
 
 - [内核剖析](./kernel/index.md)
 - [设备驱动程序](./drivers/index.md)

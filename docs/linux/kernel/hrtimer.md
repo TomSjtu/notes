@@ -29,10 +29,10 @@ void hrtimer_init(struct hrtimer *timer, clockid_t which_clock,
 
 时钟类型有以下几种：
 
-- CLOCK_REALTIME：实时时钟。
-- CLOCK_MONOTONIC：单调时钟。
-- CLOCK_BOOTTIME：启动时钟。
-- CLOCK_RAW：原始时钟。
+- CLOCK_REALTIME：实时时钟
+- CLOCK_MONOTONIC：单调时钟
+- CLOCK_BOOTTIME：启动时钟
+- CLOCK_RAW：原始时钟
 
 启动一个高精度定时器：
 ```C

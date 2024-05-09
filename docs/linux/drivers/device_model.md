@@ -1,18 +1,16 @@
 # 设备模型
 
-由于Linux支持世界上几乎所有的、不同功能的硬件设备，导致Linux内核中有一半的代码都是设备驱动。随着硬件的快速迭代，设备驱动的代码也在快速增长。
+为了降低硬件设备的多样性带来的驱动开发的复杂度，Linux提出了{==设备模型==}的设计理念，将硬件设备和驱动设备的代码分别抽象出来，二者由总线关联，并且将功能相同的设备归在一起。
 
-为了降低设备的多样性带来的驱动开发的复杂度，Linux提出了{==设备模型==}的概念，该模型将设备和驱动分层，把我们编写的驱动代码分成了两块：{==设备==}与{==驱动==}。设备负责提供硬件资源而驱动负责去使用设备提供的硬件资源。二者由总线关联起来。
+根据Linux内核的抽象哲学，必定会用各种结构体来表示每个对象：
 
-设备模型通过几个数据结构来反映当前系统中总线、设备以及驱动工作的情况：
+- 总线(bus)：硬件设备和驱动代码沟通的桥梁
 
-- 总线(bus)：总线是CPU和设备之间信息交互的通道，所有的设备都应连接到总线上，无论是CPU内部总线还是虚拟总线。
+- 设备（device）：挂载在总线的物理设备
 
-- 类（class）：面向对象思想，将相同功能的设备，归结到一种class统一管理。
+- 驱动（driver）：驱动硬件设备的程序
 
-- 设备（device）：挂载在总线的物理设备。
-
-- 驱动（driver）：硬件设备的驱动程序，负责初始化设备以及实现该设备的一些接口函数。
+- 类(class)：相似功能的设备集合
 
 {==
 
@@ -20,7 +18,7 @@ platform bus是内核中的一种虚拟总线类型，它不是物理上存在�
 
 ==}
 
-内核使用{==sysfs文件系统==}将设备和驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些驱动设备。
+内核使用{==sysfs文件系统==}将设备和驱动导出到用户空间，用户可以通过访问/sys目录下的文件，来查看甚至控制内核的一些设备。
 
 /sys目录记录了各个设备之间的关系。其中，/sys/bus目录下的每个子目录都是已经注册的总线类型。每个总线类型下还有两个文件夹——devices和drivers：devices是该总线类型下的所有设备，以符号链接的形式指向真正的设备（/sys/devices）。而drivers是所有注册在这个总线类型上的驱动。
 
@@ -28,21 +26,21 @@ platform bus是内核中的一种虚拟总线类型，它不是物理上存在�
 
 /sys/devices目录下是全局的设备结构体系，包含了所有注册在各类总线上的物理设备。所有的物理设备以总线拓扑的结构来显示。
 
-/sys/class目录下是包含所有注册在内核中的设备类型，按照设备的功能进行分类。比如鼠标的功能是作为人机交互的输入，于是被归类到/sys/class/input目录下。
+/sys/class目录下按照设备的功能进行分类。比如鼠标的功能是作为人机交互的输入，于是被归类到/sys/class/input目录下。
 
-那么“总线-设备-驱动”是如何配合工作的呢？
+那么"总线-设备-驱动"是如何配合工作的呢？
 
 ![总线-设备-驱动](../../images/kernel/linux_device_model02.png)
 
 在总线上挂载了两个链表，分别管理设备模型和驱动模型。当我们向系统注册一个设备时，便会在设备的链表中插入新的设备。在插入的同时总线会执行`match()`方法对新插入的设备/驱动进行配对。若配对成功则调用`probe()`方法获取设备资源，在移除设备/驱动时，调用`remove()`方法。
 
-## kobject、ktype和kset
+## kobject
 
-设备驱动模型的基本元素有三个：
+设备模型的基本元素有三个：
 
-- kobject：sysfs中的一个目录，表示基本驱动对象。
+- kobject：sysfs中的一个目录，表示基本对象。
 - kset：一个特殊的kobject，用来管理类似的kobject。
-- ktype：目录下kobject属性文件操作的接口。
+- ktype：sys目录下kobject属性文件操作的接口。
 
 它们之间的关系如下图所示：
 
@@ -52,26 +50,9 @@ kobject是Linux设备模型的基础，是一种抽象的、统一的对硬件�
 
 1. 通过parent指针，将所有kobject以树状结构的形式组合起来。
 2. 使用引用计数kref，来记录kobject被引用的次数，在计数为0时释放它。
-3. 和sysfs虚拟文件系统配合，将每一个kobject的特性，以文件的形式开放给用户空间查询。
-4. 通过uevent机制，将热插拔事件（比如一个设备通过USB连接到系统）通知用户空间。
+3. 代表了sysfs中的一个目录，可以被用户查询
 
 内核很少单独创建kobject对象，而是将其作为顶层基类（C语言没有面向对象的机制），嵌入到其他数据结构中。当kobject中的引用计数归零时，释放kobject所占用的内存空间。同时通过ktype中的`release()`回调函数，释放内嵌数据结构的内存空间。每一个内嵌kobject的数据结构都需要自己实现ktype中的回调函数。
-
-```C
-struct cdev {
-	struct kobject kobj;
-	struct module *owner;
-	struct file_opeartions *ops;
-	struct list_head list;
-	dev_t dev;
-	unsigned int count;
-};
-```
-
-如此一来，要使用kobject的属性和方法，访问cdev.kobj就可以。当我们已知一个kobject指针，可以通过`container_of`宏的方式获取上层数据结构的指针：
-```C
-struct cdev *device = container_of(kp, struct cdev, kobj);
-```
  
 kobject的数据结构如下：
 
@@ -97,7 +78,7 @@ struct kobject {
 
 > parent：指向父kobject的指针，在sysfs中表示上一层的节点。
 
-> kset：该kobject所属的kset。若该kobject未指定parent，则会把kset作为parent。
+> kset：该kobject所属的kset。
 
 > ktype：该kobject所属的类型。
 
@@ -112,6 +93,8 @@ struct kobject {
 > state_add_uevent_sent/state_remove_uevent_sent：记录是否已向用户空间发送add uevent。
 
 > uevent_suppress：如果该字段为1，则表示忽略所有上报的uevent事件。
+
+`kobject_create_and_add()`用来创建kobject对象，并添加到sysfs中。
 
 ktype的数据结构如下：
 
@@ -155,9 +138,7 @@ struct kset {
 
 > uevent_ops：uevent是用户空间的缩写，提供了与用户空间热插拔进行通信的机制。当任何kobject需要上报uevent时，都要调用所属的kset中uevent_ops中的函数。uevent的概念稍后说明。
 
-kset是多个kobject对象的集合。它与ktype的区别在于：具有相同ktype的kobject可以被分组到不同的kset。sysfs中的组织结构的依据就是kset，/sys/bus目录就是一个kset对象。
-
-当设置了kset并把它添加到系统中，将在sysfs中创建一个目录。kobject的添加与删除主要是`kobject_regsiter()`函数和`kobject_unregister()`函数。在大多数情况下，kobject会在其parent指针中保存kset的指针。
+当设置了kset并把它添加到系统中，讲在sysfs中创建一个目录，子目录中包含该kset下所有的kobject。比如/sys/bus就是一个kset对象。
 
 ![结构关系](../../images/kernel/device_model02.png)
 

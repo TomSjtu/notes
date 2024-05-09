@@ -96,6 +96,79 @@ list_for_each_entry(pos, head, member);
 
 ### 队列
 
+Linux内核通用队列的实现被称为kfifo，定义在<linux/kfifo.h\>中：
+
+```C
+struct __kfifo {
+	unsigned int	in;
+	unsigned int	out;
+	unsigned int	mask;
+	unsigned int	esize;
+	void		*data;
+};
+```
+
+Linux的kfifo和多数其他队列的实现类似，提供了两个主要操作：enqueue(入队)和dequeue(出队)。kfifo对象维护了两个偏移量:人口偏移和出口偏移。入口偏移是指下一次入队列时的位置，出口偏移是指下一次出队列时的位置。出口偏移总是小于等于入口偏移，否则无意义，因为那样说明要出队列的元素根本还没有入队列。
+
+enqueue操作拷贝数据到队列中的入口偏移位置。当上述动作完成后，入口偏移随之加上推入的元素数目。dequeue操作从队列中出口偏移处拷贝数据，当上述动作完成后，出口偏移随之减去摘取的元素数目。当出口偏移等于入口偏移时，说明队列空了：在新数据被推入前，不可再摘取任何数据了。当入口偏移等于队列长度时，说明在队列重置前，不可再有新数据推入队列。
+
+kfifo在使用前，必须调用`kfifo_alloc`宏进行初始化。
+
+操作队列：
+
+```C
+/*将数据推入队列*/
+kfifo_in(struct __kfifo *fifo, const void *buf, unsigned int len);
+
+/*从队列中摘取数据*/
+kfifo_out(struct __kfifo *fifo, void *buf, unsigned int len);
+
+/*获取队列的字节大小*/
+kfifo_size(struct __kfifo *fifo);
+
+/*判断队列是否为空*/
+kfifo_is_empty(struct __kfifo *fifo);
+
+/*判断队列是否已满*/
+kfifo_is_full(struct __kfifo *fifo);
+```
+
+### 映射
+
+映射，即关联数组，是一个由唯一键组成的集合，每个键关联一个特定的值，这种键值对的关联关系就叫做映射。定义在<linux/idr.h\>中。
+
+```C
+struct idr {
+	struct radix_tree_root	idr_rt;
+	unsigned int		idr_base;
+	unsigned int		idr_next;
+};
+```
+
+### 二叉树
+
+一个二叉搜索树(BST)是一个节点有序的二叉树，遵循以下规则：
+
+- 根的左分支节点值都小于根节点值
+- 右分支节点值都大于根节点值
+- 所有的子树也是二叉搜索树
+
+红黑树是一种自平衡二叉搜索树，内核实现的红黑树叫rbtree，定义在<linux/rbtree.h\>，它遵循以下规则：
+
+- 所有的节点要么红色，要么黑色
+- 叶子节点都是黑色
+- 叶子节点不包含数据
+- 所有的非叶子节点都有两个子节点
+- 如果一个节点是红色，那么它的子节点都是黑色
+- 在一个节点到其叶子节点的路径中，如果总是包含同样数目的黑色节点，则该路径相比其他路径是最短的
+
+```C
+struct rb_node {
+	unsigned long  __rb_parent_color;
+	struct rb_node *rb_right;
+	struct rb_node *rb_left;
+} __attribute__((aligned(sizeof(long))));
+```
 
 
 
