@@ -196,7 +196,7 @@ static struct resource my_resources[] = {
 
 那么可以在设备树中描述该资源：
 
-```devicetree
+```DTS
 /{
 	topnode{
 		#address-cells=<1>;

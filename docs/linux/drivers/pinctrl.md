@@ -69,7 +69,7 @@ pinctrl-names表示引脚的三种状态——default, init, sleep。状态的�
 
 引脚配置的设备树描述如下：
 
-```devicetree title="s5pv210-pinctrl.dtsi"
+```DTS title="s5pv210-pinctrl.dtsi"
 
 &pinctrl0 {
 	gpa0: gpa0 {
@@ -95,7 +95,7 @@ pinctrl-names表示引脚的三种状态——default, init, sleep。状态的�
 
 除了单个引脚的描述，还可以将多个引脚组合在一起以实现特定的功能，比如SPI接口、I2C接口等，这被称为引脚组（pin group），其设备树描述如下：
 
-```devicetree title="s5pv210-pinctrl.dtsi"
+```DTS title="s5pv210-pinctrl.dtsi"
 
 uart0_data: uart0-data {
 	samsung,pins = "gpa0-0", "gpa0-1";
@@ -149,7 +149,7 @@ pinctrl子系统的数据结构比较复杂，大致如下：
 
 `pinctrl_map`用来描述板级配置信息，一块单板会使用SoC的不同控制器和不同配置。若DTS中有节点如下：
 
-```devicetree
+```DTS
 &uart0 {
 	pinctrl-names = "default", "sleep";
 	pinctrl-0 = <&uart0_pins>;

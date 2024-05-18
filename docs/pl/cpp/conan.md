@@ -13,3 +13,30 @@ Conan的架构是分布式的，客户端从远端server获取或上传包，然
 Conan最强大的特性使它能为任何可能的平台和配置生成和管理预编译的二级制文件。使用预编译的二进制文件可以避免用户反复的从源码进行构建，节省大量的开发以及持续集成服务器用于构建的时间，同时也提高了交付件的可重现性和可跟踪性。
 
 Conan中的包由一个"conanfile.py"定义。该文件定义了包的依赖、包含的源码、以及如何从源码构建出二进制文件。一个包的"conanfile.py"配置可以生成任意数量的二进制文件，每个二进制可以面向不同的平台和配置（操作系统、体系结构、编译器、以及构件类型等等）。二进制的创建和上传，在所有平台上使用相同的命令，并且都是基于一套包的源码产生的。使用Conan不用为不同的操作系统提供不同的解决方案。
+
+
+## 常用命令
+
+```SHELL
+# 安装conan相关配置
+conan config install https://github.com/conan-io/conan-center-index.git
+
+# 屏蔽conan仓库
+conan remote disable conancenter
+
+# 查找本地所有的依赖库
+conan search
+
+# 删除本地依赖库缓存
+conan remove [package_name]
+
+# 查看本地库信息
+conan search [package_name]
+
+# 查看添加的远程仓库
+conan remote list
+
+# 添加远程仓库
+conan remote add name [repo_name]
+```
+

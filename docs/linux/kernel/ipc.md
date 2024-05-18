@@ -217,6 +217,44 @@ netlink支持两种类型的通信方式：单播和多播。
 
 注意：从用户空间传递到内核的数据无需排队，但是反过来要。
 
+### 地址结构体
+
+在用户空间创建netlink套接字接口的方法与普通套接字一样：
+
+```C
+fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ATNLPROXY);
+```
+
+在套接字初始化后，必须使用netlink特有的地址结构体对当前进程进行标识。Netlink地址结构体如下所示:
+
+```C
+struct sockaddr_nl {
+	__kernel_sa_family_t	nl_family;	/* AF_NETLINK	*/
+	unsigned short	nl_pad;		/* zero		*/
+	__u32		nl_pid;		/* port ID	*/
+  __u32		nl_groups;	/* multicast groups mask */
+};
+```
+
+> nl_family：协议族，必须为AF_NETLINK
+
+> nl_pad：填充字段，必须为0
+
+> nl_pid：在单播情况下，该字段为进程标识符PID，在多播情况下设置为0.
+
+> nl_groups：多播组地址掩码。
+
+```C
+static u32 netlink_group_mask(u32 group)
+{
+  return group? 1 << (group - 1) : 0;
+}
+```
+
+在用户空间的代码中，如果要加入到多播组1，就要设置nl_groups为1；多播组2的掩码为2，多播组3的掩码为4。如果设置为0，表示不希望加入任何多播组。
+
+当程序执行时， `struct sockaddr_nl`结构体会被转化为标准的socket地址，通过`bind()`函数将其与netlink套接字进行绑定后，作为参数传递给用于发送和接受消息的接口`sendmsg()`和`recvmsg()`。
+
 ### 消息格式
 
 消息由两部分组成：消息头和消息体。消息头为固定的16字节，定义如下：
@@ -241,36 +279,18 @@ struct nlmsghdr {
 
 > nlmsg_pid：为数据交换的通道分配的数字标识，用于确保数据交互的正确性。
 
-### 地址结构体
+!!! example "填充消息头"
 
-```C
-struct sockaddr_nl {
-	__kernel_sa_family_t	nl_family;	/* AF_NETLINK	*/
-	unsigned short	nl_pad;		/* zero		*/
-	__u32		nl_pid;		/* port ID	*/
-       	__u32		nl_groups;	/* multicast groups mask */
-};
-```
-
-> nl_family：协议族，必须为AF_NETLINK
-
-> nl_pad：填充字段，必须为0
-
-> nl_pid：该字段在两种情况下为0：从用户空间发往内核空间；从内核发送多播消息到用户空间。
-
-> nl_groups：多播组地址掩码。
-
-```C
-static u32 netlink_group_mask(u32 group)
-{
-  return group? 1 << (group - 1) : 0;
-}
-```
-
-在用户空间的代码中，如果要加入到多播组1，就要设置nl_groups为1；多播组2的掩码为2，多播组3的掩码为4。如果设置为0，表示不希望加入任何多播组。
+  ```C
+  (void)osa_memset_s((char*)nlmsg, size, 0, size);
+  nlmsg->nlmsg_len  = NLMSG_LENGTH(final_len + sizeof(*device_event));
+  nlmsg->nlmsg_type = NLMSG_DONE;
+  nlmsg->nlmsg_pid = getpid();
+  nlmsg->nlmsg_seq = seq++;      /* seq暂时没有用到，后期可能会进行扩展使用 */
+  ```
 
 ## zeromq
 
 github地址：https://github.com/zeromq/libzmq。
 
-zeromq是一个基于SOCKET、开源的轻量级通信库。
+zeromq是一个基于socket、开源的轻量级通信库。

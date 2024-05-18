@@ -10,7 +10,7 @@
 
 ### 顶层GIC中断控制器
 
-```devicetree title="rk3568.dtsi"
+```dts title="rk3568.dtsi"
 gic: interrupt-controller@fd400000 {
 	compatible = "arm,gic-v3";
 	reg = <0x0 0xfd400000 0 0x10000>, /* GICD */
@@ -48,13 +48,13 @@ gic: interrupt-controller@fd400000 {
 
 如果支持extended语法，则可以直接使用interrupts-extended属性来取代以上两个属性：
 
-```devicetree
+```DTS
 interrupts-extended = <&gpio1 5 RISING>, <&gpio2 6 RISING>;
 ```
 
 BSP工程师编写代码如下：
 
-```devicetree title="rk3399.dtsi"
+```DTS title="rk3399.dtsi"
 gpio0: gpio0@ff720000 {
 			compatible = "rockchip,gpio-bank";
 			reg = <0x0 0xff720000 0x0 0x100>;
@@ -71,7 +71,7 @@ gpio0: gpio0@ff720000 {
 
 开发人员编写代码如下：
 
-```devicetree title="rk3399-firefly.dts"
+```DTS title="rk3399-firefly.dts"
 brcmf: wifi@1 {
 	reg = <1>;
 	compatible = "brcm,bcm4329-fmac";
@@ -134,7 +134,7 @@ int request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
 
 `request_irq()`可能会睡眠，因此不能在不允许阻塞的代码中调用该函数。
 
-如果要使用线程化的中断处理程序，可以使用`request_threaded_irq()`函数。
+如果要使用线程化的中断处理程序，可以使用`request_threaded_irq()`函数。线程化的中断处理程序在进程上下文环境中执行，且比工作队列的优先级要高，因此适用于那些要求快速响应的设备驱动中。
 
 要编写自己的中断处理程序，在以下函数中实现：
 
@@ -144,7 +144,7 @@ static irqreturn_t intr_handler(int irq, void *dev)
 
 参数irq已经没有什么用了，参数dev用来向中断处理程序传递数据结构。
 
-Linux上的中断处理程序无需要求可重入。因为中断处理程序运行时相应中断线上的中断是屏蔽的，也就是不会发生相同中断的嵌套。但不同中断的嵌套有可能发生。
+Linux上的中断处理程序无需要求可重入。因为中断处理程序运行时相应中断线上的中断是屏蔽的，也就是不会发生相同中断的嵌套，但不同中断的嵌套有可能发生。
 
 !!! info "中断共享"
 

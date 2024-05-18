@@ -2,7 +2,7 @@
 
 定时器可以用来在将来的某个特定时间点执行特定的函数。被调度运行的函数会异步地运行，就像硬件中断发生时的场景一样。定时器函数必须以原子的方式运行。在SMP系统中，定时器函数会由注册它的同一CPU执行，以尽可能获得缓存的局部性。任何通过定时器函数访问的共享资源都应该针对并发访问进行保护。
 
-系统级别的定时器能以固定的频率产生中断，这种中断被称为{==定时器中断==}，它所对应的中断处理程序负责更新系统时间和执行周期性任务。
+系统级别的定时器能以固定的频率产生中断，这种中断被称为{==定时器中断==}，它对应于软中断的TIMER_SOFTIRQ。
 
 系统定时器中断处理程序需要执行的操作有：
 
@@ -40,45 +40,15 @@ struct timer_list {
 };
 ```
 
-定时器的使用很简单。你只需要执行一些初始化工作，设置一个超时时间，指定超时发生后需要执行的函数，然后激活定时器就可以了。内核提供了一组与定时器相关的接口用来简化定时器的操作。
-
-创建定时器：
-
-```C
-struct timer_list my_timer;
-```
-
-初始化定时器：
-
-```C
-DEFINE_TIMER(name, func)；
-void setup_timer(struct timer_list *timer, void (*function)(unsigned long), unsigned long data);
-```
-
-定时器到期激活函数原型：
-```C
-void my_function(unsigned long data);
-```
-
-一般来说，定时器都会在超时后马上执行，但也有可能会推迟到下一个时钟节拍时才运行，所以不能用定时器来实现任何硬实时的任务。如果需要修改定时器超时时间，可以通过`mod_timer()`函数来实现：
-
-```C
-int mod_timer(struct timer_list *timer, unsigned long expires);
-```
-
-注册定时器：
-
-```C
-void add_timer(struct timer_list *timer);
-```
-
-如果在定时器超时前停止定时器，可以使用`del_timer()`函数：
-
-```C
-int del_timer(struct timer_list *timer);
-```
-
-需要注意的是，在SMP系统中，删除定时器时可能需要等待在其他处理器上运行的定时器处理程序都退出，这时需要用到`del_timer_syn()`函数来执行删除工作。在大多数情况下，都应该调用这个函数而不是`del_timer()`。在持有锁时，需要格外小心`del_timer_syn()`函数的使用，因为如果定时器函数试图获取相同的锁，系统就会进入死锁。
+| 函数 | 描述 |
+| ---- | ---- |
+| DEFINE_TIMER | 定义一个timer |
+| timer_setup | 初始化timer |
+| add_timer | 添加一个timer |
+| add_timer_on | 将timer添加到指定CPU上 |
+| mod_timer | 修改到期时间 |
+| del_timer | 停止timer |
+| del_timer_syn | 等待timer执行完毕再停止 |
 
 ## 延迟执行
 

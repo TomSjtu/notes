@@ -178,13 +178,19 @@ git status
 git log --oneline
 ```
 
+显示所有分支：
+
+```SHELL
+git branch -a
+```
+
 切换分支：
 
 ```SHELL
 git check -b [新分支名]
 ```
 
-合并代码：
+合并其他分支的代码到当前分支，你需要手动解决冲突：
 
 ```SHELL
 git merge [另一个分支名]
@@ -199,9 +205,13 @@ git checkout -- [file]  //放弃某个文件的修改
 git checkout -- .       //放弃所有修改
 ```
 
-回退到之前某个版本，且丢弃该版本之后的所有修改：
+回退到之前某个版本：
 
 ```SHELL
+// 不丢弃版本之后的更改
+git reset [版本号]
+
+// 丢弃版本之后的更改
 git reset --hard [版本号]
 ```
 

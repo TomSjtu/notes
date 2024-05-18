@@ -6,7 +6,7 @@ GPIO全称“General Purpose Input/Output”，通用输入输出。
 
 对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399的GPIO控制器而言，由原厂BSP工程师编写代码如下：
 
-```devicetree title="rk3399.dtsi"
+```DTS title="rk3399.dtsi"
 
 gpio0: gpio0@ff720000 {
 	compatible = "rockchip,gpio-bank";
@@ -37,7 +37,7 @@ gpio1: gpio1@ff730000 {
 
 驱动开发人员使用GPIO设备时，需要在节点中声明：
 
-```devicetree title="rk3399-firefly.dts"
+```DTS title="rk3399-firefly.dts"
 
 leds {
 	compatible = "gpio-leds";
@@ -271,7 +271,7 @@ enum gpiod_flags {
 	- GPIOD_OUT_HIGH：将GPIO初始化为输出端，并将值设置为1
 
 假如有设备树描述如下所示：
-```devicetree
+```DTS
 foo_device {
 	compatible = "acme, foo";
 	...

@@ -1,59 +1,38 @@
 # 进程管理
 
-进程就是处于执行期的程序，可以把一个进程想象成一个庞大的项目组，它包含了各种资源，例如打开的文件、占用的内存、处理器的状态等。而线程，就像是项目组中负责执行具体任务的个人。正如每个项目组至少需要一个人来执行任务，每个进程都必须有一个主线程。你可以选择将所有任务都交给主线程来完成，但在大多数情况下，我们会把一个大的任务分解成多个小任务，并创建额外的线程来并行处理这些小任务。那么，我们是否可以创建更多的进程来处理这些任务呢？从技术上来说，是可以的，但这通常并不是最佳选择。首先，进程占用的资源比线程多，而线程是轻量级的，创建的速度要快得多。其次，进程之间的资源共享相对复杂，而线程由于共享同一进程的资源，可以更容易地访问这些资源。这就像是在一个公司的不同项目组之间进行工作交接可能会很麻烦，但如果大家都属于同一个项目组，合作就会顺畅得多。
+一般而言，进程就是一个正在执行的程序，是由存储在磁盘上的二进制可执行文件，通过特殊的载入方法而运行起来成为进程。当程序成为进程的时候，它需要若干数据结构来描述程序的执行状态（硬件上下文和软件上下文）以及拥有的资源（如地址空间、打开的文件描述符等）。从内核的角度看，进程是一个和系统资源（CPU、内存等）分配相关的实体。
 
 ## 进程描述符
 
 为了管理进程，内核必须清晰地描述每一个进程。在Linux系统下，不管是进程还是线程，内核统一用`task_struct`结构体管理。
 
-### 内核栈
+### 进程标识
+
+pid用来标识一个进程，它被顺序编号，新创建的进程的pid通常是前一个进程+1。在Linux系统中，`getpid()`函数的定义如下：
 
 ```C
-void *stack;
+asmlinkage long sys_getpid(void)
+{
+    return current->tgid;
+}
 ```
 
-每个进程都有一个专用的内核栈，用于保存进程在内核态执行时的临时数据和上下文信息。当创建新进程时，内核会为其分配一个合适大小的内核栈空间，并将其地址赋给`task_struct`中的stack成员。
+tgid——thread group id，表示的是线程组的ID。在linux内核中，一个进程有多个线程组成，且进程和线程都是`task_struct`结构体，这就给管理带来了麻烦。
 
-### 线程描述符
+比如我们希望同属于一个进程组的线程拥有共同的pid。当我们发送终止信号给指定pid时，我们当然希望该进程以及下面的所有线程都收到该信号从而终止运行。事实上，POSIX标准中也规定一个多线程应用程序的所有线程必须享有共同的pid。
 
-线程描述符`struct thread_info`是一个用于存放线程相关信息、与体系结构相关的结构体，在ARM中的定义如下：
+遵照这个标准，Linux引入了{==线程组==}的概念：主进程和创建的所有线程同属于一个线程组，它们共享tgid。
 
-```C
-struct thread_info {
-	unsigned long		flags;		/* low level flags */
-	int			preempt_count;	/* 0 => preemptable, <0 => bug */
-	struct task_struct	*task;		/* main task structure */
-	__u32			cpu;		/* cpu */
-	__u32			cpu_domain;	/* cpu domain */
-#ifdef CONFIG_STACKPROTECTOR_PER_TASK
-	unsigned long		stack_canary;
-#endif
-	struct cpu_context_save	cpu_context;	/* cpu context */
-	__u32			abi_syscall;	/* ABI type and syscall nr */
-	__u8			used_cp[16];	/* thread used copro */
-	unsigned long		tp_value[2];	/* TLS registers */
-	union fp_state		fpstate __attribute__((aligned(8)));
-	union vfp_state		vfpstate;
-#ifdef CONFIG_ARM_THUMBEE
-	unsigned long		thumbee_state;	/* ThumbEE Handler Base register */
-#endif
-};
-```
-
-它包含了很多与线程相关的字段，其中最重要的是`task`，它指向当前线程所属的进程描述符。内核提供了`current`宏可以直接访问当前CPU上正在运行的进程描述符，该宏本质上等于：
-
-```C
-current_thread_info()->task
-```
+当我们使用`getpid()`系统调用返回当前进程的"pid"时，Linux其实耍了一个障眼法——它返回的是tgid的值。只有当调用`gettid()`时，返回的才是真实的pid值。任何一个进程，如果只有主进程，那么pid = tgid， group_leader指向的就是自己。如果主进程创建了其他线程，那么每个线程都有自己的pid，但是tgid是共有的。
 
 ### 进程状态
 
 在`task_struct`中，涉及到进程状态的是这几个成员：
 
 ```C
- volatile long state;   
- int exit_state;
- unsigned int flags;
+volatile long state;   
+int exit_state;
+unsigned int flags;
 ```
 
 state可以取的值有：
@@ -78,10 +57,6 @@ state可以取的值有：
 #define TASK_NEW                        2048
 #define TASK_STATE_MAX                  4096
 ```
-
-很明显可以看出，上述状态的设置是通过对应的位来实现的。
-
-要改变进程的状态，可以使用`set_task_state`和`set_current_state`宏：前者用来设置指定进程的状态，后者用来设置当前进程的状态。
 
 TASK_RUNNING表示进程正在执行或者准备执行。
 
@@ -123,26 +98,6 @@ flags成员的一些取值举例如下，这些宏以PF开头：
 #define PF_WQ_WORKER 0x00000020  //I'm a workqueue worker
 #define PF_KTHREAD 0x00200000    //I'm a kernel thread
 ```
-
-### 进程标识
-
-Linux系统使用pid来标识一个进程，pid被顺序编号，新创建的进程的pid通常是前一个进程+1。但是pid的值有一个上限，系统管理员可以通过修改/proc/sys/kernel/pid_max文件的值来改变这个上限。在`task_struct`中，涉及到进程标识的有以下几个成员。
-
-```C
-pid_t pid;
-pid_t tgid;
-struct task_struct *group_leader; 
-```
-
-!!! question "进程的标识"
-
-    为什么标识一个进程，需要用到这么多成员？一个pid难道不够吗？
-
-这是因为之前提到，在Linux系统下，进程与线程并不特别区分，都以`task_struct`结构体表示。这就给管理带来了一些麻烦。比如我们希望同属于一个进程组的线程拥有共同的pid。当我们发送终止信号给指定pid时，我们当然希望该进程以及下面的所有线程都收到该信号从而终止运行。事实上，POSIX标准中也规定一个多线程应用程序的所有线程必须享有共同的pid。
-
-遵照这个标准，Linux引入了{==线程组==}的概念：主进程和创建的所有线程同属于一个线程组，它们共享tgid。
-
-当我们使用`getpid()`系统调用返回当前进程的"pid"时，Linux其实耍了一个障眼法——它返回的是tgid的值。只有当调用`gettid()`时，返回的才是真实的pid值。任何一个进程，如果只有主进程，那么pid = tgid， group_leader指向的就是自己。如果主进程创建了其他线程，那么每个线程都有自己的pid，但是tgid是共有的。
 
 ### 进程间关系
 
@@ -193,6 +148,48 @@ struct files_struct *files;
 ```
 
 这些字段与[虚拟文件系统](./vfs.md)相关。
+
+### 内核栈
+
+```C
+void *stack;
+```
+
+每个进程都有一个专用的内核栈，用于保存进程在内核态执行时的临时数据和上下文信息。当创建新进程时，内核会为其分配一个合适大小的内核栈空间，并将其地址赋给`task_struct`中的stack成员。
+
+### 线程描述符
+
+线程描述符`struct thread_info`是一个用于存放线程相关信息、与体系结构相关的结构体，在ARM中的定义如下：
+
+```C
+struct thread_info {
+	unsigned long		flags;		/* low level flags */
+	int			preempt_count;	/* 0 => preemptable, <0 => bug */
+	struct task_struct	*task;		/* main task structure */
+	__u32			cpu;		/* cpu */
+	__u32			cpu_domain;	/* cpu domain */
+#ifdef CONFIG_STACKPROTECTOR_PER_TASK
+	unsigned long		stack_canary;
+#endif
+	struct cpu_context_save	cpu_context;	/* cpu context */
+	__u32			abi_syscall;	/* ABI type and syscall nr */
+	__u8			used_cp[16];	/* thread used copro */
+	unsigned long		tp_value[2];	/* TLS registers */
+	union fp_state		fpstate __attribute__((aligned(8)));
+	union vfp_state		vfpstate;
+#ifdef CONFIG_ARM_THUMBEE
+	unsigned long		thumbee_state;	/* ThumbEE Handler Base register */
+#endif
+};
+```
+
+它包含了很多与线程相关的字段，其中最重要的是`task`，它指向当前线程所属的进程描述符。内核提供了`current`宏可以直接访问当前CPU上正在运行的进程描述符，该宏本质上等于：
+
+```C
+current_thread_info()->task
+```
+
+
 
 ## 进程组织形式
 

@@ -1,155 +1,132 @@
 # ION内存管理器
 
-ION通用内存管理器是由谷歌开发的一个用于管理内存的子系统，旨在提高内存分配的效率和灵活性，尤其是在需要高性能内存访问的应用中，如图形、多媒体和相机子系统。
+- kernel版本：4.14
+- 源码位置：<include/linux/ion.h\>，<drivers/staging/android/ion\>
 
-在SoC中，许多设备都具有访问DMA的能力以及不同的内存分配机制，ION提供了一种通用的内存分配方法，解决了不同设备之间内存管理碎片化的问题。
+!!! warning "ION内存分配器已经由DMA heap取代"
 
-ION允许不同的系统组件（如GPU、视频编码器、相机接口等）通过共享内存缓冲区来高效地交换数据，这种共享可以是零拷贝的。这减少了数据复制和转换的需要，从而降低了系统开销，提高了性能。它可以提供驱动之间、用户进程之间、内核空间和用户空间之间的共享内存。
+	![alt text](../../images/kernel/dma_heap.png)
+	
+相关资料：
 
-ION源码文件在<drivers/staging/android/ion\>目录下。
+- [将 ION 堆转换为 DMA-BUF 堆](https://source.android.com/docs/core/architecture/kernel/dma-buf-heaps?hl=zh-cn)
+- [Destaging ION](https://lwn.net/Articles/792733/)
+- [DMA BUF Heap Transition in AOSP](https://www.linaro.org/blog/dma-buf-heap-transition-in-aosp/)
+	
+ION通用内存管理器是由谷歌开发的一个用于管理内存的子系统，通过在硬件设备和用户空间之间分配和共享内存，实现设备之间内存的零拷贝。它可以提供驱动之间、用户进程之间、内核空间和用户空间之间的共享内存。
 
-## 数据结构
+在SoC中，许多设备都具有访问DMA的能力，但是其访问机制却各不相同，这就造成了管理上的混乱。ION提供了一种通用的内存分配方法，解决了不同设备之间内存管理碎片化的问题。
 
-### 用户态
+ION整体架构图如下图所示：
 
-在ION中，为了管理不同的内存类型，首先要对它们进行分类：
+![ION架构图](../../images/kernel/ion_arch.png)
+
+在用户层面，每个进程对应一个client，一个client下有多个handle，与内核层面的buffer一一对应。内核根据heap type管理不同的heap。不同的用户进程通过shared fd实现共享内存。
+
+`struct ion_heap`结构体就表示一个heap，其中支持的heap type有：
+
+- ION_HEAP_TYPE_SYSTEM：通过`vmalloc()`分配的内存
+- ION_HEAP_TYPE_SYSTEM_CONTIG：通过`kmalloc()`分配的内存
+- ION_HEAP_TYPE_CARVEOUT：启动时预留的内存
+- ION_HEAP_TYPE_DMA：给DMA使用的内存
+
+每种heap都必须要实现`struct ion_heap_ops`中的回调函数：
 
 ```C
-enum ion_heap_type {
-	ION_HEAP_TYPE_SYSTEM,
-	ION_HEAP_TYPE_SYSTEM_CONTIG,
-	ION_HEAP_TYPE_CARVEOUT,
-	ION_HEAP_TYPE_CHUNK,
-	ION_HEAP_TYPE_DMA,
-	ION_HEAP_TYPE_CUSTOM, /*
-			       * must be last so device specific heaps always
-			       * are at the end of this enum
-			       */
+struct ion_heap_ops {
+	int (*allocate)(struct ion_heap *heap,
+			struct ion_buffer *buffer, unsigned long len,
+			unsigned long align, unsigned long flags);
+	void (*free)(struct ion_buffer *buffer);
+	int (*phys)(struct ion_heap *heap, struct ion_buffer *buffer,
+		    phys_addr_t *addr, size_t *len);
+	struct sg_table * (*map_dma)(struct ion_heap *heap,
+				     struct ion_buffer *buffer);
+	void (*unmap_dma)(struct ion_heap *heap, struct ion_buffer *buffer);
+	void * (*map_kernel)(struct ion_heap *heap, struct ion_buffer *buffer);
+	void (*unmap_kernel)(struct ion_heap *heap, struct ion_buffer *buffer);
+	int (*map_user)(struct ion_heap *mapper, struct ion_buffer *buffer,
+			struct vm_area_struct *vma);
+	int (*shrink)(struct ion_heap *heap, gfp_t gfp_mask, int nr_to_scan);
 };
 ```
 
-> ION_HAEP_TYPE_SYSTEM：`vmalloc`分配的内存
+> allocate：从buffer中分配内存
 
-> ION_HAEP_TYPE_SYSTEM_CONTIG：`kmalloc`分配的内存
+> phys：从物理地址连续的buffer中获取其物理地址
 
-> ION_HEAP_TYPE_CARVEOUT：在启动时就保留的内存区，物理上连续
+> map_dma：将buffer映射到DMA地址空间
 
-> ION_HEAP_TYPE_DMA：分配给DMA的内存
+> map_kernel：将buffer映射到内核地址空间
 
-下面这个结构体需要由用户空间初始化并传递给`ioctl()`函数：
+> map_user：将buffer映射到用户空间
 
-```C
-struct ion_allocation_data {
-	__u64 len;
-	__u32 heap_id_mask;
-	__u32 flags;
-	__u32 fd;
-	__u32 unused;
-};
-```
+> shrink：当内存紧张时，从heap中拆分buffer
 
-> len：需要分配的字节数
+## 关键数据结构
 
-> heap_id_mask：需要从哪个heap中分配内存
-
-> fd：分配后的内存转换成dma-buffer的fd
-
-该结构体表示heap的信息：
-
-```C
-struct ion_heap_data {
-	char name[MAX_HEAP_NAME];
-	__u32 type;
-	__u32 heap_id;
-	__u32 reserved0;
-	__u32 reserved1;
-	__u32 reserved2;
-};
-```
-
-> name：heap的名字
-
-> type：heap的类型
-
-> heap_id：heap的ID
-
-该结构体表示所有heap的集合：
-
-```C
-struct ion_heap_query {
-	__u32 cnt; /* Total number of heaps to be copied */
-	__u32 reserved0; /* align to 64bits */
-	__u64 heaps; /* buffer to be populated */
-	__u32 reserved1;
-	__u32 reserved2;
-};
-```
-
-### 驱动态
-
-联合体`ion_ioctl_arg`用来判断用户是分配内存还是查询：
-
-```C
-union ion_ioctl_arg {
-	struct ion_allocation_data allocation;
-	struct ion_heap_query query;
-};
-```
-
-`struct ion_device`包含了ion device node的元数据：
+`struct ion_device`为内核管理ion的顶层数据结构，一个系统只能有一个`struct ion_device`对象：
 
 ```C
 struct ion_device {
 	struct miscdevice dev;
+	struct rb_root buffers;
+	struct mutex buffer_lock;
 	struct rw_semaphore lock;
 	struct plist_head heaps;
+	long (*custom_ioctl)(struct ion_client *client, unsigned int cmd,
+			     unsigned long arg);
+	struct rb_root clients;
 	struct dentry *debug_root;
-	int heap_cnt;
+	struct dentry *heaps_debug_root;
+	struct dentry *clients_debug_root;
+	struct rb_root share_buffers;
+	struct mutex share_lock;
+	struct idr idr;
+	struct rb_root share_pool_buffers;
+	struct dentry *ion_buf_debug_file;
 };
 ```
 
-> dev：以杂项设备注册
-
-> heaps：该设备关联的所有heap
-
-> heap_cnt：heap的数量
-
-`ion_buffer`的定义如下：
+`struct ion_client`表示用户空间创建的实例：
 
 ```C
-struct ion_buffer {
-	struct list_head list;
+struct ion_client {
+	struct rb_node node;
 	struct ion_device *dev;
-	struct ion_heap *heap;
-	unsigned long flags;
-	unsigned long private_flags;
-	size_t size;
-	void *priv_virt;
+	struct rb_root handles;
+	struct idr idr;
 	struct mutex lock;
-	int kmap_cnt;
-	void *vaddr;
-	struct sg_table *sg_table;
-	struct list_head attachments;
+	const char *name;
+	char *display_name;
+	int display_serial;
+	struct task_struct *task;
+	pid_t pid;
+	struct dentry *debug_root;
+	wait_queue_head_t wq;
+	int wq_cnt;
+	struct kfifo fifo;
+	spinlock_t fifo_lock;
 };
 ```
 
-> flags：buffer特定标志
+`struct ion_handle`表示用户空间申请的内存块，与内核的buffer对应：
+```C
+struct ion_handle {
+	struct kref ref;
+	struct ion_client *client;
+	struct ion_buffer *buffer;
+	struct rb_node node;
+	unsigned int kmap_cnt;
+	int id;
+	int share_id;
+	int import_cnt;
+	struct ion_share_handle * sh_hd;
+	int32_t import_consume_cnt;
+};
+```
 
-> private_flags：内部buffer特定标志
-
-> size：buffer的大小
-
-> priv_virt：buffer私有数据
-
-> kmap_cnt：buffer映射到内核的次数
-
-> vaddr：buffer虚拟地址
-
-> sg_table：该buffer的SG表，SG表可以让数据在不连续的内存块之间传输。
-
-> attachments：表示与该buffer关联的设备链表
-
-`ion_heap`的定义如下：
+`struct ion_heap`表示ION管理的内存池：
 
 ```C
 struct ion_heap {
@@ -160,8 +137,6 @@ struct ion_heap {
 	unsigned long flags;
 	unsigned int id;
 	const char *name;
-
-	/* deferred free support */
 	struct shrinker shrinker;
 	struct list_head free_list;
 	size_t free_list_size;
@@ -169,41 +144,247 @@ struct ion_heap {
 	wait_queue_head_t waitqueue;
 	struct task_struct *task;
 
-	/* heap statistics */
-	u64 num_of_buffers;
-	u64 num_of_alloc_bytes;
-	u64 alloc_bytes_wm;
-
-	/* protect heap statistics */
-	spinlock_t stat_lock;
+	int (*debug_show)(struct ion_heap *heap, struct seq_file *, void *);
 };
 ```
 
-操作`ion_heap`的回调函数：
+`struct ion_buffer`表示heap中真正的缓冲区内存：
+
 
 ```C
-struct ion_heap_ops {
-	int (*allocate)(struct ion_heap *heap,
-			struct ion_buffer *buffer, unsigned long len,
-			unsigned long flags);
-	void (*free)(struct ion_buffer *buffer);
-	void * (*map_kernel)(struct ion_heap *heap, struct ion_buffer *buffer);
-	void (*unmap_kernel)(struct ion_heap *heap, struct ion_buffer *buffer);
-	int (*map_user)(struct ion_heap *mapper, struct ion_buffer *buffer,
-			struct vm_area_struct *vma);
-	int (*shrink)(struct ion_heap *heap, gfp_t gfp_mask, int nr_to_scan);
+struct ion_buffer {
+	struct kref ref;
+	union {
+		struct rb_node node;
+		struct list_head list;
+	};
+	struct ion_device *dev;
+	struct ion_heap *heap;
+	unsigned long flags;
+	unsigned long private_flags;
+	size_t size;
+	union {
+		void *priv_virt;
+		phys_addr_t priv_phys;
+	};
+	struct mutex lock;
+	int kmap_cnt;
+	void *vaddr;
+	int dmap_cnt;
+	struct sg_table *sg_table;
+	struct page **pages;
+	struct list_head vmas;
+	/* used to track orphaned buffers */
+	int handle_count;
+	char task_comm[TASK_COMM_LEN];
+	pid_t pid;
 };
 ```
 
-> allocate：分配内存
 
-> free：释放内存
+## 使用libion
 
-> map_kernel：将内存映射到内核空间
+> libion库是对底层ion_ioctl()的封装，谷歌推荐使用libion库而不是操作ion_ioctl()函数。
 
-> unmap_kernel：取消内核空间映射
+### 数据结构
 
-> map_user：将内存映射到用户空间
+```C
+struct ion_allocation_data {
+    uint64_t len;
+    uint64_t align;
+    unsigned int heap_mask;
+    unsigned int flags;
+    ion_user_handle_t handle;
+    ion_share_handle_t sh_handle;
+};
+struct ion_fd_data {
+    ion_user_handle_t handle;
+    int fd;
+};
+struct ion_handle_data {
+    ion_user_handle_t handle;
+};
+struct ion_share_handle_data {
+    ion_user_handle_t handle;
+    int64_t flags;
+    ion_share_handle_t sh_handle;
+};
+
+/**
+ * struct ion_share_info_data - a handle passed to/from the kernel
+ * @handle: a handle
+ */
+struct ion_share_info_data {
+    ion_user_handle_t handle;
+    int64_t timeout;
+    int32_t target_client_cnt;
+    int32_t cur_client_cnt;
+};
+```
+
+API接口
+
+```C
+int32_t ion_open(void);
+int32_t ion_close(int32_t fd);
+int32_t ion_alloc(int32_t fd, size_t len, size_t align, uint32_t heap_mask,
+            uint32_t flags, ion_user_handle_t *handle);
+int32_t ion_alloc_fd(int32_t fd, size_t len, size_t align, uint32_t heap_mask,
+            uint32_t flags, int32_t *handle_fd);
+int32_t ion_sync_fd(int32_t fd, int32_t handle_fd);
+int32_t ion_free(int32_t fd, ion_user_handle_t handle);
+int32_t ion_map(int32_t fd, ion_user_handle_t handle, size_t length, int32_t prot,
+            int32_t flags, off_t offset, unsigned char **ptr, int32_t *map_fd);
+int32_t ion_share(int32_t fd, ion_user_handle_t handle, int32_t *share_fd);
+int32_t ion_import(int32_t fd, int32_t share_fd, ion_user_handle_t *handle);
+int32_t ion_phys(int32_t fd, ion_user_handle_t handle, void **paddr, size_t *len);
+int32_t ion_cache_invalid(int32_t fd, ion_user_handle_t handle, void *paddr, void *vaddr, size_t len);
+int32_t ion_cache_flush(int32_t fd, ion_user_handle_t handle, void *paddr, void *vaddr, size_t len);
+int32_t ion_memcpy(int32_t fd, ion_user_handle_t handle, void *dst_paddr, void *src_paddr, size_t len);
+```
+
+对于使用者来说，主要关心以下几个方面：
+
+- 打开与关闭
+- 分配与释放内存
+- 映射与共享
+
+### 打开与关闭
+
+与ION交互需要打开/关闭ion_device，返回的形式为文件描述符fd，往后的操作都需要用到这个fd。
+
+```C
+int32_t ion_open(void)
+{
+    int32_t fd = open("/dev/ion", O_RDWR);
+    if (fd < 0) {
+        (void)printf("%s open /dev/ion failed!\n", LOG_TAG);
+    }
+
+    return fd;
+}
+
+int32_t ion_close(int32_t fd)
+{
+    return close(fd);
+}
+```
+
+### 分配与释放
+
+该函数根据传入的heap_mask去寻找合适的heap，然后分配buffer内存块，其中参数handle必须要设置，这是由内核空间返回给用户的操作ION内存的句柄。
+
+```C
+int32_t ion_alloc(int32_t fd, size_t len, size_t align, uint32_t heap_mask,
+          uint32_t flags, ion_user_handle_t *handle)
+{
+    int32_t ret;
+    if (handle == NULL) {
+        (void)printf("%s Invalid handle!\n", LOG_TAG);
+        return -EINVAL;
+    }
+
+    struct ion_allocation_data data = {
+        .len = len,
+        .align = align,
+        .heap_mask = heap_mask,
+        .flags = flags,
+    };
+
+    ret = ion_ioctl(fd, ION_IOC_ALLOC, (void *)&data);
+    if (ret < 0) {
+        (void)printf("%s Failed to do ION_IOC_ALLOC(ret=%d)!\n", LOG_TAG, ret);
+        return ret;
+    }
+
+    *handle = data.handle;
+    return ret;
+}
+```
+
+该函数根据传入的handle，释放对应的buffer。
+
+```C
+int32_t ion_free(int32_t fd, ion_user_handle_t handle)
+{
+    struct ion_handle_data data = {
+        .handle = handle,
+    };
+    return ion_ioctl(fd, ION_IOC_FREE, (void *)&data);
+}
+```
+
+### 映射
+
+该函数通过传入的handle找到对应的buffer，并将其映射到用户空间，ptr指向映射区域的地址。
+
+```C
+int32_t ion_map(int32_t fd, ion_user_handle_t handle, size_t length, int32_t prot,
+            int32_t flags, off_t offset, unsigned char **ptr, int32_t *map_fd)
+{
+    int32_t ret;
+    struct ion_fd_data data = {
+        .handle = handle,
+    };
+
+    if (map_fd == NULL) {
+        (void)printf("%s Invalid map_fd!\n", LOG_TAG);
+        return -EINVAL;
+    }
+    if (ptr == NULL) {
+        (void)printf("%s Invalid ptr!\n", LOG_TAG);
+        return -EINVAL;
+    }
+
+    ret = ion_ioctl(fd, ION_IOC_MAP, (void *)&data);
+    if (ret < 0) {
+        (void)printf("%s map ioctl returned failed,handle[%ld](ret=%d)\n",
+            LOG_TAG, handle, ret);
+        return ret;
+    }
+    *map_fd = data.fd;
+    if (*map_fd < 0) {
+        (void)printf("%s map ioctl returned negative fd\n", LOG_TAG);
+        return -EINVAL;
+    }
+    *ptr = mmap(NULL, length, prot, flags, *map_fd, offset);
+    if (*ptr == MAP_FAILED) {
+        (void)printf("%s ion mmap failed(ret=%d)\n", LOG_TAG, -errno);
+        return -errno;
+    }
+    return ret;
+}
+```
+
+### 共享
+
+该函数通过创建一个share_fd，实现对同一个buffer的共享。
+
+```C
+int32_t ion_share(int32_t fd, ion_user_handle_t handle, int32_t *share_fd)
+{
+    int32_t ret;
+    struct ion_fd_data data = {
+        .handle = handle,
+    };
+    if (share_fd == NULL) {
+        (void)printf("%s Invalid share_fd!\n", LOG_TAG);
+        return -EINVAL;
+    }
+
+    ret = ion_ioctl(fd, ION_IOC_SHARE, (void *)&data);
+    if (ret < 0) {
+        (void)printf("%s Failed to do ION_IOC_SHARE(ret=%d)!\n", LOG_TAG, ret);
+        return ret;
+    }
+    *share_fd = data.fd;
+    if (*share_fd < 0) {
+        (void)printf("%s share ioctl returned negative fd\n", LOG_TAG);
+        return -EINVAL;
+    }
+    return ret;
+}
+```
 
 ## scatterlist
 
@@ -260,149 +441,53 @@ struct sg_table {
 
 sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`中的page_link字段决定的。如果它的 bit0 为1，表示它不是一个有效的内存块，而是指向另一个scatterlist数组。如果 bit1 为1，表示它是scatterlist数组中最后一个有效的内存块。
 
-## 分配heap
+## 分配与释放内存
 
-前面提到，ION对于内存主要分成了四个区，因此heap的分配也有四种策略：
+前面提到，ION对于管理的内存主要分成了四个区：
 
 - 不连续内存
 - 连续内存
 - 保留区内存
 - CMA内存
 
-整体流程为：
+驱动层分配内存的函数是`ion_alloc()`函数，它主要做了以下事情：
 
-1. 用户层打开/dev/ion，并通过`ioctl()`函数传递参数给驱动层。
-2. 驱动层调用`ion_ioctl()`函数解析用户传递的参数。
+1. 根据优先级，从某个heap开始，根据用户传入的heap_mask，查看是否有匹配的内存可以分配，遍历系统中所有的堆，直到找到可以分配的内存为止。
+2. 真正的分配函数是`ion_buffer_create()`。
+3. 核心语句`heap->ops->allocate(heap, buffer, len, align, flags)`，即根据不同的heap调用对应的分配函数。
 
-	```C
-	static long ion_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
-	{
-		int ret = 0;
-		union ion_ioctl_arg data;
-
-		if (_IOC_SIZE(cmd) > sizeof(data))
-			return -EINVAL;
-
-		/*
-		* The copy_from_user is unconditional here for both read and write
-		* to do the validate. If there is no write for the ioctl, the
-		* buffer is cleared
-		*/
-		if (copy_from_user(&data, (void __user *)arg, _IOC_SIZE(cmd)))
-			return -EFAULT;
-
-		ret = validate_ioctl_arg(cmd, &data);
-		if (ret) {
-			pr_warn_once("%s: ioctl validate failed\n", __func__);
-			return ret;
-		}
-
-		if (!(_IOC_DIR(cmd) & _IOC_WRITE))
-			memset(&data, 0, sizeof(data));
-
-		switch (cmd) {
-		case ION_IOC_ALLOC:
-		{
-			int fd;
-
-			fd = ion_alloc(data.allocation.len,
-					data.allocation.heap_id_mask,
-					data.allocation.flags);
-			if (fd < 0)
-				return fd;
-
-			data.allocation.fd = fd;
-
-			break;
-		}
-		case ION_IOC_HEAP_QUERY:
-			ret = ion_query_heaps(&data.query);
-			break;
-		default:
-			return -ENOTTY;
-		}
-
-		if (_IOC_DIR(cmd) & _IOC_READ) {
-			if (copy_to_user((void __user *)arg, &data, _IOC_SIZE(cmd)))
-				return -EFAULT;
-		}
-		return ret;
-	}
-	```
-
-3. 继续调用`ion_alloc()`寻找合适的heap分配内存，并且将`ion_buffer`以`dma_buffer`的形式返回给用户。
-
-	```C
-	static int ion_alloc(size_t len, unsigned int heap_id_mask, unsigned int flags)
-	{
-		struct ion_device *dev = internal_dev;
-		struct ion_buffer *buffer = NULL;
-		struct ion_heap *heap;
-		DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-		int fd;
-		struct dma_buf *dmabuf;
-
-		pr_debug("%s: len %zu heap_id_mask %u flags %x\n", __func__,
-			len, heap_id_mask, flags);
-		/*
-		* traverse the list of heaps available in this system in priority
-		* order.  If the heap type is supported by the client, and matches the
-		* request of the caller allocate from it.  Repeat until allocate has
-		* succeeded or all heaps have been tried
-		*/
-		len = PAGE_ALIGN(len);
-
-		if (!len)
-			return -EINVAL;
-
-		down_read(&dev->lock);
-
-		//遍历ion_device的所有heap，查找与用户匹配的heap
-		plist_for_each_entry(heap, &dev->heaps, node) {
-			/* if the caller didn't specify this heap id */
-			if (!((1 << heap->id) & heap_id_mask))
-				continue;
-			buffer = ion_buffer_create(heap, dev, len, flags);
-			if (!IS_ERR(buffer))
-				break;
-		}
-		up_read(&dev->lock);
-
-		if (!buffer)
-			return -ENODEV;
-
-		if (IS_ERR(buffer))
-			return PTR_ERR(buffer);
-
-		exp_info.ops = &dma_buf_ops;
-		exp_info.size = buffer->size;
-		exp_info.flags = O_RDWR;
-		exp_info.priv = buffer;
-
-		//导出为dma_buffer
-		dmabuf = dma_buf_export(&exp_info);
-		if (IS_ERR(dmabuf)) {
-			_ion_buffer_destroy(buffer);
-			return PTR_ERR(dmabuf);
-		}
-
-		//将dma_buffer转换成fd，返回给用户空间
-		fd = dma_buf_fd(dmabuf, O_CLOEXEC);
-		if (fd < 0)
-			dma_buf_put(dmabuf);
-
-		return fd;
-	}
-	```
-
-4. 根据选中的heap，调用对应的`allocate()`分配函数。
-5. 使用完后，调用`free()`函数释放内存。
+这里重点讲一下system_heap的分配与释放，其他类型的heap留给读者自己去研究。
 
 ### 不连续内存
 
 > 源码位于<drivers/staging/android/ion/ion_system_heap.c\>
 
-1. 分配内存：
+system_heap管理着三种类型的内存块：`static const unsigned int orders[] = {8, 4, 0};`
+
+这里的8、4、0代表的是页的数量，一页为4KB：
+
+```SHELL
+$ cat /sys/kernel/debug/ion/heaps/system
+
+          client              pid             size
+----------------------------------------------------
+----------------------------------------------------
+allocations (info is from last known client):
+----------------------------------------------------
+  total orphaned                0
+          total                 0
+   deferred free                0
+----------------------------------------------------
+0 order 8 highmem pages in pool = 0 total
+0 order 8 lowmem pages in pool = 0 total
+0 order 4 highmem pages in pool = 0 total
+0 order 4 lowmem pages in pool = 0 total
+0 order 0 highmem pages in pool = 0 total
+0 order 0 lowmem pages in pool = 0 total
+
+```
+
+1. 分配：
 
 	```C
 	static int ion_system_heap_allocate(struct ion_heap *heap,
@@ -426,6 +511,8 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 
 		INIT_LIST_HEAD(&pages);
 		while (size_remaining > 0) {
+
+			//核心分配函数
 			page = alloc_largest_available(sys_heap, buffer, size_remaining,
 							max_order);
 			if (!page)
@@ -435,6 +522,8 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 			max_order = compound_order(page);
 			i++;
 		}
+
+		//使用sg_table来管理分散的内存块
 		table = kmalloc(sizeof(*table), GFP_KERNEL);
 		if (!table)
 			goto free_pages;
@@ -443,6 +532,8 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 			goto free_table;
 
 		sg = table->sgl;
+
+		//将内存块与scatterlist关联，并从buddy中删除
 		list_for_each_entry_safe(page, tmp_page, &pages, lru) {
 			sg_set_page(sg, page, page_size(page), 0);
 			sg = sg_next(sg);
@@ -461,7 +552,108 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 	}
 	```
 
-2. 释放内存：
+`alloc_largest_available()`函数：
+
+```C
+static struct page *alloc_largest_available(struct ion_system_heap *heap,
+					    struct ion_buffer *buffer,
+					    unsigned long size,
+					    unsigned int max_order)
+{
+	struct page *page;
+	int i;
+
+	//每次找到小于分配size的最大order
+	for (i = 0; i < num_orders; i++) {
+		if (size < order_to_size(orders[i]))
+			continue;
+		if (max_order < orders[i])
+			continue;
+		
+		//先从pool中分配，如果没有就从buddy中分配
+		page = alloc_buffer_page(heap, buffer, orders[i]);
+		if (!page)
+			continue;
+
+		return page;
+	}
+
+	return NULL;
+}
+```
+
+`alloc_buffer_page()`函数：
+
+```C
+static struct page *alloc_buffer_page(struct ion_system_heap *heap,
+				      struct ion_buffer *buffer,
+				      unsigned long order)
+{
+	bool cached = ion_buffer_cached(buffer);
+	struct ion_page_pool *pool = heap->pools[order_to_index(order)];
+	struct page *page;
+
+	//system_heap有cached和uncached两种类型，对应不同的pool
+	if (!cached) {
+		page = ion_page_pool_alloc(pool);
+	} else {
+		gfp_t gfp_flags = low_order_gfp_flags;
+
+		if (order > 4)
+			gfp_flags = high_order_gfp_flags;
+		page = alloc_pages(gfp_flags | __GFP_COMP, order);
+		if (!page)
+			return NULL;
+		ion_pages_sync_for_device(NULL, page, PAGE_SIZE << order,
+						DMA_BIDIRECTIONAL);
+	}
+
+	return page;
+}
+```
+
+`ion_page_pool_alloc()`函数：
+
+```C
+struct page *ion_page_pool_alloc(struct ion_page_pool *pool)
+{
+	struct page *page = NULL;
+
+	BUG_ON(!pool);
+
+	mutex_lock(&pool->mutex);
+	
+	//先从high中分配，再从low中分配
+	if (pool->high_count)
+		page = ion_page_pool_remove(pool, true);
+	else if (pool->low_count)
+		page = ion_page_pool_remove(pool, false);
+	mutex_unlock(&pool->mutex);
+
+	//如果分配失败，则从buddy中分配
+	if (!page)
+		page = ion_page_pool_alloc_pages(pool);
+
+	return page;
+}
+```
+
+`ion_page_pool_alloc_pages()`函数：
+
+```C
+static void *ion_page_pool_alloc_pages(struct ion_page_pool *pool)
+{
+	struct page *page = alloc_pages(pool->gfp_mask, pool->order);
+
+	if (!page)
+		return NULL;
+	return page;
+}
+```
+
+至此，system_heap的分配流程结束。
+
+2. 释放：
 
 	```C
 	static void ion_system_heap_free(struct ion_buffer *buffer)
@@ -478,17 +670,41 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 			ion_heap_buffer_zero(buffer);
 
 		for_each_sgtable_sg(table, sg, i)
+
+			//核心释放内存的函数
 			free_buffer_page(sys_heap, buffer, sg_page(sg));
 		sg_free_table(table);
 		kfree(table);
 	}
 	```
 
+`free_buffer_page()`函数：
+
+```C
+static void free_buffer_page(struct ion_system_heap *heap,
+			     struct ion_buffer *buffer, struct page *page)
+{
+	unsigned int order = compound_order(page);
+	bool cached = ion_buffer_cached(buffer);
+
+	if (!cached && !(buffer->private_flags & ION_PRIV_FLAG_SHRINKER_FREE)) {
+		struct ion_page_pool *pool = heap->pools[order_to_index(order)];
+
+		//返还给pool
+		ion_page_pool_free(pool, page);
+	} else {
+		
+		//返回给buddy
+		__free_pages(page, order);
+	}
+}
+```
+
 ### 连续内存
 
 > 源码位于<drivers/staging/android/ion/ion_system_heap.c\>
 
-1. 分配内存：
+1. 分配：
 
 	```C
 	static int ion_system_contig_heap_allocate(struct ion_heap *heap,
@@ -545,7 +761,7 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 	}
 	```
 
-2. 释放内存
+2. 释放：
 
 	```C
 	static void ion_system_contig_heap_free(struct ion_buffer *buffer)
@@ -565,18 +781,86 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 
 ### 保留区内存
 
-1. 分配内存：
+1. 分配：
 
-2. 释放内存：
+	```C
+	static int ion_carveout_heap_allocate(struct ion_heap *heap,
+						struct ion_buffer *buffer,
+						unsigned long size, unsigned long align,
+						unsigned long flags)
+	{
+		struct sg_table *table;
+		phys_addr_t paddr;
+		int ret;
 
+		if (align > PAGE_SIZE) {
+			pr_err("%s: align should <= page size\n", __func__);
+			return -EINVAL;
+		}
 
+		table = kmalloc(sizeof(struct sg_table), GFP_KERNEL);
+		if (!table)
+			return -ENOMEM;
+
+		ret = sg_alloc_table(table, 1, GFP_KERNEL);
+		if (ret) {
+			pr_err("%s: sg alloc table failed\n", __func__);
+			goto err_free;
+		}
+
+		paddr = ion_carveout_allocate(heap, size, align);
+		if (paddr == ION_CARVEOUT_ALLOCATE_FAIL) {
+			ret = -ENOMEM;
+			goto err_free_table;
+		}
+
+		sg_set_page(table->sgl, pfn_to_page(PFN_DOWN(paddr)), size, 0);
+		buffer->priv_virt = table;
+
+		if (buffer->flags & ION_FLAG_INITIALIZED) {
+			ion_heap_buffer_zero_ex(table, buffer->flags);
+		}
+
+		return 0;
+
+	err_free_table:
+		sg_free_table(table);
+	err_free:
+		kfree(table);
+		return ret;
+	}
+	```
+
+2. 释放：
+
+	```C
+	static void ion_carveout_heap_free(struct ion_buffer *buffer)
+	{
+		struct ion_heap *heap = buffer->heap;
+		struct sg_table *table = buffer->priv_virt;
+		struct page *page = sg_page(table->sgl);
+		phys_addr_t paddr = PFN_PHYS(page_to_pfn(page));
+
+		ion_heap_buffer_zero(buffer);
+
+		if (ion_buffer_cached(buffer)) {
+			dma_sync_sg_for_device(NULL, table->sgl, table->nents,
+								DMA_BIDIRECTIONAL);
+			__flush_dcache_area(phys_to_virt(paddr), buffer->size);
+		}
+
+		ion_carveout_free(heap, paddr, buffer->size);
+		sg_free_table(table);
+		kfree(table);
+	}
+	```
 
 
 ### CMA内存
 
 > 源码位于<drivers/staging/android/ion/ion_cma_heap.c\>
 
-1. 分配内存：
+1. 分配：
 
 	```C
 	static int ion_cma_allocate(struct ion_heap *heap, struct ion_buffer *buffer,
@@ -636,7 +920,7 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 	}
 	```
 
-2. 释放内存：
+2. 释放：
 
 	```C
 	static void ion_cma_free(struct ion_buffer *buffer)
@@ -653,6 +937,6 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 	}
 	```
 
+ION内存分配的总流程如下：
 
-
-
+![ION内存分配](../../images/kernel/ion.png)

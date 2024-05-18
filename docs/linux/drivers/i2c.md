@@ -37,7 +37,7 @@ I2C的通信过程：
 
 ## 设备树描述
 
-```devicetree
+```DTS
 i2c0: i2c@fdd40000 {
 	compatible = "rockchip,rk3568-i2c", "rockchip,rk3399-i2c";
 	reg = <0x0 0xfdd40000 0x0 0x1000>;

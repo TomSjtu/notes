@@ -1,5 +1,9 @@
 # 中断下半部
 
+!!! tips
+
+    内核中有些与中断相关的函数，名字中带着_bh，一般与下半部有关。
+
 ## 软中断
 
 !!! note
@@ -17,7 +21,7 @@
 软中断在编译期间由内核静态分配：
 
 ```C
-/*内核支持的软中断类型*/
+/*内核只支持10种软中断类型*/
 enum {
     HI_SOFTIRQ=0,       /* 高优先级tasklet */
 	TIMER_SOFTIRQ,      /* Timer定时器软中断 */
@@ -177,25 +181,18 @@ tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，区
 
 ### 使用tasklet
 
-```C
-/*静态分配tasklet*/
-DECLARE_TASKLET(name, func, data)
+| 函数 | 描述 |
+| ---- | ---- |
+| DECLARE_TASKLET | 定义tasklet，并将count初始化为0 |
+| DECLARE_TASKLET_DISABLED | 定义tasklet，但是将count初始化为1 |
+| tasklet_init | 初始化tasklet |
+| tasklet_enable | 使能tasklet |
+| tasklet_disable | 禁用tasklet，会等待正在执行的tasklet |
+| tasklet_hi_schedule | 调度高优先级的tasklet |
+| tasklet_schedule | 调度普通的tasklet |
+| tasklet_kill | 清除tasklet的调度和运行状态 |
 
-/*动态分配tasklet*/
-void tasklet_init(struct tasklet_struct *t, void (*func)(unsigned long), unsigned long data)
-
-/*禁用tasklet*/
-void taskelt_disable(struct tasklet_struct *t)
-
-/*使能tasklet*/
-void tasklet_enable(struct tasklet_struct *t)
-
-/*调度tasklet*/
-void tasklet_schedule(struct tasklet_struct *t)
-
-/*杀死tasklet*/
-void tasklet_kill(struct tasklet_struct *t)
-```
+在内核中，tasklet对象由单向链表链接，`struct tasklet_head`存储了链表的头部和尾部，新的tasklet对象会被插入到链表尾部。内核会遍历链表中的每一个tasklet，如果tasklet没有执行，且其count字段为0，则调用tasklet->fun函数。被执行的tasklet会从链表中删除。
 
 !!! example "tasklet示例代码"
 

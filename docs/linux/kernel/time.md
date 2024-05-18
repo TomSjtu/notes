@@ -91,29 +91,12 @@ int clock_gettime(clockid_t clk_id, struct timespec *tp);
 int clock_settime(clockid_t clk_id, const struct timespec *tp);
 ```
 
-clock ID为系统时钟的参数，定义如下：
+clock ID为系统时钟的参数，它主要有以下几种类型：
 
-| 时钟 | 描述 |
-| ---- | ---- |
-| CLOCK_REALTIME | 系统实时时间 |
-| CLOCK_MONOTONIC | 系统启动后经过的时间 |
-| CLOCK_PROCESS_CPUTIME_ID | 进程在CPU上运行的时间 |
-| CLOCK_THREAD_CPUTIME_ID | 线程在CPU上运行的时间 |
-
-当传入参数是CLOCK_REALTIME时，函数与之前行为类似，精度为纳秒级别。
-
-CLOCK_MONOTONIC一般用于两个采样点之间的时间间隔。
-
-对应用程序进行性能分析和统计时，内核提供了基于进程或线程的系统时钟：
-
-```C
-#include <time.h>
-#include <pthread.h>
-
-int clock_getcpuclockid(pid_t pid, clockid_t *clock_id);
-
-int pthread_getcpuclockid(pthread_t thread, clockid_t *clock_id);
-```
+- CLOCK_REALTIME：墙上时间(WALL TIME)，用户可以对其设定。系统启动时，读取RTC的时间作为REALTIME时间
+- CLOCK_MONOTONIC：系统启动到当前所经历的非休眠时间，可以由NTP调整
+- CLOCK_MONOTONIC_RAW：同上，但是不受NTP影响
+- CLOCK_BOOTTIME：系统启动到当前的时间，会统计休眠时间
 
 ### 进程睡眠
 
@@ -127,7 +110,7 @@ unsigned int sleep(unsigned int seconds);
 
 该函数返回没有睡眠的时间。
 
-2.{~~微秒级别的睡眠函数~~}
+2.~~微秒级别的睡眠函数~~
 
 ```C
 #include <unistd.h>

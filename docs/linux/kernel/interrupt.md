@@ -16,115 +16,19 @@
 int request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
                 const char *name, void *dev)
 {
-    return requested_threaded_irq();
+	//实际就是调用中断线程化函数，但是将处理的线程置为NULL
+    return request_threaded_irq(irq, handler, NULL, flags, name, dev);
 }
 ```
 
-该函数的核心代码是初始化`struct irqaction`结构体中的成员变量：
+`request_threaded_irq()`函数主要完成以下工作：
 
-```C
-int request_threaded_irq(unsigned int irq, irq_handler_t handler,
-			 irq_handler_t thread_fn, unsigned long irqflags,
-			 const char *devname, void *dev_id)
-{
-	struct irqaction *action;
-	struct irq_desc *desc;
-	int retval;
+1. 根据`request_irq()`函数传递的参数，对`struct irqaction`中的字段赋值
+2. 将新的`struct irqaction`链接到irq对应的`struct irq_desc`上。多个共享中断的设备必须设置IRQF_SHARED标志。
+3. 如果`thread_fn != NULL`，调用`setup_irq_thread()`来新建一个独立线程处理中断。
+4. 如果中断之前没有被激活，则激活中断。
 
-	desc = irq_to_desc(irq);						//获取中断号对应的中断描述符
-
-	action = kzalloc(sizeof(struct irqaction), GFP_KERNEL);
-
-	action->handler = handler;
-	action->thread_fn = thread_fn;
-	action->flags = irqflags;
-	action->name = devname;
-	action->dev_id = dev_id;
-    
-	retval = __setup_irq(irq, desc, action);		//设置中断描述符
-	...
-}
-```
-
-其中，`struct irqaction`的定义如下：
-
-```C
-struct irqaction {
-	irq_handler_t		handler;
-	void			*dev_id;
-	void __percpu		*percpu_dev_id;
-	struct irqaction	*next;
-	irq_handler_t		thread_fn;
-	struct task_struct	*thread;
-	struct irqaction	*secondary;
-	unsigned int		irq;
-	unsigned int		flags;
-	unsigned long		thread_flags;
-	unsigned long		thread_mask;
-	const char		*name;
-	struct proc_dir_entry	*dir;
-} ____cacheline_internodealigned_in_smp;
-```
-
-该结构体用来保存中断的具体信息，如果有多个共享中断，则会用链表将`struct irqaction`串联起来。
-
-`struct irq_desc`的定义如下：
-
-```C
-struct irq_desc {
-	struct irq_common_data	irq_common_data;
-	struct irq_data		irq_data;
-	unsigned int __percpu	*kstat_irqs;
-	irq_flow_handler_t	handle_irq;
-	struct irqaction	*action;	/* IRQ action list */
-	unsigned int		status_use_accessors;
-	unsigned int		core_internal_state__do_not_mess_with_it;
-	unsigned int		depth;		/* nested irq disables */
-	unsigned int		wake_depth;	/* nested wake enables */
-	unsigned int		tot_count;
-	unsigned int		irq_count;	/* For detecting broken IRQs */
-	unsigned long		last_unhandled;	/* Aging timer for unhandled count */
-	unsigned int		irqs_unhandled;
-	atomic_t		threads_handled;
-	int			threads_handled_last;
-	raw_spinlock_t		lock;
-	struct cpumask		*percpu_enabled;
-	const struct cpumask	*percpu_affinity;
-#ifdef CONFIG_SMP
-	const struct cpumask	*affinity_hint;
-	struct irq_affinity_notify *affinity_notify;
-#ifdef CONFIG_GENERIC_PENDING_IRQ
-	cpumask_var_t		pending_mask;
-#endif
-#endif
-	unsigned long		threads_oneshot;
-	atomic_t		threads_active;
-	wait_queue_head_t       wait_for_threads;
-#ifdef CONFIG_PM_SLEEP
-	unsigned int		nr_actions;
-	unsigned int		no_suspend_depth;
-	unsigned int		cond_suspend_depth;
-	unsigned int		force_resume_depth;
-#endif
-#ifdef CONFIG_PROC_FS
-	struct proc_dir_entry	*dir;
-#endif
-#ifdef CONFIG_GENERIC_IRQ_DEBUGFS
-	struct dentry		*debugfs_file;
-	const char		*dev_name;
-#endif
-#ifdef CONFIG_SPARSE_IRQ
-	struct rcu_head		rcu;
-	struct kobject		kobj;
-#endif
-	struct mutex		request_mutex;
-	int			parent_irq;
-	struct module		*owner;
-	const char		*name;
-} ____cacheline_internodealigned_in_smp;
-```
-
-在Linux内核中，每个外设的外部中断都是用`sturct irq_desc`结构体描述的，该结构体也被称为中断描述符。
+中断处理程序涉及到两个关键的结构体：`struct irq_desc`和`struct irqaction`，二者是一对多的关系。`struct irq_desc`与irq号一一对应，而`struct irqaction`与设备对应，多个共享irq号的设备会挂在`struct irq_desc`的action链表上。
 
 那么内核是如何管理这些外部中断的呢？
 
@@ -133,13 +37,6 @@ struct irq_desc {
 这个数组的关键就在于NR_IRQS的值，如果取一个很大的值，而外设对应的中断又不多的情况下就会很浪费内存。
 
 还有一种方法是动态方法，用到了radix tree，在内核中由宏CONFIG_SPARSE_IRQ来控制。在ARM64中，这个宏是默认打开的。
-
-
-
-
-
-
-
 
 执行完中断服务器程序后，会检查是否需要重新调度（need_resched标志位），然后判断返回哪个空间：
 
