@@ -776,7 +776,7 @@
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      内核栈
+      进程标识
     </span>
   </a>
   
@@ -785,7 +785,7 @@
           <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      线程描述符
+      进程状态
     </span>
   </a>
   
@@ -794,7 +794,7 @@
           <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      进程状态
+      进程间关系
     </span>
   </a>
   
@@ -803,7 +803,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      进程标识
+      运行统计
     </span>
   </a>
   
@@ -812,7 +812,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      进程间关系
+      内存管理
     </span>
   </a>
   
@@ -821,7 +821,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      运行统计
+      文件与文件系统
     </span>
   </a>
   
@@ -830,7 +830,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      内存管理
+      内核栈
     </span>
   </a>
   
@@ -839,7 +839,7 @@
           <li class="md-nav__item">
   <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
-      文件与文件系统
+      线程描述符
     </span>
   </a>
   
@@ -4019,7 +4019,7 @@
           <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      内核栈
+      进程标识
     </span>
   </a>
   
@@ -4028,7 +4028,7 @@
           <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      线程描述符
+      进程状态
     </span>
   </a>
   
@@ -4037,7 +4037,7 @@
           <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      进程状态
+      进程间关系
     </span>
   </a>
   
@@ -4046,7 +4046,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      进程标识
+      运行统计
     </span>
   </a>
   
@@ -4055,7 +4055,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      进程间关系
+      内存管理
     </span>
   </a>
   
@@ -4064,7 +4064,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      运行统计
+      文件与文件系统
     </span>
   </a>
   
@@ -4073,7 +4073,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      内存管理
+      内核栈
     </span>
   </a>
   
@@ -4082,7 +4082,7 @@
           <li class="md-nav__item">
   <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
-      文件与文件系统
+      线程描述符
     </span>
   </a>
   
@@ -4178,66 +4178,46 @@
 
 
 <h1 id="_1">进程管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>进程就是处于执行期的程序，可以把一个进程想象成一个庞大的项目组，它包含了各种资源，例如打开的文件、占用的内存、处理器的状态等。而线程，就像是项目组中负责执行具体任务的个人。正如每个项目组至少需要一个人来执行任务，每个进程都必须有一个主线程。你可以选择将所有任务都交给主线程来完成，但在大多数情况下，我们会把一个大的任务分解成多个小任务，并创建额外的线程来并行处理这些小任务。那么，我们是否可以创建更多的进程来处理这些任务呢？从技术上来说，是可以的，但这通常并不是最佳选择。首先，进程占用的资源比线程多，而线程是轻量级的，创建的速度要快得多。其次，进程之间的资源共享相对复杂，而线程由于共享同一进程的资源，可以更容易地访问这些资源。这就像是在一个公司的不同项目组之间进行工作交接可能会很麻烦，但如果大家都属于同一个项目组，合作就会顺畅得多。</p>
+<p>一般而言，进程就是一个正在执行的程序，是由存储在磁盘上的二进制可执行文件，通过特殊的载入方法而运行起来成为进程。当程序成为进程的时候，它需要若干数据结构来描述程序的执行状态（硬件上下文和软件上下文）以及拥有的资源（如地址空间、打开的文件描述符等）。从内核的角度看，进程是一个和系统资源（CPU、内存等）分配相关的实体。</p>
 <h2 id="_2">进程描述符<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>为了管理进程，内核必须清晰地描述每一个进程。在Linux系统下，不管是进程还是线程，内核统一用<code>task_struct</code>结构体管理。</p>
-<h3 id="_3">内核栈<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">stack</span><span class="p">;</span>
+<h3 id="_3">进程标识<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>pid用来标识一个进程，它被顺序编号，新创建的进程的pid通常是前一个进程+1。在Linux系统中，<code>getpid()</code>函数的定义如下：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">asmlinkage</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">sys_getpid</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">current</span><span class="o">-&gt;</span><span class="n">tgid</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">}</span>
 </code></pre></div>
-<p>每个进程都有一个专用的内核栈，用于保存进程在内核态执行时的临时数据和上下文信息。当创建新进程时，内核会为其分配一个合适大小的内核栈空间，并将其地址赋给<code>task_struct</code>中的stack成员。</p>
-<h3 id="_4">线程描述符<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>线程描述符<code>struct thread_info</code>是一个用于存放线程相关信息、与体系结构相关的结构体，在ARM中的定义如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">thread_info</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">flags</span><span class="p">;</span><span class="w">      </span><span class="cm">/* low level flags */</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">int</span><span class="w">         </span><span class="n">preempt_count</span><span class="p">;</span><span class="w">  </span><span class="cm">/* 0 =&gt; preemptable, &lt;0 =&gt; bug */</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w">  </span><span class="o">*</span><span class="n">task</span><span class="p">;</span><span class="w">      </span><span class="cm">/* main task structure */</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">cpu</span><span class="p">;</span><span class="w">        </span><span class="cm">/* cpu */</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">cpu_domain</span><span class="p">;</span><span class="w"> </span><span class="cm">/* cpu domain */</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="cp">#ifdef CONFIG_STACKPROTECTOR_PER_TASK</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">stack_canary</span><span class="p">;</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="cp">#endif</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_context_save</span><span class="w"> </span><span class="n">cpu_context</span><span class="p">;</span><span class="w">    </span><span class="cm">/* cpu context */</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">abi_syscall</span><span class="p">;</span><span class="w">    </span><span class="cm">/* ABI type and syscall nr */</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">    </span><span class="n">__u8</span><span class="w">            </span><span class="n">used_cp</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span><span class="w">    </span><span class="cm">/* thread used copro */</span>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">tp_value</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w">    </span><span class="cm">/* TLS registers */</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="nc">fp_state</span><span class="w">      </span><span class="n">fpstate</span><span class="w"> </span><span class="nf">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="mi">8</span><span class="p">)));</span>
-<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="nc">vfp_state</span><span class="w">     </span><span class="n">vfpstate</span><span class="p">;</span>
-<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="cp">#ifdef CONFIG_ARM_THUMBEE</span>
-<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">thumbee_state</span><span class="p">;</span><span class="w">  </span><span class="cm">/* ThumbEE Handler Base register */</span>
-<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="cp">#endif</span>
-<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="p">};</span>
-</code></pre></div>
-<p>它包含了很多与线程相关的字段，其中最重要的是<code>task</code>，它指向当前线程所属的进程描述符。内核提供了<code>current</code>宏可以直接访问当前CPU上正在运行的进程描述符，该宏本质上等于：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">current_thread_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">task</span>
-</code></pre></div>
-<h3 id="_5">进程状态<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>tgid——thread group id，表示的是线程组的ID。在linux内核中，一个进程有多个线程组成，且进程和线程都是<code>task_struct</code>结构体，这就给管理带来了麻烦。</p>
+<p>比如我们希望同属于一个进程组的线程拥有共同的pid。当我们发送终止信号给指定pid时，我们当然希望该进程以及下面的所有线程都收到该信号从而终止运行。事实上，POSIX标准中也规定一个多线程应用程序的所有线程必须享有共同的pid。</p>
+<p>遵照这个标准，Linux引入了<mark class="critic">线程组</mark>的概念：主进程和创建的所有线程同属于一个线程组，它们共享tgid。</p>
+<p>当我们使用<code>getpid()</code>系统调用返回当前进程的"pid"时，Linux其实耍了一个障眼法——它返回的是tgid的值。只有当调用<code>gettid()</code>时，返回的才是真实的pid值。任何一个进程，如果只有主进程，那么pid = tgid， group_leader指向的就是自己。如果主进程创建了其他线程，那么每个线程都有自己的pid，但是tgid是共有的。</p>
+<h3 id="_4">进程状态<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>在<code>task_struct</code>中，涉及到进程状态的是这几个成员：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="w"> </span><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">   </span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">exit_state</span><span class="p">;</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">state</span><span class="p">;</span><span class="w">   </span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kt">int</span><span class="w"> </span><span class="n">exit_state</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
 </code></pre></div>
 <p>state可以取的值有：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="cm">/* Used in tsk-&gt;state: */</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cp">#define TASK_RUNNING                    0</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cp">#define TASK_INTERRUPTIBLE              1</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="cp">#define TASK_UNINTERRUPTIBLE            2</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="cp">#define __TASK_STOPPED                  4</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="cp">#define __TASK_TRACED                   8</span>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="cm">/* Used in tsk-&gt;exit_state: */</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="cp">#define EXIT_DEAD                       16</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="cp">#define EXIT_ZOMBIE                     32</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="cp">#define EXIT_TRACE                      (EXIT_ZOMBIE | EXIT_DEAD)</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="cm">/* Used in tsk-&gt;state again: */</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="cp">#define TASK_DEAD                       64</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="cp">#define TASK_WAKEKILL                   128</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="cp">#define TASK_WAKING                     256</span>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="cp">#define TASK_PARKED                     512</span>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="cp">#define TASK_NOLOAD                     1024</span>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="cp">#define TASK_NEW                        2048</span>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="cp">#define TASK_STATE_MAX                  4096</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cm">/* Used in tsk-&gt;state: */</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cp">#define TASK_RUNNING                    0</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cp">#define TASK_INTERRUPTIBLE              1</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cp">#define TASK_UNINTERRUPTIBLE            2</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cp">#define __TASK_STOPPED                  4</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="cp">#define __TASK_TRACED                   8</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="cm">/* Used in tsk-&gt;exit_state: */</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="cp">#define EXIT_DEAD                       16</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="cp">#define EXIT_ZOMBIE                     32</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="cp">#define EXIT_TRACE                      (EXIT_ZOMBIE | EXIT_DEAD)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="cm">/* Used in tsk-&gt;state again: */</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="cp">#define TASK_DEAD                       64</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="cp">#define TASK_WAKEKILL                   128</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="cp">#define TASK_WAKING                     256</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="cp">#define TASK_PARKED                     512</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="cp">#define TASK_NOLOAD                     1024</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="cp">#define TASK_NEW                        2048</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="cp">#define TASK_STATE_MAX                  4096</span>
 </code></pre></div>
-<p>很明显可以看出，上述状态的设置是通过对应的位来实现的。</p>
-<p>要改变进程的状态，可以使用<code>set_task_state</code>和<code>set_current_state</code>宏：前者用来设置指定进程的状态，后者用来设置当前进程的状态。</p>
 <p>TASK_RUNNING表示进程正在执行或者准备执行。</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -4273,54 +4253,70 @@
 <li>进程特性：是否为守护进程、是否允许被追踪等</li>
 </ul>
 <p>flags成员的一些取值举例如下，这些宏以PF开头：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">#define PF_EXITING 0x00000004    </span><span class="c1">//getting shut down</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="cp">#define PF_WQ_WORKER 0x00000020  </span><span class="c1">//I&#39;m a workqueue worker</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="cp">#define PF_KTHREAD 0x00200000    </span><span class="c1">//I&#39;m a kernel thread</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="cp">#define PF_EXITING 0x00000004    </span><span class="c1">//getting shut down</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="cp">#define PF_WQ_WORKER 0x00000020  </span><span class="c1">//I&#39;m a workqueue worker</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="cp">#define PF_KTHREAD 0x00200000    </span><span class="c1">//I&#39;m a kernel thread</span>
 </code></pre></div>
-<h3 id="_6">进程标识<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>Linux系统使用pid来标识一个进程，pid被顺序编号，新创建的进程的pid通常是前一个进程+1。但是pid的值有一个上限，系统管理员可以通过修改/proc/sys/kernel/pid_max文件的值来改变这个上限。在<code>task_struct</code>中，涉及到进程标识的有以下几个成员。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">;</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kt">pid_t</span><span class="w"> </span><span class="n">tgid</span><span class="p">;</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">group_leader</span><span class="p">;</span><span class="w"> </span>
-</code></pre></div>
-<div class="admonition question">
-<p class="admonition-title">进程的标识</p>
-<p>为什么标识一个进程，需要用到这么多成员？一个pid难道不够吗？</p>
-</div>
-<p>这是因为之前提到，在Linux系统下，进程与线程并不特别区分，都以<code>task_struct</code>结构体表示。这就给管理带来了一些麻烦。比如我们希望同属于一个进程组的线程拥有共同的pid。当我们发送终止信号给指定pid时，我们当然希望该进程以及下面的所有线程都收到该信号从而终止运行。事实上，POSIX标准中也规定一个多线程应用程序的所有线程必须享有共同的pid。</p>
-<p>遵照这个标准，Linux引入了<mark class="critic">线程组</mark>的概念：主进程和创建的所有线程同属于一个线程组，它们共享tgid。</p>
-<p>当我们使用<code>getpid()</code>系统调用返回当前进程的"pid"时，Linux其实耍了一个障眼法——它返回的是tgid的值。只有当调用<code>gettid()</code>时，返回的才是真实的pid值。任何一个进程，如果只有主进程，那么pid = tgid， group_leader指向的就是自己。如果主进程创建了其他线程，那么每个线程都有自己的pid，但是tgid是共有的。</p>
-<h3 id="_7">进程间关系<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<h3 id="_5">进程间关系<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>Linux系统中所有的进程都是PID为1的<mark class="critic">init进程</mark>的后代，内核在系统启动的最后阶段启动init进程。该进程读取系统的初始化脚本并执行其他的相关程序，最后完成整个系统的启动。</p>
 <p>每个进程必有一个父进程，如果一个进程创建了多个子进程，那么子进程之间还有兄弟关系。在<code>task_struct</code>中，使用以下字段来表示亲缘关系：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">real_parent</span><span class="p">;</span><span class="w"> </span><span class="cm">/* real parent process */</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span><span class="w"> </span><span class="cm">/* recipient of SIGCHLD, wait4() reports */</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">children</span><span class="p">;</span><span class="w">      </span><span class="cm">/* list of my children */</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">sibling</span><span class="p">;</span><span class="w">       </span><span class="cm">/* linkage in my parent&#39;s children list */</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">real_parent</span><span class="p">;</span><span class="w"> </span><span class="cm">/* real parent process */</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span><span class="w"> </span><span class="cm">/* recipient of SIGCHLD, wait4() reports */</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">children</span><span class="p">;</span><span class="w">      </span><span class="cm">/* list of my children */</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">sibling</span><span class="p">;</span><span class="w">       </span><span class="cm">/* linkage in my parent&#39;s children list */</span>
 </code></pre></div>
 <p>这些字段根据名字就能猜到是什么意思。需要注意的是，通常情况下real_parent和parent是一样的，但是当我们启动GDB监视某个进程时，该进程的real_parent不变，但是parent变成了GDB。</p>
 <p>进程之间还有其他关系，这里不详细展开。</p>
-<h3 id="_8">运行统计<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">u64</span><span class="w">        </span><span class="n">utime</span><span class="p">;</span><span class="c1">//用户态消耗的CPU时间</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">u64</span><span class="w">        </span><span class="n">stime</span><span class="p">;</span><span class="c1">//内核态消耗的CPU时间</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">      </span><span class="n">nvcsw</span><span class="p">;</span><span class="c1">//自愿(voluntary)上下文切换计数</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">      </span><span class="n">nivcsw</span><span class="p">;</span><span class="c1">//非自愿(involuntary)上下文切换计数</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">u64</span><span class="w">        </span><span class="n">start_time</span><span class="p">;</span><span class="c1">//进程启动时间，不包含睡眠时间</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">u64</span><span class="w">        </span><span class="n">real_start_time</span><span class="p">;</span><span class="c1">//进程启动时间，包含睡眠时间</span>
+<h3 id="_6">运行统计<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">u64</span><span class="w">        </span><span class="n">utime</span><span class="p">;</span><span class="c1">//用户态消耗的CPU时间</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">u64</span><span class="w">        </span><span class="n">stime</span><span class="p">;</span><span class="c1">//内核态消耗的CPU时间</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">      </span><span class="n">nvcsw</span><span class="p">;</span><span class="c1">//自愿(voluntary)上下文切换计数</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">      </span><span class="n">nivcsw</span><span class="p">;</span><span class="c1">//非自愿(involuntary)上下文切换计数</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">u64</span><span class="w">        </span><span class="n">start_time</span><span class="p">;</span><span class="c1">//进程启动时间，不包含睡眠时间</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">u64</span><span class="w">        </span><span class="n">real_start_time</span><span class="p">;</span><span class="c1">//进程启动时间，包含睡眠时间</span>
 </code></pre></div>
 <p>这些统计信息用于性能分析，请查看<a href="../../optimization/">性能调优</a>一节。</p>
-<h3 id="_9">内存管理<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">;</span><span class="w">        </span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">active_mm</span><span class="p">;</span><span class="w">            </span>
+<h3 id="_7">内存管理<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">;</span><span class="w">        </span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">active_mm</span><span class="p">;</span><span class="w">            </span>
 </code></pre></div>
 <p>这些字段与<a href="../vma/">进程地址空间</a>相关。</p>
-<h3 id="_10">文件与文件系统<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="cm">/* Filesystem information: */</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">fs_struct</span><span class="w"> </span><span class="o">*</span><span class="n">fs</span><span class="p">;</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="cm">/* Open file information: */</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="o">*</span><span class="n">files</span><span class="p">;</span>
+<h3 id="_8">文件与文件系统<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cm">/* Filesystem information: */</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">fs_struct</span><span class="w"> </span><span class="o">*</span><span class="n">fs</span><span class="p">;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="cm">/* Open file information: */</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="o">*</span><span class="n">files</span><span class="p">;</span>
 </code></pre></div>
 <p>这些字段与<a href="../vfs/">虚拟文件系统</a>相关。</p>
+<h3 id="_9">内核栈<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">stack</span><span class="p">;</span>
+</code></pre></div>
+<p>每个进程都有一个专用的内核栈，用于保存进程在内核态执行时的临时数据和上下文信息。当创建新进程时，内核会为其分配一个合适大小的内核栈空间，并将其地址赋给<code>task_struct</code>中的stack成员。</p>
+<h3 id="_10">线程描述符<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>线程描述符<code>struct thread_info</code>是一个用于存放线程相关信息、与体系结构相关的结构体，在ARM中的定义如下：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">thread_info</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">flags</span><span class="p">;</span><span class="w">      </span><span class="cm">/* low level flags */</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="kt">int</span><span class="w">         </span><span class="n">preempt_count</span><span class="p">;</span><span class="w">  </span><span class="cm">/* 0 =&gt; preemptable, &lt;0 =&gt; bug */</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w">  </span><span class="o">*</span><span class="n">task</span><span class="p">;</span><span class="w">      </span><span class="cm">/* main task structure */</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">cpu</span><span class="p">;</span><span class="w">        </span><span class="cm">/* cpu */</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">cpu_domain</span><span class="p">;</span><span class="w"> </span><span class="cm">/* cpu domain */</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="cp">#ifdef CONFIG_STACKPROTECTOR_PER_TASK</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">stack_canary</span><span class="p">;</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="cp">#endif</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_context_save</span><span class="w"> </span><span class="n">cpu_context</span><span class="p">;</span><span class="w">    </span><span class="cm">/* cpu context */</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">abi_syscall</span><span class="p">;</span><span class="w">    </span><span class="cm">/* ABI type and syscall nr */</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="n">__u8</span><span class="w">            </span><span class="n">used_cp</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span><span class="w">    </span><span class="cm">/* thread used copro */</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">tp_value</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w">    </span><span class="cm">/* TLS registers */</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="nc">fp_state</span><span class="w">      </span><span class="n">fpstate</span><span class="w"> </span><span class="nf">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="mi">8</span><span class="p">)));</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="nc">vfp_state</span><span class="w">     </span><span class="n">vfpstate</span><span class="p">;</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="cp">#ifdef CONFIG_ARM_THUMBEE</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">thumbee_state</span><span class="p">;</span><span class="w">  </span><span class="cm">/* ThumbEE Handler Base register */</span>
+<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="cp">#endif</span>
+<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="p">};</span>
+</code></pre></div>
+<p>它包含了很多与线程相关的字段，其中最重要的是<code>task</code>，它指向当前线程所属的进程描述符。内核提供了<code>current</code>宏可以直接访问当前CPU上正在运行的进程描述符，该宏本质上等于：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">current_thread_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">task</span>
+</code></pre></div>
 <h2 id="_11">进程组织形式<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
 <p>要明白进程之间是如何组织的，首先要知道双向链表这个数据结构。双向链表就是同时有prev和next指针的链表，分别指向前一个和后一个元素。Linux使用双向链表将所有进程的描述符全部连接起来。</p>
 <h3 id="_12">运行队列<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>

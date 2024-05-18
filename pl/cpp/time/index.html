@@ -3022,9 +3022,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#duration" class="md-nav__link">
     <span class="md-ellipsis">
-      时钟
+      Duration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time point
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clock
     </span>
   </a>
   
@@ -3863,9 +3881,27 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#duration" class="md-nav__link">
     <span class="md-ellipsis">
-      时钟
+      Duration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time-point" class="md-nav__link">
+    <span class="md-ellipsis">
+      Time point
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clock" class="md-nav__link">
+    <span class="md-ellipsis">
+      Clock
     </span>
   </a>
   
@@ -3899,7 +3935,31 @@
 <li>日期(Date) C++20</li>
 <li>时区(Time zone) C++20</li>
 </ul>
-<h2 id="_2">时钟<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="duration">Duration<a class="headerlink" href="#duration" title="Permanent link">&para;</a></h2>
+<p>Duration表示一个时间间隔，它由一个数量和单位组成：</p>
+<p><code>template&lt;class Rep, class Period = std::ratio&lt;1&gt;&gt; class duration;</code></p>
+<p>Rep表示重复的次数，ratio的单位是秒。</p>
+<p>标准库为了方便使用，就定义了一些常用的时间间隔：</p>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">typedef</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Rep</span><span class="p">,</span><span class="w"> </span><span class="n">ratio</span><span class="o">&lt;</span><span class="mi">3600</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">hours</span><span class="p">;</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">typedef</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Rep</span><span class="p">,</span><span class="w"> </span><span class="n">ratio</span><span class="o">&lt;</span><span class="mi">60</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">minutes</span><span class="p">;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="k">typedef</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Rep</span><span class="p">,</span><span class="w"> </span><span class="n">ratio</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">seconds</span><span class="p">;</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="k">typedef</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Rep</span><span class="p">,</span><span class="w"> </span><span class="n">ratio</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">milliseconds</span><span class="p">;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="k">typedef</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Rep</span><span class="p">,</span><span class="w"> </span><span class="n">ratio</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000000</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">microseconds</span><span class="p">;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">typedef</span><span class="w"> </span><span class="n">duration</span><span class="w"> </span><span class="o">&lt;</span><span class="n">Rep</span><span class="p">,</span><span class="w"> </span><span class="n">ratio</span><span class="o">&lt;</span><span class="mi">1</span><span class="p">,</span><span class="mi">1000000000</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">nanoseconds</span><span class="p">;</span>
+</code></pre></div>
+<p>通过定义这些常用的时间间隔类型，我们能方便的使用它们，比如线程的休眠：</p>
+<div class="language-CPP highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">std</span><span class="o">::</span><span class="n">this_thread</span><span class="o">::</span><span class="n">sleep_for</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">seconds</span><span class="p">(</span><span class="mi">3</span><span class="p">));</span><span class="w"> </span><span class="c1">//休眠三秒`</span>
+</code></pre></div>
+<p><code>duration_cast</code>可以将当前的时钟周期转换为其他的时钟周期。</p>
+<h2 id="time-point">Time point<a class="headerlink" href="#time-point" title="Permanent link">&para;</a></h2>
+<h2 id="clock">Clock<a class="headerlink" href="#clock" title="Permanent link">&para;</a></h2>
+<p>表示当前的系统时钟，它有三种：</p>
+<ul>
+<li>system_clock：系统时钟，会被修改</li>
+<li>steady_clock：不能被修改的时钟</li>
+<li>high_resolution_clock：高精度时钟</li>
+</ul>
+<p>成员函数<code>now()</code>用来获取当前时间点。</p>
 
 
 

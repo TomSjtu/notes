@@ -854,7 +854,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      消息格式
+      地址结构体
     </span>
   </a>
   
@@ -863,7 +863,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      地址结构体
+      消息格式
     </span>
   </a>
   
@@ -3980,7 +3980,7 @@
           <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      消息格式
+      地址结构体
     </span>
   </a>
   
@@ -3989,7 +3989,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      地址结构体
+      消息格式
     </span>
   </a>
   
@@ -4224,35 +4224,22 @@
 <p>如果只是单播，可以不用执行<code>bind()</code>函数，用<code>sendto()</code>和<code>recvfrom()</code>就可以完成数据的发送和接收。</p>
 <p>如果涉及到多播，需要执行<code>bind()</code>函数将多个进程关联到某个多播组，用<code>sendmsg()</code>和<code>recvmsg()</code>来完成数据的发送和接收。</p>
 <p>注意：从用户空间传递到内核的数据无需排队，但是反过来要。</p>
-<h3 id="_6">消息格式<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>消息由两部分组成：消息头和消息体。消息头为固定的16字节，定义如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">nlmsghdr</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">  </span><span class="n">__u32</span><span class="w"> </span><span class="n">nlmsg_len</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Length of message including header */</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">  </span><span class="n">__u16</span><span class="w"> </span><span class="n">nlmsg_type</span><span class="p">;</span><span class="w">   </span><span class="cm">/* Message content */</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">  </span><span class="n">__u16</span><span class="w"> </span><span class="n">nlmsg_flags</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Additional flags */</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">  </span><span class="n">__u32</span><span class="w"> </span><span class="n">nlmsg_seq</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Sequence number */</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">  </span><span class="n">__u32</span><span class="w"> </span><span class="n">nlmsg_pid</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Sending process port ID */</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="p">};</span>
+<h3 id="_6">地址结构体<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>在用户空间创建netlink套接字接口的方法与普通套接字一样：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">fd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">AF_NETLINK</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_RAW</span><span class="p">,</span><span class="w"> </span><span class="n">NETLINK_ATNLPROXY</span><span class="p">);</span>
 </code></pre></div>
-<blockquote>
-<p>nlmsg_len：整个消息的长度，包括消息头</p>
-<p>nlmsg_type：消息的类型，是数据还是控制。</p>
-<p>nlmsg_flags：附加在消息上的额外信息。</p>
-<p>nlmsg_seq：消息的序列号，确保数据不被丢失。当内核向用户空间发送广播消息时，该字段为0。</p>
-<p>nlmsg_pid：为数据交换的通道分配的数字标识，用于确保数据交互的正确性。</p>
-</blockquote>
-<h3 id="_7">地址结构体<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>在套接字初始化后，必须使用netlink特有的地址结构体对当前进程进行标识。Netlink地址结构体如下所示:</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr_nl</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="n">__kernel_sa_family_t</span><span class="w">    </span><span class="n">nl_family</span><span class="p">;</span><span class="w">  </span><span class="cm">/* AF_NETLINK   */</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">short</span><span class="w">  </span><span class="n">nl_pad</span><span class="p">;</span><span class="w">     </span><span class="cm">/* zero     */</span>
 <a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="n">__u32</span><span class="w">       </span><span class="n">nl_pid</span><span class="p">;</span><span class="w">     </span><span class="cm">/* port ID  */</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">        </span><span class="n">__u32</span><span class="w">       </span><span class="n">nl_groups</span><span class="p">;</span><span class="w">  </span><span class="cm">/* multicast groups mask */</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">  </span><span class="n">__u32</span><span class="w">     </span><span class="n">nl_groups</span><span class="p">;</span><span class="w">  </span><span class="cm">/* multicast groups mask */</span>
 <a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">};</span>
 </code></pre></div>
 <blockquote>
 <p>nl_family：协议族，必须为AF_NETLINK</p>
 <p>nl_pad：填充字段，必须为0</p>
-<p>nl_pid：该字段在两种情况下为0：从用户空间发往内核空间；从内核发送多播消息到用户空间。</p>
+<p>nl_pid：在单播情况下，该字段为进程标识符PID，在多播情况下设置为0.</p>
 <p>nl_groups：多播组地址掩码。</p>
 </blockquote>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">static</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="nf">netlink_group_mask</span><span class="p">(</span><span class="n">u32</span><span class="w"> </span><span class="n">group</span><span class="p">)</span>
@@ -4261,9 +4248,36 @@
 <a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="p">}</span>
 </code></pre></div>
 <p>在用户空间的代码中，如果要加入到多播组1，就要设置nl_groups为1；多播组2的掩码为2，多播组3的掩码为4。如果设置为0，表示不希望加入任何多播组。</p>
+<p>当程序执行时， <code>struct sockaddr_nl</code>结构体会被转化为标准的socket地址，通过<code>bind()</code>函数将其与netlink套接字进行绑定后，作为参数传递给用于发送和接受消息的接口<code>sendmsg()</code>和<code>recvmsg()</code>。</p>
+<h3 id="_7">消息格式<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>消息由两部分组成：消息头和消息体。消息头为固定的16字节，定义如下：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">nlmsghdr</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">  </span><span class="n">__u32</span><span class="w"> </span><span class="n">nlmsg_len</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Length of message including header */</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">  </span><span class="n">__u16</span><span class="w"> </span><span class="n">nlmsg_type</span><span class="p">;</span><span class="w">   </span><span class="cm">/* Message content */</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">  </span><span class="n">__u16</span><span class="w"> </span><span class="n">nlmsg_flags</span><span class="p">;</span><span class="w">  </span><span class="cm">/* Additional flags */</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">  </span><span class="n">__u32</span><span class="w"> </span><span class="n">nlmsg_seq</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Sequence number */</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">  </span><span class="n">__u32</span><span class="w"> </span><span class="n">nlmsg_pid</span><span class="p">;</span><span class="w">    </span><span class="cm">/* Sending process port ID */</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">};</span>
+</code></pre></div>
+<blockquote>
+<p>nlmsg_len：整个消息的长度，包括消息头</p>
+<p>nlmsg_type：消息的类型，是数据还是控制。</p>
+<p>nlmsg_flags：附加在消息上的额外信息。</p>
+<p>nlmsg_seq：消息的序列号，确保数据不被丢失。当内核向用户空间发送广播消息时，该字段为0。</p>
+<p>nlmsg_pid：为数据交换的通道分配的数字标识，用于确保数据交互的正确性。</p>
+</blockquote>
+<div class="admonition example">
+<p class="admonition-title">填充消息头</p>
+</div>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">osa_memset_s</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">nlmsg</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="n">nlmsg</span><span class="o">-&gt;</span><span class="n">nlmsg_len</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">NLMSG_LENGTH</span><span class="p">(</span><span class="n">final_len</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="o">*</span><span class="n">device_event</span><span class="p">));</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">nlmsg</span><span class="o">-&gt;</span><span class="n">nlmsg_type</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">NLMSG_DONE</span><span class="p">;</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="n">nlmsg</span><span class="o">-&gt;</span><span class="n">nlmsg_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getpid</span><span class="p">();</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="n">nlmsg</span><span class="o">-&gt;</span><span class="n">nlmsg_seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">seq</span><span class="o">++</span><span class="p">;</span><span class="w">      </span><span class="cm">/* seq暂时没有用到，后期可能会进行扩展使用 */</span>
+</code></pre></div>
 <h2 id="zeromq">zeromq<a class="headerlink" href="#zeromq" title="Permanent link">&para;</a></h2>
 <p>github地址：<a href="https://github.com/zeromq/libzmq">https://github.com/zeromq/libzmq</a>。</p>
-<p>zeromq是一个基于SOCKET、开源的轻量级通信库。</p>
+<p>zeromq是一个基于socket、开源的轻量级通信库。</p>
 
 
 

@@ -4093,7 +4093,8 @@
 <li>宏伪指令：.macro</li>
 </ul>
 <h2 id="gcc_1">GCC内嵌汇编<a class="headerlink" href="#gcc_1" title="Permanent link">&para;</a></h2>
-<p>嵌入式汇编的语法格式是：asm(code : output operand list : input operand list : clobber list)。在input operand list中，有两种限制符（constraint），"r"或者"I"，"I"表示立即数（Immediate operands），"r"表示用通用寄存器传递参数。clobber list中有一个r14，表示在汇编代码中修改了r14的值，这些信息是编译器需要的内容。 </p>
+<p>嵌入式汇编的语法格式是：asm(code : output operand list : input operand list : clobber list)。output operand list 和 input operand list是c代码和嵌入式汇编代码的接口，clobber list描述了汇编代码对寄存器的修改情况。为何要有clober list？我们的c代码是gcc来处理的，当遇到嵌入汇编代码的时候，gcc会将这些嵌入式汇编的文本送给gas进行后续处理。这样，gcc需要了解嵌入汇编代码对寄存器的修改情况，否则有可能会造成大麻烦。例如：gcc对c代码进行处理，将某些变量值保存在寄存器中，如果嵌入汇编修改了该寄存器的值，又没有通知gcc的话，那么，gcc会以为寄存器中仍然保存了之前的变量值，因此不会重新加载该变量到寄存器，而是直接使用这个被嵌入式汇编修改的寄存器，这时候，我们唯一能做的就是静静的等待程序的崩溃。还好，在output operand list 和 input operand list中涉及的寄存器都不需要体现在clobber list中（gcc分配了这些寄存器，当然知道嵌入汇编代码会修改其内容），因此，大部分的嵌入式汇编的clobber list都是空的，或者只有一个cc，通知gcc，嵌入式汇编代码更新了condition code register。</p>
+<p><code>__asm__ __volatile__</code>告诉编译器不要优化汇编代码。</p>
 
 
 

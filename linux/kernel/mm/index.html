@@ -4179,8 +4179,8 @@
 </code></pre></div>
 <p>该函数返回一个指向内存块的指针，至少有size大小。所分配的内存区在物理上是连续的且不清零。除非没有足够的内存可用，否则内核总能分配成功。<code>kmalloc()</code>分配函数总是调用<code>__get_free_pages()</code>来分配内存，通常来说其最大只能分配32个页，也就是128k大小。</p>
 <p>当然，在对<code>kmalloc()</code>调用之后，你还是需要检查返回值是否为null：</p>
-<div class="admonition exmaple">
-<p class="admonition-title">Exmaple</p>
+<div class="admonition example">
+<p class="admonition-title">Example</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">dog</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">kmalloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">dog</span><span class="p">),</span><span class="w"> </span><span class="n">gfp_kernel</span><span class="p">)</span><span class="err">；</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span>
@@ -4248,10 +4248,9 @@
 </code></pre></div>
 <p>这两个函数都会睡眠，因此不能在中断上下文中使用。</p>
 <h2 id="_5">伙伴系统<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>伙伴系统（buddy system）是一种内存分配算法，它被用于管理操作系统的内存分配和释放。该算法将内存分成多个大小相等的块，每个块的大小都是2的幂次方，并将相邻的块组合成一对"伙伴"。</p>
-<p>内核把所有的空闲页分组为11个页块链表，每个链表分别包含很多个大小的页块，有 1、2、4、8、16、32、64、128、256、512和 1024个连续页的页块。最大可以申请1024个连续页，对应4mb大小的连续内存。</p>
+<p>伙伴系统（buddy system）是一种管理物理内存的算法，主要用于解决内存的碎片化问题。该算法将空闲页划分为11个组，对应11种大小不同的连续内存块，每个组中的内存块大小都相等：</p>
 <p><img alt="伙伴系统" src="../../../images/kernel/buddy.webp" /></p>
-<p>当操作系统需要分配内存时，它会根据请求的大小找到最接近的且大小足够的块进行分配。如果分配的块比所需的大小大，那么这个块会被分成两个大小相等的子块，其中一个子块被用来满足内存分配请求，而另一个则成为它的"伙伴"。</p>
+<p>当操作系统需要分配内存时，它会根据请求的大小找到最接近的且大小足够的块进行分配。如果分配的块比所需的大小大，那么这个块会被分成两个大小相等的子块，其中一个子块被用来满足内存分配请求，而另一个则成为它的"伙伴"。当一个块被最终释放时, 其伙伴将被检测出来, 如果伙伴也空闲则合并两者。</p>
 <h3 id="_6">分配算法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>在伙伴系统中，当需要分配一个特定大小的内存块时，系统会按照以下步骤操作：</p>
 <ol>

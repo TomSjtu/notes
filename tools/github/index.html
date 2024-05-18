@@ -4099,25 +4099,32 @@
 <p>查看提交日志：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline
 </code></pre></div>
-<p>切换分支：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>git<span class="w"> </span>check<span class="w"> </span>-b<span class="w"> </span><span class="o">[</span>新分支名<span class="o">]</span>
+<p>显示所有分支：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>git<span class="w"> </span>branch<span class="w"> </span>-a
 </code></pre></div>
-<p>合并代码：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>git<span class="w"> </span>merge<span class="w"> </span><span class="o">[</span>另一个分支名<span class="o">]</span>
+<p>切换分支：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>git<span class="w"> </span>check<span class="w"> </span>-b<span class="w"> </span><span class="o">[</span>新分支名<span class="o">]</span>
+</code></pre></div>
+<p>合并其他分支的代码到当前分支，你需要手动解决冲突：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>git<span class="w"> </span>merge<span class="w"> </span><span class="o">[</span>另一个分支名<span class="o">]</span>
 </code></pre></div>
 <h2 id="_3">版本控制<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>放弃工作目录中的修改(还未提交到工作区)：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span><span class="o">[</span>file<span class="o">]</span><span class="w">  </span>//放弃某个文件的修改
-<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.<span class="w">       </span>//放弃所有修改
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span><span class="o">[</span>file<span class="o">]</span><span class="w">  </span>//放弃某个文件的修改
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.<span class="w">       </span>//放弃所有修改
 </code></pre></div>
-<p>回退到之前某个版本，且丢弃该版本之后的所有修改：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span>
+<p>回退到之前某个版本：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>//<span class="w"> </span>不丢弃版本之后的更改
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>git<span class="w"> </span>reset<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>//<span class="w"> </span>丢弃版本之后的更改
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span>
 </code></pre></div>
 <p>撤销之前某个版本，但保留该版本后面的版本：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>git<span class="w"> </span>revert<span class="w"> </span>-n<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span><span class="w">  </span>//-n表示手动解决冲突
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>git<span class="w"> </span>revert<span class="w"> </span>-n<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span><span class="w">  </span>//-n表示手动解决冲突
 </code></pre></div>
 <p>暂存工作区：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>git<span class="w"> </span>stash
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>git<span class="w"> </span>stash
 </code></pre></div>
 
 

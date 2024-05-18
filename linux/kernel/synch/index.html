@@ -932,7 +932,7 @@
           <li class="md-nav__item">
   <a href="#_21" class="md-nav__link">
     <span class="md-ellipsis">
-      互斥体
+      互斥锁
     </span>
   </a>
   
@@ -4331,7 +4331,7 @@
           <li class="md-nav__item">
   <a href="#_21" class="md-nav__link">
     <span class="md-ellipsis">
-      互斥体
+      互斥锁
     </span>
   </a>
   
@@ -4836,12 +4836,25 @@
 <a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">read_seqretry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seqlock</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="_19">信号量<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
-<p>Linux中的信号量是一种睡眠锁。当有一个任务试图获得一个已经被占用的信号量时，该任务会加入等待队列，然后睡眠。由于释放了资源处理器可以去执行其他的代码。当持有的信号量被释放时，处于等待队列中的那个任务会被唤醒，并获得该信号量。</p>
-<p>实际上，Linux提供两种信号量：</p>
-<ul>
-<li>内核信号量，由内核态使用</li>
-<li>System V IPC信号量，由用户态使用</li>
-</ul>
+<p>信号量是一种睡眠锁。相比于自旋锁，它内部维护了一个<code>count</code>值，该<code>count</code>值等同于同一时间能够持有信号量的进程数量。如果这个值是1，那么信号量又被称为互斥信号量。信号量支持两个操作：</p>
+<ol>
+<li>
+<p><code>down()</code>:</p>
+</li>
+<li>
+<p>如果信号量的值大于1，则减去1</p>
+</li>
+<li>
+<p>如果值等于0，进程进入等待队列睡眠，然后CPU调度其他进程运行</p>
+</li>
+<li>
+<p><code>up()</code>：</p>
+</li>
+<li>
+<p>如果等待队列为空，则加1</p>
+</li>
+<li>如果等待队列不为空，从队列中唤醒一个进程</li>
+</ol>
 <p>由于信号量会睡眠，因此有以下结论：</p>
 <ul>
 <li>信号量适用于锁会被长时间占有的场景。</li>
@@ -4849,7 +4862,6 @@
 <li>多个进程试图获得信号量不会死锁。</li>
 <li>如果已经占用了信号量，不能再使用自旋锁，因为自旋锁禁止睡眠。</li>
 </ul>
-<p>信号量相比自旋锁有一个特殊的地方，就是它内部维护了一个<code>count</code>值，该<code>count</code>值等同于同一时间能够持有信号量的数量。如果这个值是1，那么信号量又被称为互斥信号量。信号量支持两个操作：<code>down()</code>操作通过对信号量计数减1来获得它，而<code>up()</code>操作加1来释放它。</p>
 <p>信号量是与体系结构相关的，定义在&lt;asm/semaphore.h&gt;中。</p>
 <h4 id="_20">函数接口<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h4>
 <table>
@@ -4879,13 +4891,46 @@
 </tbody>
 </table>
 <p>对于关心具体数值的生产者/消费者问题，使用信号量比较合适。</p>
-<h3 id="_21">互斥体<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
-<p>在多数情况下，信号量只是作为一个计数为1的允许睡眠的自旋锁存在。为了找到一个更简单且可以睡眠的锁，开发者们引入了互斥体（mutex）。其行为和计数为1的信号量类似，但是操作的接口更简单，实现也更高效。基本使用方法如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">DEFINE_MUTEX</span><span class="p">(</span><span class="n">mutex</span><span class="p">);</span>
-<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="n">mutex_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
-<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="n">mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
-<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">mutex</span><span class="p">);</span>
-</code></pre></div>
+<h3 id="_21">互斥锁<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h3>
+<p>在多数情况下，信号量只是作为一个计数为1的允许睡眠的自旋锁存在。为了找到一个更简单且可以睡眠的锁，开发者们引入了互斥锁（mutex）。其行为和计数为1的信号量类似，但是操作的接口更简单，实现也更高效。基本使用方法如下：</p>
+<table>
+<thead>
+<tr>
+<th>接口API描述</th>
+<th>mutex</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>静态初始化互斥锁</td>
+<td>DEFINE_MUTEX</td>
+</tr>
+<tr>
+<td>动态初始化互斥锁</td>
+<td>mutex_init</td>
+</tr>
+<tr>
+<td>申请互斥锁</td>
+<td>mutex_lock</td>
+</tr>
+<tr>
+<td>申请互斥锁，如果该锁被占有则进入轻度睡眠</td>
+<td>mutex_lock_interruptible</td>
+</tr>
+<tr>
+<td>申请互斥锁，如果该锁被占有则进入中度睡眠</td>
+<td>mutex_lock_killable</td>
+</tr>
+<tr>
+<td>申请互斥锁，如果该锁被占有，则不等待，进程返回</td>
+<td>mutex_trylock</td>
+</tr>
+<tr>
+<td>释放互斥锁</td>
+<td>mutex_unlock</td>
+</tr>
+</tbody>
+</table>
 <p>mutex的简洁与高效源于相比使用信号量更多的受限性：</p>
 <ul>
 <li>任何时刻只能有一个任务持有mutex。</li>
@@ -4914,7 +4959,7 @@
 </tr>
 <tr>
 <td>长期加锁</td>
-<td>优先使用互斥体</td>
+<td>优先使用互斥锁</td>
 </tr>
 <tr>
 <td>中断上下文加锁</td>
@@ -4922,7 +4967,7 @@
 </tr>
 <tr>
 <td>持有锁需要睡眠</td>
-<td>使用互斥体</td>
+<td>使用互斥锁</td>
 </tr>
 </tbody>
 </table>
@@ -4930,7 +4975,7 @@
 <h3 id="_22">完成变量<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
 <p>如果在内核中一个任务需要发送信号通知另一个任务发生了某种特定事件，此时可以用完成变量（completion variable）。当某个任务完成工作后，会使用完成变量去唤醒正在等待的任务。</p>
 <p>完成变量由结构体completion表示，定义在&lt;linux/completion.h&gt;中。其创建方法如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">DECLARE_COMPLETION</span><span class="p">(</span><span class="n">comp</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">DECLARE_COMPLETION</span><span class="p">(</span><span class="n">comp</span><span class="p">);</span>
 </code></pre></div>
 <p>或者使用<code>init_completion()</code>动态创建。需要等待的任务调用<code>wait_for_completion()</code>来等待特定事件。当事件发生后，产生事件的任务调用<code>complete()</code>来发送信号唤醒正在等待的任务。</p>
 <h3 id="rcu">RCU机制<a class="headerlink" href="#rcu" title="Permanent link">&para;</a></h3>
