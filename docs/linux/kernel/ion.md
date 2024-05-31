@@ -15,22 +15,35 @@
 	
 ION通用内存管理器是由谷歌开发的一个用于管理内存的子系统，通过在硬件设备和用户空间之间分配和共享内存，实现设备之间内存的零拷贝。它可以提供驱动之间、用户进程之间、内核空间和用户空间之间的共享内存。
 
-在SoC中，许多设备都具有访问DMA的能力，但是其访问机制却各不相同，这就造成了管理上的混乱。ION提供了一种通用的内存分配方法，解决了不同设备之间内存管理碎片化的问题。
+在SoC中，许多硬件设备都具有访问DMA的能力，但是其访问机制却各不相同，不同设备申请的内存彼此之间互不相通，这就造成了内存管理上的混乱。ION提供了一种通用的内存分配方法，解决了不同设备之间内存管理碎片化的问题。
 
 ION整体架构图如下图所示：
 
 ![ION架构图](../../images/kernel/ion_arch.png)
 
-在用户层面，每个进程对应一个client，一个client下有多个handle，与内核层面的buffer一一对应。内核根据heap type管理不同的heap。不同的用户进程通过shared fd实现共享内存。
+在用户层面，每个进程对应一个client，一个client下有多个handle，与内核层面的buffer一一对应。内核根据heap type管理不同的heap。不同的用户进程通过share_fd实现共享内存。
 
 `struct ion_heap`结构体就表示一个heap，其中支持的heap type有：
 
-- ION_HEAP_TYPE_SYSTEM：通过`vmalloc()`分配的内存
-- ION_HEAP_TYPE_SYSTEM_CONTIG：通过`kmalloc()`分配的内存
+```C
+enum ion_heap_type {
+	ION_HEAP_TYPE_SYSTEM,
+	ION_HEAP_TYPE_SYSTEM_CONTIG,
+	ION_HEAP_TYPE_CARVEOUT,
+	ION_HEAP_TYPE_CHUNK,
+	ION_HEAP_TYPE_DMA,
+	ION_HEAP_TYPE_CUSTOM,
+	ION_HEAP_TYPE_CMA_RESERVED,
+};
+```
+
+- ION_HEAP_TYPE_SYSTEM：通过`vmalloc()`函数分配的内存
+- ION_HEAP_TYPE_SYSTEM_CONTIG：通过`kmalloc()`函数分配的内存
 - ION_HEAP_TYPE_CARVEOUT：启动时预留的内存
 - ION_HEAP_TYPE_DMA：给DMA使用的内存
+- ION_HEAP_TYPE_CMA_RESERVED：启动时预留给CMA的内存
 
-每种heap都必须要实现`struct ion_heap_ops`中的回调函数：
+`struct ion_heap_ops`实现对heap的操作：
 
 ```C
 struct ion_heap_ops {
@@ -63,9 +76,9 @@ struct ion_heap_ops {
 
 > shrink：当内存紧张时，从heap中拆分buffer
 
-## 关键数据结构
+## 内核数据结构
 
-`struct ion_device`为内核管理ion的顶层数据结构，一个系统只能有一个`struct ion_device`对象：
+用户层访问ION必须通过/dev/ion，内核抽象出`struct ion_device`结构体用来管理ION设备：
 
 ```C
 struct ion_device {
@@ -88,7 +101,7 @@ struct ion_device {
 };
 ```
 
-`struct ion_client`表示用户空间创建的实例：
+`struct ion_client`表示用户空间创建的实例，每个进程只对应一个`ion_client`：
 
 ```C
 struct ion_client {
@@ -110,7 +123,45 @@ struct ion_client {
 };
 ```
 
-`struct ion_handle`表示用户空间申请的内存块，与内核的buffer对应：
+当用户使用`open()`打开/dev/ion时，最终调用的是`ion_open()`函数：
+
+```C
+static const struct file_operations ion_fops = {
+	.owner          = THIS_MODULE,
+	.open			= ion_open,
+	.release		= ion_release,
+	.unlocked_ioctl = ion_ioctl,
+#ifdef CONFIG_COMPAT
+	.compat_ioctl	= ion_ioctl,
+#endif
+	.mmap			= _ion_mmap,
+};
+```
+
+该函数又调用`ion_client_create()`创建client，并建立与ion_device的联系：
+
+```C
+static int ion_open(struct inode *inode, struct file *file)
+{
+    struct miscdevice *miscdev = file->private_data;
+    struct ion_device *dev = container_of(miscdev, struct ion_device, dev);
+    struct ion_client *client;
+    char debug_name[64];
+
+    pr_debug("%s: %d\n", __func__, __LINE__);
+    snprintf(debug_name, 64, "%u", task_pid_nr(current->group_leader));
+    client = ion_client_create(dev, debug_name);
+    if (IS_ERR(client))
+        return PTR_ERR(client);
+    file->private_data = client;
+    (void)hb_expand_files(current->files, rlimit(RLIMIT_NOFILE)-1);
+
+    return 0;
+}
+```
+
+`ion_buffer`在用户空间的对应形式就是`struct ion_handle`：
+
 ```C
 struct ion_handle {
 	struct kref ref;
@@ -126,7 +177,7 @@ struct ion_handle {
 };
 ```
 
-`struct ion_heap`表示ION管理的内存池：
+`struct ion_heap`表示ION内存池：
 
 ```C
 struct ion_heap {
@@ -148,8 +199,7 @@ struct ion_heap {
 };
 ```
 
-`struct ion_buffer`表示heap中真正的缓冲区内存：
-
+`struct ion_buffer`表示heap中的内存块：
 
 ```C
 struct ion_buffer {
@@ -181,210 +231,9 @@ struct ion_buffer {
 };
 ```
 
+各数据结构之间的关系图如下：
 
-## 使用libion
-
-> libion库是对底层ion_ioctl()的封装，谷歌推荐使用libion库而不是操作ion_ioctl()函数。
-
-### 数据结构
-
-```C
-struct ion_allocation_data {
-    uint64_t len;
-    uint64_t align;
-    unsigned int heap_mask;
-    unsigned int flags;
-    ion_user_handle_t handle;
-    ion_share_handle_t sh_handle;
-};
-struct ion_fd_data {
-    ion_user_handle_t handle;
-    int fd;
-};
-struct ion_handle_data {
-    ion_user_handle_t handle;
-};
-struct ion_share_handle_data {
-    ion_user_handle_t handle;
-    int64_t flags;
-    ion_share_handle_t sh_handle;
-};
-
-/**
- * struct ion_share_info_data - a handle passed to/from the kernel
- * @handle: a handle
- */
-struct ion_share_info_data {
-    ion_user_handle_t handle;
-    int64_t timeout;
-    int32_t target_client_cnt;
-    int32_t cur_client_cnt;
-};
-```
-
-API接口
-
-```C
-int32_t ion_open(void);
-int32_t ion_close(int32_t fd);
-int32_t ion_alloc(int32_t fd, size_t len, size_t align, uint32_t heap_mask,
-            uint32_t flags, ion_user_handle_t *handle);
-int32_t ion_alloc_fd(int32_t fd, size_t len, size_t align, uint32_t heap_mask,
-            uint32_t flags, int32_t *handle_fd);
-int32_t ion_sync_fd(int32_t fd, int32_t handle_fd);
-int32_t ion_free(int32_t fd, ion_user_handle_t handle);
-int32_t ion_map(int32_t fd, ion_user_handle_t handle, size_t length, int32_t prot,
-            int32_t flags, off_t offset, unsigned char **ptr, int32_t *map_fd);
-int32_t ion_share(int32_t fd, ion_user_handle_t handle, int32_t *share_fd);
-int32_t ion_import(int32_t fd, int32_t share_fd, ion_user_handle_t *handle);
-int32_t ion_phys(int32_t fd, ion_user_handle_t handle, void **paddr, size_t *len);
-int32_t ion_cache_invalid(int32_t fd, ion_user_handle_t handle, void *paddr, void *vaddr, size_t len);
-int32_t ion_cache_flush(int32_t fd, ion_user_handle_t handle, void *paddr, void *vaddr, size_t len);
-int32_t ion_memcpy(int32_t fd, ion_user_handle_t handle, void *dst_paddr, void *src_paddr, size_t len);
-```
-
-对于使用者来说，主要关心以下几个方面：
-
-- 打开与关闭
-- 分配与释放内存
-- 映射与共享
-
-### 打开与关闭
-
-与ION交互需要打开/关闭ion_device，返回的形式为文件描述符fd，往后的操作都需要用到这个fd。
-
-```C
-int32_t ion_open(void)
-{
-    int32_t fd = open("/dev/ion", O_RDWR);
-    if (fd < 0) {
-        (void)printf("%s open /dev/ion failed!\n", LOG_TAG);
-    }
-
-    return fd;
-}
-
-int32_t ion_close(int32_t fd)
-{
-    return close(fd);
-}
-```
-
-### 分配与释放
-
-该函数根据传入的heap_mask去寻找合适的heap，然后分配buffer内存块，其中参数handle必须要设置，这是由内核空间返回给用户的操作ION内存的句柄。
-
-```C
-int32_t ion_alloc(int32_t fd, size_t len, size_t align, uint32_t heap_mask,
-          uint32_t flags, ion_user_handle_t *handle)
-{
-    int32_t ret;
-    if (handle == NULL) {
-        (void)printf("%s Invalid handle!\n", LOG_TAG);
-        return -EINVAL;
-    }
-
-    struct ion_allocation_data data = {
-        .len = len,
-        .align = align,
-        .heap_mask = heap_mask,
-        .flags = flags,
-    };
-
-    ret = ion_ioctl(fd, ION_IOC_ALLOC, (void *)&data);
-    if (ret < 0) {
-        (void)printf("%s Failed to do ION_IOC_ALLOC(ret=%d)!\n", LOG_TAG, ret);
-        return ret;
-    }
-
-    *handle = data.handle;
-    return ret;
-}
-```
-
-该函数根据传入的handle，释放对应的buffer。
-
-```C
-int32_t ion_free(int32_t fd, ion_user_handle_t handle)
-{
-    struct ion_handle_data data = {
-        .handle = handle,
-    };
-    return ion_ioctl(fd, ION_IOC_FREE, (void *)&data);
-}
-```
-
-### 映射
-
-该函数通过传入的handle找到对应的buffer，并将其映射到用户空间，ptr指向映射区域的地址。
-
-```C
-int32_t ion_map(int32_t fd, ion_user_handle_t handle, size_t length, int32_t prot,
-            int32_t flags, off_t offset, unsigned char **ptr, int32_t *map_fd)
-{
-    int32_t ret;
-    struct ion_fd_data data = {
-        .handle = handle,
-    };
-
-    if (map_fd == NULL) {
-        (void)printf("%s Invalid map_fd!\n", LOG_TAG);
-        return -EINVAL;
-    }
-    if (ptr == NULL) {
-        (void)printf("%s Invalid ptr!\n", LOG_TAG);
-        return -EINVAL;
-    }
-
-    ret = ion_ioctl(fd, ION_IOC_MAP, (void *)&data);
-    if (ret < 0) {
-        (void)printf("%s map ioctl returned failed,handle[%ld](ret=%d)\n",
-            LOG_TAG, handle, ret);
-        return ret;
-    }
-    *map_fd = data.fd;
-    if (*map_fd < 0) {
-        (void)printf("%s map ioctl returned negative fd\n", LOG_TAG);
-        return -EINVAL;
-    }
-    *ptr = mmap(NULL, length, prot, flags, *map_fd, offset);
-    if (*ptr == MAP_FAILED) {
-        (void)printf("%s ion mmap failed(ret=%d)\n", LOG_TAG, -errno);
-        return -errno;
-    }
-    return ret;
-}
-```
-
-### 共享
-
-该函数通过创建一个share_fd，实现对同一个buffer的共享。
-
-```C
-int32_t ion_share(int32_t fd, ion_user_handle_t handle, int32_t *share_fd)
-{
-    int32_t ret;
-    struct ion_fd_data data = {
-        .handle = handle,
-    };
-    if (share_fd == NULL) {
-        (void)printf("%s Invalid share_fd!\n", LOG_TAG);
-        return -EINVAL;
-    }
-
-    ret = ion_ioctl(fd, ION_IOC_SHARE, (void *)&data);
-    if (ret < 0) {
-        (void)printf("%s Failed to do ION_IOC_SHARE(ret=%d)!\n", LOG_TAG, ret);
-        return ret;
-    }
-    *share_fd = data.fd;
-    if (*share_fd < 0) {
-        (void)printf("%s share ioctl returned negative fd\n", LOG_TAG);
-        return -EINVAL;
-    }
-    return ret;
-}
-```
+![ION数据结构图](../../images/kernel/ion_data.png)
 
 ## scatterlist
 
@@ -450,11 +299,11 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 - 保留区内存
 - CMA内存
 
-驱动层分配内存的函数是`ion_alloc()`函数，它主要做了以下事情：
+用户层操作ION时统一通过`ion_ioctl()`接口，通过传入flags=ION_IOC_ALLOC，再调用`ion_alloc()`函数，它主要做了以下事情：
 
-1. 根据优先级，从某个heap开始，根据用户传入的heap_mask，查看是否有匹配的内存可以分配，遍历系统中所有的堆，直到找到可以分配的内存为止。
-2. 真正的分配函数是`ion_buffer_create()`。
-3. 核心语句`heap->ops->allocate(heap, buffer, len, align, flags)`，即根据不同的heap调用对应的分配函数。
+1. 根据优先级，从某个heap开始，根据用户传入的heap_mask，查看是否有匹配的内存可以分配，遍历系统中所有的heap，直到找到可以分配的内存为止。
+2. 分配内存的逻辑在`ion_buffer_create()`函数中。
+3. 核心语句`heap->ops->allocate(heap, buffer, len, align, flags)`——根据不同的heap调用对应的分配函数：`struct ion_heap_ops中的allocate()`回调函数。
 
 这里重点讲一下system_heap的分配与释放，其他类型的heap留给读者自己去研究。
 
@@ -462,7 +311,8 @@ sg_table中到底有多少个有效内存块？其实是由`struct scatterlist`�
 
 > 源码位于<drivers/staging/android/ion/ion_system_heap.c\>
 
-system_heap管理着三种类型的内存块：`static const unsigned int orders[] = {8, 4, 0};`
+system_heap管理着三种类型的内存块：
+`static const unsigned int orders[] = {8, 4, 0};`
 
 这里的8、4、0代表的是页的数量，一页为4KB：
 
@@ -484,7 +334,6 @@ allocations (info is from last known client):
 0 order 4 lowmem pages in pool = 0 total
 0 order 0 highmem pages in pool = 0 total
 0 order 0 lowmem pages in pool = 0 total
-
 ```
 
 1. 分配：
@@ -940,3 +789,207 @@ static void free_buffer_page(struct ion_system_heap *heap,
 ION内存分配的总流程如下：
 
 ![ION内存分配](../../images/kernel/ion.png)
+
+## 使用libion
+
+> libion库是对底层ion_ioctl()的封装，谷歌推荐使用libion库而不是操作ion_ioctl()函数。
+
+### 数据结构
+
+```C
+struct ion_allocation_data {
+    uint64_t len;
+    uint64_t align;
+    unsigned int heap_mask;
+    unsigned int flags;
+    ion_user_handle_t handle;
+    ion_share_handle_t sh_handle;
+};
+struct ion_fd_data {
+    ion_user_handle_t handle;
+    int fd;
+};
+struct ion_handle_data {
+    ion_user_handle_t handle;
+};
+struct ion_share_handle_data {
+    ion_user_handle_t handle;
+    int64_t flags;
+    ion_share_handle_t sh_handle;
+};
+
+/**
+ * struct ion_share_info_data - a handle passed to/from the kernel
+ * @handle: a handle
+ */
+struct ion_share_info_data {
+    ion_user_handle_t handle;
+    int64_t timeout;
+    int32_t target_client_cnt;
+    int32_t cur_client_cnt;
+};
+```
+
+API接口
+
+```C
+int32_t ion_open(void);
+int32_t ion_close(int32_t fd);
+int32_t ion_alloc(int32_t fd, size_t len, size_t align, uint32_t heap_mask,
+            uint32_t flags, ion_user_handle_t *handle);
+int32_t ion_alloc_fd(int32_t fd, size_t len, size_t align, uint32_t heap_mask,
+            uint32_t flags, int32_t *handle_fd);
+int32_t ion_sync_fd(int32_t fd, int32_t handle_fd);
+int32_t ion_free(int32_t fd, ion_user_handle_t handle);
+int32_t ion_map(int32_t fd, ion_user_handle_t handle, size_t length, int32_t prot,
+            int32_t flags, off_t offset, unsigned char **ptr, int32_t *map_fd);
+int32_t ion_share(int32_t fd, ion_user_handle_t handle, int32_t *share_fd);
+int32_t ion_import(int32_t fd, int32_t share_fd, ion_user_handle_t *handle);
+int32_t ion_phys(int32_t fd, ion_user_handle_t handle, void **paddr, size_t *len);
+int32_t ion_cache_invalid(int32_t fd, ion_user_handle_t handle, void *paddr, void *vaddr, size_t len);
+int32_t ion_cache_flush(int32_t fd, ion_user_handle_t handle, void *paddr, void *vaddr, size_t len);
+int32_t ion_memcpy(int32_t fd, ion_user_handle_t handle, void *dst_paddr, void *src_paddr, size_t len);
+```
+
+对于使用者来说，主要关心以下几个方面：
+
+- 打开与关闭
+- 分配与释放内存
+- 映射与共享
+
+### 打开与关闭
+
+与ION交互需要打开/关闭/dev/ion，返回的形式为文件描述符fd，往后的操作都需要用到这个fd。
+
+```C
+int32_t ion_open(void)
+{
+    int32_t fd = open("/dev/ion", O_RDWR);
+    if (fd < 0) {
+        (void)printf("%s open /dev/ion failed!\n", LOG_TAG);
+    }
+
+    return fd;
+}
+
+int32_t ion_close(int32_t fd)
+{
+    return close(fd);
+}
+```
+
+### 分配与释放
+
+该函数根据传入的heap_mask去寻找合适的heap，然后分配buffer内存块，其中{==参数handle==}必须要设置，这是由内核空间返回给用户的操作ION内存的句柄。
+
+```C
+int32_t ion_alloc(int32_t fd, size_t len, size_t align, uint32_t heap_mask,
+          uint32_t flags, ion_user_handle_t *handle)
+{
+    int32_t ret;
+    if (handle == NULL) {
+        (void)printf("%s Invalid handle!\n", LOG_TAG);
+        return -EINVAL;
+    }
+
+    struct ion_allocation_data data = {
+        .len = len,
+        .align = align,
+        .heap_mask = heap_mask,
+        .flags = flags,
+    };
+
+    ret = ion_ioctl(fd, ION_IOC_ALLOC, (void *)&data);
+    if (ret < 0) {
+        (void)printf("%s Failed to do ION_IOC_ALLOC(ret=%d)!\n", LOG_TAG, ret);
+        return ret;
+    }
+
+    *handle = data.handle;
+    return ret;
+}
+```
+
+该函数根据传入的handle，释放对应的buffer。
+
+```C
+int32_t ion_free(int32_t fd, ion_user_handle_t handle)
+{
+    struct ion_handle_data data = {
+        .handle = handle,
+    };
+    return ion_ioctl(fd, ION_IOC_FREE, (void *)&data);
+}
+```
+
+### 映射
+
+该函数通过传入的handle找到对应的buffer，并将其映射到用户空间，ptr指向映射区域的地址。
+
+```C
+int32_t ion_map(int32_t fd, ion_user_handle_t handle, size_t length, int32_t prot,
+            int32_t flags, off_t offset, unsigned char **ptr, int32_t *map_fd)
+{
+    int32_t ret;
+    struct ion_fd_data data = {
+        .handle = handle,
+    };
+
+    if (map_fd == NULL) {
+        (void)printf("%s Invalid map_fd!\n", LOG_TAG);
+        return -EINVAL;
+    }
+    if (ptr == NULL) {
+        (void)printf("%s Invalid ptr!\n", LOG_TAG);
+        return -EINVAL;
+    }
+
+    ret = ion_ioctl(fd, ION_IOC_MAP, (void *)&data);
+    if (ret < 0) {
+        (void)printf("%s map ioctl returned failed,handle[%ld](ret=%d)\n",
+            LOG_TAG, handle, ret);
+        return ret;
+    }
+    *map_fd = data.fd;
+    if (*map_fd < 0) {
+        (void)printf("%s map ioctl returned negative fd\n", LOG_TAG);
+        return -EINVAL;
+    }
+    *ptr = mmap(NULL, length, prot, flags, *map_fd, offset);
+    if (*ptr == MAP_FAILED) {
+        (void)printf("%s ion mmap failed(ret=%d)\n", LOG_TAG, -errno);
+        return -errno;
+    }
+    return ret;
+}
+```
+
+### 共享
+
+该函数通过创建一个share_fd，实现对同一个buffer的共享。
+
+```C
+int32_t ion_share(int32_t fd, ion_user_handle_t handle, int32_t *share_fd)
+{
+    int32_t ret;
+    struct ion_fd_data data = {
+        .handle = handle,
+    };
+    if (share_fd == NULL) {
+        (void)printf("%s Invalid share_fd!\n", LOG_TAG);
+        return -EINVAL;
+    }
+
+    ret = ion_ioctl(fd, ION_IOC_SHARE, (void *)&data);
+    if (ret < 0) {
+        (void)printf("%s Failed to do ION_IOC_SHARE(ret=%d)!\n", LOG_TAG, ret);
+        return ret;
+    }
+    *share_fd = data.fd;
+    if (*share_fd < 0) {
+        (void)printf("%s share ioctl returned negative fd\n", LOG_TAG);
+        return -EINVAL;
+    }
+    return ret;
+}
+```

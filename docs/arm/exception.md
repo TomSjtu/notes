@@ -60,7 +60,40 @@ ERET指令需要完成：
 
 ### 异常向量表
 
-异常向量表存放的基地址可以通过向量基址寄存器(Vector Base Address Register)来设置。在ARMv8体系结构中，除了EL0，每个EL都有自己的异常向量表，基地址保存在对应的VBAR_ELx寄存器中。
+异常向量表和异常处理函数在<arch/arm64/kernel/entry.S\>中定义：
+
+```C
+SYM_CODE_START(vectors)
+	kernel_ventry	1, sync_invalid			// Synchronous EL1t
+	kernel_ventry	1, irq_invalid			// IRQ EL1t
+	kernel_ventry	1, fiq_invalid			// FIQ EL1t
+	kernel_ventry	1, error_invalid		// Error EL1t
+
+	kernel_ventry	1, sync				// Synchronous EL1h
+	kernel_ventry	1, irq				// IRQ EL1h
+	kernel_ventry	1, fiq_invalid			// FIQ EL1h
+	kernel_ventry	1, error			// Error EL1h
+
+	kernel_ventry	0, sync				// Synchronous 64-bit EL0
+	kernel_ventry	0, irq				// IRQ 64-bit EL0
+	kernel_ventry	0, fiq_invalid			// FIQ 64-bit EL0
+	kernel_ventry	0, error			// Error 64-bit EL0
+
+#ifdef CONFIG_COMPAT
+	kernel_ventry	0, sync_compat, 32		// Synchronous 32-bit EL0
+	kernel_ventry	0, irq_compat, 32		// IRQ 32-bit EL0
+	kernel_ventry	0, fiq_invalid_compat, 32	// FIQ 32-bit EL0
+	kernel_ventry	0, error_compat, 32		// Error 32-bit EL0
+#else
+	kernel_ventry	0, sync_invalid, 32		// Synchronous 32-bit EL0
+	kernel_ventry	0, irq_invalid, 32		// IRQ 32-bit EL0
+	kernel_ventry	0, fiq_invalid, 32		// FIQ 32-bit EL0
+	kernel_ventry	0, error_invalid, 32		// Error 32-bit EL0
+#endif
+SYM_CODE_END(vectors)
+```
+
+异常向量表存放的基地址可以通过向量基址寄存器(Vector Base Address Register)来设置。在ARM64体系结构中，除了EL0，每个EL都有自己的异常向量表，基地址保存在对应的VBAR_ELx寄存器中。
 
 ![异常向量表](../images/arm/exception_vector.png)
 

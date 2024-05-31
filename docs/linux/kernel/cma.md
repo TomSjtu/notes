@@ -66,7 +66,7 @@ reserved_memory: reserved-memory {
 };
 ```
 
-这里和上面共享的唯一区别就是在专用CMA区域中是不包含`linux,cma-default`属性的/
+这里和上面共享的唯一区别就是在专用CMA区域中是不包含`linux,cma-default`属性。
 
 ## 数据结构
 

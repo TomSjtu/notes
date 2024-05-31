@@ -69,6 +69,7 @@ nav:
       - linux/kernel/task.md
       - linux/kernel/sched.md
       - linux/kernel/ipc.md
+      - linux/kernel/preempt.md
       - linux/kernel/interrupt.md
       - linux/kernel/bottom_half.md
       - linux/kernel/mm.md
@@ -125,6 +126,7 @@ nav:
     - ebpf:
       - linux/ebpf/index.md
       - linux/ebpf/intro.md
+      - linux/ebpf/ftrace.md
  
   - ARM: 
     - arm/index.md
@@ -183,6 +185,7 @@ nav:
     - Go:
       - pl/go/index.md
       - pl/go/intro.md
+      - pl/go/function.md
 
   - 人工智能:
     - ai/index.md

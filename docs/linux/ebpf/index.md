@@ -4,6 +4,10 @@
 
 - [eBPF入门](./intro.md)
 
+## 调试工具
+
+- [ftrace](./ftrace.md)
+
 ## 参考资料
 
 - [eBPF开发实践教程](https://eunomia.dev/zh/tutorials/)

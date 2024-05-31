@@ -1,34 +1,264 @@
 # 调试技术
 
-内核空间的调试比用户空间要艰难许多，并且风险级别更高，一个小错误就有可能引起系统崩溃。驾驭内核调试的能力，需要整个操作系统有深入的理解。
+## 内核日志系统
 
-## 通过打印来调试
+### log_buf
 
-`printk()`函数几乎可以在任何场景下使用，并且可以根据日志的等级在终端上打印消息。
+`log_buf`是一个循环缓冲区，用于存储内核日志消息，定义在<kernel/printk/printk.c\>中：
 
-可供使用的日志等级有：
+```C 
+#define LOG_ALIGN __alignof__(unsigned long)
+#define __LOG_BUF_LEN (1 << CONFIG_LOG_BUF_SHIFT)
+#define LOG_BUF_LEN_MAX (u32)(1 << 31)
+static char __log_buf[__LOG_BUF_LEN] __aligned(LOG_ALIGN);
+static char *log_buf = __log_buf;
+static u32 log_buf_len = __LOG_BUF_LEN;
+```
 
-| 日志等级 | 描述
+`vprintk_emit()`函数从`log_buf`中获取log，然后输出至console，过程如下：
+
+![log](../../images/kernel/vprintk.png)
+
+`console_unlock()`函数遍历每个注册的console，输出log，是在持有spinlock和关中断状态下执行的。因此如果串口一直在打印log，会导致CPU一直处于关中断状态，其他进程无法获得调度机会导致卡死：
+
+```C
+void console_unlock(void)
+{
+	static char ext_text[CONSOLE_EXT_LOG_MAX];
+	static char text[LOG_LINE_MAX + PREFIX_MAX];
+	unsigned long flags;
+	bool do_cond_resched, retry;
+	struct printk_info info;
+	struct printk_record r;
+
+	if (console_suspended) {
+		up_console_sem();
+		return;
+	}
+
+	prb_rec_init_rd(&r, &info, text, sizeof(text));
+
+	/*
+	 * Console drivers are called with interrupts disabled, so
+	 * @console_may_schedule should be cleared before; however, we may
+	 * end up dumping a lot of lines, for example, if called from
+	 * console registration path, and should invoke cond_resched()
+	 * between lines if allowable.  Not doing so can cause a very long
+	 * scheduling stall on a slow console leading to RCU stall and
+	 * softlockup warnings which exacerbate the issue with more
+	 * messages practically incapacitating the system.
+	 *
+	 * console_trylock() is not able to detect the preemptive
+	 * context reliably. Therefore the value must be stored before
+	 * and cleared after the "again" goto label.
+	 */
+	do_cond_resched = console_may_schedule;
+again:
+	console_may_schedule = 0;
+
+	/*
+	 * We released the console_sem lock, so we need to recheck if
+	 * cpu is online and (if not) is there at least one CON_ANYTIME
+	 * console.
+	 */
+	if (!can_use_console()) {
+		console_locked = 0;
+		up_console_sem();
+		return;
+	}
+
+	for (;;) {
+		size_t ext_len = 0;
+		size_t len;
+
+		printk_safe_enter_irqsave(flags);
+		raw_spin_lock(&logbuf_lock);
+skip:
+		if (!prb_read_valid(prb, console_seq, &r))
+			break;
+
+		if (console_seq != r.info->seq) {
+			console_dropped += r.info->seq - console_seq;
+			console_seq = r.info->seq;
+		}
+
+		if (suppress_message_printing(r.info->level)) {
+			/*
+			 * Skip record we have buffered and already printed
+			 * directly to the console when we received it, and
+			 * record that has level above the console loglevel.
+			 */
+			console_seq++;
+			goto skip;
+		}
+
+		/* Output to all consoles once old messages replayed. */
+		if (unlikely(exclusive_console &&
+			     console_seq >= exclusive_console_stop_seq)) {
+			exclusive_console = NULL;
+		}
+
+		/*
+		 * Handle extended console text first because later
+		 * record_print_text() will modify the record buffer in-place.
+		 */
+		if (nr_ext_console_drivers) {
+			ext_len = info_print_ext_header(ext_text,
+						sizeof(ext_text),
+						r.info);
+			ext_len += msg_print_ext_body(ext_text + ext_len,
+						sizeof(ext_text) - ext_len,
+						&r.text_buf[0],
+						r.info->text_len,
+						&r.info->dev_info);
+		}
+		len = record_print_text(&r,
+				console_msg_format & MSG_FORMAT_SYSLOG,
+				printk_time);
+		console_seq++;
+		raw_spin_unlock(&logbuf_lock);
+
+		/*
+		 * While actively printing out messages, if another printk()
+		 * were to occur on another CPU, it may wait for this one to
+		 * finish. This task can not be preempted if there is a
+		 * waiter waiting to take over.
+		 */
+		console_lock_spinning_enable();
+
+		stop_critical_timings();	/* don't trace print latency */
+		call_console_drivers(ext_text, ext_len, text, len);
+		start_critical_timings();
+
+		if (console_lock_spinning_disable_and_check()) {
+			printk_safe_exit_irqrestore(flags);
+			return;
+		}
+
+		printk_safe_exit_irqrestore(flags);
+
+		if (do_cond_resched)
+			cond_resched();
+	}
+
+	console_locked = 0;
+
+	raw_spin_unlock(&logbuf_lock);
+
+	up_console_sem();
+
+	/*
+	 * Someone could have filled up the buffer again, so re-check if there's
+	 * something to flush. In case we cannot trylock the console_sem again,
+	 * there's a new owner and the console_unlock() from them will do the
+	 * flush, no worries.
+	 */
+	raw_spin_lock(&logbuf_lock);
+	retry = prb_read_valid(prb, console_seq, NULL);
+	raw_spin_unlock(&logbuf_lock);
+	printk_safe_exit_irqrestore(flags);
+
+	if (retry && console_trylock())
+		goto again;
+}
+EXPORT_SYMBOL(console_unlock);
+```
+
+`call_console_drivers()`函数负责调用每个console的write接口，将日志写入对应的console：
+
+```C
+static void call_console_drivers(const char *ext_text, size_t ext_len,
+				 const char *text, size_t len)
+{
+	static char dropped_text[64];
+	size_t dropped_len = 0;
+	struct console *con;
+
+	trace_console_rcuidle(text, len);
+
+	if (!console_drivers)
+		return;
+
+	if (console_dropped) {
+		dropped_len = snprintf(dropped_text, sizeof(dropped_text),
+				       "** %lu printk messages dropped **\n",
+				       console_dropped);
+		console_dropped = 0;
+	}
+
+	for_each_console(con) {
+		if (exclusive_console && con != exclusive_console)
+			continue;
+		if (!(con->flags & CON_ENABLED))
+			continue;
+		if (!con->write)
+			continue;
+		if (!cpu_online(smp_processor_id()) &&
+		    !(con->flags & CON_ANYTIME))
+			continue;
+		if (con->flags & CON_EXTENDED)
+			con->write(con, ext_text, ext_len);
+		else {
+			if (dropped_len)
+				con->write(con, dropped_text, dropped_len);
+			con->write(con, text, len);
+		}
+	}
+}
+```
+
+### 访问log
+
+1. `syslog()`系统调用和`klogctl()`接口
+    - `klogctl()`是`syslog()`系统调用的封装，可以通过man查看用法
+2. /dev/kmsg
+    - `cat /dev/kmsg`：查看原始log数据
+    - `echo xxx > /dev/kmsg`：插入log
+3. /proc/kmsg
+    - `cat /proc/kmsg`：只显示新产生的log
+4. dmesg命令
+    - `dmesg -c`：记录显示位置，下次不会显示之前的log
+    - `dmesg -n 8`：设置日志等级为8
+    - `dmesg -r`：打印log时附带log level
+
+### log_level
+
+log_level用来控制哪些log可以在串口控制台被打印：
+
+| 日志等级 | 描述|
 | ----- | ----- |
-| KERN_EMERG | 紧急情况 |
-| KERN_ALERT | 需要立即采取行动 |
-| KERN_CRIT | 临界状态，通常涉及严重的硬件或软件操作失败 |
-| KERN_ERR | 报告错误状态，设备驱动程序常用 |
-| KERN_WARNING | 警告 |
-| KERN_NOTICE | 提示信息 |
-| KERN_INFO | 记录信息 |
-| KERN_DEBUG | 调试信息 |
+| KERN_EMERG | System is unusable |
+| KERN_ALERT | Action must be taken immediately |
+| KERN_CRIT | Critial conditions |
+| KERN_ERR | Error conditions |
+| KERN_WARNING | Warning conditions |
+| KERN_NOTICE | Normal but significant condition |
+| KERN_INFO | Informational |
+| KERN_DEBUG | Debug-level mesasges |
 
-变量console_loglevel的初始值是DEFAULT_CONSOLE_LOGLEVEL，只有优先级小于这个值的等级，才能被打印出来。
+```shell
+$ cat /proc/sys/kernel/printk
+4       4       1       7
+```
 
-用户空间守护进程klogd从记录缓冲区中获取内核消息，然后由syslogd守护进程保存至系统日志文件中。如果klogd没有运行，那么消息就无法传递到用户空间，只能通过`dmesg`命令查看。
+上面四个数字分别对应：
 
-内核使用{==循环缓冲区==}来记录消息，如果缓冲区内容已满，`printk`就绕回开始处填写新的数据，这将覆盖陈旧的内容
+- console_loglevel：只有数值大于这个level的log才能打印到console
+- default_message_loglevel：printk不指定log_level时的默认level
+- minimum_console_loglevel：console_loglevel的最小值
+- default_console_loglevel：一些特殊情况下使用的默认console_loglevel
 
-## 内核oops
+### 打印函数
 
-oops是内核告知用户有故障发生的最常用的方式，oops的产生有多种原因，比如内存访问越界或者非法指令等。内核发出oops时处于极不稳定状态，有可能会崩溃。
+- printk：不建议直接使用
+- pr_debug, pr_xxx：内核非设备驱动使用
+- dev_dbg, dev_xxx：内核驱动中使用
 
 ## 内核调试配置选项
 
 在编译内核时，内核在Kernel hacking菜单项中提供了许多配置选项，它们都依赖于CONFIG_DEBUG_KERNEL。开发内核时，可以打开这些选项进行调试。
+
+## 常用调试功能
+
+## KASAN
+
