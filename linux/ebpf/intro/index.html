@@ -565,6 +565,8 @@
       
         
       
+        
+      
     
     
       
@@ -1101,6 +1103,27 @@
   
   <span class="md-ellipsis">
     电源管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    shell脚本
   </span>
   
 
@@ -3324,6 +3347,8 @@
       
         
       
+        
+      
     
     
       
@@ -3398,6 +3423,27 @@
   
   <span class="md-ellipsis">
     函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/go/package/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    包管理
   </span>
   
 
@@ -3977,38 +4023,44 @@
 
 
 <h1 id="ebpf">eBPF入门<a class="headerlink" href="#ebpf" title="Permanent link">&para;</a></h1>
-<p>对于eBPF的介绍可以参考这篇文章：<a href="https://eunomia.dev/zh/tutorials/0-introduce/">eBPF简介</a>。</p>
-<p>由于eBPF还在快速发展期，内核中的功能也日趋增强，一般推荐基于Linux 4.4+ (4.9 以上会更好) 内核的来使用eBPF。部分Linux Event和BPF版本支持见下图：</p>
+<p>对于eBPF的介绍可以参考这篇文章：<a href="https://www.ebpf.top/post/head_first_bpf/">eBPF简介</a>。</p>
+<p>推荐Linux 4.9以上版本的内核来使用eBPF，部分Linux Event和BPF版本支持见下图：</p>
 <p><img alt="BPF版本支持" src="../../../images/kernel/linux_kernel_event_bpf.png" /></p>
 <p>eBPF技术主要用于以下场景：</p>
-<p>1.追踪和性能分析(Tracing &amp; Profiling)</p>
-<p>将eBPF程序附加到跟踪点以及内核和用户应用探针点的能力，使得应用程序和系统本身的运行时行为具有前所未有的可见性。通过赋予应用程序和系统两方面的检测能力，可以将两种视图结合起来，从而获得强大而独特的洞察力来排除系统性能问题。先进的统计数据结构允许以高效的方式提取有意义的可见性数据，而不需要像类似系统那样，通常需要导出大量的采样数据。</p>
-<p>2.观测和监控(Obervability &amp; Monitoring)</p>
-<p>eBPF不依赖于操作系统暴露的静态计数器和测量，而是实现了自定义指标的收集和内核内聚合，并基于广泛的可能来源生成可见性事件。这扩展了实现的可见性深度，并通过只收集所需的可见性数据，以及在事件源处生成直方图和类似的数据结构，而不是依赖样本的导出，大大降低了整体系统的开销。</p>
-<p>3.网络(Network)</p>
-<p>可编程性和效率的结合使得eBPF自然而然地满足了网络解决方案的所有数据包处理要求。eBPF的可编程性使其能够在不离开Linux内核的包处理上下文的情况下，添加额外的协议解析器，并轻松编程任何转发逻辑以满足不断变化的需求。JIT编译器提供的效率使其执行性能接近于本地编译的内核代码。</p>
-<p>4.安全(Security)</p>
-<p>在看到和理解所有系统调用的基础上，将其与所有网络操作的数据包和套接字级视图相结合，可以采用革命性的新方法来确保系统的安全。虽然系统调用过滤、网络级过滤和进程上下文跟踪等方面通常由完全独立的系统处理，但eBPF允许将所有方面的可视性和控制结合起来，以创建在更多上下文上运行的、具有更好控制水平的安全系统。</p>
+<ol>
+<li>
+<p>追踪和性能分析(Tracing &amp; Profiling)</p>
+</li>
+<li>
+<p>观测和监控(Obervability &amp; Monitoring)</p>
+</li>
+<li>
+<p>网络(Network)</p>
+</li>
+<li>
+<p>安全(Security)</p>
+</li>
+</ol>
 <p>eBPF的整体架构如图所示：</p>
 <p><img alt="eBPF架构" src="../../../images/kernel/linux_ebpf_internals.png" /></p>
 <p>eBPF分为用户空间和内核空间两部分：</p>
 <ul>
 <li>用户空间的程序被编译成BPF字节码然后送至内核空间</li>
-<li>内核空间的verifier检测字节码安全性，然送至BPF虚拟机执行，将执行的结果通过perf-event或者maps回传给用户空间</li>
+<li>内核空间的verifier检测字节码安全性，然后送至BPF虚拟机执行，将执行的结果回传给用户空间</li>
 </ul>
 <p>其中，BPF相关的程序类型可以是kprobes/uprobes/tracepoint/perf_events中的一个或多个：</p>
 <ul>
-<li>kprobes：内核级别动态跟踪，可以跟踪Linux内核中的函数入口或返回点，但是不是稳定的ABI接口。</li>
-<li>uprobes：用户级别动态跟踪，类似kprobes，只不过跟踪的函数为用户程序中的函数。</li>
-<li>tracepoints：内核静态跟踪，tracepoints是内核开发人员维护的跟踪点，能够提供稳定的ABI接口，但是由于是研发人员维护，数量和场景可能受限。</li>
-<li>perf_events：定时采样和PMC。</li>
+<li>kprobes：内核级别动态跟踪，可以跟踪内核中的函数入口或返回点，但是ABI接口不稳定</li>
+<li>uprobes：用户级别动态跟踪，只跟踪用户态函数</li>
+<li>tracepoints：内核静态跟踪</li>
+<li>perf_events：定时采样</li>
 </ul>
 <p>内核中运行的BPF字节码可以使用两种方式将测量数据回传给用户空间：</p>
 <ul>
 <li>maps：内核中实现的统计摘要信息（比如测量延迟、堆栈信息）等。</li>
 <li>perf-event：内核采集的事件实时发送至用户空间，用户空间程序实时读取分析。</li>
 </ul>
-<p>在 Linux 观测方面，eBPF总是会拿来与内核模块方式进行对比，eBPF在安全性、入门门槛上比内核模块都有优势，这两点在观测场景下对于用户来讲尤其重要。</p>
+<p>在Linux观测方面，eBPF总是会拿来与内核模块方式进行对比，eBPF在安全性、入门门槛上比内核模块都有优势，下面是一些对比项：</p>
 <table>
 <thead>
 <tr>

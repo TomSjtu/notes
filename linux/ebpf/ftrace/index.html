@@ -565,6 +565,8 @@
       
         
       
+        
+      
     
     
       
@@ -1101,6 +1103,27 @@
   
   <span class="md-ellipsis">
     电源管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    shell脚本
   </span>
   
 
@@ -1983,6 +2006,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    ftrace
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -1992,6 +2026,91 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      tracing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tracing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      常用配置
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用方法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trace-cmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      trace-cmd
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="trace-cmd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用方法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#perf-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      perf-tools
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3276,6 +3395,8 @@
       
         
       
+        
+      
     
     
       
@@ -3350,6 +3471,27 @@
   
   <span class="md-ellipsis">
     函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/go/package/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    包管理
   </span>
   
 
@@ -3886,6 +4028,80 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#tracing" class="md-nav__link">
+    <span class="md-ellipsis">
+      tracing
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="tracing">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      常用配置
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用方法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trace-cmd" class="md-nav__link">
+    <span class="md-ellipsis">
+      trace-cmd
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="trace-cmd">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      使用方法
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#perf-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      perf-tools
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -3903,12 +4119,305 @@
 
 
 <h1 id="ftrace">ftrace<a class="headerlink" href="#ftrace" title="Permanent link">&para;</a></h1>
-<p>ftrace可追踪的事件源包括tracepoints, kprobes, uprobes，依赖debugfs。</p>
+<p><code>ftrace</code>可追踪的事件源包括<code>tracepoints</code>，<code>kprobes</code>，<code>uprobes</code>，依赖debugfs。</p>
+<p>为了启用<code>ftrace</code>，你必须在内核配置界面选择：</p>
+<ul>
+<li>CONFIG_FUNCTION_TRACER</li>
+<li>CONFIG_FUNCTION_GRAPH_TRACER</li>
+<li>CONFIG_STACK_TRACER</li>
+<li>CONFIG_DYNAMIC_FTRACE</li>
+</ul>
 <p>前端工具：</p>
 <ul>
 <li>/sys/kernel/debug/tracing</li>
 <li>trace-cmd</li>
 <li>perf-tools</li>
+</ul>
+<h2 id="tracing">tracing<a class="headerlink" href="#tracing" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available_tracers</code></td>
+<td>当前编译及内核的跟踪器列表，<code>current_tracer</code>必须是这里面支持的跟踪器。</td>
+</tr>
+<tr>
+<td><code>current_tracer</code></td>
+<td>用于设置或者显示当前使用的跟踪器列表。系统启动缺省值为<code>nop</code>，使用<code>echo</code>将跟踪器名字写入即可打开。可以通过写入<code>nop</code>重置跟踪器。</td>
+</tr>
+<tr>
+<td><code>buffer_size_kb</code></td>
+<td>用于设置单个CPU所使用的跟踪缓存的大小。跟踪缓存为RingBuffer形式，如果跟踪太多，旧的信息会被新的跟踪信息覆盖掉。需要先将<code>current_trace</code>设置为<code>nop</code>才可以。</td>
+</tr>
+<tr>
+<td><code>buffer_total_size_kb</code></td>
+<td>显示所有的跟踪缓存大小，不同之处在于<code>buffer_size_kb</code>是单个CPU的，<code>buffer_total_size_kb</code>是所有CPU的和。</td>
+</tr>
+<tr>
+<td><code>free_buffer</code></td>
+<td>此文件用于在一个进程被关闭后，同时释放RingBuffer内存，并将调整大小到最小值。</td>
+</tr>
+<tr>
+<td><code>hwlat_detector/</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>instances/</code></td>
+<td>创建不同的trace buffer实例，可以在不同的trace buffers中分开记录。</td>
+</tr>
+<tr>
+<td><code>tracing_cpumask</code></td>
+<td>可以通过此文件设置允许跟踪特定CPU，二进制格式。</td>
+</tr>
+<tr>
+<td><code>per_cpu</code></td>
+<td>CPU相关的trace信息，包括<code>stats</code>、<code>trace</code>、<code>trace_pipe</code>和<code>trace_pipe_raw</code>。<code>stats</code>：当前CPU的trace统计信息；<code>trace</code>：当前CPU的trace文件；<code>trace_pipe</code>：当前CPU的trace_pipe文件。</td>
+</tr>
+<tr>
+<td><code>printk_formats</code></td>
+<td>提供给工具读取原始格式trace的文件。</td>
+</tr>
+<tr>
+<td><code>saved_cmdlines</code></td>
+<td>存放pid对应的comm名称作为ftrace的cache，这样ftrace中不光能显示pid还能显示comm。</td>
+</tr>
+<tr>
+<td><code>saved_cmdlines_size</code></td>
+<td><code>saved_cmdlines</code>的数目。</td>
+</tr>
+<tr>
+<td><code>snapshot</code></td>
+<td>对trace的snapshot。<code>echo 0</code>清空缓存，并释放对应内存；<code>echo 1</code>进行对当前trace进行snapshot，如没有内存则分配；<code>echo 2</code>清空缓存，不释放也不分配内存。</td>
+</tr>
+<tr>
+<td><code>trace</code></td>
+<td>查看获取到的跟踪信息的接口，<code>echo &gt; trace</code>可以清空当前RingBuffer。</td>
+</tr>
+<tr>
+<td><code>trace_pipe</code></td>
+<td>输出和<code>trace</code>一样的内容，但是此文件输出Trace同时将RingBuffer中的内容删除，这样就避免了RingBuffer的溢出。可以通过<code>cat trace_pipe &gt; trace.txt &amp;</code>保存文件。</td>
+</tr>
+<tr>
+<td><code>trace_clock</code></td>
+<td>显示当前Trace的timestamp所基于的时钟，默认使用local时钟。<code>local</code>：默认时钟；可能无法在不同CPU间同步；<code>global</code>：不同CPU间同步，但是可能比local慢；<code>counter</code>：这是一个跨CPU计数器，需要分析不同CPU间event顺序比较有效。</td>
+</tr>
+<tr>
+<td><code>trace_marker</code></td>
+<td>从用户空间写入标记到trace中，用于用户空间行为和内核时间同步。</td>
+</tr>
+<tr>
+<td><code>trace_marker_raw</code></td>
+<td>以二进制格式写入到trace中。</td>
+</tr>
+<tr>
+<td><code>trace_options</code></td>
+<td>控制Trace打印内容或者操作跟踪器，可以通过<code>trace_options</code>添加很多附加信息。</td>
+</tr>
+<tr>
+<td><code>options</code></td>
+<td><code>trace</code>选项的一系列文件，和<code>trace_options</code>对应。</td>
+</tr>
+<tr>
+<td><code>trace_stat/</code></td>
+<td>每个CPU的Trace统计信息。</td>
+</tr>
+<tr>
+<td><code>tracing_max_latency</code></td>
+<td>记录Tracer的最大延时。</td>
+</tr>
+<tr>
+<td><code>tracing_on</code></td>
+<td>用于控制跟踪打开或停止，<code>0</code>停止跟踪，<code>1</code>继续跟踪。</td>
+</tr>
+<tr>
+<td><code>tracing_thresh</code></td>
+<td>延时记录Trace的阈值，当延时超过此值时才开始记录Trace。单位是ms，只有非0才起作用。</td>
+</tr>
+<tr>
+<td><code>available_events</code></td>
+<td>列出系统中所有可用的Trace events，分两个层级，用冒号隔开。</td>
+</tr>
+<tr>
+<td><code>events/</code></td>
+<td>系统Trace events目录，在每个events下面都有<code>enable</code>、<code>filter</code>和<code>format</code>。<code>enable</code>是开关；<code>format</code>是events的格式，然后根据格式设置<code>filter</code>。</td>
+</tr>
+<tr>
+<td><code>set_event</code></td>
+<td>将Trace events名称直接写入<code>set_event</code>就可以打开。</td>
+</tr>
+<tr>
+<td><code>set_event_pid</code></td>
+<td>指定追踪特定进程的events。</td>
+</tr>
+<tr>
+<td><code>available_filter_functions</code></td>
+<td>记录了当前可以跟踪的内核函数，不在该文件中列出的函数，无法跟踪其活动。</td>
+</tr>
+<tr>
+<td><code>dyn_ftrace_total_info</code></td>
+<td>显示<code>available_filter_functins</code>中跟中函数的数目，两者一致。</td>
+</tr>
+<tr>
+<td><code>enabled_functions</code></td>
+<td>显示有回调附着的函数名称。</td>
+</tr>
+<tr>
+<td><code>function_profile_enabled</code></td>
+<td>打开此选项，在<code>trace_stat</code>中就会</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_1">常用配置<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>available_tracers</td>
+<td>跟踪器列表，current_tracer必须是这里面支持的跟踪器</td>
+</tr>
+<tr>
+<td>available_events</td>
+<td>跟踪事件列表</td>
+</tr>
+<tr>
+<td>available_filter_functions</td>
+<td>跟踪函数列表</td>
+</tr>
+<tr>
+<td>max_graph_depth</td>
+<td>函数嵌套的最大深度</td>
+</tr>
+<tr>
+<td>set_ftrace_filter</td>
+<td>仅追踪特定的函数</td>
+</tr>
+<tr>
+<td>set_ftrace_notrace</td>
+<td>忽略特定的函数</td>
+</tr>
+<tr>
+<td>set_ftrace_pid</td>
+<td>追踪特定的PID</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_2">使用方法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>关闭追踪</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/tracing/tracing_on
+</code></pre></div>
+</li>
+<li>
+<p>设置追踪器</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="k">function</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/tracing/current_tracer
+</code></pre></div>
+</li>
+<li>
+<p>开启追踪</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/tracing/tracing_on
+</code></pre></div>
+</li>
+<li>
+<p>获取trace信息</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>cat<span class="w"> </span>/sys/kernel/debug/tracing/trace
+</code></pre></div>
+</li>
+<li>
+<p>关闭追踪</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/tracing/tracing_on
+</code></pre></div>
+</li>
+</ol>
+<h2 id="trace-cmd">trace-cmd<a class="headerlink" href="#trace-cmd" title="Permanent link">&para;</a></h2>
+<p>使用<code>ftrace</code>需要对文件进行频繁的写入和读出，效率很低。而<code>trace-cmd</code>是对<code>ftrace</code>的封装，使用起来更加方便。</p>
+<h3 id="_3">使用方法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>启用追踪器：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>start<span class="w"> </span>-p<span class="w"> </span><span class="k">function</span>
+</code></pre></div>
+<p>查看输出：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>show<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
+</code></pre></div>
+<p>关闭追踪器：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>stop
+</code></pre></div>
+<p>清除缓冲区：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>clear
+</code></pre></div>
+<p>显示可被追踪的函数：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>list<span class="w"> </span>-f
+</code></pre></div>
+<h2 id="perf-tools">perf-tools<a class="headerlink" href="#perf-tools" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>perf list</td>
+<td>列出所有能够触发perf采样点的事件</td>
+</tr>
+<tr>
+<td>perf probe</td>
+<td>定义新的动态tracepoint</td>
+</tr>
+<tr>
+<td>perf trace</td>
+<td>类似strace，不过性能更强</td>
+</tr>
+<tr>
+<td>perf stat</td>
+<td>统计程序运行时的性能信息</td>
+</tr>
+<tr>
+<td>pert top</td>
+<td>实时查看当前系统函数占用率情况</td>
+</tr>
+<tr>
+<td>perf record</td>
+<td>采样并保存profile到perf.data</td>
+</tr>
+<tr>
+<td>perf report</td>
+<td>分析perf.data文件</td>
+</tr>
+<tr>
+<td>perf script</td>
+<td>读取perf.data并显示详细的采样数据</td>
+</tr>
+</tbody>
+</table>
+<p>子命令：</p>
+<p><code>perf stat</code>：</p>
+<ul>
+<li>-e：指定要统计的事件</li>
+<li>-r：制定运行次数</li>
+</ul>
+<p><code>perf record</code>：</p>
+<ul>
+<li>-g：记录调用栈信息</li>
+<li>-F：指定采样频率</li>
+<li>-p：指定进程ID</li>
+<li>-o：指定输出文件</li>
+</ul>
+<p><code>perf report</code>：</p>
+<ul>
+<li>-i：指定perf.data文件</li>
+<li>-n：不进行排序</li>
+<li>-v：显示详细信息</li>
 </ul>
 
 

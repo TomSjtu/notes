@@ -567,6 +567,8 @@
       
         
       
+        
+      
     
     
       
@@ -748,13 +750,22 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      调试函数
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       内核调试配置选项
     </span>
@@ -763,20 +774,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       常用调试功能
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="常用调试功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#kasan" class="md-nav__link">
     <span class="md-ellipsis">
       KASAN
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strace" class="md-nav__link">
+    <span class="md-ellipsis">
+      strace
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1221,6 +1247,27 @@
   
   <span class="md-ellipsis">
     电源管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    shell脚本
   </span>
   
 
@@ -3384,6 +3431,8 @@
       
         
       
+        
+      
     
     
       
@@ -3458,6 +3507,27 @@
   
   <span class="md-ellipsis">
     函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/go/package/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    包管理
   </span>
   
 
@@ -4046,13 +4116,22 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      调试函数
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
+  <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
       内核调试配置选项
     </span>
@@ -4061,20 +4140,35 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       常用调试功能
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="常用调试功能">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#kasan" class="md-nav__link">
     <span class="md-ellipsis">
       KASAN
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strace" class="md-nav__link">
+    <span class="md-ellipsis">
+      strace
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4373,10 +4467,41 @@
 <li>pr_debug, pr_xxx：内核非设备驱动使用</li>
 <li>dev_dbg, dev_xxx：内核驱动中使用</li>
 </ul>
-<h2 id="_4">内核调试配置选项<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="_4">调试函数<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<ul>
+<li>WARN(condition, fmt...)：当condition为真时，打印</li>
+<li>WARN_ON（condition)：调用<code>dump_stack()</code></li>
+<li>BUG()：触发oops，输出log</li>
+<li>BUG_ON(condition)：条件为真时触发oops</li>
+<li>panic(fmt...)：系统crash，输出log</li>
+</ul>
+<h2 id="_5">内核调试配置选项<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>在编译内核时，内核在Kernel hacking菜单项中提供了许多配置选项，它们都依赖于CONFIG_DEBUG_KERNEL。开发内核时，可以打开这些选项进行调试。</p>
-<h2 id="_5">常用调试功能<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<h2 id="kasan">KASAN<a class="headerlink" href="#kasan" title="Permanent link">&para;</a></h2>
+<h2 id="_6">常用调试功能<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="kasan">KASAN<a class="headerlink" href="#kasan" title="Permanent link">&para;</a></h3>
+<h3 id="strace">strace<a class="headerlink" href="#strace" title="Permanent link">&para;</a></h3>
+<p><code>strace</code>用于跟踪程序的系统调用情况，它的基本用法是：<code>strace [options] command [command-args]</code>。</p>
+<p>启动选项：</p>
+<ul>
+<li><code>-E</code>：设置环境变量</li>
+<li><code>-p</code>：跟踪指定进程</li>
+<li><code>-u</code>：以指定用户启动</li>
+</ul>
+<p>过滤：</p>
+<ul>
+<li><code>-e</code>：指定过滤条件，参数trace设置指定追踪事件，signal设置指定信号，status设置指定返回状态</li>
+</ul>
+<p>输出格式：</p>
+<ul>
+<li><code>-c</code>：统计每个系统调用的时间、次数和错误</li>
+<li><code>-o filename</code>：将输出写入指定文件</li>
+<li><code>-t</code>：在每行系统调用输出前显示时间戳</li>
+<li><code>-tt</code>：显示微妙级的时间戳</li>
+<li><code>-T</code>：显示每个系统调用的执行时间</li>
+<li><code>-v</code>：详细输出，包括所有结构和符号常量</li>
+<li><code>-x</code>：以十六进制格式显示非ASCII字符串</li>
+<li><code>-y</code>：显示每个文件描述符对应的文件路径</li>
+</ul>
 
 
 

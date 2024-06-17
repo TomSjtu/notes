@@ -567,6 +567,8 @@
       
         
       
+        
+      
     
     
       
@@ -1152,6 +1154,27 @@
   
   <span class="md-ellipsis">
     电源管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    shell脚本
   </span>
   
 
@@ -3315,6 +3338,8 @@
       
         
       
+        
+      
     
     
       
@@ -3389,6 +3414,27 @@
   
   <span class="md-ellipsis">
     函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/go/package/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    包管理
   </span>
   
 
@@ -3959,7 +4005,9 @@
 
 
 <h1 id="oom">OOM<a class="headerlink" href="#oom" title="Permanent link">&para;</a></h1>
-<p>OOM，即out of memory的缩写。尽管Linux内核有各种内存管理技巧来应对应用程序的内存需求，但是仍然会面临内存不够用的情况。最典型的就是某个程序编写不当造成了内存泄露，导致系统内存耗尽，不得不重启。</p>
+<p>OOM，即out of memory的缩写，是内核的一种内存管理机制。在可用内存较少的情况下，为了保证系统的正常运行，OOM会选择杀掉一些进程释放内存。</p>
+<p>通常OOM触发的流程是：进程A想要分配物理内存（通常是当进程真正去读写一块内核已经“分配”给它的内存）-&gt;触发缺页异常-&gt;内核去分配物理内存-&gt;物理内存不够-&gt;触发OOM。</p>
+<p>当系统物理内存不足时，oom_killer遍历当前所有进程，根据进程的内存使用情况进行打分，然后从中选择一个分数最高的进程，杀死它获取内存。</p>
 <p>内核触发OOM后的流程如下：
 <img alt="out of memory" src="../../../images/kernel/out_of_memory.png" /></p>
 <p>相关代码如下：</p>

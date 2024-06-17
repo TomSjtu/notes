@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/network/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/shell/">
       
       
-        <link rel="prev" href="../block/">
+        <link rel="prev" href="../pm/">
       
       
-        <link rel="next" href="../time/">
+        <link rel="next" href="../../drivers/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>网络系统 - 一只Tom的笔记本</title>
+        <title>shell脚本 - 一只Tom的笔记本</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#_1" class="md-skip">
+        <a href="#shell" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              网络系统
+              shell脚本
             
           </span>
         </div>
@@ -1013,30 +1013,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    网络系统
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1045,53 +1025,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#io" class="md-nav__link">
-    <span class="md-ellipsis">
-      I/O多路复用
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#selectpoll" class="md-nav__link">
-    <span class="md-ellipsis">
-      select/poll
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#epoll" class="md-nav__link">
-    <span class="md-ellipsis">
-      epoll
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1185,10 +1118,30 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../shell/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    shell脚本
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -1197,6 +1150,107 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      特殊字符
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      字符串
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      数组
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      字典
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      特殊参数
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      流程控制
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件判断
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      颜色
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3996,27 +4050,81 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#io" class="md-nav__link">
+  <a href="#_1" class="md-nav__link">
     <span class="md-ellipsis">
-      I/O多路复用
+      特殊字符
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#selectpoll" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      select/poll
+      字符串
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#epoll" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      epoll
+      数组
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      字典
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      特殊参数
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      流程控制
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      条件判断
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      函数
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      颜色
     </span>
   </a>
   
@@ -4040,64 +4148,207 @@
   
 
 
-<h1 id="_1">网络系统<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p><img alt="网络栈" src="../../../images/kernel/network-arch.webp" /></p>
-<h2 id="io">I/O多路复用<a class="headerlink" href="#io" title="Permanent link">&para;</a></h2>
-<p>用一个进程来维护多个socket，这就是I/O多路复用技术，类似于一个CPU并发多个进程。</p>
-<p>select/poll/epoll是内核提供给用户态的多路复用的系统调用函数，进程可以从一个系统调用中获取多个事件。</p>
-<h2 id="selectpoll">select/poll<a class="headerlink" href="#selectpoll" title="Permanent link">&para;</a></h2>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">select</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">numfds</span><span class="p">,</span><span class="w"> </span><span class="n">fd_set</span><span class="w"> </span><span class="o">*</span><span class="n">readfds</span><span class="p">,</span><span class="w"> </span><span class="n">fd_set</span><span class="w"> </span><span class="o">*</span><span class="n">writefds</span><span class="p">,</span><span class="w"> </span><span class="n">fd_set</span><span class="w"> </span><span class="o">*</span><span class="n">exceptfds</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">timeval</span><span class="w"> </span><span class="o">*</span><span class="n">timeout</span><span class="p">);</span>
-</code></pre></div>
-<p>其中readfds、writefds、exceptfds分别是被<code>select()</code>监视时，读、写、异常的文件描述符集合。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">poll</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pollfd</span><span class="w"> </span><span class="o">*</span><span class="n">fds</span><span class="p">,</span><span class="w"> </span><span class="kt">nfds_t</span><span class="w"> </span><span class="n">nfds</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
-</code></pre></div>
-<p>select实现多路复用的方式是，将已连接的socket都放到一个文件描述符的集合，然后调用<code>select()</code>函数，将该集合拷贝到内核里，内核会遍历这个集合，检查是否有事件产生，然后标记产生事件的socket。接着将整个集合拷贝回用户态，用户态继续遍历该集合找到可读写的socket然后再处理。</p>
-<p>select的缺点是：</p>
-<ol>
-<li>每次调用select，都需要把fd集合从用户态拷贝到内核态，再从内核态拷贝至用户态，这个开销在fd很多时会很大</li>
-<li>同时每次调用select都需要在内核遍历传递进来的所有的fd集合</li>
-<li>select支持的文件描述符数量太小了，默认是1024</li>
-</ol>
-<p>poll用链表的方式来组织fd集合，突破了文件描述符的限制，但是本质和select一样，都通过线性表的方式存储描述符，都需要遍历来找到可读写的socket，时间复杂度为O(n)。</p>
-<h2 id="epoll">epoll<a class="headerlink" href="#epoll" title="Permanent link">&para;</a></h2>
-<div class="language-C highlight"><span class="filename">epoll的函数接口</span><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_create</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">);</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_ctl</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">op</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">event</span><span class="p">);</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="kt">int</span><span class="w"> </span><span class="nf">epoll_wait</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">epoll_event</span><span class="w"> </span><span class="o">*</span><span class="n">events</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">maxevents</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
-</code></pre></div>
-<div class="language-C highlight"><span class="filename">epoll的用法</span><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">AF_INET</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_STREAM</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">bind</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">listen</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="p">...)</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="kt">int</span><span class="w"> </span><span class="n">epfd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epoll_create</span><span class="p">(...);</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">epoll_ctl</span><span class="p">(</span><span class="n">epfd</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span><span class="w"> </span><span class="c1">//将所有需要监听的socket添加到epfd中</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">epoll_wait</span><span class="p">(...);</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="k">for</span><span class="p">(</span><span class="n">接收到数据的socket</span><span class="p">){</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">        </span><span class="c1">//处理</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="p">}</span>
-</code></pre></div>
-<p>在上述代码中，先调用<code>epoll_create()</code>创建一个epoll对象，然后调用<code>epoll_ctl()</code>将需要监听的socket添加到对象中，最后调用<code>epoll_wait()</code>等待socket可读写。</p>
-<p>epoll通过两种方式，解决了select和poll的缺点：</p>
-<ol>
-<li>使用红黑树来跟踪待检测的文件描述符，将需要监控的socket通过<code>epoll_ctl()</code>函数加入到红黑树中。</li>
-<li>使用事件驱动机制，当socket可读写时，内核会发送一个事件给进程，进程只需要在事件到达时处理即可，无需遍历整个红黑树。</li>
-</ol>
-<p><img alt="epoll示意图" src="../../../images/kernel/epoll.webp" /></p>
-<p>epoll支持两种触发方式，分别是边缘触发和水平触发。</p>
+<h1 id="shell">shell脚本<a class="headerlink" href="#shell" title="Permanent link">&para;</a></h1>
+<h2 id="_1">特殊字符<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <ul>
-<li>
-<p>边缘触发：当一个文件描述符上有可读写的数据时，epoll_wait()会返回该文件描述符。如果该文件描述符可读写的数据没有读取完，那么下一次再调用epoll_wait()时，不会再次返回该文件描述符，而是继续等待该文件描述符可读写。</p>
-</li>
-<li>
-<p>水平触发：当一个文件描述符上有可读写的数据时，epoll_wait()会返回该文件描述符。如果该文件描述符可读写的数据没有读取完，那么下一次再调用epoll_wait()时，会再次返回该文件描述符，直到该文件描述符的可读写数据被读取完毕。</p>
-</li>
+<li>#：注释</li>
+<li>;：命令分隔符</li>
+<li>;;：case语句结束符</li>
+<li>'：单引号，原样输出</li>
+<li>"：双引号，可以输出变量名</li>
+<li>`：命令替换</li>
 </ul>
-<p>如果使用边缘触发模式，进程在收到通知后，要尽可能地读写数据，以免数据丢失。</p>
-<p>在使用I/O多路复用时，最好搭配非阻塞I/O一起使用。</p>
+<h2 id="_2">字符串<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h2 id="_3">数组<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>创建数组：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># 直接赋值</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nv">array</span><span class="o">=(</span>value1<span class="w"> </span>value2<span class="w"> </span>value3<span class="w"> </span>...<span class="o">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="c1"># 使用索引赋值</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>array<span class="o">[</span><span class="m">0</span><span class="o">]=</span>value1
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>array<span class="o">[</span><span class="m">1</span><span class="o">]=</span>value2
+</code></pre></div>
+<p>访问数组元素：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># 访问特定元素</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">array</span><span class="p">[2]</span><span class="si">}</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># 访问所有元素</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">array</span><span class="p">[*]</span><span class="si">}</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># 访问数组长度</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nb">echo</span><span class="w"> </span><span class="si">${#</span><span class="nv">array</span><span class="p">[*]</span><span class="si">}</span>
+</code></pre></div>
+<p>遍历数组：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">for</span><span class="w"> </span>item<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="nv">array</span><span class="p">[*]</span><span class="si">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$item</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">done</span>
+</code></pre></div>
+<h2 id="_4">字典<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>创建字典：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># 声明关联数组</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nb">declare</span><span class="w"> </span>-A<span class="w"> </span>dictionary
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="c1"># 赋值</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>dictionary<span class="o">[</span>key1<span class="o">]=</span>value1
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>dictionary<span class="o">[</span>key2<span class="o">]=</span>value2
+</code></pre></div>
+<p>访问字典：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 访问特定键的值</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">dictionary</span><span class="p">[key1]</span><span class="si">}</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 访问所有键</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="p">!dictionary[*]</span><span class="si">}</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># 访问所有值</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">dictionary</span><span class="p">[*]</span><span class="si">}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1"># 访问字典长度</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="nb">echo</span><span class="w"> </span><span class="si">${#</span><span class="nv">dictionary</span><span class="p">[*]</span><span class="si">}</span>
+</code></pre></div>
+<p>遍历字典：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">for</span><span class="w"> </span>key<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="si">${</span><span class="p">!dictionary[*]</span><span class="si">}</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="si">${</span><span class="nv">dictionary</span><span class="p">[</span><span class="nv">$key</span><span class="p">]</span><span class="si">}</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="k">done</span>
+</code></pre></div>
+<h2 id="_5">特殊参数<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>参数名</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$0</td>
+<td>脚本名称</td>
+</tr>
+<tr>
+<td>$1-$9</td>
+<td>位置参数</td>
+</tr>
+<tr>
+<td>$#</td>
+<td>参数个数</td>
+</tr>
+<tr>
+<td>$@</td>
+<td>所有参数</td>
+</tr>
+<tr>
+<td>$?</td>
+<td>上一条命令的退出状态</td>
+</tr>
+<tr>
+<td>$$</td>
+<td>当前shell的pid</td>
+</tr>
+<tr>
+<td>$_</td>
+<td>上一条命令的最后一个参数</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_6">流程控制<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>if else：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">if</span><span class="w"> </span>condition1
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">then</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span>command1
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">elif</span><span class="w"> </span>condition2
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span>command2
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="k">else</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span>commandN
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="k">fi</span>
+</code></pre></div>
+<p>for while：</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>for var in item1 item2 ... itemN
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>do
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    command1
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    command2
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    ...
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>    commandN
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>done
+</code></pre></div>
+<p>while：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">while</span><span class="w"> </span>condition
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">do</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span>command1
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span>command2
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span>...
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="w">    </span>commandN
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="k">done</span>
+</code></pre></div>
+<p>case：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">case</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">opt</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="s2">&quot;Install-Puppet-Server&quot;</span><span class="w"> </span><span class="o">)</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">        </span>install_master<span class="w"> </span><span class="nv">$1</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">        </span><span class="nb">exit</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="p">;;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="s2">&quot;Install-Puppet-Client&quot;</span><span class="w"> </span><span class="o">)</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">        </span>install_client<span class="w"> </span><span class="nv">$1</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">        </span><span class="nb">exit</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="p">;;</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="s2">&quot;Exit&quot;</span><span class="w"> </span><span class="o">)</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">        </span><span class="nb">exit</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="p">;;</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="w">    </span>*<span class="w"> </span><span class="o">)</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Bad option, please choose again&quot;</span>
+<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="k">esac</span>
+</code></pre></div>
+<h2 id="_7">条件判断<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<p>整数条件：</p>
+<ul>
+<li>-eq：等于</li>
+<li>-ne：不等于</li>
+<li>-gt：大于</li>
+<li>-ge：大于等于</li>
+<li>-lt：小于</li>
+<li>-le：小于等于</li>
+</ul>
+<p>字符串条件：</p>
+<ul>
+<li>-z：空字符串</li>
+<li>-n：非空</li>
+<li>==：等于</li>
+<li>!=：不等于</li>
+</ul>
+<p>文件条件：</p>
+<ul>
+<li>-e：存在</li>
+<li>-d：目录</li>
+<li>-f：普通文件</li>
+<li>-h：符号链接</li>
+<li>-r：可读</li>
+<li>-w：可写</li>
+<li>-x：可执行</li>
+</ul>
+<h2 id="_8">函数<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">function</span><span class="w"> </span>function_name<span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span>command...
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="o">}</span>
+</code></pre></div>
+<p>使用函数时需要注意以下几点：</p>
+<ol>
+<li>函数局部变量，在函数被调用之后，外部可见。</li>
+<li>调用函数时可以传参，函数体内部通过<code>$n</code>的形式来获取参数</li>
+<li>用return表示函数返回值，在函数调用后通过<code>$?</code>来获取返回值</li>
+</ol>
+<h2 id="_9">颜色<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\033[32m绿色文本\033[0m&quot;</span>
+</code></pre></div>
+<p>上面这段代码将输出绿色文本。注意，在设置文本输出后，一定要使用<code>\033[0m</code>来恢复默认颜色。</p>
+<p>一些常用的颜色代码有：</p>
+<p>| 颜色 | 前景色 | 背景色 |
+| 黑色 | 30 | 40 |
+| 红色 | 31 | 41 |
+| 绿色 | 32 | 42 |
+| 黄色 | 33 | 43 |
+| 蓝色 | 34 | 44 |
+| 紫色 | 35 | 45 |
+| 青色 | 36 | 46 |
+| 白色 | 37 | 47 |</p>
 
 
 
