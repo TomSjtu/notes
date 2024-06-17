@@ -85,6 +85,7 @@ nav:
       - linux/kernel/timer.md
       - linux/kernel/hrtimer.md
       - linux/kernel/pm.md
+      - linux/kernel/shell.md
       
       
     
@@ -186,6 +187,7 @@ nav:
       - pl/go/index.md
       - pl/go/intro.md
       - pl/go/function.md
+      - pl/go/package.md
 
   - 人工智能:
     - ai/index.md

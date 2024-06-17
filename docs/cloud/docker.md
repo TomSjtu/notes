@@ -52,17 +52,32 @@ Dockerfile常用指令：
 ```dockerfile
 
 FROM 指定基础镜像
+
+WORKDIR 设置工作目录
+
+ENV 设置环境变量
+
+LABEL 为镜像添加元数据
  
 RUN 执行命令
  
-COPY 复制文件
+CMD 启动时运行的命令，只能有一条
+
+COPY 复制文件至容器中
+
+ADD 和COPY类似，但会自动解压tar文件
  
-WORKDIR 设置当前工作目录
+EXPOSE 指定监听端口
  
-VOLUME 设置卷，挂载主机目录
- 
-CMD 指定容器启动后的要干的事情
+VOLUME 设置挂载点
+
+USER 指定运行时的用户名
+
+ARG 定义构建时的变量，启动时--build-arg指定
 ```
+
+在编写完Dockerfile之后，使用`docker build`命令来启动docker。
+
 ## Docker网络
 
 Docker网络是Docker容器技术的一个核心组成部分，它负责管理容器之间以及容器与外部世界之间的通信。Docker网络的设计允许用户高效地配置和管理容器的网络连接，支持容器之间的隔离和通信，同时还能提供必要的安全性和可扩展性。

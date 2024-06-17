@@ -48,7 +48,9 @@
 
 - [电源管理](./pm.md)
 
+## shell脚本
 
+- [shell脚本](./shell.md)
 
 
 

@@ -254,11 +254,49 @@ $ cat /proc/sys/kernel/printk
 - pr_debug, pr_xxx：内核非设备驱动使用
 - dev_dbg, dev_xxx：内核驱动中使用
 
+### 调试函数
+
+- WARN(condition, fmt...)：当condition为真时，打印
+- WARN_ON（condition)：调用`dump_stack()`
+- BUG()：触发oops，输出log
+- BUG_ON(condition)：条件为真时触发oops
+- panic(fmt...)：系统crash，输出log
+
 ## 内核调试配置选项
 
 在编译内核时，内核在Kernel hacking菜单项中提供了许多配置选项，它们都依赖于CONFIG_DEBUG_KERNEL。开发内核时，可以打开这些选项进行调试。
 
 ## 常用调试功能
 
-## KASAN
+### KASAN
+
+### strace
+
+`strace`用于跟踪程序的系统调用情况，它的基本用法是：`strace [options] command [command-args]`。
+
+启动选项：
+
+- `-E`：设置环境变量
+- `-p`：跟踪指定进程
+- `-u`：以指定用户启动
+
+过滤：
+
+- `-e`：指定过滤条件，参数trace设置指定追踪事件，signal设置指定信号，status设置指定返回状态
+
+输出格式：
+
+- `-c`：统计每个系统调用的时间、次数和错误
+- `-o filename`：将输出写入指定文件
+- `-t `：在每行系统调用输出前显示时间戳
+- `-tt`：显示微妙级的时间戳
+- `-T`：显示每个系统调用的执行时间
+- `-v`：详细输出，包括所有结构和符号常量
+- `-x`：以十六进制格式显示非ASCII字符串
+- `-y`：显示每个文件描述符对应的文件路径
+
+
+
+
+
 
