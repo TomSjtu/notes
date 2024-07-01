@@ -1043,6 +1043,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      应用
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4058,6 +4067,15 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      应用
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4104,7 +4122,7 @@
 <a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">        </span><span class="n">alignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0x2000</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span>
 <a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="p">};</span>
 <a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nf">ion_cma:ion_cma</span><span class="p">{</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="w">    </span><span class="nl">ion_cma</span><span class="p">:</span><span class="w"> </span><span class="nf">ion_cma</span><span class="p">{</span>
 <a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="w">        </span><span class="kr">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;ion-region&quot;</span><span class="p">;</span>
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">        </span><span class="n">size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0x04000000</span><span class="o">&gt;</span><span class="p">;</span>
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="w">        </span><span class="n">alignment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0x2000</span><span class="o">&gt;</span><span class="p">;</span><span class="w">   </span>
@@ -4118,21 +4136,25 @@
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">   </span><span class="n">base_pfn</span><span class="p">;</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">   </span><span class="n">count</span><span class="p">;</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">   </span><span class="o">*</span><span class="n">bitmap</span><span class="p">;</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">order_per_bit</span><span class="p">;</span><span class="w"> </span><span class="cm">/* Order of pages represented by one bit */</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">order_per_bit</span><span class="p">;</span><span class="w"> </span>
 <a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex</span><span class="w">    </span><span class="n">lock</span><span class="p">;</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="n">name</span><span class="p">[</span><span class="n">CMA_MAX_NAME</span><span class="p">];</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">};</span>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1">//全局CMA数组</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">cma</span><span class="w"> </span><span class="n">cma_areas</span><span class="p">[</span><span class="n">MAX_CMA_AREAS</span><span class="p">];</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="cp">#ifdef CONFIG_CMA_DEBUGFS</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">hlist_head</span><span class="w"> </span><span class="n">mem_head</span><span class="p">;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="n">spinlock_t</span><span class="w"> </span><span class="n">mem_head_lock</span><span class="p">;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="cp">#endif</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">};</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1">//全局CMA数组</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="k">extern</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">cma</span><span class="w"> </span><span class="n">cma_areas</span><span class="p">[</span><span class="n">MAX_CMA_AREAS</span><span class="p">];</span>
 </code></pre></div>
 <blockquote>
-<p>base_pfn：CMA区域物理地址起始帧号</p>
-<p>count：CMA区域总的页数</p>
-<p>bitmap：CMA区域位图，用于记录哪些page被分配了，0表示free，1表示已分配</p>
-<p>order_per_bit：每个bit代表page的order值，0代表1个page，1代表2个page</p>
+<p>base_pfn：物理地址起始页帧号</p>
+<p>count：区域的总页数</p>
+<p>bitmap：0表示free，1表示已分配</p>
+<p>order_per_bit：每个bit代表page的order值，以2^order为单位</p>
 </blockquote>
-<p>配置CMA内存区有两种方法，一种是通过dts的reserved memory，另外一种是通过command line参数和内核配置参数。</p>
+<p><img alt="CMA" src="../../../images/kernel/cma.png" /></p>
 <h2 id="migrate_cma">MIGRATE_CMA<a class="headerlink" href="#migrate_cma" title="Permanent link">&para;</a></h2>
 <p>在&lt;include/linux/mmzone.h&gt;中定义了如下migrate type：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">migratetype</span><span class="w"> </span><span class="p">{</span>
@@ -4149,8 +4171,8 @@
 <a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="n">MIGRATE_TYPES</span>
 <a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="p">};</span>
 </code></pre></div>
-<p>被标记为MIGRATE_MOVABLE的页，表示该页面上的数据是可以迁移的。也就是说，如果需要，我们可以分配一个新的页，将数据拷贝到这个新的页上，然后释放旧的页。这样的拷贝操作对系统没有任何的影响。</p>
-<p><a href="../mm/#_5">伙伴系统</a>不会跟踪每一个页框的migrate type，这样成本太高了，它是基于页块(多个页框的组合)来管理的。在处理内存分配请求的时候，一般会优先从相同migrate type的页块中分配页面。如果分配不成功，不同migrate type的页块也会考虑，甚至可能改变页块的migrate type属性。这意味着一个UNMOVABLE的页面请求也可以从migrate type是MOVABLE的页块中分配。这一点对于CMA来说是不能接受的，所以我们引入了一个新的migrate type：MIGRATE_CMA。这种类型具有一个重要性质：只有可移动的页面可以从MIGRATE_CMA的页块中分配。</p>
+<p>被标记为<mark class="critic">MIGRATE_MOVABLE</mark>的页，表示该页面上的数据是可以迁移的。也就是说，如果需要，我们可以分配一个新的页，将数据拷贝到这个新的页上，然后释放旧的页。这样的拷贝操作对系统没有任何的影响。</p>
+<p><a href="../mm/#_5">伙伴系统</a>不会跟踪每一个页框的migrate type，这样成本太高了，它是基于<mark class="critic">页块</mark>(多个页框的组合)来管理的。在处理内存分配请求的时候，一般会优先从相同migrate type的页块中分配页面。如果分配不成功，不同migrate type的页块也会考虑，甚至可能改变页块的migrate type属性。这意味着UNMOVABLE的页面分配请求是有可能从MOVABLE的页块中分配的，这一点对于CMA来说是不可接受的。因此内核引入了<mark class="critic">MIGRATE_CMA</mark>，这种类型具有一个重要性质：只有MOVABLE的页面可以从MIGRATE_CMA的页块中分配。</p>
 <h2 id="_4">分配内存<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="o">*</span><span class="n">cma_alloc</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cma</span><span class="w"> </span><span class="o">*</span><span class="n">cma</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">align</span><span class="p">,</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">               </span><span class="kt">bool</span><span class="w"> </span><span class="n">no_warn</span><span class="p">)</span>
@@ -4205,7 +4227,7 @@
 <a id="__codelineno-3-51" name="__codelineno-3-51" href="#__codelineno-3-51"></a><span class="w">        </span><span class="n">pfn</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cma</span><span class="o">-&gt;</span><span class="n">base_pfn</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">bitmap_no</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">cma</span><span class="o">-&gt;</span><span class="n">order_per_bit</span><span class="p">);</span>
 <a id="__codelineno-3-52" name="__codelineno-3-52" href="#__codelineno-3-52"></a><span class="w">        </span><span class="n">mutex_lock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cma_mutex</span><span class="p">);</span>
 <a id="__codelineno-3-53" name="__codelineno-3-53" href="#__codelineno-3-53"></a>
-<a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="w">        </span><span class="c1">//从起始页开始连续分配count个页</span>
+<a id="__codelineno-3-54" name="__codelineno-3-54" href="#__codelineno-3-54"></a><span class="w">        </span><span class="c1">//向伙伴系统申请内存，并标记为MIGRATE_CMA</span>
 <a id="__codelineno-3-55" name="__codelineno-3-55" href="#__codelineno-3-55"></a><span class="w">        </span><span class="n">ret</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alloc_contig_range</span><span class="p">(</span><span class="n">pfn</span><span class="p">,</span><span class="w"> </span><span class="n">pfn</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="n">MIGRATE_CMA</span><span class="p">,</span>
 <a id="__codelineno-3-56" name="__codelineno-3-56" href="#__codelineno-3-56"></a><span class="w">                     </span><span class="n">GFP_KERNEL</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="p">(</span><span class="n">no_warn</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="n">__GFP_NOWARN</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">));</span>
 <a id="__codelineno-3-57" name="__codelineno-3-57" href="#__codelineno-3-57"></a><span class="w">        </span><span class="n">mutex_unlock</span><span class="p">(</span><span class="o">&amp;</span><span class="n">cma_mutex</span><span class="p">);</span>
@@ -4274,6 +4296,26 @@
 <a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a>
 <a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">true</span><span class="p">;</span>
 <a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a><span class="p">}</span>
+</code></pre></div>
+<h2 id="_6">应用<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p><img alt="dma和cma" src="../../../images/kernel/dma-cma.png" /></p>
+<p>CMA向下基于伙伴系统，向上提供给DMA的封装接口，最终用户通过操作DMA buffer来分配和释放内存：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1">//DMA的申请</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="o">*</span><span class="n">dma_alloc_from_contiguous</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">count</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">                       </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">align</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">no_warn</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">{</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">align</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">CONFIG_CMA_ALIGNMENT</span><span class="p">)</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">        </span><span class="n">align</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CONFIG_CMA_ALIGNMENT</span><span class="p">;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">cma_alloc</span><span class="p">(</span><span class="n">dev_get_cma_area</span><span class="p">(</span><span class="n">dev</span><span class="p">),</span><span class="w"> </span><span class="n">count</span><span class="p">,</span><span class="w"> </span><span class="n">align</span><span class="p">,</span><span class="w"> </span><span class="n">no_warn</span><span class="p">);</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="p">}</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1">//DMA的释放</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="kt">bool</span><span class="w"> </span><span class="n">dma_release_from_contiguous</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="o">*</span><span class="n">pages</span><span class="p">,</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">                 </span><span class="kt">int</span><span class="w"> </span><span class="n">count</span><span class="p">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="p">{</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">cma_release</span><span class="p">(</span><span class="n">dev_get_cma_area</span><span class="p">(</span><span class="n">dev</span><span class="p">),</span><span class="w"> </span><span class="n">pages</span><span class="p">,</span><span class="w"> </span><span class="n">count</span><span class="p">);</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="p">}</span>
 </code></pre></div>
 
 
