@@ -62,11 +62,6 @@ struct page {
 | free_pages(addr, order) | 传入第一页的逻辑地址，释放2<sup>order</sup>个页 |
 | free_page(addr) | 释放单张页 |
 
-!!! warning
-
-    页的分配和释放必须对应使用，一旦传递了错误的参数，系统就会崩溃！在获得页之后，必须对返回值进行检查以确认内核正确分配了页。
-
-
 ## 字节的分配与释放
 
 ### kmalloc()
@@ -169,6 +164,17 @@ void vfree(const void *addr)
 ### 回收算法
 
 当内存块被释放时，系统会检查是否有与其物理地址连续的页块，如果存在且两者都是空闲的，则合并成一个大块，重复该过程直到不能合并为止。
+
+### 内存块迁移
+
+为了缓解内存碎片的问题，伙伴系统可以通过数据拷贝的方式将内存块进行迁移，从而"凑出"连续的物理页面。下面是内核中用于描述不同内存区域的迁移类型：
+
+- MIGRATE_ISOLATE：不可移动，并且需要独立出来，例如用于设备DMA
+- MIGRATE_CMA：连续内存分配，通常用于嵌入式系统中
+- MIGRATE_HIGHATOMIC：高优先级分配操作
+- MIGRATE_MOVABLE：可以被自由迁移
+- MIGRATE_RECLAIMABLE：可以被回收，例如缓存页、匿名页
+- MIGRATE_UNMOVABLE：不可移动，例如内核代码
 
 ## slab分配器
 

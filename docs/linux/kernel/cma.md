@@ -33,7 +33,7 @@ reserved-memory{
         alignment = <0x0 0x2000>; 
 	};
 
-	ion_cma:ion_cma{
+	ion_cma: ion_cma{
 		compatible = "ion-region";
 		size = <0x0 0x04000000>;
 		alignment = <0x0 0x2000>;	
@@ -51,24 +51,28 @@ struct cma {
 	unsigned long   base_pfn;
 	unsigned long   count;
 	unsigned long   *bitmap;
-	unsigned int order_per_bit; /* Order of pages represented by one bit */
+	unsigned int order_per_bit; 
 	struct mutex    lock;
-	char name[CMA_MAX_NAME];
+#ifdef CONFIG_CMA_DEBUGFS
+	struct hlist_head mem_head;
+	spinlock_t mem_head_lock;
+#endif
+	const char *name;
 };
 
 //全局CMA数组
 extern struct cma cma_areas[MAX_CMA_AREAS];
 ```
 
-> base_pfn：CMA区域物理地址起始帧号
+> base_pfn：物理地址起始页帧号
 
-> count：CMA区域总的页数
+> count：区域的总页数
 
-> bitmap：CMA区域位图，用于记录哪些page被分配了，0表示free，1表示已分配
+> bitmap：0表示free，1表示已分配
 
-> order_per_bit：每个bit代表page的order值，0代表1个page，1代表2个page
+> order_per_bit：每个bit代表page的order值，以2^order为单位
 
-配置CMA内存区有两种方法，一种是通过dts的reserved memory，另外一种是通过command line参数和内核配置参数。
+![CMA](../../images/kernel/cma.png)
 
 ## MIGRATE_CMA
 
@@ -90,9 +94,9 @@ enum migratetype {
 };
 ```
 
-被标记为MIGRATE_MOVABLE的页，表示该页面上的数据是可以迁移的。也就是说，如果需要，我们可以分配一个新的页，将数据拷贝到这个新的页上，然后释放旧的页。这样的拷贝操作对系统没有任何的影响。
+被标记为{==MIGRATE_MOVABLE==}的页，表示该页面上的数据是可以迁移的。也就是说，如果需要，我们可以分配一个新的页，将数据拷贝到这个新的页上，然后释放旧的页。这样的拷贝操作对系统没有任何的影响。
 
-[伙伴系统](./mm.md/#_5)不会跟踪每一个页框的migrate type，这样成本太高了，它是基于页块(多个页框的组合)来管理的。在处理内存分配请求的时候，一般会优先从相同migrate type的页块中分配页面。如果分配不成功，不同migrate type的页块也会考虑，甚至可能改变页块的migrate type属性。这意味着一个UNMOVABLE的页面请求也可以从migrate type是MOVABLE的页块中分配。这一点对于CMA来说是不能接受的，所以我们引入了一个新的migrate type：MIGRATE_CMA。这种类型具有一个重要性质：只有可移动的页面可以从MIGRATE_CMA的页块中分配。
+[伙伴系统](./mm.md/#_5)不会跟踪每一个页框的migrate type，这样成本太高了，它是基于{==页块==}(多个页框的组合)来管理的。在处理内存分配请求的时候，一般会优先从相同migrate type的页块中分配页面。如果分配不成功，不同migrate type的页块也会考虑，甚至可能改变页块的migrate type属性。这意味着UNMOVABLE的页面分配请求是有可能从MOVABLE的页块中分配的，这一点对于CMA来说是不可接受的。因此内核引入了{==MIGRATE_CMA==}，这种类型具有一个重要性质：只有MOVABLE的页面可以从MIGRATE_CMA的页块中分配。
 
 ## 分配内存
 
@@ -150,7 +154,7 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
 		pfn = cma->base_pfn + (bitmap_no << cma->order_per_bit);
 		mutex_lock(&cma_mutex);
 
-        //从起始页开始连续分配count个页
+        //向伙伴系统申请内存，并标记为MIGRATE_CMA
 		ret = alloc_contig_range(pfn, pfn + count, MIGRATE_CMA,
 				     GFP_KERNEL | (no_warn ? __GFP_NOWARN : 0));
 		mutex_unlock(&cma_mutex);
@@ -224,4 +228,28 @@ bool cma_release(struct cma *cma, const struct page *pages, unsigned int count)
 }
 ```
 
+## 应用
 
+![dma和cma](../../images/kernel/dma-cma.png)
+
+CMA向下基于伙伴系统，向上提供给DMA的封装接口，最终用户通过操作DMA buffer来分配和释放内存：
+
+
+```C
+//DMA的申请
+struct page *dma_alloc_from_contiguous(struct device *dev, size_t count,
+                       unsigned int align, bool no_warn)
+{
+    if (align > CONFIG_CMA_ALIGNMENT)
+        align = CONFIG_CMA_ALIGNMENT;
+
+    return cma_alloc(dev_get_cma_area(dev), count, align, no_warn);
+}
+
+//DMA的释放
+bool dma_release_from_contiguous(struct device *dev, struct page *pages,
+                 int count)
+{
+    return cma_release(dev_get_cma_area(dev), pages, count);
+}
+```

@@ -125,6 +125,11 @@ origin  git@github.com:OWNER/REPOSITORY.git (fetch)
 origin  git@github.com:OWNER/REPOSITORY.git (push)
 ```
 
+## git基本概念
+
+- 工作区：工作的区域，所有的修改都立刻反映在工作区。
+- 暂存区：介于工作区和仓库之间的中间区域，可以保存工作区的修改，一旦改动被添加到暂存区，就可以被提交到仓库中。暂存区是独立于分支的，因此在一个分支上的改动，被提交到暂存区后还会在另一个分支上显示。
+
 ## git常用命令
 
 项目初始化：
@@ -198,7 +203,7 @@ git merge [另一个分支名]
 
 ## 版本控制
 
-放弃工作目录中的修改(还未提交到工作区)：
+放弃工作目录中的修改：
 
 ```SHELL
 git checkout -- [file]  //放弃某个文件的修改
@@ -221,12 +226,96 @@ git reset --hard [版本号]
 git revert -n [版本号]  //-n表示手动解决冲突
 ```
 
-暂存工作区：
-
+清理任何未被跟踪的文件或临时文件
 ```SHELL
-git stash
+git clean -fd
 ```
 
+## 比较差异
 
+`git diff`命令用于显示提交之间的差异，下面是一些常见的用法。
 
+查看未暂存的更改：
+
+```SHELL
+git diff
+```
+
+查看已暂存但未提交的更改：
+
+```SHELL
+git diff --stage
+```
+
+查看工作区和暂存区的差异：
+
+```SHELL
+git diff HEAD
+```
+
+查看工作区和某个提交之间的差异：
+
+```SHELL
+git diff [版本号]
+```
+
+查看暂存区和某个提交之间的差异：
+
+```SHELL
+git diff [版本号] --staged
+```
+
+比较两个提交：
+
+```SHELL
+git diff <commit1> <commit2>
+```
+
+比较两个分支：
+
+```SHELL
+git diff <branch1> <branch2>
+```
+
+显示每个文件更改的概要信息：
+
+```SHELL
+git diff --stat
+```
+
+## 暂存改动
+
+`git stash`命令用于临时保存和恢复工作区的改动，这在需要切换分支但又不希望丢失当前工作进度的场景中非常有用。以下是一些常见的用法：
+
+暂存当前改动并添加一则信息：
+
+```SHELL
+git stash save "message"
+```
+
+显示所有暂存的改动：
+
+```SHELL
+git stash list
+```
+
+应用最近的暂存：
+
+```SHELL
+git stash apply
+```
+
+应用最近的暂存并删除：
+
+```SHELL
+git stash pop
+```
+
+清除所有暂存：
+
+```SHELL
+git stash clear
+```
+
+注意：`git stash`命令默认不会暂存untracked文件。
 
