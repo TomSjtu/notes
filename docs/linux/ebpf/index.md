@@ -7,6 +7,8 @@
 ## 调试工具
 
 - [ftrace](./ftrace.md)
+- [探针](./probe.md)
+- [BPF工具](./bpftool.md)
 
 ## 参考资料
 

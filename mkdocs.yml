@@ -128,6 +128,8 @@ nav:
       - linux/ebpf/index.md
       - linux/ebpf/intro.md
       - linux/ebpf/ftrace.md
+      - linux/ebpf/probe.md
+      - linux/ebpf/bpftool.md
  
   - ARM: 
     - arm/index.md
@@ -146,13 +148,8 @@ nav:
     - arm/tlb.md
 
 
-  - RTOS:
-    - rtos/index.md
-    - freertos:
-      - rtos/freertos/index.md
-    - CMSIS: rtos/freertos/CMSIS.md
-    - rt-thread:
-      - rtos/rt-thread/index.md
+  - ROS2:
+    - ros2/index.md
 
   - 编程语言: 
     - pl/index.md

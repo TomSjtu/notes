@@ -231,10 +231,6 @@ struct ion_buffer {
 };
 ```
 
-各数据结构之间的关系图如下：
-
-![ION数据结构图](../../images/kernel/ion_data.png)
-
 ## scatterlist
 
 在继续深入之前，我们有必要了解下scatterlist——散列表，它用于组织分散的内存。

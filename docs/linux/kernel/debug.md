@@ -256,10 +256,10 @@ $ cat /proc/sys/kernel/printk
 
 ### 调试函数
 
-- WARN(condition, fmt...)：当condition为真时，打印
+- BUG()：触发panic，输出log
+- BUG_ON(condition)：触发panic，输出log
+- WARN(condition, fmt...)：当condition为真时，打印信息，不触发panic
 - WARN_ON（condition)：调用`dump_stack()`
-- BUG()：触发oops，输出log
-- BUG_ON(condition)：条件为真时触发oops
 - panic(fmt...)：系统crash，输出log
 
 ## 内核调试配置选项

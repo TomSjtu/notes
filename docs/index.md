@@ -13,9 +13,11 @@
 
 - [ARM](arm/index.md)
 
-- [RTOS](rtos/index.md)
+- [ROS2](ros2/index.md)
 
 - [编程语言](pl/index.md)
+  
+- [人工智能](ai/index.md)
 
 - [云计算](cloud/index.md)
 

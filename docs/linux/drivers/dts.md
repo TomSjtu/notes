@@ -18,35 +18,17 @@
 
 ## 设备树的由来
 
-起因是<arch/arm/mach-xxx\>目录下充斥着大量重复的、描述board specific的代码，在某一次Linux内核代码合并窗口期间，linus大骂ARM社区是a fucking pain in the ass，引发ARM社区地震。于是在2011年 ~ 2012年期间，ARM社区做了大量改动：
+起因是<arch/arm/mach-xxx\>目录下充斥着大量重复的、描述board specific的代码，在某一次Linux内核代码合并窗口期间，Linus大骂ARM社区是a fucking pain in the ass，引发ARM社区地震。于是在2011年 ~ 2012年期间，ARM社区做了大量改动：
 
 1. ARM的核心代码仍然保存在<arch/arm\>目录下
 2. ARM SOC周边外设模块的驱动代码保存在drivers目录下
 3. ARM SOC board specific的代码被移除，由设备树来负责传递硬件资源信息。
 
-本质上，设备树改变了传递硬件配置信息的方式。对于嵌入式系统，在系统启动阶段，改由{==bootloader==}通过`bootm`命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。
+本质上，设备树改变了传递硬件配置信息的方式——从原先的编码在内核中，变成了在系统启动阶段，由bootloader将硬件信息传递给内核，内核识别设备树信息然后展开成各种硬件设备。这样就实现了硬件与软件的解耦。
 
-一般情况下，.dtsi描述SoC信息，比如CPU架构，主频。.dts文件描述板级信息，比如开发板上有哪些I2C设备、SPI设备等。
-
-!!! info
-
-    一个SoC可以制作很多开发板，每个开发板都可以有不同的.dts文件，为了简化，通用的信息就放在.dtsi中，类似于C语言的头文件。
+.dts是一种文本格式的描述文件，适合人类阅读，一个.dts文件就对应一种ARM设备，一般放在内核的/arch/arm64/boot/dts目录中。由于一个SoC可以制作很多开发板，将多个开发板共同的部分提炼出来，这就是.dtsi文件，类似于C语言中的头文件。
 
 ![device tree](../../images/kernel/device_tree.png)
-
-开发板的设备树文件一般位于/boot/dtb/[SOC_NAME]/[BOARD_NAME.dtb]。
-
-如果要查看开发板中的设备树结构可以使用：
-
-```SHELL
-ls /sys/firmware/devicetree/base
-```
-
-或者
-
-```SHELL
-ls /proc/device-tree
-```
 
 ## DTS、DTB和DTC
 
@@ -92,10 +74,6 @@ label:node-name@unit-address{
 - node-name：用来指定节点的名称。
 - unit-address：用来指定地址，和此节点的reg属性的开始地址必须一致。
 
-!!! note
-
-	如果node中没有reg属性，则节点名字中不能有unit-address。unit-address的具体格式和设备挂在哪个bus相关。例如对于CPU，其unit-address就是从0开始编址。而具体的设备，例如以太网控制器，其unit-address就是寄存器地址。
-
 属性值标识了设备的特性，它的值可以是以下几种：
 
 1. 可能为空，也就是没有值的定义。
@@ -112,20 +90,11 @@ label:node-name@unit-address{
 
 ### 属性
 
-节点由一堆属性组成，节点是具体的设备，但是不同的设备有不同的属性，不过有一些是标准属性。
-
-根节点必须要有的属性有：
-
-```
-compatible：指定板子兼容的平台
-model：板子名称
-#address-cells：子节点reg属性中，用多少个u32整数来描述地址
-#size-cells：子节点reg属性中，用多少个u32整数来描述大小
-```
+节点由一堆属性组成，SoC厂商有各自不同的定义，这里只介绍通用属性。
 
 1.`compatible`属性
 
-`compatible`属性用来和驱动进行匹配，它的组织形式为：(manufacturer, model)。内核通过该属性判断它启动的是什么设备。
+`compatible`属性用来和驱动进行匹配，它的组织形式为：(manufacturer, model)。
 
 !!! example "瑞芯微RK3399"
 
@@ -133,7 +102,7 @@ model：板子名称
 	compatible = "rockchip, rk3399";
 	```
 
-使用设备树后，驱动程序需要和.dts中所描述的设备节点进行匹配，从而调用驱动的入口函数`probe()`，匹配的属性正是compatible属性。对于`platform_drvier`而言，需要在程序中指明一个OF匹配表。
+对于`platform_drvier`而言，在程序中指明一个OF匹配表之后，就可以和对应的设备树节点进行匹配，然后调用`probe()`函数，做一些初始化操作：
 
 ```C
 static const struct of_device_id rockchip_rk3399_match[] = {
@@ -152,34 +121,26 @@ static const struct of_device_id rockchip_rk3399_match[] = {
 
 `status`属性的值与设备状态有关，通过设置`status`属性可以禁用或者启用设备。
 
-4.`reg`属性
-
-`reg`属性的值一般是以(address, length)对的形式出现。用于描述设备资源在其父总线定义的地址空间内的地址。
+4.`#address-cells`和`#size-cells`属性
 
 ```
-reg = <0x4000e000 0x400>  //起始地址 + 长度
+#address-cells: 决定了子节点reg属性的地址信息所占用的字长(32位)
+#size-cells：决定了子节点reg属性中长度信息所占的字长(32位)
 ```
 
-5.`#address-cells`和`#size-cells`属性
+5.`reg`属性
+
+`reg`属性以(address, size)对的形式出现。用于描述设备的地址信息。
 
 ```
-#address-cells: 决定了子节点reg属性的地址信息所占用的字长
-#size-cells：决定了子节点reg属性中长度信息所占的字长
-```
-
-!!! example "reg属性举例"
-
-	```
-	node1{
-		#address-cells = <1>;
-		#size-cells = <1>;
-		node1-child{
-			reg = <0x02200000 0x4000>;
-		};
+node1{
+	#address-cells = <1>;
+	#size-cells = <1>;
+	node1-child{
+		reg = <0x02200000 0x4000>;	//起始地址 + 长度
 	};
-	```
-
-则reg中第一个值表示地址，第二个值表示长度。
+};
+```
 
 6.`ranges`属性
 
