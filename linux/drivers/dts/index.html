@@ -253,12 +253,12 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../rtos/" class="md-tabs__link">
+        <a href="../../../ros2/" class="md-tabs__link">
           
   
     
   
-  RTOS
+  ROS2
 
         </a>
       </li>
@@ -2028,6 +2028,10 @@
       
         
       
+        
+      
+        
+      
     
     
       
@@ -2102,6 +2106,48 @@
   
   <span class="md-ellipsis">
     ftrace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ebpf/probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    探针
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ebpf/bpftool/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BPF工具
   </span>
   
 
@@ -2499,12 +2545,6 @@
           
         
       
-        
-      
-        
-      
-        
-      
     
     
       
@@ -2520,165 +2560,25 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../rtos/" class="md-nav__link ">
+            <a href="../../../ros2/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    RTOS
+    ROS2
   </span>
   
 
             </a>
-            
-              
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
             
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            RTOS
+            ROS2
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../../rtos/freertos/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    freertos
-  </span>
-  
-
-            </a>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            freertos
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../rtos/freertos/CMSIS/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    CMSIS
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../../rtos/rt-thread/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    rt-thread
-  </span>
-  
-
-            </a>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4">
-            <span class="md-nav__icon md-icon"></span>
-            rt-thread
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
               
             
           </ul>
@@ -4123,33 +4023,22 @@
 </div>
 <p>答案是不需要。基本上，那些可以动态探测到的设备是不需要描述的，例如USB device。</p>
 <h2 id="_2">设备树的由来<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>起因是&lt;arch/arm/mach-xxx&gt;目录下充斥着大量重复的、描述board specific的代码，在某一次Linux内核代码合并窗口期间，linus大骂ARM社区是a fucking pain in the ass，引发ARM社区地震。于是在2011年 ~ 2012年期间，ARM社区做了大量改动：</p>
+<p>起因是&lt;arch/arm/mach-xxx&gt;目录下充斥着大量重复的、描述board specific的代码，在某一次Linux内核代码合并窗口期间，Linus大骂ARM社区是a fucking pain in the ass，引发ARM社区地震。于是在2011年 ~ 2012年期间，ARM社区做了大量改动：</p>
 <ol>
 <li>ARM的核心代码仍然保存在&lt;arch/arm&gt;目录下</li>
 <li>ARM SOC周边外设模块的驱动代码保存在drivers目录下</li>
 <li>ARM SOC board specific的代码被移除，由设备树来负责传递硬件资源信息。</li>
 </ol>
-<p>本质上，设备树改变了传递硬件配置信息的方式。对于嵌入式系统，在系统启动阶段，改由<mark class="critic">bootloader</mark>通过<code>bootm</code>命令将设备树信息传递给内核，然后由内核来识别，并根据它展开出内核中的platform_device、i2c_client、spi_device等设备，这些设备用到的内存、IRQ等资源也会被传递给内核。</p>
-<p>一般情况下，.dtsi描述SoC信息，比如CPU架构，主频。.dts文件描述板级信息，比如开发板上有哪些I2C设备、SPI设备等。</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>一个SoC可以制作很多开发板，每个开发板都可以有不同的.dts文件，为了简化，通用的信息就放在.dtsi中，类似于C语言的头文件。</p>
-</div>
+<p>本质上，设备树改变了传递硬件配置信息的方式——从原先的编码在内核中，变成了在系统启动阶段，由bootloader将硬件信息传递给内核，内核识别设备树信息然后展开成各种硬件设备。这样就实现了硬件与软件的解耦。</p>
+<p>.dts是一种文本格式的描述文件，适合人类阅读，一个.dts文件就对应一种ARM设备，一般放在内核的/arch/arm64/boot/dts目录中。由于一个SoC可以制作很多开发板，将多个开发板共同的部分提炼出来，这就是.dtsi文件，类似于C语言中的头文件。</p>
 <p><img alt="device tree" src="../../../images/kernel/device_tree.png" /></p>
-<p>开发板的设备树文件一般位于/boot/dtb/[SOC_NAME]/[BOARD_NAME.dtb]。</p>
-<p>如果要查看开发板中的设备树结构可以使用：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ls<span class="w"> </span>/sys/firmware/devicetree/base
-</code></pre></div>
-<p>或者</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ls<span class="w"> </span>/proc/device-tree
-</code></pre></div>
 <h2 id="dtsdtbdtc">DTS、DTB和DTC<a class="headerlink" href="#dtsdtbdtc" title="Permanent link">&para;</a></h2>
 <p>.dts文件是人类可以看懂的，但是内核无法识别。DTC工具可以将.dts编译成.dtb，这样内核就可以识别了。DTC的源码位于内核的&lt;scripts/dtc&gt;目录中。</p>
 <p>使用DTC工具编译生成.dtb文件：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>dtc<span class="w"> </span>-I<span class="w"> </span>dts<span class="w"> </span>-O<span class="w"> </span>dtb<span class="w"> </span>-o<span class="w"> </span><span class="o">[</span>output<span class="o">]</span>.dtb<span class="w"> </span><span class="o">[</span>input<span class="o">]</span>.dts
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>dtc<span class="w"> </span>-I<span class="w"> </span>dts<span class="w"> </span>-O<span class="w"> </span>dtb<span class="w"> </span>-o<span class="w"> </span><span class="o">[</span>output<span class="o">]</span>.dtb<span class="w"> </span><span class="o">[</span>input<span class="o">]</span>.dts
 </code></pre></div>
 <p>反过来可以生成.dts文件：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>dtc<span class="w"> </span>-I<span class="w"> </span>dtb<span class="w"> </span>-O<span class="w"> </span>dts<span class="w"> </span>-o<span class="w"> </span><span class="o">[</span>output<span class="o">]</span>.dts<span class="w"> </span><span class="o">[</span>input<span class="o">]</span>.dtb
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>dtc<span class="w"> </span>-I<span class="w"> </span>dtb<span class="w"> </span>-O<span class="w"> </span>dts<span class="w"> </span>-o<span class="w"> </span><span class="o">[</span>output<span class="o">]</span>.dts<span class="w"> </span><span class="o">[</span>input<span class="o">]</span>.dtb
 </code></pre></div>
 <p><code>make dtbs</code>会编译所有的.dts文件，如果要编译指定的.dtb，请使用<code>make board_name.dtb</code>。</p>
 <h2 id="dts">DTS基本语法<a class="headerlink" href="#dts" title="Permanent link">&para;</a></h2>
@@ -4164,22 +4053,18 @@
 </ul>
 </div>
 <p>设备树就是由一系列node和child node组成的，每个node都包含一些属性用来描述这个node的信息。</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>label:node-name@unit-address{
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    属性1 = ...
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    属性2 = ...
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    属性3 = ...
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    子节点...
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>}
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>label:node-name@unit-address{
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    属性1 = ...
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    属性2 = ...
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>    属性3 = ...
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    子节点...
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>}
 </code></pre></div>
 <ul>
 <li>label：用来指定一个唯一的标签，之后就可以用&amp;label的方式引用这个node。</li>
 <li>node-name：用来指定节点的名称。</li>
 <li>unit-address：用来指定地址，和此节点的reg属性的开始地址必须一致。</li>
 </ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>如果node中没有reg属性，则节点名字中不能有unit-address。unit-address的具体格式和设备挂在哪个bus相关。例如对于CPU，其unit-address就是从0开始编址。而具体的设备，例如以太网控制器，其unit-address就是寄存器地址。</p>
-</div>
 <p>属性值标识了设备的特性，它的值可以是以下几种：</p>
 <ol>
 <li>可能为空，也就是没有值的定义。</li>
@@ -4191,51 +4076,39 @@
 <p><code>memory</code>节点：用来描述系统物理内存的layout。<code>device_type</code>属性定义了该node的设备类型，例如cpu、serial等。对于memory node，其<code>device_type</code>必须等于memory。<code>reg</code>属性定义了访问该device node的地址信息——起始地址和长度。</p>
 <p><code>chosen</code>节点：用来定义启动参数，其父节点必须是根节点。内核的一些启动参数可以通过<code>chosen</code>节点下的<code>bootargs</code>属性来设置，它可以被bootloader读取。</p>
 <h3 id="_4">属性<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>节点由一堆属性组成，节点是具体的设备，但是不同的设备有不同的属性，不过有一些是标准属性。</p>
-<p>根节点必须要有的属性有：</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>compatible：指定板子兼容的平台
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>model：板子名称
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>#address-cells：子节点reg属性中，用多少个u32整数来描述地址
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>#size-cells：子节点reg属性中，用多少个u32整数来描述大小
-</code></pre></div>
+<p>节点由一堆属性组成，SoC厂商有各自不同的定义，这里只介绍通用属性。</p>
 <p>1.<code>compatible</code>属性</p>
-<p><code>compatible</code>属性用来和驱动进行匹配，它的组织形式为：(manufacturer, model)。内核通过该属性判断它启动的是什么设备。</p>
+<p><code>compatible</code>属性用来和驱动进行匹配，它的组织形式为：(manufacturer, model)。</p>
 <div class="admonition example">
 <p class="admonition-title">瑞芯微RK3399</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>compatible = &quot;rockchip, rk3399&quot;;
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>compatible = &quot;rockchip, rk3399&quot;;
 </code></pre></div>
 </div>
-<p>使用设备树后，驱动程序需要和.dts中所描述的设备节点进行匹配，从而调用驱动的入口函数<code>probe()</code>，匹配的属性正是compatible属性。对于<code>platform_drvier</code>而言，需要在程序中指明一个OF匹配表。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_device_id</span><span class="w"> </span><span class="n">rockchip_rk3399_match</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rockchip,rk3399&quot;</span><span class="w"> </span><span class="p">},</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="p">{},</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">};</span>
+<p>对于<code>platform_drvier</code>而言，在程序中指明一个OF匹配表之后，就可以和对应的设备树节点进行匹配，然后调用<code>probe()</code>函数，做一些初始化操作：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_device_id</span><span class="w"> </span><span class="n">rockchip_rk3399_match</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="p">{</span><span class="w"> </span><span class="p">.</span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rockchip,rk3399&quot;</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p">{},</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="p">};</span>
 </code></pre></div>
 <p><code>compatible</code>也可以有多个属性值，按照优先级的顺序进行匹配。</p>
 <p>2.<code>model</code>属性</p>
 <p><code>model</code>属性用来描述设备的一些信息。</p>
 <p>3.<code>status</code>属性</p>
 <p><code>status</code>属性的值与设备状态有关，通过设置<code>status</code>属性可以禁用或者启用设备。</p>
-<p>4.<code>reg</code>属性</p>
-<p><code>reg</code>属性的值一般是以(address, length)对的形式出现。用于描述设备资源在其父总线定义的地址空间内的地址。</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>reg = &lt;0x4000e000 0x400&gt;  //起始地址 + 长度
+<p>4.<code>#address-cells</code>和<code>#size-cells</code>属性</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>#address-cells: 决定了子节点reg属性的地址信息所占用的字长(32位)
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>#size-cells：决定了子节点reg属性中长度信息所占的字长(32位)
 </code></pre></div>
-<p>5.<code>#address-cells</code>和<code>#size-cells</code>属性</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>#address-cells: 决定了子节点reg属性的地址信息所占用的字长
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>#size-cells：决定了子节点reg属性中长度信息所占的字长
+<p>5.<code>reg</code>属性</p>
+<p><code>reg</code>属性以(address, size)对的形式出现。用于描述设备的地址信息。</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>node1{
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>    #address-cells = &lt;1&gt;;
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    #size-cells = &lt;1&gt;;
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>    node1-child{
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        reg = &lt;0x02200000 0x4000&gt;;  //起始地址 + 长度
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    };
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>};
 </code></pre></div>
-<div class="admonition example">
-<p class="admonition-title">reg属性举例</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>node1{
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    #address-cells = &lt;1&gt;;
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    #size-cells = &lt;1&gt;;
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    node1-child{
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>        reg = &lt;0x02200000 0x4000&gt;;
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a>    };
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a>};
-</code></pre></div>
-</div>
-<p>则reg中第一个值表示地址，第二个值表示长度。</p>
 <p>6.<code>ranges</code>属性</p>
 <p><code>range</code>是地址映射表，按照（子地址，父地址，映射长度）的格式编写。</p>
 <p>子地址由ranges所在节点的"#address-cells"属性决定，父地址由ranges父节点的"#address-cells"属性决定，映射长度由ranges父节点的"#size-cells"属性决定。</p>
@@ -4259,27 +4132,27 @@
 <h2 id="_5">设备树操作函数<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p>内核提供了一系列函数来操作设备树中的节点和属性信息，这些函数统一以<code>of</code>开头，定义在&lt;include/linux/of.h&gt;中。</p>
 <p>内核使用<code>device_node</code>结构体来描述一个节点：
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="n">phandle</span><span class="w"> </span><span class="n">phandle</span><span class="p">;</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">full_name</span><span class="p">;</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">fwnode_handle</span><span class="w"> </span><span class="n">fwnode</span><span class="p">;</span>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>
-<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">property</span><span class="w"> </span><span class="o">*</span><span class="n">properties</span><span class="p">;</span>
-<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">property</span><span class="w"> </span><span class="o">*</span><span class="n">deadprops</span><span class="p">;</span><span class="w">    </span><span class="cm">/* removed properties */</span>
-<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span>
-<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">child</span><span class="p">;</span>
-<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">sibling</span><span class="p">;</span>
-<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a><span class="cp">#if defined(CONFIG_OF_KOBJ)</span>
-<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">kobject</span><span class="w"> </span><span class="n">kobj</span><span class="p">;</span>
-<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a><span class="cp">#endif</span>
-<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">_flags</span><span class="p">;</span>
-<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a><span class="w">    </span><span class="kt">void</span><span class="w">    </span><span class="o">*</span><span class="n">data</span><span class="p">;</span>
-<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a><span class="cp">#if defined(CONFIG_SPARC)</span>
-<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">unique_id</span><span class="p">;</span>
-<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_irq_controller</span><span class="w"> </span><span class="o">*</span><span class="n">irq_trans</span><span class="p">;</span>
-<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a><span class="cp">#endif</span>
-<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a><span class="p">};</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="n">phandle</span><span class="w"> </span><span class="n">phandle</span><span class="p">;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">full_name</span><span class="p">;</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">fwnode_handle</span><span class="w"> </span><span class="n">fwnode</span><span class="p">;</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">property</span><span class="w"> </span><span class="o">*</span><span class="n">properties</span><span class="p">;</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">property</span><span class="w"> </span><span class="o">*</span><span class="n">deadprops</span><span class="p">;</span><span class="w">    </span><span class="cm">/* removed properties */</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">child</span><span class="p">;</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">sibling</span><span class="p">;</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="cp">#if defined(CONFIG_OF_KOBJ)</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="k">struct</span><span class="w">  </span><span class="nc">kobject</span><span class="w"> </span><span class="n">kobj</span><span class="p">;</span>
+<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="cp">#endif</span>
+<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">_flags</span><span class="p">;</span>
+<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">    </span><span class="kt">void</span><span class="w">    </span><span class="o">*</span><span class="n">data</span><span class="p">;</span>
+<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="cp">#if defined(CONFIG_SPARC)</span>
+<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">unique_id</span><span class="p">;</span>
+<a id="__codelineno-7-19" name="__codelineno-7-19" href="#__codelineno-7-19"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_irq_controller</span><span class="w"> </span><span class="o">*</span><span class="n">irq_trans</span><span class="p">;</span>
+<a id="__codelineno-7-20" name="__codelineno-7-20" href="#__codelineno-7-20"></a><span class="cp">#endif</span>
+<a id="__codelineno-7-21" name="__codelineno-7-21" href="#__codelineno-7-21"></a><span class="p">};</span>
 </code></pre></div></p>
 <blockquote>
 <p>name：节点中的name属性</p>
@@ -4287,12 +4160,12 @@
 <p>properties：指向该节点下的第一个属性</p>
 </blockquote>
 <p><code>struct property</code>的定义如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">property</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="kt">char</span><span class="w">    </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="p">;</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="kt">void</span><span class="w">    </span><span class="o">*</span><span class="n">value</span><span class="p">;</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">property</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">};</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">property</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="kt">char</span><span class="w">    </span><span class="o">*</span><span class="n">name</span><span class="p">;</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="p">;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="kt">void</span><span class="w">    </span><span class="o">*</span><span class="n">value</span><span class="p">;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">property</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">};</span>
 </code></pre></div>
 <blockquote>
 <p>name：属性名</p>
@@ -4302,7 +4175,7 @@
 </blockquote>
 <p>与查找节点相关的<code>of</code>函数有5个：</p>
 <p>1.通过节点名字查找指定节点</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_name</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_name</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">);</span>
 </code></pre></div>
 <blockquote>
 <p>from：开始查找的节点，NULL则表示从根节点开始查找</p>
@@ -4310,45 +4183,45 @@
 <p>返回值：找到的节点，NULL表示失败</p>
 </blockquote>
 <p>2.<del>通过<code>device_type</code>属性查找指定节点</del></p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_type</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">type</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_type</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">type</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
 <p>type：要查找的节点的device_type属性值</p>
 </blockquote>
 <p>由于<code>device_type</code>已经被废弃，所以这个函数已经不用了。</p>
 <p>3.通过<code>device_type</code>和<code>compatible</code>两个属性来查找指定节点</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_compatible_node</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">compatible</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_compatible_node</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">compatible</span><span class="p">)</span>
 </code></pre></div>
 <p>4.通过<code>of_device_id</code>匹配表来查找指定节点</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_matching_node_and_match</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_device_id</span><span class="w"> </span><span class="o">*</span><span class="n">matches</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_device_id</span><span class="w"> </span><span class="o">**</span><span class="n">match</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_matching_node_and_match</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">from</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_device_id</span><span class="w"> </span><span class="o">*</span><span class="n">matches</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">of_device_id</span><span class="w"> </span><span class="o">**</span><span class="n">match</span><span class="p">)</span>
 </code></pre></div>
 <p>5.通过路径来查找指定节点</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kr">inline</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_path</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kr">inline</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_node_by_path</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">path</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
 <p>path：带有全路径的节点名，可以使用节点的别名</p>
 </blockquote>
 <p>节点的属性信息里保存了驱动所需要的内容，内核中使用结构体<code>property</code>表示属性。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">property</span><span class="p">{</span>
-<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//属性名</span>
-<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="p">;</span><span class="w">    </span><span class="c1">//属性值的长度</span>
-<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">value</span><span class="p">;</span><span class="w">   </span><span class="c1">//指向属性值的指针</span>
-<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">property</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w">      </span><span class="c1">//指向下一个属性的指针</span>
-<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">_flags</span><span class="p">;</span><span class="w">       </span><span class="c1">//表示属性的类别</span>
-<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">unique_id</span><span class="p">;</span><span class="w">     </span><span class="c1">//标识设备的唯一属性</span>
-<a id="__codelineno-18-8" name="__codelineno-18-8" href="#__codelineno-18-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">bin_attribute</span><span class="w"> </span><span class="n">attr</span><span class="p">;</span><span class="w">  </span><span class="c1">//表示属性的一些元数据</span>
-<a id="__codelineno-18-9" name="__codelineno-18-9" href="#__codelineno-18-9"></a><span class="p">};</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">property</span><span class="p">{</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//属性名</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">length</span><span class="p">;</span><span class="w">    </span><span class="c1">//属性值的长度</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">value</span><span class="p">;</span><span class="w">   </span><span class="c1">//指向属性值的指针</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">property</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span><span class="w">      </span><span class="c1">//指向下一个属性的指针</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">_flags</span><span class="p">;</span><span class="w">       </span><span class="c1">//表示属性的类别</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">unique_id</span><span class="p">;</span><span class="w">     </span><span class="c1">//标识设备的唯一属性</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">bin_attribute</span><span class="w"> </span><span class="n">attr</span><span class="p">;</span><span class="w">  </span><span class="c1">//表示属性的一些元数据</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="p">};</span>
 </code></pre></div>
 <p>6.通过亲缘关系来查找节点：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_get_parent</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">)</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_get_next_child</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">)</span>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
-<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_get_child_by_name</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_get_parent</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">)</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_get_next_child</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">)</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">of_get_child_by_name</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">node</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">)</span>
 </code></pre></div>
 <p>同时内核也提供了提取属性值的<code>of</code>函数。</p>
 <p>1.查找指定的属性</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">property</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_property</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">lenp</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">property</span><span class="w"> </span><span class="o">*</span><span class="n">of_find_property</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="o">*</span><span class="n">lenp</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
 <p>np：设备节点</p>
@@ -4356,10 +4229,10 @@
 <p>lenp：属性值的字节数</p>
 </blockquote>
 <p>2.获取属性中元素的数量</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_count_elems_of_size</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">elem_size</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_count_elems_of_size</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">elem_size</span><span class="p">)</span>
 </code></pre></div>
 <p>3.从属性中获取指定标号的u32类型数据</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_u32_index</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="o">*</span><span class="n">out_value</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_u32_index</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="o">*</span><span class="n">out_value</span><span class="p">)</span>
 </code></pre></div>
 <blockquote>
 <p>propname：要读取的属性名</p>
@@ -4367,14 +4240,14 @@
 <p>out_value：读取到的值</p>
 </blockquote>
 <p>4.读取u32数组类型的数据</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_u32_array</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="o">*</span><span class="n">out_values</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">sz_min</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">sz_max</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_u32_array</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="n">u32</span><span class="w"> </span><span class="o">*</span><span class="n">out_values</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">sz_min</span><span class="p">,</span><span class="w"> </span><span class="kt">size_t</span><span class="w"> </span><span class="n">sz_max</span><span class="p">)</span>
 </code></pre></div>
 <p>5.读取属性中字符串的值</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_string_index</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">out_string</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">of_property_read_string_index</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">propname</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">,</span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">**</span><span class="n">out_string</span><span class="p">)</span>
 </code></pre></div>
 <p>6.内存映射</p>
 <p>该函数可以自动完成物理地址到虚拟地址的转换：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">of_iomap</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">)</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kt">void</span><span class="w"> </span><span class="n">__iomem</span><span class="w"> </span><span class="o">*</span><span class="n">of_iomap</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device_node</span><span class="w"> </span><span class="o">*</span><span class="n">np</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">index</span><span class="p">)</span>
 </code></pre></div>
 
 

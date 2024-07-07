@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/rtos/freertos/CMSIS/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/ebpf/bpftool/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../probe/">
       
       
-        <link rel="next" href="../../rt-thread/">
+        <link rel="next" href="../../../arm/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>CMSIS - 一只Tom的笔记本</title>
+        <title>BPF工具 - 一只Tom的笔记本</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#cmsis" class="md-skip">
+        <a href="#bpf" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CMSIS
+              BPF工具
             
           </span>
         </div>
@@ -207,11 +207,13 @@
         
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="../../../linux/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
           
   
     
@@ -247,18 +249,16 @@
         
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+      <li class="md-tabs__item">
+        <a href="../../../ros2/" class="md-tabs__link">
           
   
     
   
-  RTOS
+  ROS2
 
         </a>
       </li>
@@ -441,6 +441,8 @@
       
   
   
+    
+  
   
   
     
@@ -461,19 +463,22 @@
     
     
       
+        
+        
+      
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/" class="md-nav__link ">
+            <a href="../../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -484,13 +489,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             Linux
@@ -577,7 +582,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/kernel/" class="md-nav__link ">
+            <a href="../../kernel/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -610,7 +615,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/compile/" class="md-nav__link">
+      <a href="../../kernel/compile/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -631,7 +636,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/program/" class="md-nav__link">
+      <a href="../../kernel/program/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -652,7 +657,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/debug/" class="md-nav__link">
+      <a href="../../kernel/debug/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -673,7 +678,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/synch/" class="md-nav__link">
+      <a href="../../kernel/synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -694,7 +699,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/others/" class="md-nav__link">
+      <a href="../../kernel/others/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -715,7 +720,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/task/" class="md-nav__link">
+      <a href="../../kernel/task/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -736,7 +741,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/sched/" class="md-nav__link">
+      <a href="../../kernel/sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -757,7 +762,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/ipc/" class="md-nav__link">
+      <a href="../../kernel/ipc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -778,7 +783,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/preempt/" class="md-nav__link">
+      <a href="../../kernel/preempt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -799,7 +804,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/interrupt/" class="md-nav__link">
+      <a href="../../kernel/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -820,7 +825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/bottom_half/" class="md-nav__link">
+      <a href="../../kernel/bottom_half/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -841,7 +846,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/mm/" class="md-nav__link">
+      <a href="../../kernel/mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -862,7 +867,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/vma/" class="md-nav__link">
+      <a href="../../kernel/vma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -883,7 +888,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/recycle/" class="md-nav__link">
+      <a href="../../kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -904,7 +909,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/oom/" class="md-nav__link">
+      <a href="../../kernel/oom/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -925,7 +930,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/ion/" class="md-nav__link">
+      <a href="../../kernel/ion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -946,7 +951,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/cma/" class="md-nav__link">
+      <a href="../../kernel/cma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -967,7 +972,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/vfs/" class="md-nav__link">
+      <a href="../../kernel/vfs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -988,7 +993,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/block/" class="md-nav__link">
+      <a href="../../kernel/block/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1009,7 +1014,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/network/" class="md-nav__link">
+      <a href="../../kernel/network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1030,7 +1035,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/time/" class="md-nav__link">
+      <a href="../../kernel/time/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1051,7 +1056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/timer/" class="md-nav__link">
+      <a href="../../kernel/timer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1072,7 +1077,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/hrtimer/" class="md-nav__link">
+      <a href="../../kernel/hrtimer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1093,7 +1098,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/pm/" class="md-nav__link">
+      <a href="../../kernel/pm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1114,7 +1119,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/shell/" class="md-nav__link">
+      <a href="../../kernel/shell/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1212,7 +1217,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/drivers/" class="md-nav__link ">
+            <a href="../../drivers/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1245,7 +1250,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/hardware/" class="md-nav__link">
+      <a href="../../drivers/hardware/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1266,7 +1271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/protocol/" class="md-nav__link">
+      <a href="../../drivers/protocol/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1287,7 +1292,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/module/" class="md-nav__link">
+      <a href="../../drivers/module/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1308,7 +1313,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/dts/" class="md-nav__link">
+      <a href="../../drivers/dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1329,7 +1334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/interrupt/" class="md-nav__link">
+      <a href="../../drivers/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1350,7 +1355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/dma/" class="md-nav__link">
+      <a href="../../drivers/dma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1371,7 +1376,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/device_model/" class="md-nav__link">
+      <a href="../../drivers/device_model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1392,7 +1397,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/platform/" class="md-nav__link">
+      <a href="../../drivers/platform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1413,7 +1418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/chardev/" class="md-nav__link">
+      <a href="../../drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1434,7 +1439,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/blkdev/" class="md-nav__link">
+      <a href="../../drivers/blkdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1455,7 +1460,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/netdev/" class="md-nav__link">
+      <a href="../../drivers/netdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1476,7 +1481,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/pinctrl/" class="md-nav__link">
+      <a href="../../drivers/pinctrl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1497,7 +1502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/gpio/" class="md-nav__link">
+      <a href="../../drivers/gpio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1518,7 +1523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/i2c/" class="md-nav__link">
+      <a href="../../drivers/i2c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1539,7 +1544,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/spi/" class="md-nav__link">
+      <a href="../../drivers/spi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1560,7 +1565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/uart/" class="md-nav__link">
+      <a href="../../drivers/uart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1581,7 +1586,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/input/" class="md-nav__link">
+      <a href="../../drivers/input/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1602,7 +1607,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/ethernet/" class="md-nav__link">
+      <a href="../../drivers/ethernet/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1623,7 +1628,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/pcie/" class="md-nav__link">
+      <a href="../../drivers/pcie/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1644,7 +1649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/usb/" class="md-nav__link">
+      <a href="../../drivers/usb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1665,7 +1670,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/mmc/" class="md-nav__link">
+      <a href="../../drivers/mmc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1686,7 +1691,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/wifi/" class="md-nav__link">
+      <a href="../../drivers/wifi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1707,7 +1712,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/bluetooth/" class="md-nav__link">
+      <a href="../../drivers/bluetooth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1728,7 +1733,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/drivers/socketcan/" class="md-nav__link">
+      <a href="../../drivers/socketcan/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1786,7 +1791,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/optimization/" class="md-nav__link ">
+            <a href="../../optimization/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1819,7 +1824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/cpu/" class="md-nav__link">
+      <a href="../../optimization/cpu/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1840,7 +1845,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/memory/" class="md-nav__link">
+      <a href="../../optimization/memory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1861,7 +1866,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/disk/" class="md-nav__link">
+      <a href="../../optimization/disk/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1882,7 +1887,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/optimization/network/" class="md-nav__link">
+      <a href="../../optimization/network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1908,6 +1913,8 @@
                 
   
   
+    
+  
   
   
     
@@ -1921,22 +1928,26 @@
       
         
       
+        
+      
+        
+      
     
     
       
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" checked>
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../linux/ebpf/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1953,7 +1964,7 @@
             
           </div>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
             ebpf
@@ -1969,7 +1980,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/ebpf/intro/" class="md-nav__link">
+      <a href="../intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1990,7 +2001,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/ebpf/ftrace/" class="md-nav__link">
+      <a href="../ftrace/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1999,6 +2010,106 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    探针
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    BPF工具
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    BPF工具
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bpftool" class="md-nav__link">
+    <span class="md-ellipsis">
+      bpftool
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bpftrace" class="md-nav__link">
+    <span class="md-ellipsis">
+      bpftrace
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2383,8 +2494,6 @@
       
   
   
-    
-  
   
   
     
@@ -2394,301 +2503,40 @@
           
         
       
-        
-      
-        
-      
-        
-      
     
     
-      
-        
-        
       
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
         
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../../../ros2/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    RTOS
+    ROS2
   </span>
   
 
             </a>
             
-              
-              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
-            RTOS
+            ROS2
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    freertos
-  </span>
-  
-
-            </a>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            freertos
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    CMSIS
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  <span class="md-ellipsis">
-    CMSIS
-  </span>
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      任务管理
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      消息队列
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      信号量
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      互斥量
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      事件
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      任务通知
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      定时器
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      内存管理
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-      
-        
-          
-        
-      
-    
-    
-      
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
-        
-          
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../rt-thread/" class="md-nav__link ">
-              
-  
-  <span class="md-ellipsis">
-    rt-thread
-  </span>
-  
-
-            </a>
-            
-          </div>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_4">
-            <span class="md-nav__icon md-icon"></span>
-            rt-thread
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
               
             
           </ul>
@@ -4039,72 +3887,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
+  <a href="#bpftool" class="md-nav__link">
     <span class="md-ellipsis">
-      任务管理
+      bpftool
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
+  <a href="#bpftrace" class="md-nav__link">
     <span class="md-ellipsis">
-      消息队列
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      信号量
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      互斥量
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      事件
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_6" class="md-nav__link">
-    <span class="md-ellipsis">
-      任务通知
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
-      定时器
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
-    <span class="md-ellipsis">
-      内存管理
+      bpftrace
     </span>
   </a>
   
@@ -4128,108 +3922,48 @@
   
 
 
-<h1 id="cmsis">CMSIS标准<a class="headerlink" href="#cmsis" title="Permanent link">&para;</a></h1>
-<p>Cortex系列的芯片内核是相同的，但是不同的厂商在生产的时候外设会有区别，这些差异导致软件在同内核，不同外设的芯片上移植困难。为了解决不同芯片厂商生产的兼容性问题，ARM与各芯片厂商建议了CMSIS标准。</p>
-<p>所谓的CMSIS标准，其实就是新建了一个软件抽象层，将不同的RTOS的接口统一起来，提供CMSIS的接口供使用者使用。</p>
-<p>本文只简单列举了部分CMSIS标准下的函数接口，其他函数及其实现细节请参考：<a href="https://arm-software.github.io/CMSIS_5/develop/RTOS2/html/rtos_api2.html">CMSIS-RTOS2</a></p>
-<h2 id="_1">任务管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">osThreadId_t</span><span class="w"> </span><span class="nf">osThreadNew</span><span class="p">(</span><span class="n">osThreadFunc_t</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">argument</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osThreadAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建任务</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">osThreadId_t</span><span class="w"> </span><span class="nf">osThreadGetId</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w">    </span><span class="c1">//返回当前任务ID</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osThreadSuspend</span><span class="p">(</span><span class="n">osThreadId_t</span><span class="w"> </span><span class="n">thread_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//挂起任务</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osThreadResume</span><span class="p">(</span><span class="n">osThreadId_t</span><span class="w"> </span><span class="n">thread_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//恢复任务</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osThreadYield</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w">    </span><span class="c1">//主动让出资源</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="kt">void</span><span class="w"> </span><span class="nf">osThreadExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w">    </span><span class="c1">//终止当前任务</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="n">osThreadTerminate</span><span class="p">(</span><span class="n">osThreadId_t</span><span class="w"> </span><span class="n">thread_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//终止其他任务</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osDelay</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ticks</span><span class="p">);</span><span class="w">    </span><span class="c1">//延时ticks时钟周期</span>
+<h1 id="bpf">BPF工具<a class="headerlink" href="#bpf" title="Permanent link">&para;</a></h1>
+<h2 id="bpftool">bpftool<a class="headerlink" href="#bpftool" title="Permanent link">&para;</a></h2>
+<p>bpftool提供内核中与BPF程序相关的信息。</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>--help
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Usage:<span class="w"> </span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">       </span>OBJECT<span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>prog<span class="w"> </span><span class="p">|</span><span class="w"> </span>map<span class="w"> </span><span class="p">|</span><span class="w"> </span>link<span class="w"> </span><span class="p">|</span><span class="w"> </span>cgroup<span class="w"> </span><span class="p">|</span><span class="w"> </span>perf<span class="w"> </span><span class="p">|</span><span class="w"> </span>net<span class="w"> </span><span class="p">|</span><span class="w"> </span>feature<span class="w"> </span><span class="p">|</span><span class="w"> </span>btf<span class="w"> </span><span class="p">|</span><span class="w"> </span>gen<span class="w"> </span><span class="p">|</span><span class="w"> </span>struct_ops<span class="w"> </span><span class="p">|</span><span class="w"> </span>iter<span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">       </span>OPTIONS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">{</span>-j<span class="p">|</span>--json<span class="o">}</span><span class="w"> </span><span class="o">[{</span>-p<span class="p">|</span>--pretty<span class="o">}]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">{</span>-d<span class="p">|</span>--debug<span class="o">}</span><span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">                    </span><span class="o">{</span>-V<span class="p">|</span>--version<span class="o">}</span><span class="w"> </span><span class="o">}</span>
 </code></pre></div>
-<h2 id="_2">消息队列<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//名字</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w">  </span><span class="c1">//FreeRTOS未使用</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//控制块（静态创建）地址</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">mq_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//数据存储地址</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">mq_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//数据存储大小</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="p">}</span><span class="n">osMessageQueueAttr_t</span><span class="p">;</span>
+<p>检查系统中运行程序的情况：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>prog<span class="w"> </span>show
 </code></pre></div>
-<p>常用函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="nf">osMessageQueueNew</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">msg_count</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">msg_size</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osMessageQueueAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMessageQueueDelete</span><span class="p">(</span><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="n">mq_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMessageQueuePut</span><span class="p">(</span><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="n">mq_id</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">msg_ptr</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="n">msg_prio</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//发送消息</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMessageQueueGet</span><span class="p">(</span><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="n">mq_id</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">msg_ptr</span><span class="p">,</span><span class="w"> </span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="n">msg_prio</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//获取消息</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMessageQueueReset</span><span class="p">(</span><span class="n">osMessageQueueId_t</span><span class="w"> </span><span class="n">mq_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//重置消息队列</span>
+<p>以JSON形式输出：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>prog<span class="w"> </span>show<span class="w"> </span>--json<span class="w"> </span>id<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
 </code></pre></div>
-<h2 id="_3">信号量<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">   </span><span class="c1">//名字</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w"> </span><span class="c1">//FreeRTOS未使用</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">       </span><span class="c1">//控制块（静态创建）地址</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">   </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span><span class="n">osSemaphoreAttr_t</span><span class="p">;</span>
+<p>检查BPF映射：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>map<span class="w"> </span>show
 </code></pre></div>
-<p>常用函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">osSemaphoreId_t</span><span class="w"> </span><span class="nf">osSemaphoreNew</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">max_count</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">initial_count</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osSemaphoreAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osSemaphoreAcquire</span><span class="p">(</span><span class="n">osSemaphoreId_t</span><span class="w"> </span><span class="n">semaphore_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//获取</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osSemaphoreRelease</span><span class="p">(</span><span class="n">osSemaphoreId_t</span><span class="w"> </span><span class="n">semaphore_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//释放</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">osSemaphoreGetCount</span><span class="p">(</span><span class="n">osSemaphoreID_t</span><span class="w"> </span><span class="n">semaphore_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//获取计数量</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osSemaphoreDelete</span><span class="p">(</span><span class="n">osSemaphoreId_t</span><span class="w"> </span><span class="n">semaphore_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
+<p>列出系统中所有cgroup上的附加程序：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>cgroup<span class="w"> </span>tree
 </code></pre></div>
-<h2 id="_4">互斥量<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//名字</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w">  </span><span class="c1">//互斥量类型</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//控制块（静态创建）内存 </span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="p">}</span><span class="n">osMutexAttr_t</span><span class="p">;</span>
+<h2 id="bpftrace">bpftrace<a class="headerlink" href="#bpftrace" title="Permanent link">&para;</a></h2>
+<p>bpftrace是BPF高级跟踪语言，可以使用简明的语法来编写程序。它提供了许多内置功能，无须自己实现。</p>
+<p>bpftrac程序的语法简洁，仅包含头部、操作块和尾部三个部分。头部和尾部是可选的，通常用来打印一些加载前后的信息。操作块是我们要指定跟踪的探针的位置，以及基于探针触发事件后执行的操作。下面是一个简单的示例程序：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>BEGIN
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="o">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;starting bpftrace program\n&quot;</span><span class="o">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="o">}</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>kprobe:do_sys_open
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="o">{</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;opening file descriptor: %s\n&quot;</span>,<span class="w"> </span>str<span class="o">(</span>arg1<span class="o">))</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="o">}</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>END
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="o">{</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;ending bpftrace program\n&quot;</span><span class="o">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="o">}</span>
 </code></pre></div>
-<p>常用函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">osMutexId_t</span><span class="w"> </span><span class="nf">osMutexNew</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">osMutexAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMutexAcquire</span><span class="p">(</span><span class="n">osMutexId_t</span><span class="w"> </span><span class="n">mutex_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//获取</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMutexRelease</span><span class="p">(</span><span class="n">osMutexId_t</span><span class="w"> </span><span class="n">mutex_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//释放</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMutexDelete</span><span class="p">(</span><span class="n">osMutexId_t</span><span class="w"> </span><span class="n">mutex_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
-</code></pre></div>
-<h2 id="_5">事件<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//名字</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w">  </span><span class="c1">//FreeRTOS未使用</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//控制块（静态创建）内存</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">}</span><span class="n">osEventFlagsAttr_t</span><span class="p">;</span>
-</code></pre></div>
-<p>常用函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="nf">osEventFlagsNew</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">osEventFlagsAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">osEventFlagsSet</span><span class="p">(</span><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="n">ef_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w">    </span><span class="c1">//设置位</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">osEventFlagsClear</span><span class="p">(</span><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="n">ef_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w">    </span><span class="c1">//清空位</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kt">uint32_t</span><span class="w"> </span><span class="nf">osEventFlagsWait</span><span class="p">(</span><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="n">ef_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">flags</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">options</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//等待位</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osEventFlagsDelete</span><span class="p">(</span><span class="n">osEventFlagsId_t</span><span class="w"> </span><span class="n">ef_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
-</code></pre></div>
-<h2 id="_6">任务通知<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>CMSIS标准没有提供任务通知的API，属于FreeRTOS的特性。</p>
-<h2 id="_7">定时器<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<p>定义：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="w">    </span><span class="c1">//名字</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">attr_bits</span><span class="p">;</span><span class="w">  </span><span class="c1">//FreeRTOS未使用</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">cb_mem</span><span class="p">;</span><span class="w">        </span><span class="c1">//控制块（静态创建）内存</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">cb_size</span><span class="p">;</span><span class="w">    </span><span class="c1">//控制块（静态创建）大小</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">}</span><span class="n">osTimerAttr_t</span><span class="p">;</span>
-</code></pre></div>
-<p>常用函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">osTimerId_t</span><span class="w"> </span><span class="nf">osTimerNew</span><span class="p">(</span><span class="n">osTimerFunc_t</span><span class="w"> </span><span class="n">func</span><span class="p">,</span><span class="w"> </span><span class="n">osTimerType_t</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">argument</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osTimerAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osTimerStart</span><span class="p">(</span><span class="n">osTimerId_t</span><span class="w"> </span><span class="n">timer_id</span><span class="p">,</span><span class="w"> </span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">ticks</span><span class="p">);</span><span class="w">    </span><span class="c1">//启动</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osTimerStop</span><span class="p">(</span><span class="n">osTimerId_t</span><span class="w"> </span><span class="n">timer_id</span><span class="p">);</span><span class="w">   </span><span class="c1">//停止</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osTimerDelete</span><span class="p">(</span><span class="n">osTimerId_t</span><span class="w"> </span><span class="n">timer_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
-</code></pre></div>
-<h2 id="_8">内存管理<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<p>常用函数：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">osMemoryPoolId_t</span><span class="w"> </span><span class="nf">osMemoryPoolNew</span><span class="p">(</span><span class="kt">uint32_t</span><span class="w"> </span><span class="n">block_count</span><span class="p">,</span><span class="w"> </span><span class="n">unit32_t</span><span class="w"> </span><span class="n">block_size</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">osMemoryPoolAttr_t</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">);</span><span class="w">    </span><span class="c1">//创建</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="nf">osMemoryPoolAlloc</span><span class="p">(</span><span class="n">osMemoryPoolId_t</span><span class="w"> </span><span class="n">mp_id</span><span class="p">,</span><span class="w"> </span><span class="n">unit32_t</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span><span class="w">    </span><span class="c1">//分配</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">osStatut_t</span><span class="w"> </span><span class="nf">osMemoryPoolFree</span><span class="p">(</span><span class="n">osMemoryPoolId_t</span><span class="w"> </span><span class="n">mp_id</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">block</span><span class="p">);</span><span class="w">    </span><span class="c1">//释放</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">osStatus_t</span><span class="w"> </span><span class="nf">osMemoryPoolDelete</span><span class="p">(</span><span class="n">osMemoryPoolId_t</span><span class="w"> </span><span class="n">mp_id</span><span class="p">);</span><span class="w">    </span><span class="c1">//删除</span>
+<p>你可以将这个程序保存为example.bt，然后运行：<code>bpftrace example.bt</code>。</p>
+<p>bpftrace语言是以脚本思想设计的。编写程序当然可以，但是有的时候不必这么麻烦，用bpftrace编写的许多程序可以放在一行中执行，通过使用选项<code>-e</code>即可：</p>
+<div class="language-SHEll highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>bpftrace<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;kprobe:do_sys_open { printf(&quot;opening file descriptor: %s\n&quot;, str(arg1)) }&#39;</span>
 </code></pre></div>
 
 
