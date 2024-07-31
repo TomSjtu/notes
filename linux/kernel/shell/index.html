@@ -569,6 +569,8 @@
       
         
       
+        
+      
     
     
       
@@ -790,6 +792,27 @@
   
   <span class="md-ellipsis">
     内核抢占
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kthread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核线程
   </span>
   
 
@@ -1233,6 +1256,33 @@
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       函数
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grep" class="md-nav__link">
+    <span class="md-ellipsis">
+      grep
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sed" class="md-nav__link">
+    <span class="md-ellipsis">
+      sed
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#awk" class="md-nav__link">
+    <span class="md-ellipsis">
+      awk
     </span>
   </a>
   
@@ -2566,6 +2616,10 @@
           
         
       
+        
+      
+        
+      
     
     
       
@@ -2591,6 +2645,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
@@ -2600,6 +2659,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/core/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    核心概念
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2829,6 +2930,8 @@
       
         
       
+        
+      
     
     
       
@@ -2924,6 +3027,27 @@
   
   <span class="md-ellipsis">
     异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GDB
   </span>
   
 
@@ -3812,6 +3936,8 @@
       
         
       
+        
+      
     
     
       
@@ -3907,6 +4033,27 @@
   
   <span class="md-ellipsis">
     音视频基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/ffmpeg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ffmpeg
   </span>
   
 
@@ -4016,6 +4163,33 @@
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       函数
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grep" class="md-nav__link">
+    <span class="md-ellipsis">
+      grep
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sed" class="md-nav__link">
+    <span class="md-ellipsis">
+      sed
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#awk" class="md-nav__link">
+    <span class="md-ellipsis">
+      awk
     </span>
   </a>
   
@@ -4235,6 +4409,96 @@
 <li>调用函数时可以传参，函数体内部通过<code>$n</code>的形式来获取参数</li>
 <li>用return表示函数返回值，在函数调用后通过<code>$?</code>来获取返回值</li>
 </ol>
+<h2 id="grep">grep<a class="headerlink" href="#grep" title="Permanent link">&para;</a></h2>
+<p>grep是文本搜索工具，用于在文件中搜索符合正则表达式的内容，并打印出来。</p>
+<p>基本格式：<code>grep [options] pattern [file...]</code></p>
+<ol>
+<li>pattern：过滤条件</li>
+<li>file：要搜索的文件(一个或多个)</li>
+</ol>
+<p>常用选项参数：</p>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-i</td>
+<td>忽略大小写</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>显示匹配行号</td>
+</tr>
+<tr>
+<td>-r</td>
+<td>递归搜索目录</td>
+</tr>
+<tr>
+<td>-l</td>
+<td>只显示文件名</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>只显示匹配行数</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>只显示匹配的内容</td>
+</tr>
+<tr>
+<td>-w</td>
+<td>只匹配过滤到的单词</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>反向选择，只显示不匹配的行</td>
+</tr>
+<tr>
+<td>-A num</td>
+<td>显示匹配行及之后的num行</td>
+</tr>
+<tr>
+<td>-B num</td>
+<td>显示匹配行及之前的num行</td>
+</tr>
+<tr>
+<td>-C num</td>
+<td>显示匹配行及上下各num行</td>
+</tr>
+<tr>
+<td>-E</td>
+<td>使用扩展正则(等同于egrep)</td>
+</tr>
+<tr>
+<td>-F</td>
+<td>使用规定字符串模式(等同于fgrep)</td>
+</tr>
+<tr>
+<td>-P</td>
+<td>使用perl正则表达式</td>
+</tr>
+</tbody>
+</table>
+<h2 id="sed">sed<a class="headerlink" href="#sed" title="Permanent link">&para;</a></h2>
+<p>sed是一个流编辑器，主要用于对文本进行非交互式编辑。它可以进行插入、删除、替换、提取等操作，是文本处理和转换的利器。</p>
+<p>基本格式：<code>sed [options] 'script' file</code></p>
+<ul>
+<li>script：sed内置的命令脚本，主要用于对文件进行增删改查等操作<ul>
+<li>a：追加</li>
+<li>d：删除匹配行</li>
+<li>i：插入文本</li>
+<li>p：打印匹配行</li>
+<li>s/正则/替换内容/g：匹配正则，然后替换，g表示全局替换</li>
+</ul>
+</li>
+</ul>
+<h2 id="awk">awk<a class="headerlink" href="#awk" title="Permanent link">&para;</a></h2>
+<p>awk是一个强大的文本处理工具，主要用于对结构化数据进行模式扫描和处理，有着强大的文本格式化能力。它支持复杂的操作和脚本编写，能够进行模式匹配、文本处理、数据报告生成等。</p>
+<p>基本格式：<code>awk [options] 'pattern {action}' file</code></p>
 <h2 id="_9">颜色<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\033[32m绿色文本\033[0m&quot;</span>
 </code></pre></div>

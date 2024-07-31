@@ -569,6 +569,8 @@
       
         
       
+        
+      
     
     
       
@@ -790,6 +792,27 @@
   
   <span class="md-ellipsis">
     内核抢占
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kthread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核线程
   </span>
   
 
@@ -2629,6 +2652,10 @@
           
         
       
+        
+      
+        
+      
     
     
       
@@ -2654,6 +2681,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
@@ -2663,6 +2695,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/core/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    核心概念
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2892,6 +2966,8 @@
       
         
       
+        
+      
     
     
       
@@ -2987,6 +3063,27 @@
   
   <span class="md-ellipsis">
     异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GDB
   </span>
   
 
@@ -3875,6 +3972,8 @@
       
         
       
+        
+      
     
     
       
@@ -3970,6 +4069,27 @@
   
   <span class="md-ellipsis">
     音视频基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/ffmpeg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ffmpeg
   </span>
   
 
@@ -4414,12 +4534,12 @@
 <p>每个处理器都有一组辅助处理软中断（和tasklet）的内核线程。当内核中出现大量软中断的时候，内核线程就会选择合适的时机来处理软中断。</p>
 <p>在大流量的网络通信中，软中断的触发频率可能很高，甚至还会自行重复触发，这会导致用户空间的进程无法获得足够的处理器时间。如果软中断和重复触发的软中断都被立即处理，那么当负载很高的时候，系统就会出现明显的卡顿现象。如果选择不处理重新触发的软中断，又会浪费闲置的系统资源，导致软中断出现饥饿现象。</p>
 <p>内核中的方案时不会立即处理重复触发的软中断。当大量软中断出现的时候，内核会唤醒一组内核线程来处理这些负载。这些线程在最低优先级（nice=19）运行，避免与其他任务抢占资源。</p>
-<p>每个处理器都有一个这样的线程，名字为<mark class="critic">ksoftirqd/n</mark>，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用<code>do_softirq()</code>函数来处理它们。</p>
+<p>每个处理器都有一个这样的线程，名字为 <mark class="critic">ksoftirqd/n</mark>，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用<code>do_softirq()</code>函数来处理它们。</p>
 <h2 id="_6">工作队列<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>工作队列是一种延后执行的机制，可以将后续的工作交给一个内核线程执行——这个下半部分总是在进程上下文中执行。这样，通过工作队列实现的代码就能享受进程上下文的所有优势，比如可以重新调度甚至是睡眠。</p>
-<p>如果推后执行的任务需要睡眠，那么在下半部中就只能选择工作队列，否则优先选择tasklet。</p>
-<p>内核的工作队列分为两种：共享工作队列和自定义工作队列。</p>
-<p>内核提供了缺省的工作者线程（worker thread）<mark class="critic">events/n</mark>来执行工作队列中的任务，n为处理器的编号。</p>
+<p>工作队列是一种异步处理机制，用于延迟执行一些需要在进程上下文中执行的任务。工作队列通常由内核模块或驱动程序使用，以避免在中断上下文中执行长时间运行的操作。</p>
+<p>如果推迟的代码需要睡眠，就只能选择工作队列。</p>
+<p>内核的工作队列分为两种：自带工作队列和自定义工作队列。</p>
+<p>内核提供了缺省的工作者线程（worker thread）<mark class="critic">events/n</mark> 来执行工作队列中的任务，n为处理器的编号。</p>
 <h3 id="_7">工作队列的实现<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
 <p>工作队列用<code>workqueue_struct</code>结构体表示：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="p">{</span>
@@ -4432,14 +4552,14 @@
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="p">};</span>
 </code></pre></div>
 <p>该结构体内有一个<code>cpu_workqueue_struct</code>结构组成的数组，数组的每一项对应系统中的一个处理器。也就是说系统中每个处理器对应一个工作者线程。</p>
-<p><code>struct work_struct</code>描述的就是要延迟执行的工作：</p>
+<p><code>struct work_struct</code>描述的是实际需要执行的工作：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="n">atomic_long_t</span><span class="w"> </span><span class="n">data</span><span class="p">;</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">entry</span><span class="p">;</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="n">work_func_t</span><span class="w"> </span><span class="n">func</span><span class="p">;</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">};</span>
 </code></pre></div>
-<p>这些<code>work_struct</code>被连接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，当没有剩余的操作时，它就会继续休眠。</p>
+<p>这些<code>work_struct</code>被连接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，如果没有剩余的操作，它就会继续休眠。</p>
 <h3 id="_8">使用工作队列<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>创建一个<code>work_struct</code>结构体：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="cm">/*静态创建*/</span>
@@ -4451,53 +4571,56 @@
 <p>将工作推送到内核默认的共享工作队列：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_work_on</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cpu</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
 </code></pre></div>
 <p>取消已经调度的工作：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">cancel_work_sync</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">cancel_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">cancel_work_sync</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+</code></pre></div>
+<p>强制执行work：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">flush_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">flush_scheduled_work</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w">        </span><span class="c1">//默认刷新system_wq队列</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">flush_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">);</span>
 </code></pre></div>
 <p>如果要自定义一个工作队列，则可以使用宏：
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">create_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">create_singlethread_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">create_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">create_singlethread_workqueue</span><span class="p">(</span><span class="n">name</span><span class="p">);</span>
 </code></pre></div></p>
 <p>这两个宏都会返回一个<code>struct workqueue_struct</code>的指针。区别是：第一个宏在每个处理器上为该工作队列创建专用的线程，第二个宏只创建一个工作者线程。</p>
-<p>注意：不管使用哪个宏，在创建自定义工作队列后，必须在退出时，调用以下函数确保资源的释放：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="cm">/*刷新工作队列，告诉内核尽快处理*/</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">flush_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="cm">/*删除工作队列*/</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="kt">void</span><span class="w"> </span><span class="nf">destroy_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">);</span>
+<p>销毁工作队列：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">destroy_workqueue</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">);</span>
 </code></pre></div>
-<p>提交工作给自定义工作队列：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
+<p>调度<code>work_struct</code>到自定义工作队列：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">queue_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">queue_work_on</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">cpu</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
 </code></pre></div>
-<p>在多核系统中，每个CPU上都有一个工作队列，这两个函数不会指定提交至哪个CPU，但会优先选择本地CPU。</p>
 <h3 id="_9">延迟工作<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p><code>struct delayed_work</code>结构体用来描述一个延迟工作，它实际上是<code>work_struct</code>和<code>timer_list</code>的组合体：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">delayed_work</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="n">work</span><span class="p">;</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="n">timer</span><span class="p">;</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="cm">/* target workqueue and CPU -&gt;timer uses to queue -&gt;work */</span>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">;</span>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">cpu</span><span class="p">;</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="p">};</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">delayed_work</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">work_struct</span><span class="w"> </span><span class="n">work</span><span class="p">;</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="n">timer</span><span class="p">;</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="cm">/* target workqueue and CPU -&gt;timer uses to queue -&gt;work */</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">wq</span><span class="p">;</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">cpu</span><span class="p">;</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="p">};</span>
 </code></pre></div>
 <p>创建延迟工作：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="cm">/*静态定义*/</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">DECLARE_DELAYED_WORK</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">);</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="cm">/*动态定义*/</span>
-<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">INIT_DELAYED_WORK</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="cm">/*静态定义*/</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">DECLARE_DELAYED_WORK</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">);</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="cm">/*动态定义*/</span>
+<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="n">INIT_DELAYED_WORK</span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">func</span><span class="p">);</span>
 </code></pre></div>
 <p>在共享工作队列上调度延迟工作：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">delayed_work</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">schedule_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">delayed_work</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
 </code></pre></div>
 <p>在自定义工作队列上调度延迟工作：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">queue_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">delayed_work</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">queue_delayed_work</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">workqueue_struct</span><span class="w"> </span><span class="o">*</span><span class="n">queue</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">delayed_work</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">delay</span><span class="p">);</span>
 </code></pre></div>
 <p>取消已经调度的延迟工作：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">cancel_delayed_work_sync</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">delayed_work</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kt">bool</span><span class="w"> </span><span class="nf">cancel_delayed_work_sync</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">delayed_work</span><span class="w"> </span><span class="o">*</span><span class="n">work</span><span class="p">);</span>
 </code></pre></div>
 <h2 id="cmwq">CMWQ<a class="headerlink" href="#cmwq" title="Permanent link">&para;</a></h2>
 <p>CMWQ全称Concurrency Managed Workqueue，它属于工作队列，主要是为了解决旧的工作队列机制存在的一些问题而被开发出来的。</p>

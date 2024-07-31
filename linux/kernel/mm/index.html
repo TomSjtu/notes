@@ -569,6 +569,8 @@
       
         
       
+        
+      
     
     
       
@@ -806,6 +808,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../kthread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核线程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../interrupt/" class="md-nav__link">
         
   
@@ -892,6 +915,15 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#umanuma" class="md-nav__link">
+    <span class="md-ellipsis">
+      UMA和NUMA架构
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
@@ -2596,6 +2628,10 @@
           
         
       
+        
+      
+        
+      
     
     
       
@@ -2621,6 +2657,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
@@ -2630,6 +2671,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/core/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    核心概念
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2859,6 +2942,8 @@
       
         
       
+        
+      
     
     
       
@@ -2954,6 +3039,27 @@
   
   <span class="md-ellipsis">
     异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GDB
   </span>
   
 
@@ -3842,6 +3948,8 @@
       
         
       
+        
+      
     
     
       
@@ -3946,6 +4054,27 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/ffmpeg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ffmpeg
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -3978,6 +4107,15 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#umanuma" class="md-nav__link">
+    <span class="md-ellipsis">
+      UMA和NUMA架构
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
@@ -4109,13 +4247,12 @@
 
 
 <h1 id="_1">物理内存管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>现代多核处理器采用了NUMA架构，即非一致性内存访问架构。在这种架构下，每个cpu都有自己的本地node，而其他cpu的node就是远端node，cpu访问本地node的速度要比远端快很多。在NUMA架构中，一个node就代表一个CPU直接访问的本地内存区域。每个node又包含了许多zone，zone又被划分为page。</p>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>内核使用<code>struct pglist_data</code>来描述一个numa node的内存布局情况。</p>
-</div>
+<h2 id="umanuma">UMA和NUMA架构<a class="headerlink" href="#umanuma" title="Permanent link">&para;</a></h2>
+<p>UMA(一致性内存访问)是一种对称多处理器系统的内存访问架构，它指的是所有处理器对内存的访问具有相同的延迟。在UMA系统中，所有处理器共享同一总线或交叉点，可以直接访问共享内存，这意味着无论哪个处理器访问内存，延迟都是相同的，UMA适用于小规模的多处理器系统。</p>
+<p>现代多核处理器大多采用了NUMA架构，即非一致性内存访问架构。在NUMA架构下，每个CPU都有自己的本地内存，称为NUMA节点(node)，它的访问速度更快。如果一个处理器要访问其他处理器的本地内存，需要通过QPI总线去访问，这样延迟就会增加。</p>
 <h2 id="_2">页和区<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p><mark class="critic">页</mark>（page）是内核物理内存管理的基本单位，每页通常包含4kb的空间。内核将物理内存划分成众多固定大小的页，主要是为了提升内核在内存分配和回收方面的效率，可以更加灵活地处理内存请求，优化资源分配，并简化了内存寻址和映射的过程，同时也为虚拟内存的管理提供了便利。page的内存区域我们称之为<mark class="critic">页帧</mark>，用<code>struct page</code>结构体表示，而page的编号就叫做<mark class="critic">页帧号</mark>(Page Frame Number)，内核定义了<code>page_to_pfn()</code>和<code>pfn_to_page()</code>两个函数用于相互转换：</p>
+<p>如果让内核去管理每个物理地址，成本会非常高，也不现实。所以需要一种高效且灵活的机制来管理物理地址，这种机制我们称为<mark class="critic">页</mark>（page）机制。内核将物理地址划分为一个个大小相同的页，每页包含4KB的空间。</p>
+<p>这主要是为了提升内核在内存分配和回收方面的效率，可以更加灵活地处理内存请求，优化资源分配，并简化了内存寻址和映射的过程，同时也为虚拟内存的管理提供了便利。page的内存区域我们称之为<mark class="critic">页帧</mark>，用<code>struct page</code>结构体表示，而page的编号就叫做<mark class="critic">页帧号</mark>(Page Frame Number)，内核定义了<code>page_to_pfn()</code>和<code>pfn_to_page()</code>两个函数用于相互转换：</p>
 <div class="language-c highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">page</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">_count</span><span class="p">;</span>

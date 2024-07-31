@@ -569,6 +569,8 @@
       
         
       
+        
+      
     
     
       
@@ -790,6 +792,27 @@
   
   <span class="md-ellipsis">
     内核抢占
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kthread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核线程
   </span>
   
 
@@ -1088,6 +1111,15 @@
   
     <nav class="md-nav" aria-label="proc文件系统">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procself" class="md-nav__link">
+    <span class="md-ellipsis">
+      /proc/self
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#proccpuinfo" class="md-nav__link">
@@ -2632,6 +2664,10 @@
           
         
       
+        
+      
+        
+      
     
     
       
@@ -2657,6 +2693,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
@@ -2666,6 +2707,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/core/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    核心概念
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2895,6 +2978,8 @@
       
         
       
+        
+      
     
     
       
@@ -2990,6 +3075,27 @@
   
   <span class="md-ellipsis">
     异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GDB
   </span>
   
 
@@ -3878,6 +3984,8 @@
       
         
       
+        
+      
     
     
       
@@ -3973,6 +4081,27 @@
   
   <span class="md-ellipsis">
     音视频基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/ffmpeg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ffmpeg
   </span>
   
 
@@ -4084,6 +4213,15 @@
   
     <nav class="md-nav" aria-label="proc文件系统">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#procself" class="md-nav__link">
+    <span class="md-ellipsis">
+      /proc/self
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#proccpuinfo" class="md-nav__link">
@@ -4310,14 +4448,16 @@
 <p>上述这些数据结构都是通过进程描述符链表连接起来的。对于多数进程，它们的描述符都指向唯一的<code>files_struct</code>和<code>fs_struct</code>结构体。但是对于那些在调用<code>clone()</code>函数时指定了克隆标志CLONE_FILES或者CLONE_FS的进程，会共享这两个结构体。</p>
 <p><code>namespace</code>结构体的使用方法比较特殊。默认情况下，所有进程都是共享一个命名空间的，只有当<code>clone()</code>函数时指定了<mark class="critic">CLONE_NEWS</mark>标志，才会给进程一个唯一的命名空间结构体的拷贝。</p>
 <h2 id="proc">proc文件系统<a class="headerlink" href="#proc" title="Permanent link">&para;</a></h2>
-<p>proc文件系统是特殊的文件系统，它们的信息并不保存在磁盘上而是在收到请求后由内核动态生成。proc文件系统提供了内核各个子系统的信息，比如进程信息、内存信息、网络信息等。它使得用户通过简单地使用<code>cat</code>命令就可以查看系统信息，甚还可以在系统运行时动态修改内核参数而不需要重新编译内核的代码。</p>
-<p>在proc文件系统引入之前，要想获取或修改内核的参数时，需要开发人员编写专门的特权级程序，这需要开发人员具有非常专业的内核知识，这种做法对于内核来说很不安全。有了proc文件系统之后，用户通过简单的read/write命令就可以读取和修改内核参数，不仅增加了应用的可读性和可维护性，同时也降低了内核稳定性被应用程序破坏的风险。</p>
+<p>proc文件系统是一种特殊的文件系统，它的信息并不保存在磁盘上而是实时生成的。proc文件系统提供了内核各个子系统的信息，比如进程信息、内存信息、网络信息等，使得用户能够以文件的方式访问系统状态。</p>
 <p>下面对proc目录下几个常用文件的内容，和使用场景做一个简单的说明。</p>
+<h3 id="procself">/proc/self<a class="headerlink" href="#procself" title="Permanent link">&para;</a></h3>
+<p>每个进程在proc目录下都有一个对应的子目录，通过该进程的PID来命名，为了简化对当前进程的描述，Linux提供了一个特殊的目录：/proc/self。它指向当前进程的proc目录，可以省去写PID的麻烦。</p>
 <h3 id="proccpuinfo">/proc/cpuinfo<a class="headerlink" href="#proccpuinfo" title="Permanent link">&para;</a></h3>
 <p>该文件包含了当前系统CPU的参数信息，包括CPU的核心数量、每个核心的工作频率、缓存大小等。</p>
 <p><img alt="cpuinfo" src="../../../images/kernel/proc-cpuinfo.png" /></p>
 <h3 id="procmeminfo">/proc/meminfo<a class="headerlink" href="#procmeminfo" title="Permanent link">&para;</a></h3>
-<p>该文件显示的是系统中当前内存的使用情况，比如物理内存容量、已使用内存、空闲内存、共享内存、交换内存大小等。日常开发过程中<code>top</code>命令查看系统资源使用情况时，就是通过读取该文件获取的。相比于<code>top</code>命令，该文件提供了更为详细的内存状态信息，比如slab内存占用量、可回收内存量、内存栈空间大小、使用<code>malloc()</code>分配的堆内存量、使用<code>mmap()</code>映射的内存量等。</p>
+<p>、
+该文件显示的是系统中当前内存的使用情况，比如物理内存容量、已使用内存、空闲内存、共享内存、交换内存大小等。日常开发过程中<code>top</code>命令查看系统资源使用情况时，就是通过读取该文件获取的。相比于<code>top</code>命令，该文件提供了更为详细的内存状态信息，比如slab内存占用量、可回收内存量、内存栈空间大小、使用<code>malloc()</code>分配的堆内存量、使用<code>mmap()</code>映射的内存量等。</p>
 <p><img alt="meminfo" src="../../../images/kernel/proc-meminfo.png" /></p>
 <h3 id="prockallsyms">/proc/kallsyms<a class="headerlink" href="#prockallsyms" title="Permanent link">&para;</a></h3>
 <p>该文件是一个符号表，包含了内核所有的全局变量和函数在内存中的地址。</p>

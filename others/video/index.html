@@ -18,6 +18,8 @@
         <link rel="prev" href="../serializer/">
       
       
+        <link rel="next" href="../ffmpeg/">
+      
       
       <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.14">
@@ -560,6 +562,8 @@
       
         
       
+        
+      
     
     
       
@@ -781,6 +785,27 @@
   
   <span class="md-ellipsis">
     内核抢占
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/kthread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核线程
   </span>
   
 
@@ -2436,6 +2461,10 @@
           
         
       
+        
+      
+        
+      
     
     
       
@@ -2461,6 +2490,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
@@ -2470,6 +2504,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ros2/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ros2/core/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    核心概念
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2699,6 +2775,8 @@
       
         
       
+        
+      
     
     
       
@@ -2794,6 +2872,27 @@
   
   <span class="md-ellipsis">
     异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../pl/cpp/gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GDB
   </span>
   
 
@@ -3684,6 +3783,8 @@
       
         
       
+        
+      
     
     
       
@@ -3855,10 +3956,49 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#frame" class="md-nav__link">
+    <span class="md-ellipsis">
+      帧(frame)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      流(stream)
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ffmpeg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ffmpeg
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -3930,6 +4070,24 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#frame" class="md-nav__link">
+    <span class="md-ellipsis">
+      帧(frame)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stream" class="md-nav__link">
+    <span class="md-ellipsis">
+      流(stream)
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -3970,6 +4128,31 @@ YUV不像RGB那样要求三个独立的视频信号同时传输，所以用YUV�
 <li>planar：平面格式，先存储 Y 平面，再存储 U 平面，最后存储 V 平面，YUV 分量存储在不同的平面</li>
 <li>semi-planar：半平面格式，先存储 Y 平面，再存储 UV 平面，UV 交错排列在一个平面</li>
 </ul>
+<h2 id="frame">帧(frame)<a class="headerlink" href="#frame" title="Permanent link">&para;</a></h2>
+<p>视频是由一系列连续的图像组成的，称为帧。每一帧都包含一张完整的图像。帧率指的是视频每秒钟显示的帧数，通常用FPS（Frames Per Second）表示。帧率越高，视频越流畅，但数据量也越大。帧的分辨率是指帧中包含的像素数量，通常以宽度x高度表示，例如1920x1080（1080p），3840x2160（4K）等。</p>
+<p>在视频编码中，帧分为I帧、P帧和B帧：</p>
+<ol>
+<li>I帧（Intra Frame）：</li>
+<li>独立编码的帧，不依赖于其他帧</li>
+<li>包含完整的图像数据，因此解码器可以单独解码I帧并重建图像</li>
+<li>数据量较大</li>
+<li>通常用于随机访问点，例如视频的起始点或用户快进/快退到某个位置时的关键帧。</li>
+<li>P帧（Predictive Frame）：</li>
+<li>依赖前面的I帧或P帧进行解码</li>
+<li>通过存储与前一帧的差异来减少数据量</li>
+<li>
+<p>压缩率较高，数据量较小</p>
+</li>
+<li>
+<p>B帧（Bidirectional Predictive Frame）：</p>
+</li>
+<li>依赖前面的和后面的I帧或P帧进行解码</li>
+<li>通过存储与前后帧的差异来减少数据量</li>
+<li>压缩率最高，数据量最小</li>
+</ol>
+<p>这些帧类型的组合使得视频编码器能够在保持图像质量的同时，显著减少视频数据量，从而实现高效的视频压缩和传输。在典型的视频编码序列中，通常会以I帧开始，随后是若干P帧和B帧，以实现平衡的压缩效果和解码效率。</p>
+<h2 id="stream">流(stream)<a class="headerlink" href="#stream" title="Permanent link">&para;</a></h2>
+<p>流是一系列连续传输的数据，通常用于实时传输音频和视频。流可以是单一类型的数据（如音频流或视频流），也可以是多种数据的组合(如音视频流)。流用于实时传输音频、视频等数据，通过网络或其他传输介质，将数据从发送端传输到接收端。</p>
 
 
 

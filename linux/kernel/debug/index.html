@@ -569,6 +569,8 @@
       
         
       
+        
+      
     
     
       
@@ -767,7 +769,7 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      内核调试配置选项
+      动态调试
     </span>
   </a>
   
@@ -932,6 +934,27 @@
   
   <span class="md-ellipsis">
     内核抢占
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kthread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核线程
   </span>
   
 
@@ -2587,6 +2610,10 @@
           
         
       
+        
+      
+        
+      
     
     
       
@@ -2612,6 +2639,11 @@
 
             </a>
             
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
           </div>
         
         <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
@@ -2621,6 +2653,48 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/core/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    核心概念
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
           </ul>
@@ -2850,6 +2924,8 @@
       
         
       
+        
+      
     
     
       
@@ -2945,6 +3021,27 @@
   
   <span class="md-ellipsis">
     异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/cpp/gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GDB
   </span>
   
 
@@ -3833,6 +3930,8 @@
       
         
       
+        
+      
     
     
       
@@ -3928,6 +4027,27 @@
   
   <span class="md-ellipsis">
     音视频基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/ffmpeg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ffmpeg
   </span>
   
 
@@ -4033,7 +4153,7 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      内核调试配置选项
+      动态调试
     </span>
   </a>
   
@@ -4375,8 +4495,19 @@
 <li>WARN_ON（condition)：调用<code>dump_stack()</code></li>
 <li>panic(fmt...)：系统crash，输出log</li>
 </ul>
-<h2 id="_5">内核调试配置选项<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>在编译内核时，内核在Kernel hacking菜单项中提供了许多配置选项，它们都依赖于CONFIG_DEBUG_KERNEL。开发内核时，可以打开这些选项进行调试。</p>
+<h2 id="_5">动态调试<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>/sys/kernel/debug/dynamic_debug/control 是Linux系统中的一个特殊文件，用于动态调试内核代码。它允许开发者在运行时动态地启用或禁用内核中的调试信息，而不需要重新编译内核。</p>
+<p>通过修改 control 文件的内容，开发者就可以在内核运行时控制哪些调试信息被输出。可以选择性地启用特定文件、特定函数或特定代码行的调试信息。</p>
+<p>/sys/kernel/debug/dynamic_debug/control 文件接受以下格式的命令：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>module<span class="w"> </span>&lt;module_name&gt;<span class="w"> </span>&lt;flags&gt;
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>file<span class="w"> </span>&lt;file_name&gt;<span class="w"> </span>&lt;flags&gt;
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>func<span class="w"> </span>&lt;function_name&gt;<span class="w"> </span>&lt;flags&gt;
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>line<span class="w"> </span>&lt;line_number&gt;<span class="w"> </span>&lt;flags&gt;
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>format<span class="w"> </span>&lt;format_string&gt;<span class="w"> </span>&lt;flags&gt;
+</code></pre></div>
+<p>例如，下面这条命令会启用<code>my_driver.c</code>文件中所有使用<code>pr_debug()</code>和<code>dev_dbg()</code>宏输出的调试信息。命令中的<code>+p</code>参数表示启用打印。</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;file my_driver.c +p&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/dynamic_debug/control
+</code></pre></div>
 <h2 id="_6">常用调试功能<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <h3 id="kasan">KASAN<a class="headerlink" href="#kasan" title="Permanent link">&para;</a></h3>
 <h3 id="strace">strace<a class="headerlink" href="#strace" title="Permanent link">&para;</a></h3>
