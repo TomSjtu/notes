@@ -206,26 +206,14 @@ static void exit_to_usermode_loop(struct pt_regs *regs, u32 cached_flags)
 
 netlink是一种用户态和内核态之间进行通信的机制，当然用户之间，甚至内核之间也是可以通信的，只不过这不是netlink的主要使用场景，因此不在此讨论。
 
+一般来说用户空间和内核空间的通信方式有三种：/proc、ioctl、netlink。前两种都是单向的，而netlink可以实现双工通信。netlink基于socket和AF_NETLINK地址簇，使用32位的端口号寻址。
+
 netlink支持两种类型的通信方式：单播和多播。
 
 - 单播：一个用户进程对应一个内核进程。
 - 多播：多个用户进程对应一个内核进程。内核会创建一个多播组，然后将有需求的用户进程加入到该组中来接受内核消息。
 
-如果只是单播，可以不用执行`bind()`函数，用`sendto()`和`recvfrom()`就可以完成数据的发送和接收。
-
-如果涉及到多播，需要执行`bind()`函数将多个进程关联到某个多播组，用`sendmsg()`和`recvmsg()`来完成数据的发送和接收。
-
-注意：从用户空间传递到内核的数据无需排队，但是反过来要。
-
-### 地址结构体
-
-在用户空间创建netlink套接字接口的方法与普通套接字一样：
-
-```C
-fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ATNLPROXY);
-```
-
-在套接字初始化后，必须使用netlink特有的地址结构体对当前进程进行标识。Netlink地址结构体如下所示:
+### 用户态数据结构
 
 ```C
 struct sockaddr_nl {
@@ -236,57 +224,101 @@ struct sockaddr_nl {
 };
 ```
 
-> nl_family：协议族，必须为AF_NETLINK
+- nl_pid：在netlink规范中，PID全称为Port-ID(32bits)，用于唯一标识一个基于netlink的socket通道。通常情况下该值都为进程的PID号，如果设置为0，则表示内核。
+- nl_groups：如果用户空间的进程希望加入某个多播组，则必须执行`bind()`系统调用。该字段指明了调用者希望加入的多播组号的掩码。如果为0，则表示不希望加入任何多播组。
 
-> nl_pad：填充字段，必须为0
-
-> nl_pid：在单播情况下，该字段为进程标识符PID，在多播情况下设置为0.
-
-> nl_groups：多播组地址掩码。
+netlink的报文由消息头和消息体组成，`struct nlmsghdr`即为消息头：
 
 ```C
-static u32 netlink_group_mask(u32 group)
-{
-  return group? 1 << (group - 1) : 0;
+struct nlmsghdr{
+    __u32 nlmsg_len;    // Length of message including header
+    __u16 nlmsg_type;   // Message content type
+    __u16 nlmsg_flags;  // Additional flags
+    __u32 nlmsg_seq;    // Sequence number
+    __u32 nlmsg_pid;    // Sending process ID
 }
 ```
 
-在用户空间的代码中，如果要加入到多播组1，就要设置nl_groups为1；多播组2的掩码为2，多播组3的掩码为4。如果设置为0，表示不希望加入任何多播组。
+其中`nlmsg_len`为整个报文的长度，`nlmsg_type`为消息类型，`nlmsg_flags`为附加的标志位，`nlmsg_seq`为报文序列号，`nlmsg_pid`为发送进程的ID。
 
-当程序执行时， `struct sockaddr_nl`结构体会被转化为标准的socket地址，通过`bind()`函数将其与netlink套接字进行绑定后，作为参数传递给用于发送和接受消息的接口`sendmsg()`和`recvmsg()`。
+### 用户态API
 
-### 消息格式
+用户态使用标准的socket API，包括`socket()`, `bind()`, `sendmsg()`, `recvmsg()` 和 `close()`就可以使用netlink进行通信。
 
-消息由两部分组成：消息头和消息体。消息头为固定的16字节，定义如下：
+1. 创建socket：
+   ```C
+   int sockfd = socket(AF_NETLINK, SOCK_DGRAM, NETLINK_TYPE);
+   ```
+2. 设置`struct sockaddr_nl`：
 
-```C
-struct nlmsghdr {
-  __u32 nlmsg_len;    /* Length of message including header */
-  __u16 nlmsg_type;   /* Message content */
-  __u16 nlmsg_flags;  /* Additional flags */
-  __u32 nlmsg_seq;    /* Sequence number */
-  __u32 nlmsg_pid;    /* Sending process port ID */
-};
-```
+   ```C
+   struct sockaddr_nl addr;
+   addr.nl_family = AF_NETLINK;
+   addr.nl_pid = getpid();
+   addr.nl_groups = 0;
+   ```
 
-> nlmsg_len：整个消息的长度，包括消息头
+3. 绑定socket：
+   
+   ```C
+   bind(sockfd, (struct sockaddr*)&addr, sizeof(addr));
+   ```
 
-> nlmsg_type：消息的类型，是数据还是控制。
+4. 发送消息：
 
-> nlmsg_flags：附加在消息上的额外信息。
+   ```C
+   struct iovec iov;
+   iov.iov_base = "Hello, world!";
+   iov.iov_len = 13;
+   struct msghdr msg;
+   msg.msg_name = &addr;
+   msg.msg_namelen = sizeof(addr);
+   msg.msg_iov = &iov;
+   msg.msg_iovlen = 1;
+   msg.msg_control = NULL;
+   msg.msg_controllen = 0;
+   msg.msg_flags = 0;
+   sendmsg(sockfd, &msg, 0);
+   ```
 
-> nlmsg_seq：消息的序列号，确保数据不被丢失。当内核向用户空间发送广播消息时，该字段为0。
+5. 接收消息：
 
-> nlmsg_pid：为数据交换的通道分配的数字标识，用于确保数据交互的正确性。
+一个接受程序必须分配一个足够大的内存用户保存netlink消息头和消息负载：
 
-!!! example "填充消息头"
+   ```C
+   #define MAX_NL_MSG_LEN 1024 
+   struct sockaddr_nl nladdr; 
+   struct msghdr msg; 
+   struct iovec iov; 
+   struct nlmsghdr * nlhdr; 
+   nlhdr = (struct nlmsghdr *)malloc(MAX_NL_MSG_LEN); 
+   iov.iov_base = (void *)nlhdr; 
+   iov.iov_len = MAX_NL_MSG_LEN; 
+   msg.msg_name = (void *)&(nladdr); 
+   msg.msg_namelen = sizeof(nladdr); 
+   msg.msg_iov = &iov; 
+   msg.msg_iovlen = 1; 
+   recvmsg(fd, &msg, 0);
+   ```
+
+### 内核态API
+
+1. 创建netlink socket：
 
   ```C
-  (void)osa_memset_s((char*)nlmsg, size, 0, size);
-  nlmsg->nlmsg_len  = NLMSG_LENGTH(final_len + sizeof(*device_event));
-  nlmsg->nlmsg_type = NLMSG_DONE;
-  nlmsg->nlmsg_pid = getpid();
-  nlmsg->nlmsg_seq = seq++;      /* seq暂时没有用到，后期可能会进行扩展使用 */
+  inline struct sock *netlink_kernel_create(struct net *net, int unit,struct netlink_kernel_cfg *cfg);
+  ```
+
+2. 发送单播消息：
+
+  ```C
+  int netlink_unicast(struct sock *ssk, struct sk_buff *skb, __u32 portid, int nonblock);
+  ```
+
+3. 发送多播消息：
+
+  ```C
+  int netlink_broadcast(struct sock *ssk, struct sk_buff *skb, __u32 portid, __u32 group, gfp_t allocation);
   ```
 
 ## zeromq

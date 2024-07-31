@@ -262,9 +262,27 @@ $ cat /proc/sys/kernel/printk
 - WARN_ON（condition)：调用`dump_stack()`
 - panic(fmt...)：系统crash，输出log
 
-## 内核调试配置选项
+## 动态调试
 
-在编译内核时，内核在Kernel hacking菜单项中提供了许多配置选项，它们都依赖于CONFIG_DEBUG_KERNEL。开发内核时，可以打开这些选项进行调试。
+/sys/kernel/debug/dynamic_debug/control 是Linux系统中的一个特殊文件，用于动态调试内核代码。它允许开发者在运行时动态地启用或禁用内核中的调试信息，而不需要重新编译内核。
+
+通过修改 control 文件的内容，开发者就可以在内核运行时控制哪些调试信息被输出。可以选择性地启用特定文件、特定函数或特定代码行的调试信息。
+
+/sys/kernel/debug/dynamic_debug/control 文件接受以下格式的命令：
+
+```SHELL
+module <module_name> <flags>
+file <file_name> <flags>
+func <function_name> <flags>
+line <line_number> <flags>
+format <format_string> <flags>
+```
+
+例如，下面这条命令会启用`my_driver.c`文件中所有使用`pr_debug()`和`dev_dbg()`宏输出的调试信息。命令中的`+p`参数表示启用打印。
+
+```SHELL
+echo 'file my_driver.c +p' > /sys/kernel/debug/dynamic_debug/control
+```
 
 ## 常用调试功能
 

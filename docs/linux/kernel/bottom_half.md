@@ -245,17 +245,17 @@ tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，区
 
 内核中的方案时不会立即处理重复触发的软中断。当大量软中断出现的时候，内核会唤醒一组内核线程来处理这些负载。这些线程在最低优先级（nice=19）运行，避免与其他任务抢占资源。
 
-每个处理器都有一个这样的线程，名字为{==ksoftirqd/n==}，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用`do_softirq()`函数来处理它们。
+每个处理器都有一个这样的线程，名字为 {==ksoftirqd/n==}，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用`do_softirq()`函数来处理它们。
 
 ## 工作队列
 
-工作队列是一种延后执行的机制，可以将后续的工作交给一个内核线程执行——这个下半部分总是在进程上下文中执行。这样，通过工作队列实现的代码就能享受进程上下文的所有优势，比如可以重新调度甚至是睡眠。
+工作队列是一种异步处理机制，用于延迟执行一些需要在进程上下文中执行的任务。工作队列通常由内核模块或驱动程序使用，以避免在中断上下文中执行长时间运行的操作。
 
-如果推后执行的任务需要睡眠，那么在下半部中就只能选择工作队列，否则优先选择tasklet。
+如果推迟的代码需要睡眠，就只能选择工作队列。
 
-内核的工作队列分为两种：共享工作队列和自定义工作队列。
+内核的工作队列分为两种：自带工作队列和自定义工作队列。
 
-内核提供了缺省的工作者线程（worker thread）{==events/n==}来执行工作队列中的任务，n为处理器的编号。
+内核提供了缺省的工作者线程（worker thread）{==events/n==} 来执行工作队列中的任务，n为处理器的编号。
 
 ### 工作队列的实现
 
@@ -274,7 +274,7 @@ struct workqueue_struct {
 
 该结构体内有一个`cpu_workqueue_struct`结构组成的数组，数组的每一项对应系统中的一个处理器。也就是说系统中每个处理器对应一个工作者线程。
 
-`struct work_struct`描述的就是要延迟执行的工作：
+`struct work_struct`描述的是实际需要执行的工作：
 
 ```C
 struct work_struct {
@@ -284,7 +284,7 @@ struct work_struct {
 };
 ```
 
-这些`work_struct`被连接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，当没有剩余的操作时，它就会继续休眠。
+这些`work_struct`被连接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，如果没有剩余的操作，它就会继续休眠。
 
 ### 使用工作队列
 
@@ -303,12 +303,22 @@ INIT_WORK(name, func);
 ```C
 bool schedule_work(struct work_struct *work);
 bool schedule_delayed_work(struct work_struct *work, unsigned long delay);
+bool schedule_work_on(int cpu, struct work_struct *work);
 ```
 
 取消已经调度的工作：
 
 ```C
+bool cancel_work(struct work_struct *work);
 bool cancel_work_sync(struct work_struct *work);
+```
+
+强制执行work：
+
+```C
+bool flush_work(struct work_struct *work);
+void flush_scheduled_work(void);        //默认刷新system_wq队列
+void flush_workqueue(struct workqueue_struct *wq);
 ```
 
 如果要自定义一个工作队列，则可以使用宏：
@@ -319,24 +329,19 @@ create_singlethread_workqueue(name);
 
 这两个宏都会返回一个`struct workqueue_struct`的指针。区别是：第一个宏在每个处理器上为该工作队列创建专用的线程，第二个宏只创建一个工作者线程。
 
-注意：不管使用哪个宏，在创建自定义工作队列后，必须在退出时，调用以下函数确保资源的释放：
+销毁工作队列：
 
 ```C
-/*刷新工作队列，告诉内核尽快处理*/
-void flush_workqueue(struct work_struct *work);
-
-/*删除工作队列*/
 void destroy_workqueue(struct workqueue_struct *wq);
 ```
 
-提交工作给自定义工作队列：
+调度`work_struct`到自定义工作队列：
 
 ```C
 int queue_work(struct workqueue_struct *queue, struct work_struct *work);
 int queue_delayed_work(struct workqueue_struct *queue, struct work_struct *work, unsigned long delay);
+bool queue_work_on(int cpu, struct workqueue_struct *wq, struct work_struct *work);
 ```
-
-在多核系统中，每个CPU上都有一个工作队列，这两个函数不会指定提交至哪个CPU，但会优先选择本地CPU。
 
 ### 延迟工作
 

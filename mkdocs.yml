@@ -70,6 +70,7 @@ nav:
       - linux/kernel/sched.md
       - linux/kernel/ipc.md
       - linux/kernel/preempt.md
+      - linux/kernel/kthread.md
       - linux/kernel/interrupt.md
       - linux/kernel/bottom_half.md
       - linux/kernel/mm.md
@@ -150,6 +151,9 @@ nav:
 
   - ROS2:
     - ros2/index.md
+    - ros2/intro.md
+    - ros2/core.md
+
 
   - 编程语言: 
     - pl/index.md
@@ -163,6 +167,7 @@ nav:
       - pl/cpp/misc.md
       - pl/cpp/io.md
       - pl/cpp/exception.md
+      - pl/cpp/gdb.md
       - pl/cpp/cmake.md
       - pl/cpp/conan.md
       - pl/cpp/oop.md
@@ -207,6 +212,7 @@ nav:
     - others/config.md
     - others/serializer.md
     - others/video.md
+    - others/ffmpeg.md
 
 
     

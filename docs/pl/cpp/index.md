@@ -5,6 +5,7 @@
 - [C++杂项](./misc.md)
 - [I/O流](./io.md)
 - [异常处理](./exception.md)
+- [GDB](./gdb.md)
 
 ## 包管理
 

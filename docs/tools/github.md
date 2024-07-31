@@ -192,13 +192,19 @@ git branch -a
 切换分支：
 
 ```SHELL
-git check -b [新分支名]
+git checkout -b [新分支名]
 ```
 
 合并其他分支的代码到当前分支，你需要手动解决冲突：
 
 ```SHELL
 git merge [另一个分支名]
+```
+
+将某个分支的提交应用到当前分支，你需要手动解决冲突：
+
+```SHELL
+git cherry-pick [提交号]
 ```
 
 ## 版本控制

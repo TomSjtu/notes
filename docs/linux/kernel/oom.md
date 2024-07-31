@@ -6,9 +6,6 @@ OOM，即out of memory的缩写，是内核的一种内存管理机制。在可�
 
 当系统物理内存不足时，oom_killer遍历当前所有进程，根据进程的内存使用情况进行打分，然后从中选择一个分数最高的进程，杀死它获取内存。
 
-内核触发OOM后的流程如下：
-![out of memory](../../images/kernel/out_of_memory.png)
-
 相关代码如下：
 
 ```C
