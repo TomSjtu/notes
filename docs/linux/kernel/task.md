@@ -189,8 +189,6 @@ struct thread_info {
 current_thread_info()->task
 ```
 
-
-
 ## 进程组织形式
 
 要明白进程之间是如何组织的，首先要知道双向链表这个数据结构。双向链表就是同时有prev和next指针的链表，分别指向前一个和后一个元素。Linux使用双向链表将所有进程的描述符全部连接起来。
@@ -234,9 +232,7 @@ typedef struct __wait_queue wait_queue_t;
 
 ## 进程生命周期
 
-进程的大致运行流程如下图所示：
-
-![进程状态](../../images/kernel/running_state.webp)
+![进程管理](../../images/kernel/task.png)
 
 ### 进程创建
 

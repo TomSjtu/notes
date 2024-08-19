@@ -1,9 +1,5 @@
 # 中断下半部
 
-!!! tips
-
-    内核中有些与中断相关的函数，名字中带着_bh，一般与下半部有关。
-
 ## 软中断
 
 !!! note
@@ -13,8 +9,6 @@
 软中断的本质就是在硬件中断执行完毕后，通过`wakeup_softirqd()`的方式唤醒一个softirq队列，然后中断程序返回，softirq队列在适当的时候开始执行。
 
 普通的驱动程序一般不会用到软中断，只有那些对于性能要求非常高的比如网卡驱动会用到。由于tasklet是基于软中断实现的，所以了解软中断是理解tasklet的关键。
-
-为了性能，同一类型的软中断有可能在不同的CPU上并发执行，这给使用者带来了极大的痛苦，因为驱动工程师在撰写软中断的回调函数的时候要考虑重入，考虑并发，要引入同步机制。
 
 ### 软中断的实现
 
@@ -31,7 +25,7 @@ enum {
 	IRQ_POLL_SOFTIRQ,   /* 块设备软中断 */
 	TASKLET_SOFTIRQ,    /* 普通tasklet */
 	SCHED_SOFTIRQ,      /* 进程调度及负载均衡的软中断 */
-	HRTIMER_SOFTIRQ,    /*高精度timer定时器软中断 */
+	HRTIMER_SOFTIRQ,    /* 高精度timer定时器软中断 */
 	RCU_SOFTIRQ,        /* Preferable RCU should always be the last softirq， RCU相关的软中断 */
 	NR_SOFTIRQS
 };
@@ -59,7 +53,7 @@ DEFINE_PER_CPU(struct task_struct *, ksoftirqd);
 
 ![softirq](../../images/kernel/softirq.png)
 
-软中断可以在不同的CPU上并发运行，但是在同一个CPU上只能串行运行。
+注意：软中断可以在不同的CPU上并发运行，但是在同一个CPU上只能串行运行。
 
 ### 触发软中断
 

@@ -2,31 +2,31 @@
 
 ## 进入内核前
 
-在系统启动前，控制权在引导程序(bootloader)手中，这里的bootloader是一个宽泛的概念，泛指一切为内核准备好执行环境的那些软件，可以是uboot，也可以是Hypervisor或者是secure monitor。
+在系统启动前，控制权在引导程序(bootloader)手中，这里的 bootloader 是一个宽泛的概念，泛指一切为内核准备好执行环境的那些软件，可以是 uboot，也可以是 Hypervisor 或者是 secure monitor。
 
 不管是哪种引导程序，都需要完成以下步骤：
 
-1. 初始化RAM信息
+1. 初始化 RAM 信息
 2. 准备好设备树信息，并将设备树首地址告知内核
 3. 解压内核(非强制)
 4. 将控制权交给内核
 
 在跳转至内核前，必须满足以下状态：
 
-- 关闭MMU
-- 关闭D-cache(数据缓存)，I-cache(指令缓存)开启或关闭都可
-- x0寄存器用来保存设备树的物理地址
-- CPU必须处于EL2模式(推荐，可以访问虚拟化扩展)或非安全EL1模式下
+- 关闭 MMU
+- 关闭 D-cache(数据缓存)，I-cache(指令缓存)开启或关闭都可
+- x0 寄存器用来保存设备树的物理地址
+- CPU 必须处于 EL2 模式(推荐，可以访问虚拟化扩展)或非安全 EL1 模式下
 
 !!! question "为什么必须关闭数据缓存"
 
-    数据缓存有可能缓存了bootloader的数据，如果不清除，可能导致内核访问错误的数据。而bootloader的指令与内核指令无关，所以可以不关闭指令缓存。
+    数据缓存有可能缓存了 bootloader 的数据，如果不清除，可能导致内核访问错误的数据。而 bootloader 的指令与内核指令无关，所以可以不关闭指令缓存。
 
-更详细的booting protocol请参考<Documentation/arm64/booting.rst\>文档。
+更详细的 booting protocol 请参考<Documentation/arm64/booting.rst\>文档。
 
 ## 启动代码分析
 
-ARM64的启动代码位于<arch/arm64/kernel/head.S\>文件中，代码如下：
+ARM64 的启动代码位于<arch/arm64/kernel/head.S\>文件中，代码如下：
 
 ```C
 SYM_CODE_START(primary_entry)
@@ -66,15 +66,15 @@ SYM_CODE_START_LOCAL(preserve_boot_args)
 SYM_CODE_END(preserve_boot_args)
 ```
 
-在启动前，MMU和D-cache已经被关闭，因此存储指令略过了cache，直接写入RAM。但是为了安全起见，仍然需要清除cache——调用`dcache_inval_poc`函数。
+在启动前，MMU 和 D-cache 已经被关闭，因此存储指令略过了 cache，直接写入 RAM。但是为了安全起见，仍然需要清除 cache ——调用`dcache_inval_poc`函数。
 
 !!! question "x0~x3寄存器"
 
-    为何要保留这四个寄存器的值？在boot protocol中有解释：x0是dtb的地址，x1~x3必须为0，用来保留使用。在`setup_arch`函数执行时，会校验boot_args的值。
+    为何要保留这四个寄存器的值？在 boot protocol 中有解释：x0 是 dtb 的地址，而x1~x3 必须为0，用来保留使用。执行函数`setup_arch()`时，会校验 boot_args 的值。
 
 ### 初始化异常等级
 
-我们期望系统从EL2模式下启动，如果不是，则需要先配置相关环境，在返回前，必须将BOOT_CPU_MODE的值保存在w0寄存器中：
+我们期望系统从 EL2 模式下启动，如果不是，则需要先配置相关环境，在返回前，必须将 BOOT_CPU_MODE 的值保存在 w0 寄存器中：
 
 ```C
 /*
@@ -160,7 +160,7 @@ SYM_FUNC_END(init_kernel_el)
 
 ### 设置CPU启动模式
 
-进入该函数前，必须保证w0保存了__boot_cpu_mode的值，该值用于保存CPU启动时的Exception level，它的定义如下：
+进入该函数前，必须保证 w0 保存了 __boot_cpu_mode 的值，该值用于保存 CPU 启动时的 Exception level，它的定义如下：
 
 ```C
 SYM_DATA_START(__boot_cpu_mode)
@@ -188,11 +188,11 @@ SYM_FUNC_START_LOCAL(set_cpu_boot_mode_flag)
 SYM_FUNC_END(set_cpu_boot_mode_flag)
 ```
 
-我们期望所有CPU都在同一模式下启动，如果都在EL2模式下启动，则说明系统支持虚拟化，kvm模块才可以顺利启动。
+我们期望所有 CPU 都在同一模式下启动，如果都在 EL2 模式下启动，则说明系统支持虚拟化，kvm 模块才可以顺利启动。
 
 ### 建立页表
 
-为了提高性能，加快初始化速度，必须在某个阶段打开MMU，而在打开MMU之前，必须要先设定好页表。
+为了提高性能，加快初始化速度，必须在某个阶段打开 MMU，而在打开 MMU 之前，必须要先设定好页表。
 
 ```C
 SYM_FUNC_START_LOCAL(__create_page_tables)
@@ -489,7 +489,7 @@ SYM_FUNC_START(__enable_mmu)
 SYM_FUNC_END(__enable_mmu)
 ```
 
-在开启MMU之后，使用bx命令跳转至__primary_switched，进行最后的栈设置和异常向量表设置，然后进入start_kernel：
+在开启 MMU 之后，使用 bx 命令跳转至 __primary_switched，进行最后的栈设置和异常向量表设置，然后进入 start_kernel：
 
 ```C
 /*
@@ -545,30 +545,12 @@ SYM_FUNC_START_LOCAL(__primary_switched)
 SYM_FUNC_END(__primary_switched)
 ```
 
-## 内核镜像文件
-
-编译生成的内核镜像文件主要有：
-
-- vmlinux：纯内核二进制文件，无法烧写到开发板
-- Image：对vmlinux使用objcopy处理的可烧写到开发板的文件，但是比较大
-- zImage：压缩Image后的文件
-- uImage：由uboot的mkimage工具加工zImage得到64字节头的Image，可以由uboot识别并启动
-
-地址信息：
-
-- 加载地址：指令和变量加载到内存中的地址
-- 运行地址：指令真正执行时的地址，即PC寄存器的值
-- 链接地址：链接过程中链接器为指令和变量分配的地址
-
-
-
 ## 从设备树获取信息
 
 
 ### 识别机器类型
 
-
-内核通过设备树中的信息来识别机器类型。理想情况下，特定的平台不应该影响内核，因为所有的平台细节都会完美地被设备树以一致且可靠的方式描述。但是硬件并不完美，因此内核必须在启动早期识别出具体的机型，这样就有机会执行机型特有的硬件修复代码。大多数时候，机型并不重要，内核根据机型的CPU或者SoC来选择执行相应的启动代码。以ARM为例，<arch/arm/kernel/setup.c\>中的`setup_arch()`函数会调用位于<arch/arm/kernel/devtree.c\>中的`setup_machine_fdt()`函数。该函数会查找machine_desc表并选择与设备树最为匹配的machine_desc。通过比较设备树根节点的compatible属性和定义在<arch/arm/include/asm/mach/arch.h\>中的machine_desc数据结构的dt_compat列表来选择最佳匹配。
+内核通过设备树中的信息来识别机器类型。理想情况下，特定的平台不应该影响内核，因为所有的平台细节都会完美地被设备树以一致且可靠的方式描述。但是硬件并不完美，因此内核必须在启动早期识别出具体的机型，这样就有机会执行机型特有的硬件修复代码。大多数时候，机型并不重要，内核会根据 SoC 来选择执行相应的启动代码。以 ARM 为例，<arch/arm/kernel/setup.c\>中的`setup_arch()`函数会调用位于<arch/arm/kernel/devtree.c\>中的`setup_machine_fdt()`函数。该函数会查找machine_desc表并选择与设备树最为匹配的machine_desc。通过比较设备树根节点的compatible属性和定义在<arch/arm/include/asm/mach/arch.h\>中的machine_desc数据结构的dt_compat列表来选择最佳匹配。
 
 compatible属性包含了以确切机器名开始的一组有序字符串。以ARM为例，对于每一个machine_desc，内核会检查其dt_compat列表中的条目是否出现在compatible属性中。如果有的话，对应的machine_desc就会作为驱动机器的一个候选。
 

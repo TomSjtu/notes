@@ -51,7 +51,7 @@ struct thread_info {
 
 ### TIF_NEED_RESCHED
 
-内核对于进程的调度并不是立即进行的，而是设置TIF_NEED_RESCHED标志位，在合适的时刻，检查该标志位然后进行调度。
+内核对于进程的调度并不是立即进行的，而是设置TIF_NEED_RESCHED标志位，由调度程序选择合适的时机，检查该标志位。如果为真，则触发调度程序。
 
 ```C
 static inline void set_tsk_need_resched(struct task_struct *tsk)
@@ -62,7 +62,7 @@ static inline void set_tsk_need_resched(struct task_struct *tsk)
 
 ### PREEMPT_COUNT
 
-为了正确协调系统中所有任务能正确运行，内核必须跟踪当前的执行状态，每个task中都存储了`preempt_count`计数值，可以通过`preempt_count()`函数来访问：
+为了正确协调系统中所有任务能正确运行，内核必须跟踪当前线程的执行状态，每个`task_struct`中都存储了`preempt_count`计数值，可以通过`preempt_count()`函数来访问：
 
 ```C
 static inline int preempt_count(void)
@@ -71,7 +71,7 @@ static inline int preempt_count(void)
 }
 ```
 
-这个counter用来指示当前线程的状态、它是否可以被抢占，以及它是否被允许睡眠。要实现这个功能的话，就必须在这个counter里面记录若干种不同状态，因此`preempt_count`也被分成了几个字段（sub-fields）：
+该计数值用来指示当前线程的状态、它是否可以被抢占，以及它是否被允许睡眠。`preempt_count`用多个字段来记录：
 
 ![preempt_count](../../images/kernel/preempt_count.webp)
 
@@ -111,7 +111,7 @@ static inline int preempt_count(void)
 - 进程上下文的spinlock
 - 进程上下文的其他情形
 
-在上面四类context中，前三者都是atomic上下文，只有第四类支持抢占调度。
+在上面四类context中，前三者都是原子的，只有第四类支持抢占调度。
 
 ## 抢占配置选项
 

@@ -35,18 +35,18 @@ gic: interrupt-controller@fd400000 {
 
 ![中断示意图](../../images/kernel/inter-controller.png)
 
-对于GPIO，可以将其视为中断控制器，但除了以上三个属性之外，还需要指定，使用上一级的哪一个中断控制器和哪一个中断：
+对于 GPIO，可以将其视为中断控制器，但除了以上三个属性之外，还需要指定，使用上一级的哪一个中断控制器和哪一个中断：
 
-1. interrupt-parent属性：指定上一级的中断控制器
+1. interrupt-parent 属性：指定上一级的中断控制器
 
-2. interrupts属性：指定具体的中断号，第一个单元格定义了控制器内中断的索引，第二个单元格用于指定以下标志之一：
+2. interrupts 属性：指定具体的中断号，第一个单元格定义了控制器内中断的索引，第二个单元格用于指定以下标志之一：
 
 	- 1：上升沿触发
 	- 2：下降沿触发
 	- 3：高电平触发
 	- 4：低电平触发
 
-如果支持extended语法，则可以直接使用interrupts-extended属性来取代以上两个属性：
+如果支持 extended 语法，则可以直接使用 interrupts-extended 属性来取代以上两个属性：
 
 ```DTS
 interrupts-extended = <&gpio1 5 RISING>, <&gpio2 6 RISING>;

@@ -36,7 +36,6 @@
 - [以太网](./ethernet.md)
 - [PCIE](./pcie.md)
 - [USB](./usb.md)
-- [MMC](./mmc.md)
 - [WIFI](./wifi.md)
 - [蓝牙](./bluetooth.md)
 

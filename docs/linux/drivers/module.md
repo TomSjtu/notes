@@ -98,5 +98,11 @@ clean:
 endif
 ```
 
+## 模块管理工具
 
+- lsmod：列出已经安装的模块
+- insmod：手动安装模块
+- rmmod：卸载模块
+- modinfo：查看某个模块的详细信息
+- modprobe：自动安装模块，并处理依赖关系
 

@@ -17,25 +17,25 @@ int main(void)
 
 gcc编译流程包括以下四个步骤：
 
-1.预处理：gcc - E test.c -o test.i
-2.编译：gcc -S test.i -o test.s
-3.汇编：as test.s -o test.o
-4.链接：ld test.o -o test -lc
+1. 预处理：`gcc - E test.c -o test.i`
+2. 编译：`gcc -S test.i -o test.s`
+3. 汇编：`as test.s -o test.o`
+4. 链接：`ld test.o -o test -lc`
 
-汇编阶段生成的.o可重定位文件以及链接阶段生成的可执行文件都是ELF文件格式的一种。
+汇编阶段生成的 .o 可重定位文件以及链接阶段生成的可执行文件都是 ELF 文件格式的一种。
 
-ELF文件主要包含：
+ELF 文件主要包含：
 
 - ELF header：描述整个文件的基本属性 
 - program header table：描述如何创建一个进程的内存映像
 - 各个段
 - section header table：描述段的信息
 
-`readelf`命令可以用来查看一个ELF文件的组成。比如`readelf -h`用来读取ELF header，`readelf -S`用来读取section header table。
+`readelf`命令可以用来查看一个ELF文件的组成。比如`readelf -h`用来读取ELF header，`readelf -S`用来读取 section header table。
 
 ## 链接器
 
-在现代软件工程中，一个大的项目往往由多个源文件组成，这些源文件经过预处理、编译、汇编后生成.o文件，然后通过链接器将这些.o文件链接成一个可执行文件。而链接脚本就告诉了链接器如何将目标文件组合起来。
+在现代软件工程中，一个大的项目往往由多个源文件组成，这些源文件经过预处理、编译、汇编后生成 .o 文件，然后通过链接器将这些 .o 文件链接成一个可执行文件。而链接脚本就告诉了链接器如何将目标文件组合起来。
 
 以下是一段链接脚本的示例：
 
@@ -165,9 +165,60 @@ SECTIONS
 - 段伪指令：.section
 - 宏伪指令：.macro
 
-## GCC内嵌汇编
+## GCC内联汇编
 
-嵌入式汇编的语法格式是：asm(code : output operand list : input operand list : clobber list)。output operand list 和 input operand list是c代码和嵌入式汇编代码的接口，clobber list描述了汇编代码对寄存器的修改情况。为何要有clober list？我们的c代码是gcc来处理的，当遇到嵌入汇编代码的时候，gcc会将这些嵌入式汇编的文本送给gas进行后续处理。这样，gcc需要了解嵌入汇编代码对寄存器的修改情况，否则有可能会造成大麻烦。例如：gcc对c代码进行处理，将某些变量值保存在寄存器中，如果嵌入汇编修改了该寄存器的值，又没有通知gcc的话，那么，gcc会以为寄存器中仍然保存了之前的变量值，因此不会重新加载该变量到寄存器，而是直接使用这个被嵌入式汇编修改的寄存器，这时候，我们唯一能做的就是静静的等待程序的崩溃。还好，在output operand list 和 input operand list中涉及的寄存器都不需要体现在clobber list中（gcc分配了这些寄存器，当然知道嵌入汇编代码会修改其内容），因此，大部分的嵌入式汇编的clobber list都是空的，或者只有一个cc，通知gcc，嵌入式汇编代码更新了condition code register。
+使用内联汇编，可以直接在C代码中编写汇编代码，并在编译时由GCC编译器进行处理。它的语法格式如下：
 
-`__asm__ __volatile__`告诉编译器不要优化汇编代码。
+```C
+__asm__ asm-qualifiers(Assembler Template)
+	: output operands
+	: input operands
+	: clobbers
+```
+
+1. \_\_asm\_\_：表示这是一个内联汇编代码。
+2. asm-qualifiers：一般使用 volatile，表示编译器不要优化这段代码。
+3. Assembler Template：汇编指令，用""包含，每条指令用\n分隔。
+4. output operands：输出操作数，保存输出的结果，格式如下，当有多个变量时，用逗号隔开：
+
+    ```C
+    [[asmSymbolicName]] constraint (variablename)
+    ```
+
+    - asmSymbolicName：汇编符号名，用于引用输出结果，可写可不写
+    - constraint：约束条件，有以下取值
+
+    | constraint | 说明 |
+	| --- | --- |
+	| m | memory operand，表示要传入有效的地址 |
+	| r | register operand，使用寄存器来保存操作数 |
+	| i | immediate interger operand，表示可以传入一个立即数 |
+
+	constraint还可以加上一些修饰字符，比如"=r"、"+r"、"=&r"，含义如下：
+
+	| 修饰 | 说明 |
+	| ---- | ---- |
+	| = | 表示内联汇编会修改这个操作数，即写 |
+	| + | 既被读，也被写 |
+	| & | earlyclobber操作数 |
+
+	示例1：
+	```C
+	[result] "=r"(sum)
+	```
+	表示汇编代码通过某个寄存器把结果写入sum变量，可以用"%[result]"来引用
+
+5. input operands：输入操作数，用于传入参数，格式如下，当有多个变量时，用逗号隔开：
+
+    ```C
+	[[asmSymbolicName]] constraint (expression)
+    ```
+
+6. clobbers：在汇编代码中，对于修改的寄存器、内存，需要在clobbers中声明，以免汇编器优化掉它们。
+
+	| clobbers | 说明 |
+	| --- | --- |
+	| cc | 表示汇编代码会修改标志寄存器 |
+	| memory | 表示汇编代码会修改内存 |
+
 

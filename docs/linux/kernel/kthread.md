@@ -9,7 +9,7 @@
 
 ## kthreadd线程
 
-我们知道Linux所有进程的祖先是0号进程，0号进程创建了1号init进程。init进程是所有用户进程的父进程。而内核线程同样也有自己的祖先那就是2号kthreadd线程。它的职责是创建和管理其他内核线程，它运行在一个循环中，不断遍历`kthread_create_list`链表，寻找新的内核线程创建请求。
+我们知道Linux所有进程的祖先是0号 idle 进程，idle 进程创建了1号 init 进程。init 进程是所有用户进程的父进程。而内核线程同样也有自己的祖先那就是2号 kthreadd 线程。它的职责是创建和管理其他内核线程，它运行在一个循环中，不断遍历`kthread_create_list`链表，寻找新的内核线程创建请求。
 
 这两个进程都是在初始化阶段被创建的：
 
@@ -38,7 +38,7 @@ pid_t kernel_thread(int (*fn)(void *), void *arg, unsigned long flags)
 }
 ```
 
-`kernel_clone()`其实最终也会调用`copy_process()`函数。根据前面所说，idle进程是所有进程的父进程，那么内核线程的创建也是通过拷贝idle进程来实现的。idle进程的部分内容如下：
+`kernel_clone()`其实最终也会调用`copy_process()`函数。根据前面所说，idle 进程是所有进程的父进程，那么内核线程的创建也是通过拷贝 idle 进程来实现的。idle 进程的部分内容如下：
 
 ```C
 //init/init_task.c
@@ -50,7 +50,7 @@ struct task_struct init_task = {
 };
 ```
 
-可以看到，idle进程的.mm为空。因此内核线程的mm域始终为空，相关代码如下：
+可以看到，idle 进程的 .mm 为空。因此内核线程的 mm 域始终为空，相关代码如下：
 
 ```C
 static int copy_mm(unsigned long clone_flags, struct task_struct *tsk)
@@ -89,7 +89,7 @@ static int copy_mm(unsigned long clone_flags, struct task_struct *tsk)
 }
 ```
 
-当判断oldmm为空时，说明是内核线程，直接返回0。当idle进程创建完kthreadd线程后，它被调度执行`kthreadd()`函数。
+当判断 oldmm 为空时，说明是内核线程，直接返回0。当 idle 进程创建完 kthreadd 线程后，它被调度执行`kthreadd()`函数。
 
 ### kthreadd函数
 
@@ -151,7 +151,7 @@ struct kthread_create_info
 };
 ```
 
-kthreadd线程先判断`kthread_create_list`是否为空，如果为空，则调用`schedule()`函数进入休眠状态。一旦有`kthread_create_info`结构体加入到链表中，则kthreadd线程被唤醒，并从`__set_current_state(TASK_RUNNING)`处开始执行。它进入一个循环，不断从`kthread_create_list`中取出`struct kthread_create_info`结构体，并调用`create_kthread()`函数创建内核线程。
+kthreadd 线程先判断`kthread_create_list`是否为空，如果为空，则调用`schedule()`函数进入休眠状态。一旦有`kthread_create_info`结构体加入到链表中，则 kthreadd 线程被唤醒，并从`__set_current_state(TASK_RUNNING)`处开始执行。它进入一个循环，不断从`kthread_create_list`中取出`struct kthread_create_info`结构体，并调用`create_kthread()`函数创建内核线程。
 
 `create_kthread()`函数很简单，就是调用`kernel_thread()`函数创建内核线程：
 
@@ -162,7 +162,7 @@ create_kthread()
 
 ## kthread函数
 
-当kthreadd线程创建完内核线程之后就完成了它的使命，内核线程执行的其实是`kthread()`函数。该函数会初始化`struct kthread`结构体，设置完成变量，然后通知kthreadd线程它已经准备好。当开始执行时，就会调用用户定义的`threadfn()`函数来执行实际的工作：
+当 kthreadd 线程创建完内核线程之后就完成了它的使命，内核线程执行的其实是`kthread()`函数。该函数会初始化`struct kthread`结构体，设置完成变量，然后通知 kthreadd 线程它已经准备好。当开始执行时，就会调用用户定义的`threadfn()`函数来执行实际的工作：
 
 ```C
 static int kthread(void *_create)
@@ -242,7 +242,7 @@ kthread_create()
 	-->__kthread_create_on_node()
 ```
 
-`__kthread_create_on_node()`函数的逻辑并不复杂，它首先填充`struct kthread_create_info`结构体，然后唤醒kthreadd线程来处理创建内核线程的请求，最后再进行一些后续的处理。需要注意的是，该函数创建的内核线程处于睡眠状态：
+`__kthread_create_on_node()`函数的逻辑并不复杂，它首先填充`struct kthread_create_info`结构体，然后唤醒 kthreadd 线程来处理创建内核线程的请求，最后再进行一些后续的处理。需要注意的是，该函数创建的内核线程处于睡眠状态：
 
 ```C
 struct task_struct *__kthread_create_on_node(int (*threadfn)(void *data),
@@ -376,22 +376,22 @@ struct kthread_delayed_work {
 
 1. 初始化`kthread_worker`和`kthread_work`：
 
-   ```C
-   kthread_init_worker(&worker);
-   kthread_init_work(&work, work_function);
-   ```
+   	```C
+   	kthread_init_worker(&worker);
+   	kthread_init_work(&work, work_function);
+   	```
 
 2. 创建并启动一个内核线程来服务这个工作队列：
 
-   ```C
-   kthread_run(kthread_worker_fn, &worker, "woker_thread");
-   ```
+	```C
+	kthread_run(kthread_worker_fn, &worker, "woker_thread");
+	```
 
 3. 将工作项添加到工作队列：
 
-   ```C
-   kthread_queue_work(&worker, &work);
-   ```
+	```C
+	kthread_queue_work(&worker, &work);
+	```
 
 4. 当不再需要工作队列时，销毁它：
 
@@ -407,7 +407,7 @@ struct kthread_delayed_work {
 
 ### kthread_worker_fn函数
 
-`kthread_worker_fn()`函数是由内核实现的，它负责从工作队列中取出工作项，并执行它们。它首先判断是否需要停止，如果需要停止，则将`worker->task`设置为`NULL`，并返回。然后它尝试从`kthread_worker`的`work_list`中取出一个工作项，如果取到，则将`worker->current_work`设置为该工作项，并调用该工作项的回调函数。如果工作队列为空，则调用`schedule()`函数进入休眠状态。跳转到repeat处，重复执行上面的操作。
+`kthread_worker_fn()`函数是由内核实现的，它负责从工作队列中取出工作项，并执行它们。它首先判断是否需要停止，如果需要停止，则将`worker->task`设置为`NULL`，并返回。然后它尝试从`kthread_worker`的`work_list`中取出一个工作项，如果取到，则将`worker->current_work`设置为该工作项，并调用该工作项的回调函数。如果工作队列为空，则调用`schedule()`函数进入休眠状态。跳转到 repeat 处，重复执行上面的操作。
 
 ```C
 int kthread_worker_fn(void *worker_ptr)

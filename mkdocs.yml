@@ -112,7 +112,6 @@ nav:
       - linux/drivers/ethernet.md
       - linux/drivers/pcie.md
       - linux/drivers/usb.md
-      - linux/drivers/mmc.md
       - linux/drivers/wifi.md
       - linux/drivers/bluetooth.md
       - linux/drivers/socketcan.md
@@ -134,6 +133,7 @@ nav:
  
   - ARM: 
     - arm/index.md
+    - arm/secure_boot.md
     - arm/boot.md
     - arm/aarch64.md
     - arm/standard.md

@@ -241,21 +241,6 @@ vruntime变量存放进程的虚拟运行时间，该变量由系统定时器周
 进程调度的触发函数是`schedule()`，该函数会调用`pick_next_task()`函数选择下一个要运行的进程。`pick_next_task()`以优先级为序，从高到低依次检查每一个调度类，并且从最高优先级的调度类中，选择最高优先级的进程。
 
 ```C
-asmlinkage __visible void __sched schedule(void)
-{
-	struct task_struct *tsk = current;
-
-	sched_submit_work(tsk);
-	do {
-		preempt_disable();
-		__schedule(SM_NONE);
-		sched_preempt_enable_no_resched();
-	} while (need_resched());
-	sched_update_worker(tsk);
-}
-```
-
-```C
 static inline struct task_struct *
 __pick_next_task(struct rq *rq, struct task_struct *prev, struct rq_flags *rf)
 {
@@ -300,7 +285,7 @@ restart:
 
 ### 睡眠与唤醒
 
-睡眠的进程处于一个特殊的不可执行状态，常见原因就是在等待文件I/O。内核将需要睡眠的进程标记为睡眠状态，从红黑树中移除，加入等待队列，然后调用`schedule()`选择下一个进程。
+睡眠的进程处于一个特殊的状态，常见原因就是在等待文件I/O。内核将需要睡眠的进程标记为睡眠状态，从运行队列中移除，加入等待队列，然后调用`schedule()`选择下一个进程。
 
 等待队列是由等待某些事件发生的进程组成的简单链表。内核用`wait_queue_head_t`来表示等待队列。等待队列可以通过`DECLARE_WAITQUEUE()`静态创建或者是`init_waitqueue_head()`动态创建。
 
@@ -320,9 +305,9 @@ int wait_event_interruptible_timeout(wait_queue_head_t q, int condition, unsigne
 
 ![睡眠操作](../../images/kernel/wait.png)
 
-唤醒操作通过`wake_up()`/`wake_up_interruptible()`完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到红黑树中。`wake_up_process()`用于唤醒特定的进程。
+唤醒操作通过`wake_up()`/`wake_up_interruptible()`完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到运行队列中。`wake_up_process()`用于唤醒特定的进程。
 
-需要注意的是，`wake_up()`函数会将所有等待队列中的进程唤醒，如果这些进程需要争抢资源，则会引发严重的性能问题。替代方法是{==独占等待==}。
+需要注意的是，`wake_up()`函数会将所有等待队列中的进程唤醒，如果这些进程需要争抢资源，则会引发严重的性能问题。
 
 ## 调度队列与调度实体
 

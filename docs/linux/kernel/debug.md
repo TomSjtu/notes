@@ -256,6 +256,7 @@ $ cat /proc/sys/kernel/printk
 
 ### 调试函数
 
+- dump_stack()：打印当前调用栈
 - BUG()：触发panic，输出log
 - BUG_ON(condition)：触发panic，输出log
 - WARN(condition, fmt...)：当condition为真时，打印信息，不触发panic

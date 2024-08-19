@@ -184,6 +184,40 @@ esac
 - -w：可写
 - -x：可执行
 
+## 处理输入
+
+### getopt
+
+`getopt`命令在处理命令行选项和参数时非常方便。它可以接受一系列任意形式的命令行选项和参数，并自动将其转换成适当的格式。它的基本格式为：`getopt [options] [parameters]`。你需要在[options]中列出脚本中所有要用到的选项，如果需要有参数值就跟一个冒号。
+
+### getopts
+
+`getopts`命令与`getopt`命令类似，但它只能处理短选项，并且只能处理一组选项。下面举一个简单的例子：
+
+```SHELL
+#!/bin/bash
+
+while getopts "a:b:c" opt
+do
+	case $opt in
+		a)
+			echo "option a with value $OPTARG"
+			;;
+		b)
+			echo "option b with value $OPTARG"
+			;;
+		c)
+			echo "option c with no value"
+			;;
+		\?)
+			echo "unknown option: -$OPTARG"
+			exit 1
+			;;
+	esac
+done
+```
+
+
 ## 函数
 
 ```SHELL
@@ -256,6 +290,7 @@ echo -e "\033[32m绿色文本\033[0m"
 一些常用的颜色代码有：
 
 | 颜色 | 前景色 | 背景色 |
+| ---- | ---- | ---- |
 | 黑色 | 30 | 40 |
 | 红色 | 31 | 41 |
 | 绿色 | 32 | 42 |

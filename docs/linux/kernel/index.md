@@ -2,7 +2,7 @@
 
 ## 基础知识
 
-- [内核的编译与启动](./compile.md)
+- [编译内核](./compile.md)
 - [内核编程](./program.md)
 - [调试技术](./debug.md)
 - [同步语义](./synch.md)
