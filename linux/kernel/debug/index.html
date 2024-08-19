@@ -623,7 +623,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1367,8 +1367,6 @@
       
         
       
-        
-      
     
     
       
@@ -1837,27 +1835,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../drivers/wifi/" class="md-nav__link">
         
   
@@ -2276,6 +2253,8 @@
       
         
       
+        
+      
     
     
       
@@ -2315,6 +2294,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4489,6 +4489,7 @@
 </ul>
 <h3 id="_4">调试函数<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ul>
+<li>dump_stack()：打印当前调用栈</li>
 <li>BUG()：触发panic，输出log</li>
 <li>BUG_ON(condition)：触发panic，输出log</li>
 <li>WARN(condition, fmt...)：当condition为真时，打印信息，不触发panic</li>

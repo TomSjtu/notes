@@ -616,7 +616,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1218,8 +1218,6 @@
       
         
       
-        
-      
     
     
       
@@ -1688,27 +1686,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../linux/drivers/wifi/" class="md-nav__link">
         
   
@@ -2129,6 +2106,8 @@
       
         
       
+        
+      
     
     
       
@@ -2171,6 +2150,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2339,7 +2339,7 @@
         <li class="md-nav__item">
   <a href="#gcc_1" class="md-nav__link">
     <span class="md-ellipsis">
-      GCC内嵌汇编
+      GCC内联汇编
     </span>
   </a>
   
@@ -4052,7 +4052,7 @@
         <li class="md-nav__item">
   <a href="#gcc_1" class="md-nav__link">
     <span class="md-ellipsis">
-      GCC内嵌汇编
+      GCC内联汇编
     </span>
   </a>
   
@@ -4089,21 +4089,23 @@
 <a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="p">}</span>
 </code></pre></div>
 <p>gcc编译流程包括以下四个步骤：</p>
-<p>1.预处理：gcc - E test.c -o test.i
-2.编译：gcc -S test.i -o test.s
-3.汇编：as test.s -o test.o
-4.链接：ld test.o -o test -lc</p>
-<p>汇编阶段生成的.o可重定位文件以及链接阶段生成的可执行文件都是ELF文件格式的一种。</p>
-<p>ELF文件主要包含：</p>
+<ol>
+<li>预处理：<code>gcc - E test.c -o test.i</code></li>
+<li>编译：<code>gcc -S test.i -o test.s</code></li>
+<li>汇编：<code>as test.s -o test.o</code></li>
+<li>链接：<code>ld test.o -o test -lc</code></li>
+</ol>
+<p>汇编阶段生成的 .o 可重定位文件以及链接阶段生成的可执行文件都是 ELF 文件格式的一种。</p>
+<p>ELF 文件主要包含：</p>
 <ul>
 <li>ELF header：描述整个文件的基本属性 </li>
 <li>program header table：描述如何创建一个进程的内存映像</li>
 <li>各个段</li>
 <li>section header table：描述段的信息</li>
 </ul>
-<p><code>readelf</code>命令可以用来查看一个ELF文件的组成。比如<code>readelf -h</code>用来读取ELF header，<code>readelf -S</code>用来读取section header table。</p>
+<p><code>readelf</code>命令可以用来查看一个ELF文件的组成。比如<code>readelf -h</code>用来读取ELF header，<code>readelf -S</code>用来读取 section header table。</p>
 <h2 id="_1">链接器<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>在现代软件工程中，一个大的项目往往由多个源文件组成，这些源文件经过预处理、编译、汇编后生成.o文件，然后通过链接器将这些.o文件链接成一个可执行文件。而链接脚本就告诉了链接器如何将目标文件组合起来。</p>
+<p>在现代软件工程中，一个大的项目往往由多个源文件组成，这些源文件经过预处理、编译、汇编后生成 .o 文件，然后通过链接器将这些 .o 文件链接成一个可执行文件。而链接脚本就告诉了链接器如何将目标文件组合起来。</p>
 <p>以下是一段链接脚本的示例：</p>
 <div class="language-C highlight"><span class="filename">u-boot.lds</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;config.h&gt;</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;asm/psci.h&gt;</span>
@@ -4227,9 +4229,102 @@
 <li>段伪指令：.section</li>
 <li>宏伪指令：.macro</li>
 </ul>
-<h2 id="gcc_1">GCC内嵌汇编<a class="headerlink" href="#gcc_1" title="Permanent link">&para;</a></h2>
-<p>嵌入式汇编的语法格式是：asm(code : output operand list : input operand list : clobber list)。output operand list 和 input operand list是c代码和嵌入式汇编代码的接口，clobber list描述了汇编代码对寄存器的修改情况。为何要有clober list？我们的c代码是gcc来处理的，当遇到嵌入汇编代码的时候，gcc会将这些嵌入式汇编的文本送给gas进行后续处理。这样，gcc需要了解嵌入汇编代码对寄存器的修改情况，否则有可能会造成大麻烦。例如：gcc对c代码进行处理，将某些变量值保存在寄存器中，如果嵌入汇编修改了该寄存器的值，又没有通知gcc的话，那么，gcc会以为寄存器中仍然保存了之前的变量值，因此不会重新加载该变量到寄存器，而是直接使用这个被嵌入式汇编修改的寄存器，这时候，我们唯一能做的就是静静的等待程序的崩溃。还好，在output operand list 和 input operand list中涉及的寄存器都不需要体现在clobber list中（gcc分配了这些寄存器，当然知道嵌入汇编代码会修改其内容），因此，大部分的嵌入式汇编的clobber list都是空的，或者只有一个cc，通知gcc，嵌入式汇编代码更新了condition code register。</p>
-<p><code>__asm__ __volatile__</code>告诉编译器不要优化汇编代码。</p>
+<h2 id="gcc_1">GCC内联汇编<a class="headerlink" href="#gcc_1" title="Permanent link">&para;</a></h2>
+<p>使用内联汇编，可以直接在C代码中编写汇编代码，并在编译时由GCC编译器进行处理。它的语法格式如下：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">__asm__</span><span class="w"> </span><span class="k">asm</span><span class="o">-</span><span class="n">qualifiers</span><span class="p">(</span><span class="n">Assembler</span><span class="w"> </span><span class="n">Template</span><span class="p">)</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">output</span><span class="w"> </span><span class="n">operands</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">input</span><span class="w"> </span><span class="n">operands</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">clobbers</span>
+</code></pre></div>
+<ol>
+<li>__asm__：表示这是一个内联汇编代码。</li>
+<li>asm-qualifiers：一般使用 volatile，表示编译器不要优化这段代码。</li>
+<li>Assembler Template：汇编指令，用""包含，每条指令用\n分隔。</li>
+<li>
+<p>output operands：输出操作数，保存输出的结果，格式如下，当有多个变量时，用逗号隔开：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">[[</span><span class="n">asmSymbolicName</span><span class="p">]]</span><span class="w"> </span><span class="n">constraint</span><span class="w"> </span><span class="p">(</span><span class="n">variablename</span><span class="p">)</span>
+</code></pre></div>
+<ul>
+<li>asmSymbolicName：汇编符号名，用于引用输出结果，可写可不写</li>
+<li>constraint：约束条件，有以下取值</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>constraint</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>m</td>
+<td>memory operand，表示要传入有效的地址</td>
+</tr>
+<tr>
+<td>r</td>
+<td>register operand，使用寄存器来保存操作数</td>
+</tr>
+<tr>
+<td>i</td>
+<td>immediate interger operand，表示可以传入一个立即数</td>
+</tr>
+</tbody>
+</table>
+<p>constraint还可以加上一些修饰字符，比如"=r"、"+r"、"=&amp;r"，含义如下：</p>
+<table>
+<thead>
+<tr>
+<th>修饰</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>=</td>
+<td>表示内联汇编会修改这个操作数，即写</td>
+</tr>
+<tr>
+<td>+</td>
+<td>既被读，也被写</td>
+</tr>
+<tr>
+<td>&amp;</td>
+<td>earlyclobber操作数</td>
+</tr>
+</tbody>
+</table>
+<p>示例1：
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">[</span><span class="n">result</span><span class="p">]</span><span class="w"> </span><span class="s">&quot;=r&quot;</span><span class="p">(</span><span class="n">sum</span><span class="p">)</span>
+</code></pre></div>
+表示汇编代码通过某个寄存器把结果写入sum变量，可以用"%[result]"来引用</p>
+</li>
+<li>
+<p>input operands：输入操作数，用于传入参数，格式如下，当有多个变量时，用逗号隔开：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="p">[[</span><span class="n">asmSymbolicName</span><span class="p">]]</span><span class="w"> </span><span class="n">constraint</span><span class="w"> </span><span class="p">(</span><span class="n">expression</span><span class="p">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>clobbers：在汇编代码中，对于修改的寄存器、内存，需要在clobbers中声明，以免汇编器优化掉它们。</p>
+<table>
+<thead>
+<tr>
+<th>clobbers</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>cc</td>
+<td>表示汇编代码会修改标志寄存器</td>
+</tr>
+<tr>
+<td>memory</td>
+<td>表示汇编代码会修改内存</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ol>
 
 
 

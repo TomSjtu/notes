@@ -621,7 +621,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1225,8 +1225,6 @@
       
         
       
-        
-      
     
     
       
@@ -1744,27 +1742,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../wifi/" class="md-nav__link">
         
   
@@ -2183,6 +2160,8 @@
       
         
       
+        
+      
     
     
       
@@ -2222,6 +2201,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4026,12 +4026,12 @@
 
 <h1 id="spi">SPI子系统<a class="headerlink" href="#spi" title="Permanent link">&para;</a></h1>
 <h2 id="spi_1">SPI协议<a class="headerlink" href="#spi_1" title="Permanent link">&para;</a></h2>
-<p>SPI是全双工同步通信总线，可以在同一时间发送和接收数据，通常由一个主模块和一个或多个从模块组成（SPI不支持多主机），主模块选择一个从模块进行同步通信，从而完成数据的交换。提供时钟的为主设备（Master），接收时钟的设备为从设备（Slave），SPI接口的读写操作，都是由主设备发起，当存在多个从设备时，通过各自的片选信号进行管理。</p>
+<p>SPI 是全双工同步通信总线，可以在同一时间发送和接收数据，通常由一个主模块和一个或多个从模块组成（ SPI 不支持多主机），主模块选择一个从模块进行同步通信，从而完成数据的交换。提供时钟的为主设备（Master），接收时钟的设备为从设备（Slave），SPI 接口的读写操作，都是由主设备发起，当存在多个从设备时，通过各自的片选信号进行管理。</p>
 <p>SPI物理总线示意图如下所示：</p>
 <p><img alt="spi物理总线" src="../../../images/kernel/spi-bus.png" /></p>
 <p>SPI有四根控制线，包括：</p>
 <ul>
-<li>SCLK：时钟线，数据收发同步</li>
+<li>SCK：时钟线，数据收发同步</li>
 <li>MOSI：数据线，主设备发送、从设备接收</li>
 <li>MISO：数据线，主设备接收、从设备发送</li>
 <li>CS：片选线，低电平表示选中</li>

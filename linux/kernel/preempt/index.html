@@ -623,7 +623,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1358,8 +1358,6 @@
       
         
       
-        
-      
     
     
       
@@ -1828,27 +1826,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../drivers/wifi/" class="md-nav__link">
         
   
@@ -2267,6 +2244,8 @@
       
         
       
+        
+      
     
     
       
@@ -2306,6 +2285,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4233,20 +4233,20 @@
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="p">};</span>
 </code></pre></div>
 <h3 id="tif_need_resched">TIF_NEED_RESCHED<a class="headerlink" href="#tif_need_resched" title="Permanent link">&para;</a></h3>
-<p>内核对于进程的调度并不是立即进行的，而是设置TIF_NEED_RESCHED标志位，在合适的时刻，检查该标志位然后进行调度。</p>
+<p>内核对于进程的调度并不是立即进行的，而是设置TIF_NEED_RESCHED标志位，由调度程序选择合适的时机，检查该标志位。如果为真，则触发调度程序。</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">set_tsk_need_resched</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">tsk</span><span class="p">)</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="p">{</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">set_tsk_thread_flag</span><span class="p">(</span><span class="n">tsk</span><span class="p">,</span><span class="w"> </span><span class="n">TIF_NEED_RESCHED</span><span class="p">);</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">}</span>
 </code></pre></div>
 <h3 id="preempt_count">PREEMPT_COUNT<a class="headerlink" href="#preempt_count" title="Permanent link">&para;</a></h3>
-<p>为了正确协调系统中所有任务能正确运行，内核必须跟踪当前的执行状态，每个task中都存储了<code>preempt_count</code>计数值，可以通过<code>preempt_count()</code>函数来访问：</p>
+<p>为了正确协调系统中所有任务能正确运行，内核必须跟踪当前线程的执行状态，每个<code>task_struct</code>中都存储了<code>preempt_count</code>计数值，可以通过<code>preempt_count()</code>函数来访问：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">preempt_count</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="p">{</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">READ_ONCE</span><span class="p">(</span><span class="n">current_thread_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">preempt_count</span><span class="p">);</span>
 <a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">}</span>
 </code></pre></div>
-<p>这个counter用来指示当前线程的状态、它是否可以被抢占，以及它是否被允许睡眠。要实现这个功能的话，就必须在这个counter里面记录若干种不同状态，因此<code>preempt_count</code>也被分成了几个字段（sub-fields）：</p>
+<p>该计数值用来指示当前线程的状态、它是否可以被抢占，以及它是否被允许睡眠。<code>preempt_count</code>用多个字段来记录：</p>
 <p><img alt="preempt_count" src="../../../images/kernel/preempt_count.webp" /></p>
 <ul>
 <li>
@@ -4289,7 +4289,7 @@
 <li>进程上下文的spinlock</li>
 <li>进程上下文的其他情形</li>
 </ul>
-<p>在上面四类context中，前三者都是atomic上下文，只有第四类支持抢占调度。</p>
+<p>在上面四类context中，前三者都是原子的，只有第四类支持抢占调度。</p>
 <h2 id="_3">抢占配置选项<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>Linux内核支持多种抢占配置，可以根据具体场景灵活选择：</p>
 <ul>

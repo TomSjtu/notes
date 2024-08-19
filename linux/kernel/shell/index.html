@@ -623,7 +623,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1255,6 +1255,39 @@
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
+      处理输入
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="处理输入">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      getopt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getopts" class="md-nav__link">
+    <span class="md-ellipsis">
+      getopts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
       函数
     </span>
   </a>
@@ -1289,7 +1322,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       颜色
     </span>
@@ -1325,8 +1358,6 @@
       
         
           
-        
-      
         
       
         
@@ -1843,27 +1874,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../drivers/wifi/" class="md-nav__link">
         
   
@@ -2282,6 +2292,8 @@
       
         
       
+        
+      
     
     
       
@@ -2321,6 +2333,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4162,6 +4195,39 @@
         <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
+      处理输入
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="处理输入">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#getopt" class="md-nav__link">
+    <span class="md-ellipsis">
+      getopt
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#getopts" class="md-nav__link">
+    <span class="md-ellipsis">
+      getopts
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
       函数
     </span>
   </a>
@@ -4196,7 +4262,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       颜色
     </span>
@@ -4398,10 +4464,36 @@
 <li>-w：可写</li>
 <li>-x：可执行</li>
 </ul>
-<h2 id="_8">函数<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">function</span><span class="w"> </span>function_name<span class="w"> </span><span class="o">{</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span>command...
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="o">}</span>
+<h2 id="_8">处理输入<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="getopt">getopt<a class="headerlink" href="#getopt" title="Permanent link">&para;</a></h3>
+<p><code>getopt</code>命令在处理命令行选项和参数时非常方便。它可以接受一系列任意形式的命令行选项和参数，并自动将其转换成适当的格式。它的基本格式为：<code>getopt [options] [parameters]</code>。你需要在[options]中列出脚本中所有要用到的选项，如果需要有参数值就跟一个冒号。</p>
+<h3 id="getopts">getopts<a class="headerlink" href="#getopts" title="Permanent link">&para;</a></h3>
+<p><code>getopts</code>命令与<code>getopt</code>命令类似，但它只能处理短选项，并且只能处理一组选项。下面举一个简单的例子：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="ch">#!/bin/bash</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">while</span><span class="w"> </span><span class="nb">getopts</span><span class="w"> </span><span class="s2">&quot;a:b:c&quot;</span><span class="w"> </span>opt
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">do</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="k">case</span><span class="w"> </span><span class="nv">$opt</span><span class="w"> </span><span class="k">in</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">        </span>a<span class="o">)</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;option a with value </span><span class="nv">$OPTARG</span><span class="s2">&quot;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">        </span>b<span class="o">)</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;option b with value </span><span class="nv">$OPTARG</span><span class="s2">&quot;</span>
+<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">        </span>c<span class="o">)</span>
+<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;option c with no value&quot;</span>
+<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-10-15" name="__codelineno-10-15" href="#__codelineno-10-15"></a><span class="w">        </span><span class="se">\?</span><span class="o">)</span>
+<a id="__codelineno-10-16" name="__codelineno-10-16" href="#__codelineno-10-16"></a><span class="w">            </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;unknown option: -</span><span class="nv">$OPTARG</span><span class="s2">&quot;</span>
+<a id="__codelineno-10-17" name="__codelineno-10-17" href="#__codelineno-10-17"></a><span class="w">            </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<a id="__codelineno-10-18" name="__codelineno-10-18" href="#__codelineno-10-18"></a><span class="w">            </span><span class="p">;;</span>
+<a id="__codelineno-10-19" name="__codelineno-10-19" href="#__codelineno-10-19"></a><span class="w">    </span><span class="k">esac</span>
+<a id="__codelineno-10-20" name="__codelineno-10-20" href="#__codelineno-10-20"></a><span class="k">done</span>
+</code></pre></div>
+<h2 id="_9">函数<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">function</span><span class="w"> </span>function_name<span class="w"> </span><span class="o">{</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span>command...
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="o">}</span>
 </code></pre></div>
 <p>使用函数时需要注意以下几点：</p>
 <ol>
@@ -4499,20 +4591,62 @@
 <h2 id="awk">awk<a class="headerlink" href="#awk" title="Permanent link">&para;</a></h2>
 <p>awk是一个强大的文本处理工具，主要用于对结构化数据进行模式扫描和处理，有着强大的文本格式化能力。它支持复杂的操作和脚本编写，能够进行模式匹配、文本处理、数据报告生成等。</p>
 <p>基本格式：<code>awk [options] 'pattern {action}' file</code></p>
-<h2 id="_9">颜色<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\033[32m绿色文本\033[0m&quot;</span>
+<h2 id="_10">颜色<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nb">echo</span><span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;\033[32m绿色文本\033[0m&quot;</span>
 </code></pre></div>
 <p>上面这段代码将输出绿色文本。注意，在设置文本输出后，一定要使用<code>\033[0m</code>来恢复默认颜色。</p>
 <p>一些常用的颜色代码有：</p>
-<p>| 颜色 | 前景色 | 背景色 |
-| 黑色 | 30 | 40 |
-| 红色 | 31 | 41 |
-| 绿色 | 32 | 42 |
-| 黄色 | 33 | 43 |
-| 蓝色 | 34 | 44 |
-| 紫色 | 35 | 45 |
-| 青色 | 36 | 46 |
-| 白色 | 37 | 47 |</p>
+<table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>前景色</th>
+<th>背景色</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>黑色</td>
+<td>30</td>
+<td>40</td>
+</tr>
+<tr>
+<td>红色</td>
+<td>31</td>
+<td>41</td>
+</tr>
+<tr>
+<td>绿色</td>
+<td>32</td>
+<td>42</td>
+</tr>
+<tr>
+<td>黄色</td>
+<td>33</td>
+<td>43</td>
+</tr>
+<tr>
+<td>蓝色</td>
+<td>34</td>
+<td>44</td>
+</tr>
+<tr>
+<td>紫色</td>
+<td>35</td>
+<td>45</td>
+</tr>
+<tr>
+<td>青色</td>
+<td>36</td>
+<td>46</td>
+</tr>
+<tr>
+<td>白色</td>
+<td>37</td>
+<td>47</td>
+</tr>
+</tbody>
+</table>
 
 
 

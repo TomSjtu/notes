@@ -621,7 +621,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1177,8 +1177,6 @@
       
         
           
-        
-      
         
       
         
@@ -1795,27 +1793,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../wifi/" class="md-nav__link">
         
   
@@ -2234,6 +2211,8 @@
       
         
       
+        
+      
     
     
       
@@ -2273,6 +2252,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4153,13 +4153,13 @@
 </blockquote>
 <h3 id="gpio">子GPIO中断控制器<a class="headerlink" href="#gpio" title="Permanent link">&para;</a></h3>
 <p><img alt="中断示意图" src="../../../images/kernel/inter-controller.png" /></p>
-<p>对于GPIO，可以将其视为中断控制器，但除了以上三个属性之外，还需要指定，使用上一级的哪一个中断控制器和哪一个中断：</p>
+<p>对于 GPIO，可以将其视为中断控制器，但除了以上三个属性之外，还需要指定，使用上一级的哪一个中断控制器和哪一个中断：</p>
 <ol>
 <li>
-<p>interrupt-parent属性：指定上一级的中断控制器</p>
+<p>interrupt-parent 属性：指定上一级的中断控制器</p>
 </li>
 <li>
-<p>interrupts属性：指定具体的中断号，第一个单元格定义了控制器内中断的索引，第二个单元格用于指定以下标志之一：</p>
+<p>interrupts 属性：指定具体的中断号，第一个单元格定义了控制器内中断的索引，第二个单元格用于指定以下标志之一：</p>
 <ul>
 <li>1：上升沿触发</li>
 <li>2：下降沿触发</li>
@@ -4168,7 +4168,7 @@
 </ul>
 </li>
 </ol>
-<p>如果支持extended语法，则可以直接使用interrupts-extended属性来取代以上两个属性：</p>
+<p>如果支持 extended 语法，则可以直接使用 interrupts-extended 属性来取代以上两个属性：</p>
 <div class="language-DTS highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">interrupts-extended</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">gpio1</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="na">RISING</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">gpio2</span><span class="w"> </span><span class="mi">6</span><span class="w"> </span><span class="na">RISING</span><span class="o">&gt;</span><span class="p">;</span>
 </code></pre></div>
 <p>BSP工程师编写代码如下：</p>

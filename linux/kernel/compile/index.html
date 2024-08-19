@@ -26,7 +26,7 @@
     
     
       
-        <title>内核的编译与启动 - 一只Tom的笔记本</title>
+        <title>编译内核 - 一只Tom的笔记本</title>
       
     
     
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              内核的编译与启动
+              编译内核
             
           </span>
         </div>
@@ -632,7 +632,7 @@
           
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -643,7 +643,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -701,34 +701,10 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      启动内核(待完成)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="启动内核(待完成)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#uboot" class="md-nav__link">
-    <span class="md-ellipsis">
-      uboot命令
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      制作根文件系统
+      内核镜像
     </span>
   </a>
   
@@ -1340,8 +1316,6 @@
       
         
       
-        
-      
     
     
       
@@ -1810,27 +1784,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../drivers/wifi/" class="md-nav__link">
         
   
@@ -2249,6 +2202,8 @@
       
         
       
+        
+      
     
     
       
@@ -2288,6 +2243,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4100,34 +4076,10 @@
   
 </li>
         
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
+          <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      启动内核(待完成)
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="启动内核(待完成)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#uboot" class="md-nav__link">
-    <span class="md-ellipsis">
-      uboot命令
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      制作根文件系统
+      内核镜像
     </span>
   </a>
   
@@ -4156,9 +4108,8 @@
   
 
 
-<h1 id="_1">内核的编译与启动<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h1 id="_1">编译内核<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <h2 id="_2">源码结构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>要获取内核源码，请使用<code>git</code>。</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>git clone git://git.ernel.org/pub/scm/linux/kernel/git/torvalds/[linux版本号].git
 </code></pre></div>
 <p>内核源码树由许多目录组成，一些比较重要的目录的描述如下：</p>
@@ -4216,37 +4167,29 @@
 </tr>
 </tbody>
 </table>
-<p>Linux内核可大致分为五个子系统——进程管理、内存管理、文件系统、网络系统和进程间通信。其中进程管理在系统中处于核心位置，内存管理主要用于控制进程安全的访问内存区域，虚拟文件系统则隐藏了各种文件系统的差异，为用户提供统一的接口；网络系统则提供了对各种网络设备、网络协议的支持；进程间通信协助进程之间的通信与同步。</p>
+<p>Linux内核可粗略分为五个子系统：</p>
+<ul>
+<li>进程管理：负责进程的创建、调度、终止等；</li>
+<li>内存管理：负责物理、虚拟内存的分配和回收</li>
+<li>文件系统：负责管理文件系统，包括VFS、块设备、字符设备等；</li>
+<li>网络系统：负责网络设备的驱动、协议栈、网络栈等；</li>
+<li>进程间通信：负责进程间通信的管理、同步等。</li>
+</ul>
 <h2 id="_3">编译内核<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>Linux内核从源码到安装使用大致可以分为三个阶段：配置、编译、安装。配置的过程主要由Kconfig提供的图形界面完成，编译与安装主要由Kbuild系统，由<code>make</code>命令实现。</p>
+<p>Linux内核从源码到安装使用大致可以分为三个阶段：配置、编译、安装。配置的过程主要由 Kconfig 提供的图形界面完成，编译与安装主要由 Kbuild 系统，由<code>make</code>命令实现。</p>
 <h3 id="kconfig">Kconfig<a class="headerlink" href="#kconfig" title="Permanent link">&para;</a></h3>
-<p>要配置内核，可以使用以下指令：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">make</span><span class="w"> </span><span class="n">config</span><span class="p">(</span><span class="n">基于文本</span><span class="p">)</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">make</span><span class="w"> </span><span class="n">menuconfig</span><span class="p">(</span><span class="n">基于文本菜单</span><span class="p">)</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">make</span><span class="w"> </span><span class="n">xconfig</span><span class="p">(</span><span class="n">要求安装QT</span><span class="p">)</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">make</span><span class="w"> </span><span class="n">gconfig</span><span class="p">(</span><span class="n">要求安装GTK</span><span class="o">+</span><span class="p">)</span>
-</code></pre></div>
-<p>其中最推荐的是<code>make menuconfig</code>，它不依赖于QT或者GTK+，且非常直观。运行<code>make menuconfig</code>后的界面（ARM）如下图所示：</p>
+<p>使用<code>make _menuconfig</code>命令可配置内核，其界面（ARM）如下图所示：</p>
 <p><img alt="内核菜单配置界面" src="../../../images/kernel/menuconfig.png" /></p>
-<p>运行<code>make menuconfig</code>后，配置工具首先查找&lt;arch/[architecture]/Kconfig&gt;文件，该文件除了定义一系列CONFIG配置项，还通过关键字<code>source</code>语句引入了一系列Kconfig文件。每个Kconfig文件分别描述了所属目录源文档相关的内核配置菜单，最终形成一个分层的树形结构。就是我们在执行<code>make menuconfig</code>后看到的目录菜单。</p>
+<p>Kconfig 是内核的配置工具，它提供了一种基于菜单的配置方式，使得用户可以灵活地配置内核。Kconfig 配置工具首先查找&lt;arch/[architecture]/Kconfig&gt;文件，该文件定义一系列 CONFIG 配置项，关键字<code>source</code>可以引用其他 Kconfig 文件。每个 Kconfig 文件分别描述了所属目录的内核配置菜单，最终形成一个分层的树形结构。</p>
 <p>在内核中添加程序需要完成以下三个步骤：</p>
 <ol>
 <li>将编写的源代码复制到对应的目录中。</li>
 <li>在目录的Kconfig文件中添加对于新代码的编译配置选项。</li>
 <li>在目录的Makefile文件中添加对于新代码的编译条目。</li>
 </ol>
-<p>内核的各种配置，以CONFIG_FEATURE的形式写入主目录的.config文件。再执行<code>make</code>命令时，就会根据.config文件中的配置选项，编译出对应的可执行文件。</p>
-<p>配置选项有三种：yes、no或module。分别对应编译、不编译、以模块形式编译。</p>
-<p>假如MMU的源代码文件为：mmu.c，在该目录的Kconfig文件中有个条目config MMU，则在Makefile文件中关于此目录的编译条目为：obj-$(CONFIG_MMU) += mmu.o。如果关于MMU的配置选项选择为"Y"或者"M"，则编译mmu.o；如果选择为"N"，则不编译mmu.o。</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<ul>
-<li>obj-y：编译进内核</li>
-<li>obj-m：编译成模块</li>
-<li>obj-n：不编译进内核</li>
-</ul>
-</div>
-<p>自己编写时可以仿照内核的写法。</p>
+<p>在菜单界面的配置完成后，各种配置选项保存至主目录的 .config 文件。<code>make</code>命令会根据 .config 文件中的配置选项，编译出对应的可执行文件。</p>
+<p>配置选项有三种：Y、N或M。分别对应编译、不编译、以模块形式编译。</p>
+<p>假如MMU的源代码文件为：mmu.c，在该目录的Kconfig文件中有个条目 config MMU，则在Makefile文件中关于此目录的编译条目为：<code>obj-$(CONFIG_MMU) += mmu.o</code>。如果关于MMU的配置选项选择为"Y"或者"M"，则编译mmu.o；如果选择为"N"，则不编译mmu.o。</p>
 <p>Kconfig的主要关键字有：</p>
 <table>
 <thead>
@@ -4315,70 +4258,14 @@
 </tr>
 </tbody>
 </table>
-<div class="admonition info">
-<p class="admonition-title">内核镜像</p>
-<p>vmlinux: 原始的未经任何处理的Linux ELF镜像，无法烧写到开发板，需要通过<code>objcopy</code>命令生成二进制文件</p>
-<p>Image: 对vmlinux使用<code>objcopy</code>处理的可烧写到开发板的镜像，但是比较大</p>
-<p>zImage: 压缩Image后的镜像</p>
-<p>uImage: 由uboot的<code>mkimage</code>工具加工zImage得到64字节头的Image，供uboot启动</p>
-</div>
-<h2 id="_4">启动内核(待完成)<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>引导Linux系统有多种方式，这里只以Uboot启动ARM Linux为例来讲解。</p>
-<p>SoC一般都内嵌了由厂家编写的bootrom，作为上电后运行的第一段代码，可以从SD、eMMC、NAND、USB等介质启动。对于多核CPU，bootrom首先去引导CPU0，其他CPU则睡眠。</p>
-<h3 id="uboot">uboot命令<a class="headerlink" href="#uboot" title="Permanent link">&para;</a></h3>
-<p>uboot支持的命令很多，这里只提下常用的，其他的命令用<code>help</code>查看即可。</p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>help</td>
-<td>获取帮助</td>
-</tr>
-<tr>
-<td>printenv</td>
-<td>打印环境变量</td>
-</tr>
-<tr>
-<td>setenv</td>
-<td>设置环境变量</td>
-</tr>
-<tr>
-<td>saveenv</td>
-<td>保存环境变量</td>
-</tr>
-<tr>
-<td>bootm</td>
-<td>启动内核</td>
-</tr>
-<tr>
-<td>md</td>
-<td>查看内存地址</td>
-</tr>
-<tr>
-<td>mw</td>
-<td>修改内存地址</td>
-</tr>
-</tbody>
-</table>
-<h3 id="_5">制作根文件系统<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>根文件启动需要以下几个目录：</p>
-<ul>
-<li>bin</li>
-<li>dev</li>
-<li>etc</li>
-<li>lib</li>
-<li>lib64</li>
-<li>sbin</li>
-</ul>
-<p>etc/fstab：文件挂载路径
-etc/inittab：指定开机启动后运行的程序</p>
-<p>init.d/rcS：启动脚本
-init.d/rcK：关机脚本</p>
+<h3 id="_4">内核镜像<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>编译后的内核镜像有以下几种：</p>
+<ol>
+<li>vmlinux: 原始的未经任何处理的Linux ELF镜像，无法烧写到开发板，需要通过<code>objcopy</code>命令生成二进制文件。</li>
+<li>Image: 对vmlinux使用<code>objcopy</code>处理的可烧写到开发板的镜像，但是比较大。</li>
+<li>zImage: 压缩Image后的镜像。</li>
+<li>uImage: 由uboot的<code>mkimage</code>工具加工zImage得到64字节头的Image，供uboot启动。</li>
+</ol>
 
 
 

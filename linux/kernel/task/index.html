@@ -623,7 +623,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1418,8 +1418,6 @@
       
         
       
-        
-      
     
     
       
@@ -1888,27 +1886,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../drivers/wifi/" class="md-nav__link">
         
   
@@ -2327,6 +2304,8 @@
       
         
       
+        
+      
     
     
       
@@ -2366,6 +2345,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4481,8 +4481,7 @@
 <p>task_list：等待队列链表，链表中的每个元素都代表一个睡眠中的进程。</p>
 </blockquote>
 <h2 id="_14">进程生命周期<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
-<p>进程的大致运行流程如下图所示：</p>
-<p><img alt="进程状态" src="../../../images/kernel/running_state.webp" /></p>
+<p><img alt="进程管理" src="../../../images/kernel/task.png" /></p>
 <h3 id="_15">进程创建<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
 <p>应用程序在用户空间创建进程有两种场景：</p>
 <ol>

@@ -623,7 +623,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1235,8 +1235,6 @@
       
         
       
-        
-      
     
     
       
@@ -1705,27 +1703,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../drivers/wifi/" class="md-nav__link">
         
   
@@ -2144,6 +2121,8 @@
       
         
       
+        
+      
     
     
       
@@ -2183,6 +2162,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -3969,14 +3969,16 @@
 
 
 <h1 id="_1">电源管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>Text can be <del class="critic">deleted</del> and replacement text <ins class="critic">added</ins>. This can also be
-combined into <del class="critic">one</del><ins class="critic">a single</ins> operation. <mark class="critic">Highlighting</mark> is also
-possible <span class="critic comment">and comments can be added inline</span>.</p>
-<ul>
-<li><mark>This was marked</mark></li>
-<li><ins>This was inserted</ins></li>
-<li><del>This was deleted</del></li>
-</ul>
+<h1 id="autosleep">autosleep<a class="headerlink" href="#autosleep" title="Permanent link">&para;</a></h1>
+<p>autosleep是Linux系统的一个功能，它可以让系统进入休眠状态，实现代码位于&lt;kernel/power/autosleep.c&gt;。在编译内核时，必须开启CONFIG_PM_AUTOSLEEP选项才能使用该功能。  </p>
+<p>/sys/power/autosleep可以用来配置autosleep，不同的状态有：</p>
+<ol>
+<li>freeze：系统进入休眠状态，但不关闭电源，系统可以被唤醒。</li>
+<li>standby：系统进入休眠状态，并关闭电源，系统可以被唤醒。</li>
+<li>mem：系统进入休眠状态，并关闭内存，系统可以被唤醒。</li>
+<li>disk：系统进入休眠状态，并关闭磁盘，系统可以被唤醒。</li>
+<li>off：系统进入休眠状态，并关闭电源，内存和磁盘，系统不能被唤醒。</li>
+</ol>
 
 
 

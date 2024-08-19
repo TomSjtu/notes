@@ -623,7 +623,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1532,8 +1532,6 @@
       
         
       
-        
-      
     
     
       
@@ -2002,27 +2000,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../drivers/wifi/" class="md-nav__link">
         
   
@@ -2441,6 +2418,8 @@
       
         
       
+        
+      
     
     
       
@@ -2480,6 +2459,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4542,7 +4542,6 @@
 
 <h1 id="_1">同步语义<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p>只要有共享资源的地方，编写代码时就需要特别注意，防止并发访问时造成数据不一致的问题。多个线程并发访问共享数据是造成系统不稳定的一类隐患，而这类隐患往往难以跟踪和调试。</p>
-<p>在SMP时代，多个处理器可以并发地访问同一个资源，同时由于Linux支持抢占式调度，即便是在单处理器上，其他程序也可以抢占当前程序访问同一个资源。这就对数据的同步提出了更高的要求。</p>
 <p>内核中并发执行的原因有：</p>
 <ul>
 <li>中断：中断是异步的，几乎可以在任何时刻发生，打断当前正在执行的代码。</li>
@@ -4595,33 +4594,29 @@
 </div>
 <p>以上是一段示例代码，在编译时请加上-lpthread，以链接正确的库。多次执行该程序后你会发现最终的结果是不确定的。</p>
 <p>这是最简单的临界区例子，对于这种简单的竞争条件，我们不需要用到复杂的锁机制，因为锁对于CPU的性能有很大的影响。多数处理器都提供了指令来原子地读、写变量。我们称之为<mark class="critic">原子指令</mark>。使用原子指令可以解决一些简单的并发问题。两条原子指令不可能交错执行，因为处理器会从硬件上禁止这种可能性。</p>
-<div class="admonition question">
-<p class="admonition-title">Question</p>
-<p>在学习了原子指令之后，上面的代码应该如何修改？</p>
-</div>
 <h3 id="_4">加锁<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>当共享资源是一个复杂的数据结构比如结构体，而不是简单的int时，原子指令就无能为力了。此时我们必须引入<mark class="critic">锁</mark>来保护共享资源的访问。锁有多种形式，<mark class="critic">锁的粒度</mark>也各不相同。Linux内核提供了多种不同的锁机制，他们之间的主要区别在于：当锁被占用时其他等待锁的线程的表现形式——有一些锁会在原地等待，而有一些锁会直接睡眠。锁没有优劣之分，在不同场景下用不同的锁是程序员必备的技能。</p>
+<p>当共享资源是一个复杂的数据结构比如结构体，而不是简单的整型数据时，原子指令就无能为力了。此时我们必须引入<mark class="critic">锁</mark>来保护共享资源。锁有多种形式，<mark class="critic">锁的粒度</mark>也各不相同。Linux内核提供了多种不同的锁机制，它们之间的主要区别在于：当锁被占用时其他等待锁的线程的表现形式——有一些锁会在原地等待，而有一些锁会直接睡眠。锁没有优劣之分，在不同场景下需要用不同的锁。</p>
+<p>当一个锁被占用时，若有其他线程试图获得该锁，我们称之为<mark class="critic">锁的争用</mark>。由于锁是让程序以串行的方式对资源进行访问，被长时间持有的锁无疑会降低系统的性能。于是锁的粒度就显得尤为重要。</p>
 <div class="admonition info">
 <p class="admonition-title">Info</p>
 <p>锁的粒度是指加锁的范围。锁的粒度越小，并发性能越好，但是加锁的次数也越多。锁的粒度越大，加锁的次数越少，但是并发性能越差。</p>
 </div>
-<p>当一个锁被占用时，若有其他线程试图获得该锁，我们称之为<mark class="critic">锁的争用</mark>。由于锁是让程序以串行的方式对资源进行访问，被长时间持有的锁无疑会降低系统的性能。于是锁的粒度就显得尤为重要。</p>
 <h3 id="_5">死锁<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p><mark class="critic">死锁</mark>是编写同步代码时经常会遇到的问题，表现在多个线程因为争夺资源而卡死。如果没有外力干涉，这些线程将永远处于等待状态。</p>
+<p><mark class="critic">死锁</mark>是编写同步代码时经常会遇到的问题，表现在多个线程因为争夺资源而卡死。如果没有外部因素介入，这些线程将永远处于等待状态。</p>
 <p>一个最简单的例子就是<mark class="critic">自死锁</mark>：如果一个线程试图去获得一个自己已经持有的锁，那么它将永远等待下去。</p>
-<p>另一个常见的例子叫<mark class="critic">ABBA死锁</mark>：线程1持有锁A，线程2持有锁B，线程1试图去获得锁B，而线程2试图去获得锁A，由于每个线程都在等待另一个线程释放锁，但是谁都不想释放自己的锁，于是就造成了死锁。预防死锁的发生非常重要，虽然你不知道自己的代码会不会发生死锁，但是遵循一些简单的规则对于避免死锁大有帮助：</p>
+<p>另一个常见的例子叫<mark class="critic">ABBA死锁</mark>：线程1持有锁A，线程2持有锁B，线程1试图去获得锁B，而线程2试图去获得锁A。由于每个线程都在等待另一个线程释放锁，但是谁都不想释放自己的锁，于是就造成了死锁。预防死锁的发生非常重要，虽然你不知道自己的代码会不会发生死锁，但是遵循一些简单的规则对于避免死锁大有帮助：</p>
 <ul>
-<li>按顺序加锁。使用多个锁时必须保证以相同的顺序获取锁，否则就有可能造成ABBA死锁。</li>
+<li>按顺序加锁。使用多个锁时必须保证以相同的顺序获取锁，否则就有可能造成 ABBA 死锁。</li>
 <li>防止饥饿。</li>
 <li>不要重复请求同一个锁。</li>
 <li>代码设计越简洁越好。</li>
 </ul>
 <h2 id="_6">同步机制<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <h3 id="_7">原子操作<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>原子操作从硬件上保证指令以不可分割的形式执行————执行过程不可被打断。内核提供了两组原子操作接口————一组针对整数，一组针对位。在Linux支持的所有体系结构上都实现了这两组接口。对于ARM体系结构而言，底层使用LDREX和STREX指令。</p>
+<p>原子操作从硬件上(由体系结构实现)保证指令以不可分割的形式执行——执行过程不可被打断。内核提供了两组原子操作接口——一组针对整数，一组针对位。在Linux支持的所有体系结构上都实现了这两组接口。ARM使用 LDREX 和 STREX 指令。</p>
 <p>有的时候我们会要求某些指令按照特定的顺序执行，这被称为顺序性，以屏障（barrier）指令来实现。</p>
 <h4 id="_8">原子整数操作<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h4>
-<p>针对整数的原子操作使用一个特殊的<code>atomic_t</code>类型的数据。它的定义在&lt;linux/types.h&gt;中：</p>
+<p>针对整数的原子操作使用一个特殊的<code>atomic_t</code>类型的数据，定义在&lt;linux/types.h&gt;中：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">}</span><span class="n">atomic_t</span><span class="p">;</span>
@@ -4657,7 +4652,6 @@
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_dec_and_test</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_sub_and_test</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
 </code></pre></div>
-<p>上述操作测试结果是否为0,并返回一个布尔值。</p>
 <ul>
 <li>操作并返回</li>
 </ul>
@@ -4666,48 +4660,24 @@
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_inc_return</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">atomic_dec_return</span><span class="p">(</span><span class="n">atomic_t</span><span class="w"> </span><span class="o">*</span><span class="n">v</span><span class="p">);</span>
 </code></pre></div>
-<p>上述操作返回新的值。</p>
-<div class="admonition example">
-<p class="admonition-title">使设备只能被一个进程打开</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">static</span><span class="w"> </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">count</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ATOMIC_INIT</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">open</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">)</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">{</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">atomic_dec_and_test</span><span class="p">(</span><span class="o">&amp;</span><span class="n">count</span><span class="p">){</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">        </span><span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">count</span><span class="p">);</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">EBUSY</span><span class="p">;</span><span class="w">                  </span><span class="cm">/*设备已经被打开*/</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="p">}</span>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="k">static</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="nf">release</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">inode</span><span class="w"> </span><span class="o">*</span><span class="n">inode</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">file</span><span class="w"> </span><span class="o">*</span><span class="n">file</span><span class="p">)</span>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">{</span>
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="n">atomic_inc</span><span class="p">(</span><span class="o">&amp;</span><span class="n">count</span><span class="p">);</span><span class="w">                 </span><span class="cm">/*释放设备*/</span>
-<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="p">}</span>
-</code></pre></div>
-</div>
 <p>原子操作通常是内联函数，且是用内嵌汇编指令来实现的。gcc内嵌汇编代码请参考：<a href="http://www.ethernut.de/en/documents/arm-inline-asm.html">ARM GCC Inline Assembler</a>。</p>
 <p><code>atomic64_t</code>类型是64位的原子变量，其功能和32位一致，区别是接口以<code>atomic64</code>前缀命名。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">}</span><span class="n">atomic64_t</span><span class="p">;</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">counter</span><span class="p">;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="p">}</span><span class="n">atomic64_t</span><span class="p">;</span>
 </code></pre></div>
 <h4 id="_9">原子位操作<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h4>
 <p><code>atomic_t</code>类型对整数算术来讲比较有用。但是当需要以原子形式来操作单个的位时，这种类型就无法派上用场了。Linux内核提供了对位的原子操作。</p>
-<p>原子位的操作非常快，只要硬件底层硬件支持，这种操作可以使用单个机器指令来执行。这些函数与体系结构相关，定义在&lt;asm/bitops.h&gt;中。即使是在SMP计算机上，这些函数依旧可以确保是原子的。原子位的参数是一个位号+指针。</p>
+<p>原子位的操作非常快，只要硬件底层硬件支持，这种操作可以使用单个机器指令来执行。这些函数与体系结构相关，定义在&lt;asm/bitops.h&gt;中。即使是在 SMP 计算机上，这些函数依旧可以确保是原子的。原子位的参数是一个位号+指针。</p>
 <ul>
 <li>设置位</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li>清除位</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clear_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clear_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -4717,32 +4687,24 @@
 <ul>
 <li>切换位</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">change_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">change_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li>测试位：</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">test_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">test_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li>测试并操作位：</li>
 </ul>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_set_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_clear_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_change_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_set_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_clear_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">test_and_change_bit</span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span>
 </code></pre></div>
 <p>上述操作等同于执行<code>test_bit()</code>后再执行<code>xxx_bit()</code>。</p>
-<div class="admonition example">
-<p class="admonition-title">Example</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">set_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">     </span><span class="c1">//设置addr指向的第nr位</span>
-<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">clear_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">   </span><span class="c1">//清除addr指向的第nr位</span>
-<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="kt">void</span><span class="w"> </span><span class="nf">change_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">  </span><span class="c1">//切换addr指向的第nr位</span>
-<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="n">test_bit</span><span class="p">(</span><span class="n">nr</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">addr</span><span class="p">);</span><span class="w">         </span><span class="c1">//返回指定位的当前值</span>
-</code></pre></div>
-</div>
 <h3 id="_10">自旋锁<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
 <p>原子操作只能针对一些简单的场景，复杂的场景必须得用锁。</p>
-<p>Linux内核中最常见的锁是<mark class="critic">自旋锁</mark>（spin lock）。自旋锁只能同时被一个线程持有，如果另一个线程试图获得一个已经被占用的自旋锁，那么该线程将会进入<mark class="critic">忙等待</mark>，直到锁可用。自旋锁期望临界区的代码执行得很快，自己只需要稍微等一会就可以进入临界区。这是因为忙等待使线程白白耗费了CPU资源却不做任何事情，所以自旋锁不能被长时间占有。</p>
+<p>Linux内核中最常见的锁是<mark class="critic">自旋锁</mark>（spinlock）。自旋锁只能同时被一个线程持有，如果另一个线程试图获得一个已经被占用的自旋锁，那么该线程将会进入<mark class="critic">忙等待</mark>，直到锁可用。如果临界区代码执行得比较快，那么就适合用自旋锁。</p>
 <p>总结自旋锁的特点是：</p>
 <ol>
 <li>当发生资源冲突时，原地死等直到获取锁。</li>
@@ -4758,23 +4720,23 @@
 <li>进程A需要访问共享资源R</li>
 <li>进程B需要访问共享资源R</li>
 </ul>
-<p>假设进程A在访问过程中发生了中断，唤醒了优先级更高的进程B。在中断返回现场时，进程从A切换至B运行，B开始访问共享资源R。如果没有锁的保护，就会出现两个进程同时访问共享资源的情况。但是如果我们加上了自旋锁，当A访问时获取了自旋锁，B仍试图获取自旋锁，由于进程A的持有导致了死锁。内核在这种场景下的处理很简单：直接禁止本地CPU上的抢占。在多核场景下，A和B运行在不同的CPU上，虽然A持有了自旋锁导致B进入了等待状态，但是由于运行在不同CPU上，很快A就会释放锁。</p>
-<p>如果我们加上了中断上下文的访问，事情变得更加复杂：</p>
+<p>假设进程A在访问过程中发生了中断，唤醒了优先级更高的进程B。在中断返回现场时，进程从A切换至B运行，B开始访问共享资源R。如果没有锁的保护，就会出现两个进程同时访问共享资源的情况。但是如果我们加上了自旋锁，当A访问时获取了自旋锁，B仍试图获取自旋锁，由于进程A的持有导致了死锁。内核在这种场景下的处理很简单：直接禁止本地CPU上的抢占。如果是在多核场景下，A和B运行在不同的CPU上，虽然A持有了自旋锁导致B进入了等待状态，但是由于运行在不同CPU上，很快A就会释放锁从而让B运行。</p>
+<p>如果我们加上了中断上下文的访问，事情将会变得更加复杂：</p>
 <ul>
 <li>运行在CPU0上的进程A需要访问共享资源R</li>
 <li>运行在CPU1上的进程B需要访问共享资源R</li>
 <li>外设P的中断handler也需要访问共享资源R</li>
 </ul>
-<p>在这种场景下，假设CPU0上的进程A持有自旋锁进入了临界区。这时候外设P发生了中断，并且调度到了CPU1上执行，由于CPU0上的进程A持有锁，它会稍等一会直到进程A释放。但是如果是调度到CPU0上执行，就会发生死锁。为了解决这样的问题，内核在涉及到中断上下文的访问时，自旋锁就需要和禁止本地CPU上的中断联合使用。</p>
-<p>当然，如果外设P延后到了中断下半部之后去执行，直接禁止本地中断就显得不必要了，因为可能会有其他的中断到来，粗暴地禁止会影响系统的性能。这时我们只需要禁止下半部即可。</p>
+<p>在这种场景下，假设CPU0上的进程A持有自旋锁进入了临界区。这时候外设P发生了中断，并且调度到了CPU1上执行，由于CPU0上的进程A持有锁，它会稍等一会直到进程A释放。但是如果是调度到CPU0上执行，就会发生死锁。为了解决这样的问题，在涉及到中断上下文的访问时，使用自旋锁的同时需要禁止本地CPU上的中断。</p>
+<p>当然，如果外设P延后到了中断下半部之后去执行，直接禁止本地中断就显得不必要了，因为可能会有其他的中断到来，粗暴地禁止会影响系统的性能。这时我们只需要禁止中断下半部即可。</p>
 <p>内核中的<code>spinlock_t</code>定义如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">spinlock</span><span class="p">{</span>
-<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">raw_spinlock</span><span class="w"> </span><span class="n">rlock</span><span class="p">;</span>
-<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="p">}</span><span class="n">spinlock_t</span><span class="p">;</span>
-<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
-<a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">raw_spinlock</span><span class="p">{</span>
-<a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a><span class="w">    </span><span class="n">arch_spinlock_t</span><span class="w"> </span><span class="n">raw_lock</span><span class="p">;</span>
-<a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="p">}</span><span class="n">raw_spinlock_t</span><span class="p">;</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">spinlock</span><span class="p">{</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">raw_spinlock</span><span class="w"> </span><span class="n">rlock</span><span class="p">;</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="p">}</span><span class="n">spinlock_t</span><span class="p">;</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">raw_spinlock</span><span class="p">{</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="n">arch_spinlock_t</span><span class="w"> </span><span class="n">raw_lock</span><span class="p">;</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="p">}</span><span class="n">raw_spinlock_t</span><span class="p">;</span>
 </code></pre></div>
 <p>为什么会有两个？这是因为内核实时补丁PREEMPT_RT。该补丁试图为linux内核增加硬实时功能，比如高精度定时器就是应用之一。实时内核希望将spinlock分成可以睡眠和不可以睡眠两种。于是，最终的命名规则是：</p>
 <ol>
@@ -4783,7 +4745,7 @@
 <li>arch_spinlock，与架构相关。</li>
 </ol>
 <p>对于UP平台，所有的<code>arch_spinlock_t</code>的定义都是一样的：
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{}</span><span class="n">arch_spinlock_t</span><span class="p">;</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{}</span><span class="n">arch_spinlock_t</span><span class="p">;</span>
 </code></pre></div></p>
 <h4 id="_12">函数接口<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h4>
 <table>
@@ -4862,15 +4824,16 @@
 <p>使用自旋锁的代码在进入临界区的时候，还会受到中断和下半部的干扰。所以就有了自旋锁的中断衍生版本。在多核编程中，如果进程和中断需要访问同一资源，我们一般需要在进程上下文中调用<code>spin_lock_irqsave()</code>，在中断上下文中调用<code>spin_lock()</code>。</p>
 </div>
 <h3 id="_13">读/写自旋锁<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
-<p>有时，对共享资源的访问可以明确地分为读和写两个场景，尤其是那些需要大量读操作，而写操作很少的情况时，引入读写锁可以很大地改善系统的性能。读写锁的基本逻辑是：读模式是共享的，写模式是独占的。也就是说当进行写操作的时候，只能由单个任务进行。而进行读操作的时候，可以并发的执行而不用担心安全问题。</p>
-<p>读写锁在文件系统中被大量应用，因为许多操作只是简单地读取文件数据，而不会更新。在这种情况下，读写锁能够发挥比自旋锁更为优越的性能。</p>
+<p>有时，对共享资源的访问可以明确地分为读和写两个场景，尤其是那些需要大量读操作，而写操作很少的情况时，引入读写锁可以很大地改善系统的性能。读写锁的基本逻辑是：读模式是共享的，写模式是独占的。也就是说当进行写操作的时候，只能由单个任务进行。而进行读操作的时候，可以同时进行多个任务。</p>
+<p>读写锁在文件系统中被大量应用，因为许多操作只是简单地读取文件数据，而不会涉及到更新。</p>
+<p>凡事皆有利弊，读写锁虽然在有大量读操作的场景下会带来显著的性能提升，但是其锁的逻辑复杂度也会增加，并且会造成<mark class="critic">写者饥饿</mark>现象。</p>
 <h4 id="_14">场景分析<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h4>
 <p>加锁逻辑：</p>
 <ul>
 <li>临界区没有任何线程，此时读者或者写者都允许进入，但不能同时进入。</li>
 <li>临界区有一个读者，此时新来的读者可以任意进入，但是不允许写者进入。</li>
 <li>临界区有一个写者，此时任何读者或者写者都不允许进入。</li>
-<li>临界区有多个读者，此时后续的读者可以任意进入，但是写者不能进入，这会造成<mark class="critic">写者饥饿</mark>现象。</li>
+<li>临界区有多个读者，此时后续的读者可以任意进入，但是写者不能进入，这就是写者饥饿现象。</li>
 </ul>
 <p>解锁逻辑：</p>
 <ul>
@@ -4933,18 +4896,13 @@
 </tbody>
 </table>
 <h3 id="_16">顺序锁<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
-<p>读/写自旋锁给读者赋予了更高的权限，容易造成写者饥饿的现象。而顺序锁对读写的优先级进行了调整，让写者的优先级始终高于读者，也就是说写者可以随时打断读者。</p>
+<p>读/写自旋锁给读者赋予了更高的权限，容易造成写者饥饿的现象。而顺序锁对读写的优先级进行了调整，让写者的优先级始终高于读者。</p>
 <p>顺序锁的特点：</p>
 <ul>
 <li>读者并发执行，写者互斥</li>
 <li>临界区只有读者时，写者可以进入</li>
 <li>临界区有写者时，读者不能进入</li>
 </ul>
-<p>顺序锁适用于：</p>
-<ol>
-<li>读操作比较频繁</li>
-<li>写操作较少，但是要求较高的性能，不希望被读者阻挡</li>
-</ol>
 <h4 id="_17">场景分析<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h4>
 <p>读者加锁：</p>
 <ol>
@@ -4965,30 +4923,28 @@
 </ol>
 <h4 id="_18">函数接口<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h4>
 <p>顺序锁的写操作使用与自旋锁相同，读操作模式如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="k">do</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="w">    </span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_seqbegin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seqlock</span><span class="p">);</span>
-<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">read_seqretry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seqlock</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="k">do</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="w">    </span><span class="n">seq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">read_seqbegin</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seqlock</span><span class="p">);</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a><span class="p">}</span><span class="k">while</span><span class="p">(</span><span class="n">read_seqretry</span><span class="p">(</span><span class="o">&amp;</span><span class="n">seqlock</span><span class="p">,</span><span class="w"> </span><span class="n">seq</span><span class="p">);</span>
 </code></pre></div>
 <h3 id="_19">信号量<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
 <p>信号量是一种睡眠锁。相比于自旋锁，它内部维护了一个<code>count</code>值，该<code>count</code>值等同于同一时间能够持有信号量的进程数量。如果这个值是1，那么信号量又被称为互斥信号量。信号量支持两个操作：</p>
 <ol>
 <li>
 <p><code>down()</code>:</p>
-</li>
-<li>
-<p>如果信号量的值大于1，则减去1</p>
-</li>
-<li>
-<p>如果值等于0，进程进入等待队列睡眠，然后CPU调度其他进程运行</p>
+<ul>
+<li>如果信号量的值大于1，则减去1</li>
+<li>如果值等于0，进程进入等待队列睡眠，然后CPU调度其他进程运行</li>
+</ul>
 </li>
 <li>
 <p><code>up()</code>：</p>
-</li>
-<li>
-<p>如果等待队列为空，则加1</p>
-</li>
+<ul>
+<li>如果等待队列为空，则加1</li>
 <li>如果等待队列不为空，从队列中唤醒一个进程</li>
+</ul>
+</li>
 </ol>
 <p>由于信号量会睡眠，因此有以下结论：</p>
 <ul>
@@ -5110,7 +5066,7 @@
 <h3 id="_22">完成变量<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h3>
 <p>如果在内核中一个任务需要发送信号通知另一个任务发生了某种特定事件，此时可以用完成变量（completion variable）。当某个任务完成工作后，会使用完成变量去唤醒正在等待的任务。</p>
 <p>完成变量由结构体completion表示，定义在&lt;linux/completion.h&gt;中。其创建方法如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">DECLARE_COMPLETION</span><span class="p">(</span><span class="n">comp</span><span class="p">);</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">DECLARE_COMPLETION</span><span class="p">(</span><span class="n">comp</span><span class="p">);</span>
 </code></pre></div>
 <p>或者使用<code>init_completion()</code>动态创建。需要等待的任务调用<code>wait_for_completion()</code>来等待特定事件。当事件发生后，产生事件的任务调用<code>complete()</code>来发送信号唤醒正在等待的任务。</p>
 <h3 id="rcu">RCU机制<a class="headerlink" href="#rcu" title="Permanent link">&para;</a></h3>

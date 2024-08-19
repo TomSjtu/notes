@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/arm/boot/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../secure_boot/">
       
       
         <link rel="next" href="../aarch64/">
@@ -616,7 +616,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1218,8 +1218,6 @@
       
         
       
-        
-      
     
     
       
@@ -1688,27 +1686,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../linux/drivers/wifi/" class="md-nav__link">
         
   
@@ -2129,6 +2106,8 @@
       
         
       
+        
+      
     
     
       
@@ -2171,6 +2150,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -2306,15 +2306,6 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      内核镜像文件
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
       从设备树获取信息
     </span>
   </a>
@@ -2323,7 +2314,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       识别机器类型
     </span>
@@ -2332,7 +2323,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       运行时配置
     </span>
@@ -2341,7 +2332,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
+  <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       设备填充
     </span>
@@ -2355,7 +2346,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       启动内核
     </span>
@@ -4220,15 +4211,6 @@
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      内核镜像文件
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_7" class="md-nav__link">
-    <span class="md-ellipsis">
       从设备树获取信息
     </span>
   </a>
@@ -4237,7 +4219,7 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_8" class="md-nav__link">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       识别机器类型
     </span>
@@ -4246,7 +4228,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_9" class="md-nav__link">
+  <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
       运行时配置
     </span>
@@ -4255,7 +4237,7 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#_10" class="md-nav__link">
+  <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
       设备填充
     </span>
@@ -4269,7 +4251,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
+  <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
       启动内核
     </span>
@@ -4312,28 +4294,28 @@
 
 <h1 id="arm64">ARM64的启动<a class="headerlink" href="#arm64" title="Permanent link">&para;</a></h1>
 <h2 id="_1">进入内核前<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>在系统启动前，控制权在引导程序(bootloader)手中，这里的bootloader是一个宽泛的概念，泛指一切为内核准备好执行环境的那些软件，可以是uboot，也可以是Hypervisor或者是secure monitor。</p>
+<p>在系统启动前，控制权在引导程序(bootloader)手中，这里的 bootloader 是一个宽泛的概念，泛指一切为内核准备好执行环境的那些软件，可以是 uboot，也可以是 Hypervisor 或者是 secure monitor。</p>
 <p>不管是哪种引导程序，都需要完成以下步骤：</p>
 <ol>
-<li>初始化RAM信息</li>
+<li>初始化 RAM 信息</li>
 <li>准备好设备树信息，并将设备树首地址告知内核</li>
 <li>解压内核(非强制)</li>
 <li>将控制权交给内核</li>
 </ol>
 <p>在跳转至内核前，必须满足以下状态：</p>
 <ul>
-<li>关闭MMU</li>
-<li>关闭D-cache(数据缓存)，I-cache(指令缓存)开启或关闭都可</li>
-<li>x0寄存器用来保存设备树的物理地址</li>
-<li>CPU必须处于EL2模式(推荐，可以访问虚拟化扩展)或非安全EL1模式下</li>
+<li>关闭 MMU</li>
+<li>关闭 D-cache(数据缓存)，I-cache(指令缓存)开启或关闭都可</li>
+<li>x0 寄存器用来保存设备树的物理地址</li>
+<li>CPU 必须处于 EL2 模式(推荐，可以访问虚拟化扩展)或非安全 EL1 模式下</li>
 </ul>
 <div class="admonition question">
 <p class="admonition-title">为什么必须关闭数据缓存</p>
-<p>数据缓存有可能缓存了bootloader的数据，如果不清除，可能导致内核访问错误的数据。而bootloader的指令与内核指令无关，所以可以不关闭指令缓存。</p>
+<p>数据缓存有可能缓存了 bootloader 的数据，如果不清除，可能导致内核访问错误的数据。而 bootloader 的指令与内核指令无关，所以可以不关闭指令缓存。</p>
 </div>
-<p>更详细的booting protocol请参考&lt;Documentation/arm64/booting.rst&gt;文档。</p>
+<p>更详细的 booting protocol 请参考&lt;Documentation/arm64/booting.rst&gt;文档。</p>
 <h2 id="_2">启动代码分析<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>ARM64的启动代码位于&lt;arch/arm64/kernel/head.S&gt;文件中，代码如下：</p>
+<p>ARM64 的启动代码位于&lt;arch/arm64/kernel/head.S&gt;文件中，代码如下：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">SYM_CODE_START</span><span class="p">(</span><span class="n">primary_entry</span><span class="p">)</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">bl</span><span class="w">  </span><span class="n">preserve_boot_args</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">bl</span><span class="w">  </span><span class="n">init_kernel_el</span><span class="w">          </span><span class="c1">// w0=cpu_boot_mode</span>
@@ -4366,13 +4348,13 @@
 <a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">    </span><span class="n">b</span><span class="w">   </span><span class="n">dcache_inval_poc</span><span class="w">        </span><span class="c1">// tail call</span>
 <a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="n">SYM_CODE_END</span><span class="p">(</span><span class="n">preserve_boot_args</span><span class="p">)</span>
 </code></pre></div>
-<p>在启动前，MMU和D-cache已经被关闭，因此存储指令略过了cache，直接写入RAM。但是为了安全起见，仍然需要清除cache——调用<code>dcache_inval_poc</code>函数。</p>
+<p>在启动前，MMU 和 D-cache 已经被关闭，因此存储指令略过了 cache，直接写入 RAM。但是为了安全起见，仍然需要清除 cache ——调用<code>dcache_inval_poc</code>函数。</p>
 <div class="admonition question">
 <p class="admonition-title">x0~x3寄存器</p>
-<p>为何要保留这四个寄存器的值？在boot protocol中有解释：x0是dtb的地址，x1~x3必须为0，用来保留使用。在<code>setup_arch</code>函数执行时，会校验boot_args的值。</p>
+<p>为何要保留这四个寄存器的值？在 boot protocol 中有解释：x0 是 dtb 的地址，而x1~x3 必须为0，用来保留使用。执行函数<code>setup_arch()</code>时，会校验 boot_args 的值。</p>
 </div>
 <h3 id="_4">初始化异常等级<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>我们期望系统从EL2模式下启动，如果不是，则需要先配置相关环境，在返回前，必须将BOOT_CPU_MODE的值保存在w0寄存器中：</p>
+<p>我们期望系统从 EL2 模式下启动，如果不是，则需要先配置相关环境，在返回前，必须将 BOOT_CPU_MODE 的值保存在 w0 寄存器中：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cm">/*</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cm"> * Starting from EL2 or EL1, configure the CPU to execute at the highest</span>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm"> * reachable EL supported by the kernel in a chosen default state. If dropping</span>
@@ -4453,7 +4435,7 @@
 </code></pre></div>
 <p>上面代码主要配置了一些系统寄存器的环境，然后从对应的异常等级返回。</p>
 <h3 id="cpu">设置CPU启动模式<a class="headerlink" href="#cpu" title="Permanent link">&para;</a></h3>
-<p>进入该函数前，必须保证w0保存了__boot_cpu_mode的值，该值用于保存CPU启动时的Exception level，它的定义如下：</p>
+<p>进入该函数前，必须保证 w0 保存了 __boot_cpu_mode 的值，该值用于保存 CPU 启动时的 Exception level，它的定义如下：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">SYM_DATA_START</span><span class="p">(</span><span class="n">__boot_cpu_mode</span><span class="p">)</span>
 <a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="p">.</span><span class="kt">long</span><span class="w">   </span><span class="n">BOOT_CPU_MODE_EL2</span>
 <a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="p">.</span><span class="kt">long</span><span class="w">   </span><span class="n">BOOT_CPU_MODE_EL1</span>
@@ -4475,9 +4457,9 @@
 <a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="n">ret</span>
 <a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="n">SYM_FUNC_END</span><span class="p">(</span><span class="n">set_cpu_boot_mode_flag</span><span class="p">)</span>
 </code></pre></div>
-<p>我们期望所有CPU都在同一模式下启动，如果都在EL2模式下启动，则说明系统支持虚拟化，kvm模块才可以顺利启动。</p>
+<p>我们期望所有 CPU 都在同一模式下启动，如果都在 EL2 模式下启动，则说明系统支持虚拟化，kvm 模块才可以顺利启动。</p>
 <h3 id="_5">建立页表<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>为了提高性能，加快初始化速度，必须在某个阶段打开MMU，而在打开MMU之前，必须要先设定好页表。</p>
+<p>为了提高性能，加快初始化速度，必须在某个阶段打开 MMU，而在打开 MMU 之前，必须要先设定好页表。</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">SYM_FUNC_START_LOCAL</span><span class="p">(</span><span class="n">__create_page_tables</span><span class="p">)</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="n">mov</span><span class="w"> </span><span class="n">x28</span><span class="p">,</span><span class="w"> </span><span class="n">lr</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
@@ -4762,7 +4744,7 @@
 <a id="__codelineno-8-31" name="__codelineno-8-31" href="#__codelineno-8-31"></a><span class="w">    </span><span class="n">ret</span>
 <a id="__codelineno-8-32" name="__codelineno-8-32" href="#__codelineno-8-32"></a><span class="n">SYM_FUNC_END</span><span class="p">(</span><span class="n">__enable_mmu</span><span class="p">)</span>
 </code></pre></div>
-<p>在开启MMU之后，使用bx命令跳转至__primary_switched，进行最后的栈设置和异常向量表设置，然后进入start_kernel：</p>
+<p>在开启 MMU 之后，使用 bx 命令跳转至 __primary_switched，进行最后的栈设置和异常向量表设置，然后进入 start_kernel：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="cm">/*</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="cm"> * The following fragment of code is executed with the MMU enabled.</span>
 <a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="cm"> *</span>
@@ -4815,32 +4797,18 @@
 <a id="__codelineno-9-50" name="__codelineno-9-50" href="#__codelineno-9-50"></a><span class="w">    </span><span class="n">ASM_BUG</span><span class="p">()</span>
 <a id="__codelineno-9-51" name="__codelineno-9-51" href="#__codelineno-9-51"></a><span class="n">SYM_FUNC_END</span><span class="p">(</span><span class="n">__primary_switched</span><span class="p">)</span>
 </code></pre></div>
-<h2 id="_6">内核镜像文件<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
-<p>编译生成的内核镜像文件主要有：</p>
-<ul>
-<li>vmlinux：纯内核二进制文件，无法烧写到开发板</li>
-<li>Image：对vmlinux使用objcopy处理的可烧写到开发板的文件，但是比较大</li>
-<li>zImage：压缩Image后的文件</li>
-<li>uImage：由uboot的mkimage工具加工zImage得到64字节头的Image，可以由uboot识别并启动</li>
-</ul>
-<p>地址信息：</p>
-<ul>
-<li>加载地址：指令和变量加载到内存中的地址</li>
-<li>运行地址：指令真正执行时的地址，即PC寄存器的值</li>
-<li>链接地址：链接过程中链接器为指令和变量分配的地址</li>
-</ul>
-<h2 id="_7">从设备树获取信息<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
-<h3 id="_8">识别机器类型<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<p>内核通过设备树中的信息来识别机器类型。理想情况下，特定的平台不应该影响内核，因为所有的平台细节都会完美地被设备树以一致且可靠的方式描述。但是硬件并不完美，因此内核必须在启动早期识别出具体的机型，这样就有机会执行机型特有的硬件修复代码。大多数时候，机型并不重要，内核根据机型的CPU或者SoC来选择执行相应的启动代码。以ARM为例，&lt;arch/arm/kernel/setup.c&gt;中的<code>setup_arch()</code>函数会调用位于&lt;arch/arm/kernel/devtree.c&gt;中的<code>setup_machine_fdt()</code>函数。该函数会查找machine_desc表并选择与设备树最为匹配的machine_desc。通过比较设备树根节点的compatible属性和定义在&lt;arch/arm/include/asm/mach/arch.h&gt;中的machine_desc数据结构的dt_compat列表来选择最佳匹配。</p>
+<h2 id="_6">从设备树获取信息<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="_7">识别机器类型<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>内核通过设备树中的信息来识别机器类型。理想情况下，特定的平台不应该影响内核，因为所有的平台细节都会完美地被设备树以一致且可靠的方式描述。但是硬件并不完美，因此内核必须在启动早期识别出具体的机型，这样就有机会执行机型特有的硬件修复代码。大多数时候，机型并不重要，内核会根据 SoC 来选择执行相应的启动代码。以 ARM 为例，&lt;arch/arm/kernel/setup.c&gt;中的<code>setup_arch()</code>函数会调用位于&lt;arch/arm/kernel/devtree.c&gt;中的<code>setup_machine_fdt()</code>函数。该函数会查找machine_desc表并选择与设备树最为匹配的machine_desc。通过比较设备树根节点的compatible属性和定义在&lt;arch/arm/include/asm/mach/arch.h&gt;中的machine_desc数据结构的dt_compat列表来选择最佳匹配。</p>
 <p>compatible属性包含了以确切机器名开始的一组有序字符串。以ARM为例，对于每一个machine_desc，内核会检查其dt_compat列表中的条目是否出现在compatible属性中。如果有的话，对应的machine_desc就会作为驱动机器的一个候选。</p>
 <p>当machine_descs表被全部检索后，<code>setup_machine_fdt()</code>函数返回一个最佳匹配的machine_desc——依据machine_desc与compatible属性的哪一个条目相匹配来确定。如果没有匹配的machine_desc，那么该函数返回NULL。在选择了machine_desc之后，<code>setup_machine_fdt()</code>还负责早期的设备树扫描。</p>
-<h3 id="_9">运行时配置<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<h3 id="_8">运行时配置<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>大多数情况下，设备树将作为u-boot与内核传递数据的唯一方法。所以内核参数、initrd镜像的位置等运行时配置项也可以通过设备树传递。这些数据一般存放在/chosen节点下。</p>
 <p>bootargs属性包含了内核参数，initrd-开头的属性则定义了initrd数据块的起始地址和大小。在启动阶段的早期，分页机制还没有开启，<code>setup_machine_fdt()</code>借助不同的辅助函数调用<code>of_scan_flat_dt()</code>对设备树的数据进行扫描。<code>of_scan_flat_dt()</code>扫描整个设备树，利用传入的辅助函数来提取启动阶段早期所需要的信息。辅助函数<code>early_init_dt_scan_chosen()</code>主要用来解析包含内核启动参数的chosen节点，<code>early_init_dt_scan_root()</code>则负责初始化设备树的地址空间模型，<code>early_init_dt_scan_memory()</code>的调用决定了可用内存的位置和大小。</p>
-<h3 id="_10">设备填充<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<h3 id="_9">设备填充<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
 <p>在机型识别完成并且解析完早期的配置信息之后，内核的初始化就可以按常规方式继续了。在这个过程中的某个时间点，<code>unflatten_device_tree()</code>函数负责将设备树的数据转化为更为有效的运行时描述方式。在ARM平台上，这里也是机型特有的启用钩子（比如<code>init_early()</code>、<code>init_irq()</code>和<code>init_machine()</code>）被调用的地方。这些函数的目的可以从名字看出来。</p>
 <p>在设备树上下文中最有趣的钩子函数当属<code>init_machine()</code>，主要负责根据平台相关的信息填充Linux设备模型。设备列表可以通过解析设备树获取，然后动态地为这些设备分配device数据结构。</p>
-<h2 id="_11">启动内核<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
+<h2 id="_10">启动内核<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
 <p>内核启动的入口函数是<code>start_kernel()</code>：</p>
 <div class="language-C highlight"><span class="filename">init/main.c</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">asmlinkage</span><span class="w"> </span><span class="n">__visible</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="n">__no_sanitize_address</span><span class="w"> </span><span class="n">start_kernel</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">{</span>

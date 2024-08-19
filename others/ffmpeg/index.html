@@ -614,7 +614,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1216,8 +1216,6 @@
       
         
       
-        
-      
     
     
       
@@ -1686,27 +1684,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../linux/drivers/wifi/" class="md-nav__link">
         
   
@@ -2125,6 +2102,8 @@
       
         
       
+        
+      
     
     
       
@@ -2164,6 +2143,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -3949,6 +3949,81 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="命令行">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ffmpeg_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ffmpeg
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ffprobe" class="md-nav__link">
+    <span class="md-ellipsis">
+      ffprobe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ffplay" class="md-nav__link">
+    <span class="md-ellipsis">
+      ffplay
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      封装与解封装
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="封装与解封装">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mp4" class="md-nav__link">
+    <span class="md-ellipsis">
+      MP4
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      视频文件切片
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      编码与转码
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -4000,6 +4075,81 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="命令行">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ffmpeg_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ffmpeg
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ffprobe" class="md-nav__link">
+    <span class="md-ellipsis">
+      ffprobe
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ffplay" class="md-nav__link">
+    <span class="md-ellipsis">
+      ffplay
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      封装与解封装
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="封装与解封装">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mp4" class="md-nav__link">
+    <span class="md-ellipsis">
+      MP4
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      视频文件切片
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      编码与转码
+    </span>
+  </a>
+  
 </li>
       
     </ul>
@@ -4021,7 +4171,103 @@
 
 
 <h1 id="ffmpeg">ffmpeg<a class="headerlink" href="#ffmpeg" title="Permanent link">&para;</a></h1>
+<ul>
+<li>容器(container)格式：一种文件封装类型，里面主要包含了流，一般会使用一个特定的后缀，比如.mov、.avi、.wav等</li>
+<li>流(stream)：在容器中存储音频或者视频、字幕等数据</li>
+<li>元数据(metadata)：一般位于容器之中，告诉我们一些额外的信息</li>
+<li>编解码器(codec)：大部分情况下指的是一种压缩标准，比如 H.264、H.265</li>
+</ul>
+<p>ffmpeg框架可以简单分为两层，上层是以 ffmpeg、ffplay、ffprobe 为代表的命令行工具，其底层是一些基础库，包含 AVFormat、AVCodec、AVFilter、AVDevices、AVUtil 等模块库。</p>
+<ul>
+<li>AVFormat：封装/解封装模块</li>
+<li>AVCodec：编解码模块</li>
+<li>AVFilter：滤镜模块</li>
+<li>AVDevice：设备模块</li>
+<li>swscale：图像转换模块</li>
+<li>swresample：音频转换模块</li>
+<li>ffmpeg：编解码工具</li>
+<li>ffprobe：多媒体分析器</li>
+<li>ffplay：播放器</li>
+</ul>
 <h2 id="_1">命令行<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h3 id="ffmpeg_1">ffmpeg<a class="headerlink" href="#ffmpeg_1" title="Permanent link">&para;</a></h3>
+<p>通过<code>ffmpeg --help</code>命令可以查看 ffmpeg 常见的命令，大概可以分为以下六个部分：</p>
+<ul>
+<li>ffmpeg信息查询</li>
+<li>公共操作参数</li>
+<li>文件操作参数</li>
+<li>视频操作参数</li>
+<li>音频操作参数</li>
+<li>字幕操作参数</li>
+</ul>
+<p>查看支持的容器文件格式：<code>ffmpeg -formats</code></p>
+<p>查看支持的编解码器：<code>ffmpeg -codecs</code></p>
+<p>查看支持的滤镜：<code>ffmpeg -filters</code></p>
+<p>提取AAC音频流：<code>ffmpeg -i input.mp4 -vn -acodec copy output.aac</code></p>
+<p>提取H.264视频流：<code>ffmpeg -i input.mp4 -vcodec copy -an output.h264</code></p>
+<p>如果仅仅是使用 ffmpeg 转换封装格式，那么所使用的 CPU 资源并不多，但是编码转换会消耗大量 CPU 资源。</p>
+<h3 id="ffprobe">ffprobe<a class="headerlink" href="#ffprobe" title="Permanent link">&para;</a></h3>
+<p>ffprobe 支持的参数比较多，下面是一些常用的选项：</p>
+<ul>
+<li><code>-v</code>：指定输出的详细程度，0为最少，9为最多</li>
+<li><code>-show_format</code>：查看文件的容器信息，包括格式、时长、码率等</li>
+<li><code>-show_streams</code>：查看文件的流信息，包括类型、帧率、分辨率等</li>
+<li><code>show_chapters</code>：查看文件的章节信息</li>
+<li><code>show_packets</code>：查看文件的数据包信息</li>
+<li><code>show_frames</code>：查看文件中的视频帧信息</li>
+<li><code>of</code>：指定输出的格式以便后续处理，比如<code>-of json</code>输出json格式</li>
+</ul>
+<h3 id="ffplay">ffplay<a class="headerlink" href="#ffplay" title="Permanent link">&para;</a></h3>
+<p>ffplay 不仅是播放器，同时也是测试 ffmpeg 的 Codec 组件、Format 组件以及 Filter 组件的可视化工具，并且可以做可视化的媒体参数分析。</p>
+<h2 id="_2">封装与解封装<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>ffmpeg 支持多种容器格式，所谓容器就是一种允许将单个或多个音频、视频、字幕等数据流存入单个文件的文件格式，通常伴随着用于识别这些数据流的元数据。元数据被存储在头部，也被称为音视频关键数据索引。</p>
+<p>容器格式的设计至少要满足以下几个需求：</p>
+<ul>
+<li>捕获视频图像、音频信号</li>
+<li>文件的交换与下载，包括增量下载与播放</li>
+<li>本地播放</li>
+<li>编辑、组合、快速定位与搜索</li>
+<li>流式播放及拉流录制</li>
+</ul>
+<h3 id="mp4">MP4<a class="headerlink" href="#mp4" title="Permanent link">&para;</a></h3>
+<p>MP4 是一种常见的视频容器格式，跨平台性比较好。它主要包含两个部分：</p>
+<ul>
+<li>元数据(moov)：包含通用信息，比如每个音频、视频帧的时间信息和偏移量等</li>
+<li>音视频数据(mdat)：包含视频和音频帧，通常以交错顺序存放</li>
+</ul>
+<p>MP4 文件格式中包含多个子容器，被称为 box  或者 atom，moov 和 mdat 都是 box。</p>
+<p>关于 MP4 格式信息，需要知道以下几个概念：</p>
+<ul>
+<li>MP4 文件由多个 box 和 FullBox 组成</li>
+<li>每个 box 由 header 和 data 两部分组成</li>
+<li>header 包含了整个 box 的 size 和 type，当 size 等于0时，代表这是最后一个 box；当 size 等于1时，代表需要一个 largesize 来描述；当 type 为 uuid时，代表这个 box 中的数据时用户自定义扩展类型</li>
+<li>FullBox 是 box 的扩展，在 header 中增加8位的 version 标志和24a位的 flags 标志</li>
+<li>data 是 box 的实际数据，可以是纯媒体数据，也可以嵌套 box，这时该 box 又被称为 container box</li>
+</ul>
+<h3 id="_3">视频文件切片<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>视频文件切片是指将一个大的视频文件分割成多个小段的视频文件的过程。这个过程在视频编辑、分发和流媒体传输中非常有用。</p>
+<p>下面是一个命令示例：</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ffmpeg -i input.mp4 -c copy -map 0 -segment_time 00:10:00 -f segment output%03d.mp4
+</code></pre></div>
+<p>该命令将输入视频切片为 10 分钟的片段，并且自动输出文件名。</p>
+<p>在 ffmpeg 中，经常使用 -ss 和 -t 参数来指定切片的起始时间和持续时间。</p>
+<ul>
+<li><code>-ss</code>：指定切片的起始时间，单位为秒</li>
+<li><code>-t</code>：指定切片的持续时间，单位为秒</li>
+</ul>
+<p>示例：</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ffmpeg -i input.mp4 -c copy -ss 00:05:00 -t 00:10:00 output.mp4
+</code></pre></div>
+<p>该命令将从第 5 分钟开始截取视频，共截取 10 分钟，输出文件名为 output.mp4。</p>
+<h2 id="_4">编码与转码<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>ffmpeg 本身并不支持 H.264 编码器，而是通过集成第三方模块的方式进行支持，比如 x264，可以通过<code>ffmpeg -h encoder=libx264</code>命令查看支持的编码器。</p>
+<p>x264 支持许多参数，可以通过<code>ffmpeg -h encoder=libx264</code>查看，这里只介绍一些重要的参数。</p>
+<ol>
+<li>编码器预设参数 preset：用来权衡压缩效率和编码速度，默认为 medium。 preset 参数会影响后续的很多参数，一般优先设置</li>
+<li>编码优化参数 tune：直播推流时一般选择 zerolatency</li>
+<li>profile 和 level：profile 用来指定编码级别，level 用来指定编码速度</li>
+<li>码率控制：通过三个参数<code>-b:v</code>、<code>-maxrate</code>、<code>-minrate</code>来控制码率</li>
+</ol>
 
 
 

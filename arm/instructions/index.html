@@ -616,7 +616,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1218,8 +1218,6 @@
       
         
       
-        
-      
     
     
       
@@ -1688,27 +1686,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../linux/drivers/wifi/" class="md-nav__link">
         
   
@@ -2129,6 +2106,8 @@
       
         
       
+        
+      
     
     
       
@@ -2171,6 +2150,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4377,8 +4377,8 @@
 
 
 <h1 id="a64">A64指令集<a class="headerlink" href="#a64" title="Permanent link">&para;</a></h1>
-<p>ARMv8增加了新的64位指令集，它可以处理64位宽的寄存器和数据并且使用64位的指针来访问内存，但是其指令集的指令宽度是32位。ARMv8兼容A32指令集，但A64指令集和A32指令集是不兼容的。</p>
-<p>ARMv8支持两种执行状态——AArch64和AArch32。AArch64状态用于执行64位指令，而AArch32状态用于执行32位指令。</p>
+<p>ARMv8 增加了新的64位指令集—— A64，它可以处理64位宽的寄存器和数据并且使用64位的指针来访问内存，但是其指令集的指令宽度依然是32位。ARMv8 兼容A32指令集，但 A64 指令集和 A32 指令集是不兼容的。</p>
+<p>ARMv8支持两种执行状态—— AArch64 和 AArch32。AArch64 状态用于执行64位指令，而 AArch32 状态用于执行32位指令。</p>
 <h2 id="_1">加载与存储指令<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <h3 id="ldrstr">LDR和STR指令<a class="headerlink" href="#ldrstr" title="Permanent link">&para;</a></h3>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ldr 目标寄存器, &lt;存储器地址&gt;    //把存储器地址的数据加载到目标寄存器
@@ -4390,13 +4390,13 @@
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>ldr     x1,[x0]         ;将x0中的数所指定的地址的内容传输到x1
 </code></pre></div>
 <h3 id="_2">入栈与出栈<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<p>函数传递的参数如果少于8个，则使用X0-X7寄存器传递，如果多于8个，则使用栈传递。SP指针指向栈顶，从栈底到栈顶的这段空间，称为栈帧。</p>
-<p>A32指令集提供了PUSH与POP指令来实现入栈与出栈，但是A64指令集已经移除，而转而使用加载与存储指令。</p>
+<p>函数传递的参数如果少于8个，则使用 X0-X7 寄存器传递，如果多于8个，则使用栈传递。SP 指针指向栈顶，从栈底到栈顶的这段空间，称为栈帧。</p>
+<p>A32 指令集提供了<code>PUSH</code>与<code>POP</code>指令来实现入栈与出栈，但是 A64 指令集已经移除，而转而使用加载与存储指令。</p>
 <h3 id="mov">MOV指令<a class="headerlink" href="#mov" title="Permanent link">&para;</a></h3>
-<p>MOV指令只能用于数据在寄存器之间的搬移，以及往寄存器里写立即数，但是有限制。</p>
+<p><code>MOV</code>指令只能用于数据在寄存器之间的搬移，以及往寄存器里写立即数，但是有限制。</p>
 <h2 id="_3">算术与移位指令<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <h3 id="_4">条件操作码<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>PSTATE中有四个条件标志位，分别是N、Z、C、V，代表上一次运算的结果。</p>
+<p>PSTATE 中有四个条件标志位，分别是N、Z、C、V，代表上一次运算的结果。</p>
 <table>
 <thead>
 <tr>
@@ -4430,8 +4430,8 @@
 <li>使用寄存器</li>
 <li>使用移位操作</li>
 </ul>
-<p>ADDS和SUBS：表示指令结果会影响PSTATE寄存器的标志位</p>
-<p>ADC和SBC：带进位，计算时需要考虑PSTATE寄存器的C标志位</p>
+<p><code>ADDS</code>和<code>SUBS</code>：表示指令结果会影响 PSTATE 寄存器的标志位</p>
+<p><code>ADC</code>和<code>SBC</code>：带进位，计算时需要考虑 PSTATE 寄存器的C标志位</p>
 <h3 id="_5">移位指令<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <ul>
 <li>LSL：逻辑左移</li>
@@ -4442,10 +4442,10 @@
 <p>逻辑移位和算术移位的区别在于是否考虑符号位。</p>
 <h3 id="_6">位操作指令<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <ul>
-<li>AND：按位与</li>
-<li>ORR：按位或</li>
-<li>EOR：按位异或</li>
-<li>BIC：位清除</li>
+<li><code>AND</code>：按位与</li>
+<li><code>ORR</code>：按位或</li>
+<li><code>EOR</code>：按位异或</li>
+<li><code>BIC</code>：位清除</li>
 </ul>
 <h2 id="_7">比较与跳转指令<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <h3 id="cmp">CMP指令<a class="headerlink" href="#cmp" title="Permanent link">&para;</a></h3>
@@ -4458,42 +4458,42 @@
 <h3 id="_8">跳转与返回指令<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <p>跳转指令：</p>
 <ul>
-<li>B：无条件跳转</li>
-<li>B.cond：条件跳转</li>
-<li>BL：带返回地址的跳转</li>
-<li>BR：跳转到寄存器指定的地址</li>
-<li>BLR：带返回地址的BR</li>
+<li><code>B</code>：无条件跳转</li>
+<li><code>B.cond</code>：条件跳转</li>
+<li><code>BL</code>：带返回地址的跳转</li>
+<li><code>BR</code>：跳转到寄存器指定的地址</li>
+<li><code>BLR</code>：带返回地址的BR</li>
 </ul>
 <p>返回指令：</p>
 <ul>
-<li>RET：通常用于子函数的返回，返回地址保存在LR</li>
-<li>ERET：从当前的异常模式返回，它会把SPSR的内容恢复到PSTATE寄存器中。该指令可以实现处理器模式的切换。</li>
+<li><code>RET</code>：通常用于子函数的返回，返回地址保存在 LR</li>
+<li><code>ERET</code>：从当前的异常模式返回，它会把 SPSR 的内容恢复到 PSTATE 寄存器中。该指令可以实现处理器模式的切换。</li>
 </ul>
 <p>比较并跳转指令：</p>
 <ul>
-<li>CBZ：如果寄存器为0，则跳转</li>
-<li>CBNZ：如果寄存器不为0，则跳转</li>
+<li><code>CBZ</code>：如果寄存器为0，则跳转</li>
+<li><code>CBNZ</code>：如果寄存器不为0，则跳转</li>
 </ul>
 <h2 id="_9">其他重要指令<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
 <h3 id="pc">PC相对地址加载指令<a class="headerlink" href="#pc" title="Permanent link">&para;</a></h3>
-<p>ADR指令用于加载一个在当前PC值±1MB范围内的label地址到Xd寄存器中。</p>
+<p><code>ADR</code>指令用于加载一个在当前 PC 值 ±1MB 范围内的 label 地址到 Xd 寄存器中。</p>
 <div class="admonition note">
 <p class="admonition-title">LDR和ADR指令的区别</p>
-<p>LDR伪指令加载的是绝对地址，即程序编译时的链接地址。ADR加载的是当前PC的相对地址，可以理解为当前运行时label的物理地址。由于运行地址和链接地址可能不同，因此需要在不同场景下选择使用。</p>
+<p>LDR 伪指令加载的是绝对地址，即程序编译时的链接地址。ADR 加载的是当前 PC 的相对地址，可以理解为当前运行时 label 的物理地址。由于运行地址和链接地址可能不同，因此需要在不同场景下选择使用。</p>
 </div>
 <h3 id="_10">内存独占指令<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
-<p>ARMv8体系提供独占的内存访问(exclusive memory access)指令。LDXR指令尝试在内存总线中申请一个独占访问的锁，然后访问一个内存地址。STXR指令会往刚才LDXR指令已经申请独占访问的内存地址中写入新内容。这两个指令配合使用来完成一些同步操作。</p>
+<p>ARMv8 体系提供独占的内存访问(exclusive memory access)指令。<code>LDXR</code>指令尝试在内存总线中申请一个独占访问的锁，然后访问一个内存地址。<code>STXR</code>指令会往刚才<code>LDXR</code>指令已经申请独占访问的内存地址中写入新内容。这两个指令配合使用来完成一些同步操作。</p>
 <h3 id="_11">异常处理指令<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <ul>
-<li>SVC：系统调用指令，陷入EL1</li>
-<li>HVC：虚拟化系统调用指令，陷入EL2</li>
-<li>SMC：安全监控系统调用指令，陷入EL3</li>
+<li><code>SVC</code>：系统调用指令，陷入 EL1</li>
+<li><code>HVC</code>：虚拟化系统调用指令，陷入 EL2</li>
+<li><code>SMC</code>：安全监控系统调用指令，陷入 EL3</li>
 </ul>
 <h3 id="_12">系统寄存器访问指令<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
-<p>在ARMv7体系结构中，通过CP15协处理器可以访问系统寄存器。在ARMv8体系结构中，访问的方式有了大幅的改进和优化。MRS和MSR两条指令可以直接访问系统寄存器。</p>
+<p>在 ARMv7 体系结构中，通过 CP15 协处理器可以访问系统寄存器。在 ARMv8 体系结构中，访问的方式有了大幅的改进和优化。<code>MRS</code>和<code>MSR</code>两条指令可以直接访问系统寄存器。</p>
 <ul>
-<li>MRS：读取系统寄存器的值到通用寄存器</li>
-<li>MSR：将通用寄存器的值写入系统寄存器</li>
+<li><code>MRS</code>：读取系统寄存器的值到通用寄存器</li>
+<li><code>MSR</code>：将通用寄存器的值写入系统寄存器</li>
 </ul>
 <div class="admonition example">
 <p class="admonition-title">访问SCTLR</p>
@@ -4504,14 +4504,14 @@
 <p>除了访问系统寄存器之外，MRS和MSR指令还可以访问与PSTATE寄存器相关的字段，比如CurrentEL等。</p>
 <h3 id="_13">内存屏障指令<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <ul>
-<li>DMB：数据存储屏障</li>
-<li>DSB：数据同步屏障</li>
-<li>ISB：指令同步屏障</li>
+<li><code>DMB</code>：数据存储屏障</li>
+<li><code>DSB</code>：数据同步屏障</li>
+<li><code>ISB</code>：指令同步屏障</li>
 </ul>
-<p>除此之外，ARMv8还提供了一组新的加载和存储指令，显示包含了内存屏障功能：</p>
+<p>除此之外，ARMv8 还提供了一组新的加载和存储指令，显示包含了内存屏障功能：</p>
 <ul>
-<li>LDAR：加载-获取指令，LDAR指令后面的读写内存指令必须在LDAR指令之后才能执行</li>
-<li>STLR：存储-释放指令，所有的加载和存储指令必须在STLR指令之前完成</li>
+<li><code>LDAR</code>：加载-获取指令，<code>LDAR</code>指令后面的读写内存指令必须在<code>LDAR</code>指令之后才能执行</li>
+<li><code>STLR</code>：存储-释放指令，所有的加载和存储指令必须在<code>STLR</code>指令之前完成</li>
 </ul>
 
 

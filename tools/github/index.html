@@ -616,7 +616,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1218,8 +1218,6 @@
       
         
       
-        
-      
     
     
       
@@ -1688,27 +1686,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../linux/drivers/wifi/" class="md-nav__link">
         
   
@@ -2127,6 +2104,8 @@
       
         
       
+        
+      
     
     
       
@@ -2166,6 +2145,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -3804,18 +3804,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#git_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      git常用命令
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      版本控制
+      分支管理
     </span>
   </a>
   
@@ -3824,7 +3815,7 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      比较差异
+      回退操作
     </span>
   </a>
   
@@ -3832,6 +3823,15 @@
       
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      比较差异
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       暂存改动
     </span>
@@ -4131,18 +4131,9 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#git_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      git常用命令
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      版本控制
+      分支管理
     </span>
   </a>
   
@@ -4151,7 +4142,7 @@
         <li class="md-nav__item">
   <a href="#_4" class="md-nav__link">
     <span class="md-ellipsis">
-      比较差异
+      回退操作
     </span>
   </a>
   
@@ -4159,6 +4150,15 @@
       
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      比较差异
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
       暂存改动
     </span>
@@ -4185,55 +4185,55 @@
 
 
 <h1 id="github">github<a class="headerlink" href="#github" title="Permanent link">&para;</a></h1>
-<p>github支持HTTPS和SSH连接，但无论是哪种方式，都需要验证你的身份。</p>
+<p>github 是目前最流行的开源代码托管平台之一，本文将介绍如何使用github。</p>
 <h2 id="https">HTTPS连接<a class="headerlink" href="#https" title="Permanent link">&para;</a></h2>
-<p>过去，HTTPS连接要求你输入用户名和密码，但是这种方式由于不安全已经被github废弃。现在，要想通过HTTPS连接，你必须使用另外一种叫<a href="https://github.com/git-ecosystem/git-credential-manager/blob/main/README.md">Git Credential Manager</a>的方式。请直接查看官网文档。</p>
+<p>过去，HTTPS 连接要求你输入用户名和密码，但是这种方式由于不安全已经被 github 废弃。现在，要想通过 HTTPS 连接，你必须使用另外一种叫<a href="https://github.com/git-ecosystem/git-credential-manager/blob/main/README.md">Git Credential Manager</a>的方式。具体操作请查看官网文档。</p>
 <h2 id="ssh">SSH连接<a class="headerlink" href="#ssh" title="Permanent link">&para;</a></h2>
-<p>SSH连接默认采用22端口，但是有时候防火墙会阻止这种行为。如果遇到这种情况，你可以采用上面的HTTPS连接。如果HTTPS连接也不行，你可以尝试采用HTTPS端口的SSH连接。</p>
-<p>要测试通过HTTPS端口的SSH连接是否可行，输入以下命令：</p>
+<p>SSH 连接默认采用 22 端口，但是有时候防火墙会阻止这种行为。如果遇到这种情况，你可以采用上面的 HTTPS 连接。如果 HTTPS 连接也不行，你可以尝试采用 HTTPS 端口的 SSH 连接。</p>
+<p>要测试通过 HTTPS 端口的 SSH 连接是否可行，输入以下命令：</p>
 <p><div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ssh<span class="w"> </span>-T<span class="w"> </span>-p<span class="w"> </span><span class="m">443</span><span class="w"> </span>git@ssh.github.com
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>&gt;<span class="w"> </span>Hi<span class="w"> </span>USERNAME!<span class="w"> </span>You<span class="err">&#39;</span>ve<span class="w"> </span>successfully<span class="w"> </span>authenticated,<span class="w"> </span>but<span class="w"> </span>GitHub<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>provide<span class="w"> </span>shell<span class="w"> </span>access.
 </code></pre></div>
-如果输出以上内容，则说明连接可行。你可以更改~/.ssh/config文件，强制与github的连接都通过SSH的443端口。</p>
+如果输出以上内容，则说明连接可行。你可以更改~/.ssh/config文件，强制与 github 的连接都通过 SSH 的 443 端口。</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Host<span class="w"> </span>github.com
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>Hostname<span class="w"> </span>ssh.github.com
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>Port<span class="w"> </span><span class="m">443</span>
 <a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>User<span class="w"> </span>git
 </code></pre></div>
-<p>更改配置后，再次测试SSH连接是否可行：</p>
+<p>更改配置后，再次测试 SSH 连接是否可行：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ssh<span class="w"> </span>-T<span class="w"> </span>git@github.com
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 <a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>&gt;<span class="w"> </span>Hi<span class="w"> </span>USERNAME!<span class="w"> </span>You<span class="err">&#39;</span>ve<span class="w"> </span>successfully<span class="w"> </span>authenticated,<span class="w"> </span>but<span class="w"> </span>GitHub<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>provide<span class="w"> </span>shell<span class="w"> </span>access.
 </code></pre></div>
 <div class="admonition note">
-<p>注意：SSH通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过SSH连接时，会询问你是否信任该服务器，输入yes即可。github的SSH公钥存放在<a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints">Github's SSH key fingerprints</a>。你可以添加到~/.ssh/known_hosts来避免验证。</p>
+<p>注意：SSH 通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过 SSH 连接时，会询问你是否信任该服务器，输入yes即可。github 的 SSH 公钥存放在<a href="https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints">Github's SSH key fingerprints</a>。你可以添加到~/.ssh/known_hosts来避免验证。</p>
 </div>
 <h2 id="ssh_1">添加SSH密钥<a class="headerlink" href="#ssh_1" title="Permanent link">&para;</a></h2>
-<p>添加SSH密钥的过程很简单，按照步骤一步步来即可。</p>
-<p>1.首先输入以下命令，将邮件地址改为你注册github的邮箱：</p>
+<p>添加 SSH 密钥的过程很简单，按照步骤一步步来即可。</p>
+<p>1.首先输入以下命令，将邮件地址改为你注册 github 的邮箱：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ssh-keygen<span class="w"> </span>-t<span class="w"> </span>ed25519<span class="w"> </span>-C<span class="w"> </span><span class="s2">&quot;your_email@example.com&quot;</span>
 </code></pre></div>
 <p>系统会要求你输入一些信息，连续按回车跳过即可。</p>
-<p>2.将SSH密钥添加到ssh-agent：</p>
-<p>先启动ssh代理：</p>
+<p>2.将 SSH 密钥添加到 ssh-agent：</p>
+<p>先启动 ssh 代理：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">eval</span><span class="w"> </span><span class="s2">&quot;</span><span class="k">$(</span>ssh-agent<span class="w"> </span>-s<span class="k">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 <p>然后添加私钥：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ssh-add<span class="w"> </span>~/.ssh/id_ed25519
 </code></pre></div>
-<p>3.向你的账户添加新的SSH密钥</p>
-<p>现在，.ssh/目录下有两个文件，以pub结尾的就是公钥，需要你上传至github服务器。</p>
+<p>3.向你的账户添加新的 SSH 密钥</p>
+<p>现在，.ssh/目录下有两个文件，以 pub 结尾的就是公钥，需要你上传至 github 服务器。</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>cat<span class="w"> </span>~/.ssh/id_ed25519.pub
 </code></pre></div>
-<p>复制打印的内容，然后在github个人资料面点击设置，找到<code>SSH and GPG keys</code>，点击<code>New SSH key</code>，最后粘贴复制的公钥即可。</p>
+<p>复制打印的内容，然后在 github 个人资料面点击设置，找到<code>SSH and GPG keys</code>，点击<code>New SSH key</code>，最后粘贴复制的公钥即可。</p>
 <h2 id="_1">网络配置<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>github支持流量代理：</p>
+<p>github 支持流量代理：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>http.proxy<span class="w"> </span>http://127.0.0.1:<span class="o">[</span>端口号<span class="o">]</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>https.proxy<span class="w"> </span>http://127.0.0.1:<span class="o">[</span>端口号<span class="o">]</span>
 </code></pre></div>
-<p>这两行命令的意思是让http和https协议的流量全部走你梯子的代理，端口号根据梯子的配置自行输入。配置完以后<code>git clone</code>应该不会卡了。如果你要取消全局代理，输入以下命令：</p>
+<p>这两行命令的意思是让 http 和 https 协议的流量全部走你梯子的代理，端口号根据梯子的配置自行输入。配置完以后<code>git clone</code>应该不会卡了。如果你要取消全局代理，输入以下命令：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>--unset<span class="w"> </span>http.proxy
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>--unset<span class="w"> </span>https.proxy
@@ -4252,7 +4252,7 @@
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>&gt;<span class="w"> </span>origin<span class="w">  </span>https://github.com/OWNER/REPOSITORY.git<span class="w"> </span><span class="o">(</span>fetch<span class="o">)</span>
 <a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>&gt;<span class="w"> </span>origin<span class="w">  </span>https://github.com/OWNER/REPOSITORY.git<span class="w"> </span><span class="o">(</span>push<span class="o">)</span>
 </code></pre></div>
-<p>如果要更改连接远程仓库的方式，比如从HTTPS改为SSH，则可以使用<code>git remote set-url</code>命令：</p>
+<p>如果要更改连接远程仓库的方式，比如从 HTTPS 改为 SSH，则可以使用<code>git remote set-url</code>命令：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>git<span class="w"> </span>remote<span class="w"> </span>set-url<span class="w"> </span>origin<span class="w"> </span>git@github.com:OWNER/REPOSITORY.git
 </code></pre></div>
 <p>这时远程仓库的格式应该是：</p>
@@ -4260,113 +4260,122 @@
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>origin<span class="w">  </span>git@github.com:OWNER/REPOSITORY.git<span class="w"> </span><span class="o">(</span>push<span class="o">)</span>
 </code></pre></div>
 <h2 id="git">git基本概念<a class="headerlink" href="#git" title="Permanent link">&para;</a></h2>
-<ul>
-<li>工作区：工作的区域，所有的修改都立刻反映在工作区。</li>
-<li>暂存区：介于工作区和仓库之间的中间区域，可以保存工作区的修改，一旦改动被添加到暂存区，就可以被提交到仓库中。暂存区是独立于分支的，因此在一个分支上的改动，被提交到暂存区后还会在另一个分支上显示。</li>
-</ul>
-<h2 id="git_1">git常用命令<a class="headerlink" href="#git_1" title="Permanent link">&para;</a></h2>
-<p>项目初始化：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>git<span class="w"> </span>init
-</code></pre></div>
-<p>初始化个人信息：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.name<span class="w"> </span><span class="s2">&quot;你的名字&quot;</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>git<span class="w"> </span>config<span class="w"> </span>--global<span class="w"> </span>user.email<span class="w"> </span><span class="s2">&quot;你的邮箱&quot;</span>
-</code></pre></div>
-<p>将变动的文件添加到暂存区：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>git<span class="w"> </span>add<span class="w"> </span>--all
-</code></pre></div>
-<p>提交代码：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>git<span class="w"> </span>commit<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;提交信息&quot;</span>
-</code></pre></div>
-<p>推送代码：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main
-</code></pre></div>
-<blockquote>
-<p>origin替换为远程仓库的名称，main替换为提交的分支名</p>
-</blockquote>
-<p>拉取代码到本地：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>git<span class="w"> </span>pull<span class="w"> </span>origin<span class="w"> </span>main
-</code></pre></div>
-<p>查看当前git状态：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>git<span class="w"> </span>status
-</code></pre></div>
-<p>查看提交日志：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>git<span class="w"> </span>log<span class="w"> </span>--oneline
-</code></pre></div>
+<p><img alt="git流程图" src="../../images/tools/git-concept.webp" /></p>
+<h2 id="_3">分支管理<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p>显示所有分支：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>git<span class="w"> </span>branch<span class="w"> </span>-a
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>git<span class="w"> </span>branch<span class="w"> </span>-a
 </code></pre></div>
-<p>切换分支：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span><span class="o">[</span>新分支名<span class="o">]</span>
+<p>新建并切换分支：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span><span class="o">[</span>新分支名<span class="o">]</span>
+</code></pre></div>
+<p>删除分支：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span><span class="o">[</span>分支名<span class="o">]</span>
 </code></pre></div>
 <p>合并其他分支的代码到当前分支，你需要手动解决冲突：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>git<span class="w"> </span>merge<span class="w"> </span><span class="o">[</span>另一个分支名<span class="o">]</span>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>git<span class="w"> </span>merge<span class="w"> </span><span class="o">[</span>另一个分支名<span class="o">]</span>
 </code></pre></div>
 <p>将某个分支的提交应用到当前分支，你需要手动解决冲突：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>git<span class="w"> </span>cherry-pick<span class="w"> </span><span class="o">[</span>提交号<span class="o">]</span>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>git<span class="w"> </span>cherry-pick<span class="w"> </span><span class="o">[</span>提交号<span class="o">]</span>
 </code></pre></div>
-<h2 id="_3">版本控制<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>放弃工作目录中的修改：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span><span class="o">[</span>file<span class="o">]</span><span class="w">  </span>//放弃某个文件的修改
-<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>--<span class="w"> </span>.<span class="w">       </span>//放弃所有修改
+<ul>
+<li>Master：禁止任何未被 review 和测试过的代码部署到该分支，Master 分支用来发布正式版本</li>
+<li>Develop：开发分支，持续集成的工作存放于此，review 过的代码可以合入这里</li>
+<li>Feature：新功能开发分支，从 develop 分支上拉取，完成后合并回 develop 分支</li>
+<li>Hotfix：紧急修复分支，从 Master 分支上拉取，完成后合并回 Master 和 develop 分支</li>
+<li>Release：预发布分支，比如 0.1、0.2 版本</li>
+<li>Bugfix：修复 Bug 分支，从 develop 分支上拉取，完成后合并回 develop 分支</li>
+</ul>
+<h2 id="_4">回退操作<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p><img alt="回退" src="../../images/tools/git-reset.webp" /></p>
+<p>清空工作区的数据：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># 丢弃所有未暂存的更改</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>git<span class="w"> </span>checkout<span class="w"> </span>.
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="c1"># 丢弃单个文件未暂存的更改</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>git<span class="w"> </span>checkout<span class="w"> </span><span class="o">[</span>file<span class="o">]</span>
 </code></pre></div>
-<p>回退到之前某个版本：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>//<span class="w"> </span>不丢弃版本之后的更改
-<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>git<span class="w"> </span>reset<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span>
-<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>
-<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>//<span class="w"> </span>丢弃版本之后的更改
-<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>git<span class="w"> </span>reset<span class="w"> </span>--hard<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span>
+<p>将暂存区回退到工作区(Untracked)：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>git<span class="w"> </span>resotre<span class="w"> </span>-S<span class="w"> </span><span class="o">[</span>file<span class="o">]</span>
 </code></pre></div>
+<p>从本地仓库回退：</p>
+<ol>
+<li>
+<p><code>git rest --soft</code>：回退到暂存区</p>
+<ul>
+<li>影响范围：仅影响 HEAD 的位置</li>
+<li>效果：不更改工作区和暂存区的内容，仅移动 HEAD 指针</li>
+<li>适用场景：适合于需要修改最近提交的一些改动，但不想丢失当前工作区和暂存区的变更</li>
+</ul>
+</li>
+<li>
+<p><code>git reset --mixed</code>：回退到工作区</p>
+<ul>
+<li>影响范围：影响 HEAD 的位置和暂存区</li>
+<li>效果：不更改工作区内容，移动 HEAD 指针到指定提交，然后将这个提交之后的修改放入暂存区</li>
+<li>适用场景：适合于需要回退到之前的提交，选择下一次提交中的更改</li>
+</ul>
+</li>
+<li>
+<p><code>git reset --hard</code>：完全撤销提交和相关更改，就像从未提交过一样</p>
+<ul>
+<li>影响范围：影响 HEAD 的位置、暂存区和工作区</li>
+<li>效果：将 HEAD 回退到指定提交，重置暂存区和工作区，丢弃所有未提交的更改</li>
+<li>适用场景：完全撤销某个提交，且不关心之前的修改内容</li>
+</ul>
+</li>
+</ol>
 <p>撤销之前某个版本，但保留该版本后面的版本：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>git<span class="w"> </span>revert<span class="w"> </span>-n<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span><span class="w">  </span>//-n表示手动解决冲突
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>git<span class="w"> </span>revert<span class="w"> </span>-n<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span><span class="w">  </span>//-n表示手动解决冲突
 </code></pre></div>
-<p>清理任何未被跟踪的文件或临时文件
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>git<span class="w"> </span>clean<span class="w"> </span>-fd
-</code></pre></div></p>
-<h2 id="_4">比较差异<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h2 id="_5">比较差异<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
 <p><code>git diff</code>命令用于显示提交之间的差异，下面是一些常见的用法。</p>
 <p>查看未暂存的更改：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>git<span class="w"> </span>diff
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>git<span class="w"> </span>diff
 </code></pre></div>
 <p>查看已暂存但未提交的更改：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>git<span class="w"> </span>diff<span class="w"> </span>--stage
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>git<span class="w"> </span>diff<span class="w"> </span>--stage
 </code></pre></div>
 <p>查看工作区和暂存区的差异：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>git<span class="w"> </span>diff<span class="w"> </span>HEAD
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>git<span class="w"> </span>diff<span class="w"> </span>HEAD
 </code></pre></div>
 <p>查看工作区和某个提交之间的差异：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>git<span class="w"> </span>diff<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>git<span class="w"> </span>diff<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span>
 </code></pre></div>
 <p>查看暂存区和某个提交之间的差异：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>git<span class="w"> </span>diff<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span><span class="w"> </span>--staged
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>git<span class="w"> </span>diff<span class="w"> </span><span class="o">[</span>版本号<span class="o">]</span><span class="w"> </span>--staged
 </code></pre></div>
 <p>比较两个提交：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>git<span class="w"> </span>diff<span class="w"> </span>&lt;commit1&gt;<span class="w"> </span>&lt;commit2&gt;
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>git<span class="w"> </span>diff<span class="w"> </span>&lt;commit1&gt;<span class="w"> </span>&lt;commit2&gt;
 </code></pre></div>
 <p>比较两个分支：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>git<span class="w"> </span>diff<span class="w"> </span>&lt;branch1&gt;<span class="w"> </span>&lt;branch2&gt;
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>git<span class="w"> </span>diff<span class="w"> </span>&lt;branch1&gt;<span class="w"> </span>&lt;branch2&gt;
 </code></pre></div>
 <p>显示每个文件更改的概要信息：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>git<span class="w"> </span>diff<span class="w"> </span>--stat
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>git<span class="w"> </span>diff<span class="w"> </span>--stat
 </code></pre></div>
-<h2 id="_5">暂存改动<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p><code>git stash</code>命令用于临时保存和恢复工作区的改动，这在需要切换分支但又不希望丢失当前工作进度的场景中非常有用。以下是一些常见的用法：</p>
+<h2 id="_6">暂存改动<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p><code>git stash</code>命令允许"临时存放"工作区和暂存区中的所有改动，这样就可以干净地切换到另一个分支去处理其他任务，而不用担心丢失当前的进度。使用该命令后 git 会做以下几件事：</p>
+<ol>
+<li>保存修改至一个称为"stash"的栈中</li>
+<li>清理当前工作目录，恢复到最近一次提交的状态，清除所有未提交的更改</li>
+</ol>
+<p>下面是一些常见的用法：</p>
 <p>暂存当前改动并添加一则信息：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>git<span class="w"> </span>stash<span class="w"> </span>save<span class="w"> </span><span class="s2">&quot;message&quot;</span>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>git<span class="w"> </span>stash<span class="w"> </span>save<span class="w"> </span><span class="s2">&quot;message&quot;</span>
 </code></pre></div>
 <p>显示所有暂存的改动：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>git<span class="w"> </span>stash<span class="w"> </span>list
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>git<span class="w"> </span>stash<span class="w"> </span>list
 </code></pre></div>
 <p>应用最近的暂存：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>git<span class="w"> </span>stash<span class="w"> </span>apply
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>git<span class="w"> </span>stash<span class="w"> </span>apply
 </code></pre></div>
 <p>应用最近的暂存并删除：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>git<span class="w"> </span>stash<span class="w"> </span>pop
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>git<span class="w"> </span>stash<span class="w"> </span>pop
 </code></pre></div>
 <p>清除所有暂存：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>git<span class="w"> </span>stash<span class="w"> </span>clear
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>git<span class="w"> </span>stash<span class="w"> </span>clear
 </code></pre></div>
-<p>注意：<code>git stash</code>命令默认不会暂存untracked文件。</p>
+<p>注意：<code>git stash</code>命令默认不会暂存 untracked 文件。</p>
 
 
 

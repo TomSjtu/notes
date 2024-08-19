@@ -623,7 +623,7 @@
         
   
   <span class="md-ellipsis">
-    内核的编译与启动
+    编译内核
   </span>
   
 
@@ -1343,8 +1343,6 @@
       
         
       
-        
-      
     
     
       
@@ -1813,27 +1811,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/mmc/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    Mmc
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../drivers/wifi/" class="md-nav__link">
         
   
@@ -2252,6 +2229,8 @@
       
         
       
+        
+      
     
     
       
@@ -2291,6 +2270,27 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -4163,25 +4163,22 @@
 
 
 <h1 id="_1">进程地址空间<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>内核除了管理本身的内存外，还必须管理用户空间中进程的内存。我们称这个内存为进程地址空间。Linux操作系统采用虚拟内存技术，对一个进程而言，它以虚拟的方式访问整个系统的所有物理内存，甚至其虚拟空间可以远远大于物理内存。</p>
-<div class="admonition question">
-<p class="admonition-title">Question</p>
-<p>为什么要有虚拟内存？</p>
-</div>
-<p>想象一个系统中仅有两个程序同时操作物理内存的场景，我们必须非常谨慎地为它们分配各自的内存地址，并确保每个程序仅访问其被分配的内存区域。为了防止地址冲突，我们必须手动地管理内存地址，这将极大地增加编程的复杂性。然而，如果我们能够实现一种机制，它可以为每个进程提供一套隔离的虚拟地址空间，由操作系统自动管理，那么这将极大地简化编程工作。这种机制就是<mark class="critic">虚拟内存管理</mark>，而操作系统中的内存管理单元（MMU）则负责将虚拟地址转换为物理地址。</p>
-<p>Linux采用了基于分页的虚拟内存管理机制，其中内存被划分为大小固定的页，每一页通常是4KB。这种分页机制使得内存管理更加灵活和高效。虚拟地址到物理地址的转换通过多级页表来实现，这种分级结构可以有效地管理大型地址空间，同时减少内存占用。为了提高地址转换的速度，现代CPU设计通常包括一个称为<mark class="critic">TLB</mark>（转换后援缓冲器）的硬件缓存。TLB缓存了最近使用过的页表项，这样当CPU需要访问一个内存地址时，它首先检查TLB，如果找到了匹配的条目——这个操作被称为<mark class="critic">TLB命中</mark>，就可以直接完成地址转换，避免访问页表，从而显著提升性能。数十年来，操作系统和硬件设计者都会尽量优化TLB的命中率，以减少这种开销。</p>
+<p>除了管理本身的内存外，操作系统还必须管理用户空间的内存。我们称这个内存为进程地址空间。几乎所有的操作系统都采用了虚拟内存管理技术，它允许进程以虚拟地址的方式访问系统中的物理内存，由操作系统负责处理映射关系。</p>
+<p>在没有虚拟内存的时代，进程访问的是实际的物理内存。开发者在编写程序时必须非常小心，防止访问到了不该访问的内存地址。同时，不同进程之间的内存地址也可能发生冲突，造成程序出错甚至是系统崩溃。</p>
+<p>虚拟内存管理技术的出现，大大简化了程序员的工作——在编写程序时，无需考虑内存分配和释放，只需使用虚拟地址即可。</p>
+<p>Linux采用了基于分页的虚拟内存管理机制，其中内存被划分为大小固定的页，每一页通常是 4KB。这种分页机制使得内存管理更加灵活和高效。而虚拟地址到物理地址的转换则通过多级页表来实现。为了提高地址转换的速度，现代 CPU 都会设计一个称为 <mark class="critic">TLB</mark>（转换后援缓冲器）的硬件缓存。TLB 缓存了最近使用过的页表项，这样当 CPU 需要访问一个内存地址时，它首先检查 TLB，如果找到了匹配的条目——这个操作被称为 <mark class="critic">TLB命中</mark>，就可以直接找到对应的物理地址，从而避免访问页表。</p>
 <h2 id="_2">地址空间的概念<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>进程的地址空间由可寻址的虚拟内存组成，在32位体系中（只讨论32位架构，64位类似），每个进程可寻址4GB的虚拟内存，其中1GB分配给内核空间，剩下3GB分配给用户空间。一个进程只能访问有效内存区域内的内存地址，部分地址是非法的，一旦访问，就会立刻触发<mark class="critic">段错误</mark>(segmentation fault)，由内核终止该进程。每个内存区域还有相关的权限，比如可读可写可执行等。</p>
+<p>进程的地址空间由可寻址的虚拟内存组成，在32位体系中（只讨论32位架构，64位类似），每个进程可寻址 4GB 的虚拟内存，其中 1GB 分配给内核空间，剩下 3GB 分配给用户空间。一个进程只能访问有效内存区域内的内存地址，部分地址是非法的。一旦访问，就会立刻触发<mark class="critic">段错误</mark>(segmentation fault)，由内核终止该进程。每个内存区域还有相关的权限，比如可读可写可执行等。</p>
 <p>进程的虚拟内存空间分布如下图所示：</p>
 <p><img alt="进程虚拟内存空间" src="../../../images/kernel/vma.webp" /></p>
-<p>从上图中我们看到，0x0000 0000到0x0804 8000这段空间是不可访问的<mark class="critic">保留区</mark>，在大多数操作系统中，数值比较小的地址是非法地址，不允许访问的。比如NULL指针就会指向这片区域。</p>
-<p>0x0804 8000至0xC000 0000是用户态空间地址，再网上就是所谓的高端地址——供内核使用。内核态与用户态的分界线由成员变量<code>task_size</code>定义。</p>
+<p>从上图中我们看到，0x0000 0000 到 0x0804 8000 这段空间是不可访问的<mark class="critic">保留区</mark>，在大多数操作系统中，数值较小的地址是不允许访问的。比如 NULL 指针就会指向这片区域。</p>
+<p>0x0804 8000 至 0xC000 0000 是用户态空间地址，在往上就是所谓的高端地址——供内核使用。内核态与用户态的分界线由成员变量<code>task_size</code>定义。</p>
 <p>保留区上方是<mark class="critic">代码段</mark>和<mark class="critic">数据段</mark>，它们是从可执行文件直接加载进来的。编译后的代码放在代码段，数据段用来存放已初始化的全局变量。</p>
-<p><mark class="critic">BSS</mark>段用来存放未初始化的全局变量，以0填充。</p>
-<p>BSS段上方是<mark class="critic">堆空间</mark>，地址的增长方向是从低到高。内核使用<code>start_brk</code>标识堆的起始位置，<code>brk</code>标识堆当前的结束位置。当用户使用<code>malloc()</code>函数申请一块很小的内存（128K以内）时，就会在堆上分配内存。堆内存的管理比较复杂，最大的困难就是频繁地分配和释放会造成内存碎片。为了应对这个问题，内核采用了基于<a href="../mm/#_4">伙伴系统</a>的内存分配算法。</p>
-<p>堆空间上方是待分配区域，用来扩展堆空间的使用。接下来是<mark class="critic">内存映射区域</mark>。任何应用程序都可以通过<code>mmap()</code>系统调用映射至此区域。内存映射可以用来加载动态库，比如<mark class="critic">ld-linux.so</mark>就被加载于此，另外，如果你通过<code>malloc()</code>申请了超过128K内存，内核将直接为你分配一块映射区域作为内存，而不是使用堆内存。</p>
+<p><mark class="critic">BSS</mark> 段用来存放未初始化的全局变量，以0填充。</p>
+<p>BSS 段上方是<mark class="critic">堆空间</mark>，地址的增长方向是从低到高。内核使用<code>start_brk</code>标识堆的起始位置，<code>brk</code>标识堆当前的结束位置。当用户使用<code>malloc()</code>函数申请一块很小的内存（128K以内）时，就会在堆上分配内存。</p>
+<p>堆空间上方是待分配区域，用来扩展堆空间的使用。接下来是<mark class="critic">内存映射区域</mark>。任何应用程序都可以通过<code>mmap()</code>系统调用映射至此区域。内存映射区可以用来加载动态库，比如<mark class="critic">ld-linux.so</mark>就被加载于此。</p>
 <p>最后一块区域是<mark class="critic">栈空间</mark>，在这里保存函数运行过程需要的局部变量以及函数参数等信息。栈空间的地址是从高到低增长的。内核使用<code>start_stack</code>标识栈的起始位置。</p>
-<p>在命令行模式下，可以使用<code>cat /proc/[pid]/maps</code>查看一个进程的内存布局。</p>
+<p>你可以使用<code>cat /proc/[pid]/maps</code>查看一个进程的内存布局。</p>
 <h2 id="_3">内存描述符<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <p><code>mm_struct</code>用来表示进程的地址空间的信息，定义在文件&lt;linux/mm_types.h&gt;中：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="p">{</span>
@@ -4213,17 +4210,11 @@
 <p>mm_rb：指向一个<code>vm_area_struct</code>结构体的红黑树根节点。</p>
 <p>mmlist：指向一个<code>mm_struct</code>结构体的链表头。</p>
 </blockquote>
-<p>在<a href="../task/">进程管理</a>中我们介绍了mm变量，用来存放该进程使用的内存描述符，<code>current-&gt;mm</code>就指向当前进程的内存描述符。<code>fork()</code>函数利用<code>copy_mm()</code>函数复制父进程的内存描述符。如果父子进程共享地址空间，则在调用<code>clone()</code>时，需要设置<mark class="critic">CLONE_VM</mark>标志，这样的进程就是线程。一旦指定了CLONE_VM，线程就不需要另外分配地址空间了，而是直接将mm域直接指向父进程的内存描述符即可。</p>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>在Linux环境下，是否共享地址空间是进程和线程的本质区别。</p>
-</div>
-<p>内核线程没有进程地址空间，也没有相关的内存描述符，其mm域为NULL。当一个内核线程被调度时，它会直接使用前一个进程的内存描述符。</p>
+<p>在<a href="../task/">进程管理</a>中我们介绍了 mm 字段，用来存放该进程使用的内存描述符。如果父子进程共享地址空间，则在调用<code>clone()</code>函数时，会设置<mark class="critic">CLONE_VM</mark>标志，这样的进程就是线程。一旦指定了 CLONE_VM，线程就不需要另外分配地址空间了，而是将 mm 字段直接指向父进程的内存描述符即可。</p>
+<p>内核线程没有进程地址空间，也没有相关的内存描述符，其 mm 字段为 NULL。当一个内核线程被调度时，它会直接使用前一个进程的内存描述符。</p>
 <h2 id="_4">虚拟内存区域<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>虚拟内存区域（Virtual Memory Area）在内核中用<code>vm_area_struct</code>结构体描述。每个<code>vm_area_struct</code>结构都对应于指定地址空间上某块连续的内存区域。vm_start指向了这块虚拟内存区域的起始地址，vm_end指向了这块虚拟内存区域的结束地址。<code>vm_area_struct</code>结构体描述的是[vm_start，vm_end)这样一段左闭右开的虚拟内存区域。</p>
-<p>于是整个进程地址空间管理如下图所示，在每个<code>task_struct</code>结构体下的mm域指向了该进程的内存描述符。内存描述符用两种方式将所有的<code>vm_area_struct</code>结构体串联起来：mm_rb指向红黑树头节点，mmap指向链表头节点。红黑树和链表的每个元素都是一个<code>vm_area_struct</code>结构体，标识了每块VMA区域的属性：</p>
-<p><img alt="vm_area_struct" src="../../../images/kernel/vma2.webp" /></p>
-<p>内核将每个内存区域作为一个单独的内存对象管理，每个区域有一致的属性和操作，下面给出<code>vm_area_struct</code>结构体的定义：</p>
+<p>虚拟内存区域（Virtual Memory Area）在内核中用<code>vm_area_struct</code>结构体描述。每个<code>vm_area_struct</code>结构都对应于指定地址空间上某块连续的内存区域。<code>vm_start</code>指向了这块虚拟内存区域的起始地址，<code>vm_end</code>则指向了这块虚拟内存区域的结束地址。<code>vm_area_struct</code>结构体描述的是[vm_start，vm_end)这样一段左闭右开的虚拟内存区域。</p>
+<p>内核将每个内存区域作为一个单独的对象管理，每个区域都有一致的属性和操作，下面给出<code>vm_area_struct</code>结构体的定义：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">vm_area_struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">vm_mm</span><span class="p">;</span><span class="w">                      </span><span class="c1">//相关的mm_struct结构体</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">vm_start</span><span class="p">;</span><span class="w">                       </span><span class="c1">//区间的首地址</span>
@@ -4239,13 +4230,13 @@
 <a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">vm_private_data</span><span class="p">;</span><span class="w">                        </span><span class="c1">//私有数据</span>
 <a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="p">};</span>
 </code></pre></div>
-<p>每个内存描述符对应进程地址空间中的唯一空间，范围是[vm_start, vm_end)。vm_mm指向与VMA相关的<code>mm_struct</code>结构体，vm_next负责将VMA串联成链表。</p>
+<p>于是整个虚拟内存空间管理如下图所示，在每个<code>task_struct</code>结构体下的 mm 字段指向了该进程的<code>mm_struct</code>。内核用两种数据结构管理<code>vm_area_struct</code>结构体：<code>mm_rb</code>指向红黑树头节点，<code>mmap</code>指向链表头节点。红黑树和链表的每个元素都是一个<code>vm_area_struct</code>结构体，标识了每块VMA区域的属性：</p>
 <p><img alt="Alt text" src="../../../images/kernel/vma3.webp" /></p>
 <h3 id="vma">VMA标志<a class="headerlink" href="#vma" title="Permanent link">&para;</a></h3>
-<p>vm_flags定义了VMA的标志，它表示内存区域的行为和信息。一些比较重要的标志比如：VM_READ、VM_WRITE和VM_EXEC标志了内存区域中页面的可读、可写、可执行权限。当访问VMA时，需要查看其访问权限。</p>
-<p>VM_SHARED表示内存区域包含的映射是否可以在多进程之间共享，如果设置了该标志位，我们称其为共享映射，否则就是私有映射。</p>
-<p>VM_IO标志内存区域中对设备I/O空间的映射。该标志通常在设备驱动程序执行<code>mmap()</code>函数时才被设置。</p>
-<p>VM_RESERVED标志规定了内存区域不能被换出。</p>
+<p>vm_flags 定义了VMA的标志，它表示内存区域的行为和信息。一些比较重要的标志比如：VM_READ、VM_WRITE 和 VM_EXEC 定义了内存区域中页面的可读、可写、可执行权限。</p>
+<p>VM_SHARED 表示内存区域包含的映射是否可以在多进程之间共享，如果设置了该标志位，我们称其为共享映射，否则就是私有映射。</p>
+<p>VM_IO 标志内存区域中对设备I/O空间的映射。该标志通常在设备驱动程序执行<code>mmap()</code>函数时才被设置。</p>
+<p>VM_RESERVED 标志规定了内存区域不能被换出。</p>
 <h3 id="vma_1">VMA操作<a class="headerlink" href="#vma_1" title="Permanent link">&para;</a></h3>
 <p><code>vm_ops</code>域指向与内存区域相关的操作函数，由<code>vm_operations_struct</code>结构体表示：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">vm_operations_struct</span><span class="w"> </span><span class="p">{</span>
@@ -4257,15 +4248,15 @@
 <a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">};</span>
 </code></pre></div>
 <h2 id="_5">进程内存指标<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>在进程的内存管理中，通常被分为几个不同的类别，其中RSS(Resident Set Size)、PSS(Proportional Set Size)、USS(Unique Set Size)是衡量进程内存使用情况的三个重要指标。</p>
-<p>传统模式下，应用程序如果需要访问文件，需要先在虚拟地址空间中分配一段虚拟内存，这段内存通过MMU，映射成对应的物理内存。当进程发出读/写请求时，磁盘先将数据拷贝到page cache，再将page cache中的内容拷贝到物理内存。当使用了<code>mmap()</code>之后，</p>
+<p>在进程的内存管理中，通常被分为几个不同的类别，其中 RSS(Resident Set Size)、PSS(Proportional Set Size)、USS(Unique Set Size) 是衡量进程内存使用情况的三个重要指标。</p>
+<p>传统模式下，应用程序如果需要访问文件，需要先在虚拟地址空间中分配一段虚拟内存，这段内存通过 MMU，映射成对应的物理内存。当进程发出读/写请求时，磁盘先将数据拷贝到 page cache，再将 page cache 中的内容拷贝到物理内存。当使用了<code>mmap()</code>之后，应用程序可以直接访问磁盘上的文件，而不需要拷贝到 page cache。</p>
 <ol>
 <li>RSS：进程实际占用的物理内存，包括了共享库所占用的内存</li>
 <li>PSS：进程独占的内存加上按比例分摊的共享库内存</li>
 <li>USS：进程独自占用的物理内存</li>
 </ol>
 <h2 id="malloc">malloc()<a class="headerlink" href="#malloc" title="Permanent link">&para;</a></h2>
-<p><code>malloc()</code>是C库里的一个动态分配内存的函数，申请内存时有两种方式：</p>
+<p><code>malloc()</code>是C库里的一个动态分配内存的函数，在申请内存时有两种方式：</p>
 <ul>
 <li>
 <p>方式一：通过<code>brk()</code>系统调用从堆分配内存。</p>
@@ -4274,7 +4265,7 @@
 <p>方式二：通过<code>mmap()</code>系统调用从文件映射区分配内存。</p>
 </li>
 </ul>
-<p><code>malloc()</code>源码规定了一个阈值MMAP_THRESHOLD，默认为128kB：</p>
+<p><code>malloc()</code>源码规定了一个阈值 MMAP_THRESHOLD，默认为 128kB：</p>
 <ul>
 <li>
 <p>如果分配的内存小于这个阈值，则通过<code>brk()</code>申请内存，动态调整进程地址空间中的brk指针的位置。</p>
@@ -4284,7 +4275,7 @@
 </li>
 </ul>
 <p>设计内存分配策略时，核心目标是在性能和资源管理之间找到最佳平衡点。对于小内存块的频繁分配与释放操作，<code>malloc()</code> 采用 <code>brk()</code> 系统调用进行内存管理。释放的内存并不会立即返回给操作系统，而是被缓存至内存池中，以便于后续的分配请求能够快速重用这些已释放的内存块，从而减少系统调用的次数和相关的性能开销。</p>
-<p>对于大内存块的分配，<code>malloc()</code> 则会使用 <code>mmap()</code> 系统调用。这种方式在首次访问时可能会触发缺页中断，因为分配的内存初始处于未映射状态，需要操作系统介入以建立虚拟地址到物理内存的映射。这一机制相较于 <code>brk()</code> 系统调用，会带来更高的性能成本。</p>
+<p>对于大内存块的分配，<code>malloc()</code> 则会使用 <code>mmap()</code> 系统调用。这种方式在首次访问时可能会触发<mark class="critic">缺页异常</mark>，因为分配的内存初始处于未映射状态，需要操作系统介入以建立虚拟地址到物理内存的映射。这一机制相较于 <code>brk()</code> 系统调用，会带来更高的性能成本。</p>
 <h2 id="mmap">mmap()<a class="headerlink" href="#mmap" title="Permanent link">&para;</a></h2>
 <p><code>mmap()</code>用于内存映射，将一块区域映射到自己的进程地址空间中，分为两种：</p>
 <ul>
