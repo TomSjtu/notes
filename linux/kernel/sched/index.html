@@ -571,6 +571,8 @@
       
         
       
+        
+      
     
     
       
@@ -724,6 +726,27 @@
   
   
     <li class="md-nav__item">
+      <a href="../load/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程加载与启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../task/" class="md-nav__link">
         
   
@@ -793,7 +816,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      操作系统的分类
+      进程的分类
     </span>
   </a>
   
@@ -802,7 +825,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      进程的分类
+      调度器设计
     </span>
   </a>
   
@@ -815,22 +838,31 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="进程优先级">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      调度策略
+      实时调度算法
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      静态优先级
+      完全公平调度算法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="完全公平调度算法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vruntime" class="md-nav__link">
+    <span class="md-ellipsis">
+      vruntime
     </span>
   </a>
   
@@ -839,7 +871,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      实时优先级
+      调度节拍
     </span>
   </a>
   
@@ -848,7 +880,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      归一优先级
+      调度器入口
     </span>
   </a>
   
@@ -857,7 +889,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      动态优先级
+      负载均衡
     </span>
   </a>
   
@@ -871,17 +903,26 @@
         <li class="md-nav__item">
   <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
-      基本调度算法
+      进程调度时机
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="基本调度算法">
+    <nav class="md-nav" aria-label="进程调度时机">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tif_need_resched" class="md-nav__link">
+    <span class="md-ellipsis">
+      TIF_NEED_RESCHED
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#_11" class="md-nav__link">
     <span class="md-ellipsis">
-      先来先服务
+      上下文切换
     </span>
   </a>
   
@@ -890,7 +931,7 @@
           <li class="md-nav__item">
   <a href="#_12" class="md-nav__link">
     <span class="md-ellipsis">
-      最短任务优先
+      用户抢占
     </span>
   </a>
   
@@ -899,7 +940,7 @@
           <li class="md-nav__item">
   <a href="#_13" class="md-nav__link">
     <span class="md-ellipsis">
-      抢占式最短任务优先
+      内核抢占
     </span>
   </a>
   
@@ -907,117 +948,6 @@
         
           <li class="md-nav__item">
   <a href="#_14" class="md-nav__link">
-    <span class="md-ellipsis">
-      时间片轮转
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
-    <span class="md-ellipsis">
-      多级反馈队列
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_16" class="md-nav__link">
-    <span class="md-ellipsis">
-      内核调度算法
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="内核调度算法">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_17" class="md-nav__link">
-    <span class="md-ellipsis">
-      调度器类
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      CFS调度策略
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rt" class="md-nav__link">
-    <span class="md-ellipsis">
-      RT调度策略
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dl" class="md-nav__link">
-    <span class="md-ellipsis">
-      DL调度策略
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#idle" class="md-nav__link">
-    <span class="md-ellipsis">
-      IDLE调度策略
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cfs_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      CFS的实现
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="CFS的实现">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_18" class="md-nav__link">
-    <span class="md-ellipsis">
-      时间记账
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_19" class="md-nav__link">
-    <span class="md-ellipsis">
-      调度器入口
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_20" class="md-nav__link">
     <span class="md-ellipsis">
       睡眠与唤醒
     </span>
@@ -1031,49 +961,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_21" class="md-nav__link">
-    <span class="md-ellipsis">
-      调度队列与调度实体
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_22" class="md-nav__link">
-    <span class="md-ellipsis">
-      抢占与上下文切换
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="抢占与上下文切换">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_23" class="md-nav__link">
-    <span class="md-ellipsis">
-      用户抢占
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_24" class="md-nav__link">
-    <span class="md-ellipsis">
-      内核抢占
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_25" class="md-nav__link">
+  <a href="#_15" class="md-nav__link">
     <span class="md-ellipsis">
       调度相关的用户接口
     </span>
@@ -1227,7 +1115,7 @@
         
   
   <span class="md-ellipsis">
-    进程地址空间
+    虚拟内存管理
   </span>
   
 
@@ -2263,6 +2151,8 @@
       
         
       
+        
+      
     
     
       
@@ -2278,11 +2168,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../ebpf/" class="md-nav__link ">
+            <a href="../../monitor/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    ebpf
+    性能观测
   </span>
   
 
@@ -2298,7 +2188,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
-            ebpf
+            性能观测
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2311,7 +2201,70 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ebpf/intro/" class="md-nav__link">
+      <a href="../../monitor/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    性能观测技术概览
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/trace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    静态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/ebpf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2332,49 +2285,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ebpf/ftrace/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ftrace
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../ebpf/probe/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    探针
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../ebpf/bpftool/" class="md-nav__link">
+      <a href="../../monitor/bpftool/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3753,6 +3664,8 @@
       
         
       
+        
+      
     
     
       
@@ -3869,6 +3782,63 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/opencl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    opencl
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            opencl
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -4282,7 +4252,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      操作系统的分类
+      进程的分类
     </span>
   </a>
   
@@ -4291,7 +4261,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      进程的分类
+      调度器设计
     </span>
   </a>
   
@@ -4304,22 +4274,31 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="进程优先级">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
+</li>
+      
+        <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      调度策略
+      实时调度算法
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
+      
+        <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
     <span class="md-ellipsis">
-      静态优先级
+      完全公平调度算法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="完全公平调度算法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#vruntime" class="md-nav__link">
+    <span class="md-ellipsis">
+      vruntime
     </span>
   </a>
   
@@ -4328,7 +4307,7 @@
           <li class="md-nav__item">
   <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
-      实时优先级
+      调度节拍
     </span>
   </a>
   
@@ -4337,7 +4316,7 @@
           <li class="md-nav__item">
   <a href="#_8" class="md-nav__link">
     <span class="md-ellipsis">
-      归一优先级
+      调度器入口
     </span>
   </a>
   
@@ -4346,7 +4325,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      动态优先级
+      负载均衡
     </span>
   </a>
   
@@ -4360,17 +4339,26 @@
         <li class="md-nav__item">
   <a href="#_10" class="md-nav__link">
     <span class="md-ellipsis">
-      基本调度算法
+      进程调度时机
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="基本调度算法">
+    <nav class="md-nav" aria-label="进程调度时机">
       <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tif_need_resched" class="md-nav__link">
+    <span class="md-ellipsis">
+      TIF_NEED_RESCHED
+    </span>
+  </a>
+  
+</li>
         
           <li class="md-nav__item">
   <a href="#_11" class="md-nav__link">
     <span class="md-ellipsis">
-      先来先服务
+      上下文切换
     </span>
   </a>
   
@@ -4379,7 +4367,7 @@
           <li class="md-nav__item">
   <a href="#_12" class="md-nav__link">
     <span class="md-ellipsis">
-      最短任务优先
+      用户抢占
     </span>
   </a>
   
@@ -4388,7 +4376,7 @@
           <li class="md-nav__item">
   <a href="#_13" class="md-nav__link">
     <span class="md-ellipsis">
-      抢占式最短任务优先
+      内核抢占
     </span>
   </a>
   
@@ -4396,117 +4384,6 @@
         
           <li class="md-nav__item">
   <a href="#_14" class="md-nav__link">
-    <span class="md-ellipsis">
-      时间片轮转
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
-    <span class="md-ellipsis">
-      多级反馈队列
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_16" class="md-nav__link">
-    <span class="md-ellipsis">
-      内核调度算法
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="内核调度算法">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_17" class="md-nav__link">
-    <span class="md-ellipsis">
-      调度器类
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#cfs" class="md-nav__link">
-    <span class="md-ellipsis">
-      CFS调度策略
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#rt" class="md-nav__link">
-    <span class="md-ellipsis">
-      RT调度策略
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#dl" class="md-nav__link">
-    <span class="md-ellipsis">
-      DL调度策略
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#idle" class="md-nav__link">
-    <span class="md-ellipsis">
-      IDLE调度策略
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#cfs_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      CFS的实现
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="CFS的实现">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_18" class="md-nav__link">
-    <span class="md-ellipsis">
-      时间记账
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_19" class="md-nav__link">
-    <span class="md-ellipsis">
-      调度器入口
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_20" class="md-nav__link">
     <span class="md-ellipsis">
       睡眠与唤醒
     </span>
@@ -4520,49 +4397,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_21" class="md-nav__link">
-    <span class="md-ellipsis">
-      调度队列与调度实体
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_22" class="md-nav__link">
-    <span class="md-ellipsis">
-      抢占与上下文切换
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="抢占与上下文切换">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_23" class="md-nav__link">
-    <span class="md-ellipsis">
-      用户抢占
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_24" class="md-nav__link">
-    <span class="md-ellipsis">
-      内核抢占
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_25" class="md-nav__link">
+  <a href="#_15" class="md-nav__link">
     <span class="md-ellipsis">
       调度相关的用户接口
     </span>
@@ -4589,232 +4424,233 @@
 
 
 <h1 id="_1">进程调度<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>操作系统的重要职责就是对各类进程进行合理的调度，有效分配CPU的时间，既要保证进程得到最快的响应，也要保证进程之间的公平性。</p>
-<p>Linux内核是多任务的操作系统，能并发地执行多个进程。但是单个CPU在某段时间内只能运行一个进程，内核为每个进程分配一小段非常短的时间片，并让不同的进程切换执行，造成了多进程并发运行的假象。在当前进程时间片用完之前，其他进程可能处于睡眠或阻塞状态。</p>
-<div class="admonition info">
-<p class="admonition-title">抢占式多任务操作系统</p>
-<p>一个进程在使用完其分配的时间片之前，可能会被调度程序强制挂起而运行其他的进程，这被称为是抢占。</p>
-</div>
-<h2 id="_2">操作系统的分类<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>操作系统的重要职责就是对各类进程进行合理的调度，在各个进程之间尽可能公平地共享 CPU 时间，而同时又要考虑不同的任务优先级。调度的两个核心问题是：</p>
 <ol>
-<li>
-<p>批处理系统(Batch Processing System)：用户将一批作业提交给操作系统后就不再干预，由操作系统控制它们自动运行。</p>
-</li>
-<li>
-<p>实时系统(Real-Time System)：实时系统保证计算的正确性以及程序的实时响应，一般应用在航天、汽车工业等。</p>
-</li>
-<li>
-<p>分时系统(Time Sharing System)：分时系统将计算机的资源进行时间上的分割，每个时间段称为一个时间片，每个用户依次轮流使用时间片。</p>
-</li>
+<li>如何决定下一个运行的进程？</li>
+<li>允许下一个进程运行多久？</li>
 </ol>
-<p>Linux属于分时系统，也是目前互联网服务器的主流。</p>
-<h2 id="_3">进程的分类<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>进程可以被分为<mark class="critic">I/O消耗型</mark>和<mark class="critic">处理器消耗型</mark>。前者指进程的大部分时间用来提交或者是等待I/O请求，这样的进程通常处于可运行状态，但只运行很短的时间就进入阻塞状态。比如图形界面程序就是典型的I/O消耗型程序，它们大部分时间都在等待来自鼠标或者是键盘的交互。</p>
-<p>相反，处理器消耗型进程把时间大多用在执行代码上，它们通常连续不断地运行。比如某个程序从0开始一直不停地打印数字，这就是一个处理器消耗型进程。从系统性能的角度考虑，调度器应降低处理器消耗型进程的调度频率，而延长其运行时间。对于I/O消耗型进程应做到尽快调度运行。</p>
-<p>调度策略实际上就是在两个矛盾的目标中间寻找平衡：进程响应速度和处理器利用率。Linux为了保证交互式应用和桌面系统的性能，对进程的响应做了优化，更倾向于优先调度I/O消耗型进程运行。</p>
-<p>想象一下这样一个场景：在系统中有两个可运行的进程，一个是文字编辑程序，另一个是视频编码程序。前者是I/O消耗型，后者是处理器消耗型。用户总是希望文字编辑程序能够得到立刻响应——从键盘上输入一个字符就能马上显示在屏幕上，而视频解码程序的运行对于用户是无感知的，所以对响应时间要求没有那么高。</p>
-<p>在理想情况下，我们希望文字编辑程序在被唤醒时能够立刻抢占视频解码程序，这样才能确保其良好的交互性能。在多数操作系统中，上述目标的达成是通过给文字编辑器分配更高的优先级以及更多的时间片实现的。Linux操作系统采用了不同的方法——分配一个给定的处理器使用比例。如果这两个程序的权重相同，则共享50%的处理器时间。但因为文本编辑程序肯定用不到这么多，于是当其被唤醒时，调度器注意到它的处理器时间比远小于50%，为了兑现进程公平分享处理器时间的承诺，它将立刻抢占视频解码程序。在处理了用户的输入后，又进入到睡眠状态。于是文本编辑程序总是在被需要时投入运行，而视频解码程序只能在剩下的时刻运行。</p>
+<p>而调度算法必须在以下几个目标之间实现平衡：</p>
+<ul>
+<li>进程响应时间尽可能快</li>
+<li>后台任务的吞吐量尽可能高</li>
+<li>尽可能避免进程的饥饿现象</li>
+<li>低优先级进程和高优先级进程的需求尽可能调和</li>
+</ul>
+<p>传统的调度算法基于分时(time sharing)技术：将 CPU 的时间切分成片(slice)，给每个可运行的进程分配一块 CPU 时间片，单处理器同一时间只能运行单个进程。如果时间片耗尽，即使进程没有运行完，也会发生进程切换。进程的优先级则体现在对于时间片的占用量上。</p>
+<h2 id="_2">进程的分类<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>一种分类方法将进程分为三类：</p>
+<ul>
+<li>交互式进程：此类进程经常与用户交互，等待来自用户的鼠标或者键盘操作，当接受输入后，必须立即响应，否则用户会感觉系统反应迟钝</li>
+<li>批处理进程：此类进程不与用户交互，只在后台运行</li>
+<li>实时进程：此类进程有很强的调度需要，不会被低优先级的进程阻塞</li>
+</ul>
+<p>Linux 内核可以明确地区分实时进程的身份，并实现了基于进程过去行为的启发算法，以区分交互式进程和批处理进程。为了提高系统的响应速度，调度算法会倾向于优先调度交互式进程。</p>
+<h2 id="_3">调度器设计<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>Linux 设计了6种调度策略，5个调度器类和3个调度实体：</p>
+<table>
+<thead>
+<tr>
+<th>调度器类</th>
+<th>调度策略</th>
+<th>调度算法</th>
+<th>调度实体</th>
+<th>调度实体对应的调度对象</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stop_sched_class</td>
+<td>无</td>
+<td>无</td>
+<td>无</td>
+<td>紧急的、需要立即执行的CPU任务</td>
+</tr>
+<tr>
+<td>dl_sched_class</td>
+<td>SCHED_DEADLINE</td>
+<td>最早截止时间算法</td>
+<td>sched_dl_entity</td>
+<td>有截止时间的实时进程</td>
+</tr>
+<tr>
+<td>rt_sched_class</td>
+<td>SCHED_RR, SCHED_FIFO</td>
+<td>时间片轮转算法，先进先出算法</td>
+<td>sched_rt_entity</td>
+<td>实时进程</td>
+</tr>
+<tr>
+<td>fair_sched_class</td>
+<td>SCHED_OTHER</td>
+<td>完全公平调度算法</td>
+<td>sched_entity</td>
+<td>普通非实时进程</td>
+</tr>
+<tr>
+<td>idle_sched_class</td>
+<td>SCHED_IDLE</td>
+<td>无</td>
+<td>无</td>
+<td>特殊进程idle</td>
+</tr>
+</tbody>
+</table>
+<p>为了让每个 CPU 核心都能参与进程任务处理，不需要考虑和其他处理器竞争的问题，也能充分利用本地硬件 cache 来对访问加速，Linux 内核为每个 CPU 核心都分配了一个运行队列，这就是<code>struct rq</code>结构体：</p>
+<div class="language-C highlight"><span class="filename">kernel/sched/core.c</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">DEFINE_PER_CPU_SHARED_ALIGNED</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="p">,</span><span class="w"> </span><span class="n">runqueues</span><span class="p">)</span>
+</code></pre></div>
+<p>为了满足不同的调度策略，<code>strcut rq</code>中实现了不同的调度类(Scheduling Class)，将不同调度需求的进程放在不同的调度类中：</p>
+<div class="language-C highlight"><span class="filename">kernel/sched/sched.h</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="p">{</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">rt_rq</span><span class="w"> </span><span class="n">rt</span><span class="p">;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cfs_rq</span><span class="w"> </span><span class="n">cfs</span><span class="p">;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">dl_rq</span><span class="w"> </span><span class="n">dl</span><span class="p">;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>task_struct-&gt;sched_class</code>标识了当前进程的调度器类，<code>task_struct-&gt;policy</code>标识了当前进程的调度策略。整个调度器运行的场景如下：</p>
+<p><img alt="进程调度" src="../../../images/kernel/sched.webp" /></p>
 <h2 id="_4">进程优先级<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>根据进程的重要性，通常可以分为实时进程和普通进程。由于实时进程对于时间的响应要求比较高，因此其优先级会比普通进程高。</p>
-<p>在内核中，<code>task_struct</code>中有若干和进程优先级有关的成员：
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">prio</span><span class="p">,</span><span class="w"> </span><span class="n">static_prio</span><span class="p">,</span><span class="w"> </span><span class="n">normal_prio</span><span class="p">;</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">rt_priority</span><span class="p">;</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">policy</span><span class="p">;</span>
-</code></pre></div></p>
-<h3 id="_5">调度策略<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<p>policy成员记录了该进程的调度策略。</p>
-<h3 id="_6">静态优先级<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
-<p>static_prio表示静态优先级，特点是：</p>
-<ol>
-<li>值越小，进程优先级越高</li>
-<li>0 ~ 99用于实时进程(无实际意义)，100 ~ 139用于普通进程</li>
-<li>子进程继承父进程的静态优先级</li>
-</ol>
-<p>静态优先级是所有其他优先级计算的起点，一改全改。</p>
-<h3 id="_7">实时优先级<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
-<p>rt_priority表示实时优先级，0是普通进程，1 ~ 99是实时进程，99为最高优先级。</p>
-<h3 id="_8">归一优先级<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
-<p>normal_prio表示归一优先级，根据静态优先级、实时优先级和调度策略计算得出。一个线程的normal_prio越小，其优先级越大。</p>
-<h3 id="_9">动态优先级<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
-<p>prio表示动态优先级，也就是调度器在进程调度时使用的那个优先级。动态优先级可以被修改，比如在处理优先级翻转问题的时候，系统可能会临时提升一个普通进程的优先级。</p>
-<div class="admonition abstract">
-<p class="admonition-title">Abstract</p>
-<p>实时进程与普通进程都拥有静态优先级[1~139]，两者都通过转换变为动态优先级，方式为：实时进程直接反转实时优先级，普通进程就等于静态优先级。</p>
-</div>
+<p>Linux 定义了 0~139 之间的优先级，数值越低，优先级越高。其中 0~99 的 100 个优先级给实时进程使用，100~139 的 40 个优先级给普通进程使用。在调度优先级上，实时进程使用的是<mark class="critic">静态优先级</mark>，优先级高的进程拥有绝对的优先执行权。但是普通进程使用的是<mark class="critic">动态优先级</mark>，会随着进程的运行动态变化。这样可以保证每个普通进程都被调度到，不至于被饿死。</p>
+<p>另外，对于普通进程还引入了 nice 值，-20~19 对应 100~139。</p>
 <p><img alt="进程优先级" src="../../../images/kernel/priority.png" /></p>
-<h2 id="_10">基本调度算法<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
-<p>调度算法经历了从简单到复杂的演进，目前没有一个调度算法是万能的，抛开场景来评判调度算法的优劣不可取。以下介绍了一些调度算法的思想，工程上使用的调度算法往往是多种算法的变形。</p>
-<h3 id="_11">先来先服务<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
-<p>先来先服务是最简单的调度算法，哪个进程先来就先占用CPU，释放CPU之后再让第二个进程执行。该调度算法的缺点是如果先来一个耗时的进程，那么后续的进程都必须等待其执行完毕才能被调度，最终导致周转时间拉长。</p>
-<h3 id="_12">最短任务优先<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
-<p>最短任务优先的思想是当多个进程同时出现时，优先安排执行时间最短的任务。该算法改善了周转时间的问题，但是太过理想化，因为大部分的场景下，进程都有个先来后到的顺序，而不是一起出现，更何况进程的运行时间难以预测。</p>
-<h3 id="_13">抢占式最短任务优先<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
-<p>该方法改善了最短任务优先算法，增加了抢占式调度的功能，允许运行时间短的进程抢占运行时间长的进程。缺点是会造成运行时间长的进程饥饿现象。</p>
-<h3 id="_14">时间片轮转<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
-<p>时间片轮转是最为经典的调度算法，它将CPU按照时钟脉冲进行切割，在一个时间片内CPU分配给一个进程，若时间片耗尽则调度选择下一个进程，即使进程没有执行完毕。</p>
-<p>这种调度算法需要进程多次获取时间片才能完成任务，操作系统需要进行大量的上下文切换，这种切换非常消耗资源。因此时间片轮转算法就是找到一种平衡：上下文切换次数不能过多，同时进程响应时间不能太长。</p>
-<h3 id="_15">多级反馈队列<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
-<p>多级反馈队列是一种里程碑式的调度算法，它旨在解决响应时间和周转时间的矛盾，具体做法是：</p>
+<h2 id="_5">实时调度算法<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>实时进程的调度中，优先级是最重要的考虑因素，Linux 内核提供了两种实时调度策略：</p>
 <ul>
-<li>设置多个任务队列，每个队列的优先级不同</li>
-<li>优先分配CPU给高优先级队列，同优先级队列中的任务采用轮转算法</li>
-<li>
-<p>追踪进程的运行状态来动态调整优先级，如果：</p>
+<li>SCHED_FIFO：先来先服务</li>
+<li>SCHED_RR：时间片轮转</li>
+</ul>
+<p>不管是哪种策略，优先级高的进程都可以抢占优先级低的进程。</p>
+<p>这种调度方式实现起来比较简单，只需要定义一些优先级，然后为每个优先级分配一个链表当作队列即可，也叫多优先级队列：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="cp">#define MAX_RT_PRIO 100</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">rt_prio_array</span><span class="p">{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">    </span><span class="p">...</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">queue</span><span class="p">[</span><span class="n">MAX_RT_PRIO</span><span class="p">];</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="p">};</span>
+</code></pre></div>
+<p>实时进程的优先级永远大于普通进程，但是 Linux 预留了 5% 的余量给普通进程使用：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">$</span><span class="w"> </span><span class="n">sysctl</span><span class="w"> </span><span class="o">-</span><span class="n">a</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">grep</span><span class="w"> </span><span class="n">sched_rt_</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">kernel</span><span class="p">.</span><span class="n">sched_rt_period_us</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1000000</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">kernel</span><span class="p">.</span><span class="n">sched_rt_runtime_us</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">950000</span>
+</code></pre></div>
+<h2 id="_6">完全公平调度算法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>完全公平调度算法针对普通进程的调度进行了改进，其核心思想是"对于 N 个进程的系统，在时间周期 T 内，每个进程运行 T/N 的时间"。CFS 摒弃了固定时间片的思路，从固定分配时间片变成了按比例分配。该算法即保证了公平性，又兼顾了整体的调度延迟。</p>
+<h3 id="vruntime">vruntime<a class="headerlink" href="#vruntime" title="Permanent link">&para;</a></h3>
+<p>CFS 引入了虚拟运行时间 vruntime 的概念，调度器只需要保证所有进程的 vruntime 是基本平衡的即可。CFS 在选择下一个进程时，选择是任务队列的 vruntime 最小的那个进程。vruntime 是根据静态优先级和时间片综合计算得出的。一旦进程运行，其值就会增加。简单的来说，谁的 vruntime 小了，就要多运行；谁大了就要少运行。因此 CFS 调度的核心就是如何找到那个 vruntime 值最小的进程。</p>
+<p>内核选择使用红黑树来管理进程，其中节点的 key 就是 vruntime 的值。所有进程中 vruntime 值最小的那个，就是红黑树中最左侧的叶子节点。于是 CFS 的进程调度算法可简单总结为“运行 rbtree 中最左边叶子节点所代表的那个进程”。</p>
+<p>CFS 依赖 vruntime 来维持公平调度，vruntime 的值与 nice 值有关。Linux 建立了 nice 值与时间片分配比例的关系表：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">sched_prio_to_weight</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="cm">/* -20 */</span><span class="w">     </span><span class="mi">88761</span><span class="p">,</span><span class="w">     </span><span class="mi">71755</span><span class="p">,</span><span class="w">     </span><span class="mi">56483</span><span class="p">,</span><span class="w">     </span><span class="mi">46273</span><span class="p">,</span><span class="w">     </span><span class="mi">36291</span><span class="p">,</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="cm">/* -15 */</span><span class="w">     </span><span class="mi">29154</span><span class="p">,</span><span class="w">     </span><span class="mi">23254</span><span class="p">,</span><span class="w">     </span><span class="mi">18705</span><span class="p">,</span><span class="w">     </span><span class="mi">14949</span><span class="p">,</span><span class="w">     </span><span class="mi">11916</span><span class="p">,</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="cm">/* -10 */</span><span class="w">      </span><span class="mi">9548</span><span class="p">,</span><span class="w">      </span><span class="mi">7620</span><span class="p">,</span><span class="w">      </span><span class="mi">6100</span><span class="p">,</span><span class="w">      </span><span class="mi">4904</span><span class="p">,</span><span class="w">      </span><span class="mi">3906</span><span class="p">,</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="cm">/*  -5 */</span><span class="w">      </span><span class="mi">3121</span><span class="p">,</span><span class="w">      </span><span class="mi">2501</span><span class="p">,</span><span class="w">      </span><span class="mi">1991</span><span class="p">,</span><span class="w">      </span><span class="mi">1586</span><span class="p">,</span><span class="w">      </span><span class="mi">1277</span><span class="p">,</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="cm">/*   0 */</span><span class="w">      </span><span class="mi">1024</span><span class="p">,</span><span class="w">       </span><span class="mi">820</span><span class="p">,</span><span class="w">       </span><span class="mi">655</span><span class="p">,</span><span class="w">       </span><span class="mi">526</span><span class="p">,</span><span class="w">       </span><span class="mi">423</span><span class="p">,</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="cm">/*   5 */</span><span class="w">       </span><span class="mi">335</span><span class="p">,</span><span class="w">       </span><span class="mi">272</span><span class="p">,</span><span class="w">       </span><span class="mi">215</span><span class="p">,</span><span class="w">       </span><span class="mi">172</span><span class="p">,</span><span class="w">       </span><span class="mi">137</span><span class="p">,</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="cm">/*  10 */</span><span class="w">       </span><span class="mi">110</span><span class="p">,</span><span class="w">        </span><span class="mi">87</span><span class="p">,</span><span class="w">        </span><span class="mi">70</span><span class="p">,</span><span class="w">        </span><span class="mi">56</span><span class="p">,</span><span class="w">        </span><span class="mi">45</span><span class="p">,</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="cm">/*  15 */</span><span class="w">        </span><span class="mi">36</span><span class="p">,</span><span class="w">        </span><span class="mi">29</span><span class="p">,</span><span class="w">        </span><span class="mi">23</span><span class="p">,</span><span class="w">        </span><span class="mi">18</span><span class="p">,</span><span class="w">        </span><span class="mi">15</span><span class="p">,</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="p">};</span>
+</code></pre></div>
+<p>普通进程的 nice 值一般为0，对应的权重为 1024。</p>
+<p>注意：nice 值并不是优先级，只是一个时间片分配的比例。nice 值越高，代表这个进程越谦让，占用的时间片越少。</p>
+<h3 id="_7">调度节拍<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>Linxu 每隔固定时间就会发出 timer interrupt，对于调度器来说，由定时器驱动的调度节拍是一个重要的调度时机。调度节拍的核心入口是<code>scheduler_tick()</code>函数：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">scheduler_tick</span><span class="p">(</span><span class="kt">void</span><span class="p">){</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">cpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">smp_processor_id</span><span class="p">();</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cpu_rq</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">curr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">curr</span><span class="p">;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="c1">//1.将每个进程执行过的时间累计起来</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="c1">//2.判断是否需要调度下一个任务</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">    </span><span class="n">curr</span><span class="o">-&gt;</span><span class="n">sched_class</span><span class="o">-&gt;</span><span class="n">task_tick</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="n">curr</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="c1">//3.触发负载均衡</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">    </span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">idle_balance</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">idle_cpu</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">    </span><span class="n">trigger_load_balance</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>scheduler_tick()</code>中执行的<code>task_tick()</code>，对应到 CFS 中就是<code>task_tick_fair()</code>函数，该函数会将进程的执行时间累计到<code>vruntime</code>中，并判断是否需要进行调度：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">entity_tick</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">cfs_rq</span><span class="w"> </span><span class="o">*</span><span class="n">cfs_rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_entity</span><span class="w"> </span><span class="o">*</span><span class="n">curr</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">queued</span><span class="p">)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">update_curr</span><span class="p">(</span><span class="n">cfs_rq</span><span class="p">);</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">cfs_rq</span><span class="o">-&gt;</span><span class="n">nr_running</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">){</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">        </span><span class="n">check_preempt_tick</span><span class="p">(</span><span class="n">cfs_rq</span><span class="p">,</span><span class="w"> </span><span class="n">curr</span><span class="p">);</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>check_preempt_tick()</code>函数会判断当前进程是否需要抢占，如果需要，则会调用<code>resched_curr()</code>函数，该函数会将设置<code>TIF_NEED_RESCHED</code>标志，然后调用<code>schedule()</code>函数进行调度。</p>
+<h3 id="_8">调度器入口<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>选择并运行任务队列中下一个进程的核心入口是<code>schedule()</code>函数：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__sched</span><span class="w"> </span><span class="n">notrace</span><span class="w"> </span><span class="n">__schedule</span><span class="p">(</span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">sched_mode</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="n">cpu</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">smp_processor_id</span><span class="p">();</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="n">rq</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cpu_rq</span><span class="p">(</span><span class="n">cpu</span><span class="p">);</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="c1">//1.获取下一个待执行的任务</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="n">next</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pick_next_task</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="c1">//2.执行上下文切换</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="n">context_swtich</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="n">next</span><span class="p">);</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="p">}</span>
+</code></pre></div>
+<p>由于大部分进程都是普通进程，因此<code>pick_next_task()</code>会执行<code>pick_next_task_fair()</code>函数，从当前任务队列的红黑树节点中，选择一个 vruntime 值最小的节点：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="n">__pick_next_task</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">rq_flags</span><span class="w"> </span><span class="o">*</span><span class="n">rf</span><span class="p">)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">{</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="o">*</span><span class="n">class</span><span class="p">;</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">likely</span><span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">sched_class</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fair_sched_class</span><span class="w"> </span><span class="o">&amp;&amp;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">           </span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">nr_running</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">cfs</span><span class="p">.</span><span class="n">h_nr_running</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pick_next_task_fair</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="n">rf</span><span class="p">);</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="p">;</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_9">负载均衡<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>现代计算机通常由几十个 CPU 核心，每个核心都有自己的运行队列。因此很有可能出现某个 CPU 上的任务已经多到处理不过来了，而有的 CPU 却很闲的情况。负载均衡模块就是为了解决这类问题而存在的。</p>
+<p>在讨论负载均衡之前，必须先明确下<mark class="critic">调度域</mark>的概念。现代计算机通常把 CPU 划分为不同的域，域之间不共享缓存，因此迁移带来的性能消耗比较高。内核定义了<code>struct sched_domain</code>结构体来对应这种逻辑关系：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sched_domain</span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_domain</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_domain</span><span class="w"> </span><span class="o">*</span><span class="n">child</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">struct</span><span class="w"> </span><span class="n">sched_group</span><span class="w"> </span><span class="o">*</span><span class="n">groups</span><span class="p">;</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="p">};</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sched_group</span><span class="p">{</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">cpumask</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="p">};</span>
+</code></pre></div>
+<p>调度域是分级的，越是下层的调度域中的核心，其共享缓存的特性越好。负载均衡的目的就是尽量在下层的调度域中进行调度。CFS 通过在调度节拍中触发一个预先注册好的软中断函数<code>rebalance_domains()</code>来实现负载均衡。</p>
+<h2 id="_10">进程调度时机<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<p>内核只调度处于<code>TASK_RUNNING</code>状态的进程，其他进程都不会进入调度器参与调度。系统发生调度的时机如下：</p>
 <ul>
-<li>进程在执行期间有较多I/O请求和等待，预测为交互进程，优先级保持或提升</li>
-<li>进程在执行期间有较多CPU计算，预测为非交互进程，优先级保持或下降</li>
+<li>主动调用<code>schedule()</code>函数，主动放弃 CPU</li>
+<li>被更高优先级的进程抢占，被动放弃 CPU</li>
+<li>从系统调用或中断上下文返回用户空间</li>
+<li>从系统调用或中断上下文返回内核空间(开启内核抢占选项)</li>
 </ul>
-</li>
-<li>
-<p>高优先级队列往往是I/O密集型任务，配置较小的时间片来保障响应时间</p>
-</li>
-<li>低优先级队列往往是CPU密集型任务，配置较长的时间片来保障运行时间</li>
-</ul>
-<h2 id="_16">内核调度算法<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
-<h3 id="_17">调度器类<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h3>
-<p>Linux调度器以模块的形式提供，允许不同类型的进程有针对性地选择调度算法。这种模块结构就被称为<mark class="critic">调度器类</mark>，在<code>task_struct</code>中，就有定义：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="o">*</span><span class="n">sched_class</span><span class="p">;</span>
-</code></pre></div>
-<p><code>sched_class</code>有几种实现：</p>
+<h3 id="tif_need_resched">TIF_NEED_RESCHED<a class="headerlink" href="#tif_need_resched" title="Permanent link">&para;</a></h3>
+<p>内核在<code>need_resched()</code>函数中会检查抢占标志位<code>TIF_NEED_RESCHED</code>来判断是否需要进行一次调度。如果该标志位被设置，则会在合适的时机调用<code>schedule()</code>函数触发调度。</p>
+<h3 id="_11">上下文切换<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>所谓上下文切换，就是从一个可执行进程切换到另一个可执行进程的过程，由<code>context_switch()</code>函数负责执行，该函数与体系结构相关，它主要完成两件事：</p>
 <ul>
-<li><code>stop_sched_class</code>：优先级最高的任务</li>
-<li><code>dl_sched_class</code>：对应SCHED_DEADLINE调度策略</li>
-<li><code>rt_sched_class</code>：对应SCHED_FIFO和SCHED_RR调度策略</li>
-<li><code>fair_sched_class</code>：对应SCHED_NORMAL和SCHED_BATCH调度策略</li>
-<li><code>idle_sched_class</code>：对应SCHED_IDLE调度策略</li>
+<li>调用<code>switch_mm()</code>函数切换进程的地址空间</li>
+<li>调用<code>switch_to()</code>函数切换进程的栈和寄存器</li>
 </ul>
-<div class="admonition tip">
-<p class="admonition-title">Tip</p>
-<p>在选择下一个可运行进程时，内核调度器会按照优先级顺序依次遍历所有调度器类，直到在那个调度器类上找到一个可运行进程为止。</p>
-</div>
-<h3 id="cfs">CFS调度策略<a class="headerlink" href="#cfs" title="Permanent link">&para;</a></h3>
-<p>完全公平调度策略在保证系统整体性能的前提下，将每个进程的运行时间平均分配，即每个进程能获得1/n的处理器时间——n为可运行进程的数量。<code>nice</code>值被作为进程获得的处理器运行比的权重，越高的<code>nice</code>值获得更低的处理器使用时间。调度器建立了<code>nice</code>值和权重的关系：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">const</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">sched_prio_to_weight</span><span class="p">[</span><span class="mi">40</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cm">/* -20 */</span><span class="w">     </span><span class="mi">88761</span><span class="p">,</span><span class="w">     </span><span class="mi">71755</span><span class="p">,</span><span class="w">     </span><span class="mi">56483</span><span class="p">,</span><span class="w">     </span><span class="mi">46273</span><span class="p">,</span><span class="w">     </span><span class="mi">36291</span><span class="p">,</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm">/* -15 */</span><span class="w">     </span><span class="mi">29154</span><span class="p">,</span><span class="w">     </span><span class="mi">23254</span><span class="p">,</span><span class="w">     </span><span class="mi">18705</span><span class="p">,</span><span class="w">     </span><span class="mi">14949</span><span class="p">,</span><span class="w">     </span><span class="mi">11916</span><span class="p">,</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cm">/* -10 */</span><span class="w">      </span><span class="mi">9548</span><span class="p">,</span><span class="w">      </span><span class="mi">7620</span><span class="p">,</span><span class="w">      </span><span class="mi">6100</span><span class="p">,</span><span class="w">      </span><span class="mi">4904</span><span class="p">,</span><span class="w">      </span><span class="mi">3906</span><span class="p">,</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="cm">/*  -5 */</span><span class="w">      </span><span class="mi">3121</span><span class="p">,</span><span class="w">      </span><span class="mi">2501</span><span class="p">,</span><span class="w">      </span><span class="mi">1991</span><span class="p">,</span><span class="w">      </span><span class="mi">1586</span><span class="p">,</span><span class="w">      </span><span class="mi">1277</span><span class="p">,</span>
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="cm">/*   0 */</span><span class="w">      </span><span class="mi">1024</span><span class="p">,</span><span class="w">       </span><span class="mi">820</span><span class="p">,</span><span class="w">       </span><span class="mi">655</span><span class="p">,</span><span class="w">       </span><span class="mi">526</span><span class="p">,</span><span class="w">       </span><span class="mi">423</span><span class="p">,</span>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="cm">/*   5 */</span><span class="w">       </span><span class="mi">335</span><span class="p">,</span><span class="w">       </span><span class="mi">272</span><span class="p">,</span><span class="w">       </span><span class="mi">215</span><span class="p">,</span><span class="w">       </span><span class="mi">172</span><span class="p">,</span><span class="w">       </span><span class="mi">137</span><span class="p">,</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="cm">/*  10 */</span><span class="w">       </span><span class="mi">110</span><span class="p">,</span><span class="w">        </span><span class="mi">87</span><span class="p">,</span><span class="w">        </span><span class="mi">70</span><span class="p">,</span><span class="w">        </span><span class="mi">56</span><span class="p">,</span><span class="w">        </span><span class="mi">45</span><span class="p">,</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="cm">/*  15 */</span><span class="w">        </span><span class="mi">36</span><span class="p">,</span><span class="w">        </span><span class="mi">29</span><span class="p">,</span><span class="w">        </span><span class="mi">23</span><span class="p">,</span><span class="w">        </span><span class="mi">18</span><span class="p">,</span><span class="w">        </span><span class="mi">15</span><span class="p">,</span>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="p">};</span>
-</code></pre></div>
-<p>这些值是通过实验和统计分析得出的，目的是为了实现一个合理的、能够平衡系统负载和进程优先级的调度策略。</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>普通进程的静态优先级范围是[100,139]，减去120就是nice值的范围[-20,19]，因此sched_prio=0相当于static_prio=120。</p>
-</div>
-<p>你一定注意到，如果一个系统中可运行进程趋于无穷呢？那么每个进程获得的处理器使用时间不就趋于0了么？为此，CFS规定了每个进程获得的时间片底线，这个底线称为<mark class="critic">最小粒度</mark>——默认为1ms。也就是说进程一旦被调度，都至少运行1ms时间。通常情况下，一个系统中可运行进程的数量是有限的，无疑，这时CFS可谓是相当公平。</p>
-<h3 id="rt">RT调度策略<a class="headerlink" href="#rt" title="Permanent link">&para;</a></h3>
-<p>Linux提供了两种实时调度策略：<mark class="critic">SCHED_FIFO</mark>和<mark class="critic">SCHED_RR</mark>。普通的、非实时的调度策略是SCHED_NORMAL。实时调度策略的实现在文件&lt;kernel/sched_rt.c&gt;中。</p>
-<p>SCHED_FIFO实现了一种简单的、先入先出的调度算法。它没有时间片的概念，只要一个SCHED_FIFO级别的进程处于可执行状态，它就会一直运行下去。直到它自己阻塞或者主动释放处理器为止。只有更高优先级的SCHED_FIFO或者SCHED_RR任务才能抢占SCHED_FIFO任务。</p>
-<p>SCHED_RR是带有时间片的SCHED_FIFO，同一优先级的任务轮换执行，高优先级可以抢占低优先级。</p>
-<p>这两种实时算法实现的都是静态优先级。内核不为实时进程计算动态优先级，这可以保证高优先级的实时进程总能抢占低优先级的实时进程。</p>
-<p>实时优先级范围从0到MAX_RT_PIRO-1。默认情况下，MAX_RT_PRIO为100。</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>Linux的实时调度算法是一种软实时的工作方式，对于实时任务的调度不做任何保证。</p>
-</div>
-<h3 id="dl">DL调度策略<a class="headerlink" href="#dl" title="Permanent link">&para;</a></h3>
-<p>有一类进程比实时进程和普通进程的优先级更高，这类进程的特点是每隔固定的周期都会起来干活，需要一定的时间处理自己的事务，比如典型的系统定时器中断函数。</p>
-<p>为了应对这种需求，3.14内核引入了一类新的进程叫做deadline进程，这类进程的调度策略是<mark class="critic">SCHED_DEADLINE</mark>。每个周期到来之时，调度器都要优先处理该deadline进程对于CPU时间的需求，然后在指定的deadline时间内调度该进程运行。</p>
-<h3 id="idle">IDLE调度策略<a class="headerlink" href="#idle" title="Permanent link">&para;</a></h3>
-<p>idle类进程的优先级非常低，实在没有进程运行时才会考虑idle类的进程。</p>
-<h2 id="cfs_1">CFS的实现<a class="headerlink" href="#cfs_1" title="Permanent link">&para;</a></h2>
-<h3 id="_18">时间记账<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
-<p>CFS使用调度器实体结构<code>struct sched_entity</code>来追踪进程运行时间：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sched_entity</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="cm">/* For load-balancing: */</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">load_weight</span><span class="w">      </span><span class="n">load</span><span class="p">;</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">rb_node</span><span class="w">          </span><span class="n">run_node</span><span class="p">;</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w">        </span><span class="n">group_node</span><span class="p">;</span>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w">            </span><span class="n">on_rq</span><span class="p">;</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">    </span><span class="n">u64</span><span class="w">             </span><span class="n">exec_start</span><span class="p">;</span>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">    </span><span class="n">u64</span><span class="w">             </span><span class="n">sum_exec_runtime</span><span class="p">;</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span><span class="n">u64</span><span class="w">             </span><span class="n">vruntime</span><span class="p">;</span>
-<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">    </span><span class="n">u64</span><span class="w">             </span><span class="n">prev_sum_exec_runtime</span><span class="p">;</span>
-<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>
-<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="n">u64</span><span class="w">             </span><span class="n">nr_migrations</span><span class="p">;</span>
-<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
-<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="cp">#ifdef CONFIG_FAIR_GROUP_SCHED</span>
-<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a><span class="w">    </span><span class="kt">int</span><span class="w">             </span><span class="n">depth</span><span class="p">;</span>
-<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_entity</span><span class="w">     </span><span class="o">*</span><span class="n">parent</span><span class="p">;</span>
-<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a><span class="w">    </span><span class="cm">/* rq on which this entity is (to be) queued: */</span>
-<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cfs_rq</span><span class="w">           </span><span class="o">*</span><span class="n">cfs_rq</span><span class="p">;</span>
-<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="w">    </span><span class="cm">/* rq &quot;owned&quot; by this entity/group: */</span>
-<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cfs_rq</span><span class="w">           </span><span class="o">*</span><span class="n">my_q</span><span class="p">;</span>
-<a id="__codelineno-3-22" name="__codelineno-3-22" href="#__codelineno-3-22"></a><span class="w">    </span><span class="cm">/* cached value of my_q-&gt;h_nr_running */</span>
-<a id="__codelineno-3-23" name="__codelineno-3-23" href="#__codelineno-3-23"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">           </span><span class="n">runnable_weight</span><span class="p">;</span>
-<a id="__codelineno-3-24" name="__codelineno-3-24" href="#__codelineno-3-24"></a><span class="cp">#endif</span>
-<a id="__codelineno-3-25" name="__codelineno-3-25" href="#__codelineno-3-25"></a>
-<a id="__codelineno-3-26" name="__codelineno-3-26" href="#__codelineno-3-26"></a><span class="cp">#ifdef CONFIG_SMP</span>
-<a id="__codelineno-3-27" name="__codelineno-3-27" href="#__codelineno-3-27"></a><span class="w">    </span><span class="cm">/*</span>
-<a id="__codelineno-3-28" name="__codelineno-3-28" href="#__codelineno-3-28"></a><span class="cm">     * Per entity load average tracking.</span>
-<a id="__codelineno-3-29" name="__codelineno-3-29" href="#__codelineno-3-29"></a><span class="cm">     *</span>
-<a id="__codelineno-3-30" name="__codelineno-3-30" href="#__codelineno-3-30"></a><span class="cm">     * Put into separate cache line so it does not</span>
-<a id="__codelineno-3-31" name="__codelineno-3-31" href="#__codelineno-3-31"></a><span class="cm">     * collide with read-mostly values above.</span>
-<a id="__codelineno-3-32" name="__codelineno-3-32" href="#__codelineno-3-32"></a><span class="cm">     */</span>
-<a id="__codelineno-3-33" name="__codelineno-3-33" href="#__codelineno-3-33"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_avg</span><span class="w">        </span><span class="n">avg</span><span class="p">;</span>
-<a id="__codelineno-3-34" name="__codelineno-3-34" href="#__codelineno-3-34"></a><span class="cp">#endif</span>
-<a id="__codelineno-3-35" name="__codelineno-3-35" href="#__codelineno-3-35"></a><span class="p">};</span>
-</code></pre></div>
-<p>该结构体作为一个se的成员变量，嵌入到进程描述符<code>struct task_struct</code>中。</p>
-<p>vruntime变量存放进程的虚拟运行时间，该变量由系统定时器周期性调用<code>update_curr()</code>函数更新。事实上，一个完美的多任务处理器，会保证所有进程的vruntime值一致。而CFS调度算法的核心就是选择具有最小vruntime的任务。那么问题就变成了如何找到最小vruntime值的进程？</p>
-<p>内核使用红黑树来存储系统中所有可运行进程，其中节点的键值就是vruntime值。所有进程中vruntime值最小的那个，就是红黑树中最左侧的叶子节点。于是CFS的进程调度算法可简单总结为“运行rbtree中最左边叶子节点所代表的那个进程”。实现这一过程的函数是<code>__pick_next_entity()</code>。</p>
-<p>每当有一个进程变为可运行状态或者是<code>fork()</code>第一次创建进行时，内核都会调用<code>enqueue_entity()</code>函数将该进程插入到红黑树中。而当进程变为不可运行状态或者终止时，内核调用<code>dequeue_entity()</code>函数将该进程从红黑树中删除。</p>
-<h3 id="_19">调度器入口<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h3>
-<p>进程调度的触发函数是<code>schedule()</code>，该函数会调用<code>pick_next_task()</code>函数选择下一个要运行的进程。<code>pick_next_task()</code>以优先级为序，从高到低依次检查每一个调度类，并且从最高优先级的调度类中，选择最高优先级的进程。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">__pick_next_task</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">rq_flags</span><span class="w"> </span><span class="o">*</span><span class="n">rf</span><span class="p">)</span>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">{</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="o">*</span><span class="n">class</span><span class="p">;</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="w">    </span><span class="cm">/*</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="cm">     * Optimization: we know that if all tasks are in the fair class we can</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="cm">     * call that function directly, but only if the @prev task wasn&#39;t of a</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="cm">     * higher scheduling class, because otherwise those lose the</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="cm">     * opportunity to pull in more work from other CPUs.</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="cm">     */</span>
-<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">likely</span><span class="p">(</span><span class="n">prev</span><span class="o">-&gt;</span><span class="n">sched_class</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">fair_sched_class</span><span class="w"> </span><span class="o">&amp;&amp;</span>
-<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="w">           </span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">nr_running</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">cfs</span><span class="p">.</span><span class="n">h_nr_running</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a>
-<a id="__codelineno-4-16" name="__codelineno-4-16" href="#__codelineno-4-16"></a><span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pick_next_task_fair</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="n">rf</span><span class="p">);</span>
-<a id="__codelineno-4-17" name="__codelineno-4-17" href="#__codelineno-4-17"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">unlikely</span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">RETRY_TASK</span><span class="p">))</span>
-<a id="__codelineno-4-18" name="__codelineno-4-18" href="#__codelineno-4-18"></a><span class="w">            </span><span class="k">goto</span><span class="w"> </span><span class="n">restart</span><span class="p">;</span>
-<a id="__codelineno-4-19" name="__codelineno-4-19" href="#__codelineno-4-19"></a>
-<a id="__codelineno-4-20" name="__codelineno-4-20" href="#__codelineno-4-20"></a><span class="w">        </span><span class="cm">/* Assume the next prioritized class is idle_sched_class */</span>
-<a id="__codelineno-4-21" name="__codelineno-4-21" href="#__codelineno-4-21"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-4-22" name="__codelineno-4-22" href="#__codelineno-4-22"></a><span class="w">            </span><span class="n">put_prev_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span><span class="p">);</span>
-<a id="__codelineno-4-23" name="__codelineno-4-23" href="#__codelineno-4-23"></a><span class="w">            </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pick_next_task_idle</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-<a id="__codelineno-4-24" name="__codelineno-4-24" href="#__codelineno-4-24"></a><span class="w">        </span><span class="p">}</span>
-<a id="__codelineno-4-25" name="__codelineno-4-25" href="#__codelineno-4-25"></a>
-<a id="__codelineno-4-26" name="__codelineno-4-26" href="#__codelineno-4-26"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="p">;</span>
-<a id="__codelineno-4-27" name="__codelineno-4-27" href="#__codelineno-4-27"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-4-28" name="__codelineno-4-28" href="#__codelineno-4-28"></a>
-<a id="__codelineno-4-29" name="__codelineno-4-29" href="#__codelineno-4-29"></a><span class="nl">restart</span><span class="p">:</span>
-<a id="__codelineno-4-30" name="__codelineno-4-30" href="#__codelineno-4-30"></a><span class="w">    </span><span class="n">put_prev_task_balance</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="n">rf</span><span class="p">);</span>
-<a id="__codelineno-4-31" name="__codelineno-4-31" href="#__codelineno-4-31"></a>
-<a id="__codelineno-4-32" name="__codelineno-4-32" href="#__codelineno-4-32"></a><span class="w">    </span><span class="n">for_each_class</span><span class="p">(</span><span class="n">class</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-4-33" name="__codelineno-4-33" href="#__codelineno-4-33"></a><span class="w">        </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">class</span><span class="o">-&gt;</span><span class="n">pick_next_task</span><span class="p">(</span><span class="n">rq</span><span class="p">);</span>
-<a id="__codelineno-4-34" name="__codelineno-4-34" href="#__codelineno-4-34"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-<a id="__codelineno-4-35" name="__codelineno-4-35" href="#__codelineno-4-35"></a><span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">p</span><span class="p">;</span>
-<a id="__codelineno-4-36" name="__codelineno-4-36" href="#__codelineno-4-36"></a><span class="w">    </span><span class="p">}</span>
-<a id="__codelineno-4-37" name="__codelineno-4-37" href="#__codelineno-4-37"></a>
-<a id="__codelineno-4-38" name="__codelineno-4-38" href="#__codelineno-4-38"></a><span class="w">    </span><span class="cm">/* The idle class should always have a runnable task: */</span>
-<a id="__codelineno-4-39" name="__codelineno-4-39" href="#__codelineno-4-39"></a><span class="w">    </span><span class="n">BUG</span><span class="p">();</span>
-<a id="__codelineno-4-40" name="__codelineno-4-40" href="#__codelineno-4-40"></a><span class="p">}</span>
-</code></pre></div>
-<h3 id="_20">睡眠与唤醒<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h3>
+<h3 id="_12">用户抢占<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
+<p>当内核即将返回用户空间时，如果<code>TIF_NEED_RESCHED</code>被设置，就会导致<code>schedule()</code>函数被调用，此时就会发生用户抢占。从内核返回用户空间是安全的，既然它可以继续执行当前进程，它当然也可以去调度一个新的进程运行。不论是从内核态返回还是从中断返回，<code>TIF_NEED_RESCHED</code>标志都会被检查。</p>
+<h3 id="_13">内核抢占<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
+<p>对于不支持内核抢占的操作系统而言，内核代码可以一直执行直到它完成为止。而 Linux 支持内核抢占——只要重新调度是安全的。相对于用户抢占，内核抢占显然首先需要保证安全性，为此 Linux 引入了<code>preempt_count</code>计数器，初始值为0。每当使用锁的时候数值加1，释放锁的时候数值减1。从中断返回内核空间的时候，内核会同时检查<code>TIF_NEED_RESCHED</code>和<code>preempt_count</code>标志：如果<code>need_resched</code>被设置，并且<code>preempt_count</code>为0，才会调用<code>schedule()</code>函数。</p>
+<h3 id="_14">睡眠与唤醒<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
 <p>睡眠的进程处于一个特殊的状态，常见原因就是在等待文件I/O。内核将需要睡眠的进程标记为睡眠状态，从运行队列中移除，加入等待队列，然后调用<code>schedule()</code>选择下一个进程。</p>
 <p>等待队列是由等待某些事件发生的进程组成的简单链表。内核用<code>wait_queue_head_t</code>来表示等待队列。等待队列可以通过<code>DECLARE_WAITQUEUE()</code>静态创建或者是<code>init_waitqueue_head()</code>动态创建。</p>
 <p>等待事件有以下函数：</p>
-<div class="language-C highlight"><span class="filename">include/linux/wait.h</span><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">);</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_interruptible</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">);</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_interruptible_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
+<div class="language-C highlight"><span class="filename">include/linux/wait.h</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">);</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_interruptible</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">);</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_interruptible_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
 </code></pre></div>
 <ul>
 <li>condition == 0：休眠</li>
@@ -4824,114 +4660,8 @@
 <p><img alt="睡眠操作" src="../../../images/kernel/wait.png" /></p>
 <p>唤醒操作通过<code>wake_up()</code>/<code>wake_up_interruptible()</code>完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到运行队列中。<code>wake_up_process()</code>用于唤醒特定的进程。</p>
 <p>需要注意的是，<code>wake_up()</code>函数会将所有等待队列中的进程唤醒，如果这些进程需要争抢资源，则会引发严重的性能问题。</p>
-<h2 id="_21">调度队列与调度实体<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h2>
-<p><code>task_struct</code>中包含了多种调度实体：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sched_entity</span><span class="w"> </span><span class="n">se</span><span class="p">;</span><span class="w">     </span><span class="c1">//CFS调度实体</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sched_rt_entity</span><span class="w"> </span><span class="n">rt</span><span class="p">;</span><span class="w">  </span><span class="c1">//RT调度实体</span>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sched_dl_entity</span><span class="w"> </span><span class="n">dl</span><span class="p">;</span><span class="w">  </span><span class="c1">//dl调度实体</span>
-</code></pre></div>
-<p>每个CPU都挂载了一个<code>struct rq</code>结构体，用于描述在此CPU上所运行的所有进程。在调度时，调度器会先去高优先级队列查找是否有进程需要运行，如果没有才会去低一级优先级的队列中查找。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="cm">/* runqueue lock: */</span>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">  </span><span class="n">raw_spinlock_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nr_running</span><span class="p">;</span>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">cpu_load</span><span class="p">[</span><span class="n">CPU_LOAD_IDX_MAX</span><span class="p">];</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">......</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">load_weight</span><span class="w"> </span><span class="n">load</span><span class="p">;</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">nr_load_updates</span><span class="p">;</span>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="n">u64</span><span class="w"> </span><span class="n">nr_switches</span><span class="p">;</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a>
-<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">cfs_rq</span><span class="w"> </span><span class="n">cfs</span><span class="p">;</span>
-<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">rt_rq</span><span class="w"> </span><span class="n">rt</span><span class="p">;</span>
-<a id="__codelineno-7-14" name="__codelineno-7-14" href="#__codelineno-7-14"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">dl_rq</span><span class="w"> </span><span class="n">dl</span><span class="p">;</span>
-<a id="__codelineno-7-15" name="__codelineno-7-15" href="#__codelineno-7-15"></a><span class="p">......</span>
-<a id="__codelineno-7-16" name="__codelineno-7-16" href="#__codelineno-7-16"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">curr</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">idle</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">stop</span><span class="p">;</span>
-<a id="__codelineno-7-17" name="__codelineno-7-17" href="#__codelineno-7-17"></a><span class="p">......</span>
-<a id="__codelineno-7-18" name="__codelineno-7-18" href="#__codelineno-7-18"></a><span class="p">};</span>
-</code></pre></div>
-<p>CFS调度队列的定义如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="cm">/* CFS-related fields in a runqueue */</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">cfs_rq</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">load_weight</span><span class="w"> </span><span class="n">load</span><span class="p">;</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="w">  </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nr_running</span><span class="p">,</span><span class="w"> </span><span class="n">h_nr_running</span><span class="p">;</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">  </span><span class="n">u64</span><span class="w"> </span><span class="n">exec_clock</span><span class="p">;</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">  </span><span class="n">u64</span><span class="w"> </span><span class="n">min_vruntime</span><span class="p">;</span>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="cp">#ifndef CONFIG_64BIT</span>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">  </span><span class="n">u64</span><span class="w"> </span><span class="n">min_vruntime_copy</span><span class="p">;</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="cp">#endif</span>
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">rb_root</span><span class="w"> </span><span class="n">tasks_timeline</span><span class="p">;</span>
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">rb_node</span><span class="w"> </span><span class="o">*</span><span class="n">rb_leftmost</span><span class="p">;</span>
-<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
-<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a>
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="w">  </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_entity</span><span class="w"> </span><span class="o">*</span><span class="n">curr</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">last</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">skip</span><span class="p">;</span>
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="p">......</span>
-<a id="__codelineno-8-18" name="__codelineno-8-18" href="#__codelineno-8-18"></a><span class="p">};</span>
-</code></pre></div>
-<p>对于每个调度队列，内核提供了调度类来实现自己的调度方法，它的定义如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="o">*</span><span class="n">next</span><span class="p">;</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">enqueue_task</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">dequeue_task</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">yield_task</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">);</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="kt">bool</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">yield_to_task</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">bool</span><span class="w"> </span><span class="n">preempt</span><span class="p">);</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">check_preempt_curr</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">pick_next_task</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">rq_flags</span><span class="w"> </span><span class="o">*</span><span class="n">rf</span><span class="p">);</span>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">put_prev_task</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">);</span>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a>
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a>
-<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">set_curr_task</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">);</span>
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">task_tick</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">queued</span><span class="p">);</span>
-<a id="__codelineno-9-20" name="__codelineno-9-20" href="#__codelineno-9-20"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">task_fork</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">);</span>
-<a id="__codelineno-9-21" name="__codelineno-9-21" href="#__codelineno-9-21"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">task_dead</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">);</span>
-<a id="__codelineno-9-22" name="__codelineno-9-22" href="#__codelineno-9-22"></a>
-<a id="__codelineno-9-23" name="__codelineno-9-23" href="#__codelineno-9-23"></a>
-<a id="__codelineno-9-24" name="__codelineno-9-24" href="#__codelineno-9-24"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">switched_from</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">this_rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">);</span>
-<a id="__codelineno-9-25" name="__codelineno-9-25" href="#__codelineno-9-25"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">switched_to</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">this_rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">);</span>
-<a id="__codelineno-9-26" name="__codelineno-9-26" href="#__codelineno-9-26"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">prio_changed</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">this_rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">oldprio</span><span class="p">);</span>
-<a id="__codelineno-9-27" name="__codelineno-9-27" href="#__codelineno-9-27"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="nf">int</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">get_rr_interval</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">);</span>
-<a id="__codelineno-9-28" name="__codelineno-9-28" href="#__codelineno-9-28"></a><span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">update_curr</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">rq</span><span class="w"> </span><span class="o">*</span><span class="n">rq</span><span class="p">)</span>
-<a id="__codelineno-9-29" name="__codelineno-9-29" href="#__codelineno-9-29"></a><span class="p">}</span>
-</code></pre></div>
-<p>内核的的调度类：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="n">stop_sched_class</span><span class="p">;</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="n">dl_sched_class</span><span class="p">;</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="n">rt_sched_class</span><span class="p">;</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="n">fair_sched_class</span><span class="p">;</span>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="k">extern</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_class</span><span class="w"> </span><span class="n">idle_sched_class</span><span class="p">;</span>
-</code></pre></div>
-<p>这些不同的调度类被放在一个链表中，在<code>pick_next_task()</code>函数中，for_each_class循环会依次遍历每个调度类，选择合适的进程运行。</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">for_each_class</span><span class="p">(</span><span class="n">class</span><span class="p">){</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pick_next_task</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span><span class="w"> </span><span class="n">prev</span><span class="p">,</span><span class="w"> </span><span class="n">rf</span><span class="p">);</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="p">...</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">}</span>
-</code></pre></div>
-<p>于是整个运行场景就是，在每个CPU上有一个队列rq，这个队列里面包含多个子队列，例如rt_rq和cfs_rq，不同的队列实现了不同的方法。当CPU需要寻找下一个任务执行时，会按照优先级依次调用调度类，不同的调度类操作不同的队列。当rt_sched_class被调用时，它会在rt_rq上查找下一个任务。如果找不到就会轮到fair_sched_class，它会在cfs_rq上查找下一个任务。</p>
-<p><img alt="进程调度" src="../../../images/kernel/sched.webp" /></p>
-<h2 id="_22">抢占与上下文切换<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h2>
-<p>调度分为<mark class="critic">主动调度</mark>与<mark class="critic">抢占式调度</mark>。主动调度一般发生在进程在等待某个事件的过程中，主动让出CPU，让内核选择下一个进程去运行。不管哪种调度，最后都会触发<mark class="critic">上下文切换</mark>。</p>
-<p>所谓上下文切换，就是从一个可执行进程切换到另一个可执行进程的过程，由<code>context_switch()</code>函数负责执行，当触发进程调度时，就会调用该函数。它主要完成两件事：</p>
-<ul>
-<li>切换虚拟内存空间</li>
-<li>切换处理器状态，包括保存上一个进程的栈和寄存器信息，还有其他与体系结构相关的状态信息。</li>
-</ul>
-<blockquote>
-<p>更详细的内容可以参考：<a href="https://blog.csdn.net/weixin_42135087/article/details/106479984">https://blog.csdn.net/weixin_42135087/article/details/106479984</a>。</p>
-</blockquote>
-<p>内核提供了<code>need_resched</code>标志来表明是否需要重新执行一次调度。当某个进程应该被抢占时，该标志就会被设置，内核会在适当的时机调用<code>schedule()</code>函数，触发进程调度。<code>need_resched()</code>函数用来检查这个标志的值，如果被设置就返回真。</p>
-<h3 id="_23">用户抢占<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h3>
-<p>当内核即将返回用户空间时，如果<code>need_resched</code>标志被设置，就会导致<code>schedule()</code>函数被调用，此时就会发生用户抢占。从内核返回用户空间是安全的，既然它可以继续执行当前进程，它当然也可以去调度一个新的进程运行。不论是从内核态返回还是从中断返回，<code>need_resched</code>标志都会被检查。</p>
-<h3 id="_24">内核抢占<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h3>
-<p>对于不支持内核抢占的操作系统而言，内核代码可以一直执行直到它完成为止。而Linux支持内核抢占——只要重新调度是安全的。相对于用户抢占，内核抢占显然首先需要保证安全性，为此Linux引入了<code>preempt_count</code>计数器，初始值为0。每当使用锁的时候数值加1，释放锁的时候数值减1。从中断返回内核空间的时候，内核会同时检查<code>need_resched</code>和<code>preempt_count</code>标志：如果<code>need_resched</code>被设置，并且<code>preempt_count</code>为0，才会调用<code>schedule()</code>函数。</p>
-<h2 id="_25">调度相关的用户接口<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h2>
+<h2 id="_15">调度相关的用户接口<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<p><code>chrt</code>命令可以查看和修改进程的调度策略，<code>taskset</code>命令可以为进程设置亲和性。</p>
 <table>
 <thead>
 <tr>
@@ -4950,7 +4680,7 @@
 </tr>
 <tr>
 <td>setpriority</td>
-<td>设置进程的优先级</td>
+<td>设置进程</td>
 </tr>
 <tr>
 <td>sched_setscheduler</td>
@@ -4996,8 +4726,8 @@
 </table>
 <p>Linux调度程序提供强制的处理器绑定机制，可以让进程强制运行在某个处理器上。这种强制的亲和性保存在<code>task_struct</code>的<code>cpus_allowed</code>这个位掩码标志中。每一位都对应一个系统可用的处理器。默认情况下，所有位都被设置以允许进程在系统的所有处理器上执行。</p>
 <p>Linux提供了两个最全的接口函数，可以完成上述接口的所有功能：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sched_setattr</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_attr</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sched_getattr</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_attr</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w"> </span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sched_setattr</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_attr</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sched_getattr</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_attr</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w"> </span>
 </code></pre></div>
 <p><code>struct sched_attr</code>结构体囊括了关于调度的一切控制参数：policy，nice，value，rt_priority，period，deadline等。</p>
 

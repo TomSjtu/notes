@@ -571,6 +571,8 @@
       
         
       
+        
+      
     
     
       
@@ -708,6 +710,27 @@
   
   <span class="md-ellipsis">
     其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../load/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程加载与启动
   </span>
   
 
@@ -1023,7 +1046,7 @@
         
   
   <span class="md-ellipsis">
-    进程地址空间
+    虚拟内存管理
   </span>
   
 
@@ -2059,6 +2082,8 @@
       
         
       
+        
+      
     
     
       
@@ -2074,11 +2099,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../ebpf/" class="md-nav__link ">
+            <a href="../../monitor/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    ebpf
+    性能观测
   </span>
   
 
@@ -2094,7 +2119,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
-            ebpf
+            性能观测
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2107,7 +2132,70 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ebpf/intro/" class="md-nav__link">
+      <a href="../../monitor/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    性能观测技术概览
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/trace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    静态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/ebpf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2128,49 +2216,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ebpf/ftrace/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ftrace
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../ebpf/probe/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    探针
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../ebpf/bpftool/" class="md-nav__link">
+      <a href="../../monitor/bpftool/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3549,6 +3595,8 @@
       
         
       
+        
+      
     
     
       
@@ -3665,6 +3713,63 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/opencl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    opencl
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            opencl
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -4403,21 +4508,21 @@
 <li>创建socket：
    <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">int</span><span class="w"> </span><span class="n">sockfd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">socket</span><span class="p">(</span><span class="n">AF_NETLINK</span><span class="p">,</span><span class="w"> </span><span class="n">SOCK_DGRAM</span><span class="p">,</span><span class="w"> </span><span class="n">NETLINK_TYPE</span><span class="p">);</span>
 </code></pre></div></li>
-<li>设置<code>struct sockaddr_nl</code>：</li>
-</ol>
+<li>
+<p>设置<code>struct sockaddr_nl</code>：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr_nl</span><span class="w"> </span><span class="n">addr</span><span class="p">;</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="n">addr</span><span class="p">.</span><span class="n">nl_family</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">AF_NETLINK</span><span class="p">;</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">addr</span><span class="p">.</span><span class="n">nl_pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">getpid</span><span class="p">();</span>
 <a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="n">addr</span><span class="p">.</span><span class="n">nl_groups</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 </code></pre></div>
-<ol>
-<li>绑定socket：</li>
-</ol>
+</li>
+<li>
+<p>绑定socket：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">bind</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr</span><span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">addr</span><span class="p">,</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="n">addr</span><span class="p">));</span>
 </code></pre></div>
-<ol>
-<li>发送消息：</li>
-</ol>
+</li>
+<li>
+<p>发送消息：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">iovec</span><span class="w"> </span><span class="n">iov</span><span class="p">;</span>
 <a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="n">iov</span><span class="p">.</span><span class="n">iov_base</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;Hello, world!&quot;</span><span class="p">;</span>
 <a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">iov</span><span class="p">.</span><span class="n">iov_len</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">13</span><span class="p">;</span>
@@ -4431,9 +4536,9 @@
 <a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="n">msg</span><span class="p">.</span><span class="n">msg_flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
 <a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="n">sendmsg</span><span class="p">(</span><span class="n">sockfd</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 </code></pre></div>
-<ol>
-<li>接收消息：</li>
-</ol>
+</li>
+<li>
+<p>接收消息：</p>
 <p>一个接受程序必须分配一个足够大的内存用户保存netlink消息头和消息负载：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="cp">#define MAX_NL_MSG_LEN 1024 </span>
 <a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">sockaddr_nl</span><span class="w"> </span><span class="n">nladdr</span><span class="p">;</span><span class="w"> </span>
@@ -4449,22 +4554,26 @@
 <a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="n">msg</span><span class="p">.</span><span class="n">msg_iovlen</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span>
 <a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="n">recvmsg</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">msg</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
 </code></pre></div>
+</li>
+</ol>
 <h3 id="api_1">内核态API<a class="headerlink" href="#api_1" title="Permanent link">&para;</a></h3>
 <ol>
-<li>创建netlink socket：</li>
-</ol>
+<li>
+<p>创建netlink socket：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kr">inline</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sock</span><span class="w"> </span><span class="o">*</span><span class="n">netlink_kernel_create</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">net</span><span class="w"> </span><span class="o">*</span><span class="n">net</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">unit</span><span class="p">,</span><span class="k">struct</span><span class="w"> </span><span class="nc">netlink_kernel_cfg</span><span class="w"> </span><span class="o">*</span><span class="n">cfg</span><span class="p">);</span>
 </code></pre></div>
-<ol>
-<li>发送单播消息：</li>
-</ol>
+</li>
+<li>
+<p>发送单播消息：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">netlink_unicast</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sock</span><span class="w"> </span><span class="o">*</span><span class="n">ssk</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sk_buff</span><span class="w"> </span><span class="o">*</span><span class="n">skb</span><span class="p">,</span><span class="w"> </span><span class="n">__u32</span><span class="w"> </span><span class="n">portid</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">nonblock</span><span class="p">);</span>
 </code></pre></div>
-<ol>
-<li>发送多播消息：</li>
-</ol>
+</li>
+<li>
+<p>发送多播消息：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">netlink_broadcast</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">sock</span><span class="w"> </span><span class="o">*</span><span class="n">ssk</span><span class="p">,</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sk_buff</span><span class="w"> </span><span class="o">*</span><span class="n">skb</span><span class="p">,</span><span class="w"> </span><span class="n">__u32</span><span class="w"> </span><span class="n">portid</span><span class="p">,</span><span class="w"> </span><span class="n">__u32</span><span class="w"> </span><span class="n">group</span><span class="p">,</span><span class="w"> </span><span class="n">gfp_t</span><span class="w"> </span><span class="n">allocation</span><span class="p">);</span>
 </code></pre></div>
+</li>
+</ol>
 <h2 id="zeromq">zeromq<a class="headerlink" href="#zeromq" title="Permanent link">&para;</a></h2>
 <p>github地址：<a href="https://github.com/zeromq/libzmq">https://github.com/zeromq/libzmq</a>。</p>
 <p>zeromq是一个基于socket、开源的轻量级通信库。</p>

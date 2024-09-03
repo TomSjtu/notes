@@ -564,6 +564,8 @@
       
         
       
+        
+      
     
     
       
@@ -701,6 +703,27 @@
   
   <span class="md-ellipsis">
     其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/load/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程加载与启动
   </span>
   
 
@@ -889,7 +912,7 @@
         
   
   <span class="md-ellipsis">
-    进程地址空间
+    虚拟内存管理
   </span>
   
 
@@ -1925,6 +1948,8 @@
       
         
       
+        
+      
     
     
       
@@ -1940,11 +1965,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../linux/ebpf/" class="md-nav__link ">
+            <a href="../../linux/monitor/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    ebpf
+    性能观测
   </span>
   
 
@@ -1960,7 +1985,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
-            ebpf
+            性能观测
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1973,7 +1998,70 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/ebpf/intro/" class="md-nav__link">
+      <a href="../../linux/monitor/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    性能观测技术概览
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/monitor/trace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    静态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/monitor/probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/monitor/ebpf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1994,49 +2082,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../linux/ebpf/ftrace/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ftrace
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../linux/ebpf/probe/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    探针
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../linux/ebpf/bpftool/" class="md-nav__link">
+      <a href="../../linux/monitor/bpftool/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3523,6 +3569,8 @@
       
         
       
+        
+      
     
     
       
@@ -3639,6 +3687,63 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai/opencl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    opencl
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            opencl
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -4178,8 +4283,43 @@
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot; source ~/dev_ws/install/local_setup.sh&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
 </code></pre></div>
 <h2 id="_3">功能包<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>功能包是组织和分发代码的基本方式，通过定义清晰的接口和依赖关系，功能包能够方便地在不同的项目和团队之间共享和复用。</p>
+<p>一个典型的 ROS2 功能包可能具有以下目录结构：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>my_package/
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span>CMakeLists.txt<span class="w">       </span><span class="c1"># CMake构建配置文件</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">  </span>package.xml<span class="w">          </span><span class="c1"># 功能包元信息，包括名称、版本、依赖等</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="w">  </span>src/<span class="w">                 </span><span class="c1"># 源代码目录</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span>my_node.cpp
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">  </span>include/
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="w">    </span>my_package/<span class="w">        </span><span class="c1"># 头文件目录</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="w">      </span>my_node.hpp
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="w">  </span>scripts/<span class="w">             </span><span class="c1"># 脚本文件目录</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="w">    </span>my_script.py
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="w">  </span>msg/<span class="w">                 </span><span class="c1"># 消息定义目录</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="w">    </span>MyMessage.msg
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">  </span>srv/<span class="w">                 </span><span class="c1"># 服务定义目录</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="w">    </span>MyService.srv
+</code></pre></div>
+<p>创建一个功能包：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ros2<span class="w"> </span>pkg<span class="w"> </span>create<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span>--dependencies<span class="w"> </span><span class="o">[</span>dependencies<span class="o">]</span>
+</code></pre></div>
+<p>构建功能包：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>colcon<span class="w"> </span>build<span class="w"> </span>--packages-select<span class="w"> </span>&lt;package_name&gt;
+</code></pre></div>
+<p>运行节点：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ros2<span class="w"> </span>run<span class="w"> </span>&lt;package_name&gt;<span class="w"> </span>&lt;node_name&gt;
+</code></pre></div>
 <h2 id="_4">节点<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>节点，就是执行某些具体任务的单元，在 OS 的视角来看，其实就是一个进程。每个节点都必须是一个独立的可执行的文件。</p>
+<p>节点的创建需要有四个步骤：</p>
+<ul>
+<li>编程接口初始化</li>
+<li>创建节点并初始化</li>
+<li>实现节点功能</li>
+<li>销毁节点并关闭接口</li>
+</ul>
 <h2 id="_5">话题<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>ROS2 的话题通信采用的是发布/订阅模式，二者规定统一的数据的描述格式。</p>
 <h2 id="_6">服务<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <h2 id="_7">通信接口<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <h2 id="_8">动作<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>

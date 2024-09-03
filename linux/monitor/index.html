@@ -12,28 +12,28 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/ebpf/bpftool/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/monitor/">
       
       
-        <link rel="prev" href="../probe/">
+        <link rel="prev" href="../optimization/network/">
       
       
-        <link rel="next" href="../../../arm/">
+        <link rel="next" href="intro/">
       
       
-      <link rel="icon" href="../../../assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.14">
     
     
       
-        <title>BPF工具 - 一只Tom的笔记本</title>
+        <title>性能观测技术 - 一只Tom的笔记本</title>
       
     
     
-      <link rel="stylesheet" href="../../../assets/stylesheets/main.10ba22f1.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.10ba22f1.min.css">
       
         
-        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
 
@@ -52,7 +52,7 @@
       
     
     
-    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#bpf" class="md-skip">
+        <a href="#_1" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
 
 <header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../.." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              BPF工具
+              性能观测技术
             
           </span>
         </div>
@@ -192,7 +192,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../../.." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
     
@@ -213,7 +213,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../../" class="md-tabs__link">
+        <a href="../" class="md-tabs__link">
           
   
     
@@ -233,7 +233,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../arm/" class="md-tabs__link">
+        <a href="../../arm/" class="md-tabs__link">
           
   
     
@@ -253,7 +253,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../ros2/" class="md-tabs__link">
+        <a href="../../ros2/" class="md-tabs__link">
           
   
     
@@ -273,7 +273,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../pl/" class="md-tabs__link">
+        <a href="../../pl/" class="md-tabs__link">
           
   
     
@@ -293,7 +293,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../ai/" class="md-tabs__link">
+        <a href="../../ai/" class="md-tabs__link">
           
   
     
@@ -313,7 +313,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../cloud/" class="md-tabs__link">
+        <a href="../../cloud/" class="md-tabs__link">
           
   
     
@@ -333,7 +333,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../tools/" class="md-tabs__link">
+        <a href="../../tools/" class="md-tabs__link">
           
   
     
@@ -353,7 +353,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../../others/" class="md-tabs__link">
+        <a href="../../others/" class="md-tabs__link">
           
   
     
@@ -394,7 +394,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+    <a href="../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -424,7 +424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../.." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -478,7 +478,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -569,6 +569,8 @@
       
         
       
+        
+      
     
     
       
@@ -584,7 +586,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../kernel/" class="md-nav__link ">
+            <a href="../kernel/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -617,7 +619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/compile/" class="md-nav__link">
+      <a href="../kernel/compile/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -638,7 +640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/program/" class="md-nav__link">
+      <a href="../kernel/program/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -659,7 +661,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/debug/" class="md-nav__link">
+      <a href="../kernel/debug/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -680,7 +682,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/synch/" class="md-nav__link">
+      <a href="../kernel/synch/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -701,7 +703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/others/" class="md-nav__link">
+      <a href="../kernel/others/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -722,7 +724,28 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/task/" class="md-nav__link">
+      <a href="../kernel/load/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程加载与启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kernel/task/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -743,7 +766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/sched/" class="md-nav__link">
+      <a href="../kernel/sched/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -764,7 +787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/ipc/" class="md-nav__link">
+      <a href="../kernel/ipc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -785,7 +808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/preempt/" class="md-nav__link">
+      <a href="../kernel/preempt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -806,7 +829,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/kthread/" class="md-nav__link">
+      <a href="../kernel/kthread/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -827,7 +850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/interrupt/" class="md-nav__link">
+      <a href="../kernel/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -848,7 +871,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/bottom_half/" class="md-nav__link">
+      <a href="../kernel/bottom_half/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -869,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/mm/" class="md-nav__link">
+      <a href="../kernel/mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -890,11 +913,11 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/vma/" class="md-nav__link">
+      <a href="../kernel/vma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
-    进程地址空间
+    虚拟内存管理
   </span>
   
 
@@ -911,7 +934,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/recycle/" class="md-nav__link">
+      <a href="../kernel/recycle/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -932,7 +955,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/oom/" class="md-nav__link">
+      <a href="../kernel/oom/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -953,7 +976,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/ion/" class="md-nav__link">
+      <a href="../kernel/ion/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -974,7 +997,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/cma/" class="md-nav__link">
+      <a href="../kernel/cma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -995,7 +1018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/vfs/" class="md-nav__link">
+      <a href="../kernel/vfs/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1016,7 +1039,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/block/" class="md-nav__link">
+      <a href="../kernel/block/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1037,7 +1060,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/network/" class="md-nav__link">
+      <a href="../kernel/network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1058,7 +1081,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/time/" class="md-nav__link">
+      <a href="../kernel/time/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1079,7 +1102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/timer/" class="md-nav__link">
+      <a href="../kernel/timer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1100,7 +1123,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/hrtimer/" class="md-nav__link">
+      <a href="../kernel/hrtimer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1121,7 +1144,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/pm/" class="md-nav__link">
+      <a href="../kernel/pm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1142,7 +1165,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../kernel/shell/" class="md-nav__link">
+      <a href="../kernel/shell/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1238,7 +1261,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../drivers/" class="md-nav__link ">
+            <a href="../drivers/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1271,7 +1294,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/hardware/" class="md-nav__link">
+      <a href="../drivers/hardware/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1292,7 +1315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/protocol/" class="md-nav__link">
+      <a href="../drivers/protocol/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1313,7 +1336,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/module/" class="md-nav__link">
+      <a href="../drivers/module/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1334,7 +1357,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/dts/" class="md-nav__link">
+      <a href="../drivers/dts/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1355,7 +1378,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/interrupt/" class="md-nav__link">
+      <a href="../drivers/interrupt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1376,7 +1399,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/dma/" class="md-nav__link">
+      <a href="../drivers/dma/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1397,7 +1420,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/device_model/" class="md-nav__link">
+      <a href="../drivers/device_model/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1418,7 +1441,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/platform/" class="md-nav__link">
+      <a href="../drivers/platform/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1439,7 +1462,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/chardev/" class="md-nav__link">
+      <a href="../drivers/chardev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1460,7 +1483,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/blkdev/" class="md-nav__link">
+      <a href="../drivers/blkdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1481,7 +1504,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/netdev/" class="md-nav__link">
+      <a href="../drivers/netdev/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1502,7 +1525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/pinctrl/" class="md-nav__link">
+      <a href="../drivers/pinctrl/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1523,7 +1546,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/gpio/" class="md-nav__link">
+      <a href="../drivers/gpio/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1544,7 +1567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/i2c/" class="md-nav__link">
+      <a href="../drivers/i2c/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1565,7 +1588,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/spi/" class="md-nav__link">
+      <a href="../drivers/spi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1586,7 +1609,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/uart/" class="md-nav__link">
+      <a href="../drivers/uart/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1607,7 +1630,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/input/" class="md-nav__link">
+      <a href="../drivers/input/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1628,7 +1651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/ethernet/" class="md-nav__link">
+      <a href="../drivers/ethernet/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1649,7 +1672,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/pcie/" class="md-nav__link">
+      <a href="../drivers/pcie/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1670,7 +1693,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/usb/" class="md-nav__link">
+      <a href="../drivers/usb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1691,7 +1714,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/wifi/" class="md-nav__link">
+      <a href="../drivers/wifi/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1712,7 +1735,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/bluetooth/" class="md-nav__link">
+      <a href="../drivers/bluetooth/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1733,7 +1756,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../drivers/socketcan/" class="md-nav__link">
+      <a href="../drivers/socketcan/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1791,7 +1814,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../optimization/" class="md-nav__link ">
+            <a href="../optimization/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -1824,7 +1847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimization/cpu/" class="md-nav__link">
+      <a href="../optimization/cpu/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1845,7 +1868,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimization/memory/" class="md-nav__link">
+      <a href="../optimization/memory/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1866,7 +1889,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimization/disk/" class="md-nav__link">
+      <a href="../optimization/disk/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1887,7 +1910,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../optimization/network/" class="md-nav__link">
+      <a href="../optimization/network/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -1932,6 +1955,8 @@
       
         
       
+        
+      
     
     
       
@@ -1947,18 +1972,18 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../" class="md-nav__link ">
+            <a href="./" class="md-nav__link md-nav__link--active">
               
   
   <span class="md-ellipsis">
-    ebpf
+    性能观测
   </span>
   
 
             </a>
             
               
-              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+              <label class="md-nav__link md-nav__link--active" for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
@@ -1967,7 +1992,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
-            ebpf
+            性能观测
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1980,7 +2005,70 @@
   
   
     <li class="md-nav__item">
-      <a href="../intro/" class="md-nav__link">
+      <a href="intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    性能观测技术概览
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="trace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    静态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ebpf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2001,69 +2089,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ftrace/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ftrace
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../probe/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    探针
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-    
-  
-  
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    BPF工具
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+      <a href="bpftool/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2072,44 +2098,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#bpftool" class="md-nav__link">
-    <span class="md-ellipsis">
-      bpftool
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bpftrace" class="md-nav__link">
-    <span class="md-ellipsis">
-      bpftrace
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -2186,7 +2174,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../arm/" class="md-nav__link ">
+            <a href="../../arm/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2219,7 +2207,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/secure_boot/" class="md-nav__link">
+      <a href="../../arm/secure_boot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2240,7 +2228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/boot/" class="md-nav__link">
+      <a href="../../arm/boot/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2261,7 +2249,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/aarch64/" class="md-nav__link">
+      <a href="../../arm/aarch64/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2282,7 +2270,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/standard/" class="md-nav__link">
+      <a href="../../arm/standard/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2303,7 +2291,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/instructions/" class="md-nav__link">
+      <a href="../../arm/instructions/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2324,7 +2312,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/assembler/" class="md-nav__link">
+      <a href="../../arm/assembler/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2345,7 +2333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/exception/" class="md-nav__link">
+      <a href="../../arm/exception/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2366,7 +2354,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/gic/" class="md-nav__link">
+      <a href="../../arm/gic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2387,7 +2375,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/atomic/" class="md-nav__link">
+      <a href="../../arm/atomic/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2408,7 +2396,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/lock/" class="md-nav__link">
+      <a href="../../arm/lock/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2429,7 +2417,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/barrier/" class="md-nav__link">
+      <a href="../../arm/barrier/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2450,7 +2438,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/mm/" class="md-nav__link">
+      <a href="../../arm/mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2471,7 +2459,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/cache/" class="md-nav__link">
+      <a href="../../arm/cache/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2492,7 +2480,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../arm/tlb/" class="md-nav__link">
+      <a href="../../arm/tlb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2545,7 +2533,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../ros2/" class="md-nav__link ">
+            <a href="../../ros2/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2578,7 +2566,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ros2/intro/" class="md-nav__link">
+      <a href="../../ros2/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2599,7 +2587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ros2/core/" class="md-nav__link">
+      <a href="../../ros2/core/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2658,7 +2646,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../pl/" class="md-nav__link ">
+            <a href="../../pl/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2737,7 +2725,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/standard/" class="md-nav__link">
+      <a href="../../pl/c/standard/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2758,7 +2746,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/gcc/" class="md-nav__link">
+      <a href="../../pl/c/gcc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2779,7 +2767,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/c/misc/" class="md-nav__link">
+      <a href="../../pl/c/misc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2857,7 +2845,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../pl/cpp/" class="md-nav__link ">
+            <a href="../../pl/cpp/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -2890,7 +2878,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/misc/" class="md-nav__link">
+      <a href="../../pl/cpp/misc/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2911,7 +2899,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/io/" class="md-nav__link">
+      <a href="../../pl/cpp/io/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2932,7 +2920,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/exception/" class="md-nav__link">
+      <a href="../../pl/cpp/exception/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2953,7 +2941,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/gdb/" class="md-nav__link">
+      <a href="../../pl/cpp/gdb/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2974,7 +2962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/cmake/" class="md-nav__link">
+      <a href="../../pl/cpp/cmake/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2995,7 +2983,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/conan/" class="md-nav__link">
+      <a href="../../pl/cpp/conan/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3016,7 +3004,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/oop/" class="md-nav__link">
+      <a href="../../pl/cpp/oop/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3037,7 +3025,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/container/" class="md-nav__link">
+      <a href="../../pl/cpp/container/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3058,7 +3046,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/algorithm/" class="md-nav__link">
+      <a href="../../pl/cpp/algorithm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3079,7 +3067,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/regex/" class="md-nav__link">
+      <a href="../../pl/cpp/regex/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3100,7 +3088,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/time/" class="md-nav__link">
+      <a href="../../pl/cpp/time/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3121,7 +3109,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/mm/" class="md-nav__link">
+      <a href="../../pl/cpp/mm/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3142,7 +3130,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/concurrency/" class="md-nav__link">
+      <a href="../../pl/cpp/concurrency/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3163,7 +3151,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/cpp/cpp11/" class="md-nav__link">
+      <a href="../../pl/cpp/cpp11/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3234,7 +3222,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/qt/qt/" class="md-nav__link">
+      <a href="../../pl/qt/qt/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3305,7 +3293,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/python/python/" class="md-nav__link">
+      <a href="../../pl/python/python/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3361,7 +3349,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../pl/go/" class="md-nav__link ">
+            <a href="../../pl/go/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3394,7 +3382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/go/intro/" class="md-nav__link">
+      <a href="../../pl/go/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3415,7 +3403,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/go/function/" class="md-nav__link">
+      <a href="../../pl/go/function/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3436,7 +3424,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../pl/go/package/" class="md-nav__link">
+      <a href="../../pl/go/package/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3480,6 +3468,8 @@
       
         
       
+        
+      
     
     
       
@@ -3495,7 +3485,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../ai/" class="md-nav__link ">
+            <a href="../../ai/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3551,7 +3541,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../ai/dl/" class="md-nav__link ">
+            <a href="../../ai/dl/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3584,7 +3574,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../ai/dl/onnx/" class="md-nav__link">
+      <a href="../../ai/dl/onnx/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3596,6 +3586,63 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../ai/opencl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    opencl
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            opencl
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -3643,7 +3690,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../cloud/" class="md-nav__link ">
+            <a href="../../cloud/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3676,7 +3723,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../cloud/docker/" class="md-nav__link">
+      <a href="../../cloud/docker/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3731,7 +3778,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../tools/" class="md-nav__link ">
+            <a href="../../tools/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3764,7 +3811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/github/" class="md-nav__link">
+      <a href="../../tools/github/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3785,7 +3832,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/vim/" class="md-nav__link">
+      <a href="../../tools/vim/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3806,7 +3853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../tools/markdown/" class="md-nav__link">
+      <a href="../../tools/markdown/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3863,7 +3910,7 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../../others/" class="md-nav__link ">
+            <a href="../../others/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
@@ -3896,7 +3943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../others/config/" class="md-nav__link">
+      <a href="../../others/config/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3917,7 +3964,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../others/serializer/" class="md-nav__link">
+      <a href="../../others/serializer/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3938,7 +3985,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../others/video/" class="md-nav__link">
+      <a href="../../others/video/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3959,7 +4006,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../others/ffmpeg/" class="md-nav__link">
+      <a href="../../others/ffmpeg/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -4007,18 +4054,36 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#bpftool" class="md-nav__link">
+  <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      bpftool
+      基础知识
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#bpftrace" class="md-nav__link">
+  <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      bpftrace
+      内核跟踪技术
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ebpf" class="md-nav__link">
+    <span class="md-ellipsis">
+      ebpf
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      参考资料
     </span>
   </a>
   
@@ -4042,49 +4107,27 @@
   
 
 
-<h1 id="bpf">BPF工具<a class="headerlink" href="#bpf" title="Permanent link">&para;</a></h1>
-<h2 id="bpftool">bpftool<a class="headerlink" href="#bpftool" title="Permanent link">&para;</a></h2>
-<p>bpftool提供内核中与BPF程序相关的信息。</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>--help
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Usage:<span class="w"> </span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">       </span>OBJECT<span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>prog<span class="w"> </span><span class="p">|</span><span class="w"> </span>map<span class="w"> </span><span class="p">|</span><span class="w"> </span>link<span class="w"> </span><span class="p">|</span><span class="w"> </span>cgroup<span class="w"> </span><span class="p">|</span><span class="w"> </span>perf<span class="w"> </span><span class="p">|</span><span class="w"> </span>net<span class="w"> </span><span class="p">|</span><span class="w"> </span>feature<span class="w"> </span><span class="p">|</span><span class="w"> </span>btf<span class="w"> </span><span class="p">|</span><span class="w"> </span>gen<span class="w"> </span><span class="p">|</span><span class="w"> </span>struct_ops<span class="w"> </span><span class="p">|</span><span class="w"> </span>iter<span class="w"> </span><span class="o">}</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">       </span>OPTIONS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">{</span>-j<span class="p">|</span>--json<span class="o">}</span><span class="w"> </span><span class="o">[{</span>-p<span class="p">|</span>--pretty<span class="o">}]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">{</span>-d<span class="p">|</span>--debug<span class="o">}</span><span class="w"> </span><span class="p">|</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">                    </span><span class="o">{</span>-V<span class="p">|</span>--version<span class="o">}</span><span class="w"> </span><span class="o">}</span>
-</code></pre></div>
-<p>检查系统中运行程序的情况：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>prog<span class="w"> </span>show
-</code></pre></div>
-<p>以JSON形式输出：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>prog<span class="w"> </span>show<span class="w"> </span>--json<span class="w"> </span>id<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
-</code></pre></div>
-<p>检查BPF映射：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>map<span class="w"> </span>show
-</code></pre></div>
-<p>列出系统中所有cgroup上的附加程序：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>cgroup<span class="w"> </span>tree
-</code></pre></div>
-<h2 id="bpftrace">bpftrace<a class="headerlink" href="#bpftrace" title="Permanent link">&para;</a></h2>
-<p>bpftrace是BPF高级跟踪语言，可以使用简明的语法来编写程序。它提供了许多内置功能，无须自己实现。</p>
-<p>bpftrac程序的语法简洁，仅包含头部、操作块和尾部三个部分。头部和尾部是可选的，通常用来打印一些加载前后的信息。操作块是我们要指定跟踪的探针的位置，以及基于探针触发事件后执行的操作。下面是一个简单的示例程序：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>BEGIN
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="o">{</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;starting bpftrace program\n&quot;</span><span class="o">)</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="o">}</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>kprobe:do_sys_open
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="o">{</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;opening file descriptor: %s\n&quot;</span>,<span class="w"> </span>str<span class="o">(</span>arg1<span class="o">))</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="o">}</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>END
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="o">{</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;ending bpftrace program\n&quot;</span><span class="o">)</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="o">}</span>
-</code></pre></div>
-<p>你可以将这个程序保存为example.bt，然后运行：<code>bpftrace example.bt</code>。</p>
-<p>bpftrace语言是以脚本思想设计的。编写程序当然可以，但是有的时候不必这么麻烦，用bpftrace编写的许多程序可以放在一行中执行，通过使用选项<code>-e</code>即可：</p>
-<div class="language-SHEll highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>bpftrace<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;kprobe:do_sys_open { printf(&quot;opening file descriptor: %s\n&quot;, str(arg1)) }&#39;</span>
-</code></pre></div>
+<h1 id="_1">性能观测技术<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">基础知识<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="intro/">性能观测技术概览</a></li>
+</ul>
+<h2 id="_3">内核跟踪技术<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="trace/">静态跟踪</a></li>
+<li><a href="probe/">动态跟踪</a></li>
+</ul>
+<h2 id="ebpf">ebpf<a class="headerlink" href="#ebpf" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="ebpf/">eBPF入门</a></li>
+<li><a href="bpftool/">BPF工具</a></li>
+</ul>
+<h2 id="_4">参考资料<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://eunomia.dev/zh/tutorials/">eBPF开发实践教程</a></li>
+<li><a href="https://book.douban.com/subject/35934902/">性能之巅(第2版)</a></li>
+<li><a href="https://book.douban.com/subject/35170101/">Linux内核观测技术BPF</a></li>
+</ul>
 
 
 
@@ -4137,10 +4180,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy", "search.highlight", "search.share"], "search": "../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../../assets/javascripts/bundle.bd41221c.min.js"></script>
+      <script src="../../assets/javascripts/bundle.bd41221c.min.js"></script>
       
     
   </body>

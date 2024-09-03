@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/ebpf/probe/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/monitor/intro/">
       
       
-        <link rel="prev" href="../ftrace/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../bpftool/">
+        <link rel="next" href="../trace/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>探针 - 一只Tom的笔记本</title>
+        <title>性能观测技术概览 - 一只Tom的笔记本</title>
       
     
     
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              探针
+              性能观测技术概览
             
           </span>
         </div>
@@ -569,6 +569,8 @@
       
         
       
+        
+      
     
     
       
@@ -706,6 +708,27 @@
   
   <span class="md-ellipsis">
     其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/load/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程加载与启动
   </span>
   
 
@@ -894,7 +917,7 @@
         
   
   <span class="md-ellipsis">
-    进程地址空间
+    虚拟内存管理
   </span>
   
 
@@ -1932,6 +1955,8 @@
       
         
       
+        
+      
     
     
       
@@ -1951,7 +1976,7 @@
               
   
   <span class="md-ellipsis">
-    ebpf
+    性能观测
   </span>
   
 
@@ -1967,52 +1992,10 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
-            ebpf
+            性能观测
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../intro/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    eBPF入门
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../ftrace/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ftrace
-  </span>
-  
-
-      </a>
-    </li>
-  
-
               
             
               
@@ -2035,7 +2018,7 @@
           
   
   <span class="md-ellipsis">
-    探针
+    性能观测技术概览
   </span>
   
 
@@ -2046,7 +2029,7 @@
         
   
   <span class="md-ellipsis">
-    探针
+    性能观测技术概览
   </span>
   
 
@@ -2070,7 +2053,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      内核探针
+      软件事件
     </span>
   </a>
   
@@ -2079,25 +2062,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      跟踪点
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      用户空间探针
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      用户静态跟踪点
+      内核跟踪
     </span>
   </a>
   
@@ -2107,6 +2072,69 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    静态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ebpf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    eBPF入门
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -3498,6 +3526,8 @@
       
         
       
+        
+      
     
     
       
@@ -3614,6 +3644,63 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/opencl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    opencl
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            opencl
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -4027,7 +4114,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      内核探针
+      软件事件
     </span>
   </a>
   
@@ -4036,25 +4123,7 @@
         <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
-      跟踪点
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      用户空间探针
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      用户静态跟踪点
+      内核跟踪
     </span>
   </a>
   
@@ -4078,32 +4147,35 @@
   
 
 
-<h1 id="_1">探针<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>BPF可以借助探针收集信息并进行调试和分析，而不需要重新编译内核。我们将介绍四种不同类型的探针：</p>
+<h1 id="_1">性能观测技术概览<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>Linux 性能观测技术主要分为<mark class="critic">指标观测</mark>和<mark class="critic">跟踪观测</mark>。</p>
+<p>指标观测是指从系统中获取一个数字化的值，用来展示当前系统的运行情况，比如 CPU 利用率、负载这些都属于指标观测。指标观测只能用于发现问题，但是无法精细地定位问题。跟踪观测是更高级的观测技术，可以收集系统相关活动的信息，从而定位出真正的性能问题。最著名的火焰图就是通过采样的方式，对用户或内核的调用栈进行分析，找出哪些函数消耗了更多的 CPU 周期。
+类似的跟踪工具还有<code>ftrace</code>、<code>trace-cmd</code>，最近流行起来的<code>eBPF</code>，以及在其基础上封装的<code>BCC</code>、<code>bpftrace</code>等工具。</p>
+<p>不管是何种工具，都依赖底层提供的事件源。事件源可以分为硬件事件、内核软件事件、内核跟踪和用户跟踪。其中，内核跟踪又分为静态跟踪(tracepoint)、动态跟踪(kprobe)，用户跟踪分为静态跟踪(USDT probe)、动态跟踪(uprobe)。</p>
+<h2 id="_2">软件事件<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p><code>perf</code>工具可以用来查看当前系统支持的软件事件：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>perf<span class="w"> </span>list<span class="w"> </span>sw
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>List<span class="w"> </span>of<span class="w"> </span>pre-defined<span class="w"> </span>software<span class="w"> </span>events<span class="o">(</span>to<span class="w"> </span>be<span class="w"> </span>used<span class="w"> </span><span class="k">in</span><span class="w"> </span>-e<span class="o">)</span>:
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span>alignment-faults
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span>context-switches<span class="w"> </span>OR<span class="w"> </span>cs
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span>cpu-migrations<span class="w"> </span>OR<span class="w"> </span>migrations
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">  </span>emulation-faults
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">  </span>major-faults<span class="w"> </span>OR<span class="w"> </span>major_faults
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">  </span>major-faults
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">  </span>minor-faults
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">  </span>page-faults<span class="w"> </span>OR<span class="w"> </span>faults
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">  </span>task-clock
+</code></pre></div>
 <ul>
-<li>内核探针(kprobes)：提供对内核内部组件的动态访问</li>
-<li>跟踪点(tracepoint)：提供对内核中内部组件的静态访问</li>
-<li>用户空间探针(uprobes)：提供对用户空间应用程序的动态访问</li>
-<li>用户静态跟踪点(usdt)：提供对用户空间应用程序的静态访问</li>
+<li><code>alignment-faults</code>：发生内存对齐错误的次数。</li>
+<li><code>context-switches</code>：发生上下文切换的次数。</li>
+<li><code>cpu-migrations</code>：发生 CPU 迁移的次数。</li>
+<li><code>emulation-faults</code>：发生模拟错误的次数。</li>
+<li><code>page-faults</code>：发生缺页异常的次数。</li>
 </ul>
-<h2 id="_2">内核探针<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>内核探针允许在几乎任何内核指令上设置动态标志或中断，当内核到达这些标志时，附加到探针的代码将被执行，然后内核恢复正常模式。需要注意的是，内核探针没有稳定的ABI，因此相同的代码在不同的内核版本上可能无法成功执行。</p>
-<p>内核探针分为两种：</p>
-<ul>
-<li>kprobes：在执行内核指令前插入BPF程序</li>
-<li>kretprobes：在返回前插入BPF程序</li>
-</ul>
-<h2 id="_3">跟踪点<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>跟踪点由内核开发人员在内核代码中编写和修改，因此有稳定的ABI，缺点是无法覆盖所有子系统。/sys/kernel/debug/tracing/events/目录下列出了系统中所有可用的跟踪点。</p>
-<h2 id="_4">用户空间探针<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>用户空间探针是运行在用户空间的监测程序，与内核探针类似，也分为两种：</p>
-<ul>
-<li>uprobes：在执行用户空间指令前插入BPF程序</li>
-<li>uretprobes：在返回前插入BPF程序</li>
-</ul>
-<h2 id="_5">用户静态跟踪点<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
-<p>用户静态跟踪点可以在生产环境中使用，用来跟踪任何语言编写的应用程序。</p>
-<p>使用BCC的<code>tplist</code>工具可以显示二进制文件中定义的跟踪点。</p>
+<h2 id="_3">内核跟踪<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>静态跟踪是内核在源码中提前插入了桩，当没有跟踪需求时，这些桩处于关闭状态。当某个跟踪点被打开，桩代码得以运行。桩是静态的，它的优势是比较稳定，但是内核不可能在所有函数中都插入桩。</p>
+<p>动态跟踪是在内核运行时动态插入代码，内核在执行函数时，先执行插入的代码，然后返回函数的中断处继续执行剩余代码。</p>
 
 
 

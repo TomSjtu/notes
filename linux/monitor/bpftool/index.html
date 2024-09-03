@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/ebpf/ftrace/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/monitor/bpftool/">
       
       
-        <link rel="prev" href="../intro/">
+        <link rel="prev" href="../ebpf/">
       
       
-        <link rel="next" href="../probe/">
+        <link rel="next" href="../../../arm/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>ftrace - 一只Tom的笔记本</title>
+        <title>BPF工具 - 一只Tom的笔记本</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#ftrace" class="md-skip">
+        <a href="#bpf" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ftrace
+              BPF工具
             
           </span>
         </div>
@@ -569,6 +569,8 @@
       
         
       
+        
+      
     
     
       
@@ -706,6 +708,27 @@
   
   <span class="md-ellipsis">
     其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/load/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程加载与启动
   </span>
   
 
@@ -894,7 +917,7 @@
         
   
   <span class="md-ellipsis">
-    进程地址空间
+    虚拟内存管理
   </span>
   
 
@@ -1932,6 +1955,8 @@
       
         
       
+        
+      
     
     
       
@@ -1951,7 +1976,7 @@
               
   
   <span class="md-ellipsis">
-    ebpf
+    性能观测
   </span>
   
 
@@ -1967,7 +1992,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
-            ebpf
+            性能观测
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -1981,6 +2006,69 @@
   
     <li class="md-nav__item">
       <a href="../intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    性能观测技术概览
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../trace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    静态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ebpf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2014,7 +2102,7 @@
           
   
   <span class="md-ellipsis">
-    ftrace
+    BPF工具
   </span>
   
 
@@ -2025,7 +2113,7 @@
         
   
   <span class="md-ellipsis">
-    ftrace
+    BPF工具
   </span>
   
 
@@ -2047,92 +2135,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tracing" class="md-nav__link">
+  <a href="#bpftool" class="md-nav__link">
     <span class="md-ellipsis">
-      tracing
+      bpftool
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="tracing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      常用配置
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用方法
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#trace-cmd" class="md-nav__link">
+  <a href="#bpftrace" class="md-nav__link">
     <span class="md-ellipsis">
-      trace-cmd
+      bpftrace
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="trace-cmd">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用方法
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#perf-tools" class="md-nav__link">
-    <span class="md-ellipsis">
-      perf-tools
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="perf-tools">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      生成火焰图
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      分析火焰图
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -2140,48 +2156,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../probe/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    探针
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../bpftool/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    BPF工具
-  </span>
-  
-
-      </a>
     </li>
   
 
@@ -3552,6 +3526,8 @@
       
         
       
+        
+      
     
     
       
@@ -3668,6 +3644,63 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/opencl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    opencl
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            opencl
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -4079,92 +4112,20 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#tracing" class="md-nav__link">
+  <a href="#bpftool" class="md-nav__link">
     <span class="md-ellipsis">
-      tracing
+      bpftool
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="tracing">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    <span class="md-ellipsis">
-      常用配置
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用方法
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#trace-cmd" class="md-nav__link">
+  <a href="#bpftrace" class="md-nav__link">
     <span class="md-ellipsis">
-      trace-cmd
+      bpftrace
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="trace-cmd">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_3" class="md-nav__link">
-    <span class="md-ellipsis">
-      使用方法
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#perf-tools" class="md-nav__link">
-    <span class="md-ellipsis">
-      perf-tools
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="perf-tools">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#_4" class="md-nav__link">
-    <span class="md-ellipsis">
-      生成火焰图
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_5" class="md-nav__link">
-    <span class="md-ellipsis">
-      分析火焰图
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -4186,247 +4147,49 @@
   
 
 
-<h1 id="ftrace">ftrace<a class="headerlink" href="#ftrace" title="Permanent link">&para;</a></h1>
-<p><code>ftrace</code>可追踪的事件源包括<code>tracepoints</code>，<code>kprobes</code>，<code>uprobes</code>，即跟踪点、内核探针和用户探针。</p>
-<p>为了启用<code>ftrace</code>，你必须在内核配置界面选择：</p>
-<ul>
-<li>CONFIG_FUNCTION_TRACER</li>
-<li>CONFIG_FUNCTION_GRAPH_TRACER</li>
-<li>CONFIG_STACK_TRACER</li>
-<li>CONFIG_DYNAMIC_FTRACE</li>
-</ul>
-<p>前端工具：</p>
-<ul>
-<li>/sys/kernel/debug/tracing</li>
-<li>trace-cmd</li>
-<li>perf-tools</li>
-</ul>
-<h2 id="tracing">tracing<a class="headerlink" href="#tracing" title="Permanent link">&para;</a></h2>
-<p>要设置的<code>current_tracer</code>必须是这里面的一种：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>cat<span class="w"> </span>available_tracers<span class="w"> </span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>timerlat<span class="w"> </span>osnoise<span class="w"> </span>hwlat<span class="w"> </span>blk<span class="w"> </span>mmiotrace<span class="w"> </span>function_graph<span class="w"> </span>wakeup_dl<span class="w"> </span>wakeup_rt<span class="w"> </span>wakeup<span class="w"> </span><span class="k">function</span><span class="w"> </span>nop
+<h1 id="bpf">BPF工具<a class="headerlink" href="#bpf" title="Permanent link">&para;</a></h1>
+<h2 id="bpftool">bpftool<a class="headerlink" href="#bpftool" title="Permanent link">&para;</a></h2>
+<p>bpftool 提供内核中与 BPF 程序相关的信息。</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>--help
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Usage:<span class="w"> </span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">       </span>OBJECT<span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>prog<span class="w"> </span><span class="p">|</span><span class="w"> </span>map<span class="w"> </span><span class="p">|</span><span class="w"> </span>link<span class="w"> </span><span class="p">|</span><span class="w"> </span>cgroup<span class="w"> </span><span class="p">|</span><span class="w"> </span>perf<span class="w"> </span><span class="p">|</span><span class="w"> </span>net<span class="w"> </span><span class="p">|</span><span class="w"> </span>feature<span class="w"> </span><span class="p">|</span><span class="w"> </span>btf<span class="w"> </span><span class="p">|</span><span class="w"> </span>gen<span class="w"> </span><span class="p">|</span><span class="w"> </span>struct_ops<span class="w"> </span><span class="p">|</span><span class="w"> </span>iter<span class="w"> </span><span class="o">}</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">       </span>OPTIONS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">{</span>-j<span class="p">|</span>--json<span class="o">}</span><span class="w"> </span><span class="o">[{</span>-p<span class="p">|</span>--pretty<span class="o">}]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">{</span>-d<span class="p">|</span>--debug<span class="o">}</span><span class="w"> </span><span class="p">|</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">                    </span><span class="o">{</span>-V<span class="p">|</span>--version<span class="o">}</span><span class="w"> </span><span class="o">}</span>
 </code></pre></div>
-<p>其中常用的是<code>function</code>和<code>function_graph</code>，<code>function</code>只显示函数名，而<code>function_graph</code>还显示该函数的调用关系。</p>
-<h3 id="_1">常用配置<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>available_tracers</td>
-<td>支持的跟踪器，current_tracer必须是这里面支持的跟踪器</td>
-</tr>
-<tr>
-<td>available_events</td>
-<td>支持的跟踪事件</td>
-</tr>
-<tr>
-<td>available_filter_functions</td>
-<td>可跟踪的函数</td>
-</tr>
-<tr>
-<td>current_tracer</td>
-<td>当前使用的跟踪器，默认为nop</td>
-</tr>
-<tr>
-<td>trace</td>
-<td>跟踪结果，用cat查看</td>
-</tr>
-<tr>
-<td>max_graph_depth</td>
-<td>函数嵌套的最大深度</td>
-</tr>
-<tr>
-<td>set_ftrace_filter</td>
-<td>仅追踪特定的函数</td>
-</tr>
-<tr>
-<td>set_ftrace_notrace</td>
-<td>忽略特定的函数</td>
-</tr>
-<tr>
-<td>set_ftrace_pid</td>
-<td>追踪特定的PID</td>
-</tr>
-</tbody>
-</table>
-<h3 id="_2">使用方法<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
-<ol>
-<li>
-<p>关闭追踪</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/tracing/tracing_on
+<p>检查系统中运行程序的情况：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>prog<span class="w"> </span>show
 </code></pre></div>
-</li>
-<li>
-<p>设置追踪器</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="k">function</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/tracing/current_tracer
+<p>以 JSON 形式输出：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>prog<span class="w"> </span>show<span class="w"> </span>--json<span class="w"> </span>id<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
 </code></pre></div>
-</li>
-<li>
-<p>开启追踪</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">1</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/tracing/tracing_on
+<p>检查 BPF 映射：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>map<span class="w"> </span>show
 </code></pre></div>
-</li>
-<li>
-<p>获取trace信息</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>cat<span class="w"> </span>/sys/kernel/debug/tracing/trace
+<p>列出系统中所有 cgroup上 的附加程序：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>cgroup<span class="w"> </span>tree
 </code></pre></div>
-</li>
-<li>
-<p>关闭追踪</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="m">0</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/tracing/tracing_on
+<h2 id="bpftrace">bpftrace<a class="headerlink" href="#bpftrace" title="Permanent link">&para;</a></h2>
+<p>bpftrace 是 BPF 高级跟踪语言，可以使用简明的语法来编写程序。它提供了许多内置功能，无须自己实现。</p>
+<p>bpftrace 程序的语法简洁，仅包含头部、操作块和尾部三个部分。头部和尾部是可选的，通常用来打印一些加载前后的信息。操作块是我们要指定跟踪的探针的位置，以及基于探针触发事件后执行的操作。下面是一个简单的示例程序：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>BEGIN
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="o">{</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;starting bpftrace program\n&quot;</span><span class="o">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="o">}</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>kprobe:do_sys_open
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="o">{</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;opening file descriptor: %s\n&quot;</span>,<span class="w"> </span>str<span class="o">(</span>arg1<span class="o">))</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="o">}</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>END
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="o">{</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;ending bpftrace program\n&quot;</span><span class="o">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="o">}</span>
 </code></pre></div>
-</li>
-</ol>
-<h2 id="trace-cmd">trace-cmd<a class="headerlink" href="#trace-cmd" title="Permanent link">&para;</a></h2>
-<p>使用<code>ftrace</code>需要对文件进行频繁的写入和读出，效率很低。而<code>trace-cmd</code>是对<code>ftrace</code>的封装，使用起来更加方便。</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>trace-cmd<span class="w"> </span>version<span class="w"> </span><span class="m">2</span>.9.1<span class="w"> </span><span class="o">(</span>d8edc93bf4a92a4575eb3fb1108fef8030ede48b<span class="o">)</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>usage:
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">  </span>trace-cmd<span class="w"> </span><span class="o">[</span>COMMAND<span class="o">]</span><span class="w"> </span>...
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="w">  </span>commands:
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="w">     </span>record<span class="w"> </span>-<span class="w"> </span>record<span class="w"> </span>a<span class="w"> </span>trace<span class="w"> </span>into<span class="w"> </span>a<span class="w"> </span>trace.dat<span class="w"> </span>file
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="w">     </span><span class="nb">set</span><span class="w"> </span>-<span class="w"> </span><span class="nb">set</span><span class="w"> </span>a<span class="w"> </span>ftrace<span class="w"> </span>configuration<span class="w"> </span>parameter
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="w">     </span>start<span class="w"> </span>-<span class="w"> </span>start<span class="w"> </span>tracing<span class="w"> </span>without<span class="w"> </span>recording<span class="w"> </span>into<span class="w"> </span>a<span class="w"> </span>file
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="w">     </span>extract<span class="w"> </span>-<span class="w"> </span>extract<span class="w"> </span>a<span class="w"> </span>trace<span class="w"> </span>from<span class="w"> </span>the<span class="w"> </span>kernel
-<a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a><span class="w">     </span>stop<span class="w"> </span>-<span class="w"> </span>stop<span class="w"> </span>the<span class="w"> </span>kernel<span class="w"> </span>from<span class="w"> </span>recording<span class="w"> </span>trace<span class="w"> </span>data
-<a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a><span class="w">     </span>restart<span class="w"> </span>-<span class="w"> </span>restart<span class="w"> </span>the<span class="w"> </span>kernel<span class="w"> </span>trace<span class="w"> </span>data<span class="w"> </span>recording
-<a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a><span class="w">     </span>show<span class="w"> </span>-<span class="w"> </span>show<span class="w"> </span>the<span class="w"> </span>contents<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>kernel<span class="w"> </span>tracing<span class="w"> </span>buffer
-<a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a><span class="w">     </span>reset<span class="w"> </span>-<span class="w"> </span>disable<span class="w"> </span>all<span class="w"> </span>kernel<span class="w"> </span>tracing<span class="w"> </span>and<span class="w"> </span>clear<span class="w"> </span>the<span class="w"> </span>trace<span class="w"> </span>buffers
-<a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a><span class="w">     </span>clear<span class="w"> </span>-<span class="w"> </span>clear<span class="w"> </span>the<span class="w"> </span>trace<span class="w"> </span>buffers
-<a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a><span class="w">     </span>report<span class="w"> </span>-<span class="w"> </span><span class="nb">read</span><span class="w"> </span>out<span class="w"> </span>the<span class="w"> </span>trace<span class="w"> </span>stored<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>trace.dat<span class="w"> </span>file
-<a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a><span class="w">     </span>stream<span class="w"> </span>-<span class="w"> </span>Start<span class="w"> </span>tracing<span class="w"> </span>and<span class="w"> </span><span class="nb">read</span><span class="w"> </span>the<span class="w"> </span>output<span class="w"> </span>directly
-<a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a><span class="w">     </span>profile<span class="w"> </span>-<span class="w"> </span>Start<span class="w"> </span>profiling<span class="w"> </span>and<span class="w"> </span><span class="nb">read</span><span class="w"> </span>the<span class="w"> </span>output<span class="w"> </span>directly
-<a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a><span class="w">     </span>hist<span class="w"> </span>-<span class="w"> </span>show<span class="w"> </span>a<span class="w"> </span>histogram<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>trace.dat<span class="w"> </span>information
-<a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a><span class="w">     </span>stat<span class="w"> </span>-<span class="w"> </span>show<span class="w"> </span>the<span class="w"> </span>status<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>running<span class="w"> </span>tracing<span class="w"> </span><span class="o">(</span>ftrace<span class="o">)</span><span class="w"> </span>system
-<a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a><span class="w">     </span>split<span class="w"> </span>-<span class="w"> </span>parse<span class="w"> </span>a<span class="w"> </span>trace.dat<span class="w"> </span>file<span class="w"> </span>into<span class="w"> </span>smaller<span class="w"> </span>file<span class="o">(</span>s<span class="o">)</span>
-<a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a><span class="w">     </span>options<span class="w"> </span>-<span class="w"> </span>list<span class="w"> </span>the<span class="w"> </span>plugin<span class="w"> </span>options<span class="w"> </span>available<span class="w"> </span><span class="k">for</span><span class="w"> </span>trace-cmd<span class="w"> </span>report
-<a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a><span class="w">     </span>listen<span class="w"> </span>-<span class="w"> </span>listen<span class="w"> </span>on<span class="w"> </span>a<span class="w"> </span>network<span class="w"> </span>socket<span class="w"> </span><span class="k">for</span><span class="w"> </span>trace<span class="w"> </span>clients
-<a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a><span class="w">     </span>agent<span class="w"> </span>-<span class="w"> </span>listen<span class="w"> </span>on<span class="w"> </span>a<span class="w"> </span>vsocket<span class="w"> </span><span class="k">for</span><span class="w"> </span>trace<span class="w"> </span>clients
-<a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a><span class="w">     </span>setup-guest<span class="w"> </span>-<span class="w"> </span>create<span class="w"> </span>FIFOs<span class="w"> </span><span class="k">for</span><span class="w"> </span>tracing<span class="w"> </span>guest<span class="w"> </span>VMs
-<a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a><span class="w">     </span>list<span class="w"> </span>-<span class="w"> </span>list<span class="w"> </span>the<span class="w"> </span>available<span class="w"> </span>events,<span class="w"> </span>plugins<span class="w"> </span>or<span class="w"> </span>options
-<a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a><span class="w">     </span>restore<span class="w"> </span>-<span class="w"> </span>restore<span class="w"> </span>a<span class="w"> </span>crashed<span class="w"> </span>record
-<a id="__codelineno-6-28" name="__codelineno-6-28" href="#__codelineno-6-28"></a><span class="w">     </span>snapshot<span class="w"> </span>-<span class="w"> </span>take<span class="w"> </span>snapshot<span class="w"> </span>of<span class="w"> </span>running<span class="w"> </span>trace
-<a id="__codelineno-6-29" name="__codelineno-6-29" href="#__codelineno-6-29"></a><span class="w">     </span>stack<span class="w"> </span>-<span class="w"> </span>output,<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>or<span class="w"> </span>disable<span class="w"> </span>kernel<span class="w"> </span>stack<span class="w"> </span>tracing
-<a id="__codelineno-6-30" name="__codelineno-6-30" href="#__codelineno-6-30"></a><span class="w">     </span>check-events<span class="w"> </span>-<span class="w"> </span>parse<span class="w"> </span>trace<span class="w"> </span>event<span class="w"> </span>formats
-<a id="__codelineno-6-31" name="__codelineno-6-31" href="#__codelineno-6-31"></a><span class="w">     </span>dump<span class="w"> </span>-<span class="w"> </span><span class="nb">read</span><span class="w"> </span>out<span class="w"> </span>the<span class="w"> </span>meta<span class="w"> </span>data<span class="w"> </span>from<span class="w"> </span>a<span class="w"> </span>trace<span class="w"> </span>file
+<p>你可以将这个程序保存为 example.bt，然后运行：<code>bpftrace example.bt</code>。</p>
+<p>bpftrace 语言是以脚本思想设计的。有的时候可以不用编写程序，直接在命令行中使用选项<code>-e</code>即可：</p>
+<div class="language-SHEll highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>bpftrace<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;kprobe:do_sys_open { printf(&quot;opening file descriptor: %s\n&quot;, str(arg1)) }&#39;</span>
 </code></pre></div>
-<h3 id="_3">使用方法<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p><code>trace-cmd</code>有两种追踪方式：</p>
-<ul>
-<li><code>start</code>和<code>stop</code>：记录至ringbuffer中</li>
-<li><code>record</code>和<code>report</code>：记录至文件trace.dat，类似于<code>perf</code></li>
-</ul>
-<p>显示可被追踪的函数：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>list<span class="w"> </span>-f
-</code></pre></div>
-<p>启用追踪器：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>start<span class="w"> </span>-p<span class="w"> </span><span class="k">function</span>
-</code></pre></div>
-<p>查看输出：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>show<span class="w"> </span><span class="p">|</span><span class="w"> </span>head<span class="w"> </span>-20
-</code></pre></div>
-<p>关闭追踪器：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>stop
-</code></pre></div>
-<p>清除缓冲区：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>$<span class="w"> </span>trace-cmd<span class="w"> </span>clear
-</code></pre></div>
-<h2 id="perf-tools">perf-tools<a class="headerlink" href="#perf-tools" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>perf list</td>
-<td>列出所有能够触发perf采样点的事件</td>
-</tr>
-<tr>
-<td>perf probe</td>
-<td>定义新的动态tracepoint</td>
-</tr>
-<tr>
-<td>perf trace</td>
-<td>类似strace，不过性能更强</td>
-</tr>
-<tr>
-<td>perf stat</td>
-<td>统计程序运行时的性能信息</td>
-</tr>
-<tr>
-<td>pert top</td>
-<td>实时查看当前系统函数占用率情况</td>
-</tr>
-<tr>
-<td>perf record</td>
-<td>采样并保存profile到perf.data</td>
-</tr>
-<tr>
-<td>perf report</td>
-<td>分析perf.data文件</td>
-</tr>
-<tr>
-<td>perf script</td>
-<td>读取perf.data并显示详细的采样数据</td>
-</tr>
-</tbody>
-</table>
-<p>子命令：</p>
-<p><code>perf stat</code>：</p>
-<ul>
-<li>-e：指定要统计的事件</li>
-<li>-r：制定运行次数</li>
-</ul>
-<p><code>perf record</code>：</p>
-<ul>
-<li>-g：记录调用栈信息</li>
-<li>-F：指定采样频率</li>
-<li>-p：指定进程ID</li>
-<li>-o：指定输出文件</li>
-</ul>
-<p><code>perf report</code>：</p>
-<ul>
-<li>-i：指定perf.data文件</li>
-<li>-n：不进行排序</li>
-<li>-v：显示详细信息</li>
-</ul>
-<h3 id="_4">生成火焰图<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<ol>
-<li>
-<p>使用<code>perf</code>记录事件</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>$<span class="w"> </span>perf<span class="w"> </span>record<span class="w"> </span>-F<span class="w"> </span><span class="m">99</span><span class="w"> </span>-a<span class="w"> </span>-g<span class="w"> </span>--<span class="w"> </span>sleep<span class="w"> </span><span class="m">60</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>$<span class="w"> </span>perf<span class="w"> </span>script<span class="w"> </span>&gt;<span class="w"> </span>out.perf
-</code></pre></div>
-</li>
-<li>
-<p>折叠栈</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>$<span class="w"> </span>./stackcollapse-perf.pl<span class="w"> </span>out.perf<span class="w"> </span>&gt;<span class="w"> </span>out.folded
-</code></pre></div>
-</li>
-<li>
-<p>生成火焰图</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>$<span class="w"> </span>FlameGraph/flamegraph.pl<span class="w"> </span>out.folded<span class="w"> </span>&gt;<span class="w"> </span>out.svg
-</code></pre></div>
-</li>
-<li>
-<p>在浏览器中打开</p>
-</li>
-</ol>
-<h3 id="_5">分析火焰图<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
-<ul>
-<li>每一列代表一个调用栈，每一个格子代表一个函数</li>
-<li>Y轴表示调用栈的深度</li>
-<li>X轴表示函数被抽样到的次数，越宽表示被抽样的次数越多</li>
-</ul>
 
 
 

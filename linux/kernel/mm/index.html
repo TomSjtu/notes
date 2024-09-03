@@ -571,6 +571,8 @@
       
         
       
+        
+      
     
     
       
@@ -708,6 +710,27 @@
   
   <span class="md-ellipsis">
     其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../load/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程加载与启动
   </span>
   
 
@@ -1056,7 +1079,7 @@
         
   
   <span class="md-ellipsis">
-    进程地址空间
+    虚拟内存管理
   </span>
   
 
@@ -2092,6 +2115,8 @@
       
         
       
+        
+      
     
     
       
@@ -2107,11 +2132,11 @@
           
           
           <div class="md-nav__link md-nav__container">
-            <a href="../../ebpf/" class="md-nav__link ">
+            <a href="../../monitor/" class="md-nav__link ">
               
   
   <span class="md-ellipsis">
-    ebpf
+    性能观测
   </span>
   
 
@@ -2127,7 +2152,7 @@
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_2_5">
             <span class="md-nav__icon md-icon"></span>
-            ebpf
+            性能观测
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
@@ -2140,7 +2165,70 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ebpf/intro/" class="md-nav__link">
+      <a href="../../monitor/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    性能观测技术概览
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/trace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    静态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../monitor/ebpf/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -2161,49 +2249,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../ebpf/ftrace/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    ftrace
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../ebpf/probe/" class="md-nav__link">
-        
-  
-  <span class="md-ellipsis">
-    探针
-  </span>
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../ebpf/bpftool/" class="md-nav__link">
+      <a href="../../monitor/bpftool/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -3582,6 +3628,8 @@
       
         
       
+        
+      
     
     
       
@@ -3698,6 +3746,63 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/opencl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    opencl
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            opencl
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
             
           </ul>
@@ -4248,8 +4353,13 @@
 
 <h1 id="_1">物理内存管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <h2 id="umanuma">UMA和NUMA架构<a class="headerlink" href="#umanuma" title="Permanent link">&para;</a></h2>
-<p>UMA(一致性内存访问)是一种对称多处理器系统的内存访问架构，它指的是所有处理器对内存的访问具有相同的延迟。在UMA系统中，所有处理器共享同一总线或交叉点，可以直接访问共享内存，这意味着无论哪个处理器访问内存，延迟都是相同的，UMA适用于小规模的多处理器系统。</p>
-<p>现代多核处理器大多采用了NUMA架构，即非一致性内存访问架构。在NUMA架构下，每个CPU都有自己的本地内存，称为NUMA节点(node)，它的访问速度更快。如果一个处理器要访问其他处理器的本地内存，需要通过QPI总线去访问，这样延迟就会增加。</p>
+<p>UMA (一致性内存访问)是一种传统的 SMP 系统的内存访问架构，所有处理器在访问内存时共享同一总线。这种架构仅适用于小型系统，一旦系统中的 CPU 数量增加到一定程度，它们会竞争总线资源，最终导致总线成为系统性能的瓶颈。</p>
+<p>现代多核处理器大多采用了 NUMA (非一致性内存访问)架构，将内存和 CPU 分组，每个CPU都有自己的本地内存，访问起来更快。将一组 CPU 和本地内存划分为一个节点(node)。进程在申请内存时，默认会优先申请与进程当前 CPU 同属于一个 node 的内存。 BIOS 提供了 SRAT 和 SLIT 表， 用于配置 NUMA 信息：</p>
+<ul>
+<li>SRAT：System Resource Affinity Table，记录 CPU 核心与内存的关系图，包括有几个 node，每个 node 包含几个 CPU 核心，每个 CPU 核心对应哪些内存</li>
+<li>SLIT：System Locality Information Table，记录 node 之间的距离</li>
+</ul>
+<p>内核在启动时读取这两个表就可以获取 NUMA 系统的 CPU 和物理内存分布信息。</p>
 <h2 id="_2">页和区<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>如果让内核去管理每个物理地址，成本会非常高，也不现实。所以需要一种高效且灵活的机制来管理物理地址，这种机制我们称为<mark class="critic">页</mark>（page）机制。内核将物理地址划分为一个个大小相同的页，每页包含4KB的空间。</p>
 <p>这主要是为了提升内核在内存分配和回收方面的效率，可以更加灵活地处理内存请求，优化资源分配，并简化了内存寻址和映射的过程，同时也为虚拟内存的管理提供了便利。page的内存区域我们称之为<mark class="critic">页帧</mark>，用<code>struct page</code>结构体表示，而page的编号就叫做<mark class="critic">页帧号</mark>(Page Frame Number)，内核定义了<code>page_to_pfn()</code>和<code>pfn_to_page()</code>两个函数用于相互转换：</p>
@@ -4279,15 +4389,18 @@
 <p>ZONE_DMA：用于dma操作的内存区，通常位于物理内存的低地址部分。</p>
 </li>
 <li>
+<p>ZONE_DMA32：用于支持32位地址总线的 DMA 设备，仅在64位系统上有效。</p>
+</li>
+<li>
 <p>ZONE_NORMAL：普通的内存区，可以由内核和用户空间进程使用。</p>
 </li>
 <li>
 <p>ZONE_HIGHMEM：高端内存区，用于处理超过直接映射范围的内存。</p>
 </li>
 </ul>
-<p>区的使用和分布与体系结构密切相关，内核将页划分为区，就可以根据用途进行分配。区的划分没有物理意义，只是为了方便管理而采取的一种逻辑分组。</p>
+<p>使用<code>cat /proc/zoneinfo</code>命令可以查看系统的内存区信息。区的使用和分布与体系结构密切相关，内核将页划分为区，就可以根据用途进行分配。区的划分没有物理意义，只是为了方便管理而采取的一种逻辑分组。</p>
 <h2 id="_3">页的分配与释放<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>内核提供了一些以页为单位的连续内存分配与释放的函数，也被称为低级页分配器：</p>
+<p>内核提供了一些以页为单位的连续内存分配与释放的函数，也被称为低级页分配器，是伙伴系统页分配的核心函数：</p>
 <table>
 <thead>
 <tr>
@@ -4330,6 +4443,9 @@
 </tr>
 </tbody>
 </table>
+<p>所有的多页申请或释放函数都带一个参数 order 表示申请的内存块的阶数，比如 32 页内存，order 就等于 5。</p>
+<p>需要注意的是，如果申请 33 页内存，根据计算 order 为6，因此会一次性申请 64 页内存，这是一种浪费。那么如果先申请 32 页内存，然后再申请 1 页内存，是否可行呢？答案是在某些情况不可行，因为多次申请的内存不一定是连续的。如果程序的应用场景要求内存连续，则这种方式不可行。</p>
+<p>换一种角度讲，如果并不要求连续内存，应该优先多次使用<code>alloc_page()</code>函数，即一次申请 1 页内存，这样可以避免内存的浪费。</p>
 <h2 id="_4">字节的分配与释放<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
 <h3 id="kmalloc">kmalloc()<a class="headerlink" href="#kmalloc" title="Permanent link">&para;</a></h3>
 <p><code>kmalloc()</code>与用户空间的<code>malloc()</code>类似，都是分配以字节为单位的一块内存，区别在于<code>kmalloc()</code>多了一个flags参数：</p>
@@ -4408,6 +4524,7 @@
 <p>伙伴系统（buddy system）是内核设计用于解决内存碎片化的一种管理系统。该系统将空闲的页划分为11个组，对应11种大小不同的连续内存块——从2<sup>0</sup>到2<sup>10</sup>个页：</p>
 <p><img alt="伙伴系统" src="../../../images/kernel/buddy.webp" /></p>
 <p>当操作系统需要分配内存时，它会根据请求的大小找到最接近的且大小足够的块进行分配。如果分配的块比所需的大小大，那么这个块会被分成两个大小相等的子块，其中一个子块被用来满足内存分配请求，而另一个则成为它的"伙伴"。当一个块被释放时，会自动合并空闲的伙伴块。</p>
+<p><code>cat /proc/pagetypeinfo</code>命令可以查看当前系统中伙伴系统各个尺寸的可用连续内存块数量。</p>
 <h3 id="_6">分配算法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
 <p>在伙伴系统中，当需要分配一个特定大小的内存块时，系统会按照以下步骤操作：</p>
 <ol>
