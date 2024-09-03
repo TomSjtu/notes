@@ -36,15 +36,17 @@ int request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
 3. 如果`thread_fn != NULL`，调用`setup_irq_thread()`来新建一个独立线程处理中断。
 4. 如果中断之前没有被激活，则激活中断。
 
+`request_irq()`函数调用了`request_threaded_irq()`函数，并将`thread_fn`参数置为 NULL。二者的区别为：`request_irq()`的 handler 直接在当前中断上下文执行，而`request_threaded_irq()`的 `thread_fn`在独立的线程中执行，且优先级为 SCHED_FIFO。
+
 由于中断号是有限的，而多个设备驱动又可以共享同一个中断号，因此内核采用了两种结构体来管理中断：`struct irq_desc`和`struct irqaction`，二者是一对多的关系。`struct irq_desc`与中断号对应，而`struct irqaction`则与设备对应，如果有多个共享中断号的设备，将它们挂在`struct irq_desc`的链表上。
 
 那么内核是如何管理这些外部中断的呢？
 
 很容易想到，我们可以用一个静态数组来管理，数组中每个元素都是`struct irq_desc`结构体：`struct irq_desc irq_desc[NR_IRQS]`。
 
-这个数组的关键就在于NR_IRQS的值，如果取一个很大的值，而外设对应的中断又不多的情况下就会很浪费内存。
+这个数组的关键就在于 NR_IRQS 的值，如果取一个很大的值，而外设对应的中断又不多的情况下就会很浪费内存。
 
-还有一种方法是动态方法，用到了radix tree(基数树)，这种结构可以快速地通过key找到value。中断号是key，通过它我们就能很快定位到`struct irq_desc`结构体。
+还有一种方法是动态方法，用到了 radix tree(基数树)，这种结构可以快速地通过key找到value。中断号是key，通过它我们就能很快定位到`struct irq_desc`结构体。
 
 需要注意的是，这里的中断号并不是真正的物理意义上的中断号，而是内核抽象出来给软件使用的中断号。因为物理信号与硬件设备关联较大，内核不可能为每个硬件设备去配置一个中断号，因此就需要有一层中断抽象层，将物理信号转换为虚拟信号。
 

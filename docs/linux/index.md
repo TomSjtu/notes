@@ -9,9 +9,11 @@
 - [内核剖析](./kernel/index.md)
 - [设备驱动程序](./drivers/index.md)
 - [性能调优](./optimization/index.md)
-- [ebpf](./ebpf/index.md)
+- [性能观测](./monitor/index.md)
 
 ## 参考资料
+
+- [深入理解Linux进程与内存](https://book.douban.com/subject/37015972/)
 
 - [趣谈Linux操作系统](https://time.geekbang.org/column/intro/100024701?utm_campaign=geektime_search&utm_content=geektime_search&utm_medium=geektime_search&utm_source=geektime_search&utm_term=geektime_search&tab=catalog)
 

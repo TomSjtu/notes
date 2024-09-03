@@ -243,10 +243,10 @@ $ cat /proc/sys/kernel/printk
 
 上面四个数字分别对应：
 
-- console_loglevel：只有数值大于这个level的log才能打印到console
-- default_message_loglevel：printk不指定log_level时的默认level
-- minimum_console_loglevel：console_loglevel的最小值
-- default_console_loglevel：一些特殊情况下使用的默认console_loglevel
+- console_loglevel：控制台输出等级
+- default_message_loglevel：默认消息输出等级
+- minimum_console_loglevel：最低控制台输出等级
+- default_console_loglevel：默认控制台输出等级
 
 ### 打印函数
 
@@ -263,7 +263,7 @@ $ cat /proc/sys/kernel/printk
 - WARN_ON（condition)：调用`dump_stack()`
 - panic(fmt...)：系统crash，输出log
 
-## 动态调试
+## 动态打印
 
 /sys/kernel/debug/dynamic_debug/control 是Linux系统中的一个特殊文件，用于动态调试内核代码。它允许开发者在运行时动态地启用或禁用内核中的调试信息，而不需要重新编译内核。
 

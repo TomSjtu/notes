@@ -58,12 +58,60 @@ $ echo " source ~/dev_ws/install/local_setup.sh" >> ~/.bashrc
 
 ## 功能包
 
+功能包是组织和分发代码的基本方式，通过定义清晰的接口和依赖关系，功能包能够方便地在不同的项目和团队之间共享和复用。
 
+一个典型的 ROS2 功能包可能具有以下目录结构：
 
+```SHELL
+my_package/
+  CMakeLists.txt       # CMake构建配置文件
+  package.xml          # 功能包元信息，包括名称、版本、依赖等
+  src/                 # 源代码目录
+    my_node.cpp
+  include/
+    my_package/        # 头文件目录
+      my_node.hpp
+  scripts/             # 脚本文件目录
+    my_script.py
+  msg/                 # 消息定义目录
+    MyMessage.msg
+  srv/                 # 服务定义目录
+    MyService.srv
+```
+
+创建一个功能包：
+
+```SHELL
+ros2 pkg create <package_name> --dependencies [dependencies]
+```
+
+构建功能包：
+
+```SHELL
+colcon build --packages-select <package_name>
+```
+
+运行节点：
+
+```SHELL
+ros2 run <package_name> <node_name>
+```
 
 ## 节点
 
+节点，就是执行某些具体任务的单元，在 OS 的视角来看，其实就是一个进程。每个节点都必须是一个独立的可执行的文件。
+
+节点的创建需要有四个步骤：
+
+- 编程接口初始化
+- 创建节点并初始化
+- 实现节点功能
+- 销毁节点并关闭接口
+
 ## 话题
+
+ROS2 的话题通信采用的是发布/订阅模式，二者规定统一的数据的描述格式。
+
 
 ## 服务
 

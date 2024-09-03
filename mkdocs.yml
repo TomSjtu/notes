@@ -66,6 +66,7 @@ nav:
       - linux/kernel/debug.md
       - linux/kernel/synch.md
       - linux/kernel/others.md
+      - linux/kernel/load.md
       - linux/kernel/task.md
       - linux/kernel/sched.md
       - linux/kernel/ipc.md
@@ -124,12 +125,13 @@ nav:
       - linux/optimization/disk.md
       - linux/optimization/network.md
 
-    - ebpf:
-      - linux/ebpf/index.md
-      - linux/ebpf/intro.md
-      - linux/ebpf/ftrace.md
-      - linux/ebpf/probe.md
-      - linux/ebpf/bpftool.md
+    - 性能观测:
+      - linux/monitor/index.md
+      - linux/monitor/intro.md
+      - linux/monitor/trace.md
+      - linux/monitor/probe.md
+      - linux/monitor/ebpf.md
+      - linux/monitor/bpftool.md
  
   - ARM: 
     - arm/index.md
@@ -196,6 +198,8 @@ nav:
     - 深度学习:
       - ai/dl/index.md
       - ai/dl/onnx.md
+    - opencl:
+      - ai/opencl/index.md
 
   - 云计算:
     - cloud/index.md

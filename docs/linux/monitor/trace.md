@@ -1,23 +1,10 @@
-# ftrace
+# 静态跟踪
 
-`ftrace`可追踪的事件源包括`tracepoints`，`kprobes`，`uprobes`，即跟踪点、内核探针和用户探针。
+`ftrace`和`perf`工具都可以用来实现静态跟踪。
 
-为了启用`ftrace`，你必须在内核配置界面选择：
+## ftrace
 
-- CONFIG_FUNCTION_TRACER
-- CONFIG_FUNCTION_GRAPH_TRACER
-- CONFIG_STACK_TRACER
-- CONFIG_DYNAMIC_FTRACE
-
-前端工具：
-
-- /sys/kernel/debug/tracing
-- trace-cmd
-- perf-tools
-
-## tracing
-
-要设置的`current_tracer`必须是这里面的一种：
+首先进入到 /sys/kernel/debug/tracing 目录，查看当前支持的跟踪器：
 
 ```SHELL
 $ cat available_tracers 
@@ -25,6 +12,8 @@ timerlat osnoise hwlat blk mmiotrace function_graph wakeup_dl wakeup_rt wakeup f
 ```
 
 其中常用的是`function`和`function_graph`，`function`只显示函数名，而`function_graph`还显示该函数的调用关系。
+
+/events/ 目录列出了可以跟踪的各个模块，进入模块目录，enable 写入1表示打开静态跟踪，然后访问 /tracing/ 目录的`trace_pipe`就可以看到内核打印的日志了。
 
 ### 常用配置
 
@@ -35,6 +24,7 @@ timerlat osnoise hwlat blk mmiotrace function_graph wakeup_dl wakeup_rt wakeup f
 | available_filter_functions | 可跟踪的函数 |
 | current_tracer | 当前使用的跟踪器，默认为nop |
 | trace | 跟踪结果，用cat查看 |
+| tracing_on | 开启或暂停 |
 | max_graph_depth | 函数嵌套的最大深度 |
 | set_ftrace_filter | 仅追踪特定的函数 |
 | set_ftrace_notrace | 忽略特定的函数 |
@@ -74,7 +64,7 @@ timerlat osnoise hwlat blk mmiotrace function_graph wakeup_dl wakeup_rt wakeup f
     
 ## trace-cmd
 
-使用`ftrace`需要对文件进行频繁的写入和读出，效率很低。而`trace-cmd`是对`ftrace`的封装，使用起来更加方便。
+使用`ftrace`需要对文件进行频繁的写入和读出，操作起来比较麻烦。而`trace-cmd`是对`ftrace`的封装，使用起来更加方便。
 
 ```SHELL
 trace-cmd version 2.9.1 (d8edc93bf4a92a4575eb3fb1108fef8030ede48b)
@@ -148,7 +138,7 @@ $ trace-cmd stop
 $ trace-cmd clear
 ```
 
-## perf-tools
+## perf
 
 | 名称 | 说明 |
 | --- | --- |
@@ -163,6 +153,10 @@ $ trace-cmd clear
 
 子命令：
 
+`perf list`:
+
+查看当前环境支持的事件，包括硬件事件、软件事件、静态跟踪点等。
+
 `perf stat`：
 
 - -e：指定要统计的事件
@@ -171,7 +165,7 @@ $ trace-cmd clear
 `perf record`：
 
 - -g：记录调用栈信息
-- -F：指定采样频率
+- -F：指定每秒采样频率
 - -p：指定进程ID
 - -o：指定输出文件
 
@@ -191,7 +185,6 @@ $ trace-cmd clear
     ```
 
 2. 折叠栈
-
 
     ```SHELL
     $ ./stackcollapse-perf.pl out.perf > out.folded

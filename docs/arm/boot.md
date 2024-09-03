@@ -787,6 +787,10 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
 }
 ```
 
+### set_task_stack_end_magic
+
+设置 0 号进程
+
 ### setup_arch
 
 `setup_arch()`负责根据平台相关的信息填充Linux设备模型，其接受一个command_line参数，记录了uboot传递给内核的信息，大小不能超过4096。
@@ -795,6 +799,20 @@ asmlinkage __visible void __init __no_sanitize_address start_kernel(void)
 
 此时MMU已经开启，需要将dtb位于内存的物理地址映射成虚拟地址。
 
+
+### arch_call_rest_init
+
+init 进程刚开始由内核创建，属于内核线程。当内核挂载完根文件系统后，紧接着运行一个用户态的程序(linuxrc或者/sbin/init或者/etc/init或者/bin/init或者/bin/sh)——该程序由 uboot 传递给内核。此时 init 进程把自己强行转成了用户态，即为用户态所有进程的祖先。
+
+```C
+arch_call_rest_init()
+	-> rest_init()
+		-> pid = kernel_thread(kernel_init, NULL, CLONE_FS);		//创建kernel_init线程
+		-> pid = kernel_thread(kthreadd, NULL, CLONE_FS | CLONE_FILES);	//创建kthreadd线程 
+		-> complete(&kthreadd_done);	//表示kthreadd进程已经完成初始化
+		-> schedule_preempt_disabled(); //调度一个禁止抢占的idle线程，将控制权交给它
+		-> cpu_startup_entry(CPUHP_ONLINE); //启动idle进程
+```
 
 
 

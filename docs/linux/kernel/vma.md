@@ -1,12 +1,16 @@
-# 进程地址空间
+# 虚拟内存管理
 
-除了管理本身的内存外，操作系统还必须管理用户空间的内存。我们称这个内存为进程地址空间。几乎所有的操作系统都采用了虚拟内存管理技术，它允许进程以虚拟地址的方式访问系统中的物理内存，由操作系统负责处理映射关系。
+虚拟内存管理技术允许进程以虚拟地址的方式访问系统中的物理内存，由操作系统负责处理映射关系。在 32 位系统中，一个普通进程可以访问 4GB 的线性空间，按照经典的 3：1 划分，用户态可以访问前 3GB，内核态可以访问后 1GB—— 起始于 OxC00000000，终止于 0xFFFFFFFF。
 
-在没有虚拟内存的时代，进程访问的是实际的物理内存。开发者在编写程序时必须非常小心，防止访问到了不该访问的内存地址。同时，不同进程之间的内存地址也可能发生冲突，造成程序出错甚至是系统崩溃。
+## 内核线性空间布局
 
-虚拟内存管理技术的出现，大大简化了程序员的工作——在编写程序时，无需考虑内存分配和释放，只需使用虚拟地址即可。
+虚拟内存的访问也是有限制的。内核会在启动过程中，将一部分的内存直接映射到线性空间，这部分内存就叫 low memory，剩下的部分叫 high memory。所谓直接映射，指的是映射后的虚拟地址和物理地址有直接的对应关系：va = pa + PAGE_OFFSET。
 
-Linux采用了基于分页的虚拟内存管理机制，其中内存被划分为大小固定的页，每一页通常是 4KB。这种分页机制使得内存管理更加灵活和高效。而虚拟地址到物理地址的转换则通过多级页表来实现。为了提高地址转换的速度，现代 CPU 都会设计一个称为 {==TLB==}（转换后援缓冲器）的硬件缓存。TLB 缓存了最近使用过的页表项，这样当 CPU 需要访问一个内存地址时，它首先检查 TLB，如果找到了匹配的条目——这个操作被称为 {==TLB命中==}，就可以直接找到对应的物理地址，从而避免访问页表。
+除了直接映射区，内核还划分了以下几个区：
+
+- 动态映射区
+- 永久映射区
+- 固定映射区
 
 ## 地址空间的概念
 
@@ -76,118 +80,154 @@ struct mm_struct {
 
 ## 虚拟内存区域
 
-虚拟内存区域（Virtual Memory Area）在内核中用`vm_area_struct`结构体描述。每个`vm_area_struct`结构都对应于指定地址空间上某块连续的内存区域。`vm_start`指向了这块虚拟内存区域的起始地址，`vm_end`则指向了这块虚拟内存区域的结束地址。`vm_area_struct`结构体描述的是[vm_start，vm_end)这样一段左闭右开的虚拟内存区域。
+虚拟内存区域（Virtual Memory Area）在内核中用`vm_area_struct`结构体描述。每个`vm_area_struct`结构都对应于指定地址空间上某块[vm_start, vm_end)的虚拟地址区域。`vm_start`指向了这块虚拟内存区域的起始地址，`vm_end`则指向了这块虚拟内存区域的结束地址。
 
-内核将每个内存区域作为一个单独的对象管理，每个区域都有一致的属性和操作，下面给出`vm_area_struct`结构体的定义：
+内核将每块内存区域作为一个单独的对象管理，每个区域都有一致的属性和操作。进程运行过程中会不断分配和释放`vm_are_struct`，因此需要使用合适的数据结构对其进行管理。在 Linux 6.1版本之前，一直使用的是红黑树和双向链表来管理`vm_area_struct`对象：
 
-```C
+```C title="linux-5.15.10:include/linux/mm_types.h"
 struct vm_area_struct {
-    struct mm_struct *vm_mm;                      //相关的mm_struct结构体
-    unsigned long vm_start;                       //区间的首地址
-    unsigned long vm_end;                         //区间的尾地址
-    struct vm_area_struct *vm_next;               //VMA链表
-    pgprot_t vm_page_prot;                        //访问控制权限
-    unsigned long vm_flags;                       //描述该区域的标志，重要的两个是VM_IO和VM_RESERVED
-    struct rb_node vm_rb;                         //红黑树节点
-    struct anon_vma *anon_vma;                    //匿名VMA对象
-    const struct vm_operations_struct *vm_ops;    //VMA的操作函数
-    unsigned long vm_pgoff;                       //文件中该区域的偏移量
-    struct file *vm_file;                         //指向与该区域相关联的file结构指针
-    void *vm_private_data;                        //私有数据
+    ......
+    //双向链表
+    struct vm_area_struct *mmap;
+    //红黑树
+    struct rb_root mm_rb;
+    struct rw_semaphore mmap_sem;
 };
 ```
 
-于是整个虚拟内存空间管理如下图所示，在每个`task_struct`结构体下的 mm 字段指向了该进程的`mm_struct`。内核用两种数据结构管理`vm_area_struct`结构体：`mm_rb`指向红黑树头节点，`mmap`指向链表头节点。红黑树和链表的每个元素都是一个`vm_area_struct`结构体，标识了每块VMA区域的属性：
+整个场景如下所示：
 
 ![Alt text](../../images/kernel/vma3.webp)
 
-### VMA标志
+红黑树+双向链表的搭配提供了不错的性能，一直沿用了很长时间，但也存在缺陷。最明显的是随着 CPU 核心数的增多，应用程序的线程也越来越多，多线程下锁争抢的问题开始浮现出来。需要加锁的原因是红黑树的平衡操作必须是原子的，同时还要将修改同步至双向链表。于是在 Linux 6.1版本中引入了`mapple tree`数据结构，使用 RCU 无锁编程实现。
 
-vm_flags 定义了VMA的标志，它表示内存区域的行为和信息。一些比较重要的标志比如：VM_READ、VM_WRITE 和 VM_EXEC 定义了内存区域中页面的可读、可写、可执行权限。
+## 堆内存管理
 
-VM_SHARED 表示内存区域包含的映射是否可以在多进程之间共享，如果设置了该标志位，我们称其为共享映射，否则就是私有映射。
+堆内存管理是操作系统中最为复杂的部分之一。由于程序在运行过程中会涉及大量数据对象的申请和释放，如果仅使用内核提供的`mmap()`和`brk()`函数，会产生大量的内存碎片。因此在应用开发者和内核之间还需要一个内存分配器。`malloc()`函数其实就是 glibc 提供的内存分配器接口。业界有许多优秀的内存分配器，这里只介绍 glibc 内置的 ptmalloc 内存分配器的大致工作原理。
 
-VM_IO 标志内存区域中对设备I/O空间的映射。该标志通常在设备驱动程序执行`mmap()`函数时才被设置。
+### ptmalloc概念
 
-VM_RESERVED 标志规定了内存区域不能被换出。
+在 ptmalloc 中，是通过分配去、空闲链表、内存块等几个数据结构来管理内存的。
 
-### VMA操作
+#### 分配区
 
-`vm_ops`域指向与内存区域相关的操作函数，由`vm_operations_struct`结构体表示：
+多线程在操作分配区的时候需要加锁，为了提升性能，ptmalloc 支持多个分配区：
 
 ```C
-struct vm_operations_struct {
-    void (*open)(struct vm_area_struct *);
-    void (*close)(sturct vm_area_struct *);
-    int (*fault)(struct vm_area_struct *, struct vm_fault *);
-    int (*page_mkwrite)(struct vm_area_struct *vma, struct vm_fault *vmf);
-    int (*access)(struct vm_area_struct *, unsigned long, void *, int, int);
+struct malloc_state {
+    mutex_t mutex;
+    struct malloc_state *next;
 };
 ```
 
-## 进程内存指标
+所有的分配区以一个链表的形式组织起来。
 
-在进程的内存管理中，通常被分为几个不同的类别，其中 RSS(Resident Set Size)、PSS(Proportional Set Size)、USS(Unique Set Size) 是衡量进程内存使用情况的三个重要指标。
+#### 内存块
 
-传统模式下，应用程序如果需要访问文件，需要先在虚拟地址空间中分配一段虚拟内存，这段内存通过 MMU，映射成对应的物理内存。当进程发出读/写请求时，磁盘先将数据拷贝到 page cache，再将 page cache 中的内容拷贝到物理内存。当使用了`mmap()`之后，应用程序可以直接访问磁盘上的文件，而不需要拷贝到 page cache。
-
-1. RSS：进程实际占用的物理内存，包括了共享库所占用的内存
-2. PSS：进程独占的内存加上按比例分摊的共享库内存
-3. USS：进程独自占用的物理内存
-
-## malloc()
-
-`malloc()`是C库里的一个动态分配内存的函数，在申请内存时有两种方式：
-
-- 方式一：通过`brk()`系统调用从堆分配内存。
-
-- 方式二：通过`mmap()`系统调用从文件映射区分配内存。
-
-`malloc()`源码规定了一个阈值 MMAP_THRESHOLD，默认为 128kB：
-
-- 如果分配的内存小于这个阈值，则通过`brk()`申请内存，动态调整进程地址空间中的brk指针的位置。
-
-- 如果分配的内存大于这个阈值，则通过`mmap()`申请内存，在堆和栈之间找到一片区域进行映射处理。
-
-设计内存分配策略时，核心目标是在性能和资源管理之间找到最佳平衡点。对于小内存块的频繁分配与释放操作，`malloc()` 采用 `brk()` 系统调用进行内存管理。释放的内存并不会立即返回给操作系统，而是被缓存至内存池中，以便于后续的分配请求能够快速重用这些已释放的内存块，从而减少系统调用的次数和相关的性能开销。
-
-对于大内存块的分配，`malloc()` 则会使用 `mmap()` 系统调用。这种方式在首次访问时可能会触发{==缺页异常==}，因为分配的内存初始处于未映射状态，需要操作系统介入以建立虚拟地址到物理内存的映射。这一机制相较于 `brk()` 系统调用，会带来更高的性能成本。
-
-## mmap()
-
-`mmap()`用于内存映射，将一块区域映射到自己的进程地址空间中，分为两种：
-
-- 文件映射：将磁盘上的文件映射到进程的地址空间中。
-- 匿名映射：不映射文件，映射物理内存
-
-针对其他进程是否可见，又分为：
-
-- 私有映射
-- 共享映射
-
-于是`mmap()`主要有四种工作模式：
-
-- 私有匿名映射：通常用于分配大块内存
-- 共享匿名映射：常用于父子进程通信
-- 私有文件映射：常用于动态库加载
-- 共享文件映射：常用于进程间通信
-
-`mmap()`的函数原型如下：
+最基本的内存分配的单位是`malloc chunk`，简称 chunk。它包含 header 和 body 两部分：
 
 ```C
-void *mmap(void *addr, size_t length, int prot, int flags, int fd, off_t offset);
+struct malloc_chunk{
+    INTERNAL_SIZE_T prev_size;  //前一个chunk的大小
+    INTERNAL_SIZE_T size;       //当前chunk的大小
+
+    struct malloc_chunk* fd;    //指向上一个空闲的chunk
+    struct malloc_chunk* bk;    //指向下一个空闲的chunk
+
+    struct malloc_chunk* fd_nextsize;
+    struct malloc_chunk* bk_nextsize;
+};
 ```
 
-> addr：想要映射的内存起始地址，通常设置为NULL，即由系统自动选定
+每次调用`malloc()`函数申请内存时，分配器都会分配一个大小合适的 chunk，然后将 body 部分的 user data 的地址返回。在调用`free()`释放内存后，chunk 并不会归还给内核，而是由 glibc 管理起来。
 
-> length：映射到内存的文件长度
+#### 空闲链表
 
-> prot：映射区的保护方式，可以是PROT_READ、PROT_WRITE等
+相似大小的 chunk 串联成一个空闲链表，下次分配的时候直接从链表中取一个 chunk 即可。这样的一个链表称为 bin。ptmalloc 中根据内存块的大小，总共有 fastbins、smallbins、largebins 和 unsortedbins 四种 bin。
 
-> flags：映射选项：可以是MAP_SHARED、MAP_PRIVATE、MAP_ANONYMOUS等
+另外还有一个特殊的 bin 称为 top chunk，当没有空闲的 chunk 可用时，或者需要分配的 chunk 大小超过了最大的 bin 时，就会从 top chunk 处分配。
 
-> fd：想要映射的文件描述符
+#### malloc
 
-> offset：想要映射的文件内的偏移量
+`malloc()`函数会根据要申请内存的大小，从不同的 bin 中查找合适的 chunk。如果没有找到，就向操作系统发起内存申请。
 
 
+`malloc()`函数在 glibc 中的实现名为`public_mALLOc()`:
+
+```C
+Void_t *public_mALLOc(size_t bytes) {
+    //选择分配区，并加锁
+    arena_lookup(ar_ptr);
+    arena_lock(ar_ptr, bytes);
+
+    //从分配区申请内存
+    victim = _int_malloc(ar_ptr, bytes);
+
+    //如果分配失败，换一个分配球
+    ......
+
+    //释放锁并返回
+    mutex_unlock(&ar_ptr->mutex);
+    return victim;
+}
+```
+
+真正的申请逻辑在`_int_malloc()`函数中，这里只列出其骨干逻辑：
+
+```C
+static Void_t *_int_malloc(mstate av, size_t bytes){
+    //对齐字节数
+    INTERNAL_SIZE_T nb;
+    checked_request2size(bytes, nb);
+
+    //1.从fastbins中分配
+    if((unsigned long)(nb) <= (unsigned long)(get_max_fast())>){
+        .......
+    }
+
+    //2.从smallbins中分配
+    if(in_smallbin_range(nb)){
+        .......
+    }
+
+    for(;;){
+        //3.遍历搜索unsortedbins
+        while((victim = unsorted_chunks(av)->bk) != unsorted_chunks(av)){
+            //判断是否对chunk进行切割
+            .......
+
+            //判断是否精准匹配
+            .......
+
+            //若不精准匹配，将对应chunk放到bins中
+            .......
+
+            //避免遍历unsortedbins太多时间
+            if(++iters >= MAX_ITERS){
+                break;
+            }
+        }
+    //4.从largebins中分配
+    .......
+
+    //5.尝试从top chunk中分配
+use_top:
+    victim = av->top;
+    size = chunksize(victim);
+    .......
+
+    //分配区中申请失败，向操作系统申请
+    void *p = sYSMALLOc(nb, av);
+    }
+}
+```
+
+在`sYSMALLOc()`函数中，调用`mmap()`函数向操作系统申请内存：
+
+```C
+static Void_t *sYSMALLOc(size_t bytes, mstate av){
+    ......
+    mm = (char *)(MMAP(0, size, PROT_READ|PROT_WRITE, MAP_PRIVATE));
+    ......
+}
+```

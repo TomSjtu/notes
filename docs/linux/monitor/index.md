@@ -1,13 +1,17 @@
-# ebpf技术
+# 性能观测技术
 
 ## 基础知识
 
-- [eBPF入门](./intro.md)
+- [性能观测技术概览](./intro.md)
 
-## 调试工具
+## 内核跟踪技术
 
-- [ftrace](./ftrace.md)
-- [探针](./probe.md)
+- [静态跟踪](./trace.md)
+- [动态跟踪](./probe.md)
+
+## ebpf
+
+- [eBPF入门](./ebpf.md)
 - [BPF工具](./bpftool.md)
 
 ## 参考资料

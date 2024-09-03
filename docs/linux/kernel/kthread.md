@@ -7,6 +7,223 @@
 1. 阻塞型：线程启动后就一直等待，直到内核唤醒它
 2. 周期型：线程启动后就按周期间隔运行
 
+## init线程
+
+init 线程是所有用户进程的父进程，它是系统启动的第一个进程，也是所有用户进程的祖先。在内核启动阶段，它作为内核线程，执行一系列初始化任务：
+
+```C title="init/main.c"
+static int __ref kernel_init(void *unused)
+{
+	int ret;
+
+	/*
+	 * Wait until kthreadd is all set-up.
+	 */
+	wait_for_completion(&kthreadd_done);
+
+	kernel_init_freeable();	//
+	/* need to finish all async __init code before freeing the memory */
+	async_synchronize_full();
+	kprobe_free_init_mem();
+	ftrace_free_init_mem();
+	kgdb_free_init_mem();
+	exit_boot_config();
+	free_initmem();
+	mark_readonly();
+
+	/*
+	 * Kernel mappings are now finalized - update the userspace page-table
+	 * to finalize PTI.
+	 */
+	pti_finalize();
+
+	system_state = SYSTEM_RUNNING;
+	numa_default_policy();
+
+	rcu_end_inkernel_boot();
+
+	do_sysctl_args();
+
+	if (ramdisk_execute_command) {
+		ret = run_init_process(ramdisk_execute_command);
+		if (!ret)
+			return 0;
+		pr_err("Failed to execute %s (error %d)\n",
+		       ramdisk_execute_command, ret);
+	}
+
+	/*
+	 * We try each of these until one succeeds.
+	 *
+	 * The Bourne shell can be used instead of init if we are
+	 * trying to recover a really broken machine.
+	 */
+	if (execute_command) {
+		ret = run_init_process(execute_command);
+		if (!ret)
+			return 0;
+		panic("Requested init %s failed (error %d).",
+		      execute_command, ret);
+	}
+
+	if (CONFIG_DEFAULT_INIT[0] != '\0') {
+		ret = run_init_process(CONFIG_DEFAULT_INIT);
+		if (ret)
+			pr_err("Default init %s failed (error %d)\n",
+			       CONFIG_DEFAULT_INIT, ret);
+		else
+			return 0;
+	}
+
+	//查找可以执行的init程序
+	if (!try_to_run_init_process("/sbin/init") ||
+	    !try_to_run_init_process("/etc/init") ||
+	    !try_to_run_init_process("/bin/init") ||
+	    !try_to_run_init_process("/bin/sh"))
+		return 0;
+
+	panic("No working init found.  Try passing init= option to kernel. "
+	      "See Linux Documentation/admin-guide/init.rst for guidance.");
+}
+```
+
+### kernel_init_freeable函数
+
+该函数是 init 线程中最重要的初始化函数，内核在这里完成大部分的初始化工作，并准备跳入用户空间：
+
+```C
+static noinline void __init kernel_init_freeable(void)
+{
+	/* Now the scheduler is fully set up and can do blocking allocations */
+	gfp_allowed_mask = __GFP_BITS_MASK;
+
+	/*
+	 * init can allocate pages on any node
+	 */
+	set_mems_allowed(node_states[N_MEMORY]);
+
+	cad_pid = get_pid(task_pid(current));
+
+	smp_prepare_cpus(setup_max_cpus);
+
+	workqueue_init();
+
+	init_mm_internals();
+
+	rcu_init_tasks_generic();
+	do_pre_smp_initcalls();
+	lockup_detector_init();
+
+	smp_init();
+	sched_init_smp();
+
+	padata_init();
+	page_alloc_init_late();
+	/* Initialize page ext after all struct pages are initialized. */
+	page_ext_init();
+
+	do_basic_setup();
+
+	kunit_run_all_tests();
+
+	wait_for_initramfs();
+	console_on_rootfs();
+
+	/*
+	 * check if there is an early userspace init.  If yes, let it do all
+	 * the work
+	 */
+	if (init_eaccess(ramdisk_execute_command) != 0) {
+		ramdisk_execute_command = NULL;
+		prepare_namespace();
+	}
+
+	/*
+	 * Ok, we have completed the initial bootup, and
+	 * we're essentially up and running. Get rid of the
+	 * initmem segments and start the user-mode stuff..
+	 *
+	 * rootfs is available now, try loading the public keys
+	 * and default modules
+	 */
+
+	integrity_load_keys();
+}
+```
+
+`console_on_rootfs()`函数用于打开 /dev/console 设备，并将其设置为标准输入、标准输出和标准错误：
+```C
+/* Open /dev/console, for stdin/stdout/stderr, this should never fail */
+void __init console_on_rootfs(void)
+{
+	struct file *file = filp_open("/dev/console", O_RDWR, 0);
+
+	if (IS_ERR(file)) {
+		pr_err("Warning: unable to open an initial console.\n");
+		return;
+	}
+	init_dup(file);
+	init_dup(file);
+	init_dup(file);
+	fput(file);
+}
+```
+
+`prepare_namespace()`函数用于创建用户空间的根目录和文件系统：
+
+```C
+void __init prepare_namespace(void)
+{
+	if (root_delay) {
+		printk(KERN_INFO "Waiting %d sec before mounting root device...\n",
+		       root_delay);
+		ssleep(root_delay);
+	}
+
+	/*
+	 * wait for the known devices to complete their probing
+	 *
+	 * Note: this is a potential source of long boot delays.
+	 * For example, it is not atypical to wait 5 seconds here
+	 * for the touchpad of a laptop to initialize.
+	 */
+	wait_for_device_probe();
+
+	md_run_setup();
+
+	if (saved_root_name[0]) {
+		root_device_name = saved_root_name;
+		if (!strncmp(root_device_name, "mtd", 3) ||
+		    !strncmp(root_device_name, "ubi", 3)) {
+			mount_block_root(root_device_name, root_mountflags);
+			goto out;
+		}
+		ROOT_DEV = name_to_dev_t(root_device_name);
+		if (strncmp(root_device_name, "/dev/", 5) == 0)
+			root_device_name += 5;
+	}
+
+	if (initrd_load())
+		goto out;
+
+	/* wait for any asynchronous scanning to complete */
+	if ((ROOT_DEV == 0) && root_wait) {
+		printk(KERN_INFO "Waiting for root device %s...\n",
+			saved_root_name);
+		while (driver_probe_done() != 0 ||
+			(ROOT_DEV = name_to_dev_t(saved_root_name)) == 0)
+			msleep(5);
+		async_synchronize_full();
+	}
+
+	mount_root();
+out:
+	devtmpfs_mount();
+	init_mount(".", "/", NULL, MS_MOVE, NULL);
+	init_chroot(".");
+}
+```
+
 ## kthreadd线程
 
 我们知道Linux所有进程的祖先是0号 idle 进程，idle 进程创建了1号 init 进程。init 进程是所有用户进程的父进程。而内核线程同样也有自己的祖先那就是2号 kthreadd 线程。它的职责是创建和管理其他内核线程，它运行在一个循环中，不断遍历`kthread_create_list`链表，寻找新的内核线程创建请求。
