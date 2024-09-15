@@ -68,6 +68,7 @@ nav:
       - linux/kernel/others.md
       - linux/kernel/load.md
       - linux/kernel/task.md
+      - linux/kernel/wait.md
       - linux/kernel/sched.md
       - linux/kernel/ipc.md
       - linux/kernel/preempt.md

@@ -22,6 +22,8 @@ int poll(struct pollfd *fds, nfds_t nfds, int timeout);
 
 select实现多路复用的方式是，将已连接的socket都放到一个文件描述符的集合，然后调用`select()`函数，将该集合拷贝到内核里，内核会遍历这个集合，检查是否有事件产生，然后标记产生事件的socket。接着将整个集合拷贝回用户态，用户态继续遍历该集合找到可读写的socket然后再处理。
 
+![I/O多路复用示意图](../../images/kernel/multi-IO.png)
+
 select的缺点是：
 
 1. 每次调用select，都需要把fd集合从用户态拷贝到内核态，再从内核态拷贝至用户态，这个开销在fd很多时会很大
@@ -76,3 +78,4 @@ epoll支持两种触发方式，分别是边缘触发和水平触发。
 
 在使用I/O多路复用时，最好搭配非阻塞I/O一起使用。
 
+![内核调用逻辑](../../images/kernel/multi-IO-kernel.png)

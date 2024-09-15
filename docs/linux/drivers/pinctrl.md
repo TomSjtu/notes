@@ -56,7 +56,7 @@ pinctrl子系统的设备树分为两部分：
 
 一个典型的client device引用引脚配置的实例如下：
 
-```C
+```DTS
 device-node-name {  
     pinctrl-names = "default", "init", "sleep";   
     pinctrl-0 = <pin-config-0-a>; 

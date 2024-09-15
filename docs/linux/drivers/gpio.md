@@ -1,10 +1,12 @@
 # GPIO子系统
 
-GPIO全称“General Purpose Input/Output”，通用输入输出。
+对于像 LED 这样直接连接到 GPIO 控制器的设备，可以直接使用 GPIO 子系统的方式来描述设备所使用的 GPIO 资源。
+
+![GPIO子系统](../../images/kernel/gpio.png)
 
 ## 设备树描述
 
-对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399的GPIO控制器而言，由原厂BSP工程师编写代码如下：
+对于 GPIO 控制器，对应的设备节点需要声明 gpio-controller 属性，并设置 #gpio-cells 的大小，比 rk3399 的 GPIO 控制器而言，由原厂 BSP 工程师编写代码如下：
 
 ```DTS title="rk3399.dtsi"
 
@@ -35,7 +37,7 @@ gpio1: gpio1@ff730000 {
 };
 ```
 
-驱动开发人员使用GPIO设备时，需要在节点中声明：
+驱动开发人员使用 GPIO 设备时，需要在节点中声明：
 
 ```DTS title="rk3399-firefly.dts"
 
@@ -58,14 +60,10 @@ leds {
 };
 ```
 
-GPIO还可以有其他属性，比如：
+GPIO 还可以有其他属性，比如：
 
-- ngpios=<18>：表示该GPIO控制器有18个引脚
-- gpio-ranges=<&pinctrl1 0 20 10>：表示该GPIO的0 ~ 9引脚映射到pinctrl1的20 ~ 29引脚
-
-!!! info
-
-	设备驱动可以通过`of_get_named_gpio()`函数获取GPIO。
+- ngpios=<18>：表示该 GPIO 控制器有 18 个引脚
+- gpio-ranges=<&pinctrl1 0 20 10>：表示该 GPIO 的 0 ~ 9 引脚映射到 pinctrl1 的 20 ~ 29 引脚
 
 ## 数据结构
 
@@ -98,7 +96,7 @@ struct gpio_device {
 };
 ```
 
-每个GPIO controller都会用一个`struct gpio_device`结构体来表示，其中：
+每个 GPIO controller 都会用一个`struct gpio_device`结构体来表示，其中：
 
 - 在`struct gpio_chip`中提供引脚操作函数
 
@@ -172,7 +170,7 @@ struct gpio_chip {
 
 使用`gpiochip_add_data()`宏来注册`struct gpio_chip`。
 
-GPIO中的每个引脚都对应一个`struct gpio_desc`，引脚信息被保存在一个链表中：
+GPIO 中的每个引脚都对应一个`struct gpio_desc`，引脚信息被保存在一个链表中：
 
 ```C
 struct gpio_desc {
@@ -221,7 +219,7 @@ struct gpio_desc {
 
 ## GPIO函数接口
 
-GPIO的函数接口有两套：legacy模式和基于descriptor的。由于第一套已被废弃，这里只介绍基于descriptor的。
+GPIO 的函数接口有两套：legacy 模式和基于 descriptor 的。由于第一套已被废弃，这里只介绍基于 descriptor 的。
 
 函数定义在<include/linux/gpio/consumer.h\>中：
 
@@ -250,7 +248,7 @@ struct gpio_descs *devm_gpiod_get_array(struct device *dev,
 						     enum gpiod_flags flags);
 ```
 
-其中gpiod_flags如下：
+其中 gpiod_flags 如下：
 ```C
 enum gpiod_flags {
 	GPIOD_ASIS	= 0,
@@ -283,7 +281,7 @@ foo_device {
 };
 ```
 
-这里led-gpios中的led就是function，&gpioa是特定GPIO控制器节点的pointer handle，数字15、16、17是每个GPIO控制器的编号，GPIO_ACTIVE_HIGH就是标志位。在驱动程序中获取GPIO资源可以这么做：
+这里 led-gpios 中的 led 就是 function，&gpioa 是特定 GPIO 控制器节点的 pointer handle，数字 15、16、17 是每个 GPIO 控制器的编号，GPIO_ACTIVE_HIGH 就是标志位。在驱动程序中获取 GPIO 资源可以这么做：
 
 ```C
 struct gpio_desc *gpio_red = gpiod_get_index(dev, "led", 0, GPIO_ACTIVE_HIGH);
@@ -292,7 +290,7 @@ struct gpio_desc *gpio_blue = gpiod_get_index(dev, "led", 2, GPIO_ACTIVE_HIGH);
 struct gpio_desc *gpio_power = gpiod_get(dev, "power", GPIO_ACTIVE_LOW);
 ```
 
-编写需要控制GPIO的驱动程序时，必须指定方向。可以直接使用带flags参数的`devm_gpio_get()`函数，或者如果flags设置为GPIOD_ASIS时，就可以在随后调用`gpiod_direction_input()`或`gpiod_direction_output()`来设置方向：
+编写需要控制 GPIO 的驱动程序时，必须指定方向。可以直接使用带 flags 参数的`devm_gpio_get()`函数，或者如果 flags 设置为 GPIOD_ASIS 时，就可以在随后调用`gpiod_direction_input()`或`gpiod_direction_output()`来设置方向：
 
 ```C
 int gpiod_direction_input(struct gpio_desc *desc);
@@ -305,9 +303,9 @@ int gpiod_get_value(const struct gpio_desc *desc);
 void gpiod_set_value(struct gpio_desc *desc, int value);
 ```
 
-Linux驱动程序不关注物理电路的实现，所有的`gpoid_set_value_xxx()`函数均使用逻辑值进行操作——将参数value解释为“有效”（“1”）或者“无效”（“0”），函数会自动地设置响应的物理电路。
+Linux 驱动程序不关注物理电路的实现，所有的`gpoid_set_value_xxx()`函数均使用逻辑值进行操作——将参数 value 解释为“有效”（“1”）或者“无效”（“0”），函数会自动地设置响应的物理电路。
 
-在GPIO的世界中，有两种常见的逻辑电平：
+在 GPIO 的世界中，有两种常见的逻辑电平：
 
 - 高电平有效（High Active）：在这个模式下，逻辑高（通常是1或3V以上）表示引脚的激活状态。
 - 低电平有效（Low Active）：在这个模式下，逻辑低（通常是0V或GND）表示引脚的激活状态。
@@ -324,14 +322,14 @@ Linux驱动程序不关注物理电路的实现，所有的`gpoid_set_value_xxx(
 	| gpiod_set_value(gpio, 1) | 低电平有效 | 配置为低电平 |
 	
 
-中断请求可以通过GPIO触发，使用以下函数获取与给定GPIO对应的irq号：
+中断请求可以通过 GPIO 触发，使用以下函数获取与给定 GPIO 对应的 irq 号：
 ```C
 int gpiod_to_irq(const struct gpio_desc *desc);
 ```
 
-该函数通过传递一个GPIO descriptor，返回irq号，如果该GPIO没有与中断控制器连接，则返回-EINVAL。
+该函数通过传递一个 GPIO descriptor，返回 irq 号，如果该 GPIO 没有与中断控制器连接，则返回 -EINVAL。
 
-该函数返回的irq号可以用在`request_irq()`和`free_irq()`函数中。
+该函数返回的 irq 号可以用在`request_irq()`和`free_irq()`函数中。
 
 释放GPIO：
 ```C
@@ -343,9 +341,9 @@ void gpiod_put_array(struct gpio_descs *descs);
 
 ## 与Pinctrl子系统交互
 
-1. 在GPIO设备树中使用`gpio-ranges`来描述它们之间的联系
+1. 在 GPIO 设备树中使用`gpio-ranges`来描述它们之间的联系
 2. 解析这些联系，在注册`struct gpio-chip`时自动调用
-3. 在GPIO驱动程序中，提供`gpio_chip->request`函数；在Pinctrl子系统中，提供pmxops->gpio_request_enable函数或者`pmxops->request`函数
+3. 在 GPIO 驱动程序中，提供`gpio_chip->request`函数；在 Pinctrl 子系统中，提供`pmxops->gpio_request_enable()`函数或者`pmxops->request()`函数
 
 ![GPIO和Pinctrl的映射](../../images/kernel/GPIO和Pinctrl的映射.png)
 

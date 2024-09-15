@@ -111,8 +111,8 @@ void *kmalloc(size_t size, gfp_t flags);
 | 中断处理程序 | GFP_ATOMIC |
 | 软中断 | GFP_ATOMIC |
 | TASKLET | GFP_ATOMIC |
-| 可以睡眠的DMA内存 | （GFP_DMA \| GPF_KERNEL） |
-| 不可以睡眠的DMA内存 | （GFP_DMA）\| GFP_ATOMIC |
+| 可以睡眠的DMA内存 | GFP_DMA \| GPF_KERNEL |
+| 不可以睡眠的DMA内存 | GFP_DMA \| GFP_ATOMIC |
 
 值得注意的是，尽管`kmalloc()`函数在没有空闲内存时会失败，但是内核总会尽可能满足这个内存分配请求。因此，在系统内存空间不足的情况下，当系统为了满足`kmalloc()`的分配请求，会试图与磁盘交换尽可能多的页空间而导致系统卡死。
 

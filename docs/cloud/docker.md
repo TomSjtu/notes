@@ -17,6 +17,27 @@ Docker 的整体架构如下图所示：
 3. 从压缩文件 tar 构建
 4. 从 Dockerfile 构建
 
+由于众所周知的原因，docker 在国内访问受限，下面是一个可行的拉取 docker 镜像的配置：
+
+```SHELL
+$ cat /etc/docker/daemon.json 
+{
+  "registry-mirrors": [
+    "https://dockerhub.azk8s.cn",
+    "https://reg-mirror.qiniu.com",
+    "https://registry.docker-cn.com",
+    "http://hub-mirror.c.163.com",
+    "https://3laho3y3.mirror.aliyuncs.com",
+    "http://f1361db2.m.daocloud.io",
+    "https://mirror.ccs.tencentyun.com",
+    "https://docker.m.daocloud.io",
+    "https://noohub.ru",
+    "https://huecker.io",
+    "https://dockerhub.timeweb.cloud"
+  ]
+}
+```
+
 ## Docker常用命令
 
 Docker API 参考：[Docker命令](https://docs.docker.com/reference/cli/docker/)

@@ -136,7 +136,7 @@ struct mm_struct *mm;
 struct mm_struct *active_mm;            
 ```
 
-这些字段与[进程地址空间](./vma.md)相关。
+这些字段的详细内容见[虚拟内存管理](./vma.md)。
 
 ### 文件与文件系统
 
@@ -147,7 +147,60 @@ struct fs_struct *fs;
 struct files_struct *files;
 ```
 
-这些字段与[虚拟文件系统](./vfs.md)相关。
+进程的文件位置等信息是由`fs_strcut`来描述的：
+
+```C
+struct fs_strcut {
+	.......
+	struct path root, pwd;
+};
+
+struct path {
+	struct vfsmount *mnt;
+	struct dentry *dentry;
+};
+```
+
+`struct dentry`结构体是对一个目录项的描述，`fs_struct`中包含了进程的根目录和当前工作目录。
+
+每个进程用`struct files_struct`来记录打开的文件描述符：
+
+```C
+struct files_struct {
+	......
+	struct fdtable __rcu *fdt;
+
+	int next_fd;
+};
+```
+
+`fdtable`数组的下标就是文件描述符，其中 0、1、2 总是分配给标准输入、标准输出、标准错误。
+
+### 命名空间
+
+命名空间是用来隔离进程的一种方式，进程只能看到与自己相关的一部分资源。
+
+```C
+struct nsproxy {
+	atomic_t count;
+	struct uts_namespace *uts_ns;
+	struct ipc_namespace *ipc_ns;
+	struct mnt_namespace *mnt_ns;
+	struct pid_namespace *pid_ns;
+	struct user_namespace *user_ns;
+	struct net *net_ns;
+	......
+};
+```
+
+Linux 实现了多种不同的命名空间：
+
+- UTS 命名空间：用来隔离主机名和域名
+- IPC 命名空间：用来隔离进程间通信
+- MNT 命名空间：用来隔离文件系统挂载点
+- PID 命名空间：用来隔离进程ID
+- USER 命名空间：用来隔离用户ID和组ID
+- NET 命名空间：用来隔离网络资源
 
 ### 内核栈
 
@@ -189,86 +242,77 @@ struct thread_info {
 current_thread_info()->task
 ```
 
-## 进程组织形式
-
-要明白进程之间是如何组织的，首先要知道双向链表这个数据结构。双向链表就是同时有prev和next指针的链表，分别指向前一个和后一个元素。Linux使用双向链表将所有进程的描述符全部连接起来。
-
-### 运行队列
-
-当内核需要寻找一个新进程运行时，必须只考虑已处于TASK_RUNNING状态的进程，于是就有了运行队列。为了提高调度程序的运行速度，内核为每个优先级都维护了一个链表。在多处理器中，每个CPU都有自己的运行队列。运行队列是Linux调度算法的基础。更详细的内容请参考[进程调度](./sched.md/)。
-
-### 等待队列
-
-等待队列在内核中有很多用途，尤其是用在中断处理和进程同步。运行中的进程往往需要等待某些事件的发生，它可以主动将自己放入等待队列，然后进入睡眠状态。当事件发生后，由内核负责唤醒它们。
-
-等待队列由双向链表实现，每个等待队列都有一个等待队列头（wait queue head），一个类型为`wait_queue_head_t`的数据结构：
-
-```C
-struct __wait_queue_head {
-    spinlock_t lock;
-    struct list_head task_list;
-};
-
-typedef struct __wait_queue_head wait_queue_head_t;
-```
-
-因为等待队列主要是由中断处理程序和内核函数修改的，因此必须有锁加以保护。等待队列链表中的元素为：
-
-```C
-struct __wait_queue {
-    unsigned int flags;
-    struct task_struct *task;
-    wait_queue_func_t func;
-    struct list_head task_list;
-};
-typedef struct __wait_queue wait_queue_t;
-```
-
-> flags：表示该进程是互斥还是非互斥进程。互斥进程表示多个进程在等待相同的事件，因此产生了竞争关系，此时内核只需要唤醒其中一个进程即可。而非互斥进程在发生指定事件后总是被唤醒。
-
-> func：负责唤醒睡眠进程的函数。
-
-> task_list：等待队列链表，链表中的每个元素都代表一个睡眠中的进程。
-
 ## 进程生命周期
 
 ![进程管理](../../images/kernel/task.png)
 
-### 进程创建
+### fork系统调用
 
-应用程序在用户空间创建进程有两种场景：
+`fork()`函数用来创建一个新的进程，Linux 6.1 版本对其进行了修改，之前的版本用`do_fork()`函数来实现：
 
-1. 子进程和父进程共享一个ELF文件
-2. 子进程需要加载自己的elf文件，例如shell
-
-为了应对这两个需求，内核采用了{==fork then exec==}两段式来创建进程。对于场景1，直接`fork()`即可；对于场景2，先`fork()`，然后再`exec()`。`fork()`用来拷贝当前进程并创建一个子进程，`exec()`负责读取可执行文件并将其载入地址空间开始运行。
-
-完全复制一个父进程的资源开销非常大，特别是对于场景2，根本没有必要拷贝父进程的资源，因为新的进程会立即加载新的elf文件。不论是用户态还是内核态都存在着大量复制进程的操作，为了提升性能，Linux引入了{==写时拷贝==}(copy-on-write)技术，这意味着在创建进程时，内核并不复制整个进程地址空间，而是暂时让父子进程共享。只有在需要写入时，数据才会被复制，从而使得各个进程拥有自己的地址空间。这种优化可以避免大量根本就不会被使用的数据，从而使得进程的创建非常迅速。复制进程的主要开销都集中在了复制父进程的页表上。在特定场合下，如果连父进程页表也不想复制，则可以使用`vfork()`函数。
-
-`fork()`函数底层由`clone()`系统调用实现，该函数更加灵活，可以通过设置一系列{==CLONE_FLAGS==}参数来指明父子进程需要共享的资源。Linux中进程与线程的最大区别就是在执行`clone()`系统调用时指定的共享资源不同。
-
-线程在创建时传递的参数如下：
-
-```C
-clone(CLONE_VM | CLONE_FS | CLONE_FILES | CLONE_SIGHAND, 0);
+```C title="linux-5.15:kernel/fork.c"
+SYSCALL_DEFINE0(fork)
+{
+	return do_fork(SIGCHILD, 0, 0, NULL, NULL);
+}
 ```
 
-上述代码指明了创建线程时需要共享地址空间、文件系统资源、文件描述符和信号处理程序。
+```C title="linux-6.1:kernel/fork.c"
+SYSCALL_DEFINE0(fork)
+{
+	struct kernel_clone_args args = {
+		.exit_signal = SIGCHLD,
+	};
 
-相比之下，一个普通的`fork()`的实现：
-
-```C
-clone(SIGCHLD, 0);
+	return kernel_clone(&args);
+}
 ```
 
-### 进程终结
+无论是哪种实现，都需要传递一个 flag 参数，可以在<include/uapi/linux/sched.h\>中找到具体定义：
 
-一个进程终结时，内核必须释放它所占用的资源并且告知父进程。一般来说，进程的终结是自身引起的，也可能是接收了一个不可忽略的信号或者是异常。
+- CLONE_VM：表示共享地址空间。
+- CLONE_FILES：表示共享文件描述符
+- CLONE_FS：表示共享文件系统信息
 
-当进程相关联的所有资源都被释放后，它处于EXIT_ZOMBIE状态。该状态也被称为僵尸状态，它的进程描述符被保留，等待父进程使用`wait()`系列函数回收。
+两种版本都会调用`copy_process()`函数来创建新的进程，然后调用`wake_up_new_task()`函数将新的进程添加到运行队列中：
 
-但是，如果父进程在子进程之前就退出了，那么必须有一个机制来保证子进程找到一个新的父进程，否则这些孤儿进程会永远处于僵尸状态，白白耗费资源。内核的解决办法是在当前线程组内找一个线程作为父进程，如果找不到，那就让init进程做父进程。
+```C
+static struct task_struct *copy_process(...)
+{
+	const u64 clone_flags = args->flags;
+	struct nsproxy *nsp = current->nsproxy;
+	......
 
+	//1.复制task_struct
+	struct task_struct *p;
+	p = dup_task_struct(current);
+	......
+
+	//2.复制files_struct
+	retval = copy_files(clone_flags, p);
+
+	//3.复制fs_struct
+	retval = copy_fs(clone_flags, p);
+
+	//4.复制mm_struct
+	retval = copy_mm(clone_flags, p);
+
+	//5.复制namespaces
+	retval = copy_namespaces(clone_flags, p);
+
+	//6.申请PID号
+	pid = alloc_pid(p->nsproxy->pid_ns_for_children, ...);
+	p->pid = pid_nr(pid);
+	if(clone_flags & CLONE_THREAD){
+		p->tgid = current->tgid;
+	}else{
+		p->tgid = p->pid;
+	}
+	......
+}
+```
+
+对于线程来说，与进程最重要的区别就是会不会拷贝父进程的地址空间。这是 Linux 系统中进程与线程的根本区别。
 
 
 

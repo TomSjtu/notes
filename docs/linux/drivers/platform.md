@@ -1,24 +1,17 @@
 # 平台总线模型
 
-对于I2C、SPI、USB这些常见的设备来说，Linux内核都会创建与之相对应的驱动总线。但是有些结构简单的设备，比如led、rtc时钟、蜂鸣器等，内核就不会自己创建驱动总线。为了使这部分设备的驱动开发也能遵循设备驱动模型，Linux内核引入了虚拟的总线——平台总线（platform bus）。平台总线用于管理和挂载那些没有相应物理总线的设备，这些设备被称为平台设备，对应的设备驱动被称为平台驱动。平台设备对于Linux驱动工程师是非常重要的，因为大多数的驱动代码，实际就是为了驱动平台设备。
+Platform 总线是 Linux 虚拟出来的一种总线，它是连接设备与驱动的抽象模型。该模型是 Linux 中所有总线的基本模型，体现了内核模块的解耦思想。后面的实际物理总线模型如 IIC、SPI、USB 等总线模型均基于此模型实现。
 
-Platform架构图如下所示：
+Platform 架构图如下所示：
 
-![platform架构](../../images/kernel/platform.gif)
+![platform](../../images/kernel/platform.png)
 
-从图片中我们可以看到：
-
-- platform bus：继承自bus模块，用于挂载platform设备。
-- platform device：继承自device模块，用于描述platform设备。
-- platform drvier：继承自device_driver模块，用于驱动platform设备。
-
-!!! info "查看platform节点"
-
-	platform的节点可以在/sys/bus/platform/devices下查看。
+- platform_device.c：描述硬件信息，比如寄存器地址、中断号。
+- platform_driver.c：描述驱动程序，比如如何操作 GPIO、如何申请中断。
 
 ## 平台总线
 
-在Linux平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用`platform_match()`函数对新增的设备或驱动进行配对。`struct bus_type platform_bus_type`用来描述平台总线——内核初始化的时候自动注册：
+在 Linux 平台设备驱动模型中，总线是最重要的一环，负责匹配设备和驱动。它维护着两个链表，里面记录着各个已经注册的平台设备和平台驱动。每当有新的设备或者是驱动加入到总线时，便会调用`platform_match()`函数对新增的设备或驱动进行配对。`struct bus_type platform_bus_type`用来描述平台总线——内核初始化的时候自动注册：
 
 ```C
 sturct bus_type platform_bus_type{
@@ -42,21 +35,29 @@ struct platform_device {
 	int		id;
 	bool		id_auto;
 	struct device	dev;
-	u64		platform_dma_mask;
-	struct device_dma_parameters dma_parms;
+	......
 	u32		num_resources;
 	struct resource	*resource;
 
 	const struct platform_device_id	*id_entry;
 	char *driver_override; /* Driver name to force a match */
-
-	/* MFD cell pointer */
-	struct mfd_cell *mfd_cell;
-
-	/* arch specific additions */
-	struct pdev_archdata	archdata;
+	......
 };
 ```
+
+> name：设备的名称，用来匹配驱动
+
+> id：设备的id号，用来区分同一类型的多个设备
+
+> id_auto：是否由内核自动分配id号
+
+> dev：通用设备结构体，用来描述设备的基本信息
+
+> num_resources：存储的硬件资源的个数
+
+> resource：描述硬件资源信息
+
+> id_entry：与驱动匹配成功后，被填充的匹配信息
 
 平台设备的工作是为驱动程序提供硬件信息，包括寄存器地址，中断号等。
 
@@ -73,9 +74,9 @@ struct resource {
 };
 ```
 
-> start、end： 指定资源的起始地址以及结束地址
+> start、end： 硬件资源的起始地址以及结束地址
 
-> name： 指定存储资源的名字，可以设置为NULL
+> name： 硬件资源名称
 
 > flags： 用于指定该资源的类型，在Linux中，资源包括I/O、Memory、Register、IRQ、DMA、Bus等多种类型，最常见的有以下几种：
 
@@ -86,7 +87,7 @@ struct resource {
 | IORESOURCE_IRQ | 用于指定该设备使用某个中断 |
 | IORESOURCE_DMA | 用于指定使用的DMA通道 |
 
-设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有{==IO端口映射==}和{==IO內存映射==}两种方式。对应于IO端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用IO内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式中，基本上没有IO地址空间，所以通常使用`IORESOURCE_MEM`。
+设备驱动程序的主要目的是操作设备的寄存器。不同架构的计算机提供不同的操作接口，主要有{==IO端口映射==}和{==IO內存映射==}两种方式。对应于 IO 端口映射方式，只能通过专门的接口函数（如inb、outb）才能访问；采用 IO 内存映射的方式，可以像访问内存一样，去读写寄存器。在嵌入式设备中，基本上没有 IO 地址空间，所以通常使用`IORESOURCE_MEM`。
 
 注册/注销平台设备用到的函数如下：
 
@@ -96,30 +97,6 @@ void platform_device_unregister(struct platform_device *pdev);
 ```
 
 这两个函数应该在模块的进入与退出函数中被调用。
-
-
-!!! example "内核platform的注册"
-
-	```C
-	int __init platform_bus_init(void)
-	{
-		int error;
-
-		early_platform_cleanup();
-
-		error = device_register(&platform_bus);
-		if (error) {
-			put_device(&platform_bus);
-			return error;
-		}
-		error =  bus_register(&platform_bus_type);
-		if (error)
-			device_unregister(&platform_bus);
-		of_platform_register_reconfig_notifier();
-		return error;
-	}
-
-	```
 
 ## 平台驱动
 
@@ -138,13 +115,15 @@ struct platform_driver {
 };
 ```
 
-> probe：初始化平台设备
+> probe：设备与驱动匹配成功后执行该函数
 
-> remove：释放平台设备
+> remove：设备与驱动分离后执行该函数
 
-> suspend/resume：设备进入/退出休眠状态，电源管理相关
+> shutdown：设备关闭后执行该函数
 
-除了以上四个回调函数，最关键的还有一个`id_table`的指针。这个指针指向用来表示该驱动匹配的`platform_device`。
+> suspend/resume：设备进入/退出休眠状态后执行该函数
+
+除了以上几个回调函数，最关键的还有一个`id_table`的指针。这个指针指向了存放该驱动可以匹配设备的数组信息。
 
 我们来看一下`struct platform_device_id`结构体的定义：
 
@@ -159,7 +138,17 @@ struct platform_device_id {
 
 > driver_data：保存设备的配置。为了减少代码的冗余，一个驱动可以匹配多个设备。
 
-这里插个题外话，当手动实现`probe()`函数时涉及到内存分配的问题。很多驱动程序都使用`devm_kzalloc()`函数来分配内存。我们接触比较多的是`kmalloc()`或者`kzalloc()`来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而`devm_kzalloc()`函数则可以自动地释放内存。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点C++中RAII的思想。
+示例代码如下：
+
+```C
+static platform_device_id my_device_ids[] = {
+	{ "my-device1", 0 },
+	{ "my-device2", 1 },
+	{/*必须以空结尾表示结束*/}
+};
+```
+
+这里插个题外话，当手动实现`probe()`函数时涉及到内存分配的问题。很多驱动程序都使用`devm_kzalloc()`函数来分配内存。我们接触比较多的是`kmalloc()`或者`kzalloc()`来分配内存，但是这会带来一些潜在的问题。比如在初始化过程中如果失败了，那么就需要开发人员小心地释放内存。而`devm_kzalloc()`函数则可以自动地释放内存。其设计的核心思想就是资源由设备管理，一旦不需要也由设备来释放，这其实有点 C++ 中 RAII 的思想。
 
 注册/注销平台驱动的函数如下：
 
@@ -170,14 +159,14 @@ void platform_driver_unregister(struct platform_device *drv);
 
 ## 设备树的转换
 
-在旧版内核中，`platform_devcie`是静态定义的，硬件资源放在`struct resource`中。
+在旧版内核中，`platform_device`是静态定义的，硬件资源由`struct resource`描述。
 
-设备树替换了平台总线模型中对硬件资源描述的部分，内核将满足规则的device_node转换为platform_device：
+在设备树出现之后，描述硬件资源的工作就由设备树来完成，内核会将满足规则的`device_node`转换为`platform_device`：
 
-1. 根节点下包含compatible属性的子节点
-2. 节点中compatible属性的值为"simple-bus"、"simple-mfd"、"isa"之一，且包含compatible属性的子节点
+1. 根节点下包含`compatible`属性的子节点
+2. 节点中`compatible`属性的值为"simple-bus"、"simple-mfd"、"isa"之一，且包含`compatible`属性的子节点
 
-假设有`struct resource`定义如下：
+假设有`struct resource`代码如下：
 
 ```C
 static struct resource my_resources[] = {
@@ -194,7 +183,7 @@ static struct resource my_resources[] = {
 };
 ```
 
-那么可以在设备树中描述该资源：
+那么在设备树中就可以这样描述该资源：
 
 ```DTS
 /{
@@ -213,7 +202,7 @@ static struct resource my_resources[] = {
 
 ## 获取资源
 
-在平台设备中，`struct resource`结构体用来表示设备资源，可以通过`platform_get_resource()`函数来获取，它通常在`probe()`函数中执行：
+`platform_get_resource()`函数可以用来获取平台设备的资源，通常在`probe()`函数中执行：
 
 ```C
 struct resource *platform_get_resource(struct platform_device *dev, unsigned int type, unsigned int num);
@@ -225,7 +214,7 @@ struct resource *platform_get_resource(struct platform_device *dev, unsigned int
 
 > num：指定要获取资源的编号，这个编号指的是同flags下的索引。
 
-如果资源类型是IORESOURCE_IRQ，可以使用以下接口还获取中断引脚：
+如果资源类型是 IORESOURCE_IRQ，可以使用以下接口还获取中断资源：
 
 ```C
 int platform_get_irq(struct platform_device *pdev, unsigned int num);

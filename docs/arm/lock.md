@@ -2,7 +2,7 @@
 
 ## arch_spinlock_t
 
-早期的ARM平台spin lock的实现使用了`raw_spinlock_t`：
+早期的 ARM 平台 spin lock 的实现使用了`raw_spinlock_t`：
 
 ```C
 typedef struct {
@@ -10,9 +10,9 @@ typedef struct {
 }raw_spinlock_t;
 ```
 
-这个版本的锁实现简单—— 0表示unlocked，1表示locked。但存在严重的不公平性问题。也就是所有的线程无序地争抢spin lock，不管线程等待了多久。在冲突比较少的情况下，不公平性体现得并不明显。但是随着硬件的发展，处理器的核心数越来越多，多核之间的冲突愈发剧烈，不公平性就愈发明显。有人测试过在极端情况下，有的线程甚至要等待100,000次机会才会执行一次。
+这个版本的锁实现简单—— 0表示 unlocked，1表示 locked。但存在严重的不公平性问题。也就是所有的线程无序地争抢 spin lock，不管线程等待了多久。在冲突比较少的情况下，不公平性体现得并不明显。但是随着硬件的发展，处理器的核心数越来越多，多核之间的冲突愈发剧烈，不公平性就愈发明显。有人测试过在极端情况下，有的线程甚至要等待 100,000 次机会才会执行一次。
 
-现在的ARM平台spin lock使用以下定义：
+现在的 ARM 平台 spin lock 使用以下定义：
 
 ```C
 typedef struct {
@@ -28,7 +28,7 @@ typedef struct {
 
 该锁实际上就是所谓的{==票号自旋锁==}。它的原理类似于去银行办业务，每个进来的人先取一个号然后等待。业务员处理完一个人的业务之后就会叫号，如果叫的号和自己手里取的号是一样的，就轮到自己去办业务。
 
-owner代表当前正在办理业务的票号，next代表下一个人取号的号码。在最开始的时候，owner和next都等于0，第一个线程进来时，发现这两者相等，于是加锁，并且将next++。后来的线程在next的基础上累加并等待owner释放。当第一个线程释放之后，将owner++，此时owner又等于next，所以第二个线程加锁成功。以此类推。而owner与next的差值就代表排队等待线程的个数。
+owner 代表当前正在办理业务的票号，next 代表下一个人取号的号码。在最开始的时候，owner 和 next 都等于0，第一个线程进来时，发现这两者相等，于是加锁，并且将 next++。后来的线程在 next 的基础上累加并等待 owner 释放。当第一个线程释放之后，将 owner++，此时 owner 又等于 next，所以第二个线程加锁成功。以此类推。而 owner 与 next 的差值就代表排队等待线程的个数。
 
 ![票号自旋锁](../images/arm/ticket_lock.webp)
 
@@ -74,9 +74,9 @@ typedef struct {
 }arch_rwlock_t;
 ```
 
-lock的最高位代表是否有写线程进入临界区，低31位统计读线程个数。
+lock 的最高位代表是否有写线程进入临界区，低31位统计读线程个数。
 
-read_lock操作：
+read_lock 操作：
 
 ```C
 static inline void arch_read_lock(arch_rwlock_t *rw)
@@ -92,7 +92,7 @@ static inline void arch_read_lock(arch_rwlock_t *rw)
 }
 ```
 
-read_unlock操作：
+read_unlock 操作：
 
 ```C
 static inline void arch_read_unlock(arch_rwlock_t *rw)
@@ -102,7 +102,7 @@ static inline void arch_read_unlock(arch_rwlock_t *rw)
 }
 ```
 
-write_lock操作：
+write_lock 操作：
 
 ```C
 static inline void arch_write_lock(arch_rwlock_t *rw)
@@ -118,9 +118,9 @@ static inline void arch_write_lock(arch_rwlock_t *rw)
 }
 ```
 
-只有当rw->lock的值为0，写线程才可以进入临界区，同时将最高位置1。
+只有当 rw->lock 的值为0，写线程才可以进入临界区，同时将最高位置1。
 
-write_unlock操作：
+write_unlock 操作：
 ```C
 static inline arch_write_unlock(arch_rwlock_t *rw)
 {
@@ -143,7 +143,7 @@ sturct sempahore {
 };
 ```
 
-申请semaphore：
+申请 semaphore：
 
 ```C
 void down(struct semaphore *sem)
@@ -161,7 +161,7 @@ void down(struct semaphore *sem)
 }
 ```
 
-释放semaphore：
+释放 semaphore：
 
 ```C
 void up(struct semaphore *sem)
@@ -181,7 +181,7 @@ void up(struct semaphore *sem)
 
 ## mutex
 
-mutex类似于计数值只有1的semaphore，但是只有持有锁的人才能解锁，而信号量可以由任何一个线程释放。
+mutex 类似于计数值只有1的 semaphore，但是只有持有锁的人才能解锁，而信号量可以由任何一个线程释放。
 
 ```C
 struct mutex_waiter {
@@ -195,9 +195,9 @@ struct mutex {
 };
 ```
 
-mutex的owner字段记录持有锁的线程ID，wait_list记录等待锁的线程。
+mutex 的 owner 字段记录持有锁的线程 ID，wait_list 记录等待锁的线程。
 
-申请mutex：
+申请 mutex：
 
 ```C
 void mutex_take(struct mutex *mutex)
@@ -215,9 +215,9 @@ void mutex_take(struct mutex *mutex)
 } 
 ```
 
-当mutex->owner为0时，表示没有线程持有锁。当不能获取mutex时，将线程挂入等待链表。
+当 mutex->owner 为0时，表示没有线程持有锁。当不能获取 mutex 时，将线程挂入等待链表。
 
-释放mutex：
+释放 mutex：
 
 ```C
 int mutex_release(struct mutex *mutex)

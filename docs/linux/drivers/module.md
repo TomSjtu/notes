@@ -76,6 +76,8 @@
 
 模块导出符号以`EXPORT_SYMBOL(符号名)`作为前缀，导出的符号可以在其他模块中被访问。`EXPORT_SYMBOL_GPL(符号名)`导出的符号在模块加载时会受到GPL协议的约束。
 
+如果需要引用别的模块导出的符号，则需要在 Makefile 中指定 KBUILD_EXTRA_SYMBOLS 变量，并将其他模块的.ko 文件所在的路径添加到该变量中。
+
 ### 模块的声明与描述
 
 我们可以用`MODULE_AUTHOR`、`MODULE_DESCRIPTION`、`MODULE_LICENSE`、`MODULE_ALIAS`、`MODULE_DEVICE_TABLE`、`MODULE_VERSION`分别声明模块的作者、描述、许可证、别名、设备表、版本号。

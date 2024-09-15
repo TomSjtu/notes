@@ -243,32 +243,6 @@ struct sched_group{
 
 对于不支持内核抢占的操作系统而言，内核代码可以一直执行直到它完成为止。而 Linux 支持内核抢占——只要重新调度是安全的。相对于用户抢占，内核抢占显然首先需要保证安全性，为此 Linux 引入了`preempt_count`计数器，初始值为0。每当使用锁的时候数值加1，释放锁的时候数值减1。从中断返回内核空间的时候，内核会同时检查`TIF_NEED_RESCHED`和`preempt_count`标志：如果`need_resched`被设置，并且`preempt_count`为0，才会调用`schedule()`函数。
 
-### 睡眠与唤醒
-
-睡眠的进程处于一个特殊的状态，常见原因就是在等待文件I/O。内核将需要睡眠的进程标记为睡眠状态，从运行队列中移除，加入等待队列，然后调用`schedule()`选择下一个进程。
-
-等待队列是由等待某些事件发生的进程组成的简单链表。内核用`wait_queue_head_t`来表示等待队列。等待队列可以通过`DECLARE_WAITQUEUE()`静态创建或者是`init_waitqueue_head()`动态创建。
-
-等待事件有以下函数：
-
-```C title="include/linux/wait.h"
-int wait_event(wait_queue_head_t q, int condition);
-int wait_event_interruptible(wait_queue_head_t q, int condition);
-int wait_event_timeout(wait_queue_head_t q, int condition, unsigned int timeout);
-int wait_event_interruptible_timeout(wait_queue_head_t q, int condition, unsigned int timeout);
-```
-
-- condition == 0：休眠
-- condition == 1：唤醒
-
-它们都用于将进程加入到等待队列，直到某个事件发生。"interruptible"表示可以被信号唤醒，"timeout"表示等待超时时间。
-
-![睡眠操作](../../images/kernel/wait.png)
-
-唤醒操作通过`wake_up()`/`wake_up_interruptible()`完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到运行队列中。`wake_up_process()`用于唤醒特定的进程。
-
-需要注意的是，`wake_up()`函数会将所有等待队列中的进程唤醒，如果这些进程需要争抢资源，则会引发严重的性能问题。
-
 ## 调度相关的用户接口
 
 `chrt`命令可以查看和修改进程的调度策略，`taskset`命令可以为进程设置亲和性。

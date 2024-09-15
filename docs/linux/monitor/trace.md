@@ -180,14 +180,14 @@ $ trace-cmd clear
 1. 使用`perf`记录事件
 
     ```SHELL
-    $ perf record -F 99 -a -g -- sleep 60
+    $ perf record -F 100 -a -g -- sleep 60
     $ perf script > out.perf
     ```
 
 2. 折叠栈
 
     ```SHELL
-    $ ./stackcollapse-perf.pl out.perf > out.folded
+    $ FlameGraph/stackcollapse-perf.pl out.perf > out.folded
     ```
 
 3. 生成火焰图

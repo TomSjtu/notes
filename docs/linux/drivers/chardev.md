@@ -119,15 +119,28 @@ unsigned long copy_from_user(void *to, const void *from, unsigned long count);
 unsigned long copy_to_user(void *to, const void *from, unsigned long count);
 ```
 
-## 字符设备的注册
+## cdev结构体
 
-`struct cdev`结构体用来表示字符设备，`cdev_init()`函数可以将已经定义好的`file_operations`结构体与`struct cdev`结构体绑定起来：
+`struct cdev`结构体用来描述一个字符设备：
+
+```C
+struct cdev {
+    struct kobject kobj; //用来支持设备模型，每个内核对象（设备对象，驱动对象）都是kobj
+    struct module *owner;//指向模块的指针，一般使用THIS_MODULE指针即可。
+    const struct file_operations *ops; //字符设备向上提供的回调函数的接口。
+    struct list_head list;//内核的对象的管理链理。
+    dev_t dev; //字符设备的设备号。
+    unsigned int count; //设备的个数。
+}__randomize_layout;
+```
+
+`cdev_init()`函数可以将已经定义好的`file_operations`结构体与`struct cdev`结构体关联起来：
 
 ```C
 void cdev_init(struct cdev *cdev, const struct file_operations *fops);
 ```
 
-注册完毕之后，调用`cdev_add()`函数告知内核一个新的字符设备已准备就绪，而`cdev_del()`函数用来删除字符设备。
+初始化完毕之后，调用`cdev_add()`函数将`struct cdev`对象添加到内核管理链表中：
 
 ```C
 int cdev_add(struct cdev *p, dev_t dev, unsigned count);
@@ -135,25 +148,43 @@ int cdev_add(struct cdev *p, dev_t dev, unsigned count);
 void cdev_del(struct cdev *p);
 ```
 
-## 高级字符驱动操作
+## 自动创建设备节点
 
-### ioctl
+1. 创建设备类：
 
-大部分的驱动除了具备基本的读写功能之外，还需要对设备有控制能力，这些操作通过`ioctl()`函数来实现。
+    ```C
+    struct class *class_create(struct module *owner, const char *name);
 
-用户空间的`ioctl()`：`int ioctl(int fd, int cmd, ...)`。
+    void class_destroy(struct class *cls);
+    ```
 
-驱动程序的`ioctl()`：`long (*unlocked_ioctl)(struct file *filep, unsigned int cmd, unsigned long arg)`。
+2. 创建设备节点：
 
-`ioctl()`方法的cmd参数是用户与驱动交流的"协议"，内核提供了统一的命名格式，将32位的int型划分成4个段：
+    ```C
+    struct device *device_create(struct class *cls, struct device *parent, dev_t dev, void *drvdata, const char *fmt, ...);
 
-- dir：表示数据传输方向，占据2个bit，可以为_IOC_NONE、_IOC_READ、IOC_WRITE、_IOC_READ|_IOC_WRITE，分别表示无数据、读数据、写数据、读写数据。
+    void device_destroy(struct class *cls, dev_t dev);
+    ```
 
-- type：设备类型，占据8bit，为任意的char，作用是让ioctl命令有唯一的设备标识。
+## ioctl
 
-- nr：编号，为任意的unsigned char，多个ioctl命令递增。
+大部分的驱动除了具备基本的读写功能之外，还需要对设备有控制能力，这些操作通过`ioctl()`函数来实现：
 
-- size：指定了arg参数的数据类型和长度，ARM架构为14bit。
+![ioctl](../../images/kernel/ioctl.png)
+
+用户空间的`ioctl()`：`int ioctl(int fd, unsigned long request, ...)`。
+
+驱动程序的`ioctl()`：`long (*unlocked_ioctl)(struct file *filep, unsigned int cmd, unsigned long args)`。
+
+`ioctl()`方法的 cmd 参数是用户与驱动交流的"协议"，内核提供了统一的命名格式，将 32 位的 int 型划分成 4 个段：
+
+- dir：表示数据传输方向，占据 2 个 bit，可以为_IOC_NONE、_IOC_READ、IOC_WRITE、_IOC_READ|_IOC_WRITE，分别表示无数据、读数据、写数据、读写数据。
+
+- type：设备类型，占据 8bit，为任意的 char，作用是让`ioctl`命令有唯一的设备标识。
+
+- nr：编号，为任意的 unsigned char，多个`ioctl`命令递增。
+
+- size：指定了 arg 参数的数据类型和长度，ARM 架构为 14bit。
 
 内核提供了宏以生成上述格式的`ioctl()`命令：
 
@@ -181,6 +212,60 @@ void cdev_del(struct cdev *p);
 > _IOR：带读参数的ioctl命令
 
 > _IOWR：带读写参数的ioctl命令
+
+## 高级I/O模型
+
+Linux 一共提供五种 I/O 模型：
+
+1. 阻塞 I/O 模型：
+
+    - 特点：应用程序发起 I/O 操作后会被阻塞，直到数据准备就绪并被复制到应用程序的缓冲区中，此期间应用程序无法执行其他任务。
+    - 底层原理：依赖内核来管理数据的准备和传输。
+    - 优势：编程模型简单，不消耗 CPU 资源。
+    - 劣势：无法并发处理其他任务。
+    - 适用场景：简单的文件读写操作，不要求高并发的应用。
+
+![Block I/O Model](../../images/kernel/blocking-io.webp)
+
+2. 非阻塞 I/O 模型：
+
+    - 特点：应用程序发起 I/O 操作后立即获取一个返回值，应用程序可以继续执行其他任务。
+    - 底层原理：应用程序每次发起 I/O 操作，底层都需要检查 I/O 状态。
+    - 优势：不会因为 I/O 阻塞，提高了响应性。
+    - 劣势：应用程序需要不断轮询 I/O 状态，浪费 CPU 资源。
+    - 适用场景：需要提高程序响应性的情况。
+
+![non-blocking-io](../../images/kernel/non-blocking-io.webp)
+
+1. I/O 多路复用：
+
+    - 特点：单个进程可以监视多个 I/O 请求(select、poll、epoll)。
+    - 底层原理：应用程序发起 I/O 请求后，内核会监控每个请求的状态，当某个 I/O 就绪后，通知应用程序。
+    - 优势：可以同时处理多个 I/O 请求，提高了程序的并发处理能力。
+    - 劣势：编程模型复杂，需要手动处理 I/O 事件。
+    - 适用场景：高并发网络服务
+
+![IO multiplexing](../../images/kernel/IO-multiplexing.png)
+
+4. 信号驱动 I/O 模型：
+
+    - 特点：应用程序发起 I/O 请求后立即返回，内核检查 I/O 状态，在数据就绪时通过信号通知应用程序。
+    - 底层原理：内核通过信号机制来通知应用程序 I/O 事件。
+    - 优势：可以实现异步 I/O，提高了程序的响应能力。
+    - 劣势：在应用程序中处理信号，只能实现简单的并发。
+    - 适用场景：对异步通信要求较高的场景。
+
+![Signal-driven I/O Model](../../images/kernel/signal-driven-io.webp)
+
+5. 异步 I/O 模型：
+
+    - 特点：应用程序发起 I/O 请求后立即返回，当 I/O 操作完成后通知应用程序。
+    - 底层原理：依赖内核的异步通信机制。
+    - 优势：完全非阻塞，应用程序可以处理其他任务。
+    - 劣势：编程模型复杂。
+    - 适用场景：大规模数据处理应用。
+
+![Asynchronous I/O Model](../../images/kernel/asynchronous-io.webp)
 
 ## 简单示例
 
