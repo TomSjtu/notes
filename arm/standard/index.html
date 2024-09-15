@@ -566,6 +566,8 @@
       
         
       
+        
+      
     
     
       
@@ -745,6 +747,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -4148,11 +4171,12 @@
 <h1 id="_1">编程规范<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <h2 id="_2">数据类型<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <h2 id="_3">函数调用标准<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>ARMv8规定函数调用的标准如下：</p>
 <ol>
-<li>函数的前8个参数用X0 ~ X7寄存器传递</li>
+<li>函数的前8个参数用 X0 ~ X7 寄存器传递</li>
 <li>多于的参数用栈来传递</li>
-<li>函数的返回值保存在X0寄存器</li>
-<li>函数的返回地址保存在X30(LR0)寄存器</li>
+<li>函数的返回值保存在 X0 寄存器</li>
+<li>函数的返回地址保存在 X30 寄存器</li>
 </ol>
 
 

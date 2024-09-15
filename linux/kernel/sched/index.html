@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/kernel/sched/">
       
       
-        <link rel="prev" href="../task/">
+        <link rel="prev" href="../wait/">
       
       
         <link rel="next" href="../ipc/">
@@ -573,6 +573,8 @@
       
         
       
+        
+      
     
     
       
@@ -752,6 +754,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -946,22 +969,13 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
-    <span class="md-ellipsis">
-      睡眠与唤醒
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
+  <a href="#_14" class="md-nav__link">
     <span class="md-ellipsis">
       调度相关的用户接口
     </span>
@@ -4382,22 +4396,13 @@
   
 </li>
         
-          <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
-    <span class="md-ellipsis">
-      睡眠与唤醒
-    </span>
-  </a>
-  
-</li>
-        
       </ul>
     </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
+  <a href="#_14" class="md-nav__link">
     <span class="md-ellipsis">
       调度相关的用户接口
     </span>
@@ -4643,24 +4648,7 @@
 <p>当内核即将返回用户空间时，如果<code>TIF_NEED_RESCHED</code>被设置，就会导致<code>schedule()</code>函数被调用，此时就会发生用户抢占。从内核返回用户空间是安全的，既然它可以继续执行当前进程，它当然也可以去调度一个新的进程运行。不论是从内核态返回还是从中断返回，<code>TIF_NEED_RESCHED</code>标志都会被检查。</p>
 <h3 id="_13">内核抢占<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <p>对于不支持内核抢占的操作系统而言，内核代码可以一直执行直到它完成为止。而 Linux 支持内核抢占——只要重新调度是安全的。相对于用户抢占，内核抢占显然首先需要保证安全性，为此 Linux 引入了<code>preempt_count</code>计数器，初始值为0。每当使用锁的时候数值加1，释放锁的时候数值减1。从中断返回内核空间的时候，内核会同时检查<code>TIF_NEED_RESCHED</code>和<code>preempt_count</code>标志：如果<code>need_resched</code>被设置，并且<code>preempt_count</code>为0，才会调用<code>schedule()</code>函数。</p>
-<h3 id="_14">睡眠与唤醒<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h3>
-<p>睡眠的进程处于一个特殊的状态，常见原因就是在等待文件I/O。内核将需要睡眠的进程标记为睡眠状态，从运行队列中移除，加入等待队列，然后调用<code>schedule()</code>选择下一个进程。</p>
-<p>等待队列是由等待某些事件发生的进程组成的简单链表。内核用<code>wait_queue_head_t</code>来表示等待队列。等待队列可以通过<code>DECLARE_WAITQUEUE()</code>静态创建或者是<code>init_waitqueue_head()</code>动态创建。</p>
-<p>等待事件有以下函数：</p>
-<div class="language-C highlight"><span class="filename">include/linux/wait.h</span><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">);</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_interruptible</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">);</span>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="kt">int</span><span class="w"> </span><span class="nf">wait_event_interruptible_timeout</span><span class="p">(</span><span class="n">wait_queue_head_t</span><span class="w"> </span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">condition</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
-</code></pre></div>
-<ul>
-<li>condition == 0：休眠</li>
-<li>condition == 1：唤醒</li>
-</ul>
-<p>它们都用于将进程加入到等待队列，直到某个事件发生。"interruptible"表示可以被信号唤醒，"timeout"表示等待超时时间。</p>
-<p><img alt="睡眠操作" src="../../../images/kernel/wait.png" /></p>
-<p>唤醒操作通过<code>wake_up()</code>/<code>wake_up_interruptible()</code>完成，它将等待队列中的进程唤醒，将其设置为TASK_RUNNING状态，并加入到运行队列中。<code>wake_up_process()</code>用于唤醒特定的进程。</p>
-<p>需要注意的是，<code>wake_up()</code>函数会将所有等待队列中的进程唤醒，如果这些进程需要争抢资源，则会引发严重的性能问题。</p>
-<h2 id="_15">调度相关的用户接口<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h2>
+<h2 id="_14">调度相关的用户接口<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
 <p><code>chrt</code>命令可以查看和修改进程的调度策略，<code>taskset</code>命令可以为进程设置亲和性。</p>
 <table>
 <thead>
@@ -4726,8 +4714,8 @@
 </table>
 <p>Linux调度程序提供强制的处理器绑定机制，可以让进程强制运行在某个处理器上。这种强制的亲和性保存在<code>task_struct</code>的<code>cpus_allowed</code>这个位掩码标志中。每一位都对应一个系统可用的处理器。默认情况下，所有位都被设置以允许进程在系统的所有处理器上执行。</p>
 <p>Linux提供了两个最全的接口函数，可以完成上述接口的所有功能：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sched_setattr</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_attr</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sched_getattr</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_attr</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w"> </span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sched_setattr</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_attr</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">sched_getattr</span><span class="p">(</span><span class="kt">pid_t</span><span class="w"> </span><span class="n">pid</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">sched_attr</span><span class="w"> </span><span class="o">*</span><span class="n">attr</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">size</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span><span class="w"> </span>
 </code></pre></div>
 <p><code>struct sched_attr</code>结构体囊括了关于调度的一切控制参数：policy，nice，value，rt_priority，period，deadline等。</p>
 

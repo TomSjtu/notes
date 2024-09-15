@@ -566,6 +566,8 @@
       
         
       
+        
+      
     
     
       
@@ -745,6 +747,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -4482,8 +4505,8 @@
 
 
 <h1 id="a64">A64指令集<a class="headerlink" href="#a64" title="Permanent link">&para;</a></h1>
-<p>ARMv8 增加了新的64位指令集—— A64，它可以处理64位宽的寄存器和数据并且使用64位的指针来访问内存，但是其指令集的指令宽度依然是32位。ARMv8 兼容A32指令集，但 A64 指令集和 A32 指令集是不兼容的。</p>
-<p>ARMv8支持两种执行状态—— AArch64 和 AArch32。AArch64 状态用于执行64位指令，而 AArch32 状态用于执行32位指令。</p>
+<p>ARMv8 增加了新的 64 位指令集—— A64，它可以处理 64 位宽的寄存器和数据并且使用 64 位的指针来访问内存，但是其指令集的指令宽度依然是 32 位。ARMv8 兼容 A32 指令集，但 A64 指令集和 A32 指令集是不兼容的。</p>
+<p>ARMv8 支持两种执行状态—— AArch64 和 AArch32。AArch64 状态用于执行 64 位指令，而 AArch32 状态用于执行 32 位指令。</p>
 <h2 id="_1">加载与存储指令<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <h3 id="ldrstr">LDR和STR指令<a class="headerlink" href="#ldrstr" title="Permanent link">&para;</a></h3>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ldr 目标寄存器, &lt;存储器地址&gt;    //把存储器地址的数据加载到目标寄存器
@@ -4498,7 +4521,7 @@
 <p>函数传递的参数如果少于8个，则使用 X0-X7 寄存器传递，如果多于8个，则使用栈传递。SP 指针指向栈顶，从栈底到栈顶的这段空间，称为栈帧。</p>
 <p>A32 指令集提供了<code>PUSH</code>与<code>POP</code>指令来实现入栈与出栈，但是 A64 指令集已经移除，而转而使用加载与存储指令。</p>
 <h3 id="mov">MOV指令<a class="headerlink" href="#mov" title="Permanent link">&para;</a></h3>
-<p><code>MOV</code>指令只能用于数据在寄存器之间的搬移，以及往寄存器里写立即数，但是有限制。</p>
+<p><code>MOV</code>指令只能用于数据在寄存器之间的搬移，以及往寄存器里写立即数。</p>
 <h2 id="_3">算术与移位指令<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
 <h3 id="_4">条件操作码<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>PSTATE 中有四个条件标志位，分别是N、Z、C、V，代表上一次运算的结果。</p>
@@ -4606,7 +4629,7 @@
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>msr sctlr_el1, x20
 </code></pre></div>
 </div>
-<p>除了访问系统寄存器之外，MRS和MSR指令还可以访问与PSTATE寄存器相关的字段，比如CurrentEL等。</p>
+<p>除了访问系统寄存器之外，<code>MRS</code>和<code>MSR</code>指令还可以访问与 PSTATE 寄存器相关的字段，比如 CurrentEL 等。</p>
 <h3 id="_13">内存屏障指令<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
 <ul>
 <li><code>DMB</code>：数据存储屏障</li>

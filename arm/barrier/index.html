@@ -566,6 +566,8 @@
       
         
       
+        
+      
     
     
       
@@ -745,6 +747,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -4182,20 +4205,23 @@
 
 
 <h1 id="_1">内存屏障<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>编译器为了提高性能，在对指令优化时会对指令的顺序重新排列，这就是所谓的<mark class="critic">指令乱序</mark>。编译时的乱序访问在C语言中可以通过<code>barrier()</code>函数来规避：<code>#define barrier() __asm__ __volatile__("": : :"memory")</code>。在多处理器系统中，一个CPU核心的指令乱序可能会对其他CPU核心产生影响，进而造成不可预期的行为，特别是多核并发访问共享资源时。由于现代处理器普遍采用诸如高速缓存、超标量技术、乱序执行、多级流水线技术等，这些技术都会对指令的执行顺序进行重新排序，因此，为了确保程序在多处理器系统上的正确性，我们就需要合理使用内存屏障指令来确保程序按照我们预期的方式执行。</p>
-<p>ARM64处理器的屏障指令包括：</p>
+<p>编译器为了提高性能，在对指令优化时会对指令的顺序重新排列，这就是所谓的<mark class="critic">指令乱序</mark>。编译时的乱序访问在C语言中可以通过<code>barrier()</code>函数来规避：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#define barrier() __asm__ __volatile__(&quot;&quot;: : :&quot;memory&quot;)</span>
+</code></pre></div>
+<p>在多处理器系统中，一个 CPU 核心的指令乱序可能会对其他 CPU 核心产生影响，进而造成不可预期的行为，特别是多核并发访问共享资源时。由于现代处理器普遍采用诸如高速缓存、超标量技术、乱序执行、多级流水线技术等，这些技术都会对指令的执行顺序进行重新排序，因此，为了确保程序在多处理器系统上的正确性，我们就需要合理使用内存屏障指令来确保程序按照我们预期的方式执行。</p>
+<p>ARM64 处理器的屏障指令包括：</p>
 <ul>
-<li><mark class="critic">DMB</mark>（数据内存屏障）指令：保证在DMB指令之前的所有内存访问操作都已完成，才提交DMB指令之后的内存访问操作。</li>
-<li><mark class="critic">DSB</mark>（数据同步屏障）指令：位于此指令之前的所有内存访问、高速缓存、分支预测和TLB维护指令全部完成。</li>
-<li><mark class="critic">ISB</mark>（指令同步屏障）指令：flush流水线，使得在ISB指令之后的指令重新从指令缓存或内存中重新预取。</li>
+<li><mark class="critic">DMB</mark>（数据内存屏障）指令：保证在<code>DMB</code>指令之前的所有内存访问操作都已完成，才提交<code>DMB</code>指令之后的内存访问操作。</li>
+<li><mark class="critic">DSB</mark>（数据同步屏障）指令：位于此指令之前的所有内存访问、高速缓存、分支预测和 TLB 维护指令全部完成。</li>
+<li><mark class="critic">ISB</mark>（指令同步屏障）指令：flush 流水线，使得在<code>ISB</code>指令之后的指令重新从指令缓存或内存中重新预取。</li>
 </ul>
-<p>Linux内核中的自旋锁、互斥体等逻辑，都使用了内存屏障指令来确保线程安全。</p>
+<p>Linux 内核中的自旋锁、互斥体等逻辑，都使用了内存屏障指令来确保线程安全。</p>
 <h2 id="_2">共享属性域<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>DMB和DSB指令后面必须要带参数，用于指定共享属性域(share ability domain)。共享属性域用来描述内存屏障指令的作用域，ARMv8体系结构定义了4种域：</p>
+<p><code>DMB</code>和<code>DSB</code>指令后面必须要带参数，用于指定共享属性域(share ability domain)。共享属性域用来描述内存屏障指令的作用域，ARMv8 体系结构定义了4种域：</p>
 <ul>
 <li>全系统共享域：影响系统中的所有观察者</li>
 <li>外部共享域：由一个或多个内部共享域组成</li>
-<li>内部共享域：由多个处理器共享的可共享域，比如一个四核Cortex-A57集群</li>
+<li>内部共享域：由多个处理器共享的可共享域，比如一个四核 Cortex-A57 集群</li>
 <li>不指定共享域：只能由单个处理器访问</li>
 </ul>
 <p>内存屏障指令的参数如下表所示：</p>
@@ -4225,63 +4251,63 @@
 </tr>
 </tbody>
 </table>
-<p>还可以对内存屏障指令限定读写方向：仅读——LD后缀，仅写——ST后缀。比如ISHLD就是仅限制内部共享域的内存读指令。</p>
+<p>还可以对内存屏障指令限定读写方向：仅读——LD 后缀，仅写——ST 后缀。比如<code>ISHLD</code>就是仅限制内部共享域的内存读指令。</p>
 <h2 id="dmb">DMB指令<a class="headerlink" href="#dmb" title="Permanent link">&para;</a></h2>
-<p>DMB指令只能保证前后的内存访问指令按照顺序执行，内存访问指令包括普通的加载和存储指令，也包括数据高速缓存指令。</p>
-<p>DMB指令后面必须带参数，用来指定共享属性域。</p>
-<p>在深入了解DMB指令之前，有必要了解下什么是<mark class="critic">数据依赖</mark>和<mark class="critic">地址依赖</mark>。数据依赖指的是相邻的读写操作有数据上的依赖关系，比如从Xn地址读取内容到Xm，再把Xm地址中的值写入到Xy地址中，那么这些读写指令就存在依赖关系。伪代码如下所示：</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ldr xm, [xn]
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>str xm, [xy]
-</code></pre></div>
-<p>地址依赖指的是相邻的读写操作有地址上的依赖关系，比如从Xn地址读取内容到Xm地址中，再把另外一个值写入到Xm地址中，那么这些读写指令就存在地址依赖关系。伪代码如下所示：</p>
+<p><code>DMB</code>指令只能保证前后的内存访问指令按照顺序执行，内存访问指令包括普通的加载和存储指令，也包括数据高速缓存指令。</p>
+<p><code>DMB</code>指令后面必须带参数，用来指定共享属性域。</p>
+<p>在深入了解<code>DMB</code>指令之前，有必要了解下什么是<mark class="critic">数据依赖</mark>和<mark class="critic">地址依赖</mark>。数据依赖指的是相邻的读写操作有数据上的依赖关系，比如从 Xn 地址读取内容到 Xm，再把 Xm 地址中的值写入到 Xy 地址中，那么这些读写指令就存在依赖关系。伪代码如下所示：</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>ldr xm, [xn]
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>str xy, [xm]
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>str xm, [xy]
 </code></pre></div>
-<p>如果两条指令既没有数据依赖，也没有地址依赖，那么CPU就可以进行指令重排以最优化性能。比如有两条指令如下：</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ldr x0, [x1]
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>str x2, [x3]
+<p>地址依赖指的是相邻的读写操作有地址上的依赖关系，比如从 Xn 地址读取内容到 Xm 地址中，再把另外一个值写入到 Xm 地址中，那么这些读写指令就存在地址依赖关系。伪代码如下所示：</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>ldr xm, [xn]
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>str xy, [xm]
 </code></pre></div>
-<p>由于没有依赖关系，从CPU的角度看，先执行ldr指令还是str指令，从最终结果来看没有区别。如果想要确保CPU一定按照写的顺序来执行代码，就可以在这两条指令中间加上DMB指令：</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ldr x0, x[1]
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>dmb ish
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>str x2, [x3]
+<p>如果两条指令既没有数据依赖，也没有地址依赖，那么 CPU 就可以进行指令重排以最优化性能。比如有两条指令如下：</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>ldr x0, [x1]
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>str x2, [x3]
 </code></pre></div>
-<p>DMB指令后面的参数<code>ish</code>表示的是<mark class="critic">共享属性域</mark>，它表示的是共享属性域为<mark class="critic">内部共享</mark>。</p>
-<p>再来看一个例子：</p>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ldr x0, [x1]
+<p>由于没有依赖关系，从 CPU 的角度看，先执行<code>ldr</code>指令还是<code>str</code>指令，从最终结果来看没有区别。如果想要确保 CPU一定按照写的顺序来执行代码，就可以在这两条指令中间加上<code>DMB</code>指令：</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>ldr x0, x[1]
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>dmb ish
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>add x2, x3, x4
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>str x2, [x3]
 </code></pre></div>
-<p>尽管在ldr指令和add指令中间有一条DMB指令，但是仍然不能保证指令执行的顺序，因为DMB指令只能保证内存访问指令的执行次序，而ADD(算术运算指令)不是内存访问指令，它是有可能在ldr指令之前执行的。要解决这个问题，就得把DMB指令换成DSB指令。</p>
-<h2 id="dsb">DSB指令<a class="headerlink" href="#dsb" title="Permanent link">&para;</a></h2>
-<p>DSB指令要比DMB指令严格得多，DSB后面的指令必须满足下面两个条件才能开始执行：</p>
-<ol>
-<li>DSB指令前面的所有内存访问指令必须执行完。</li>
-<li>DSB指令前面的高速缓存、分支预测、TLB等维护指令也必须执行完。</li>
-</ol>
-<p>在多核系统中，高速缓存和TLB维护指令会广播到其他CPU核心，执行本地相关的维护操作。DSB指令等待广播并收到其他CPU核心发送的应答信号才算执行完。</p>
+<p>再来看一个例子：</p>
 <div class="language-text highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>ldr x0, [x1]
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>dsb ish
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>dmb ish
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>add x2, x3, x4
 </code></pre></div>
-<p>当使用了DSB指令后，ADD指令不能重排到LDR指令前面。</p>
+<p>尽管在<code>ldr</code>指令和<code>add</code>指令中间有一条<code>DMB</code>指令，但是仍然不能保证指令执行的顺序，因为<code>DMB</code>指令只能保证内存访问指令的执行次序，而<code>ADD</code>不是内存访问指令，它是有可能在<code>ldr</code>指令之前执行的。要解决这个问题，就得把<code>DMB</code>指令换成<code>DSB</code>指令。</p>
+<h2 id="dsb">DSB指令<a class="headerlink" href="#dsb" title="Permanent link">&para;</a></h2>
+<p><code>DSB</code>指令要比<code>DMB</code>指令严格得多，<code>DSB</code>后面的指令必须满足下面两个条件才能开始执行：</p>
+<ol>
+<li><code>DSB</code>指令前面的所有内存访问指令必须执行完。</li>
+<li><code>DSB</code>指令前面的高速缓存、分支预测、TLB 等维护指令也必须执行完。</li>
+</ol>
+<p>在多核系统中，高速缓存和 TLB 维护指令会广播到其他 CPU 核心，执行本地相关的维护操作。<code>DSB</code>指令等待广播并收到其他 CPU 核心发送的应答信号才算执行完。</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>ldr x0, [x1]
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>dsb ish
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>add x2, x3, x4
+</code></pre></div>
+<p>当使用了<code>DSB</code>指令后，<code>ADD</code>指令不能重排到<code>LDR</code>指令前面。</p>
 <h2 id="isb">ISB指令<a class="headerlink" href="#isb" title="Permanent link">&para;</a></h2>
-<p>ISB指令会冲刷流水线，然后从指令高速缓存后者内存中重新预取指令。</p>
-<p>ARMv8体系结构中有一个术语——<mark class="critic">更改上下文操作</mark>(context-switching operation)，包括高速缓存、TLB、分支预测以及改变系统控制寄存器等操作。使用ISB可以确保ISB之前的更改上下文操作的效果对ISB之后的指令可见。更改上下文操作的效果仅仅在上下文同步事件之后能看到。上下文同步事件包括：</p>
+<p><code>ISB</code>指令会冲刷流水线，然后从指令高速缓存后者内存中重新预取指令。</p>
+<p>ARMv8 体系结构中有一个术语——<mark class="critic">更改上下文操作</mark>(context-switching operation)，包括高速缓存、TLB、分支预测以及改变系统控制寄存器等操作。更改上下文操作的效果仅仅在上下文同步事件之后能看到。上下文同步事件分为三种：</p>
 <ul>
 <li>发生一个异常</li>
 <li>从一个异常返回</li>
-<li>执行了ISB指令</li>
+<li>执行了<code>ISB</code>指令</li>
 </ul>
-<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>mrs x1, cpacr_el1
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>orr x1, x1 # (0x3 &lt;&lt; 20)
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>msr cpacr_el1, x1
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>isb
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>fadd s0, s1, s2
+<p><code>ISB</code>指令刷新流水线，并从缓存或内存中重新获取指令，确保<code>ISB</code>指令之前的上下文更改操作对<code>ISB</code>指令之后的任何指令都可见。它还确保<code>ISB</code>指令之后的任何上下文更改操作对<code>ISB</code>指令之前的指令不可见。</p>
+<div class="language-text highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>mrs x1, cpacr_el1
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>orr x1, x1 # (0x3 &lt;&lt; 20)
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>msr cpacr_el1, x1
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>isb
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>fadd s0, s1, s2
 </code></pre></div>
-<p>将cpacr_el1的Bit[21:20]修改为0x3，可以打开浮点运算功能。紧接着的FADD指令如果没有ISB指令的保护，则可能会提前执行，即浮点运算功能还未启用时就执行，这会引发错误。</p>
+<p>将 cpacr_el1的 Bit[21:20] 修改为 0x3，可以打开浮点运算功能。紧接着的<code>FADD</code>指令如果没有<code>ISB</code>指令的保护，则可能会提前执行，即浮点运算功能还未启用时就执行，这会引发错误。</p>
 <p>案例分析请参考<a href="https://book.douban.com/subject/35803160/">ARM64体系结构编程与实践</a>P300页 ~ P311页。</p>
 
 

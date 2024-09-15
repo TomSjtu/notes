@@ -566,6 +566,8 @@
       
         
       
+        
+      
     
     
       
@@ -745,6 +747,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -4279,23 +4302,33 @@
 
 <h1 id="_1">异常处理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <h2 id="_2">异常<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>在 ARM64 体系结构中，异常可以分为同步异常和异步异常。异步异常就是常说的中断，来自于CPU核心的外部。</p>
+<p>在 ARM64 体系结构中，异常可以分为同步异常和异步异常，异步异常就是常说的中断。</p>
 <h3 id="_3">异常类型<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
-<p>1.中断</p>
+<ol>
+<li>
+<p>中断</p>
 <p>在 ARM64 处理器中，中断请求分为<mark class="critic">普通中断请求</mark>(IRQ)和<mark class="critic">快速中断请求</mark>(FIQ)，其中 FIQ 的优先级高于 IRQ。</p>
 <p>外设的中断引脚连接到中断控制器，中断控制器的 IRQ 线和 FIQ 线分别连接到 CPU 内部的 IRQ 引脚和 FIQ 引脚。外设的请求先送到中断控制器，由中断控制器仲裁并确定其优先级，然后再发送给 CPU。</p>
-<p>2.中止</p>
+</li>
+<li>
+<p>中止</p>
 <p>中止分为指令中止和数据中止，通常是访问内存地址时发生了错误，处理器的 MMU 捕获这些错误并报告给处理器。</p>
-<p>3.复位</p>
+</li>
+<li>
+<p>复位</p>
 <p>复位是优先级最高的一种异常处理，CPU 复位引脚产生复位信号，让 CPU 进入复位状态，然后重新启动。</p>
-<p>4.异常指令</p>
+</li>
+<li>
+<p>异常指令</p>
 <ul>
 <li><code>SVC</code>指令：系统调用指令，用于调用操作系统提供的服务</li>
 <li><code>HVC</code>指令：硬件虚拟化指令，用于调用虚拟化(Hypervisor)相关的服务</li>
 <li><code>SMC</code>指令：安全监视器调用指令，用于调用安全监视器提供的服务</li>
 </ul>
+</li>
+</ol>
 <h3 id="_4">异常等级<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
-<p>ARM64 处理器分为两种模式：<mark class="critic">特权模式</mark>和<mark class="critic">非特权模式</mark>。操作系统内核运行在特权模式，而用户态程序运行在非特权模式。除此之外，ARM64 还支持虚拟化扩展以及安全模式扩展，这四种模式被称为<mark class="critic">异常等级</mark>(Exception Level)：</p>
+<p>ARM64 处理器分为两种模式：<mark class="critic">特权模式</mark>和<mark class="critic">非特权模式</mark>。操作系统内核运行在特权模式，而用户态程序运行在非特权模式。除此之外，ARM64 还支持虚拟化扩展以及安全模式扩展，这四种模式被称为异常等级(Exception Level)：</p>
 <ul>
 <li>EL0：非特权模式，运行应用程序</li>
 <li>EL1：特权模式，运行操作系统内核</li>

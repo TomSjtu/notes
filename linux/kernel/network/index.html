@@ -573,6 +573,8 @@
       
         
       
+        
+      
     
     
       
@@ -752,6 +754,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -4177,6 +4200,7 @@
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">poll</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">pollfd</span><span class="w"> </span><span class="o">*</span><span class="n">fds</span><span class="p">,</span><span class="w"> </span><span class="kt">nfds_t</span><span class="w"> </span><span class="n">nfds</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">timeout</span><span class="p">);</span>
 </code></pre></div>
 <p>select实现多路复用的方式是，将已连接的socket都放到一个文件描述符的集合，然后调用<code>select()</code>函数，将该集合拷贝到内核里，内核会遍历这个集合，检查是否有事件产生，然后标记产生事件的socket。接着将整个集合拷贝回用户态，用户态继续遍历该集合找到可读写的socket然后再处理。</p>
+<p><img alt="I/O多路复用示意图" src="../../../images/kernel/multi-IO.png" /></p>
 <p>select的缺点是：</p>
 <ol>
 <li>每次调用select，都需要把fd集合从用户态拷贝到内核态，再从内核态拷贝至用户态，这个开销在fd很多时会很大</li>
@@ -4223,6 +4247,7 @@
 </ul>
 <p>如果使用边缘触发模式，进程在收到通知后，要尽可能地读写数据，以免数据丢失。</p>
 <p>在使用I/O多路复用时，最好搭配非阻塞I/O一起使用。</p>
+<p><img alt="内核调用逻辑" src="../../../images/kernel/multi-IO-kernel.png" /></p>
 
 
 

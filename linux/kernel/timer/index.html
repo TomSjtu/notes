@@ -573,6 +573,8 @@
       
         
       
+        
+      
     
     
       
@@ -752,6 +754,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -1161,7 +1184,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      动态定时器的使用
+      定时器的使用
     </span>
   </a>
   
@@ -4174,7 +4197,7 @@
         <li class="md-nav__item">
   <a href="#_2" class="md-nav__link">
     <span class="md-ellipsis">
-      动态定时器的使用
+      定时器的使用
     </span>
   </a>
   
@@ -4250,33 +4273,31 @@
 
 
 <h1 id="_1">定时器<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>定时器可以用来在将来的某个特定时间点执行特定的函数。被调度运行的函数会异步地运行，就像硬件中断发生时的场景一样。定时器函数必须以原子的方式运行。在SMP系统中，定时器函数会由注册它的同一CPU执行，以尽可能获得缓存的局部性。任何通过定时器函数访问的共享资源都应该针对并发访问进行保护。</p>
-<p>系统级别的定时器能以固定的频率产生中断，这种中断被称为<mark class="critic">定时器中断</mark>，它对应于软中断的TIMER_SOFTIRQ。</p>
-<p>系统定时器中断处理程序需要执行的操作有：</p>
-<ul>
-<li>更新系统启动以来所经过的时间</li>
-<li>更新时间和日期</li>
-<li>确定当前进程在每个CPU上已运行了多少时间</li>
-<li>运行超时的动态定时器</li>
-<li>更新资源使用统计</li>
-</ul>
+<p>定时器基于 tick，是根据系统 jiffies 来触发的，精度相对比较低。利用定时器，我们可以设定在未来的某个时刻，触发一个特定的事件。</p>
 <h2 id="jiffies">节拍率和jiffies变量<a class="headerlink" href="#jiffies" title="Permanent link">&para;</a></h2>
 <p>系统定时器的频率被称为<mark class="critic">节拍率</mark>（tick rate），产生的两次时钟中断的间隔就被称为<mark class="critic">节拍</mark>（tick），它等于节拍率分之一秒。内核通过时钟中断间隔来计算系统运行时间。</p>
-<p>定时器频率是通过静态预处理定义的，在系统启动时被设置，该值与体系结构相关。如果设置为1000，那么每秒就产生1000次中断（每1ms产生一次）。</p>
-<p>定时器频率应设置为一个理想的值，高HZ可以提高系统的性能，使得由时间驱动的事件更为精确。但同时也带来了额外的系统负担，因为处理器会被更频繁地打断去执行时钟中断处理程序。</p>
-<p>全局变量<code>jiffies</code>用来记录系统启动以来产生的节拍总数。内核在启动时将该变量初始化为0，此后每产生一次时钟中断该值就+1。因为一秒内时钟中断的次数等于HZ，所以<code>jiffies</code>一秒内增加的值也就为HZ。系统运行时间以秒为计，其值等于jiffies/HZ。</p>
-<p><code>jiffies</code>变量被定义为unsigned long类型。在32位体系结构上是32位。如果时钟频率为100HZ，那么497天后会溢出。如果是64位体系结构，可以放心地认为它不会溢出。</p>
+<p>定时器频率是通过静态预处理定义的，在系统启动时被设置，该值与体系结构相关。如果设置为 1000，那么每秒就产生 1000 次中断（每 1ms 产生一次）。</p>
+<p>定时器频率应设置为一个理想的值，高 HZ 可以提高系统的性能，使得由时间驱动的事件更为精确。但同时也带来了额外的系统负担，因为处理器会被更频繁地打断去执行时钟中断处理程序。</p>
+<p>全局变量<code>jiffies</code>用来记录系统启动以来产生的节拍总数。内核在启动时将该变量初始化为0，此后每产生一次时钟中断该值就+1。因为一秒内时钟中断的次数等于 HZ，所以<code>jiffies</code>一秒内增加的值也就为 HZ。系统运行时间以秒为计，其值等于 jiffies/HZ。</p>
+<p><code>jiffies</code>变量被定义为<code>unsigned long</code>类型。在32位体系结构上是32位。如果时钟频率为 100HZ，那么 497 天后会溢出。如果是64位体系结构，可以放心地认为它不会溢出。</p>
 <p>当<code>jiffies</code>变量的值溢出后再继续增加的话，它会回绕至0。内核使用<code>time_after</code>、<code>time_after_eq</code>、<code>time_before</code>和<code>time_before_eq</code>宏来判断两个时间值的关系。</p>
 <p>为了解决<code>jiffies</code>变量的溢出问题，内核引入了<code>jiffies_64</code>变量，这是一个64位的无符号整数。在64位架构上，这两个变量是一个值；但在32位架构上，对64位值的访问不是原子的。这意味着读取64位值的高32位和低32位时，变量的值可能会发生更新而导致获取错误的值。因此在32位架构上不能对64位的值直接读取，必须使用一个特殊的辅助函数<code>get_jiffies_64</code>。</p>
-<h2 id="_2">动态定时器的使用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p><code>struct timer_list</code>结构体用来表示一个动态定时器：
+<h2 id="_2">定时器的使用<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>一个定时器是用<code>struct timer_list</code>结构体来表示的：
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">hlist_node</span><span class="w">   </span><span class="n">entry</span><span class="p">;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">expires</span><span class="p">;</span>
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="kt">void</span><span class="w">            </span><span class="p">(</span><span class="o">*</span><span class="n">function</span><span class="p">)(</span><span class="k">struct</span><span class="w"> </span><span class="nc">timer_list</span><span class="w"> </span><span class="o">*</span><span class="p">);</span>
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">u32</span><span class="w">         </span><span class="n">flags</span><span class="p">;</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">};</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="p">};</span>
 </code></pre></div></p>
+<blockquote>
+<p>entry：所有的定时器会根据到期的时间被分配到一组链表中的一个</p>
+<p>expires：定时器的到期时间，以jiffies为单位</p>
+<p>function：定时器到期时要执行的毁掉函数</p>
+<p>flags：标志位</p>
+</blockquote>
 <table>
 <thead>
 <tr>

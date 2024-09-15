@@ -566,6 +566,8 @@
       
         
       
+        
+      
     
     
       
@@ -745,6 +747,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -4183,13 +4206,13 @@
 
 <h1 id="_1">锁的实现<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <h2 id="arch_spinlock_t">arch_spinlock_t<a class="headerlink" href="#arch_spinlock_t" title="Permanent link">&para;</a></h2>
-<p>早期的ARM平台spin lock的实现使用了<code>raw_spinlock_t</code>：</p>
+<p>早期的 ARM 平台 spin lock 的实现使用了<code>raw_spinlock_t</code>：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="k">volatile</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span><span class="n">raw_spinlock_t</span><span class="p">;</span>
 </code></pre></div>
-<p>这个版本的锁实现简单—— 0表示unlocked，1表示locked。但存在严重的不公平性问题。也就是所有的线程无序地争抢spin lock，不管线程等待了多久。在冲突比较少的情况下，不公平性体现得并不明显。但是随着硬件的发展，处理器的核心数越来越多，多核之间的冲突愈发剧烈，不公平性就愈发明显。有人测试过在极端情况下，有的线程甚至要等待100,000次机会才会执行一次。</p>
-<p>现在的ARM平台spin lock使用以下定义：</p>
+<p>这个版本的锁实现简单—— 0表示 unlocked，1表示 locked。但存在严重的不公平性问题。也就是所有的线程无序地争抢 spin lock，不管线程等待了多久。在冲突比较少的情况下，不公平性体现得并不明显。但是随着硬件的发展，处理器的核心数越来越多，多核之间的冲突愈发剧烈，不公平性就愈发明显。有人测试过在极端情况下，有的线程甚至要等待 100,000 次机会才会执行一次。</p>
+<p>现在的 ARM 平台 spin lock 使用以下定义：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">        </span><span class="n">u32</span><span class="w"> </span><span class="n">slock</span><span class="p">;</span>
@@ -4201,7 +4224,7 @@
 <a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="p">}</span><span class="w"> </span><span class="n">arch_spinlock_t</span><span class="p">;</span><span class="w"> </span>
 </code></pre></div>
 <p>该锁实际上就是所谓的<mark class="critic">票号自旋锁</mark>。它的原理类似于去银行办业务，每个进来的人先取一个号然后等待。业务员处理完一个人的业务之后就会叫号，如果叫的号和自己手里取的号是一样的，就轮到自己去办业务。</p>
-<p>owner代表当前正在办理业务的票号，next代表下一个人取号的号码。在最开始的时候，owner和next都等于0，第一个线程进来时，发现这两者相等，于是加锁，并且将next++。后来的线程在next的基础上累加并等待owner释放。当第一个线程释放之后，将owner++，此时owner又等于next，所以第二个线程加锁成功。以此类推。而owner与next的差值就代表排队等待线程的个数。</p>
+<p>owner 代表当前正在办理业务的票号，next 代表下一个人取号的号码。在最开始的时候，owner 和 next 都等于0，第一个线程进来时，发现这两者相等，于是加锁，并且将 next++。后来的线程在 next 的基础上累加并等待 owner 释放。当第一个线程释放之后，将 owner++，此时 owner 又等于 next，所以第二个线程加锁成功。以此类推。而 owner 与 next 的差值就代表排队等待线程的个数。</p>
 <p><img alt="票号自旋锁" src="../../images/arm/ticket_lock.webp" /></p>
 <p>申请锁操作：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">arch_spin_lock</span><span class="p">(</span><span class="n">arch_spinlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">lock</span><span class="p">)</span>
@@ -4234,8 +4257,8 @@
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="n">u32</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="p">}</span><span class="n">arch_rwlock_t</span><span class="p">;</span>
 </code></pre></div>
-<p>lock的最高位代表是否有写线程进入临界区，低31位统计读线程个数。</p>
-<p>read_lock操作：</p>
+<p>lock 的最高位代表是否有写线程进入临界区，低31位统计读线程个数。</p>
+<p>read_lock 操作：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">arch_read_lock</span><span class="p">(</span><span class="n">arch_rwlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">rw</span><span class="p">)</span>
 <a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="p">{</span>
 <a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
@@ -4248,14 +4271,14 @@
 <a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">    </span><span class="n">rw</span><span class="o">-&gt;</span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
 <a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="p">}</span>
 </code></pre></div>
-<p>read_unlock操作：</p>
+<p>read_unlock 操作：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">arch_read_unlock</span><span class="p">(</span><span class="n">arch_rwlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">rw</span><span class="p">)</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="p">{</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">rw</span><span class="o">-&gt;</span><span class="n">lock</span><span class="o">++</span><span class="p">;</span>
 <a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="n">sev</span><span class="p">();</span>
 <a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="p">}</span>
 </code></pre></div>
-<p>write_lock操作：</p>
+<p>write_lock 操作：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">arch_write_lock</span><span class="p">(</span><span class="n">arch_rwlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">rw</span><span class="p">)</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="p">{</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">tmp</span><span class="p">;</span>
@@ -4268,8 +4291,8 @@
 <a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="n">rw</span><span class="o">-&gt;</span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="mi">31</span><span class="p">;</span>
 <a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="p">}</span>
 </code></pre></div>
-<p>只有当rw-&gt;lock的值为0，写线程才可以进入临界区，同时将最高位置1。</p>
-<p>write_unlock操作：
+<p>只有当 rw-&gt;lock 的值为0，写线程才可以进入临界区，同时将最高位置1。</p>
+<p>write_unlock 操作：
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">static</span><span class="w"> </span><span class="kr">inline</span><span class="w"> </span><span class="n">arch_write_unlock</span><span class="p">(</span><span class="n">arch_rwlock_t</span><span class="w"> </span><span class="o">*</span><span class="n">rw</span><span class="p">)</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="p">{</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="n">rw</span><span class="o">-&gt;</span><span class="n">lock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
@@ -4287,7 +4310,7 @@
 <a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">wait_list</span><span class="p">;</span>
 <a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="p">};</span>
 </code></pre></div>
-<p>申请semaphore：</p>
+<p>申请 semaphore：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">down</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore</span><span class="w"> </span><span class="o">*</span><span class="n">sem</span><span class="p">)</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="p">{</span>
 <a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore_waiter</span><span class="w"> </span><span class="n">waiter</span><span class="p">;</span>
@@ -4302,7 +4325,7 @@
 <a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="w">    </span><span class="n">schedule</span><span class="p">();</span><span class="w">                                     </span>
 <a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="p">}</span>
 </code></pre></div>
-<p>释放semaphore：</p>
+<p>释放 semaphore：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">up</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore</span><span class="w"> </span><span class="o">*</span><span class="n">sem</span><span class="p">)</span>
 <a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="p">{</span>
 <a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">semaphore_waiter</span><span class="w"> </span><span class="n">waiter</span><span class="p">;</span>
@@ -4318,7 +4341,7 @@
 <a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a><span class="p">}</span>
 </code></pre></div>
 <h2 id="mutex">mutex<a class="headerlink" href="#mutex" title="Permanent link">&para;</a></h2>
-<p>mutex类似于计数值只有1的semaphore，但是只有持有锁的人才能解锁，而信号量可以由任何一个线程释放。</p>
+<p>mutex 类似于计数值只有1的 semaphore，但是只有持有锁的人才能解锁，而信号量可以由任何一个线程释放。</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mutex_waiter</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">list</span><span class="p">;</span>
 <a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">;</span>
@@ -4329,8 +4352,8 @@
 <a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">wait_list</span><span class="p">;</span>
 <a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="p">};</span>
 </code></pre></div>
-<p>mutex的owner字段记录持有锁的线程ID，wait_list记录等待锁的线程。</p>
-<p>申请mutex：</p>
+<p>mutex 的 owner 字段记录持有锁的线程 ID，wait_list 记录等待锁的线程。</p>
+<p>申请 mutex：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">mutex_take</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex</span><span class="w"> </span><span class="o">*</span><span class="n">mutex</span><span class="p">)</span>
 <a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="p">{</span>
 <a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex_waiter</span><span class="w"> </span><span class="n">waiter</span><span class="p">;</span>
@@ -4345,8 +4368,8 @@
 <a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">    </span><span class="n">schedule</span><span class="p">();</span><span class="w">                                     </span>
 <a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="p">}</span><span class="w"> </span>
 </code></pre></div>
-<p>当mutex-&gt;owner为0时，表示没有线程持有锁。当不能获取mutex时，将线程挂入等待链表。</p>
-<p>释放mutex：</p>
+<p>当 mutex-&gt;owner 为0时，表示没有线程持有锁。当不能获取 mutex 时，将线程挂入等待链表。</p>
+<p>释放 mutex：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">mutex_release</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex</span><span class="w"> </span><span class="o">*</span><span class="n">mutex</span><span class="p">)</span>
 <a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="p">{</span>
 <a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mutex_waiter</span><span class="w"> </span><span class="o">*</span><span class="n">waiter</span><span class="p">;</span>

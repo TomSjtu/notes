@@ -571,6 +571,8 @@
       
         
       
+        
+      
     
     
       
@@ -750,6 +752,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -4202,9 +4225,10 @@
 
 
 <h1 id="gpio">GPIO子系统<a class="headerlink" href="#gpio" title="Permanent link">&para;</a></h1>
-<p>GPIO全称“General Purpose Input/Output”，通用输入输出。</p>
+<p>对于像 LED 这样直接连接到 GPIO 控制器的设备，可以直接使用 GPIO 子系统的方式来描述设备所使用的 GPIO 资源。</p>
+<p><img alt="GPIO子系统" src="../../../images/kernel/gpio.png" /></p>
 <h2 id="_1">设备树描述<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>对于GPIO控制器，对应的设备节点需要声明gpio-controller属性，并设置#gpio-cells的大小，比如对于rk3399的GPIO控制器而言，由原厂BSP工程师编写代码如下：</p>
+<p>对于 GPIO 控制器，对应的设备节点需要声明 gpio-controller 属性，并设置 #gpio-cells 的大小，比 rk3399 的 GPIO 控制器而言，由原厂 BSP 工程师编写代码如下：</p>
 <div class="language-DTS highlight"><span class="filename">rk3399.dtsi</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nl">gpio0</span><span class="p">:</span><span class="w"> </span><span class="nf">gpio0</span><span class="o">@</span><span class="mi">ff720000</span><span class="cm"> </span><span class="p">{</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="kr">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;rockchip,gpio-bank&quot;</span><span class="p">;</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="kr">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0xff720000</span><span class="w"> </span><span class="mh">0x0</span><span class="w"> </span><span class="mh">0x100</span><span class="o">&gt;</span><span class="p">;</span>
@@ -4231,7 +4255,7 @@
 <a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="o">#</span><span class="n">interrupt-cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x2</span><span class="o">&gt;</span><span class="p">;</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="p">};</span>
 </code></pre></div>
-<p>驱动开发人员使用GPIO设备时，需要在节点中声明：</p>
+<p>驱动开发人员使用 GPIO 设备时，需要在节点中声明：</p>
 <div class="language-DTS highlight"><span class="filename">rk3399-firefly.dts</span><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nf">leds</span><span class="cm"> </span><span class="p">{</span>
 <a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">    </span><span class="kr">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;gpio-leds&quot;</span><span class="p">;</span>
 <a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="n">pinctrl-names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;default&quot;</span><span class="p">;</span>
@@ -4250,15 +4274,11 @@
 <a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">    </span><span class="p">};</span>
 <a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">};</span>
 </code></pre></div>
-<p>GPIO还可以有其他属性，比如：</p>
+<p>GPIO 还可以有其他属性，比如：</p>
 <ul>
-<li>ngpios=&lt;18&gt;：表示该GPIO控制器有18个引脚</li>
-<li>gpio-ranges=&lt;&amp;pinctrl1 0 20 10&gt;：表示该GPIO的0 ~ 9引脚映射到pinctrl1的20 ~ 29引脚</li>
+<li>ngpios=&lt;18&gt;：表示该 GPIO 控制器有 18 个引脚</li>
+<li>gpio-ranges=&lt;&amp;pinctrl1 0 20 10&gt;：表示该 GPIO 的 0 ~ 9 引脚映射到 pinctrl1 的 20 ~ 29 引脚</li>
 </ul>
-<div class="admonition info">
-<p class="admonition-title">Info</p>
-<p>设备驱动可以通过<code>of_get_named_gpio()</code>函数获取GPIO。</p>
-</div>
 <h2 id="_2">数据结构<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_device</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="kt">int</span><span class="w">         </span><span class="n">id</span><span class="p">;</span>
@@ -4287,7 +4307,7 @@
 <a id="__codelineno-2-25" name="__codelineno-2-25" href="#__codelineno-2-25"></a><span class="cp">#endif</span>
 <a id="__codelineno-2-26" name="__codelineno-2-26" href="#__codelineno-2-26"></a><span class="p">};</span>
 </code></pre></div>
-<p>每个GPIO controller都会用一个<code>struct gpio_device</code>结构体来表示，其中：</p>
+<p>每个 GPIO controller 都会用一个<code>struct gpio_device</code>结构体来表示，其中：</p>
 <ul>
 <li>
 <p>在<code>struct gpio_chip</code>中提供引脚操作函数</p>
@@ -4355,7 +4375,7 @@
 <p>can_sleep：是否可以在睡眠状态下访问GPIO</p>
 </blockquote>
 <p>使用<code>gpiochip_add_data()</code>宏来注册<code>struct gpio_chip</code>。</p>
-<p>GPIO中的每个引脚都对应一个<code>struct gpio_desc</code>，引脚信息被保存在一个链表中：</p>
+<p>GPIO 中的每个引脚都对应一个<code>struct gpio_desc</code>，引脚信息被保存在一个链表中：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_device</span><span class="w">  </span><span class="o">*</span><span class="n">gdev</span><span class="p">;</span>
 <a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">flags</span><span class="p">;</span>
@@ -4398,7 +4418,7 @@
 <p>name：引脚名</p>
 </blockquote>
 <h2 id="gpio_1">GPIO函数接口<a class="headerlink" href="#gpio_1" title="Permanent link">&para;</a></h2>
-<p>GPIO的函数接口有两套：legacy模式和基于descriptor的。由于第一套已被废弃，这里只介绍基于descriptor的。</p>
+<p>GPIO 的函数接口有两套：legacy 模式和基于 descriptor 的。由于第一套已被废弃，这里只介绍基于 descriptor 的。</p>
 <p>函数定义在&lt;include/linux/gpio/consumer.h&gt;中：</p>
 <p>获得GPIO：
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">gpiod_get</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span>
@@ -4423,7 +4443,7 @@
 <a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">                             </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">con_id</span><span class="p">,</span>
 <a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">                             </span><span class="k">enum</span><span class="w"> </span><span class="n">gpiod_flags</span><span class="w"> </span><span class="n">flags</span><span class="p">);</span>
 </code></pre></div></p>
-<p>其中gpiod_flags如下：
+<p>其中 gpiod_flags 如下：
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">enum</span><span class="w"> </span><span class="n">gpiod_flags</span><span class="w"> </span><span class="p">{</span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">    </span><span class="n">GPIOD_ASIS</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span>
 <a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="n">GPIOD_IN</span><span class="w">    </span><span class="o">=</span><span class="w"> </span><span class="n">GPIOD_FLAGS_BIT_DIR_SET</span><span class="p">,</span>
@@ -4454,13 +4474,13 @@
 <a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="w">    </span><span class="n">power-gpios</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="na">gpiob</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="na">GPIO_ACTIVE_LOW</span><span class="o">&gt;</span><span class="p">;</span><span class="w">   </span>
 <a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="p">};</span>
 </code></pre></div></p>
-<p>这里led-gpios中的led就是function，&amp;gpioa是特定GPIO控制器节点的pointer handle，数字15、16、17是每个GPIO控制器的编号，GPIO_ACTIVE_HIGH就是标志位。在驱动程序中获取GPIO资源可以这么做：</p>
+<p>这里 led-gpios 中的 led 就是 function，&amp;gpioa 是特定 GPIO 控制器节点的 pointer handle，数字 15、16、17 是每个 GPIO 控制器的编号，GPIO_ACTIVE_HIGH 就是标志位。在驱动程序中获取 GPIO 资源可以这么做：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">gpio_red</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_get_index</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;led&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">GPIO_ACTIVE_HIGH</span><span class="p">);</span>
 <a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">gpio_green</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_get_index</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;led&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">GPIO_ACTIVE_HIGH</span><span class="p">);</span>
 <a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">gpio_blue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_get_index</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;led&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">GPIO_ACTIVE_HIGH</span><span class="p">);</span>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">gpio_power</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">gpiod_get</span><span class="p">(</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;power&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">GPIO_ACTIVE_LOW</span><span class="p">);</span>
 </code></pre></div>
-<p>编写需要控制GPIO的驱动程序时，必须指定方向。可以直接使用带flags参数的<code>devm_gpio_get()</code>函数，或者如果flags设置为GPIOD_ASIS时，就可以在随后调用<code>gpiod_direction_input()</code>或<code>gpiod_direction_output()</code>来设置方向：</p>
+<p>编写需要控制 GPIO 的驱动程序时，必须指定方向。可以直接使用带 flags 参数的<code>devm_gpio_get()</code>函数，或者如果 flags 设置为 GPIOD_ASIS 时，就可以在随后调用<code>gpiod_direction_input()</code>或<code>gpiod_direction_output()</code>来设置方向：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">gpiod_direction_input</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">);</span>
 <a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kt">int</span><span class="w"> </span><span class="nf">gpiod_direction_output</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
 </code></pre></div>
@@ -4468,8 +4488,8 @@
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">gpiod_get_value</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">);</span>
 <a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">gpiod_set_value</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">value</span><span class="p">);</span>
 </code></pre></div></p>
-<p>Linux驱动程序不关注物理电路的实现，所有的<code>gpoid_set_value_xxx()</code>函数均使用逻辑值进行操作——将参数value解释为“有效”（“1”）或者“无效”（“0”），函数会自动地设置响应的物理电路。</p>
-<p>在GPIO的世界中，有两种常见的逻辑电平：</p>
+<p>Linux 驱动程序不关注物理电路的实现，所有的<code>gpoid_set_value_xxx()</code>函数均使用逻辑值进行操作——将参数 value 解释为“有效”（“1”）或者“无效”（“0”），函数会自动地设置响应的物理电路。</p>
+<p>在 GPIO 的世界中，有两种常见的逻辑电平：</p>
 <ul>
 <li>高电平有效（High Active）：在这个模式下，逻辑高（通常是1或3V以上）表示引脚的激活状态。</li>
 <li>低电平有效（Low Active）：在这个模式下，逻辑低（通常是0V或GND）表示引脚的激活状态。</li>
@@ -4509,20 +4529,20 @@
 </tbody>
 </table>
 </div>
-<p>中断请求可以通过GPIO触发，使用以下函数获取与给定GPIO对应的irq号：
+<p>中断请求可以通过 GPIO 触发，使用以下函数获取与给定 GPIO 对应的 irq 号：
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">int</span><span class="w"> </span><span class="nf">gpiod_to_irq</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">);</span>
 </code></pre></div></p>
-<p>该函数通过传递一个GPIO descriptor，返回irq号，如果该GPIO没有与中断控制器连接，则返回-EINVAL。</p>
-<p>该函数返回的irq号可以用在<code>request_irq()</code>和<code>free_irq()</code>函数中。</p>
+<p>该函数通过传递一个 GPIO descriptor，返回 irq 号，如果该 GPIO 没有与中断控制器连接，则返回 -EINVAL。</p>
+<p>该函数返回的 irq 号可以用在<code>request_irq()</code>和<code>free_irq()</code>函数中。</p>
 <p>释放GPIO：
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kt">void</span><span class="w"> </span><span class="nf">gpiod_put</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_desc</span><span class="w"> </span><span class="o">*</span><span class="n">desc</span><span class="p">);</span>
 <a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kt">void</span><span class="w"> </span><span class="nf">gpiod_put_array</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">gpio_descs</span><span class="w"> </span><span class="o">*</span><span class="n">descs</span><span class="p">);</span>
 </code></pre></div></p>
 <h2 id="pinctrl">与Pinctrl子系统交互<a class="headerlink" href="#pinctrl" title="Permanent link">&para;</a></h2>
 <ol>
-<li>在GPIO设备树中使用<code>gpio-ranges</code>来描述它们之间的联系</li>
+<li>在 GPIO 设备树中使用<code>gpio-ranges</code>来描述它们之间的联系</li>
 <li>解析这些联系，在注册<code>struct gpio-chip</code>时自动调用</li>
-<li>在GPIO驱动程序中，提供<code>gpio_chip-&gt;request</code>函数；在Pinctrl子系统中，提供pmxops-&gt;gpio_request_enable函数或者<code>pmxops-&gt;request</code>函数</li>
+<li>在 GPIO 驱动程序中，提供<code>gpio_chip-&gt;request</code>函数；在 Pinctrl 子系统中，提供<code>pmxops-&gt;gpio_request_enable()</code>函数或者<code>pmxops-&gt;request()</code>函数</li>
 </ol>
 <p><img alt="GPIO和Pinctrl的映射" src="../../../images/kernel/GPIO%E5%92%8CPinctrl%E7%9A%84%E6%98%A0%E5%B0%84.png" /></p>
 <h2 id="_3">简单示例<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>

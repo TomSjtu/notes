@@ -18,7 +18,7 @@
         <link rel="prev" href="../load/">
       
       
-        <link rel="next" href="../sched/">
+        <link rel="next" href="../wait/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -573,6 +573,8 @@
       
         
       
+        
+      
     
     
       
@@ -859,7 +861,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      内核栈
+      命名空间
     </span>
   </a>
   
@@ -867,6 +869,15 @@
         
           <li class="md-nav__item">
   <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      内核栈
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
     <span class="md-ellipsis">
       线程描述符
     </span>
@@ -880,40 +891,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    <span class="md-ellipsis">
-      进程组织形式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="进程组织形式">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#_12" class="md-nav__link">
-    <span class="md-ellipsis">
-      运行队列
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_13" class="md-nav__link">
-    <span class="md-ellipsis">
-      等待队列
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
     <span class="md-ellipsis">
       进程生命周期
     </span>
@@ -923,18 +901,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
+  <a href="#fork" class="md-nav__link">
     <span class="md-ellipsis">
-      进程创建
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_16" class="md-nav__link">
-    <span class="md-ellipsis">
-      进程终结
+      fork系统调用
     </span>
   </a>
   
@@ -949,6 +918,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -4313,7 +4303,7 @@
           <li class="md-nav__item">
   <a href="#_9" class="md-nav__link">
     <span class="md-ellipsis">
-      内核栈
+      命名空间
     </span>
   </a>
   
@@ -4321,6 +4311,15 @@
         
           <li class="md-nav__item">
   <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      内核栈
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
     <span class="md-ellipsis">
       线程描述符
     </span>
@@ -4334,40 +4333,7 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#_11" class="md-nav__link">
-    <span class="md-ellipsis">
-      进程组织形式
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="进程组织形式">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
   <a href="#_12" class="md-nav__link">
-    <span class="md-ellipsis">
-      运行队列
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_13" class="md-nav__link">
-    <span class="md-ellipsis">
-      等待队列
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#_14" class="md-nav__link">
     <span class="md-ellipsis">
       进程生命周期
     </span>
@@ -4377,18 +4343,9 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#_15" class="md-nav__link">
+  <a href="#fork" class="md-nav__link">
     <span class="md-ellipsis">
-      进程创建
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#_16" class="md-nav__link">
-    <span class="md-ellipsis">
-      进程终结
+      fork系统调用
     </span>
   </a>
   
@@ -4520,93 +4477,145 @@
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">mm</span><span class="p">;</span><span class="w">        </span>
 <a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">mm_struct</span><span class="w"> </span><span class="o">*</span><span class="n">active_mm</span><span class="p">;</span><span class="w">            </span>
 </code></pre></div>
-<p>这些字段与<a href="../vma/">进程地址空间</a>相关。</p>
+<p>这些字段的详细内容见<a href="../vma/">虚拟内存管理</a>。</p>
 <h3 id="_8">文件与文件系统<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="cm">/* Filesystem information: */</span>
 <a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">struct</span><span class="w"> </span><span class="nc">fs_struct</span><span class="w"> </span><span class="o">*</span><span class="n">fs</span><span class="p">;</span>
 <a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="cm">/* Open file information: */</span>
 <a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="o">*</span><span class="n">files</span><span class="p">;</span>
 </code></pre></div>
-<p>这些字段与<a href="../vfs/">虚拟文件系统</a>相关。</p>
-<h3 id="_9">内核栈<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">stack</span><span class="p">;</span>
+<p>进程的文件位置等信息是由<code>fs_strcut</code>来描述的：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">fs_strcut</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="w">    </span><span class="p">.......</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">path</span><span class="w"> </span><span class="n">root</span><span class="p">,</span><span class="w"> </span><span class="n">pwd</span><span class="p">;</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">};</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="k">struct</span><span class="w"> </span><span class="nc">path</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">vfsmount</span><span class="w"> </span><span class="o">*</span><span class="n">mnt</span><span class="p">;</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">dentry</span><span class="w"> </span><span class="o">*</span><span class="n">dentry</span><span class="p">;</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>struct dentry</code>结构体是对一个目录项的描述，<code>fs_struct</code>中包含了进程的根目录和当前工作目录。</p>
+<p>每个进程用<code>struct files_struct</code>来记录打开的文件描述符：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">files_struct</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">fdtable</span><span class="w"> </span><span class="n">__rcu</span><span class="w"> </span><span class="o">*</span><span class="n">fdt</span><span class="p">;</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">next_fd</span><span class="p">;</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">};</span>
+</code></pre></div>
+<p><code>fdtable</code>数组的下标就是文件描述符，其中 0、1、2 总是分配给标准输入、标准输出、标准错误。</p>
+<h3 id="_9">命名空间<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>命名空间是用来隔离进程的一种方式，进程只能看到与自己相关的一部分资源。</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">nsproxy</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="w">    </span><span class="n">atomic_t</span><span class="w"> </span><span class="n">count</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">uts_namespace</span><span class="w"> </span><span class="o">*</span><span class="n">uts_ns</span><span class="p">;</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">ipc_namespace</span><span class="w"> </span><span class="o">*</span><span class="n">ipc_ns</span><span class="p">;</span>
+<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">mnt_namespace</span><span class="w"> </span><span class="o">*</span><span class="n">mnt_ns</span><span class="p">;</span>
+<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">pid_namespace</span><span class="w"> </span><span class="o">*</span><span class="n">pid_ns</span><span class="p">;</span>
+<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">user_namespace</span><span class="w"> </span><span class="o">*</span><span class="n">user_ns</span><span class="p">;</span>
+<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">net</span><span class="w"> </span><span class="o">*</span><span class="n">net_ns</span><span class="p">;</span>
+<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="p">};</span>
+</code></pre></div>
+<p>Linux 实现了多种不同的命名空间：</p>
+<ul>
+<li>UTS 命名空间：用来隔离主机名和域名</li>
+<li>IPC 命名空间：用来隔离进程间通信</li>
+<li>MNT 命名空间：用来隔离文件系统挂载点</li>
+<li>PID 命名空间：用来隔离进程ID</li>
+<li>USER 命名空间：用来隔离用户ID和组ID</li>
+<li>NET 命名空间：用来隔离网络资源</li>
+</ul>
+<h3 id="_10">内核栈<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">stack</span><span class="p">;</span>
 </code></pre></div>
 <p>每个进程都有一个专用的内核栈，用于保存进程在内核态执行时的临时数据和上下文信息。当创建新进程时，内核会为其分配一个合适大小的内核栈空间，并将其地址赋给<code>task_struct</code>中的stack成员。</p>
-<h3 id="_10">线程描述符<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<h3 id="_11">线程描述符<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
 <p>线程描述符<code>struct thread_info</code>是一个用于存放线程相关信息、与体系结构相关的结构体，在ARM中的定义如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">thread_info</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">flags</span><span class="p">;</span><span class="w">      </span><span class="cm">/* low level flags */</span>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="kt">int</span><span class="w">         </span><span class="n">preempt_count</span><span class="p">;</span><span class="w">  </span><span class="cm">/* 0 =&gt; preemptable, &lt;0 =&gt; bug */</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w">  </span><span class="o">*</span><span class="n">task</span><span class="p">;</span><span class="w">      </span><span class="cm">/* main task structure */</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">cpu</span><span class="p">;</span><span class="w">        </span><span class="cm">/* cpu */</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">cpu_domain</span><span class="p">;</span><span class="w"> </span><span class="cm">/* cpu domain */</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="cp">#ifdef CONFIG_STACKPROTECTOR_PER_TASK</span>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">stack_canary</span><span class="p">;</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="cp">#endif</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_context_save</span><span class="w"> </span><span class="n">cpu_context</span><span class="p">;</span><span class="w">    </span><span class="cm">/* cpu context */</span>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">abi_syscall</span><span class="p">;</span><span class="w">    </span><span class="cm">/* ABI type and syscall nr */</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="n">__u8</span><span class="w">            </span><span class="n">used_cp</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span><span class="w">    </span><span class="cm">/* thread used copro */</span>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">tp_value</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w">    </span><span class="cm">/* TLS registers */</span>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="nc">fp_state</span><span class="w">      </span><span class="n">fpstate</span><span class="w"> </span><span class="nf">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="mi">8</span><span class="p">)));</span>
-<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="nc">vfp_state</span><span class="w">     </span><span class="n">vfpstate</span><span class="p">;</span>
-<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="cp">#ifdef CONFIG_ARM_THUMBEE</span>
-<a id="__codelineno-9-17" name="__codelineno-9-17" href="#__codelineno-9-17"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">thumbee_state</span><span class="p">;</span><span class="w">  </span><span class="cm">/* ThumbEE Handler Base register */</span>
-<a id="__codelineno-9-18" name="__codelineno-9-18" href="#__codelineno-9-18"></a><span class="cp">#endif</span>
-<a id="__codelineno-9-19" name="__codelineno-9-19" href="#__codelineno-9-19"></a><span class="p">};</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">thread_info</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">flags</span><span class="p">;</span><span class="w">      </span><span class="cm">/* low level flags */</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="kt">int</span><span class="w">         </span><span class="n">preempt_count</span><span class="p">;</span><span class="w">  </span><span class="cm">/* 0 =&gt; preemptable, &lt;0 =&gt; bug */</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w">  </span><span class="o">*</span><span class="n">task</span><span class="p">;</span><span class="w">      </span><span class="cm">/* main task structure */</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">cpu</span><span class="p">;</span><span class="w">        </span><span class="cm">/* cpu */</span>
+<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">cpu_domain</span><span class="p">;</span><span class="w"> </span><span class="cm">/* cpu domain */</span>
+<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="cp">#ifdef CONFIG_STACKPROTECTOR_PER_TASK</span>
+<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">stack_canary</span><span class="p">;</span>
+<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="cp">#endif</span>
+<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">cpu_context_save</span><span class="w"> </span><span class="n">cpu_context</span><span class="p">;</span><span class="w">    </span><span class="cm">/* cpu context */</span>
+<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a><span class="w">    </span><span class="n">__u32</span><span class="w">           </span><span class="n">abi_syscall</span><span class="p">;</span><span class="w">    </span><span class="cm">/* ABI type and syscall nr */</span>
+<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="w">    </span><span class="n">__u8</span><span class="w">            </span><span class="n">used_cp</span><span class="p">[</span><span class="mi">16</span><span class="p">];</span><span class="w">    </span><span class="cm">/* thread used copro */</span>
+<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">tp_value</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w">    </span><span class="cm">/* TLS registers */</span>
+<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="nc">fp_state</span><span class="w">      </span><span class="n">fpstate</span><span class="w"> </span><span class="nf">__attribute__</span><span class="p">((</span><span class="n">aligned</span><span class="p">(</span><span class="mi">8</span><span class="p">)));</span>
+<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="w">    </span><span class="k">union</span><span class="w"> </span><span class="nc">vfp_state</span><span class="w">     </span><span class="n">vfpstate</span><span class="p">;</span>
+<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a><span class="cp">#ifdef CONFIG_ARM_THUMBEE</span>
+<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">long</span><span class="w">       </span><span class="n">thumbee_state</span><span class="p">;</span><span class="w">  </span><span class="cm">/* ThumbEE Handler Base register */</span>
+<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="cp">#endif</span>
+<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="p">};</span>
 </code></pre></div>
 <p>它包含了很多与线程相关的字段，其中最重要的是<code>task</code>，它指向当前线程所属的进程描述符。内核提供了<code>current</code>宏可以直接访问当前CPU上正在运行的进程描述符，该宏本质上等于：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">current_thread_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">task</span>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">current_thread_info</span><span class="p">()</span><span class="o">-&gt;</span><span class="n">task</span>
 </code></pre></div>
-<h2 id="_11">进程组织形式<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h2>
-<p>要明白进程之间是如何组织的，首先要知道双向链表这个数据结构。双向链表就是同时有prev和next指针的链表，分别指向前一个和后一个元素。Linux使用双向链表将所有进程的描述符全部连接起来。</p>
-<h3 id="_12">运行队列<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h3>
-<p>当内核需要寻找一个新进程运行时，必须只考虑已处于TASK_RUNNING状态的进程，于是就有了运行队列。为了提高调度程序的运行速度，内核为每个优先级都维护了一个链表。在多处理器中，每个CPU都有自己的运行队列。运行队列是Linux调度算法的基础。更详细的内容请参考<a href="../sched/">进程调度</a>。</p>
-<h3 id="_13">等待队列<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h3>
-<p>等待队列在内核中有很多用途，尤其是用在中断处理和进程同步。运行中的进程往往需要等待某些事件的发生，它可以主动将自己放入等待队列，然后进入睡眠状态。当事件发生后，由内核负责唤醒它们。</p>
-<p>等待队列由双向链表实现，每个等待队列都有一个等待队列头（wait queue head），一个类型为<code>wait_queue_head_t</code>的数据结构：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">__wait_queue_head</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="w">    </span><span class="n">spinlock_t</span><span class="w"> </span><span class="n">lock</span><span class="p">;</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">task_list</span><span class="p">;</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">};</span>
-<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>
-<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">__wait_queue_head</span><span class="w"> </span><span class="n">wait_queue_head_t</span><span class="p">;</span>
-</code></pre></div>
-<p>因为等待队列主要是由中断处理程序和内核函数修改的，因此必须有锁加以保护。等待队列链表中的元素为：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">__wait_queue</span><span class="w"> </span><span class="p">{</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="w">    </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">flags</span><span class="p">;</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">task</span><span class="p">;</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="w">    </span><span class="n">wait_queue_func_t</span><span class="w"> </span><span class="n">func</span><span class="p">;</span>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">list_head</span><span class="w"> </span><span class="n">task_list</span><span class="p">;</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="p">};</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">__wait_queue</span><span class="w"> </span><span class="n">wait_queue_t</span><span class="p">;</span>
-</code></pre></div>
-<blockquote>
-<p>flags：表示该进程是互斥还是非互斥进程。互斥进程表示多个进程在等待相同的事件，因此产生了竞争关系，此时内核只需要唤醒其中一个进程即可。而非互斥进程在发生指定事件后总是被唤醒。</p>
-<p>func：负责唤醒睡眠进程的函数。</p>
-<p>task_list：等待队列链表，链表中的每个元素都代表一个睡眠中的进程。</p>
-</blockquote>
-<h2 id="_14">进程生命周期<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<h2 id="_12">进程生命周期<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
 <p><img alt="进程管理" src="../../../images/kernel/task.png" /></p>
-<h3 id="_15">进程创建<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h3>
-<p>应用程序在用户空间创建进程有两种场景：</p>
-<ol>
-<li>子进程和父进程共享一个ELF文件</li>
-<li>子进程需要加载自己的elf文件，例如shell</li>
-</ol>
-<p>为了应对这两个需求，内核采用了<mark class="critic">fork then exec</mark>两段式来创建进程。对于场景1，直接<code>fork()</code>即可；对于场景2，先<code>fork()</code>，然后再<code>exec()</code>。<code>fork()</code>用来拷贝当前进程并创建一个子进程，<code>exec()</code>负责读取可执行文件并将其载入地址空间开始运行。</p>
-<p>完全复制一个父进程的资源开销非常大，特别是对于场景2，根本没有必要拷贝父进程的资源，因为新的进程会立即加载新的elf文件。不论是用户态还是内核态都存在着大量复制进程的操作，为了提升性能，Linux引入了<mark class="critic">写时拷贝</mark>(copy-on-write)技术，这意味着在创建进程时，内核并不复制整个进程地址空间，而是暂时让父子进程共享。只有在需要写入时，数据才会被复制，从而使得各个进程拥有自己的地址空间。这种优化可以避免大量根本就不会被使用的数据，从而使得进程的创建非常迅速。复制进程的主要开销都集中在了复制父进程的页表上。在特定场合下，如果连父进程页表也不想复制，则可以使用<code>vfork()</code>函数。</p>
-<p><code>fork()</code>函数底层由<code>clone()</code>系统调用实现，该函数更加灵活，可以通过设置一系列<mark class="critic">CLONE_FLAGS</mark>参数来指明父子进程需要共享的资源。Linux中进程与线程的最大区别就是在执行<code>clone()</code>系统调用时指定的共享资源不同。</p>
-<p>线程在创建时传递的参数如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">clone</span><span class="p">(</span><span class="n">CLONE_VM</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">CLONE_FS</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">CLONE_FILES</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">CLONE_SIGHAND</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<h3 id="fork">fork系统调用<a class="headerlink" href="#fork" title="Permanent link">&para;</a></h3>
+<p><code>fork()</code>函数用来创建一个新的进程，Linux 6.1 版本对其进行了修改，之前的版本用<code>do_fork()</code>函数来实现：</p>
+<div class="language-C highlight"><span class="filename">linux-5.15:kernel/fork.c</span><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">SYSCALL_DEFINE0</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="p">{</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">do_fork</span><span class="p">(</span><span class="n">SIGCHILD</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">,</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="p">}</span>
 </code></pre></div>
-<p>上述代码指明了创建线程时需要共享地址空间、文件系统资源、文件描述符和信号处理程序。</p>
-<p>相比之下，一个普通的<code>fork()</code>的实现：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">clone</span><span class="p">(</span><span class="n">SIGCHLD</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span>
+<div class="language-C highlight"><span class="filename">linux-6.1:kernel/fork.c</span><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">SYSCALL_DEFINE0</span><span class="p">(</span><span class="n">fork</span><span class="p">)</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="p">{</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">kernel_clone_args</span><span class="w"> </span><span class="n">args</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="w">        </span><span class="p">.</span><span class="n">exit_signal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SIGCHLD</span><span class="p">,</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">kernel_clone</span><span class="p">(</span><span class="o">&amp;</span><span class="n">args</span><span class="p">);</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="p">}</span>
 </code></pre></div>
-<h3 id="_16">进程终结<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h3>
-<p>一个进程终结时，内核必须释放它所占用的资源并且告知父进程。一般来说，进程的终结是自身引起的，也可能是接收了一个不可忽略的信号或者是异常。</p>
-<p>当进程相关联的所有资源都被释放后，它处于EXIT_ZOMBIE状态。该状态也被称为僵尸状态，它的进程描述符被保留，等待父进程使用<code>wait()</code>系列函数回收。</p>
-<p>但是，如果父进程在子进程之前就退出了，那么必须有一个机制来保证子进程找到一个新的父进程，否则这些孤儿进程会永远处于僵尸状态，白白耗费资源。内核的解决办法是在当前线程组内找一个线程作为父进程，如果找不到，那就让init进程做父进程。</p>
+<p>无论是哪种实现，都需要传递一个 flag 参数，可以在&lt;include/uapi/linux/sched.h&gt;中找到具体定义：</p>
+<ul>
+<li>CLONE_VM：表示共享地址空间。</li>
+<li>CLONE_FILES：表示共享文件描述符</li>
+<li>CLONE_FS：表示共享文件系统信息</li>
+</ul>
+<p>两种版本都会调用<code>copy_process()</code>函数来创建新的进程，然后调用<code>wake_up_new_task()</code>函数将新的进程添加到运行队列中：</p>
+<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">copy_process</span><span class="p">(...)</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="p">{</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">u64</span><span class="w"> </span><span class="n">clone_flags</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">args</span><span class="o">-&gt;</span><span class="n">flags</span><span class="p">;</span>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">nsproxy</span><span class="w"> </span><span class="o">*</span><span class="n">nsp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="o">-&gt;</span><span class="n">nsproxy</span><span class="p">;</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="w">    </span><span class="c1">//1.复制task_struct</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a><span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">task_struct</span><span class="w"> </span><span class="o">*</span><span class="n">p</span><span class="p">;</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dup_task_struct</span><span class="p">(</span><span class="n">current</span><span class="p">);</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a><span class="w">    </span><span class="c1">//2.复制files_struct</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a><span class="w">    </span><span class="n">retval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy_files</span><span class="p">(</span><span class="n">clone_flags</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a><span class="w">    </span><span class="c1">//3.复制fs_struct</span>
+<a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a><span class="w">    </span><span class="n">retval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy_fs</span><span class="p">(</span><span class="n">clone_flags</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
+<a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a>
+<a id="__codelineno-16-18" name="__codelineno-16-18" href="#__codelineno-16-18"></a><span class="w">    </span><span class="c1">//4.复制mm_struct</span>
+<a id="__codelineno-16-19" name="__codelineno-16-19" href="#__codelineno-16-19"></a><span class="w">    </span><span class="n">retval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy_mm</span><span class="p">(</span><span class="n">clone_flags</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
+<a id="__codelineno-16-20" name="__codelineno-16-20" href="#__codelineno-16-20"></a>
+<a id="__codelineno-16-21" name="__codelineno-16-21" href="#__codelineno-16-21"></a><span class="w">    </span><span class="c1">//5.复制namespaces</span>
+<a id="__codelineno-16-22" name="__codelineno-16-22" href="#__codelineno-16-22"></a><span class="w">    </span><span class="n">retval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">copy_namespaces</span><span class="p">(</span><span class="n">clone_flags</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">);</span>
+<a id="__codelineno-16-23" name="__codelineno-16-23" href="#__codelineno-16-23"></a>
+<a id="__codelineno-16-24" name="__codelineno-16-24" href="#__codelineno-16-24"></a><span class="w">    </span><span class="c1">//6.申请PID号</span>
+<a id="__codelineno-16-25" name="__codelineno-16-25" href="#__codelineno-16-25"></a><span class="w">    </span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">alloc_pid</span><span class="p">(</span><span class="n">p</span><span class="o">-&gt;</span><span class="n">nsproxy</span><span class="o">-&gt;</span><span class="n">pid_ns_for_children</span><span class="p">,</span><span class="w"> </span><span class="p">...);</span>
+<a id="__codelineno-16-26" name="__codelineno-16-26" href="#__codelineno-16-26"></a><span class="w">    </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pid_nr</span><span class="p">(</span><span class="n">pid</span><span class="p">);</span>
+<a id="__codelineno-16-27" name="__codelineno-16-27" href="#__codelineno-16-27"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="n">clone_flags</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="n">CLONE_THREAD</span><span class="p">){</span>
+<a id="__codelineno-16-28" name="__codelineno-16-28" href="#__codelineno-16-28"></a><span class="w">        </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">tgid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current</span><span class="o">-&gt;</span><span class="n">tgid</span><span class="p">;</span>
+<a id="__codelineno-16-29" name="__codelineno-16-29" href="#__codelineno-16-29"></a><span class="w">    </span><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<a id="__codelineno-16-30" name="__codelineno-16-30" href="#__codelineno-16-30"></a><span class="w">        </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">tgid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">p</span><span class="o">-&gt;</span><span class="n">pid</span><span class="p">;</span>
+<a id="__codelineno-16-31" name="__codelineno-16-31" href="#__codelineno-16-31"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-16-32" name="__codelineno-16-32" href="#__codelineno-16-32"></a><span class="w">    </span><span class="p">......</span>
+<a id="__codelineno-16-33" name="__codelineno-16-33" href="#__codelineno-16-33"></a><span class="p">}</span>
+</code></pre></div>
+<p>对于线程来说，与进程最重要的区别就是会不会拷贝父进程的地址空间。这是 Linux 系统中进程与线程的根本区别。</p>
 
 
 

@@ -571,6 +571,8 @@
       
         
       
+        
+      
     
     
       
@@ -750,6 +752,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kernel/wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -4332,11 +4355,11 @@
 </ul>
 <p>由于服务端比较简单，我们先来看服务端的语法。</p>
 <p>一个典型的client device引用引脚配置的实例如下：</p>
-<div class="language-C highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">device</span><span class="o">-</span><span class="n">node</span><span class="o">-</span><span class="n">name</span><span class="w"> </span><span class="p">{</span><span class="w">  </span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">pinctrl</span><span class="o">-</span><span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;default&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;init&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sleep&quot;</span><span class="p">;</span><span class="w">   </span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">pinctrl</span><span class="mi">-0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">pin</span><span class="o">-</span><span class="n">config</span><span class="mi">-0</span><span class="o">-</span><span class="n">a</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">pinctrl</span><span class="mi">-1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">pin</span><span class="o">-</span><span class="n">config</span><span class="mi">-1</span><span class="o">-</span><span class="n">b</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">pinctrl</span><span class="mi">-2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">pin</span><span class="o">-</span><span class="n">config</span><span class="mi">-2</span><span class="o">-</span><span class="n">c</span><span class="o">&gt;</span><span class="p">;</span><span class="w">        </span>
+<div class="language-DTS highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">device-node-name</span><span class="cm"> </span><span class="p">{</span><span class="w">  </span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="n">pinctrl-names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;default&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;init&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sleep&quot;</span><span class="p">;</span><span class="w">   </span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="n">pinctrl-0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="na">pin</span><span class="o">-</span><span class="na">config</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="na">a</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="n">pinctrl-1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="na">pin</span><span class="o">-</span><span class="na">config</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="na">b</span><span class="o">&gt;</span><span class="p">;</span><span class="w"> </span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="n">pinctrl-2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="na">pin</span><span class="o">-</span><span class="na">config</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="na">c</span><span class="o">&gt;</span><span class="p">;</span><span class="w">        </span>
 <a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">};</span>
 </code></pre></div>
 <p>pinctrl-names表示引脚的三种状态——default, init, sleep。状态的定义与电源管理系统相关（Power Management）。比如当设备进入睡眠状态时，我们可以精确控制引脚状态以节省功耗。每个状态从0 ~ 2按顺序编号。pinctrl-x后面跟的是引脚的配置，由原厂工程师指定。</p>

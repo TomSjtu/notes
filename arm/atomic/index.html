@@ -566,6 +566,8 @@
       
         
       
+        
+      
     
     
       
@@ -745,6 +747,27 @@
   
   <span class="md-ellipsis">
     进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../linux/kernel/wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
   </span>
   
 
@@ -2425,14 +2448,20 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="独占内存访问指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       独占监视器
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4125,14 +4154,20 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="独占内存访问指令">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#_3" class="md-nav__link">
     <span class="md-ellipsis">
       独占监视器
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4164,7 +4199,7 @@
 
 
 <h1 id="_1">原子操作<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p>ARMv8.0的实现如下：</p>
+<p>原子操作底层与架构紧密相关，ARMv8.0 的实现如下：</p>
 <div class="language-C highlight"><span class="filename">linux/arch/arm64/include/asm/atomic_ll_sc.h</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="cp">#define ATOMIC_OP(op, asm_op, constraint)               \</span>
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="cp">static inline void                          \</span>
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="cp">__ll_sc_atomic_##op(int i, atomic_t *v)                 \</span>
@@ -4182,14 +4217,14 @@
 <a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a><span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">__stringify</span><span class="p">(</span><span class="n">constraint</span><span class="p">)</span><span class="w"> </span><span class="s">&quot;r&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">));</span><span class="w">             </span>\
 <a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a><span class="p">}</span>
 </code></pre></div>
-<p>注意：armv8.1增加的LSE（Large System Extension）feature使用的是<code>ldadd</code>指令。</p>
+<p>注意：ARMv8.1增加的LSE（Large System Extension）feature使用的是<code>ldadd</code>指令。</p>
 <h2 id="_2">独占内存访问指令<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p>LDXR和STXR指令，用于实现对变量的原子操作。</p>
-<p>LDXR是独占内存加载指令，它以独占的方式加载内存地址的值到通用寄存器。</p>
-<p>STXR是独占内存存储指令，它以独占的方式将通用寄存器中的值存储到内存地址。执行的结果放在Ws寄存器中，如果该寄存器为0则执行成功。</p>
-<p>LDXP和STXP是多字节的独占内存访问指令。</p>
-<h2 id="_3">独占监视器<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
-<p>独占内存访问指令LDXR和STXR通过独占监视器来监控对内存的访问。</p>
+<p><code>LDXR</code>和<code>STXR</code>指令，用于实现对变量的原子操作。</p>
+<p><code>LDXR</code>是独占内存加载指令，它以独占的方式加载内存地址的值到通用寄存器。</p>
+<p><code>STXR</code>是独占内存存储指令，它以独占的方式将通用寄存器中的值存储到内存地址。执行的结果放在 Ws 寄存器中，如果该寄存器为0则执行成功。</p>
+<p><code>LDXP</code>和<code>STXP</code>是多字节的独占内存访问指令。</p>
+<h3 id="_3">独占监视器<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>独占内存访问指令<code>LDXR</code>和<code>STXR</code>通过独占监视器来监控对内存的访问。</p>
 <p>独占监视器会把对应内存地址标记为独占访问模式，</p>
 <div class="admonition example">
 <p class="admonition-title">独占访问例子</p>
@@ -4200,23 +4235,23 @@
 <a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>    cbnz w3, 1b
 </code></pre></div>
 </div>
-<p>最后一行通过判断W3寄存器的值来判断是否执行成功，如果不为0则跳转到标签1处重新执行。</p>
-<p>注意，LDXR和STXR指令必须配对使用，位于这两条指令之间的代码是原子的。</p>
+<p>最后一行通过判断 W3 寄存器的值来判断是否执行成功，如果不为0则跳转到标签1处重新执行。</p>
+<p>注意，<code>LDXR</code>和<code>STXR</code>指令必须配对使用，位于这两条指令之间的代码是原子的。</p>
 <p>独占监视器一共有两种状态——<mark class="critic">开放访问状态</mark>和<mark class="critic">独占访问状态</mark>。</p>
-<p>当CPU通过LDXR指令从内存加载数据时，CPU会把这个内存地址标记为独占访问，然后CPU内部的独占监视器的状态就变为独占访问状态。当执行到STXR指令时，需要根据独占监视器的状态来做决定：</p>
+<p>当 CPU 通过<code>LDXR</code>指令从内存加载数据时，CPU 会把这个内存地址标记为独占访问，然后 CPU 内部的独占监视器的状态就变为独占访问状态。当执行到<code>STXR</code>指令时，需要根据独占监视器的状态来做决定：</p>
 <ul>
-<li>如果是独占访问状态并且STXR指令要存储的地址正好是刚才标记过的地址，那么STXR指令执行成功，返回0,并且独占监视器的状态变为开放访问状态。</li>
-<li>如果是开放访问状态，那么STXR指令执行失败，返回1,并且独占监视器的状态仍然保持开放访问状态。</li>
+<li>如果是独占访问状态并且<code>STXR</code>指令要存储的地址正好是刚才标记过的地址，那么<code>STXR</code>指令执行成功，返回0,并且独占监视器的状态变为开放访问状态。</li>
+<li>如果是开放访问状态，那么<code>STXR</code>指令执行失败，返回1，并且独占监视器的状态仍然保持开放访问状态。</li>
 </ul>
-<p>ARMv8体系结构根据缓存一致性的层次关系分为了多个监视器：</p>
+<p>ARMv8 体系结构根据缓存一致性的层次关系分为了多个监视器：</p>
 <ul>
-<li>本地独占监视器：监视本地CPU</li>
+<li>本地独占监视器：监视本地 CPU</li>
 <li>内部缓存一致性全局独占监视器：监视内部缓存一致性</li>
 <li>外部全局独占监视器：监视外部缓存一致性</li>
 </ul>
 <h2 id="_4">原子内存访问指令<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
-<p>ARMv8体系结构中新增了原子内存访问指令，该指令需要AMBA 5总线中的CHI(Coherent Hub Interface)的支持。AMBA 5总线引入了<mark class="critic">原子事务</mark>(atomic transaction)的概念，允许将原子操作发送到数据，并且允许原子操作在靠近数据的地方执行，而不需要加载到高速缓存中处理。原子事务非常适合要操作的数据离处理器核心比较远的地方，比如数据在内存中。</p>
-<p>原子内存访问指令与独占内存访问指令最大区别在于效率。设想一个SMP系统，假如共享资源存储在内存中，使用独占内存访问指令会导致所有CPU核心都将锁加载到L1高速缓存中，然后不停地尝试获取锁和检查独占监视器的状态，在锁竞争激烈的时候会造成<mark class="critic">高速缓存颠簸</mark>现象，并且整个过程还需要MESI(缓存一致性)协议来处理L1高速缓存一致性。这个场景在NUMA架构下更加明显，远端节点的CPU需要不断地跨节点访问数据。另外一个问题是不公平，当锁持有者释放锁时，所有的CPU都需要争抢这把锁，有可能最先申请锁的CPU反而没有抢到锁。</p>
+<p>ARMv8 体系结构中新增了原子内存访问指令，该指令需要 AMBA 5总线中的 CHI(Coherent Hub Interface)的支持。AMBA 5总线引入了<mark class="critic">原子事务</mark>(atomic transaction)的概念，允许将原子操作发送到数据，并且允许原子操作在靠近数据的地方执行，而不需要加载到高速缓存中处理。原子事务非常适合要操作的数据离处理器核心比较远的地方，比如数据在内存中。</p>
+<p>原子内存访问指令与独占内存访问指令最大区别在于效率。设想一个 SMP 系统，假如共享资源存储在内存中，使用独占内存访问指令会导致所有 CPU 核心都将锁加载到 L1 高速缓存中，然后不停地尝试获取锁和检查独占监视器的状态，在锁竞争激烈的时候会造成<mark class="critic">高速缓存颠簸</mark>现象，并且整个过程还需要 MESI(缓存一致性)协议来处理 L1 高速缓存一致性。这个场景在 NUMA 架构下更加明显，远端节点的 CPU 需要不断地跨节点访问数据。另外一个问题是不公平，当锁持有者释放锁时，所有的 CPU 都需要争抢这把锁，有可能最先申请锁的 CPU 反而没有抢到锁。</p>
 
 
 
