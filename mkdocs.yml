@@ -87,6 +87,7 @@ nav:
       - linux/kernel/time.md
       - linux/kernel/timer.md
       - linux/kernel/hrtimer.md
+      - linux/kernel/rt_patch.md
       - linux/kernel/pm.md
       - linux/kernel/shell.md
       
@@ -182,9 +183,6 @@ nav:
       - pl/cpp/concurrency.md
       - pl/cpp/cpp11.md
     
-    - QT:
-      - pl/qt/qt.md
-
     - Python:
       - pl/python/python.md
 
@@ -193,6 +191,11 @@ nav:
       - pl/go/intro.md
       - pl/go/function.md
       - pl/go/package.md
+      - pl/go/interface.md
+      - pl/go/concurrency.md
+      - pl/go/reflect.md
+      - pl/go/template.md
+      - pl/go/unit_test.md
 
   - 人工智能:
     - ai/index.md

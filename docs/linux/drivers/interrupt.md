@@ -2,7 +2,7 @@
 
 ## 中断号
 
-- IRQ number：软件中断号，在Linux系统中唯一，编程时用的就是这个
+- IRQ number：软件中断号，在 Linux 系统中唯一，编程时用的就是这个
 - HW interrupt ID：硬件中断号，由中断控制器对外设中断进行编号
 - IRQ domain：负责实现硬件中断号和软件中断号的映射
 
@@ -52,7 +52,7 @@ gic: interrupt-controller@fd400000 {
 interrupts-extended = <&gpio1 5 RISING>, <&gpio2 6 RISING>;
 ```
 
-BSP工程师编写代码如下：
+若有原厂 BSP 工程师编写设备树代码如下：
 
 ```DTS title="rk3399.dtsi"
 gpio0: gpio0@ff720000 {
@@ -69,13 +69,13 @@ gpio0: gpio0@ff720000 {
 };
 ```
 
-开发人员编写代码如下：
+驱动开发人员可以在设备树中引用 GPIO 中断控制器：
 
 ```DTS title="rk3399-firefly.dts"
 brcmf: wifi@1 {
 	reg = <1>;
 	compatible = "brcm,bcm4329-fmac";
-	interrupt-parent = <&gpio0>;
+	interrupt-parent = <&gpio0>;	//引用的节点
 	interrupts = <RK_PA3 GPIO_ACTIVE_HIGH>;
 	interrupt-names = "host-wake";
 	brcm,drive-strength = <5>;
@@ -83,32 +83,33 @@ brcmf: wifi@1 {
 	pinctrl-0 = <&wifi_host_wake_l>;
 };
 ```
+
 > interrupt-parent：指明该node使用哪个中断控制器
 
 > interrupts：根据父节点interrupt-cells属性，指明使用的中断类型
 
 ## 在代码中获得中断
 
-设备树中的某些节点可以被转换为platform_device，可以使用`platform_get_irq()`函数获得中断资源。
+设备树中的某些节点可以被转换为`platform_device`，可以使用`platform_get_irq()`函数获得中断资源。对于不能转换为`platform_device`的节点，可以使用`of_irq_get()`函数。
 
-对于GPIO设备，可以使用`gpio_to_irq()`函数获得中断号。
+对于 GPIO 设备，可以使用`gpio_to_irq()`函数获得中断号。
 
-从interrupts属性中获取到对应的中断号：
+从 interrupts 属性中获取到对应的中断号：
 
 ```C
-unsigned int irq_of_parse_and_map(struct device_node *np, int index)
+unsigned int irq_of_parse_and_map(struct device_node *np, int index);
 ```
 
-获取irq_data结构体：
+获取`irq_data`结构体：
 
 ```C
-struct irq_data *irq_get_irq_data(unsigned int irq)
+struct irq_data *irq_get_irq_data(unsigned int irq);
 ```
 
 获取中断触发标志：
 
 ```C
-u32 irqd_get_trigger_type(struct irq_data *data)
+u32 irqd_get_trigger_type(struct irq_data *data);
 ```
 
 ## 在驱动中使用中断
@@ -117,7 +118,7 @@ u32 irqd_get_trigger_type(struct irq_data *data)
 
 ```C
 int request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
-                const char *name, void *dev)
+                const char *name, void *dev);
 ```
 
 > irq：分配的中断号。
@@ -139,23 +140,41 @@ int request_irq(unsigned int irq, irq_handler_t handler, unsigned long flags,
 要编写自己的中断处理程序，在以下函数中实现：
 
 ```C
-static irqreturn_t intr_handler(int irq, void *dev)
+typedef irqreturn_t (*irq_handler_t)(int, void *);
 ```
 
-参数irq已经没有什么用了，参数dev用来向中断处理程序传递数据结构。
+`irqreturn_t`的定义如下：
 
-Linux上的中断处理程序无需要求可重入。因为中断处理程序运行时相应中断线上的中断是屏蔽的，也就是不会发生相同中断的嵌套，但不同中断的嵌套有可能发生。
+```C
+/**
+ * enum irqreturn
+ * @IRQ_NONE		interrupt was not from this device or was not handled
+ * @IRQ_HANDLED		interrupt was handled by this device
+ * @IRQ_WAKE_THREAD	handler requests to wake the handler thread
+ */
+enum irqreturn {
+	IRQ_NONE		= (0 << 0),
+	IRQ_HANDLED		= (1 << 0),
+	IRQ_WAKE_THREAD		= (1 << 1),
+};
+
+typedef enum irqreturn irqreturn_t;
+
+#define IRQ_RETVAL(x)	((x) ? IRQ_HANDLED : IRQ_NONE)
+```
+
+Linux 上的中断处理程序无需要求可重入。因为中断处理程序运行时相应中断线上的中断是屏蔽的，也就是不会发生相同中断的嵌套，但不同中断的嵌套有可能发生。
 
 !!! info "中断共享"
 
-    对于共享中断线的中断处理程序，需要在申请中断时指定IRQF_SHARED标志，同时将设备结构体指针作为dev_id传入。在中断到来时，内核遍历共享此中断的所有处理程序，直到某个函数返回IRQ_HANDLED。每个中断处理程序都必须判断是否为本设备的中断。
+    对于共享中断线的中断处理程序，需要在申请中断时指定 IRQF_SHARED 标志，同时将设备结构体指针作为dev_id传入。在中断到来时，内核遍历共享此中断的所有处理程序，直到某个函数返回IRQ_HANDLED。每个中断处理程序都必须判断是否为本设备的中断。
 
 如果指定的中断线不是共享的，那么该函数删除处理程序的同时将禁用这条中断线。如果是共享的，那么仅删除所对应的中断处理程序，而这条中断线只有在删除了最后一个处理程序时才会被禁用。
 
 卸载驱动程序时，需要注销相应的中断处理程序，并释放中断线：
 
 ```C
-void free_irq(unsigned int irq, void *dev)
+void free_irq(unsigned int irq, void *dev);
 ```
 
 

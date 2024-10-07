@@ -6,10 +6,9 @@
 
 ## 设备树描述
 
-对于 GPIO 控制器，对应的设备节点需要声明 gpio-controller 属性，并设置 #gpio-cells 的大小，比 rk3399 的 GPIO 控制器而言，由原厂 BSP 工程师编写代码如下：
+对于 GPIO 控制器，对应的设备节点需要声明 gpio-controller 属性，并设置 #gpio-cells 的大小，比如 rk3399 的 GPIO 控制器而言，由原厂 BSP 工程师编写代码如下：
 
 ```DTS title="rk3399.dtsi"
-
 gpio0: gpio0@ff720000 {
 	compatible = "rockchip,gpio-bank";
 	reg = <0x0 0xff720000 0x0 0x100>;
@@ -37,10 +36,9 @@ gpio1: gpio1@ff730000 {
 };
 ```
 
-驱动开发人员使用 GPIO 设备时，需要在节点中声明：
+驱动开发人员如果需要让某个设备引用 GPIO 资源，则可以在设备树中直接添加描述。注意，这种方式只能在 BSP 原厂工程师已经添加了 GPIO 控制器的描述时使用：
 
 ```DTS title="rk3399-firefly.dts"
-
 leds {
 	compatible = "gpio-leds";
 	pinctrl-names = "default";
@@ -221,9 +219,8 @@ struct gpio_desc {
 
 GPIO 的函数接口有两套：legacy 模式和基于 descriptor 的。由于第一套已被废弃，这里只介绍基于 descriptor 的。
 
-函数定义在<include/linux/gpio/consumer.h\>中：
+### 获取GPIO描述符
 
-获得GPIO：
 ```C
 struct gpio_desc *gpiod_get(struct device *dev,
 					 const char *con_id,
@@ -290,6 +287,8 @@ struct gpio_desc *gpio_blue = gpiod_get_index(dev, "led", 2, GPIO_ACTIVE_HIGH);
 struct gpio_desc *gpio_power = gpiod_get(dev, "power", GPIO_ACTIVE_LOW);
 ```
 
+### 设置GPIO方向
+
 编写需要控制 GPIO 的驱动程序时，必须指定方向。可以直接使用带 flags 参数的`devm_gpio_get()`函数，或者如果 flags 设置为 GPIOD_ASIS 时，就可以在随后调用`gpiod_direction_input()`或`gpiod_direction_output()`来设置方向：
 
 ```C
@@ -297,7 +296,8 @@ int gpiod_direction_input(struct gpio_desc *desc);
 int gpiod_direction_output(struct gpio_desc *desc, int value);
 ```
 
-使用以下函数在原子上下文内访问GPIO：
+### 获取GPIO电平
+
 ```C
 int gpiod_get_value(const struct gpio_desc *desc);
 void gpiod_set_value(struct gpio_desc *desc, int value);
@@ -321,6 +321,7 @@ Linux 驱动程序不关注物理电路的实现，所有的`gpoid_set_value_xxx
 	| gpiod_set_value(gpio, 0) | 低电平有效 | 配置为高电平 |
 	| gpiod_set_value(gpio, 1) | 低电平有效 | 配置为低电平 |
 	
+### 获取GPIO中断号
 
 中断请求可以通过 GPIO 触发，使用以下函数获取与给定 GPIO 对应的 irq 号：
 ```C
@@ -336,8 +337,6 @@ int gpiod_to_irq(const struct gpio_desc *desc);
 void gpiod_put(struct gpio_desc *desc);
 void gpiod_put_array(struct gpio_descs *descs);
 ```
-
-
 
 ## 与Pinctrl子系统交互
 

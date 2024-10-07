@@ -17,7 +17,7 @@ CMA的每个区域实际就是一个reserved memory，分为两种：
 
 下面定义了两段CMA区域：
 
-1. 全局CMA区域，节点名"cma_reserved"
+1. 全局CMA区域，节点名"cma_reserved"，包含"reusable"属性
 2. 私有CMA区域，节点名"ion_cma"
 
 ```DTS

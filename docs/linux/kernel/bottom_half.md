@@ -135,100 +135,150 @@ static inline void invoke_softirq(void)
 
 ## tasklet
 
-tasklet是利用软中断实现的一种下半部机制，但是它的接口更简单，锁保护要求较低。大多数情况都可以使用tasklet来完成你需要的工作。
+tasklet 是利用软中断实现的一种下半部机制，但是它的接口更简单，锁保护要求较低。大多数情况都可以使用 tasklet 来完成你需要的工作。
 
-tasklet有一些比较有意思的特性：
+tasklet 有一些比较有意思的特性：
 
-- 一个tasklet可在稍后被禁止或者重新启用；只有启用的次数和禁止的次数相同时，tasklet才会被执行。
+- 一个 tasklet 可在稍后被禁止或者重新启用；只有启用的次数和禁止的次数相同时，tasklet 才会被执行。
 
-- tasklet可以注册自己本身。
+- tasklet 可以注册自己本身。
 
-- tasklet可被调度在正常优先级或者更高优先级执行。
+- tasklet 可被调度在正常优先级或者更高优先级执行。
 
-- 当系统负载低时，tasklet会被立刻执行，但再晚不会晚于下一个定时器tick。
+- 当系统负载低时，tasklet 会被立刻执行，但再晚不会晚于下一个定时器 tick。
 
-- 一个tasklet可以与其他tasklet并发，但是同一个tasklet永远不会在多个CPU上同时运行。
+- 一个 tasklet 可以与其他 tasklet 并发，但是同一个 tasklet 永远不会在多个 CPU 上同时运行。
 
 ### tasklet的实现
 
-tasklet由两类软中断代表：HI_SOFTIRQ和TASKLET_SOFTIRQ。前者优先级比后者高。
+tasklet 由两类软中断代表：HI_SOFTIRQ 和 TASKLET_SOFTIRQ。前者优先级比后者高。
 
-tasklet结构体如下：
+tasklet 结构体如下：
 
 ```C
-struct tasklet_struct {
-    struct tasklet_struct *next;    //链表中下一个tasklet
-    unsigned long state;            //tasklet的状态
-    atomic_t count;                 //引用计数器
-    void (*func)(unsigned long);    //处理函数
-    unsigned long data;             //传递给函数的参数
+struct tasklet_struct
+{
+	struct tasklet_struct *next;
+	unsigned long state;
+	atomic_t count;
+	bool use_callback;
+	union {
+		void (*func)(unsigned long data);
+		void (*callback)(struct tasklet_struct *t);
+	};
+	unsigned long data;
 };
 ```
 
-state成员只能在0、TASKLET_STATE_SCHED和TASKLET_STATE_RUN之间取值。TASKLET_STATE_SCHED表明tasklet已被调度，正准备投入运行，TASKLET_STATE_RUN表明该tasklet正在运行。TASKLET_STATE_RUN只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个tasklet是不是正在运行(它要么就是当前正在执行的代码，要么不是)。
+state 成员只能在 TASKLET_STATE_SCHED 和 TASKLET_STATE_RUN 之间取值。TASKLET_STATE_SCHED 表明 该tasklet 已被调度，正准备投入运行，TASKLET_STATE_RUN 表明该 tasklet 正在运行。TASKLET_STATE_RUN 只有在多处理器的系统上才会作为一种优化来使用，单处理器系统任何时候都清楚单个 tasklet 是不是正在运行(它要么就是当前正在执行的代码，要么不是)。
 
-count成员是tasklet的引用计数器。如果它不为0，则tasklet被禁止；只有当它为0时，tasklet才被激活。
+count 成员是 tasklet 的引用计数器。当它为0时，tasklet 处于激活状态，可以被调度运行。
 
-已调度（或者叫已激活）的tasklet存放在tasklet_vec（普通tasklet）和tasklet_hi_vec（高优先级的tasklet）链表中，每个元素都是一个`tasklet_struct`结构体。
-
-tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，区别是后者将以高优先级运行指定的tasklet。
+已调度（或者叫已激活）的 tasklet 存放在 tasklet_vec（普通tasklet）和 tasklet_hi_vec（高优先级的tasklet）链表中。
 
 ### 使用tasklet
 
-| 函数 | 描述 |
-| ---- | ---- |
-| DECLARE_TASKLET | 定义tasklet，并将count初始化为0 |
-| DECLARE_TASKLET_DISABLED | 定义tasklet，但是将count初始化为1 |
-| tasklet_init | 初始化tasklet |
-| tasklet_enable | 使能tasklet |
-| tasklet_disable | 禁用tasklet，会等待正在执行的tasklet |
-| tasklet_hi_schedule | 调度高优先级的tasklet |
-| tasklet_schedule | 调度普通的tasklet |
-| tasklet_kill | 清除tasklet的调度和运行状态 |
-
-在内核中，tasklet对象由单向链表链接，`struct tasklet_head`存储了链表的头部和尾部，新的tasklet对象会被插入到链表尾部。内核会遍历链表中的每一个tasklet，如果tasklet没有执行，且其count字段为0，则调用tasklet->fun函数。被执行的tasklet会从链表中删除。
-
-!!! example "tasklet示例代码"
+1. 初始化：
 
     ```C
-    int irq;
-
-    void do_tasklet(unsigned long);
-    DECLARE_TASKLET(my_tasklet, do_tasklet, 0);
-
-    void do_tasklet(unsigned long data)
-    {
-        printk("This is tasklet!\n");
+    //新版接口
+    #define DECLARE_TASKLET(name, _callback)		\
+    struct tasklet_struct name = {				\
+        .count = ATOMIC_INIT(0),			\
+        .callback = _callback,				\
+        .use_callback = true,				\
     }
 
-    irqreturn_t do_interrupt(int irq, void *dev_id)
-    {
-        printk("interrupt handled!\n");
-        /*在中断处理程序中调度tasklet*/
-        tasklet_schedule(&do_tasklet);
-        return IRQ_HANDLED;
+    #define DECLARE_TASKLET_DISABLED(name, _callback)	\
+    struct tasklet_struct name = {				\
+        .count = ATOMIC_INIT(1),			\
+        .callback = _callback,				\
+        .use_callback = true,				\
     }
 
-    static int __init my_init(void)
+    void tasklet_setup(struct tasklet_struct *t,
+		   void (*callback)(struct tasklet_struct *))
     {
-        int ret;
-        irq = gpio_to_irq(13);
-        printk("irq is %d\n", irq);
-       
-        result = requset_irq(irq, do_interrupt, IRQF_TRIGGER_RISING, "my_irq", NULL);
-
-        /*动态初始化tasklet可以在这里声明*/
-        return 0;
+        t->next = NULL;
+        t->state = 0;
+        atomic_set(&t->count, 0);
+        t->callback = callback;
+        t->use_callback = true;
+        t->data = 0;
     }
 
-    static void __exit my_exit(void)
-    {
-        free_irq(irq, do_interrupt);
-        tasklet_kill(&my_tasklet);
+    //旧版接口
+    #define DECLARE_TASKLET_OLD(name, _func)		\
+    struct tasklet_struct name = {				\
+        .count = ATOMIC_INIT(0),			\
+        .func = _func,					\
     }
 
-    module_init(my_init);
-    module_exit(my_exit);
+    #define DECLARE_TASKLET_DISABLED_OLD(name, _func)	\
+    struct tasklet_struct name = {				\
+        .count = ATOMIC_INIT(1),			\
+        .func = _func,					\
+    }
+
+    void tasklet_init(struct tasklet_struct *t,
+            void (*func)(unsigned long), unsigned long data)
+    {
+        t->next = NULL;
+        t->state = 0;
+        atomic_set(&t->count, 0);
+        t->func = func;
+        t->use_callback = false;
+        t->data = data;
+    }
+    ```
+
+2. 使能/禁止：
+
+    ```C
+    static inline void tasklet_disable(struct tasklet_struct *t)
+    {
+        tasklet_disable_nosync(t);
+        tasklet_unlock_wait(t);
+        smp_mb();
+    }
+
+    static inline void tasklet_enable(struct tasklet_struct *t)
+    {
+        smp_mb__before_atomic();
+        atomic_dec(&t->count);
+    }
+    ```
+
+3. 调度运行：
+
+    ```C
+    static inline void tasklet_schedule(struct tasklet_struct *t)
+    {
+        if (!test_and_set_bit(TASKLET_STATE_SCHED, &t->state))
+            __tasklet_schedule(t);
+    }
+
+    static inline void tasklet_hi_schedule(struct tasklet_struct *t)
+    {
+        if (!test_and_set_bit(TASKLET_STATE_SCHED, &t->state))
+            __tasklet_hi_schedule(t);
+    }
+    ```
+
+4. 删除：
+
+    ```C
+    void tasklet_kill(struct tasklet_struct *t)
+    {
+        if (in_interrupt())
+            pr_notice("Attempt to kill tasklet from interrupt\n");
+
+        while (test_and_set_bit(TASKLET_STATE_SCHED, &t->state))
+            wait_var_event(&t->state, !test_bit(TASKLET_STATE_SCHED, &t->state));
+
+        tasklet_unlock_wait(t);
+        tasklet_clear_sched(t);
+    }
     ```
 
 ### ksoftirqd
@@ -239,7 +289,7 @@ tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，区
 
 内核中的方案时不会立即处理重复触发的软中断。当大量软中断出现的时候，内核会唤醒一组内核线程来处理这些负载。这些线程在最低优先级（nice=19）运行，避免与其他任务抢占资源。
 
-每个处理器都有一个这样的线程，名字为 {==ksoftirqd/n==}，n为处理器编号。只要有待处理的软中断，ksoftirqd就会调用`do_softirq()`函数来处理它们。
+每个处理器都有一个这样的线程，名字为 {==ksoftirqd/n==}，n为处理器编号。只要有待处理的软中断，ksoftirqd 就会调用`do_softirq()`函数来处理它们。
 
 ## 工作队列
 
@@ -257,16 +307,49 @@ tasklet由`tasklet_schedule()`和`tasklet_hi_schedule()`函数进行调度，区
 
 ```C
 struct workqueue_struct {
-    struct cpu_workqueue_struct cpu_wq[NR_CPUS]；
-    struct list_head list;
-    const char *name;
-    int singlethread;
-    int freezeable;
-    int rt;
+	struct list_head	pwqs;		/* WR: all pwqs of this wq */
+	struct list_head	list;		/* PR: list of all workqueues */
+
+	struct mutex		mutex;		/* protects this wq */
+	int			work_color;	/* WQ: current work color */
+	int			flush_color;	/* WQ: current flush color */
+	atomic_t		nr_pwqs_to_flush; /* flush in progress */
+	struct wq_flusher	*first_flusher;	/* WQ: first flusher */
+	struct list_head	flusher_queue;	/* WQ: flush waiters */
+	struct list_head	flusher_overflow; /* WQ: flush overflow list */
+
+	struct list_head	maydays;	/* MD: pwqs requesting rescue */
+	struct worker		*rescuer;	/* MD: rescue worker */
+
+	int			nr_drainers;	/* WQ: drain in progress */
+	int			saved_max_active; /* WQ: saved pwq max_active */
+
+	struct workqueue_attrs	*unbound_attrs;	/* PW: only for unbound wqs */
+	struct pool_workqueue	*dfl_pwq;	/* PW: only for unbound wqs */
+
+#ifdef CONFIG_SYSFS
+	struct wq_device	*wq_dev;	/* I: for sysfs interface */
+#endif
+#ifdef CONFIG_LOCKDEP
+	char			*lock_name;
+	struct lock_class_key	key;
+	struct lockdep_map	lockdep_map;
+#endif
+	char			name[WQ_NAME_LEN]; /* I: workqueue name */
+
+	/*
+	 * Destruction of workqueue_struct is RCU protected to allow walking
+	 * the workqueues list without grabbing wq_pool_mutex.
+	 * This is used to dump all workqueues from sysrq.
+	 */
+	struct rcu_head		rcu;
+
+	/* hot fields used during command issue, aligned to cacheline */
+	unsigned int		flags ____cacheline_aligned; /* WQ: WQ_* flags */
+	struct pool_workqueue __percpu *cpu_pwqs; /* I: per-cpu pwqs */
+	struct pool_workqueue __rcu *numa_pwq_tbl[]; /* PWR: unbound pwqs indexed by node */
 };
 ```
-
-该结构体内有一个`cpu_workqueue_struct`结构组成的数组，数组的每一项对应系统中的一个处理器。也就是说系统中每个处理器对应一个工作者线程。
 
 `struct work_struct`描述的是实际需要执行的工作：
 
@@ -278,64 +361,63 @@ struct work_struct {
 };
 ```
 
-这些`work_struct`被连接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，如果没有剩余的操作，它就会继续休眠。
+这些`work_struct`被链接成链表，每个处理器上的每种类型的队列都对应这样一个链表。当一个工作者线程被唤醒时，它会执行链表上的所有工作，如果没有剩余的操作，它就会继续休眠。
 
 ### 使用工作队列
 
-创建一个`work_struct`结构体：
+1. 创建一个`work_struct`结构体：
 
-```C
-/*静态创建*/
-DECLARE_WORK(name, func);
+    ```C
+    /*静态创建*/
+    DECLARE_WORK(name, func);
 
-/*动态创建*/
-INIT_WORK(name, func);
-```
+    /*动态创建*/
+    INIT_WORK(name, func);
+    ```
 
-将工作推送到内核默认的共享工作队列：
+2. 将工作推送到内核默认的共享工作队列：
 
-```C
-bool schedule_work(struct work_struct *work);
-bool schedule_delayed_work(struct work_struct *work, unsigned long delay);
-bool schedule_work_on(int cpu, struct work_struct *work);
-```
+    ```C
+    bool schedule_work(struct work_struct *work);
+    bool schedule_work_on(int cpu, struct work_struct *work);
+    ```
 
-取消已经调度的工作：
+3. 取消已经调度的工作：
 
-```C
-bool cancel_work(struct work_struct *work);
-bool cancel_work_sync(struct work_struct *work);
-```
+    ```C
+    bool cancel_work(struct work_struct *work);
+    bool cancel_work_sync(struct work_struct *work);
+    ```
 
-强制执行work：
+4. 强制执行work：
 
-```C
-bool flush_work(struct work_struct *work);
-void flush_scheduled_work(void);        //默认刷新system_wq队列
-void flush_workqueue(struct workqueue_struct *wq);
-```
+    ```C
+    bool flush_work(struct work_struct *work);
+    void flush_scheduled_work(void);        //默认刷新system_wq队列
+    void flush_workqueue(struct workqueue_struct *wq);
+    ```
 
-如果要自定义一个工作队列，则可以使用宏：
-```C
-create_workqueue(name);
-create_singlethread_workqueue(name);
-```
+5. 自定义一个工作队列：
 
-这两个宏都会返回一个`struct workqueue_struct`的指针。区别是：第一个宏在每个处理器上为该工作队列创建专用的线程，第二个宏只创建一个工作者线程。
+    ```C
+    create_workqueue(name);
+    create_singlethread_workqueue(name);
+    ```
 
-销毁工作队列：
+    这两个宏都会返回一个`struct workqueue_struct`的指针。区别是：第一个宏在每个处理器上为该工作队列创建专用的线程，第二个宏只创建一个工作者线程。
 
-```C
-void destroy_workqueue(struct workqueue_struct *wq);
-```
+6. 销毁自定义的工作队列：
 
-调度`work_struct`到自定义工作队列：
+    ```C
+    void destroy_workqueue(struct workqueue_struct *wq);
+    ```
 
-```C
-int queue_work(struct workqueue_struct *queue, struct work_struct *work);
-int queue_delayed_work(struct workqueue_struct *queue, struct work_struct *work, unsigned long delay);
-bool queue_work_on(int cpu, struct workqueue_struct *wq, struct work_struct *work);
-```
+7. 调度`work_struct`到自定义工作队列：
+
+    ```C
+    int queue_work(struct workqueue_struct *queue, struct work_struct *work);
+    bool queue_work_on(int cpu, struct workqueue_struct *wq, struct work_struct *work);
+    ```
 
 ### 延迟工作
 
@@ -352,49 +434,45 @@ struct delayed_work {
 };
 ```
 
-创建延迟工作：
+1. 创建延迟工作：
 
-```C
-/*静态定义*/
-DECLARE_DELAYED_WORK(name, func);
+    ```C
+    /*静态定义*/
+    DECLARE_DELAYED_WORK(name, func);
 
-/*动态定义*/
-INIT_DELAYED_WORK(name, func);
-```
+    /*动态定义*/
+    INIT_DELAYED_WORK(name, func);
+    ```
 
-在共享工作队列上调度延迟工作：
+2. 在共享工作队列上调度延迟工作：
 
-```C
-bool schedule_delayed_work(struct delayed_work *work, unsigned long delay);
-```
+    ```C
+    bool schedule_delayed_work(struct delayed_work *work, unsigned long delay);
+    ```
 
-在自定义工作队列上调度延迟工作：
+3. 在自定义工作队列上调度延迟工作：
 
-```C
-bool queue_delayed_work(struct workqueue_struct *queue, struct delayed_work *work, unsigned long delay);
-```
+    ```C
+    bool queue_delayed_work(struct workqueue_struct *queue, struct delayed_work *work, unsigned long delay);
+    ```
 
-取消已经调度的延迟工作：
+4. 取消已经调度的延迟工作：
 
-```C
-bool cancel_delayed_work_sync(struct delayed_work *work);
-```
+    ```C
+    bool cancel_delayed_work_sync(struct delayed_work *work);
+    ```
 
 ## CMWQ
 
-CMWQ全称Concurrency Managed Workqueue，它属于工作队列，主要是为了解决旧的工作队列机制存在的一些问题而被开发出来的。
-
-!!! question "为何需要CMWQ？"
+CMWQ 全称 Concurrency Managed Workqueue，它属于工作队列，主要是为了解决旧的工作队列机制存在的一些问题而被开发出来的。
 
 旧的工作队列机制存在着一些问题：
 
 1. 调度问题：工作由单个工作者线程处理，队列中的工作必须等待之前的工作完成。
-2. 并发性能问题：每个CPU运行一个独立的工作队列，如果某个CPU上的工作阻塞，不能转移到其他空闲的CPU上去执行。
+2. 并发性能问题：每个 CPU 运行一个独立的工作队列，如果某个 CPU 上的工作阻塞，不能转移到其他空闲的 CPU 上去执行。
 3. 死锁问题：假如某个驱动模块比较复杂，需要用到两个工作A和B，工作A依赖工作B，当调度到同一个工作队列上时，就会出现死锁。
 
-旧的工作队列机制中，工作是与工作线程紧密相关的，创建就必须绑定。在CMWQ中，将这种固定关系打破，提出了worker pool的概念。将系统中划分为不同的worker pool，所有的工作队列共享。用户可以自己创建工作队列并通过标志位来约束挂入该工作队列上工作的处理方式。工作队列会根据标志位将工作交付给系统中某个worker pool处理。
-
-
+旧的工作队列机制中，工作是与工作线程紧密相关的，创建就必须绑定。在 CMWQ 中，将这种固定关系打破，提出了 worker pool 的概念。将系统中划分为不同的 worker pool ，所有的工作队列共享。用户可以自己创建工作队列并通过标志位来约束挂入该工作队列上工作的处理方式。工作队列会根据标志位将工作交付给系统中某个 worker pool 处理。
 
 ## 下半部的同步
 

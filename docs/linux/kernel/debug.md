@@ -265,9 +265,7 @@ $ cat /proc/sys/kernel/printk
 
 ## 动态打印
 
-/sys/kernel/debug/dynamic_debug/control 是Linux系统中的一个特殊文件，用于动态调试内核代码。它允许开发者在运行时动态地启用或禁用内核中的调试信息，而不需要重新编译内核。
-
-通过修改 control 文件的内容，开发者就可以在内核运行时控制哪些调试信息被输出。可以选择性地启用特定文件、特定函数或特定代码行的调试信息。
+/sys/kernel/debug/dynamic_debug/control 是 Linux 系统中的一个特殊文件，用于动态调试内核代码。开发者可以在运行时动态地启用或禁用内核中的调试信息，而不需要重新编译内核。所有通过`pr_debug()`和`dev_debug()`打印的信息都可以动态的显示或不显示。
 
 /sys/kernel/debug/dynamic_debug/control 文件接受以下格式的命令：
 
