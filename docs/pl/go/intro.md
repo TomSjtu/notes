@@ -223,9 +223,123 @@ type structName struct {
 }
 ```
 
+结构体中字段大写开头表示可公开访问，小写表示私有（仅在定义当前结构体的包中可访问）。结构体初始化可以采用键值对初始化、列表初始化。
+
+Go 语言中，在结构体中嵌套另一个结构体可以直接实现继承：
+
+```GO
+//Animal 动物
+type Animal struct {
+	name string
+}
+
+func (a *Animal) move() {
+	fmt.Printf("%s会动！\n", a.name)
+}
+
+//Dog 狗
+type Dog struct {
+	Feet    int8
+	*Animal //通过嵌套匿名结构体实现继承
+}
+
+func (d *Dog) wang() {
+	fmt.Printf("%s会汪汪汪~\n", d.name)
+}
+
+func main() {
+	d1 := &Dog{
+		Feet: 4,
+		Animal: &Animal{ //注意嵌套的是结构体指针
+			name: "乐乐",
+		},
+	}
+	d1.wang() //乐乐会汪汪汪~
+	d1.move() //乐乐会动！
+}
+```
+
+Go 语言可以对结构体打标签(tag)，使得结构体可以被序列化和反序列化。
+
+```GO
+type Person struct {
+    Name string `json:"name" xml:"name"`
+    Age  int    `json:"age" xml:"age"`
+    City string `json:"city" xml:"city"`
+}
+```
 
 
+使用结构体标签进行编码：
 
+```GO
+import (
+    "encoding/json"
+    "fmt"
+)
+
+p := Person{Name: "Alice", Age: 30, City: "New York"}
+
+// 将结构体编码为JSON
+data, err := json.Marshal(p)
+if err != nil {
+    fmt.Println("Error encoding JSON:", err)
+    return
+}
+
+fmt.Println(string(data)) // 输出: {"name":"Alice","age":30,"city":"New York"}
+```
+
+使用结构体标签进行解码：
+
+```GO
+import (
+    "encoding/json"
+    "fmt"
+)
+
+jsonStr := `{"name":"Bob","age":25,"city":"Los Angeles"}`
+
+var p Person
+err := json.Unmarshal([]byte(jsonStr), &p)
+if err != nil {
+    fmt.Println("Error decoding JSON:", err)
+    return
+}
+
+fmt.Println(p) // 输出: {Bob 25 Los Angeles}
+```
+
+## 方法和接收者
+
+Go 语言中的方法是一种作用于特定类型变量的函数，这种变量叫做接收者：
+
+```GO
+func (receiverVar dataType) funcName(parameterList) (returnList){
+    // 函数体
+}
+```
+
+举例说明：
+
+```GO
+type Person struct {
+    name string
+    age int
+}
+
+func(p Person) sayHello(){
+    fmt.Println("Hello, my name is", p.name)
+}
+```
+
+可以使用指针类型的接收者来修改结构体变量：
+
+```GO
+func (p *Person) setAge(age int){
+    p.age = age
+}
+```
 
 ## 类型转换
 
@@ -288,43 +402,6 @@ Go 语言中的流程控制语句如下：
     }
     ```
 
-## module
-
-`go module`是 Go 语言的依赖管理工具，要启用它首先要设置环境变量 GO111MODULE：
-
-- GO111MODULE=off：禁用模块支持，编译时会从 GOPATH 和 vendor 目录查找依赖包。
-- GO111MODULE=on：启用模块支持，编译时会忽略 GOPATH 和 vendor 目录，只根据 go.mod 文件查找依赖包。
-- GO111MODULE=auto：当项目在 GOPATH/src 外切项目根目录有 go.mod 文件时启用模块支持
-
-`go mod`命令用于管理依赖包：
-
-```SHELL
-go mod download    下载依赖的module到本地cache（默认为$GOPATH/pkg/mod目录）
-go mod edit        编辑go.mod文件
-go mod graph       打印模块依赖图
-go mod init        初始化当前文件夹, 创建go.mod文件
-go mod tidy        增加缺少的module，删除无用的module
-go mod vendor      将依赖复制到vendor下
-go mod verify      校验依赖
-go mod why         解释为什么需要依赖
-```
-
-## 包
-
-每个程序都是一个包，必须在源文件中非注释的第一行指明这个文件属于哪个包，如：`package main`。`package main` 表示一个可独立执行的程序，每个 Go 应用程序都包含一个名为`main`的包。
-
-一个应用程序可以包含不同的包，而且即使你只使用`main`包也不必把所有的代码都写在一个巨大的文件里：你可以用一些较小的文件，并且在每个文件非注释的第一行都使用`package main`来指明这些文件都属于`main`包。
-
-属于同一个包的源文件必须全部被一起编译，一个包即是编译时的一个单元，因此根据惯例，每个目录都只包含一个包。
-
-如果对一个包进行更改或重新编译，所有引用了这个包的客户端程序都必须全部重新编译。
-
-GO 程序的执行（程序启动）顺序如下：
-
-- 按顺序导入所有被`main`包引用的其它包，然后在每个包中执行如下流程：
-- 如果该包又导入了其它的包，则从第一步开始递归执行，但是每个包只会被导入一次。
-- 然后以相反的顺序在每个包中初始化常量和变量，如果该包含有`init()`函数的话，则调用该函数。
-- 在完成这一切之后，`main`也执行同样的过程，最后调用`main()`函数开始执行程序。
 
 
 

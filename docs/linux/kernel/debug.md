@@ -257,11 +257,19 @@ $ cat /proc/sys/kernel/printk
 ### 调试函数
 
 - dump_stack()：打印当前调用栈
-- BUG()：触发panic，输出log
-- BUG_ON(condition)：触发panic，输出log
-- WARN(condition, fmt...)：当condition为真时，打印信息，不触发panic
-- WARN_ON（condition)：调用`dump_stack()`
-- panic(fmt...)：系统crash，输出log
+- BUG()：触发panic，输出 log
+- BUG_ON(condition)：如果条件为真，则触发 panic，输出 log
+- WARN(condition, fmt...)：如果条件为真，打印信息，不触发 panic
+- WARN_ON(condition)：调用`dump_stack()`
+- panic(fmt...)：系统 crash，输出 log
+
+## 获取函数地址
+
+在内核调试中，经常需要知道某个函数的地址，或者根据地址找到相应的函数。下面介绍几种方法，可以获取函数的地址信息。
+
+1. system.map：在内核编译时，会生成一个 system.map 文件，也叫内核符号表，里面每一行都代表一个函数符号，包括地址、类型和名称。
+2. vmlinux：编译内核时生成的原始内核镜像文件，可以通过`nm`、`objdump`和`readelf`等工具来查看符号表信息。
+3. /proc/kallsyms：内核符号表信息，可以通过`cat /proc/kallsyms`命令查看。
 
 ## 动态打印
 

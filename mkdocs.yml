@@ -21,7 +21,10 @@ theme:
     - content.code.copy
     - search.highlight
     - search.share
-    
+
+  font:
+    text: Roboto
+    code: Source Code Pro
      
   palette:
     primary: light blue
@@ -83,7 +86,8 @@ nav:
       - linux/kernel/cma.md
       - linux/kernel/vfs.md
       - linux/kernel/block.md
-      - linux/kernel/network.md
+      - linux/kernel/iomultiplexing.md
+      - linux/kernel/io_uring.md
       - linux/kernel/time.md
       - linux/kernel/timer.md
       - linux/kernel/hrtimer.md
