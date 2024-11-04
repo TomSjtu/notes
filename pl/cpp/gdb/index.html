@@ -47,8 +47,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Source Code Pro"}</style>
       
     
     
@@ -510,6 +510,8 @@
       
         
           
+        
+      
         
       
         
@@ -1080,11 +1082,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/network/" class="md-nav__link">
+      <a href="../../../linux/kernel/iomultiplexing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/io_uring/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异步IO
   </span>
   
 
@@ -2994,6 +3017,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    GDB
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -3003,6 +3037,34 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      常用命令
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -4145,6 +4207,23 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      常用命令
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -4162,6 +4241,27 @@
 
 
 <h1 id="gdb">GDB<a class="headerlink" href="#gdb" title="Permanent link">&para;</a></h1>
+<p>GDB 是强大的代码调试工具，编译时需要设置<code>-g</code>选项，使得编译器生成调试信息。可以直接使用 gdb a.out 来调试一个可执行文件，也可以通过 gdb attach pid 来将 GDB 附加到正在运行的程序上。</p>
+<h2 id="_1">常用命令<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>GDB 的命令有很多，这里列出一些常用的，足以应付一般的调试任务：</p>
+<ul>
+<li>run：运行程序，直到遇到断点</li>
+<li>list：显示源代码</li>
+<li>break：设置断点</li>
+<li>next：单步执行(跳过函数)</li>
+<li>step：单步执行(进入函数)</li>
+<li>backtrace：显示函数调用栈</li>
+<li>set：设置变量的值</li>
+<li>frame：切换函数调用栈</li>
+<li>info：显示局部变量的值</li>
+<li>finish：结束当前函数</li>
+<li>until：退出循环体</li>
+<li>delete：删除断点</li>
+<li>continue：继续执行到下一个断点处或程序结束</li>
+<li>print：打印变量的值</li>
+<li>watch：监视某个变量</li>
+<li>quit：退出 GDB</li>
+</ul>
 
 
 

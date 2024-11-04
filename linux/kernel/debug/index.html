@@ -47,8 +47,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Source Code Pro"}</style>
       
     
     
@@ -577,6 +577,8 @@
       
         
       
+        
+      
     
     
       
@@ -775,7 +777,7 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      动态打印
+      获取函数地址
     </span>
   </a>
   
@@ -783,6 +785,15 @@
       
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      动态打印
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       常用调试功能
     </span>
@@ -1229,11 +1240,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../network/" class="md-nav__link">
+      <a href="../iomultiplexing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io_uring/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异步IO
   </span>
   
 
@@ -4346,7 +4378,7 @@
         <li class="md-nav__item">
   <a href="#_5" class="md-nav__link">
     <span class="md-ellipsis">
-      动态打印
+      获取函数地址
     </span>
   </a>
   
@@ -4354,6 +4386,15 @@
       
         <li class="md-nav__item">
   <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      动态打印
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
     <span class="md-ellipsis">
       常用调试功能
     </span>
@@ -4683,13 +4724,20 @@
 <h3 id="_4">调试函数<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <ul>
 <li>dump_stack()：打印当前调用栈</li>
-<li>BUG()：触发panic，输出log</li>
-<li>BUG_ON(condition)：触发panic，输出log</li>
-<li>WARN(condition, fmt...)：当condition为真时，打印信息，不触发panic</li>
-<li>WARN_ON（condition)：调用<code>dump_stack()</code></li>
-<li>panic(fmt...)：系统crash，输出log</li>
+<li>BUG()：触发panic，输出 log</li>
+<li>BUG_ON(condition)：如果条件为真，则触发 panic，输出 log</li>
+<li>WARN(condition, fmt...)：如果条件为真，打印信息，不触发 panic</li>
+<li>WARN_ON(condition)：调用<code>dump_stack()</code></li>
+<li>panic(fmt...)：系统 crash，输出 log</li>
 </ul>
-<h2 id="_5">动态打印<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h2 id="_5">获取函数地址<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>在内核调试中，经常需要知道某个函数的地址，或者根据地址找到相应的函数。下面介绍几种方法，可以获取函数的地址信息。</p>
+<ol>
+<li>system.map：在内核编译时，会生成一个 system.map 文件，也叫内核符号表，里面每一行都代表一个函数符号，包括地址、类型和名称。</li>
+<li>vmlinux：编译内核时生成的原始内核镜像文件，可以通过<code>nm</code>、<code>objdump</code>和<code>readelf</code>等工具来查看符号表信息。</li>
+<li>/proc/kallsyms：内核符号表信息，可以通过<code>cat /proc/kallsyms</code>命令查看。</li>
+</ol>
+<h2 id="_6">动态打印<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>/sys/kernel/debug/dynamic_debug/control 是 Linux 系统中的一个特殊文件，用于动态调试内核代码。开发者可以在运行时动态地启用或禁用内核中的调试信息，而不需要重新编译内核。所有通过<code>pr_debug()</code>和<code>dev_debug()</code>打印的信息都可以动态的显示或不显示。</p>
 <p>/sys/kernel/debug/dynamic_debug/control 文件接受以下格式的命令：</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>module<span class="w"> </span>&lt;module_name&gt;<span class="w"> </span>&lt;flags&gt;
@@ -4701,7 +4749,7 @@
 <p>例如，下面这条命令会启用<code>my_driver.c</code>文件中所有使用<code>pr_debug()</code>和<code>dev_dbg()</code>宏输出的调试信息。命令中的<code>+p</code>参数表示启用打印。</p>
 <div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nb">echo</span><span class="w"> </span><span class="s1">&#39;file my_driver.c +p&#39;</span><span class="w"> </span>&gt;<span class="w"> </span>/sys/kernel/debug/dynamic_debug/control
 </code></pre></div>
-<h2 id="_6">常用调试功能<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_7">常用调试功能<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
 <h3 id="kasan">KASAN<a class="headerlink" href="#kasan" title="Permanent link">&para;</a></h3>
 <h3 id="strace">strace<a class="headerlink" href="#strace" title="Permanent link">&para;</a></h3>
 <p><code>strace</code>用于跟踪程序的系统调用情况，它的基本用法是：<code>strace [options] command [command-args]</code>。</p>

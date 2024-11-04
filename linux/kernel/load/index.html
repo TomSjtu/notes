@@ -47,8 +47,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Source Code Pro"}</style>
       
     
     
@@ -577,6 +577,8 @@
       
         
       
+        
+      
     
     
       
@@ -808,6 +810,21 @@
       加载ELF文件
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="加载ELF文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elf_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ELF解析
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1163,11 +1180,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../network/" class="md-nav__link">
+      <a href="../iomultiplexing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io_uring/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异步IO
   </span>
   
 
@@ -4251,6 +4289,21 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="加载ELF文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#elf_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ELF解析
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -4276,6 +4329,41 @@
 <h2 id="shell">shell启动进程<a class="headerlink" href="#shell" title="Permanent link">&para;</a></h2>
 <h2 id="execve">execve系统调用<a class="headerlink" href="#execve" title="Permanent link">&para;</a></h2>
 <h2 id="elf">加载ELF文件<a class="headerlink" href="#elf" title="Permanent link">&para;</a></h2>
+<h3 id="elf_1">ELF解析<a class="headerlink" href="#elf_1" title="Permanent link">&para;</a></h3>
+<p><img alt="Linux ELF" src="../../../images/kernel/elf.jpg" /></p>
+<p>ELF 文件是 Linux 系统上通用的可执行文件、共享库、核心转储文件格式。可以通过<code>file</code>命令查看 ELF 文件的信息：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>file<span class="w"> </span>/usr/bin/ls
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>/usr/bin/ls:<span class="w"> </span>ELF<span class="w"> </span><span class="m">64</span>-bit<span class="w"> </span>LSB<span class="w"> </span>pie<span class="w"> </span>executable,<span class="w"> </span>x86-64,<span class="w"> </span>version<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>SYSV<span class="o">)</span>,<span class="w"> </span>dynamically<span class="w"> </span>linked,<span class="w"> </span>interpreter<span class="w"> </span>/lib64/ld-linux-x86-64.so.2,<span class="w"> </span>BuildID<span class="o">[</span>sha1<span class="o">]=</span>36b86f957a1be53733633d184c3a3354f3fc7b12,<span class="w"> </span><span class="k">for</span><span class="w"> </span>GNU/Linux<span class="w"> </span><span class="m">3</span>.2.0,<span class="w"> </span>stripped
+</code></pre></div>
+<p><code>readelf</code>命令查看 ELF 文件的结构：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>readelf<span class="w"> </span>-h<span class="w"> </span>/usr/bin/ls
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>ELF<span class="w"> </span>Header:
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span>Magic:<span class="w">   </span>7f<span class="w"> </span><span class="m">45</span><span class="w"> </span>4c<span class="w"> </span><span class="m">46</span><span class="w"> </span><span class="m">02</span><span class="w"> </span><span class="m">01</span><span class="w"> </span><span class="m">01</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span><span class="m">00</span><span class="w"> </span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">  </span>Class:<span class="w">                             </span>ELF64
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span>Data:<span class="w">                              </span><span class="m">2</span><span class="err">&#39;</span>s<span class="w"> </span>complement,<span class="w"> </span>little<span class="w"> </span>endian
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">  </span>Version:<span class="w">                           </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>current<span class="o">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">  </span>OS/ABI:<span class="w">                            </span>UNIX<span class="w"> </span>-<span class="w"> </span>System<span class="w"> </span>V
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">  </span>ABI<span class="w"> </span>Version:<span class="w">                       </span><span class="m">0</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">  </span>Type:<span class="w">                              </span>DYN<span class="w"> </span><span class="o">(</span>Position-Independent<span class="w"> </span>Executable<span class="w"> </span>file<span class="o">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">  </span>Machine:<span class="w">                           </span>Advanced<span class="w"> </span>Micro<span class="w"> </span>Devices<span class="w"> </span>X86-64
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="w">  </span>Version:<span class="w">                           </span>0x1
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="w">  </span>Entry<span class="w"> </span>point<span class="w"> </span>address:<span class="w">               </span>0x6aa0
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="w">  </span>Start<span class="w"> </span>of<span class="w"> </span>program<span class="w"> </span>headers:<span class="w">          </span><span class="m">64</span><span class="w"> </span><span class="o">(</span>bytes<span class="w"> </span>into<span class="w"> </span>file<span class="o">)</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="w">  </span>Start<span class="w"> </span>of<span class="w"> </span>section<span class="w"> </span>headers:<span class="w">          </span><span class="m">136232</span><span class="w"> </span><span class="o">(</span>bytes<span class="w"> </span>into<span class="w"> </span>file<span class="o">)</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="w">  </span>Flags:<span class="w">                             </span>0x0
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="w">  </span>Size<span class="w"> </span>of<span class="w"> </span>this<span class="w"> </span>header:<span class="w">               </span><span class="m">64</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="w">  </span>Size<span class="w"> </span>of<span class="w"> </span>program<span class="w"> </span>headers:<span class="w">           </span><span class="m">56</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">  </span>Number<span class="w"> </span>of<span class="w"> </span>program<span class="w"> </span>headers:<span class="w">         </span><span class="m">13</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">  </span>Size<span class="w"> </span>of<span class="w"> </span>section<span class="w"> </span>headers:<span class="w">           </span><span class="m">64</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">  </span>Number<span class="w"> </span>of<span class="w"> </span>section<span class="w"> </span>headers:<span class="w">         </span><span class="m">31</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">  </span>Section<span class="w"> </span>header<span class="w"> </span>string<span class="w"> </span>table<span class="w"> </span>index:<span class="w"> </span><span class="m">30</span>
+</code></pre></div>
+<ul>
+<li>魔数：前4个字节固定为<code>7f 45 4c 46</code>，表示这是一个 ELF 文件(45=E，4c=L，46=F)。</li>
+<li>类别：在 ELF 文件之后，定义了一个类别字段，这个值决定了该文件是 32(=01) 位架构还是 64(=02) 位架构。</li>
+<li>大小端：后面跟着的数据决定了文件是大端还是小端，01 表示小端，02 表示大端。</li>
+<li>版本：接下来的 01 表示版本号。</li>
+</ul>
 
 
 

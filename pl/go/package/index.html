@@ -47,8 +47,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Source Code Pro"}</style>
       
     
     
@@ -510,6 +510,8 @@
       
         
           
+        
+      
         
       
         
@@ -1080,11 +1082,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../../../linux/kernel/network/" class="md-nav__link">
+      <a href="../../../linux/kernel/iomultiplexing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/io_uring/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异步IO
   </span>
   
 
@@ -3416,6 +3439,17 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    包管理
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -3425,6 +3459,70 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#module" class="md-nav__link">
+    <span class="md-ellipsis">
+      module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goproxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      GOPROXY
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goprivate" class="md-nav__link">
+    <span class="md-ellipsis">
+      GOPRIVATE
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      引入外部依赖
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      引入本地依赖
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -4145,6 +4243,59 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#module" class="md-nav__link">
+    <span class="md-ellipsis">
+      module
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goproxy" class="md-nav__link">
+    <span class="md-ellipsis">
+      GOPROXY
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#goprivate" class="md-nav__link">
+    <span class="md-ellipsis">
+      GOPRIVATE
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      引入外部依赖
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      引入本地依赖
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -4162,7 +4313,51 @@
 
 
 <h1 id="_1">包管理<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
-<p><code>init()</code>函数用于包的初始化。</p>
+<p>Go 语言中使用包来支持代码模块化和代码复用，一个包是由一个或多个 Go 源码文件组成的。定义包可以用<code>package package_name</code>语句，一个包可以简单地理解为一个存放 .go 文件的文件夹，该文件夹下所有的 .go 文件都视为该包的一部分。<code>main</code>包提供了应用程序的入口，该包编译后会得到一个可执行文件。</p>
+<p>每个程序都是一个包，必须在源文件中非注释的第一行指明这个文件属于哪个包，如：<code>package main</code>。<code>package main</code> 表示一个可独立执行的程序，每个 Go 应用程序都包含一个名为<code>main</code>的包。</p>
+<p>一个应用程序可以包含不同的包，而且即使你只使用<code>main</code>包也不必把所有的代码都写在一个巨大的文件里：你可以用一些较小的文件，并且在每个文件非注释的第一行都使用<code>package main</code>来指明这些文件都属于<code>main</code>包。</p>
+<p>属于同一个包的源文件必须全部被一起编译，一个包即是编译时的一个单元，因此根据惯例，每个目录都只包含一个包。</p>
+<p>如果对一个包进行更改或重新编译，所有引用了这个包的客户端程序都必须全部重新编译。</p>
+<p>GO 程序的执行（程序启动）顺序如下：</p>
+<ul>
+<li>按顺序导入所有被<code>main</code>包引用的其它包，然后在每个包中执行如下流程：</li>
+<li>如果该包又导入了其它的包，则从第一步开始递归执行，但是每个包只会被导入一次。</li>
+<li>然后以相反的顺序在每个包中初始化常量和变量，如果该包含有<code>init()</code>函数的话，则调用该函数。</li>
+<li>在完成这一切之后，<code>main</code>也执行同样的过程，最后调用<code>main()</code>函数开始执行程序。</li>
+</ul>
+<p><img alt="导入包" src="../../../images/pl/go/import.png" /></p>
+<h2 id="module">module<a class="headerlink" href="#module" title="Permanent link">&para;</a></h2>
+<p><code>go module</code>是 Go 语言的依赖管理工具，要启用它首先要设置环境变量 GO111MODULE：</p>
+<ul>
+<li>GO111MODULE=off：禁用模块支持，编译时会从 GOPATH 和 vendor 目录查找依赖包。</li>
+<li>GO111MODULE=on：启用模块支持，编译时会忽略 GOPATH 和 vendor 目录，只根据 go.mod 文件查找依赖包。</li>
+<li>GO111MODULE=auto：当项目在 GOPATH/src 外切项目根目录有 go.mod 文件时启用模块支持</li>
+</ul>
+<p><code>go mod</code>命令用于管理依赖包：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>go<span class="w"> </span>mod<span class="w"> </span>download<span class="w">    </span>下载依赖的module到本地cache（默认为<span class="nv">$GOPATH</span>/pkg/mod目录）
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>go<span class="w"> </span>mod<span class="w"> </span>edit<span class="w">        </span>编辑go.mod文件
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>go<span class="w"> </span>mod<span class="w"> </span>graph<span class="w">       </span>打印模块依赖图
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>go<span class="w"> </span>mod<span class="w"> </span>init<span class="w">        </span>初始化当前文件夹,<span class="w"> </span>创建go.mod文件
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>go<span class="w"> </span>mod<span class="w"> </span>tidy<span class="w">        </span>增加缺少的module，删除无用的module
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>go<span class="w"> </span>mod<span class="w"> </span>vendor<span class="w">      </span>将依赖复制到vendor下
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>go<span class="w"> </span>mod<span class="w"> </span>verify<span class="w">      </span>校验依赖
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>go<span class="w"> </span>mod<span class="w"> </span>why<span class="w">         </span>解释为什么需要依赖
+</code></pre></div>
+<h2 id="goproxy">GOPROXY<a class="headerlink" href="#goproxy" title="Permanent link">&para;</a></h2>
+<p>GOPROXY 用于设置 Go 模块代理，使得拉取模块时可以通过镜像站点的方式：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>go<span class="w"> </span>env<span class="w"> </span>-w<span class="w"> </span><span class="nv">GOPROXY</span><span class="o">=</span>https://goproxy.cn,direct
+</code></pre></div>
+<p>多个代理地址用逗号隔开，<code>direct</code>指示 Go 回到源地址去抓取。</p>
+<h2 id="goprivate">GOPRIVATE<a class="headerlink" href="#goprivate" title="Permanent link">&para;</a></h2>
+<p>设置了 GOPROXY 之后，go 命令就会从配置的代理地址拉取和校验依赖包。然而当我们在项目中引入了非公开的包（公司内部 git 仓库或 github 私有仓库等），此时便无法正常从代理拉取到这些非公开的依赖包，这个时候就需要配置 GOPRIVATE 环境变量。GOPRIVATE 用来告诉 go 命令哪些仓库属于私有仓库，不必通过代理服务器拉取和校验。</p>
+<h2 id="_2">引入外部依赖<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>使用<code>go get</code>命令可以直接从远程仓库下载依赖的包，并在 go.mod 文件中记录依赖信息。</p>
+<h2 id="_3">引入本地依赖<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>如果要引入本地依赖，此时分为两种：</p>
+<ul>
+<li>源码在当前项目路径：<code>import "主包名/依赖包名"</code></li>
+<li>源码在其他项目路径：在 go.mod 文件中添加<code>require</code>语句指定依赖的包，然后在 go.mod 文件中添加<code>replace</code>语句，指定依赖包的路径。</li>
+</ul>
 
 
 

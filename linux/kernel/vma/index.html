@@ -47,8 +47,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Source Code Pro"}</style>
       
     
     
@@ -517,6 +517,8 @@
       
         
           
+        
+      
         
       
         
@@ -1229,11 +1231,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../network/" class="md-nav__link">
+      <a href="../iomultiplexing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io_uring/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异步IO
   </span>
   
 
@@ -4476,7 +4499,7 @@
 <h2 id="_6">堆内存管理<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
 <p>堆内存管理是操作系统中最为复杂的部分之一。由于程序在运行过程中会涉及大量数据对象的申请和释放，如果仅使用内核提供的<code>mmap()</code>和<code>brk()</code>函数，会产生大量的内存碎片。因此在应用开发者和内核之间还需要一个内存分配器。<code>malloc()</code>函数其实就是 glibc 提供的内存分配器接口。业界有许多优秀的内存分配器，这里只介绍 glibc 内置的 ptmalloc 内存分配器的大致工作原理。</p>
 <h3 id="ptmalloc">ptmalloc概念<a class="headerlink" href="#ptmalloc" title="Permanent link">&para;</a></h3>
-<p>在 ptmalloc 中，是通过分配去、空闲链表、内存块等几个数据结构来管理内存的。</p>
+<p>在 ptmalloc 中，是通过分配区、空闲链表、内存块等几个数据结构来管理内存的。</p>
 <h4 id="_7">分配区<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h4>
 <p>多线程在操作分配区的时候需要加锁，为了提升性能，ptmalloc 支持多个分配区：</p>
 <div class="language-C highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">struct</span><span class="w"> </span><span class="nc">malloc_state</span><span class="w"> </span><span class="p">{</span>

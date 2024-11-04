@@ -47,8 +47,8 @@
         
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
-        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Source Code Pro"}</style>
       
     
     
@@ -517,6 +517,8 @@
       
         
           
+        
+      
         
       
         
@@ -1181,11 +1183,32 @@
   
   
     <li class="md-nav__item">
-      <a href="../network/" class="md-nav__link">
+      <a href="../iomultiplexing/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
     网络系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io_uring/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异步IO
   </span>
   
 
@@ -4309,7 +4332,6 @@
 
 <h1 id="_1">连续内存分配<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
 <p><img alt="内存分配" src="../../../images/kernel/mem_alloc.png" /></p>
-<p><a href="https://www.laumy.tech/917.html">https://www.laumy.tech/917.html</a></p>
 <p>在嵌入式环境中，许多设备都需要连续内存块的操作，比如相机、视频解码器、音频设备等，早期内核驱动只能通过预留专属内存的方式，在映射后作为设备私有内存使用。这样的后果就是当设备不工作时，预留的内存页无法被当作通用内存使用，造成了内存的浪费。</p>
 <p>连续内存分配(CMA)就是为了解决上述困境而被引入的。当一个驱动模块想要申请大块连续内存时，内存管理系统将CMA区域的内存进行迁移，空出连续内存给驱动使用。而当驱动模块释放时，它又被归还给操作系统管理，可以分配给其他使用者。</p>
 <h2 id="_2">设备树配置<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
