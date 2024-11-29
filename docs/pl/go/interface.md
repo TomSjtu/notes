@@ -129,3 +129,55 @@ func printValue(v interfaceP{}){
 }
 ```
 
+## 组合接口
+
+接口的组合是通过定义一个新的接口，然后内嵌其他接口来实现的。这种机制具有强大的灵活性，可以定义一个新的接口类型而不需要重新定义所有方法：
+
+```GO
+package main
+
+import "fmt"
+
+// 定义一个Writer接口
+type Writer interface {
+    Write([]byte) (int, error)
+}
+
+// 定义一个Closer接口
+type Closer interface {
+    Close() error
+}
+
+// 定义一个ReadWriteCloser接口，它组合了Writer和Closer接口
+type ReadWriteCloser interface {
+    Writer
+    Closer
+    // 你可以在这里添加更多方法
+}
+
+// 假设我们有一个实现了Writer和Closer接口的结构体
+type MyFile struct{}
+
+func (f *MyFile) Write(data []byte) (int, error) {
+    fmt.Println("Writing data")
+    return len(data), nil
+}
+
+func (f *MyFile) Close() error {
+    fmt.Println("Closing file")
+    return nil
+}
+
+func main() {
+    var rwc ReadWriteCloser
+    myFile := &MyFile{}
+    
+    // 因为MyFile实现了Writer和Closer接口，所以它可以被赋值给ReadWriteCloser类型的变量
+    rwc = myFile
+    
+    // 使用ReadWriteCloser接口
+    rwc.Write([]byte("Hello, Go!"))
+    rwc.Close()
+}
+```
+

@@ -27,14 +27,17 @@ GO 程序的执行（程序启动）顺序如下：
 - GO111MODULE=on：启用模块支持，编译时会忽略 GOPATH 和 vendor 目录，只根据 go.mod 文件查找依赖包。
 - GO111MODULE=auto：当项目在 GOPATH/src 外切项目根目录有 go.mod 文件时启用模块支持
 
-`go mod`命令用于管理依赖包：
+`go mod`命令用于管理包，在使用前先用`go mod init`命令初始化项目。其中 Go 保留了两个特殊的 module 名：
 
+- test：用于测试代码
+- example：一些包会使用该名称作为教学或示例代码
+  
 ```SHELL
 go mod download    下载依赖的module到本地cache（默认为$GOPATH/pkg/mod目录）
 go mod edit        编辑go.mod文件
 go mod graph       打印模块依赖图
 go mod init        初始化当前文件夹, 创建go.mod文件
-go mod tidy        增加缺少的module，删除无用的module
+go mod tidy        更新当前模块的依赖
 go mod vendor      将依赖复制到vendor下
 go mod verify      校验依赖
 go mod why         解释为什么需要依赖
@@ -57,6 +60,12 @@ go env -w GOPROXY=https://goproxy.cn,direct
 ## 引入外部依赖
 
 使用`go get`命令可以直接从远程仓库下载依赖的包，并在 go.mod 文件中记录依赖信息。
+
+比如如果使用了`go get example.com/theirmodule@v1.3.4`命令，则会在 go.mod 文件中添加以下语句：
+
+```
+require example.com/theirmodule v1.3.4
+```
 
 ## 引入本地依赖
 

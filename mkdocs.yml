@@ -62,66 +62,96 @@ nav:
 
   - Linux: 
     - linux/index.md
-    - 内核剖析:
+    - 内核剖析: 
       - linux/kernel/index.md
-      - linux/kernel/compile.md
-      - linux/kernel/program.md
-      - linux/kernel/debug.md
-      - linux/kernel/synch.md
-      - linux/kernel/others.md
-      - linux/kernel/load.md
-      - linux/kernel/task.md
-      - linux/kernel/wait.md
-      - linux/kernel/sched.md
-      - linux/kernel/ipc.md
-      - linux/kernel/preempt.md
-      - linux/kernel/kthread.md
-      - linux/kernel/interrupt.md
-      - linux/kernel/bottom_half.md
-      - linux/kernel/mm.md
-      - linux/kernel/vma.md
-      - linux/kernel/recycle.md
-      - linux/kernel/oom.md
-      - linux/kernel/ion.md
-      - linux/kernel/cma.md
-      - linux/kernel/vfs.md
-      - linux/kernel/block.md
-      - linux/kernel/iomultiplexing.md
-      - linux/kernel/io_uring.md
-      - linux/kernel/time.md
-      - linux/kernel/timer.md
-      - linux/kernel/hrtimer.md
-      - linux/kernel/rt_patch.md
-      - linux/kernel/pm.md
-      - linux/kernel/shell.md
+
+      - 基础知识:
+        - linux/kernel/compile.md
+        - linux/kernel/program.md
+        - linux/kernel/debug.md
+        - linux/kernel/synch.md
+        - linux/kernel/others.md
+
+      - 进程管理:
+        - linux/kernel/load.md
+        - linux/kernel/task.md
+        - linux/kernel/wait.md
+        - linux/kernel/sched.md
+        - linux/kernel/ipc.md
+        - linux/kernel/preempt.md
+        - linux/kernel/kthread.md
+
+      - 中断处理:
+        - linux/kernel/interrupt.md
+        - linux/kernel/bottom_half.md
+
+      - 内存管理:
+        - linux/kernel/mm.md
+        - linux/kernel/vma.md
+        - linux/kernel/recycle.md
+        - linux/kernel/oom.md
+        - linux/kernel/ion.md
+        - linux/kernel/cma.md
+      
+      - 文件系统:
+        - linux/kernel/vfs.md
+        - linux/kernel/block.md
+      
+      - 网络系统:
+        - linux/kernel/iomultiplexing.md
+        - linux/kernel/io_uring.md
+      
+      - 时间系统:
+        - linux/kernel/time.md
+        - linux/kernel/timer.md
+        - linux/kernel/hrtimer.md
+        - linux/kernel/rt_patch.md
+      
+      - 电源管理:
+        - linux/kernel/pm.md
+      
+      - shell脚本:
+        - linux/kernel/shell.md
       
       
     
     - 设备驱动程序:
       - linux/drivers/index.md
-      - linux/drivers/hardware.md
-      - linux/drivers/protocol.md
-      - linux/drivers/module.md
-      - linux/drivers/dts.md
-      - linux/drivers/interrupt.md
-      - linux/drivers/dma.md
-      - linux/drivers/device_model.md
-      - linux/drivers/platform.md
-      - linux/drivers/chardev.md
-      - linux/drivers/blkdev.md
-      - linux/drivers/netdev.md
-      - linux/drivers/pinctrl.md
-      - linux/drivers/gpio.md
-      - linux/drivers/i2c.md
-      - linux/drivers/spi.md
-      - linux/drivers/uart.md
-      - linux/drivers/input.md
-      - linux/drivers/ethernet.md
-      - linux/drivers/pcie.md
-      - linux/drivers/usb.md
-      - linux/drivers/wifi.md
-      - linux/drivers/bluetooth.md
-      - linux/drivers/socketcan.md
+
+      - 基础知识:
+        - linux/drivers/hardware.md
+        - linux/drivers/protocol.md
+        - linux/drivers/module.md
+        - linux/drivers/dts.md
+        - linux/drivers/interrupt.md
+        - linux/drivers/dma.md
+      
+      - 设备模型框架:
+        - linux/drivers/device_model.md
+        - linux/drivers/platform.md
+      
+      - 字符、块和网络:
+        - linux/drivers/chardev.md
+        - linux/drivers/blkdev.md
+        - linux/drivers/netdev.md
+
+      - 低速设备驱动:
+        - linux/drivers/pinctrl.md
+        - linux/drivers/gpio.md
+        - linux/drivers/i2c.md
+        - linux/drivers/spi.md
+        - linux/drivers/uart.md
+        - linux/drivers/input.md
+
+      - 高速设备驱动:
+        - linux/drivers/ethernet.md
+        - linux/drivers/pcie.md
+        - linux/drivers/usb.md
+        - linux/drivers/wifi.md
+        - linux/drivers/bluetooth.md
+      
+      - 其他设备驱动:
+        - linux/drivers/socketcan.md
             
 
     - 性能调优:
@@ -133,28 +163,43 @@ nav:
 
     - 性能观测:
       - linux/monitor/index.md
-      - linux/monitor/intro.md
-      - linux/monitor/trace.md
-      - linux/monitor/probe.md
-      - linux/monitor/ebpf.md
-      - linux/monitor/bpftool.md
+      - 基础知识:
+        - linux/monitor/intro.md
+      
+      - 内核跟踪技术:
+        - linux/monitor/trace.md
+        - linux/monitor/probe.md
+      
+      - ebpf:
+        - linux/monitor/ebpf.md
+        - linux/monitor/bpftool.md
  
   - ARM: 
     - arm/index.md
-    - arm/secure_boot.md
-    - arm/boot.md
-    - arm/aarch64.md
-    - arm/standard.md
-    - arm/instructions.md
-    - arm/assembler.md
-    - arm/exception.md
-    - arm/gic.md
-    - arm/atomic.md
-    - arm/lock.md
-    - arm/barrier.md
-    - arm/mm.md
-    - arm/cache.md
-    - arm/tlb.md
+    
+    - 基础知识:
+      - arm/secure_boot.md
+      - arm/boot.md
+      - arm/aarch64.md
+      - arm/standard.md
+    
+    - ARM汇编:
+      - arm/instructions.md
+      - arm/assembler.md
+    
+    - 异常处理:
+      - arm/exception.md
+      - arm/gic.md
+    
+    - ARM同步机制:
+      - arm/atomic.md
+      - arm/lock.md
+      - arm/barrier.md
+    
+    - 内存管理:
+      - arm/mm.md
+      - arm/cache.md
+      - arm/tlb.md
 
 
   - ROS2:
@@ -188,18 +233,20 @@ nav:
       - pl/cpp/cpp11.md
     
     - Python:
-      - pl/python/python.md
+      - pl/python/index.md
 
     - Go:
-      - pl/go/index.md
-      - pl/go/intro.md
-      - pl/go/function.md
-      - pl/go/package.md
-      - pl/go/interface.md
-      - pl/go/concurrency.md
-      - pl/go/reflect.md
-      - pl/go/template.md
-      - pl/go/unit_test.md
+      - 基础知识:
+        - pl/go/index.md
+        - pl/go/intro.md
+        - pl/go/function.md
+        - pl/go/package.md
+        - pl/go/interface.md
+        - pl/go/concurrency.md
+        - pl/go/reflect.md
+        - pl/go/template.md
+        - pl/go/unit_test.md
+        - pl/go/debug.md
 
   - 人工智能:
     - ai/index.md
@@ -225,6 +272,6 @@ nav:
     - others/serializer.md
     - others/video.md
     - others/ffmpeg.md
-
+    - others/interpreter.md
 
     

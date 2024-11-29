@@ -225,39 +225,38 @@ type structName struct {
 
 结构体中字段大写开头表示可公开访问，小写表示私有（仅在定义当前结构体的包中可访问）。结构体初始化可以采用键值对初始化、列表初始化。
 
-Go 语言中，在结构体中嵌套另一个结构体可以直接实现继承：
+Go 语言中，在结构体中嵌套另一个结构体可以直接实现继承。如果该结构体与嵌套结构体的方法重名，则会覆盖嵌套结构体的方法：
 
 ```GO
-//Animal 动物
 type Animal struct {
-	name string
+	Name string
 }
 
-func (a *Animal) move() {
-	fmt.Printf("%s会动！\n", a.name)
+func (a *Animal) Speak() {
+	println(a.Name, "says meow!")
 }
 
-//Dog 狗
+func (a *Animal) Move() {
+	println(a.Name, "is running!")
+}
+
 type Dog struct {
-	Feet    int8
-	*Animal //通过嵌套匿名结构体实现继承
+	Animal
 }
 
-func (d *Dog) wang() {
-	fmt.Printf("%s会汪汪汪~\n", d.name)
+func (d *Dog) Speak() {
+	println(d.Name, "says woof!")
 }
 
 func main() {
-	d1 := &Dog{
-		Feet: 4,
-		Animal: &Animal{ //注意嵌套的是结构体指针
-			name: "乐乐",
-		},
-	}
-	d1.wang() //乐乐会汪汪汪~
-	d1.move() //乐乐会动！
+	a := Animal{Name: "Bob"}
+	d := Dog{Animal: a}
+	d.Move()    // 输出: Bob is running!
+	d.Speak()   // 输出: Bob says woof!
 }
 ```
+
+但是，如果处于同一层级的多个嵌入字段拥有同名的字段或方法，则会触发一个编译错误，因为编译器无法确定应该选择哪个成员。
 
 Go 语言可以对结构体打标签(tag)，使得结构体可以被序列化和反序列化。
 

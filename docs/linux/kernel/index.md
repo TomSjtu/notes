@@ -18,7 +18,7 @@
 - [内核抢占](./preempt.md)
 - [内核线程](./kthread.md)
 
-## 中断和中断处理
+## 中断处理
 
 - [中断处理程序](./interrupt.md)
 - [中断下半部](./bottom_half.md)

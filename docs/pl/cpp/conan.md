@@ -108,6 +108,46 @@ class MyFile(ConanFile):
 - `build_requirements`：构建工具，比如 cmake
 - `layout`：指定生成的目录结构，这里使用 cmake 布局
 
+### 安装依赖库
+
+假设我们的项目结构如下：
+```SHELL
+.
+├── bin
+├── build
+├── CMakeLists.txt
+├── conanfile.py
+├── lib
+├── main.cpp
+```
+
+在配置好 conanfile.py 后，在当前目录，执行`conan install . --output-folder=build --build=missing`命令，即可安装依赖库。
+
+- --output-folder：指定安装目录为 build
+- --build=missing：在安装过程中自动构建任何缺失的依赖项
+
+在 build 目录下，conan 会自动生成一系列 cmake 文件，而实际的包则是下载到了 ~/.conan2/p 文件夹中。
+
+![alt text](../../images/pl/cpp/build_file.png)
+
+这里最关键的文件是 conan_toolchain.cmake，后续在使用 cmake 时需要指定该工具链文件，才能找到对应的包。以下三行告诉了 cmake 去哪里寻找依赖的包：
+
+```CMAKE
+list(PREPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_LIST_DIR} )
+list(PREPEND CMAKE_LIBRARY_PATH "/root/.conan2/p/zlib0236fd1b57105/p/lib")
+list(PREPEND CMAKE_INCLUDE_PATH "/root/.conan2/p/zlib0236fd1b57105/p/include")
+```
+
+接下来我们需要在 CMakeLists.txt 文件指定依赖的包。
+
+```CMAKE
+find_package(LIBNAME REQUIRED)
+target_link_libraries(${PROJECt_NAME} LIBNAME::LIBNAME)
+```
+
+最后，执行`cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`命令，即可生成 Makefile 文件。
+
+
 ## 创建包
 
 
