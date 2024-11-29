@@ -2,652 +2,662 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://tomsjtu.github.io/notes/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/ai/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/ai/dl/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/ai/dl/onnx/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/ai/opencl/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/aarch64/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/assembler/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/atomic/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/barrier/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/boot/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/cache/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/exception/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/gic/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/instructions/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/lock/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/mm/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/secure_boot/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/standard/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/arm/tlb/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/cloud/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/cloud/docker/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/blkdev/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/bluetooth/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/chardev/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/device_model/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/dma/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/dts/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/ethernet/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/gpio/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/hardware/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/i2c/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/input/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/interrupt/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/module/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/netdev/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/pcie/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/pinctrl/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/platform/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/protocol/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/socketcan/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/spi/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/uart/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/usb/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/drivers/wifi/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/block/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/bottom_half/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/cma/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/compile/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/debug/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/hrtimer/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/interrupt/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/io_uring/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/iomultiplexing/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/ion/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/ipc/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/kthread/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/load/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/mm/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/oom/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/others/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/pm/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/preempt/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/program/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/recycle/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/rt_patch/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/sched/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/shell/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/synch/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/task/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/time/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/timer/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/vfs/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/vma/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/kernel/wait/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/monitor/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/monitor/bpftool/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/monitor/ebpf/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/monitor/intro/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/monitor/probe/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/monitor/trace/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/cpu/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/disk/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/memory/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/linux/optimization/network/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/others/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/others/config/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/others/ffmpeg/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://tomsjtu.github.io/notes/others/interpreter/</loc>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/others/serializer/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/others/video/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/c/gcc/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/c/misc/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/c/standard/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/algorithm/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/cmake/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/conan/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/concurrency/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/container/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/cpp11/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/exception/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/gdb/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/io/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/misc/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/mm/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/oop/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/regex/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/cpp/time/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/go/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/go/concurrency/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://tomsjtu.github.io/notes/pl/go/debug/</loc>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/go/function/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/go/interface/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/go/intro/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/go/package/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/go/reflect/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/go/template/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/pl/go/unit_test/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
-         <loc>https://tomsjtu.github.io/notes/pl/python/python/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <loc>https://tomsjtu.github.io/notes/pl/python/</loc>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/ros2/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/ros2/core/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/ros2/intro/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/tools/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/tools/github/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/tools/markdown/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://tomsjtu.github.io/notes/tools/vim/</loc>
-         <lastmod>2024-11-04</lastmod>
+         <lastmod>2024-11-29</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
