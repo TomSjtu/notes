@@ -172,7 +172,8 @@ nav:
       
       - ebpf:
         - linux/monitor/ebpf.md
-        - linux/monitor/bpftool.md
+        - linux/monitor/bcc.md
+        - linux/monitor/bpftrace.md
  
   - ARM: 
     - arm/index.md
@@ -217,27 +218,40 @@ nav:
     
     - C++:
       - pl/cpp/index.md
-      - pl/cpp/misc.md
-      - pl/cpp/io.md
-      - pl/cpp/exception.md
-      - pl/cpp/gdb.md
-      - pl/cpp/cmake.md
-      - pl/cpp/conan.md
-      - pl/cpp/oop.md
-      - pl/cpp/container.md
-      - pl/cpp/algorithm.md
-      - pl/cpp/regex.md
-      - pl/cpp/time.md
-      - pl/cpp/mm.md
-      - pl/cpp/concurrency.md
-      - pl/cpp/cpp11.md
+      - 基础知识:
+        - pl/cpp/misc.md
+        - pl/cpp/io.md
+        - pl/cpp/exception.md
+        - pl/cpp/gdb.md
+      
+      - 包管理:
+        - pl/cpp/cmake.md
+        - pl/cpp/conan.md
+      
+      - 面向对象:
+        - pl/cpp/oop.md
+      
+      - 标准库:
+        - pl/cpp/container.md
+        - pl/cpp/algorithm.md
+        - pl/cpp/regex.md
+        - pl/cpp/time.md
+      
+      - 内存管理:
+        - pl/cpp/mm.md
+      
+      - 并发:
+        - pl/cpp/concurrency.md
+      
+      - 现代C++:
+        - pl/cpp/cpp11.md
     
     - Python:
       - pl/python/index.md
 
     - Go:
+      - pl/go/index.md
       - 基础知识:
-        - pl/go/index.md
         - pl/go/intro.md
         - pl/go/function.md
         - pl/go/package.md
@@ -247,6 +261,9 @@ nav:
         - pl/go/template.md
         - pl/go/unit_test.md
         - pl/go/debug.md
+      
+      - 标准库:
+        - pl/go/stdlib.md
 
   - 人工智能:
     - ai/index.md

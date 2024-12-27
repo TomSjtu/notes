@@ -115,20 +115,88 @@ sync.RWMutex 提供了以下5个方法：
 - `RUnlock()`：释放读锁
 - `RLocker()`：返回一个实现 Locker 接口的读写锁
 
+### 条件变量
+
+sync.Cond 可以提供 goroutine 之间的同步，提供了三个方法：等待通知(wait)、单发通知(signal)、广播通知(broadcast)。条件变量的初始化必须基于锁。
+
+```GO
+var mailbox uint8
+var lock sync.RWMutex
+secondCond := sync.NewCond(&lock)
+recvCond := sync.NewCond(lock.RLocker())
+
+func condDemo(lock *sync.RWMutex, cond *sync.Cond) {
+    lock.Lock()
+    for mailbox == 1 {
+        secondCond.Wait()
+    }
+    mailbox = 1
+    lock.Unlock()
+    recvCond.Signal()
+}
+```
+
+请注意，再调用条件变量的`Wait()`方法之前必须先获取锁，调用`Signal()`或`Broadcast()`方法之前必须先释放锁。原因是条件变量的流程先获取锁，然后再解锁：
+
+1. 把调用它的 goroutine 放入当前条件变量的等待队列，并阻塞它。
+2. 解锁当前条件变量基于的锁。
+3. 当通知到来后，如果要唤醒当前 goroutine，则在唤醒之后会重新锁定条件变量基于的锁，然后再执行剩余代码。
+
+而检查共享资源则总是使用`for`语句。
+
 ### WaitGroup
 
-sync.WaitGroup 内部维护一个计数器，计数器的值可以增加和减少。例如当我们启动了 N 个并发任务时，就将计数器值增加N。每个任务完成时通过调用`Done()`方法将计数器减1。通过调用`Wait()`来等待并发任务执行完，当计数器值为 0 时，表示所有并发任务已经完成。
+sync.WaitGroup 内部维护一个计数器，默认为0
 
-- `Add(delta int)`：增加计数器的值
+- `Add()`：增加计数器的值
 - `Done()`：减少计数器的值
 - `Wait()`：阻塞直到计数器变为0
 
+注意，增加计数器的值和调用`Wait()`方法的代码必须放在同一个 goroutine 中。
+
 ### Once
 
-sync.Once 用于保证某个函数只执行一次。
+sync.Once 用于保证某个函数只执行一次，这对于那些只需要初始化一次的操作非常有用，比如配置文件的加载。`Do()`方法接收一个函数作为参数，并保证该函数只执行一次。
+
+```GO
+var (
+    once sync.Once
+    config Config
+)
+func initConfig() {
+    config = LoadConfig()
+}
+
+func GetConfig() Config {
+    once.Do(initConfig)
+    return config
+}
+```
 
 ## 原子操作
 
-针对整数数据类型（int32、uint32、int64、uint64）我们还可以使用原子操作来保证并发安全，通常直接使用原子操作比使用锁操作效率更高。Go 语言中原子操作由内置的标准库 sync/atomic 提供。
+sync/atomic 包提供了针对整数数据类型（int32、int64、uint32、uint64）的原子操作，方法有：加法(add)、比较并交换(compare and swap)、加载(load)、存储(store)和交换(swap)。
 
+Go 在 1.4 版本添加了 sync/atomic.Value 类型，可以用来原子地存储和加载任意的值，它只有`Store()`和`Load()`两个方法。
 
+## context
+
+context 包提供了一种机制来管理 goroutine 之间的通信、取消操作以及超时控制。它特别适用于需要处理请求的服务器应用程序，其中每个请求可能涉及多个 goroutine。
+
+context.Context 类型提供乐一类代表上下文的值，且可以衍生出任意多个子值，从而构成更复杂的上下文树状结构。树的根节点即为`context.Background()`。context 包提供了四个用于衍生上下文的函数：
+
+- WithCancel:
+    - `ctx, cancel := context.WithCancel(parent)`创建一个可取消的 Context。
+
+- WithDeadline:
+    - `ctx, cancel := context.WithDeadline(parent, time.Time)`创建一个有截止时间的 Context。
+
+- WithTimeout:
+    - `ctx, cancel := context.WithTimeout(parent, time.Duration)`创建一个有超时时间的 Context。
+
+- WithValue:
+    - `ctx := context.WithValue(parent, key, value)`创建一个带键值对的 Context。
+
+## 临时对象池
+
+sync.Pool 是一个临时对象池，可以用来缓存临时对象，避免频繁地创建和销毁对象。sync.Pool 只有两个方法：`Get()`和`Put()`——对应获取和存放。注意`Get()`方法会从当前对象池中删除任何一个值，并返回这个值。如果没有任何值，则会调用`New()`创建一个新值再返回。因此我们需要在初始化对象池的时候就指定`New()`。

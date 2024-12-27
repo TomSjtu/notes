@@ -1,23 +1,77 @@
 # 动态跟踪
 
-## 内核探针
+## kprobes
 
-内核探针允许在几乎任何内核指令上设置动态标志或中断，当内核到达这些标志时，附加到探针的代码将被执行，然后内核恢复正常模式。需要注意的是，内核探针没有稳定的ABI，因此相同的代码在不同的内核版本上可能无法成功执行。
+kprobes 几乎可以在内核或者模块的所有函数中插入指令，它提供了调用前、调用后和访问出错三种回调方式。这里只介绍利用 ftrace 工具进行 kprobes 的方法。在 /sys/kernel/tracing 目录下，我们关心以下几个文件：
 
-内核探针分为两种：
+1. /sys/kernel/tracing/kprobe_events：用于配置要探测的函数
+2. /sys/kernel/tracing/events/kprobes/enable：用于开启探测
+3. /sys/kernel/tracing/trace：用于查看探测结果
 
-- kprobes：在执行内核指令前插入BPF程序
-- kretprobes：在返回前插入BPF程序
+下面以一个例子说明用法：
 
-## 用户空间探针
+```SHELL
+$ echo 'p:myprobe do_sys_open dfd=%ax filename=%dx flags=%cx mode=+4($stack)' > /sys/kernel/tracing/kprobe_events
+$ ls -l /sys/kernel/tracing/events/kprobes
+total 0
+-rw-r----- 1 root root 0 Dec  6 18:01 enable
+-rw-r----- 1 root root 0 Dec  6 18:01 filter
+drwxr-x--- 2 root root 0 Dec  6 18:01 myprobe
 
-用户空间探针是运行在用户空间的监测程序，与内核探针类似，也分为两种：
+$ ls -l /sys/kernel/tracing/events/kprobes/myprobe
+total 0
+-rw-r----- 1 root root 0 Dec  6 18:01 enable
+-rw-r----- 1 root root 0 Dec  6 18:01 filter
+-r--r----- 1 root root 0 Dec  6 18:01 format
+-r--r----- 1 root root 0 Dec  6 18:01 hist
+-r--r----- 1 root root 0 Dec  6 18:01 id
+--w------- 1 root root 0 Dec  6 18:01 inject
+-rw-r----- 1 root root 0 Dec  6 18:01 trigger
+```
 
-- uprobes：在执行用户空间指令前插入BPF程序
-- uretprobes：在返回前插入BPF程序
+- enable：使能
+- filter：过滤器
+- format：输出格式
+- hist：历史记录
+- id：探测点ID
+- inject：注入BPF程序
+- trigger：触发器
 
-## 用户静态跟踪点
+```SHELL
+$ cat /sys/kernel/tracing/events/kprobes/myprobe/format 
+name: myprobe
+ID: 1527
+format:
+        field:unsigned short common_type;       offset:0;       size:2; signed:0;
+        field:unsigned char common_flags;       offset:2;       size:1; signed:0;
+        field:unsigned char common_preempt_count;       offset:3;       size:1; signed:0;
+        field:int common_pid;   offset:4;       size:4; signed:1;
 
-用户静态跟踪点可以在生产环境中使用，用来跟踪任何语言编写的应用程序。
+        field:unsigned long __probe_ip; offset:8;       size:8; signed:0;
+        field:u64 dfd;  offset:16;      size:8; signed:0;
+        field:u64 filename;     offset:24;      size:8; signed:0;
+        field:u64 flags;        offset:32;      size:8; signed:0;
+        field:u64 mode; offset:40;      size:8; signed:0;
 
-使用BCC的`tplist`工具可以显示二进制文件中定义的跟踪点。
+print fmt: "(%lx) dfd=0x%Lx filename=0x%Lx flags=0x%Lx mode=0x%Lx", REC->__probe_ip, REC->dfd, REC->filename, REC->flags, REC->mode
+```
+
+```SHELL
+$ echo 1 > /sys/kernel/tracing/events/kprobes/myprobe/enable
+$ echo 1 > /sys/kernel/tracing/tracing_on
+$ cat /sys/kernel/tracing/trace_pipe
+```
+
+通过读取 trace_pipe 文件，我们就可以看到输出。
+
+## uprobes
+
+uprobes 提供了用户态程序的动态插桩，可以在函数入口、特定偏移处以及函数返回处插入指令。uprobes 提供以下两个接口：
+- 基于 ftrace：通过/sys/kernel/tracing/uprobe_events 写入特定字符串
+- `perf_event_open()`：类似于 perf 工具
+
+uprobes 为 BCC 和 bpftrace 提供的支持包括：
+
+- BCC：`attach_uprobe()`和`attach_uretprobe()`
+- bpftrace：uprobe 和 uretprobe 探针类型
+

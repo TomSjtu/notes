@@ -198,7 +198,7 @@ void vfree(const void *addr)
     - config_slob：简单的分配器，适用于内存受限的系统(配置config_embedded后可激活)
     - config_slub：默认分配器，比slab简单，扩展性更好
 
-伙伴系统实现了以页为单位、大块内存的分配和释放。但是，向操作系统频繁地申请与释放内存毕竟还是有点麻烦。因此，slab 分配器应运而生。
+伙伴系统实现了以页为单位的内存管理机制，而 slab 分配器主要用于高效地管理小块内存的分配。它通过对象复用机制，避免了频繁地分配和释放操作，极大地提高了内存分配的效率。通过查看 /proc/slabinfo 文件，可以查看系统中所有 slab 分配器的使用情况。其中形如 kmalloc-xxx 的 slab 称为通用型 slab，含有具体名字的 slab 称为专用 slab，用来为特定的结构体分配内存。  
 
 slab 分配器把不同的对象划分为{==高速缓存==}，其中每个高速缓存专门用于存储一种特定类型的对象。例如，一个高速缓存可能用于管理进程描述符（`task_struct`结构），而另一个则用于索引节点对象（`struct inode`）。当系统需要新的数据结构实例时，可以直接从高速缓存中获取一个现成的块，这样就避免了新内存的消耗。使用完毕后，该数据结构实例被归还到高速缓存中，而不是被直接释放。在这种机制下，高速缓存实际上起到了内存池(memory pool)的作用，是一种非常实用的管理内存的方式。
 
@@ -206,7 +206,7 @@ slab 分配器的数据结构关系如下图所示：
 
 ![slab structure](../../images/kernel/slab.png)
 
-slab 分配器可以处于三种状态之一：满、部分满或空。满的 slab 意味着所有对象都已分配出去，空的 slab 则表示所有对象都未被分配，而部分满的 slab 则包含了已分配和未分配的对象。当内核请求新对象时，优先从部分满的 slab 中分配。如果没有，则从空的 slab 中分配。如果连空的 slab 都没有，就会创建新的 slab。
+slab 分配器可以处于三种状态之一：满、部分满或空。当内核请求新对象时，优先从部分满的 slab 中分配。如果没有，则从空的 slab 中分配。如果连空的 slab 都没有，就会创建新的 slab。
 
 每个高速缓存都使用`struct kmem_cache`结构体表示。这个结构包含三个链表：slabs_full、slabs_partial、slabs_empty，这些链表包含了高速缓存中的所有 slab。
 
@@ -217,29 +217,5 @@ struct kmem_cache *kmem_cache_create(const char *name, size_t size,
 int kmem_cache_destroy(struct kmem_cache *cachep)                       //撤销一个高速缓存
 void *kmem_cache_alloc(struct kmem_cache *cachep, gfp_t flags)          //从缓存中分配对象
 void kmem_cache_free(struct kmem_cache *cachep, void *objp)             //释放一个对象，将它返回给原先的slab
-```
-
-高速缓存的使用统计情况可以从/proc/slabinfo中获得。其中形如 kmalloc-xxx 的 slab 称为通用型 slab，含有具体名字的 slab 称为专用 slab，用来为特定的结构体分配内存。  
-
-由于`fork()`系统调用用来创建一个进程，而进程的创建与销毁是非常频繁的，因此我们可以在文件<kernel/fork.c\>中，看到许多高速缓存的实现：
-
-```c
-/* slab cache for signal_struct structures (tsk->signal) */
-static struct kmem_cache *signal_cachep;
-
-/* slab cache for sighand_struct structures (tsk->sighand) */
-struct kmem_cache *sighand_cachep;
-
-/* slab cache for files_struct structures (tsk->files) */
-struct kmem_cache *files_cachep;
-
-/* slab cache for fs_struct structures (tsk->fs) */
-struct kmem_cache *fs_cachep;
-
-/* slab cache for vm_area_struct structures */
-static struct kmem_cache *vm_area_cachep;
-
-/* slab cache for mm_struct structures (tsk->mm) */
-static struct kmem_cache *mm_cachep;
 ```
 
