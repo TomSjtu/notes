@@ -1,0 +1,6962 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="一只Tom的笔记本">
+      
+      
+        <meta name="author" content="Tom">
+      
+      
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/pl/go/stdlib/">
+      
+      
+        <link rel="prev" href="../debug/">
+      
+      
+        <link rel="next" href="../../../ai/">
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.3, mkdocs-material-9.5.14">
+    
+    
+      
+        <title>标准库 - 一只Tom的笔记本</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.10ba22f1.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CSource+Code+Pro:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Source Code Pro"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-blue" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="一只Tom的笔记本" class="md-header__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            一只Tom的笔记本
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              标准库
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7 0-.24-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91 1.61 0 2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08Z"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/TomSjtu/notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../linux/" class="md-tabs__link">
+          
+  
+    
+  
+  Linux
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../arm/" class="md-tabs__link">
+          
+  
+    
+  
+  ARM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../ros2/" class="md-tabs__link">
+          
+  
+    
+  
+  ROS2
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+    
+  
+  编程语言
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../ai/" class="md-tabs__link">
+          
+  
+    
+  
+  人工智能
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../cloud/" class="md-tabs__link">
+          
+  
+    
+  
+  云计算
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../tools/" class="md-tabs__link">
+          
+  
+    
+  
+  Tools
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../others/" class="md-tabs__link">
+          
+  
+    
+  
+  其他
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="一只Tom的笔记本" class="md-nav__button md-logo" aria-label="一只Tom的笔记本" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    一只Tom的笔记本
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/TomSjtu/notes" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../linux/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Linux
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Linux
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../linux/kernel/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    内核剖析
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            内核剖析
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_2" id="__nav_2_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    基础知识
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            基础知识
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/compile/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    编译内核
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/program/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    调试技术
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/synch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    同步语义
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/others/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    其他
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_3" id="__nav_2_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    进程管理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            进程管理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/load/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程加载与启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/task/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/wait/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    等待队列
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/sched/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程调度
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/ipc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    进程间通信
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/preempt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核抢占
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/kthread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核线程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_4" id="__nav_2_2_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    中断处理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            中断处理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/interrupt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    中断处理程序
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/bottom_half/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    中断下半部
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_5" id="__nav_2_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    内存管理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            内存管理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/mm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    物理内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/vma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    虚拟内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/recycle/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存回收
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/oom/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    OOM
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/ion/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ION内存管理器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/cma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    连续内存分配
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6" id="__nav_2_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    文件系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            文件系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/vfs/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    虚拟文件系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/block/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    块I/O
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_7" id="__nav_2_2_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    网络系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            网络系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/iomultiplexing/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O多路复用
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/io_uring/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异步IO
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_8" id="__nav_2_2_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    时间系统
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_8">
+            <span class="md-nav__icon md-icon"></span>
+            时间系统
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    时间子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/timer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/hrtimer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高精度定时器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/rt_patch/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    实时补丁
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_9" id="__nav_2_2_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    电源管理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_9">
+            <span class="md-nav__icon md-icon"></span>
+            电源管理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/pm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    电源管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_10" id="__nav_2_2_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    shell脚本
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_10">
+            <span class="md-nav__icon md-icon"></span>
+            shell脚本
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/kernel/shell/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    shell脚本
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../linux/drivers/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    设备驱动程序
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            设备驱动程序
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_2" id="__nav_2_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    基础知识
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            基础知识
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/hardware/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    硬件知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/protocol/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    通信协议
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/module/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内核模块
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/dts/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设备树
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/interrupt/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    中断子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/dma/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    直接内存访问
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_3" id="__nav_2_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    设备模型框架
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            设备模型框架
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/device_model/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    设备模型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/platform/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    平台总线模型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_4" id="__nav_2_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    字符、块和网络
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            字符、块和网络
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/chardev/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    字符设备驱动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/blkdev/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    块设备驱动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/netdev/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络设备驱动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_5" id="__nav_2_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    低速设备驱动
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            低速设备驱动
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/pinctrl/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Pinctrl子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/gpio/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GPIO子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/i2c/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I2C子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/spi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SPI子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/uart/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    UART子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/input/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Input子系统
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_6" id="__nav_2_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    高速设备驱动
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            高速设备驱动
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/ethernet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ethernet
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/pcie/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PCIE
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/usb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Usb
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/wifi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Wifi
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/bluetooth/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    蓝牙
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3_7" id="__nav_2_3_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    其他设备驱动
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            其他设备驱动
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/drivers/socketcan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Socket Can
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../linux/optimization/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    性能调优
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            性能调优
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/optimization/cpu/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CPU性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/optimization/memory/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/optimization/disk/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    磁盘I/O性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/optimization/network/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    网络性能调优
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../linux/monitor/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    性能观测
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_5" id="__nav_2_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            性能观测
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_2" id="__nav_2_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    基础知识
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            基础知识
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/monitor/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    性能观测技术概览
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_3" id="__nav_2_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    内核跟踪技术
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            内核跟踪技术
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/monitor/trace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    静态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/monitor/probe/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    动态跟踪
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_5_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_5_4" id="__nav_2_5_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ebpf
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            ebpf
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/monitor/ebpf/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    eBPF入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/monitor/bcc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    BCC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../linux/monitor/bpftrace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    bpftrace
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../arm/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    ARM
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            ARM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    基础知识
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            基础知识
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/secure_boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    安全启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/boot/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM64的启动
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/aarch64/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ARM架构基础知识
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/standard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    编程规范
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ARM汇编
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            ARM汇编
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/instructions/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    A64指令集
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/assembler/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GNU汇编
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            异常处理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/gic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GIC
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ARM同步机制
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            ARM同步机制
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/atomic/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    原子操作
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/lock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    锁的实现
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/barrier/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存屏障
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    内存管理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            内存管理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/mm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/cache/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    高速缓存
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../arm/tlb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TLB管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ros2/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    ROS2
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            ROS2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    入门介绍
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ros2/core/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    核心概念
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    编程语言
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            编程语言
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    C
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            C
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c/standard/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C编程规范
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c/gcc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GCC工具链
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../c/misc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C语言杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../cpp/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    C++
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_2" id="__nav_5_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    基础知识
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            基础知识
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/misc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++杂项
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/io/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    I/O流
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/exception/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    异常处理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/gdb/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GDB
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_3" id="__nav_5_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    包管理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            包管理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/cmake/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    CMake
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/conan/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Conan
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_4" id="__nav_5_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    面向对象
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            面向对象
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/oop/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    面向对象
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_5" id="__nav_5_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    标准库
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            标准库
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/container/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    标准库容器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/algorithm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    标准库算法
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/regex/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    正则表达式
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/time/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    日期和时间
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_6" id="__nav_5_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    内存管理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            内存管理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/mm/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    内存管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_7" id="__nav_5_3_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    并发
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            并发
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/concurrency/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    多线程编程
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_8" id="__nav_5_3_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            现代C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cpp/cpp11/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    C++11
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../python/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Python
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_4">
+            <span class="md-nav__icon md-icon"></span>
+            Python
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" checked>
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Go
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_5">
+            <span class="md-nav__icon md-icon"></span>
+            Go
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5_2" id="__nav_5_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    基础知识
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            基础知识
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    快速入门
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../function/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    函数
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../package/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    包管理
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interface/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    接口
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concurrency/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    并发
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reflect/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    反射
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../template/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    泛型
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../unit_test/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    单元测试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../debug/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    调试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_5_5_3" id="__nav_5_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    标准库
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_5_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            标准库
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    标准库
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    标准库
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fmt" class="md-nav__link">
+    <span class="md-ellipsis">
+      fmt
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="fmt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      向外输出
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="向外输出">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#print" class="md-nav__link">
+    <span class="md-ellipsis">
+      Print
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fprint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sprint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errorf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Errorf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      格式化占位符
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      获取输入
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="获取输入">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scan
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scanf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scanf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scanln" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scanln
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fscan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fscan
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sscan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sscan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time" class="md-nav__link">
+    <span class="md-ellipsis">
+      time
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      时区
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unix-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unix Time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      时间间隔
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      时间操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      定时器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      flag
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#log" class="md-nav__link">
+    <span class="md-ellipsis">
+      log
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      文件
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      读取文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      写入文件
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      context
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="context">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#context_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      context接口
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with" class="md-nav__link">
+    <span class="md-ellipsis">
+      with系列函数
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    人工智能
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            人工智能
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/dl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    深度学习
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            深度学习
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ai/dl/onnx/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ONNX
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../ai/opencl/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    opencl
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            opencl
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../cloud/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    云计算
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            云计算
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../cloud/docker/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    容器技术
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../tools/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Tools
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Tools
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/github/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    github
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/vim/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    vim
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/markdown/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Markdown
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../others/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    其他
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_9" id="__nav_9_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            其他
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/config/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    配置文件
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/serializer/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    数据序列化
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/video/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    音视频基础
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/ffmpeg/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ffmpeg
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../others/interpreter/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    解释器
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#fmt" class="md-nav__link">
+    <span class="md-ellipsis">
+      fmt
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="fmt">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      向外输出
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="向外输出">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#print" class="md-nav__link">
+    <span class="md-ellipsis">
+      Print
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fprint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sprint" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sprint
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#errorf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Errorf
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      格式化占位符
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      获取输入
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="获取输入">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scan
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scanf" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scanf
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scanln" class="md-nav__link">
+    <span class="md-ellipsis">
+      Scanln
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#fscan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Fscan
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sscan" class="md-nav__link">
+    <span class="md-ellipsis">
+      Sscan
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#time" class="md-nav__link">
+    <span class="md-ellipsis">
+      time
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      时区
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unix-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      Unix Time
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      时间间隔
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      时间操作
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      定时器
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      flag
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#log" class="md-nav__link">
+    <span class="md-ellipsis">
+      log
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      文件
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="文件">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      读取文件
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      写入文件
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      context
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="context">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#context_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      context接口
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#with" class="md-nav__link">
+    <span class="md-ellipsis">
+      with系列函数
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="_1">标准库<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="fmt">fmt<a class="headerlink" href="#fmt" title="Permanent link">&para;</a></h2>
+<p>fmt 实现了格式化 I/O，用于控制输入输出。</p>
+<h3 id="_2">向外输出<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<h4 id="print">Print<a class="headerlink" href="#print" title="Permanent link">&para;</a></h4>
+<p><code>Print</code>系列函数用于将内容输出到系统的标准输出，<code>Printf</code>支持格式化输出，<code>Println</code>输出内容后自动换行：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Print</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Printf</span><span class="p">(</span><span class="nx">format</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Println</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="fprint">Fprint<a class="headerlink" href="#fprint" title="Permanent link">&para;</a></h4>
+<p><code>Fprint</code>系列函数将内容输出到一个 <code>io.Writer</code> 变量中：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Fprint</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Fprintf</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span><span class="w"> </span><span class="nx">format</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Fprintln</span><span class="p">(</span><span class="nx">w</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">Writer</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="sprint">Sprint<a class="headerlink" href="#sprint" title="Permanent link">&para;</a></h4>
+<p><code>Sprint</code>系列函数将传入的数据存储在一个字符串中并返回：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Sprint</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span><span class="kt">string</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Sprintf</span><span class="p">(</span><span class="nx">format</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span><span class="kt">string</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Sprintln</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span><span class="kt">string</span>
+</code></pre></div>
+<h4 id="errorf">Errorf<a class="headerlink" href="#errorf" title="Permanent link">&para;</a></h4>
+<p><code>Errorf</code>函数根据 format 参数生成格式化字符串并返回一个包含该字符串的错误：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Errorf</span><span class="p">(</span><span class="nx">format</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="kt">error</span>
+</code></pre></div>
+<h3 id="_3">格式化占位符<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<p>常用的一些占位符如下：</p>
+<table>
+<thead>
+<tr>
+<th>占位符</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%v</td>
+<td>值的默认格式</td>
+</tr>
+<tr>
+<td>%+v</td>
+<td>输出结构体时包括字段名</td>
+</tr>
+<tr>
+<td>%#v</td>
+<td>值的 Go 语法表示</td>
+</tr>
+<tr>
+<td>%T</td>
+<td>值的类型</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>百分号</td>
+</tr>
+<tr>
+<td>%t</td>
+<td>布尔值</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>十进制整型</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>十六进制整型（小写字母）</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>科学计数法</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>浮点数，默认 6 位</td>
+</tr>
+<tr>
+<td>%g</td>
+<td>自动选择 %e 或 %f</td>
+</tr>
+<tr>
+<td>%s</td>
+<td>字符串</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>十六进制地址</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_4">获取输入<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<h4 id="scan">Scan<a class="headerlink" href="#scan" title="Permanent link">&para;</a></h4>
+<p><code>Scan</code>从标准输入扫描文本，读取由空白符分隔的值保存到传递给本函数的参数中，换行符视为空白符：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Scan</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="scanf">Scanf<a class="headerlink" href="#scanf" title="Permanent link">&para;</a></h4>
+<p><code>Scanf</code>从标准输入扫描文本，根据 format 参数指定的格式读取值并保存到传递给本函数的参数中：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Scanf</span><span class="p">(</span><span class="nx">format</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="scanln">Scanln<a class="headerlink" href="#scanln" title="Permanent link">&para;</a></h4>
+<p><code>Scanln</code>类似于<code>Scan</code>，但遇到换行时才停止扫描：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Scanln</span><span class="p">(</span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="fscan">Fscan<a class="headerlink" href="#fscan" title="Permanent link">&para;</a></h4>
+<p><code>Fscan</code>从一个<code>io.Reader</code>变量中读取数据：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Fscan</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Fscanln</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Fscanf</span><span class="p">(</span><span class="nx">r</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">Reader</span><span class="p">,</span><span class="w"> </span><span class="nx">format</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</code></pre></div>
+<h4 id="sscan">Sscan<a class="headerlink" href="#sscan" title="Permanent link">&para;</a></h4>
+<p><code>Sscan</code>从一个字符串中读取数据：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Sscan</span><span class="p">(</span><span class="nx">str</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Sscanln</span><span class="p">(</span><span class="nx">str</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="kd">func</span><span class="w"> </span><span class="nx">Sscanf</span><span class="p">(</span><span class="nx">str</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">format</span><span class="w"> </span><span class="kt">string</span><span class="p">,</span><span class="w"> </span><span class="nx">a</span><span class="w"> </span><span class="o">...</span><span class="kd">interface</span><span class="p">{})(</span><span class="nx">n</span><span class="w"> </span><span class="kt">int</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="kt">error</span><span class="p">)</span>
+</code></pre></div>
+<h2 id="time">time<a class="headerlink" href="#time" title="Permanent link">&para;</a></h2>
+<p>time 包提供了时间和日期相关的功能。</p>
+<p>Go 语言中用<code>time.Time</code>类型来表示时间，可以通过<code>time.Now()</code>来获取当前时间：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="c1">// timeDemo 时间对象的年月日时分秒</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="kd">func</span><span class="w"> </span><span class="nx">timeDemo</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nx">now</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span><span class="w"> </span><span class="c1">// 获取当前时间</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;current time:%v\n&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">now</span><span class="p">)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">    </span><span class="nx">year</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">Year</span><span class="p">()</span><span class="w">     </span><span class="c1">// 年</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">    </span><span class="nx">month</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">Month</span><span class="p">()</span><span class="w">   </span><span class="c1">// 月</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">    </span><span class="nx">day</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">Day</span><span class="p">()</span><span class="w">       </span><span class="c1">// 日</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">    </span><span class="nx">hour</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">Hour</span><span class="p">()</span><span class="w">     </span><span class="c1">// 小时</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nx">minute</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">Minute</span><span class="p">()</span><span class="w"> </span><span class="c1">// 分钟</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nx">second</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">Second</span><span class="p">()</span><span class="w"> </span><span class="c1">// 秒</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">year</span><span class="p">,</span><span class="w"> </span><span class="nx">month</span><span class="p">,</span><span class="w"> </span><span class="nx">day</span><span class="p">,</span><span class="w"> </span><span class="nx">hour</span><span class="p">,</span><span class="w"> </span><span class="nx">minute</span><span class="p">,</span><span class="w"> </span><span class="nx">second</span><span class="p">)</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="_5">时区<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>时区信息可以通过<code>time.LoadLocation</code>函数加载：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nx">loc</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">LoadLocation</span><span class="p">(</span><span class="s">&quot;Asia/Shanghai&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>在获取了时区之后，就可以创建一个带有该时区信息的<code>time.Time</code>对象：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="nx">now</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">In</span><span class="p">(</span><span class="nx">loc</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="unix-time">Unix Time<a class="headerlink" href="#unix-time" title="Permanent link">&para;</a></h3>
+<p>Unix Time 是从 1970-01-01 00:00:00 UTC 经过的秒数，可以通过<code>time.Time.Unix()</code>方法获取时间戳：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nx">now</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">()</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nx">unixTime</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">now</span><span class="p">.</span><span class="nx">Unix</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="_6">时间间隔<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p><code>time.Duration</code>类型表示时间间隔，它代表两个时间点的差值，以纳秒为单位。time 包中定义的时间间隔类型常量有：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="w">    </span><span class="nx">Nanosecond</span><span class="w">  </span><span class="nx">Duration</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="w">    </span><span class="nx">Microsecond</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">Nanosecond</span>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="w">    </span><span class="nx">Millisecond</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">Microsecond</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="nx">Second</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="mi">1000</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">Millisecond</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="nx">Minute</span><span class="w">      </span><span class="p">=</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">Second</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="nx">Hour</span><span class="w">        </span><span class="p">=</span><span class="w"> </span><span class="mi">60</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">Minute</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="_7">时间操作<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>time 包中提供了一些时间操作函数，如：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="nx">Time</span><span class="p">)</span><span class="w"> </span><span class="nx">Add</span><span class="p">(</span><span class="nx">d</span><span class="w"> </span><span class="nx">Duration</span><span class="p">)</span><span class="w"> </span><span class="nx">Time</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="nx">Time</span><span class="p">)</span><span class="w"> </span><span class="nx">Sub</span><span class="p">(</span><span class="nx">u</span><span class="w"> </span><span class="nx">Time</span><span class="p">)</span><span class="w"> </span><span class="nx">Duration</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="nx">Time</span><span class="p">)</span><span class="w"> </span><span class="nx">Equal</span><span class="p">(</span><span class="nx">u</span><span class="w"> </span><span class="nx">Time</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="nx">Time</span><span class="p">)</span><span class="w"> </span><span class="nx">Before</span><span class="p">(</span><span class="nx">u</span><span class="w"> </span><span class="nx">Time</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="kd">func</span><span class="w"> </span><span class="p">(</span><span class="nx">t</span><span class="w"> </span><span class="nx">Time</span><span class="p">)</span><span class="w"> </span><span class="nx">After</span><span class="p">(</span><span class="nx">u</span><span class="w"> </span><span class="nx">Time</span><span class="p">)</span><span class="w"> </span><span class="kt">bool</span>
+</code></pre></div>
+<h3 id="_8">定时器<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>time.Timer 是一个定时器，它会在指定的时间后发送一个信号到其通道。如果定时器被重置，它会停止当前的计时并重新开始一个新的计时周期。</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nx">timer</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">NewTimer</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c1">// 5秒后发送信号</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="o">&lt;-</span><span class="w"> </span><span class="nx">timer</span><span class="p">.</span><span class="nx">C</span><span class="w"> </span><span class="c1">// 等待信号</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="c1">// do something here</span>
+</code></pre></div>
+<p>time.Ticker 用于定期发送事件，它每隔一定时间就会向其通道发送当前时间：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nx">ticker</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">NewTicker</span><span class="p">(</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="c1">// 每隔5秒发送一次时间</span>
+</code></pre></div>
+<h2 id="flag">flag<a class="headerlink" href="#flag" title="Permanent link">&para;</a></h2>
+<p>flag 包实现了对命令行参数的解析，支持的参数类型有<code>bool</code>、<code>int</code>、<code>int64</code>、<code>uint</code>、<code>uint64</code>、<code>float</code>、<code>float64</code>、<code>string</code>、<code>duration</code>。</p>
+<p>有以下两种常用的定义命令行参数的方式：</p>
+<ol>
+<li><code>flag.Type(flag名, 默认值, 帮助信息)</code></li>
+</ol>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nx">name</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">flag</span><span class="p">.</span><span class="nx">String</span><span class="p">(</span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;defaultName&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
+</code></pre></div>
+<ol>
+<li><code>flag.TypeVar(flag.Value, flag名, 默认值, 帮助信息)</code></li>
+</ol>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="kd">var</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="kt">string</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="nx">flag</span><span class="p">.</span><span class="nx">StringVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">name</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;name&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;defaultName&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;your name&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>通过以上两种方式定义好命令行参数后，就可以通过调用<code>flag.Parse()</code>来解析。支持的命令行参数有：</p>
+<ul>
+<li>-flag xxx</li>
+<li>--flag xxx</li>
+<li>-flag=xxx</li>
+<li>--flag=xxx</li>
+</ul>
+<p>其中，布尔类型的参数必须使用等号方式指定。</p>
+<p>flag 包还提供了一些辅助函数，如：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="nx">flag</span><span class="p">.</span><span class="nx">Args</span><span class="p">()</span><span class="w">  </span><span class="c1">////返回命令行参数后的其他参数，以[]string类型</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="nx">flag</span><span class="p">.</span><span class="nx">NArg</span><span class="p">()</span><span class="w">  </span><span class="c1">//返回命令行参数后的其他参数个数</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="nx">flag</span><span class="p">.</span><span class="nx">NFlag</span><span class="p">()</span><span class="w"> </span><span class="c1">//返回使用的命令行参数个数</span>
+</code></pre></div>
+<h2 id="log">log<a class="headerlink" href="#log" title="Permanent link">&para;</a></h2>
+<p>Go 语言内置的 log 包实现了简单的日志服务。直接使用 Print 系列、Fatal 系列、Panic 系列函数就可以输出日志至标准 logger。标准 logger 默认只会提供日志的时间信息，但可以通过<code>log.SetFlags</code>函数设置日志的输出格式。flag 选项有：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kd">const</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a><span class="w">    </span><span class="nx">Ldate</span><span class="w">         </span><span class="p">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="kc">iota</span><span class="w">     </span><span class="c1">// 日期：2024/01/01</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="w">    </span><span class="nx">Ltime</span><span class="w">                         </span><span class="c1">// 时间：12:00:00</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a><span class="w">    </span><span class="nx">Lmicroseconds</span><span class="w">                 </span><span class="c1">// 微秒：12:00:00.123123</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="w">    </span><span class="nx">Llongfile</span><span class="w">                     </span><span class="c1">// 文件名和行号：/home/user/main.go:123</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a><span class="w">    </span><span class="nx">Lshortfile</span><span class="w">                    </span><span class="c1">// 文件名：main.go:123</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="w">    </span><span class="nx">LUTC</span><span class="w">                         </span><span class="c1">// 使用 UTC 时间</span>
+<a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a><span class="w">    </span><span class="nx">LstdFlags</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">Ldate</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="nx">Ltime</span><span class="w">    </span><span class="c1">// 标准日志格式</span>
+<a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a><span class="p">)</span>
+</code></pre></div>
+<p>除此之外，<code>log.SetPrefix()</code>函数用于设置日志的前缀，<code>log.SetOutput()</code>函数用于设置日志的输出目的地，<code>log.New()</code>函数用于创建一个新的 logger 对象。</p>
+<h2 id="_9">文件<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p>Go 语言中使用<code>os.Open()</code>函数打开一个文件，返回一个<code>*os.File</code>类型的文件对象。文件对象提供了一些方法，如<code>Read</code>、<code>Write</code>、<code>Close</code>等。</p>
+<h3 id="_10">读取文件<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p><code>file.Read()</code>函数用于从文件中读取数据，返回读取的字节数和错误信息。该函数是操作系统级别的读取操作。它直接从文件描述符读取数据到一个缓冲区中。这个方法是阻塞式的，直到它读到了数据或遇到错误（包括到达文件末尾）。这是最基础的读取方式，提供了对读取行为的精细控制，但使用起来可能比较繁琐，尤其是在处理文本文件时：</p>
+<div class="language-GO highlight"><span class="filename">循环读取</span><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="c1">// 只读方式打开当前目录下的main.go文件</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a><span class="w">    </span><span class="nx">file</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">os</span><span class="p">.</span><span class="nx">Open</span><span class="p">(</span><span class="s">&quot;./main.go&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;open file failed!, err:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a><span class="w">        </span><span class="k">return</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">file</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="w">    </span><span class="c1">// 循环读取文件</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">content</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">tmp</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">make</span><span class="p">([]</span><span class="kt">byte</span><span class="p">,</span><span class="w"> </span><span class="mi">128</span><span class="p">)</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a><span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a><span class="w">        </span><span class="nx">n</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">file</span><span class="p">.</span><span class="nx">Read</span><span class="p">(</span><span class="nx">tmp</span><span class="p">)</span>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nx">io</span><span class="p">.</span><span class="nx">EOF</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;文件读完了&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a><span class="w">            </span><span class="k">break</span>
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a><span class="w">            </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;read file failed, err:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">)</span>
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="w">            </span><span class="k">return</span>
+<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a><span class="w">        </span><span class="nx">content</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nb">append</span><span class="p">(</span><span class="nx">content</span><span class="p">,</span><span class="w"> </span><span class="nx">tmp</span><span class="p">[:</span><span class="nx">n</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
+<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nb">string</span><span class="p">(</span><span class="nx">content</span><span class="p">))</span>
+<a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a><span class="p">}</span>
+</code></pre></div>
+<p>bufio 包基于 file 包实现了带缓冲机制的读取操作，可以减少系统调用的次数，提高读取效率。</p>
+<h3 id="_11">写入文件<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p><code>os.OpenFile()</code>函数用于打开一个文件，模式有以下几种：</p>
+<table>
+<thead>
+<tr>
+<th>模式</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>os.O_WRONLY</td>
+<td>只写</td>
+</tr>
+<tr>
+<td>os.O_CREATE</td>
+<td>创建文件</td>
+</tr>
+<tr>
+<td>os.O_RDONLY</td>
+<td>只读</td>
+</tr>
+<tr>
+<td>os.O_RDWR</td>
+<td>读写</td>
+</tr>
+<tr>
+<td>os.O_APPEND</td>
+<td>追加</td>
+</tr>
+<tr>
+<td>os.O_TRUNC</td>
+<td>清空</td>
+</tr>
+</tbody>
+</table>
+<h2 id="context">context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>contex 包提供了用于管理上下文和取消操作的机制，它定义了 Context 类型，专门用来简化对于处理单个请求的多个 goroutine 之间与请求域的数据、取消信号、截止时间等信息的传递、处理和取消操作。</p>
+<p>对于服务器传入的请求应该创建上下文，而传出请求应该接受上下文。当一个上下文被取消时，它派生的所有上下文也应该一并被取消。</p>
+<h3 id="context_1">context接口<a class="headerlink" href="#context_1" title="Permanent link">&para;</a></h3>
+<p><code>context.Context</code>是一个接口，定了四个需要实现的方法：</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="kd">type</span><span class="w"> </span><span class="nx">Context</span><span class="w"> </span><span class="kd">interface</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="w">    </span><span class="nx">Deadline</span><span class="p">()</span><span class="w"> </span><span class="p">(</span><span class="nx">deadline</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Time</span><span class="p">,</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="kt">bool</span><span class="p">)</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="nx">Done</span><span class="p">()</span><span class="w"> </span><span class="o">&lt;-</span><span class="kd">chan</span><span class="w"> </span><span class="kd">struct</span><span class="p">{}</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="w">    </span><span class="nx">Err</span><span class="p">()</span><span class="w"> </span><span class="kt">error</span>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="w">    </span><span class="nx">Value</span><span class="p">(</span><span class="nx">key</span><span class="w"> </span><span class="kd">interface</span><span class="p">{})</span><span class="w"> </span><span class="kd">interface</span><span class="p">{}</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="p">}</span>
+</code></pre></div>
+<ul>
+<li><code>Deadline()</code>：返回当前上下文的截止时间，如果未设置截止时间，则返回 ok 为 false。</li>
+<li><code>Done()</code>：返回一个 channel，当上下文被取消时，该 channel 会被关闭。</li>
+<li><code>Err()</code>：返回取消上下文的原因。</li>
+<li><code>Value()</code>：返回与上下文关联的值。</li>
+</ul>
+<p>Go 内置的<code>Background()</code>是一个不可取消，没有设置截止时间，没有携带任何值的 Context，通常作为根 Context 衍生出更多的子上下文对象。</p>
+<h3 id="with">with系列函数<a class="headerlink" href="#with" title="Permanent link">&para;</a></h3>
+<ul>
+<li>
+<p><code>WithCancel(parent Context) (ctx Context, cancel CancelFunc)</code>：返回一个可以手动取消的 Context 和一个 CancelFunc，调用 CancelFunc 会取消 Context。</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a><span class="w">    </span><span class="s">&quot;context&quot;</span>
+<a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a><span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="w">    </span><span class="s">&quot;time&quot;</span>
+<a id="__codelineno-23-7" name="__codelineno-23-7" href="#__codelineno-23-7"></a><span class="p">)</span>
+<a id="__codelineno-23-8" name="__codelineno-23-8" href="#__codelineno-23-8"></a>
+<a id="__codelineno-23-9" name="__codelineno-23-9" href="#__codelineno-23-9"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-10" name="__codelineno-23-10" href="#__codelineno-23-10"></a><span class="w">    </span><span class="c1">// 创建一个父上下文</span>
+<a id="__codelineno-23-11" name="__codelineno-23-11" href="#__codelineno-23-11"></a><span class="w">    </span><span class="nx">parentCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+<a id="__codelineno-23-12" name="__codelineno-23-12" href="#__codelineno-23-12"></a>
+<a id="__codelineno-23-13" name="__codelineno-23-13" href="#__codelineno-23-13"></a><span class="w">    </span><span class="c1">// 使用 WithCancel 创建一个可取消的上下文</span>
+<a id="__codelineno-23-14" name="__codelineno-23-14" href="#__codelineno-23-14"></a><span class="w">    </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">cancel</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">WithCancel</span><span class="p">(</span><span class="nx">parentCtx</span><span class="p">)</span>
+<a id="__codelineno-23-15" name="__codelineno-23-15" href="#__codelineno-23-15"></a>
+<a id="__codelineno-23-16" name="__codelineno-23-16" href="#__codelineno-23-16"></a><span class="w">    </span><span class="c1">// 启动一个 goroutine 来执行任务</span>
+<a id="__codelineno-23-17" name="__codelineno-23-17" href="#__codelineno-23-17"></a><span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-18" name="__codelineno-23-18" href="#__codelineno-23-18"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-19" name="__codelineno-23-19" href="#__codelineno-23-19"></a><span class="w">            </span><span class="k">select</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-23-20" name="__codelineno-23-20" href="#__codelineno-23-20"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Done</span><span class="p">():</span><span class="w"> </span><span class="c1">// 监听上下文的取消信号</span>
+<a id="__codelineno-23-21" name="__codelineno-23-21" href="#__codelineno-23-21"></a><span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;任务被取消:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Err</span><span class="p">())</span>
+<a id="__codelineno-23-22" name="__codelineno-23-22" href="#__codelineno-23-22"></a><span class="w">                </span><span class="k">return</span>
+<a id="__codelineno-23-23" name="__codelineno-23-23" href="#__codelineno-23-23"></a><span class="w">            </span><span class="k">default</span><span class="p">:</span>
+<a id="__codelineno-23-24" name="__codelineno-23-24" href="#__codelineno-23-24"></a><span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;任务正在执行...&quot;</span><span class="p">)</span>
+<a id="__codelineno-23-25" name="__codelineno-23-25" href="#__codelineno-23-25"></a><span class="w">                </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">500</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+<a id="__codelineno-23-26" name="__codelineno-23-26" href="#__codelineno-23-26"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-23-27" name="__codelineno-23-27" href="#__codelineno-23-27"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-23-28" name="__codelineno-23-28" href="#__codelineno-23-28"></a><span class="w">    </span><span class="p">}(</span><span class="nx">ctx</span><span class="p">)</span>
+<a id="__codelineno-23-29" name="__codelineno-23-29" href="#__codelineno-23-29"></a>
+<a id="__codelineno-23-30" name="__codelineno-23-30" href="#__codelineno-23-30"></a><span class="w">    </span><span class="c1">// 模拟任务执行一段时间后取消</span>
+<a id="__codelineno-23-31" name="__codelineno-23-31" href="#__codelineno-23-31"></a><span class="w">    </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<a id="__codelineno-23-32" name="__codelineno-23-32" href="#__codelineno-23-32"></a><span class="w">    </span><span class="nx">cancel</span><span class="p">()</span><span class="w"> </span><span class="c1">// 手动取消上下文</span>
+<a id="__codelineno-23-33" name="__codelineno-23-33" href="#__codelineno-23-33"></a><span class="w">    </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span><span class="w"> </span><span class="c1">// 等待 goroutine 结束</span>
+<a id="__codelineno-23-34" name="__codelineno-23-34" href="#__codelineno-23-34"></a><span class="p">}</span>
+</code></pre></div>
+</li>
+<li>
+<p><code>WithDeadline(parent Context, deadline time.Time) (ctx Context, cancelCancelFunc)</code>：返回一个带有截止时间的 Context，当截止时间到达时，该 Context 会被取消。</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="w">    </span><span class="s">&quot;context&quot;</span>
+<a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a><span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a><span class="w">    </span><span class="s">&quot;time&quot;</span>
+<a id="__codelineno-24-7" name="__codelineno-24-7" href="#__codelineno-24-7"></a><span class="p">)</span>
+<a id="__codelineno-24-8" name="__codelineno-24-8" href="#__codelineno-24-8"></a>
+<a id="__codelineno-24-9" name="__codelineno-24-9" href="#__codelineno-24-9"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-24-10" name="__codelineno-24-10" href="#__codelineno-24-10"></a><span class="w">    </span><span class="c1">// 创建一个父上下文</span>
+<a id="__codelineno-24-11" name="__codelineno-24-11" href="#__codelineno-24-11"></a><span class="w">    </span><span class="nx">parentCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+<a id="__codelineno-24-12" name="__codelineno-24-12" href="#__codelineno-24-12"></a>
+<a id="__codelineno-24-13" name="__codelineno-24-13" href="#__codelineno-24-13"></a><span class="w">    </span><span class="c1">// 使用 WithDeadline 创建一个带有截止时间的上下文</span>
+<a id="__codelineno-24-14" name="__codelineno-24-14" href="#__codelineno-24-14"></a><span class="w">    </span><span class="nx">deadline</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Now</span><span class="p">().</span><span class="nx">Add</span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span><span class="w"> </span><span class="c1">// 2秒后截止</span>
+<a id="__codelineno-24-15" name="__codelineno-24-15" href="#__codelineno-24-15"></a><span class="w">    </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">cancel</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">WithDeadline</span><span class="p">(</span><span class="nx">parentCtx</span><span class="p">,</span><span class="w"> </span><span class="nx">deadline</span><span class="p">)</span>
+<a id="__codelineno-24-16" name="__codelineno-24-16" href="#__codelineno-24-16"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">cancel</span><span class="p">()</span><span class="w"> </span><span class="c1">// 确保在函数结束时调用 cancel</span>
+<a id="__codelineno-24-17" name="__codelineno-24-17" href="#__codelineno-24-17"></a>
+<a id="__codelineno-24-18" name="__codelineno-24-18" href="#__codelineno-24-18"></a><span class="w">    </span><span class="c1">// 启动一个 goroutine 来执行任务</span>
+<a id="__codelineno-24-19" name="__codelineno-24-19" href="#__codelineno-24-19"></a><span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-24-20" name="__codelineno-24-20" href="#__codelineno-24-20"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-24-21" name="__codelineno-24-21" href="#__codelineno-24-21"></a><span class="w">            </span><span class="k">select</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-24-22" name="__codelineno-24-22" href="#__codelineno-24-22"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Done</span><span class="p">():</span><span class="w"> </span><span class="c1">// 监听上下文的取消信号</span>
+<a id="__codelineno-24-23" name="__codelineno-24-23" href="#__codelineno-24-23"></a><span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;任务被取消:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Err</span><span class="p">())</span>
+<a id="__codelineno-24-24" name="__codelineno-24-24" href="#__codelineno-24-24"></a><span class="w">                </span><span class="k">return</span>
+<a id="__codelineno-24-25" name="__codelineno-24-25" href="#__codelineno-24-25"></a><span class="w">            </span><span class="k">default</span><span class="p">:</span>
+<a id="__codelineno-24-26" name="__codelineno-24-26" href="#__codelineno-24-26"></a><span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;任务正在执行...&quot;</span><span class="p">)</span>
+<a id="__codelineno-24-27" name="__codelineno-24-27" href="#__codelineno-24-27"></a><span class="w">                </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">500</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+<a id="__codelineno-24-28" name="__codelineno-24-28" href="#__codelineno-24-28"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-24-29" name="__codelineno-24-29" href="#__codelineno-24-29"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-24-30" name="__codelineno-24-30" href="#__codelineno-24-30"></a><span class="w">    </span><span class="p">}(</span><span class="nx">ctx</span><span class="p">)</span>
+<a id="__codelineno-24-31" name="__codelineno-24-31" href="#__codelineno-24-31"></a>
+<a id="__codelineno-24-32" name="__codelineno-24-32" href="#__codelineno-24-32"></a><span class="w">    </span><span class="c1">// 等待任务完成或超时</span>
+<a id="__codelineno-24-33" name="__codelineno-24-33" href="#__codelineno-24-33"></a><span class="w">    </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<a id="__codelineno-24-34" name="__codelineno-24-34" href="#__codelineno-24-34"></a><span class="p">}</span>
+</code></pre></div>
+</li>
+<li>
+<p><code>WithTimeout(parent Context, timeout time.Duration) (ctx Context, cancel CancelFunc)</code>：返回一个带有超时时间的 Context，当超时时间到达时，该 Context 会被取消。</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a><span class="w">    </span><span class="s">&quot;context&quot;</span>
+<a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a><span class="w">    </span><span class="s">&quot;time&quot;</span>
+<a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="p">)</span>
+<a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>
+<a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a><span class="w">    </span><span class="c1">// 创建一个父上下文</span>
+<a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a><span class="w">    </span><span class="nx">parentCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+<a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>
+<a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a><span class="w">    </span><span class="c1">// 使用 WithTimeout 创建一个带有超时时间的上下文</span>
+<a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="w">    </span><span class="nx">ctx</span><span class="p">,</span><span class="w"> </span><span class="nx">cancel</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">WithTimeout</span><span class="p">(</span><span class="nx">parentCtx</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<a id="__codelineno-25-15" name="__codelineno-25-15" href="#__codelineno-25-15"></a><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">cancel</span><span class="p">()</span><span class="w"> </span><span class="c1">// 确保在函数结束时调用 cancel</span>
+<a id="__codelineno-25-16" name="__codelineno-25-16" href="#__codelineno-25-16"></a>
+<a id="__codelineno-25-17" name="__codelineno-25-17" href="#__codelineno-25-17"></a><span class="w">    </span><span class="c1">// 启动一个 goroutine 来执行任务</span>
+<a id="__codelineno-25-18" name="__codelineno-25-18" href="#__codelineno-25-18"></a><span class="w">    </span><span class="k">go</span><span class="w"> </span><span class="kd">func</span><span class="p">(</span><span class="nx">ctx</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Context</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-25-19" name="__codelineno-25-19" href="#__codelineno-25-19"></a><span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-25-20" name="__codelineno-25-20" href="#__codelineno-25-20"></a><span class="w">            </span><span class="k">select</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-25-21" name="__codelineno-25-21" href="#__codelineno-25-21"></a><span class="w">            </span><span class="k">case</span><span class="w"> </span><span class="o">&lt;-</span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Done</span><span class="p">():</span><span class="w"> </span><span class="c1">// 监听上下文的取消信号</span>
+<a id="__codelineno-25-22" name="__codelineno-25-22" href="#__codelineno-25-22"></a><span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;任务被取消:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Err</span><span class="p">())</span>
+<a id="__codelineno-25-23" name="__codelineno-25-23" href="#__codelineno-25-23"></a><span class="w">                </span><span class="k">return</span>
+<a id="__codelineno-25-24" name="__codelineno-25-24" href="#__codelineno-25-24"></a><span class="w">            </span><span class="k">default</span><span class="p">:</span>
+<a id="__codelineno-25-25" name="__codelineno-25-25" href="#__codelineno-25-25"></a><span class="w">                </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;任务正在执行...&quot;</span><span class="p">)</span>
+<a id="__codelineno-25-26" name="__codelineno-25-26" href="#__codelineno-25-26"></a><span class="w">                </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">500</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Millisecond</span><span class="p">)</span>
+<a id="__codelineno-25-27" name="__codelineno-25-27" href="#__codelineno-25-27"></a><span class="w">            </span><span class="p">}</span>
+<a id="__codelineno-25-28" name="__codelineno-25-28" href="#__codelineno-25-28"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-25-29" name="__codelineno-25-29" href="#__codelineno-25-29"></a><span class="w">    </span><span class="p">}(</span><span class="nx">ctx</span><span class="p">)</span>
+<a id="__codelineno-25-30" name="__codelineno-25-30" href="#__codelineno-25-30"></a>
+<a id="__codelineno-25-31" name="__codelineno-25-31" href="#__codelineno-25-31"></a><span class="w">    </span><span class="c1">// 等待任务完成或超时</span>
+<a id="__codelineno-25-32" name="__codelineno-25-32" href="#__codelineno-25-32"></a><span class="w">    </span><span class="nx">time</span><span class="p">.</span><span class="nx">Sleep</span><span class="p">(</span><span class="mi">3</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">time</span><span class="p">.</span><span class="nx">Second</span><span class="p">)</span>
+<a id="__codelineno-25-33" name="__codelineno-25-33" href="#__codelineno-25-33"></a><span class="p">}</span>
+</code></pre></div>
+</li>
+<li>
+<p><code>WithValue(parent Context, key, val interface{})</code>：返回一个带有键值对的 Context，可以通过 Context 的 Value 方法获取该键值对。</p>
+<div class="language-GO highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="w">    </span><span class="s">&quot;context&quot;</span>
+<a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a><span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+<a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="p">)</span>
+<a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a>
+<a id="__codelineno-26-8" name="__codelineno-26-8" href="#__codelineno-26-8"></a><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-26-9" name="__codelineno-26-9" href="#__codelineno-26-9"></a><span class="w">    </span><span class="c1">// 创建一个父上下文</span>
+<a id="__codelineno-26-10" name="__codelineno-26-10" href="#__codelineno-26-10"></a><span class="w">    </span><span class="nx">parentCtx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">Background</span><span class="p">()</span>
+<a id="__codelineno-26-11" name="__codelineno-26-11" href="#__codelineno-26-11"></a>
+<a id="__codelineno-26-12" name="__codelineno-26-12" href="#__codelineno-26-12"></a><span class="w">    </span><span class="c1">// 使用 WithValue 创建一个带有键值对的上下文</span>
+<a id="__codelineno-26-13" name="__codelineno-26-13" href="#__codelineno-26-13"></a><span class="w">    </span><span class="nx">ctx</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">context</span><span class="p">.</span><span class="nx">WithValue</span><span class="p">(</span><span class="nx">parentCtx</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;userID&quot;</span><span class="p">,</span><span class="w"> </span><span class="mi">12345</span><span class="p">)</span>
+<a id="__codelineno-26-14" name="__codelineno-26-14" href="#__codelineno-26-14"></a>
+<a id="__codelineno-26-15" name="__codelineno-26-15" href="#__codelineno-26-15"></a><span class="w">    </span><span class="c1">// 在函数中获取上下文中的值</span>
+<a id="__codelineno-26-16" name="__codelineno-26-16" href="#__codelineno-26-16"></a><span class="w">    </span><span class="nx">userID</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Value</span><span class="p">(</span><span class="s">&quot;userID&quot;</span><span class="p">).(</span><span class="kt">int</span><span class="p">)</span>
+<a id="__codelineno-26-17" name="__codelineno-26-17" href="#__codelineno-26-17"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;用户ID:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">userID</span><span class="p">)</span>
+<a id="__codelineno-26-18" name="__codelineno-26-18" href="#__codelineno-26-18"></a>
+<a id="__codelineno-26-19" name="__codelineno-26-19" href="#__codelineno-26-19"></a><span class="w">    </span><span class="c1">// 如果键不存在，返回 nil</span>
+<a id="__codelineno-26-20" name="__codelineno-26-20" href="#__codelineno-26-20"></a><span class="w">    </span><span class="nx">unknownValue</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">ctx</span><span class="p">.</span><span class="nx">Value</span><span class="p">(</span><span class="s">&quot;unknownKey&quot;</span><span class="p">)</span>
+<a id="__codelineno-26-21" name="__codelineno-26-21" href="#__codelineno-26-21"></a><span class="w">    </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;未知键的值:&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">unknownValue</span><span class="p">)</span>
+<a id="__codelineno-26-22" name="__codelineno-26-22" href="#__codelineno-26-22"></a><span class="p">}</span>
+</code></pre></div>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.tracking", "navigation.tabs", "navigation.tabs.sticky", "navigation.indexes", "navigation.path", "toc.follow", "navigation.top", "content.code.copy", "search.highlight", "search.share"], "search": "../../../assets/javascripts/workers/search.b8dbb3d2.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.bd41221c.min.js"></script>
+      
+    
+  </body>
+</html>

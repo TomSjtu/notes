@@ -12,13 +12,13 @@
         <meta name="author" content="Tom">
       
       
-        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/monitor/bpftool/">
+        <link rel="canonical" href="https://tomsjtu.github.io/notes/linux/monitor/bcc/">
       
       
         <link rel="prev" href="../ebpf/">
       
       
-        <link rel="next" href="../../../arm/">
+        <link rel="next" href="../bpftrace/">
       
       
       <link rel="icon" href="../../../assets/images/favicon.png">
@@ -26,7 +26,7 @@
     
     
       
-        <title>BPF工具 - 一只Tom的笔记本</title>
+        <title>BCC - 一只Tom的笔记本</title>
       
     
     
@@ -76,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#bpf" class="md-skip">
+        <a href="#bcc" class="md-skip">
           Skip to content
         </a>
       
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              BPF工具
+              BCC
             
           </span>
         </div>
@@ -2993,6 +2993,8 @@
       
         
       
+        
+      
     
     
       
@@ -3065,7 +3067,7 @@
           
   
   <span class="md-ellipsis">
-    BPF工具
+    BCC
   </span>
   
 
@@ -3076,7 +3078,7 @@
         
   
   <span class="md-ellipsis">
-    BPF工具
+    BCC
   </span>
   
 
@@ -3098,18 +3100,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#bpftool" class="md-nav__link">
+  <a href="#funccount" class="md-nav__link">
     <span class="md-ellipsis">
-      bpftool
+      funccount
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#bpftrace" class="md-nav__link">
+  <a href="#stackcount" class="md-nav__link">
     <span class="md-ellipsis">
-      bpftrace
+      stackcount
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      trace
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argdist" class="md-nav__link">
+    <span class="md-ellipsis">
+      argdist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      调试
     </span>
   </a>
   
@@ -3119,6 +3148,27 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bpftrace/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    bpftrace
+  </span>
+  
+
+      </a>
     </li>
   
 
@@ -4093,20 +4143,6 @@
       
         
       
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
-        
-      
     
     
       
@@ -4147,6 +4183,54 @@
           <ul class="md-nav__list" data-md-scrollfix>
             
               
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_2" id="__nav_5_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    基础知识
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            基础知识
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -4232,6 +4316,58 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_3" id="__nav_5_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    包管理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            包管理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
                 
   
@@ -4274,6 +4410,56 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_4" id="__nav_5_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    面向对象
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            面向对象
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
                 
   
@@ -4294,6 +4480,62 @@
   
 
               
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_5" id="__nav_5_3_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    标准库
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            标准库
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -4379,6 +4621,56 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_6" id="__nav_5_3_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    内存管理
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            内存管理
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
                 
   
@@ -4399,6 +4691,56 @@
   
 
               
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_7" id="__nav_5_3_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    并发
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            并发
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
             
               
                 
@@ -4421,6 +4763,56 @@
 
               
             
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3_8" id="__nav_5_3_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    现代C++
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            现代C++
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
               
                 
   
@@ -4437,6 +4829,14 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -4517,6 +4917,12 @@
     
       
         
+          
+        
+      
+        
+      
+        
       
     
     
@@ -4531,16 +4937,24 @@
         <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5" >
         
           
-          <label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
-            
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../pl/go/" class="md-nav__link ">
+              
   
   <span class="md-ellipsis">
     Go
   </span>
   
 
-            <span class="md-nav__icon md-icon"></span>
-          </label>
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_5_5">
@@ -4548,6 +4962,8 @@
             Go
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
+            
+              
             
               
                 
@@ -4559,10 +4975,6 @@
     
       
         
-          
-        
-      
-        
       
         
       
@@ -4590,36 +5002,26 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5_2" >
         
           
-          
-          <div class="md-nav__link md-nav__container">
-            <a href="../../../pl/go/" class="md-nav__link ">
-              
+          <label class="md-nav__link" for="__nav_5_5_2" id="__nav_5_5_2_label" tabindex="0">
+            
   
   <span class="md-ellipsis">
     基础知识
   </span>
   
 
-            </a>
-            
-              
-              <label class="md-nav__link " for="__nav_5_5_1" id="__nav_5_5_1_label" tabindex="0">
-                <span class="md-nav__icon md-icon"></span>
-              </label>
-            
-          </div>
+            <span class="md-nav__icon md-icon"></span>
+          </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_5_1_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_5_5_1">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5_2">
             <span class="md-nav__icon md-icon"></span>
             基础知识
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
-            
-              
             
               
                 
@@ -4801,6 +5203,77 @@
   
   <span class="md-ellipsis">
     调试
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_5_3" id="__nav_5_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    标准库
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_5_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            标准库
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../pl/go/stdlib/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    标准库
   </span>
   
 
@@ -5457,18 +5930,45 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#bpftool" class="md-nav__link">
+  <a href="#funccount" class="md-nav__link">
     <span class="md-ellipsis">
-      bpftool
+      funccount
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#bpftrace" class="md-nav__link">
+  <a href="#stackcount" class="md-nav__link">
     <span class="md-ellipsis">
-      bpftrace
+      stackcount
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#trace" class="md-nav__link">
+    <span class="md-ellipsis">
+      trace
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#argdist" class="md-nav__link">
+    <span class="md-ellipsis">
+      argdist
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      调试
     </span>
   </a>
   
@@ -5492,49 +5992,88 @@
   
 
 
-<h1 id="bpf">BPF工具<a class="headerlink" href="#bpf" title="Permanent link">&para;</a></h1>
-<h2 id="bpftool">bpftool<a class="headerlink" href="#bpftool" title="Permanent link">&para;</a></h2>
-<p>bpftool 提供内核中与 BPF 程序相关的信息。</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>--help
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Usage:<span class="w"> </span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">       </span>OBJECT<span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span>prog<span class="w"> </span><span class="p">|</span><span class="w"> </span>map<span class="w"> </span><span class="p">|</span><span class="w"> </span>link<span class="w"> </span><span class="p">|</span><span class="w"> </span>cgroup<span class="w"> </span><span class="p">|</span><span class="w"> </span>perf<span class="w"> </span><span class="p">|</span><span class="w"> </span>net<span class="w"> </span><span class="p">|</span><span class="w"> </span>feature<span class="w"> </span><span class="p">|</span><span class="w"> </span>btf<span class="w"> </span><span class="p">|</span><span class="w"> </span>gen<span class="w"> </span><span class="p">|</span><span class="w"> </span>struct_ops<span class="w"> </span><span class="p">|</span><span class="w"> </span>iter<span class="w"> </span><span class="o">}</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">       </span>OPTIONS<span class="w"> </span>:<span class="o">=</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="o">{</span>-j<span class="p">|</span>--json<span class="o">}</span><span class="w"> </span><span class="o">[{</span>-p<span class="p">|</span>--pretty<span class="o">}]</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="o">{</span>-d<span class="p">|</span>--debug<span class="o">}</span><span class="w"> </span><span class="p">|</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">                    </span><span class="o">{</span>-V<span class="p">|</span>--version<span class="o">}</span><span class="w"> </span><span class="o">}</span>
+<h1 id="bcc">BCC<a class="headerlink" href="#bcc" title="Permanent link">&para;</a></h1>
+<p>BCC 的代码仓库见：<a href="https://github.com/iovisor/bcc">https://github.com/iovisor/bcc</a>。Ubuntu 可以用<code>sudo apt-get install bpfcc-tools linux-headers-$(uname -r)</code>安装。</p>
+<p>BCC 工具的用户态组件用 Python 编写，内核态 BPF 程序用 C 语言编写。BCC 包含了许多单一功能的工具，即每个工具仅完成一个特定的任务。除了单一功能的工具之外，BCC 还提供了一些多用途工具：</p>
+<table>
+<thead>
+<tr>
+<th>工具</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>funccount</td>
+<td>统计指定函数的调用次数</td>
+</tr>
+<tr>
+<td>stackcount</td>
+<td>统计引发某事件的函数调用栈</td>
+</tr>
+<tr>
+<td>trace</td>
+<td>定制化打印每个事件的细节信息</td>
+</tr>
+<tr>
+<td>argdist</td>
+<td>统计事件的参数分布</td>
+</tr>
+</tbody>
+</table>
+<h2 id="funccount">funccount<a class="headerlink" href="#funccount" title="Permanent link">&para;</a></h2>
+<p>funccount 统计函数调用的次数，可以用它来回答以下问题：</p>
+<ul>
+<li>某个内核态或用户态函数是否被调用过？</li>
+<li>该函数每秒被调用了多少次？</li>
+</ul>
+<p>它的语法如下：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>funccount<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span>eventname
 </code></pre></div>
-<p>检查系统中运行程序的情况：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>prog<span class="w"> </span>show
+<p>eventname 可以是：</p>
+<ul>
+<li>name 或者 p:name：对内核函数进行插桩</li>
+<li>lib:name 或者 p:lib:name：对用户态 lib 库中的函数进行插桩</li>
+<li>path:name：对位于 path 路径下的用户态函数进行插桩</li>
+<li>t:system:name：对名为 system:name 的内核跟踪点进行插桩</li>
+<li>u:lib:name：对 lib 库中名为 name 的 USDT 探针进行插桩</li>
+</ul>
+<h2 id="stackcount">stackcount<a class="headerlink" href="#stackcount" title="Permanent link">&para;</a></h2>
+<p>stackcount 对导致某事件发生的函数调用栈进行计数，事件源可以是内核态或用户态函数、内核跟踪点或 USDT 探针。它可以用来回答以下问题：</p>
+<ul>
+<li>某个事件为什么被调用？调用的代码路径是什么？</li>
+<li>有哪些不同的代码路径会调用该事件？它们的调用频次如何？</li>
+</ul>
+<p>stackcount 可以使用 -f 选项生成火焰图格式：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>stackcount<span class="w"> </span>-f<span class="w"> </span>-P<span class="w"> </span>-D<span class="w"> </span><span class="m">10</span><span class="w"> </span>ktime_get<span class="w"> </span>&gt;<span class="w"> </span>out.stackcount.txt
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>$<span class="w"> </span>./flamegraph.pl<span class="w"> </span>--hash<span class="w"> </span>--bgcolors<span class="o">=</span>grey<span class="w"> </span>&lt;<span class="w"> </span>out.stackcount.txt<span class="w"> </span>&gt;<span class="w"> </span>out.stackcount.svg
 </code></pre></div>
-<p>以 JSON 形式输出：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>prog<span class="w"> </span>show<span class="w"> </span>--json<span class="w"> </span>id<span class="w"> </span><span class="m">30</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>jq
+<h2 id="trace">trace<a class="headerlink" href="#trace" title="Permanent link">&para;</a></h2>
+<p>trace 可以针对多个数据源进行每个事件的跟踪，它可以用来回答以下问题：</p>
+<ul>
+<li>当某个内核态/用户态函数被调用时，调用的参数是什么？</li>
+<li>这个函数的返回值是什么？调用失败了吗？</li>
+<li>这个函数是如何被调用的？相应的调用栈是什么？</li>
+</ul>
+<p>trace 会对每个事件产生一行输出，比较适合用于低频事件，高频视频会产生太多输出，造成非常显著的额外开销。</p>
+<h2 id="argdist">argdist<a class="headerlink" href="#argdist" title="Permanent link">&para;</a></h2>
+<p>argdist 是一个针对函数调用参数分析的多用途工具，它的语法如下：</p>
+<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>argdist<span class="w"> </span><span class="o">{</span>-C<span class="w"> </span><span class="p">|</span><span class="w"> </span>-H<span class="w"> </span><span class="o">}</span><span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w"> </span>probe
 </code></pre></div>
-<p>检查 BPF 映射：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>map<span class="w"> </span>show
-</code></pre></div>
-<p>列出系统中所有 cgroup上 的附加程序：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>$<span class="w"> </span>bpftool<span class="w"> </span>cgroup<span class="w"> </span>tree
-</code></pre></div>
-<h2 id="bpftrace">bpftrace<a class="headerlink" href="#bpftrace" title="Permanent link">&para;</a></h2>
-<p>bpftrace 是 BPF 高级跟踪语言，可以使用简明的语法来编写程序。它提供了许多内置功能，无须自己实现。</p>
-<p>bpftrace 程序的语法简洁，仅包含头部、操作块和尾部三个部分。头部和尾部是可选的，通常用来打印一些加载前后的信息。操作块是我们要指定跟踪的探针的位置，以及基于探针触发事件后执行的操作。下面是一个简单的示例程序：</p>
-<div class="language-SHELL highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>BEGIN
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="o">{</span>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;starting bpftrace program\n&quot;</span><span class="o">)</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="o">}</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>kprobe:do_sys_open
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="o">{</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;opening file descriptor: %s\n&quot;</span>,<span class="w"> </span>str<span class="o">(</span>arg1<span class="o">))</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="o">}</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>END
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="o">{</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">       </span>printf<span class="o">(</span><span class="s2">&quot;ending bpftrace program\n&quot;</span><span class="o">)</span>
-<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="o">}</span>
-</code></pre></div>
-<p>你可以将这个程序保存为 example.bt，然后运行：<code>bpftrace example.bt</code>。</p>
-<p>bpftrace 语言是以脚本思想设计的。有的时候可以不用编写程序，直接在命令行中使用选项<code>-e</code>即可：</p>
-<div class="language-SHEll highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>$<span class="w"> </span>bpftrace<span class="w"> </span>-e<span class="w"> </span><span class="s1">&#39;kprobe:do_sys_open { printf(&quot;opening file descriptor: %s\n&quot;, str(arg1)) }&#39;</span>
-</code></pre></div>
+<p>argdist 必须指定参数 -C 或者 -H：</p>
+<ul>
+<li>-C：频率统计</li>
+<li>-H：直方图统计</li>
+</ul>
+<h2 id="_1">调试<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>BCC 工具的调试方法有以下几种：</p>
+<ul>
+<li><code>bpf_trace_printk()</code>：在代码中打印信息，读取 /sys/kernel/tracing/trace_pipe 文件获取输出</li>
+<li>--ebpf 参数：打印该工具最终生成的 BPF 程序</li>
+<li>调试标志位：在代码中声明</li>
+<li>bpflist：查看正在运行的 BPF 程序</li>
+<li>bpftool：查看 BPF 程序的状态</li>
+</ul>
 
 
 
