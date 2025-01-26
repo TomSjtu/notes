@@ -57,8 +57,30 @@ void ref_oops(int some_param) {
 
 ### jthread
 
-`std::jthread`是 C++20 引入的线程库，它是`std::thread`的扩展，提供了更多的控制功能，包括：
+`std::jthread`是 C++20 引入的线程库，它是`std::thread`的扩展，提供了更加安全的线程管理机制。它支持自动`join()`，当`jthread`对象被销毁时，确保线程安全退出。还提供了`stop_token`参数，用于控制线程的退出。
 
+```CPP
+#include <iostream>
+#include <thread>
+#include <chrono>
+
+void threadFunction(std::stop_token stopToken) {
+    while (!stopToken.stop_requested()) {
+        std::cout << "Thread is running..." << std::endl;
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+    }
+    std::cout << "Thread is interrupted." << std::endl;
+}
+
+int main() {
+    std::jthread t(threadFunction); // 创建线程
+    std::this_thread::sleep_for(std::chrono::seconds(3)); // 主线程等待 3 秒
+    t.request_stop(); // 请求中断线程
+    // 线程 t 在作用域结束时自动加入
+    std::cout << "Main function is done." << std::endl;
+    return 0;
+}
+```
 
 ## 锁
 
@@ -67,6 +89,8 @@ void ref_oops(int some_param) {
 `std::lock_guard`是一种 RAII 风格的互斥锁，在构造时自动加锁，在析构时自动解锁，有效避免了因异常等原因导致的死锁或资源泄露问题，适用于一些简单的加锁逻辑。
 
 `std::unique_lock`的用法和`std::lock_guard`类似，但是可以延迟加锁和手动解锁，这方便了我们控制临界区代码的粒度，可以和条件变量很好的配合使用。
+
+`std::scoped_lock`是 C++17 引入的 RAII 风格锁管理工具，用于管理多个互斥量的锁定和解锁。它能够避免死锁，并确保在作用域结束时自动释放锁。
 
 `std::shared_mutex`是一种读写锁，允许多个线程同时读临界区代码，但是只允许一个线程写临界区代码。提供了 `lock()`, `try_lock()`, 和 `try_lock_for()` 以及 `try_lock_until()` 函数，这些函数都可以用于获取互斥锁。还提供了 `try_lock_shared()` 和 `lock_shared()` 函数，这些函数可以用于获取共享锁。
 
@@ -156,8 +180,39 @@ int main() {
 
 ## 原子变量
 
+原子变量提供了一种在多线程环境中安全操作数据的方式，从 C++17 开始，所有原子类型都包含一个静态常量表达式成员变量`is_always_lock_free`，用于表示在任意给定的目标硬件上，该原子类型是否以无锁结构形式实现。
+
 头文件 <atomic\> 定义了 C++ 中的原子类型，标准库为所有基本类型都定义了命名的原子类型，比如`atomic_int`、`atomic_bool`等。
 
+### atomic_flag
+
+`std::atomic_flag`是一个特殊的原子类型，仅支持两个操作：
+
+- `test_and_set()`：检查并设置标志。如果标志未被设置，则设置标志并返回 false；如果标志已被设置，则返回 true。
+- `clear()`：清除标志，设置为 false。
+
+### atomic<T\>
+
+对于`std::atomic<T\>`，支持以下常用操作：
+
+- `load()`：原子地加载并返回当前值
+- `store()`：原子地存储一个新值
+- `exchange()`：原子地交换当前值和给定值
+- `compare_exchange_weak()`：原子地比较并交换当前值和给定值
+- `compare_exchange_strong()`：原子地比较并交换当前值和给定值
+
+### 内存次序
+
+原子操作可以指定内存序，以控制操作的顺序和可见性，包括：
+
+| 内存序 | 语义 | 适用场景 |
+|--------- |--------------|-------------|
+| `std::memory_order_relaxed`   | 无同步或顺序约束               | 计数器、统计信息             |
+| `std::memory_order_acquire`   | 加载操作，防止后续操作重排序   | 读取共享数据                 |
+| `std::memory_order_consume`   | 加载操作，防止依赖操作重排序   | 依赖链（如指针解引用）       |
+| `std::memory_order_release`   | 存储操作，防止之前操作重排序   | 写入共享数据                 |
+| `std::memory_order_acq_rel`   | 加载-存储操作，同时获取和释放  | 自旋锁、复杂同步             |
+| `std::memory_order_seq_cst`   | 顺序一致性，最强约束           | 需要强一致性的场景           |
 
 ## call_once
 

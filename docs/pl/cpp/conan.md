@@ -5,7 +5,7 @@ Conan 是一个 C/C++ 的包管理器，支持多个平台和构建系统，目�
 ​Conan 的特点有：
 
 - 与原生的依赖系统解耦，不引入额外负担
-- 兼容多种构建系统，包括 CMake、Visual Studio、Bazel、Meson等
+- 兼容多种构建系统，包括 CMake、Visual Studio、Bazel、Meson 等
 - 统一的包管理方式(中心仓库)
 - 支持交叉编译环境
 - 自动查找包的依赖关系
@@ -121,16 +121,13 @@ class MyFile(ConanFile):
 ├── main.cpp
 ```
 
-在配置好 conanfile.py 后，在当前目录，执行`conan install . --output-folder=build --build=missing`命令，即可安装依赖库。
-
-- --output-folder：指定安装目录为 build
-- --build=missing：在安装过程中自动构建任何缺失的依赖项
+在配置好 conanfile.py 后，在当前目录，执行`conan install . --build=missing`命令，即可安装依赖库。`--build=missing`参数告诉 conan 自动构建缺失的依赖项。
 
 在 build 目录下，conan 会自动生成一系列 cmake 文件，而实际的包则是下载到了 ~/.conan2/p 文件夹中。
 
 ![alt text](../../images/pl/cpp/build_file.png)
 
-这里最关键的文件是 conan_toolchain.cmake，后续在使用 cmake 时需要指定该工具链文件，才能找到对应的包。以下三行告诉了 cmake 去哪里寻找依赖的包：
+我们需要找到目录中的 conan_toolchain.cmake 文件，后续在执行 cmake 命令时需要指定该工具链文件，conan 才能找到对应的包。该文件中指定了包的路径，例如：
 
 ```CMAKE
 list(PREPEND CMAKE_PREFIX_PATH ${CMAKE_CURRENT_LIST_DIR} )
@@ -146,7 +143,6 @@ target_link_libraries(${PROJECt_NAME} LIBNAME::LIBNAME)
 ```
 
 最后，执行`cmake .. -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake`命令，即可生成 Makefile 文件。
-
 
 ## 创建包
 

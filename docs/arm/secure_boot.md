@@ -11,13 +11,13 @@ Secure boot 是一种安全机制，它的根本目的是为了防止消费者�
 
 ATF：Arm Trust Firmware，也叫 TF-A，运行在最高异常级别—— EL3，负责启动过程的安全检查和认证。ATF = BL1、BL2、BL31、BL32、BL33。
 
-- BL1：也叫 bootrom，芯片出厂时就被写死，是 SoC 上电后执行的第一段代码，负责对镜像进行校验和解密。
-- BL2：存放在 flash 中的一段可信安全启动代码，主要完成一些平台相关的初始化，比如对 ddr 的初始化等。BL1 和 BL2 主要负责 runtime 之前的初始化工作。
-- BL31：作为 EL3 最后的安全堡垒，它不像 BL1 和 BL2 是一次性运行的。如它的 runtime 名字暗示的那样，它通过 SMC 指令为 Non-Secure OS 持续提供设计安全的服务，在 Secure World 和 Non-Secure World 之间进行切换。是对硬件最基础的抽象，对 OS 提供服务。例如一个 EL3 级别的特权指令，比如关机、休眠等 OS 是无权处理的，就会交给 BL31 来继续操作硬件处理。
-- BL32：是所谓的 secure os，运行在 secure mode。在 ARM 平台下是 ARM 家的 Trusted Execution Environment（TEE）实现。OP-TEE 是基于 ARM TrustZone 硬件架构所实现的软件 Secure OS。
-- BL33：就是所谓的 uboot，之后就会启动 linux 内核了。
+- BL1(Primary Bootloader)：也叫 bootrom，芯片出厂时就被写死，是 SoC 上电后执行的第一段代码，负责对镜像进行校验和解密。
+- BL2(Secondary Bootloader)：存放在 flash 中的一段可信安全启动代码，主要完成一些平台相关的初始化，比如对 ddr 的初始化等。BL1 和 BL2 主要负责 runtime 之前的初始化工作。
+- BL31(Runtime Firmware)：作为 EL3 最后的安全堡垒，它不像 BL1 和 BL2 是一次性运行的。如它的 runtime 名字暗示的那样，它通过 SMC 指令为 Non-Secure OS 持续提供设计安全的服务，在 Secure World 和 Non-Secure World 之间进行切换。是对硬件最基础的抽象，对 OS 提供服务。例如一个 EL3 级别的特权指令，比如关机、休眠等 OS 是无权处理的，就会交给 BL31 来继续操作硬件处理。
+- BL32(可选，Secure OS)：运行在 secure mode。在 ARM 平台下是 ARM 家的 Trusted Execution Environment（TEE）实现。OP-TEE 是基于 ARM TrustZone 硬件架构所实现的软件 Secure OS。
+- BL33(Non-secure Firmware)：就是所谓的 uboot，负责启动 Linux 内核。
 
-每一个阶段，上一阶段都会对下一个阶段的镜像进行校验，发现有改动就终止启动了，主打一个防篡改。启动 BL1、BL2、BL31、BL32、BL33、Linux 是一个完整的 ATF 信任链建立流程，负责加载镜像的 BL1、BL2、BL33 都不是 runtime，只要 Linux 系统启动，就不会再有加载镜像的机会了。
+每一个阶段，都会对上一个阶段的镜像进行校验，一旦发现有改动就终止启动。如此，从 BL1开始，BL2、BL31、BL32、BL33 构成一个完整的 ATF 信任链建立流程。当 Linux 系统启动后，将不再加载镜像。
 
 下面以[arm-trusted-firmware](https://github.com/ARM-software/arm-trusted-firmware)项目为例，大致的启动流程如下图所示：
 
@@ -25,15 +25,16 @@ ATF：Arm Trust Firmware，也叫 TF-A，运行在最高异常级别—— EL3�
 
 ## BL1 启动流程
 
-BL1 通常又称为 bootrom，是 SoC 上电后执行的第一段代码，它的启动地址可以分为三种情况：
+BL1 作为上电后的第一段代码，主要完成以下工作：
 
-- aarch64：boot address 允许配置
-- aarch32：boot address 在 0x00000000 和 0xffff0000 二选一
-- ARM M 系列：boot address 固定在 0x00000000，不允许更改
+- 复位后首先执行，通常存储在 ROM 中
+- 初始化关键硬件（时钟、内存控制器等）
+- 从存储设备加载 BL2 镜像
+- 验证 BL2 镜像的完整性和真实性
+- 设置基本的安全环境（MMU、异常向量表等）
+- 通过 SMC 调用将控制权转移给 BL2
 
-bl1.ld.S 文件定义了 BL1 代码的位置分布，其中定义了`bl1_entrypoint()`函数，作为 BL1 启动的入口函数。
-
-BL1 启动流程如下：
+BL1 启动代码如下：
 
 ```C
 bl1_entrypoint()
@@ -55,6 +56,13 @@ bl1_entrypoint()
 ```
 
 ## BL2 启动流程
+
+- 初始化控制台和调试功能
+- 加载并验证 BL31/BL32 镜像
+- 初始化加密模块（如TBBR）
+- 支持固件更新机制（FWU）
+- 实现测量启动（Measured Boot）
+- 通过 SMC 调用将控制权转移给 BL31
 
 BL2 的启动方式有两种，也有两个 ld 文件，分别是：bl2.ld.S 和 bl2_el3.ld.S。取决于芯片厂家是否需要将 BL2 跑在 EL3 模式。
 

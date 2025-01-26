@@ -2,6 +2,42 @@
 
 github 是目前最流行的开源代码托管平台之一，本文将介绍如何使用github。
 
+## 添加SSH密钥
+
+将你电脑的 SSH 密钥添加至 github，你就可以使用 SSH 连接以替代传统的 HTTPS 连接。
+
+1. 首先输入以下命令，将邮件地址改为你注册 github 的邮箱：
+
+    ```SHELL
+    ssh-keygen -t ed25519 -C "your_email@example.com"
+    ```
+
+    系统会要求你输入一些信息，连续按回车跳过即可。
+
+2. 将 SSH 密钥添加到 ssh-agent：
+
+    启动 ssh 代理：
+
+    ```SHELL
+    eval "$(ssh-agent -s)"
+    ```
+
+    然后添加私钥：
+
+    ```SHELL
+    ssh-add ~/.ssh/id_ed25519
+    ```
+
+3. 向你的账户添加新的 SSH 密钥
+
+    现在，.ssh/ 目录下有两个文件，以 pub 结尾的就是公钥，公钥是开放的，可以共享给别人，私钥则必须由自己保存。
+
+    ```SHELL
+    cat ~/.ssh/id_ed25519.pub
+    ```
+
+    复制打印的内容，然后在 github 个人资料页面找到 Settings → SSH and GPG keys → New SSH key，添加即可。
+
 ## HTTPS连接
 
 过去，HTTPS 连接要求你输入用户名和密码，但是这种方式由于不安全已经被 github 废弃。现在，要想通过 HTTPS 连接，你必须使用另外一种叫[Git Credential Manager](https://github.com/git-ecosystem/git-credential-manager/blob/main/README.md)的方式。具体操作请查看官网文档。
@@ -17,7 +53,7 @@ ssh -T -p 443 git@ssh.github.com
 
 > Hi USERNAME! You've successfully authenticated, but GitHub does not provide shell access.
 ```
-如果输出以上内容，则说明连接可行。你可以更改~/.ssh/config文件，强制与 github 的连接都通过 SSH 的 443 端口。
+如果输出以上内容，则说明连接可行。你可以更改 ~/.ssh/config 文件，强制与 github 的连接都通过 SSH 的 443 端口。
 
 ```SHELL
 Host github.com
@@ -38,41 +74,6 @@ ssh -T git@github.com
 
     注意：SSH 通过公钥和私钥配对的方式来验证连接是否安全，当你第一次通过 SSH 连接时，会询问你是否信任该服务器，输入yes即可。github 的 SSH 公钥存放在[Github's SSH key fingerprints](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints)。你可以添加到~/.ssh/known_hosts来避免验证。
 
-## 添加SSH密钥
-
-添加 SSH 密钥的过程很简单，按照步骤一步步来即可。
-
-1.首先输入以下命令，将邮件地址改为你注册 github 的邮箱：
-
-```SHELL
-ssh-keygen -t ed25519 -C "your_email@example.com"
-```
-
-系统会要求你输入一些信息，连续按回车跳过即可。
-
-2.将 SSH 密钥添加到 ssh-agent：
-
-先启动 ssh 代理：
-
-```SHELL
-eval "$(ssh-agent -s)"
-```
-
-然后添加私钥：
-
-```SHELL
-ssh-add ~/.ssh/id_ed25519
-```
-
-3.向你的账户添加新的 SSH 密钥
-
-现在，.ssh/目录下有两个文件，以 pub 结尾的就是公钥，需要你上传至 github 服务器。
-
-```SHELL
-cat ~/.ssh/id_ed25519.pub
-```
-
-复制打印的内容，然后在 github 个人资料面点击设置，找到`SSH and GPG keys`，点击`New SSH key`，最后粘贴复制的公钥即可。
 
 ## 网络配置
 

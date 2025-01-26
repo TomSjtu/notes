@@ -37,7 +37,11 @@ markdown_extensions:
   - def_list
   - tables
   - pymdownx.details
-  - pymdownx.superfences
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
   - pymdownx.critic
   - pymdownx.caret
   - pymdownx.keys
@@ -202,13 +206,6 @@ nav:
       - arm/cache.md
       - arm/tlb.md
 
-
-  - ROS2:
-    - ros2/index.md
-    - ros2/intro.md
-    - ros2/core.md
-
-
   - 编程语言: 
     - pl/index.md
     - C:
@@ -244,7 +241,7 @@ nav:
         - pl/cpp/concurrency.md
       
       - 现代C++:
-        - pl/cpp/cpp11.md
+        - pl/cpp/modern.md
     
     - Python:
       - pl/python/index.md
@@ -265,6 +262,9 @@ nav:
       - 标准库:
         - pl/go/stdlib.md
 
+      - Go Web编程:
+        - pl/go/web.md
+        
   - 人工智能:
     - ai/index.md
     - 深度学习:
