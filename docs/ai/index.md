@@ -1,4 +1,4 @@
-# AI相关
+# 人工智能
 
 !!! quote ""
 
@@ -6,5 +6,7 @@
 
     -- Fei-Fei Li
 
+## 参考资料
 
+- [LangChain](https://python.langchain.com/docs/introduction/)
 

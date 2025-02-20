@@ -128,9 +128,18 @@ origin  git@github.com:OWNER/REPOSITORY.git (push)
 
 ## git基本概念
 
-![git流程图](../images/tools/git-concept.webp)
+![git流程图](../images/tools/git-concept.png)
 
 ## 分支管理
+
+一个团队开发过程中，必须对分支名称进行规范，避免冲突。常用的有以下这么几种：
+
+- Master：禁止任何未被 review 和测试过的代码部署到该分支，Master 分支用来发布正式版本。
+- Develop：开发分支，持续集成的工作存放于此，review 过的代码可以合入这里。
+- Feature：新功能开发分支，从 Develop 分支上拉取，完成后合并回 Develop 分支。
+- Hotfix：紧急修复分支，从 Master 分支上拉取，完成后合并回 Master 和 Develop 分支。
+- Release：预发布分支，比如 0.1、0.2 版本。
+- Bugfix：修复 Bug 分支，从 Develop 分支上拉取，完成后合并回 Develop 分支。
 
 显示所有分支：
 
@@ -141,7 +150,7 @@ git branch -a
 新建并切换分支：
 
 ```SHELL
-git checkout -b [新分支名]
+git switch -c [新分支名]
 ```
 
 删除分支：
@@ -162,39 +171,34 @@ git merge [另一个分支名]
 git cherry-pick [提交号]
 ```
 
-- Master：禁止任何未被 review 和测试过的代码部署到该分支，Master 分支用来发布正式版本
-- Develop：开发分支，持续集成的工作存放于此，review 过的代码可以合入这里
-- Feature：新功能开发分支，从 develop 分支上拉取，完成后合并回 develop 分支
-- Hotfix：紧急修复分支，从 Master 分支上拉取，完成后合并回 Master 和 develop 分支
-- Release：预发布分支，比如 0.1、0.2 版本
-- Bugfix：修复 Bug 分支，从 develop 分支上拉取，完成后合并回 develop 分支
-
 ## 回退操作
 
-![回退](../images/tools/git-reset.webp)
+### restore
 
-清空工作区的数据：
+恢复工作区的文件：
 
 ```SHELL
 # 丢弃所有未暂存的更改
-git checkout .
+git restore .
 
 # 丢弃单个文件未暂存的更改
-git checkout [file]
+git restore [file]
 ```
 
-将暂存区回退到工作区(Untracked)：
+恢复暂存区文件：
 
 ```SHELL
-git resotre -S [file]
+git restore --staged [file]
 ```
 
-从本地仓库回退：
+### reset
 
-1. `git rest --soft`：回退到暂存区
+`git reset`用于将当前分支的 HEAD 指针移动到指定的提交，并可以选择是否修改工作区和暂存区。它有三种工作方式：
+
+1. `git reset --soft`：回退到暂存区
 
     - 影响范围：仅影响 HEAD 的位置
-    - 效果：不更改工作区和暂存区的内容，仅移动 HEAD 指针
+    - 效果：不更改工作区和暂存区的内容
     - 适用场景：适合于需要修改最近提交的一些改动，但不想丢失当前工作区和暂存区的变更
 
 2. `git reset --mixed`：回退到工作区
@@ -209,7 +213,9 @@ git resotre -S [file]
     - 效果：将 HEAD 回退到指定提交，重置暂存区和工作区，丢弃所有未提交的更改
     - 适用场景：完全撤销某个提交，且不关心之前的修改内容
 
-撤销之前某个版本，但保留该版本后面的版本：
+### revert
+
+`git revert`用于创建一个新的提交，撤销指定提交的更改。与`git reset`不同，`git revert`不会修改提交历史，而是新增一个提交来撤销之前的更改。
 
 ```SHELL
 git revert -n [版本号]  //-n表示手动解决冲突
